@@ -67,6 +67,16 @@ return [
             'sslmode' => 'prefer',
         ],
 
+        'sqlsrv' => [
+            'driver' => 'sqlsrv',
+            'host' => env('DB_HOST', 'CODE'),
+            'database' => env('DB_DATABASE', 'WarehouseClone'),
+            'username' => env('DB_USERNAME', 'sa'),
+            'password' => env('DB_PASSWORD', 'godisgood'),
+            'charset' => 'utf8',
+            'prefix' => '',
+        ],
+
     ],
 
     /*

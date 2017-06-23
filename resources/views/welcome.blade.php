@@ -1,95 +1,174 @@
-<!doctype html>
-<html lang="{{ config('app.locale') }}">
-    <head>
-        <meta charset="utf-8">
-        <meta http-equiv="X-UA-Compatible" content="IE=edge">
-        <meta name="viewport" content="width=device-width, initial-scale=1">
+@extends('layouts.master')
+@section('title')
+warehouse | BOHECO 1
+@endsection
 
-        <title>Laravel</title>
-
-        <!-- Fonts -->
-        <link href="https://fonts.googleapis.com/css?family=Raleway:100,600" rel="stylesheet" type="text/css">
-
-        <!-- Styles -->
-        <style>
-            html, body {
-                background-color: #fff;
-                color: #636b6f;
-                font-family: 'Raleway', sans-serif;
-                font-weight: 100;
-                height: 100vh;
-                margin: 0;
-            }
-
-            .full-height {
-                height: 100vh;
-            }
-
-            .flex-center {
-                align-items: center;
-                display: flex;
-                justify-content: center;
-            }
-
-            .position-ref {
-                position: relative;
-            }
-
-            .top-right {
-                position: absolute;
-                right: 10px;
-                top: 18px;
-            }
-
-            .content {
-                text-align: center;
-            }
-
-            .title {
-                font-size: 84px;
-            }
-
-            .links > a {
-                color: #636b6f;
-                padding: 0 25px;
-                font-size: 12px;
-                font-weight: 600;
-                letter-spacing: .1rem;
-                text-decoration: none;
-                text-transform: uppercase;
-            }
-
-            .m-b-md {
-                margin-bottom: 30px;
-            }
-        </style>
-    </head>
-    <body>
-        <div class="flex-center position-ref full-height">
-            @if (Route::has('login'))
-                <div class="top-right links">
-                    @if (Auth::check())
-                        <a href="{{ url('/home') }}">Home</a>
-                    @else
-                        <a href="{{ url('/login') }}">Login</a>
-                        <a href="{{ url('/register') }}">Register</a>
-                    @endif
-                </div>
-            @endif
-
-            <div class="content">
-                <div class="title m-b-md">
-                    Laravel
-                </div>
-
-                <div class="links">
-                    <a href="https://laravel.com/docs">Documentation</a>
-                    <a href="https://laracasts.com">Laracasts</a>
-                    <a href="https://laravel-news.com">News</a>
-                    <a href="https://forge.laravel.com">Forge</a>
-                    <a href="https://github.com/laravel/laravel">GitHub</a>
-                </div>
-            </div>
+@section('body')
+  <div class="body-container">
+    <div class="new-search-container">
+      <div class="empty-left">
+        <div class="empty-left-btn">
+          <ul>
+            <li class="dropping-parent">
+              <h1>MIRS</h1>
+              <ul class="dropping">
+                <a href="{{route('mct.control')}}"><li>Create MIRS</li></a>
+                <li>Search MIRS</li>
+              </ul>
+            </li>
+          </ul>
         </div>
-    </body>
-</html>
+      </div>
+      <div class="search-box">
+        <form action="{{route('search.code')}}" method="get">
+          {{ csrf_field() }}
+          <input id="search-code-input" type="text" name="ItemCode" placeholder="Item code here..." required>
+          <button id="search-go" type="submit" name="button"><i class="fa fa-search"></i></button>
+        </form>
+      </div>
+      <div class="new-item">
+        <div class="add-new-item">
+          <button type="button">Add new record</button>
+        </div>
+      </div>
+    </div>
+    <div class="data-results-container">
+    @if(isset($historiesfound[0]))
+      <div class="small-choices">
+        <div class="small-choices-btns">
+          <a href="#"><button type="button">RR</button></a>
+        </div>
+        <div class="Current-title">
+          <h1>Latest Data</h1>
+        </div>
+        <div class="empty-space">
+        </div>
+      </div>
+      <div class="latest-data">
+        <table>
+          <tr>
+            <th>MT type</th>
+            <th>MT No.</th>
+            <th>Account code</th>
+            <th>Item code</th>
+            <th>Description</th>
+            <th>Unit cost</th>
+            <th>Quantity</th>
+            <th>Unit</th>
+            <th>Amount</th>
+            <th>Current cost</th>
+            <th>Current quantity</th>
+            <th>Current amount</th>
+            <th>Date</th>
+          </tr>
+            <tr>
+              <td>{{$historiesfound[0]->MTType}}</td>
+              <td>{{$historiesfound[0]->MTNo}}</td>
+              <td>{{$historiesfound[0]->AccountCode}}</td>
+              <td>{{$historiesfound[0]->ItemCode}}</td>
+              <td>{{$historiesfound[0]->ItemMaster->Description}}</td>
+              <td>{{number_format($historiesfound[0]->UnitCost,'2','.',',')}}</td>
+              <td>{{$historiesfound[0]->Quantity}}</td>
+              <td>{{$historiesfound[0]->Unit}}</td>
+              <td>{{number_format($historiesfound[0]->Amount,'2','.',',')}}</td>
+              <td>{{number_format($historiesfound[0]->CurrentCost,'2','.',',')}}</td>
+              <td>{{$historiesfound[0]->CurrentQuantity}}</td>
+              <td>{{number_format($historiesfound[0]->CurrentAmount,'2','.',',')}}</td>
+              <td>{{$historiesfound[0]->created_at->format('M')}}</td>
+            </tr>
+        </table>
+
+      </div>
+      <div class="history-found">
+        <h1>Recent History</h1>
+        <table>
+          <tr>
+            <th>MT type</th>
+            <th>MT No.</th>
+            <th>Account code</th>
+            <th>Item code</th>
+            <th>Description</th>
+            <th>Unit cost</th>
+            <th>Quantity</th>
+            <th>Unit</th>
+            <th>Amount</th>
+            <th>Current cost</th>
+            <th>Current quantity</th>
+            <th>Current amount</th>
+            <th>Date</th>
+          </tr>
+            @foreach ($historiesfound as $history)
+            <tr>
+              <td>{{$history->MTType}}</td>
+              <td>{{$history->MTNo}}</td>
+              <td>{{$history->AccountCode}}</td>
+              <td>{{$history->ItemCode}}</td>
+              <td>{{$history->ItemMaster->Description}}</td>
+              <td>{{number_format($history->UnitCost,'2','.',',')}}</td>
+              <td>{{$history->Quantity}}</td>
+              <td>{{$history->Unit}}</td>
+              <td>{{number_format($history->Amount,'2','.',',')}}</td>
+              <td>{{number_format($history->CurrentCost,'2','.',',')}}</td>
+              <td>{{$history->CurrentQuantity}}</td>
+              <td>{{number_format($history->CurrentAmount,'2','.',',')}}</td>
+              <td>{{$history->created_at->format('M')}}</td>
+            </tr>
+            @endforeach
+          @endif
+        </table>
+      </div>
+    </div>
+  </div>
+  <div class="add-new-modal">
+    <div class="new-modal-box">
+        <div class="new-modal-title">
+          <h1>Create new item</h1>
+        </div>
+        <div class="add-new-item-form">
+          <form class="form-new-item" action="{{route('store')}}" method="post">
+            {{ csrf_field() }}
+            <table>
+              <tr>
+                <th>Account code</th>
+                <td><input type="text" name="AccountCode" value="{{old('AccountCode')}}"></td>
+              </tr>
+              <tr>
+                <th>Item code</th>
+                <td><input type="text" name="ItemCode" value="{{old('ItemCode')}}"></td>
+              </tr>
+              <tr>
+                <th>Description</th>
+                <td><textarea name="Description" value="{{old('Description')}}"></textarea></td>
+              </tr>
+              <tr>
+                <th>Unit cost</th>
+                <td><input type="text" name="UnitCost" value="{{old('UnitCost')}}"></td>
+              </tr>
+              <tr>
+                <th>Unit</th>
+                <td><select name="Unit" value="{{old('Unit')}}">
+                  <option value="PC">PC</option>
+                  <option value="BOX">BOX</option>
+                  <option value="DOZ">DOZ</option>
+                  <option value="REAM">REAM</option>
+                </select></td>
+              </tr>
+              <tr>
+                <th>Quantity</th>
+                <td><input type="text" name="Quantity" value="{{old('Quantity')}}"></td>
+              </tr>
+            </table>
+            <div class="submit-bottons-newitem-container">
+              <div class="empty-submit">
+
+              </div>
+              <div class="submit-bottons-new">
+                <button id="cancel-btn" type="button">Cancel</button>
+                <button type="submit">Go</button>
+              </div>
+            </div>
+          </form>
+        </div>
+    </div>
+  </div>
+@endsection

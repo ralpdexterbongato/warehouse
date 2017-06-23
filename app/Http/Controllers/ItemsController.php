@@ -1,0 +1,140 @@
+<?php
+
+namespace App\Http\Controllers;
+
+use Illuminate\Http\Request;
+use \App\ItemMaster;
+use App\MaterialsTicketDetail;
+class ItemsController extends Controller
+{
+    /**
+     * Display a listing of the resource.
+     *
+     * @return \Illuminate\Http\Response
+     */
+    public function index()
+    {
+        $allhistory=MaterialsTicketDetail::all();
+
+        return view('welcome');
+    }
+
+    /**
+     * Show the form for creating a new resource.
+     *
+     * @return \Illuminate\Http\Response
+     */
+    public function create()
+    {
+        //
+    }
+
+    /**
+     * Store a newly created resource in storage.
+     *
+     * @param  \Illuminate\Http\Request  $request
+     * @return \Illuminate\Http\Response
+     */
+    public function store(Request $request)
+    {
+      $this->NewItemValidation($request);
+      $amount = $request->UnitCost * $request->Quantity;
+      $itemHistory=new MaterialsTicketDetail;
+      $itemHistory->MTType = 'NEW';
+      $itemHistory->MTNo = 'NEW';
+      $itemHistory->AccountCode = $request->AccountCode;
+      $itemHistory->ItemCode = $request->ItemCode;
+      $itemHistory->UnitCost = $request->UnitCost;
+      $itemHistory->Quantity = $request->Quantity;
+      $itemHistory->Amount = $amount;
+      $itemHistory->Unit = $request->Unit;
+      $itemHistory->CurrentCost=  $request->UnitCost;
+      $itemHistory->CurrentQuantity = $request->Quantity;
+      $itemHistory->CurrentAmount = $amount;
+      $itemHistory->save();
+
+      $itemMaster=new ItemMaster;
+      $itemMaster->AccountCode = $request->AccountCode;
+      $itemMaster->ItemCode = $request->ItemCode;
+      $itemMaster->Description = $request->Description;
+      $itemMaster->Unit = $request->Unit;
+      $itemMaster->UnitCost = $request->UnitCost;
+      $itemMaster->Quantity = $request->Quantity;
+      $itemMaster->MaterialsTicketDetails_id = $itemHistory->id;
+      $itemMaster->save();
+
+
+      return redirect()->back();
+    }
+    public function NewItemValidation($request)
+    {
+      return $this->validate($request,[
+      'ItemCode'=>'required|unique:ItemMasters',
+      'AccountCode'=>'required',
+      'Description'=>'required',
+      'Unit'=>'required',
+      'UnitCost'=>'required',
+      'Quantity'=>'required',
+      ]);
+    }
+
+    /**
+     * Display the specified resource.
+     *
+     * @param  int  $id
+     * @return \Illuminate\Http\Response
+     */
+    public function show($id)
+    {
+        //
+    }
+
+    /**
+     * Show the form for editing the specified resource.
+     *
+     * @param  int  $id
+     * @return \Illuminate\Http\Response
+     */
+    public function edit($id)
+    {
+        //
+    }
+
+    /**
+     * Update the specified resource in storage.
+     *
+     * @param  \Illuminate\Http\Request  $request
+     * @param  int  $id
+     * @return \Illuminate\Http\Response
+     */
+    public function update(Request $request, $id)
+    {
+        //
+    }
+
+    /**
+     * Remove the specified resource from storage.
+     *
+     * @param  int  $id
+     * @return \Illuminate\Http\Response
+     */
+    public function destroy($id)
+    {
+        //
+    }
+
+    public function searchByItemCode(Request $request)
+    {
+      $historiesfound= MaterialsTicketDetail::where('ItemCode',$request->ItemCode)->orderBy('created_at','DESC')->get();
+
+      return view('welcome',compact('historiesfound'));
+
+    }
+
+    public function searchItemMaster(Request $request)
+    {
+      $itemMasters=ItemMaster::where('ItemCode',$request->ItemCode)->get();
+      return view('Warehouse.MCTviews',compact('itemMasters'));
+    }
+    
+}
