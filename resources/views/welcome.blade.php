@@ -10,7 +10,7 @@ warehouse | BOHECO 1
         <div class="empty-left-btn">
           <ul>
             <li class="dropping-parent">
-              <h1>MIRS</h1>
+              <h1>MIRS <i class="fa fa-angle-down"></i></h1>
               <ul class="dropping">
                 <a href="{{route('mct.control')}}"><li>Create MIRS</li></a>
                 <li>Search MIRS</li>

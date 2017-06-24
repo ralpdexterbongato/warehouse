@@ -16,3 +16,5 @@ Route::get('/SearchByItemCode','ItemsController@searchByItemCode')->name('search
 Route::get('/MCT-add','MCTController@MCTIndex')->name('mct.control');
 Route::get('/findMasterItem','ItemsController@searchItemMaster')->name('searchItemMaster');
 Route::post('/sessionMCTitem','MCTController@addingSessionItem')->name('selecting.item');
+Route::DELETE('/removeSessions/{id}','MCTController@deletePartSession')->name('delete.session');
+Route::post('mirs-printable','MCTController@StoringMIRS')->name('mirs.printable');

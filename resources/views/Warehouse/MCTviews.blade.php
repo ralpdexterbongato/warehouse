@@ -1,12 +1,11 @@
 @extends('layouts.master')
 @section('title')
-  MCT ADDING
+  MIRS | Create
 @endsection
 
 @section('body')
   <div class="MCT-CONTAINER">
     <div class="Search-item-container">
-
       <div class="Added-Items">
         <div class="modal-find-button" >
             <button type="button" name="button">Add item</button>
@@ -20,7 +19,7 @@
             <th>Remarks</th>
             <th>Action</th>
           </tr>
-          @if(Session::has('ItemSelected'))
+            @if(!empty(Session::get('ItemSelected')))
             @foreach (Session::get('ItemSelected') as $selected)
               <tr>
                 <td>{{$selected->ItemCode}}</td>
@@ -28,27 +27,37 @@
                 <td>{{$selected->Quantity}}</td>
                 <td>{{$selected->Unit}}</td>
                 <td>{{$selected->Remarks}}</td>
-                <td><i class="fa fa-trash"></i></td>
+                <td class="delete-trash"><i class="fa fa-trash" onclick="$('.delete-submit{{$selected->ItemCode}}').submit()"></i></td>
+                <form class="delete-submit{{$selected->ItemCode}}"  action="{{route('delete.session',[$selected->ItemCode])}}" method="post" style="display:none">
+                  {{method_field('DELETE')}}
+                  {{csrf_field()}}
+                </form>
               </tr>
             @endforeach
-          @endif
+            @else
+              <td></td>
+              <td></td>
+              <td><h1>PLEASE ADD ITEM HERE</h1></td>
+              <td></td>
+              <td></td>
+              <td></td>
+            @endif
         </table>
       </div>
     </div>
     <div class="MCTform-container">
-      <div class="instructions">
 
-      </div>
-      <form class="" action="index.html" method="post">
+      <form class="" action="{{route('mirs.printable')}}" method="post">
+        {{ csrf_field() }}
         <ul>
-          <li><input type="text" name="" placeholder="Purpose"></li>
-          <li><input type="text" name="" placeholder="Remarks"></li>
-          <li><input type="text" name="" placeholder="Prepared by"></li>
-          <li><input type="text" name="" placeholder="Recomended by"></li>
-          <li><input type="text" name="" placeholder="Approved by"></li>
+          <li><input type="text" name="" placeholder="Purpose" required></li>
+          <li><input type="text" name="" placeholder="Remarks" required></li>
+          <li><input type="text" name="" placeholder="Prepared by" required></li>
+          <li><input type="text" name="" placeholder="Recomended by" required></li>
+          <li><input type="text" name="" placeholder="Approved by" required></li>
           <div class="submitMCT-btn">
             <button type="button" name="button">Cancel</button>
-            <button type="button" name="button">Done</button>
+            <button id="go-btn" type="submit" name="button">Done</button>
           </div>
         </ul>
       </form>
@@ -80,18 +89,13 @@
                 <tr>
                   <td>{{$itemMaster->ItemCode}}</td>
                   <td>{{$itemMaster->Description}}</td>
-                  <input type="text" name="ItemCode" value="{{$itemMaster->ItemCode}}" style="display:none">
-                  <input type="text" name="Particulars" value="{{$itemMaster->Description}}" style="display:none">
-                  <td><input type="number" name="Quantity" min="1"></td>
-                  <td>
-                    <select name="Unit">
-                      <option value="">Select</option>
-                      <option value="PC">PC</option>
-                      <option value="DOZ">DOZ</option>
-                      <option value="BOX">BOX</option>
-                    </select>
-                  </td>
-                  <td><input type="text" name="Remarks"></td>
+                  <input type="text" name="id" value="{{$itemMaster->id}}" style="display:none" required>
+                  <input type="text" name="ItemCode" value="{{$itemMaster->ItemCode}}" style="display:none" required>
+                  <input type="text" name="Particulars" value="{{$itemMaster->Description}}" style="display:none" required>
+                  <input type="text" name="Unit" value="{{$itemMaster->Unit}}" style="display:none">
+                  <td><input type="number" name="Quantity" min="1" required></td>
+                  <td>{{$itemMaster->Unit}}</td>
+                  <td><input type="text" name="Remarks" required></td>
                   <td><button type="submit"><i class="fa fa-plus"></i>Add</button></td>
                 </tr>
               </form>
