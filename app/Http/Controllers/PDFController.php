@@ -9,6 +9,6 @@ class PDFController extends Controller
   public function pdf()
   {
     $pdf = \PDF::loadView('Warehouse.MIRSprintable');
-    return $pdf->download('invoice.pdf');
+    return $pdf->download('MIRS.pdf');
   }
 }
