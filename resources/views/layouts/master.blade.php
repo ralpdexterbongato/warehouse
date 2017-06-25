@@ -1,11 +1,12 @@
 <!DOCTYPE html>
 <html>
   <head>
-    <meta charset="utf-8">
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8"/>
     <title>@yield('title')</title>
     <link rel="stylesheet" href="/css/mystyle.css">
     <link rel="stylesheet" href="/css/reset.css">
     <link rel="stylesheet" href="/icons/css/font-awesome.min.css">
+
 
   </head>
   <body>

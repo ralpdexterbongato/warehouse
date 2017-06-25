@@ -18,3 +18,4 @@ Route::get('/findMasterItem','ItemsController@searchItemMaster')->name('searchIt
 Route::post('/sessionMCTitem','MCTController@addingSessionItem')->name('selecting.item');
 Route::DELETE('/removeSessions/{id}','MCTController@deletePartSession')->name('delete.session');
 Route::post('mirs-printable','MCTController@StoringMIRS')->name('mirs.printable');
+Route::get('download-pdf','PDFController@pdf');
