@@ -37,7 +37,7 @@
             @else
               <td></td>
               <td></td>
-              <td><h1>PLEASE ADD ITEM HERE</h1></td>
+              <td><h1>Add item here</h1></td>
               <td></td>
               <td></td>
               <td></td>
@@ -47,17 +47,16 @@
     </div>
     <div class="MCTform-container">
 
-      <form class="" action="{{route('mirs.printable')}}" method="post">
+      <form class="" action="{{route('mirs.store')}}" method="post">
         {{ csrf_field() }}
         <ul>
-          <li><input type="text" name="" placeholder="Purpose" required></li>
-          <li><input type="text" name="" placeholder="Remarks" required></li>
-          <li><input type="text" name="" placeholder="Prepared by" required></li>
-          <li><input type="text" name="" placeholder="Recomended by" required></li>
-          <li><input type="text" name="" placeholder="Approved by" required></li>
+          <li><input type="text" name="Purpose" placeholder="Purpose" required></li>
+          <li><input type="text" name="Preparedby" placeholder="Prepared by" required></li>
+          <li><input type="text" name="Recommendedby" placeholder="Recommended by" required></li>
+          <li><input type="text" name="Approvedby" placeholder="Approved by" required></li>
           <div class="submitMCT-btn">
             <button type="button" name="button">Cancel</button>
-            <button id="go-btn" type="submit" name="button">Done</button>
+            <button id="go-btn" type="submit">Done</button>
           </div>
         </ul>
       </form>
@@ -82,20 +81,20 @@
               <th>Remarks</th>
               <th>Action</th>
             </tr>
-            @if(isset($itemMasters[0]->id))
+            @if(isset($itemMasters[0]->ItemCode))
             @foreach ($itemMasters as $itemMaster)
               <form action="{{route('selecting.item')}}" method="post">
                 {{ csrf_field() }}
                 <tr>
                   <td>{{$itemMaster->ItemCode}}</td>
                   <td>{{$itemMaster->Description}}</td>
-                  <input type="text" name="id" value="{{$itemMaster->id}}" style="display:none" required>
-                  <input type="text" name="ItemCode" value="{{$itemMaster->ItemCode}}" style="display:none" required>
-                  <input type="text" name="Particulars" value="{{$itemMaster->Description}}" style="display:none" required>
+                  <input type="text" name="id" value="{{$itemMaster->id}}" style="display:none">
+                  <input type="text" name="ItemCode" value="{{$itemMaster->ItemCode}}" style="display:none">
+                  <input type="text" name="Particulars" value="{{$itemMaster->Description}}" style="display:none">
                   <input type="text" name="Unit" value="{{$itemMaster->Unit}}" style="display:none">
                   <td><input type="number" name="Quantity" min="1" required></td>
                   <td>{{$itemMaster->Unit}}</td>
-                  <td><input type="text" name="Remarks" required></td>
+                  <td><input type="text" name="Remarks"></td>
                   <td><button type="submit"><i class="fa fa-plus"></i>Add</button></td>
                 </tr>
               </form>
@@ -103,10 +102,10 @@
           @else
             <tr>
               <td></td>
-              <td> </td>
-              <td><h1>No results found</h1> </td>
-              <td> </td>
-              <td> </td>
+              <td></td>
+              <td><h1>No results found</h1></td>
+              <td></td>
+              <td></td>
               <td> </td>
 
             </tr>

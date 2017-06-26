@@ -720,3 +720,224 @@ tr td input[type="number"]
 {
   width: 50px;
 }
+
+/*MIRS PREVIEW*/
+.printable-view-container
+{
+  display: flex;
+  background: #e3e3e3;
+  overflow-x: auto;
+}
+.printable-paper
+{
+  margin:auto;
+  width: 1000px;
+}
+.bondpaper-size
+{
+  height: 1056px;
+  width: 816px;
+  margin:0 auto;
+  background: #fff;
+  margin-bottom: 30px;
+}
+.top-part-box1
+{
+  text-align: center;
+  padding-top: 30px;
+}
+
+.top-part-box1 h2
+{
+  margin-top: 25px;
+  font-size: 18px;
+  text-decoration: underline;
+    font-family: 'Comfortaa', cursive;
+}
+.top-part-box1 h1
+{
+  font-family:sans-serif;
+  font-weight: bold;
+}
+.top-part-box1 h4
+{
+  font-family: sans-serif;
+  font-size: 14px;
+  margin-top: 5px;
+}
+.top-part-box2
+{
+  display: flex;
+  margin-top: 20px;
+  justify-content:space-between;
+}
+.top-box2-right
+{
+  font-family: helvetica;
+  font-size: 14px;
+  margin-right: 80px;
+}
+
+.mirs-id
+{
+   border:1px solid red;
+   padding: 20px;
+}
+.top-box2-right-data
+{
+  flex:1;
+  display: flex;
+  justify-content: space-between;
+  width: 240px;
+  margin-bottom: 7px;
+}
+.top-box2-right-data h1
+{
+  min-width: 160px;
+  padding: 3px 6px;
+  border-bottom: 1px solid black;
+  font-size: 13px;
+}
+.top-box2-right-data label
+{
+  padding: 3px 6px;
+  text-align: right;
+  width: 100%;
+}
+.top-part-box3
+{
+  display: flex;
+  justify-content: space-between;
+  padding:20px 80px;
+}
+.top-part-box3 p
+{
+  font-family: helvetica;
+  font-size: 14px;
+}
+.top-part-box3 h2
+{
+  width: 240px;
+  display: flex;
+  font-family: helvetica;
+  font-size: 14px;
+  font-weight: 600;
+}
+.purpose-container
+{
+  display: flex;
+  justify-content: flex-end;
+  flex-direction: column;
+  border-bottom: 1px solid black;
+}
+.mirs-details-container
+{
+  padding: 20px 80px;
+}
+.table-mirs-container table
+{
+  width: 100%;
+  font-family: lato;
+  border-bottom: 1px solid black;
+}
+
+.table-mirs-container th
+{
+  padding: 10px 10px 0px 10px;
+  font-size: 16px;
+  border-bottom: 1px solid black;
+  border-left: 1px solid black;
+  border-right: 1px solid black;
+}
+.noborder-left
+{
+  border-left: none!important;
+}
+.noborder-right
+{
+  border-right: none!important;
+}
+
+.table-mirs-container td
+{
+  text-align: center;
+  border-left: 1px solid black;
+  border-right: 1px solid black;
+  padding:10px 2px;
+  font-size: 14px;
+}
+.table-mirs-container .particular
+{
+  text-align:left;
+}
+.statement-container
+{
+  border-left:1px solid black;
+  border-right:1px solid black;
+  padding-left: 5px;
+}
+.statement-container p
+{
+  font-family:sans-serif;
+  font-size: 13px;
+
+}
+.request-recommend-sig
+{
+  display: flex;
+  justify-content: space-around;
+  font-family: sans-serif;
+}
+
+.bottom-mirs-part
+{
+  border-left:1px solid black;
+  border-right:1px solid black;
+  border-top: 1px solid black;
+  padding-top: 15px;
+}
+.request-sig h2,.recommend-sig h2,.president-sig h2
+{
+  line-height: 21px;
+  font-size: 14px;
+}
+.request-sig h4,.recommend-sig h4,.president-sig h4
+{
+  margin-bottom: 30px;
+  font-size: 14px;
+}
+.recommend-sig,.request-sig
+{
+  text-align: center;
+}
+.president-sig
+{
+  padding-top: 20px;
+  text-align: center;
+  border-bottom: 1px solid black;
+  font-family: sans-serif;
+}
+.table-mirs-container
+{
+  height:500px;
+  border: 1px solid black;
+}
+.print-btn-container
+{
+
+  width: 816px;
+  margin:0 auto;
+  display: flex;
+  justify-content:flex-end;
+  padding-top: 15px;
+  padding-bottom: 15px;
+}
+.print-btn-container button
+{
+  padding: 6px 12px;
+}
+.print-btn-container button i
+{
+  font-size: 20px;
+  color: red;
+}

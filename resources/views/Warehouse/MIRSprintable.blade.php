@@ -194,7 +194,7 @@
     border-right: 1px solid black;
     padding:7px 14px;
     font-family: sans-serif;
-    font-size: 16px;
+    font-size: 14px;
   }
   .statement-container p
   {
@@ -228,7 +228,7 @@
   }
   .approved h4
   {
-    font-size: 15px;
+    font-size: 13px;
     margin-top: 20px;
   }
   .approved h5
@@ -252,7 +252,7 @@
   }
   .recommended h4
   {
-    font-size: 15px;
+    font-size: 13px;
     margin-top: 20px;
   }
   .recommended h5
@@ -276,7 +276,7 @@
   }
   .prepared h4
   {
-    font-size: 15px;
+    font-size: 13px;
     margin-top: 20px;
     font-weight: 300;
   }
@@ -306,11 +306,15 @@
             <div class="date-mirs-content">
               <div class="MIRS-number">
                 <label>MIRS # :</label>
-                <h1>2016-154</h1>
+                @foreach ($master as $mastered)
+                <h1>{{$mastered->MIRSNo}}</h1>
+                @endforeach
               </div>
               <div class="MIRS-date">
                 <label>Date :</label>
-                <h1>October 22,2016</h1>
+                @foreach ($master as $mastered)
+                <h1>{{$mastered->MIRSDate}}</h1>
+                @endforeach
               </div>
             </div>
           </div>
@@ -322,7 +326,9 @@
             </div>
             <div class="right-purpose">
               <div class="purpose-for">
-                <p class="bold">Tubigon Parish Church Tubigon Meter Replacement</p>
+                @foreach ($master as $mastered)
+                <p class="bold">{{$mastered->Purpose}}</p>
+                @endforeach
               </div>
             </div>
           </div>
@@ -330,110 +336,21 @@
             <div class="table-print-wrap">
               <table>
                 <tr>
-                  <th>CODE</th>
-                  <th>PARTICULARS</th>
-                  <th>UNIT</th>
-                  <th>QUANTITY</th>
-                  <th>REMARKS</th>
+                  <th>CODE</td>
+                  <th>PARTICULARS</td>
+                  <th>UNIT</td>
+                  <th>QUANTITY</td>
+                  <th>REMARKS</td>
                 </tr>
+                @foreach ($details as $detail)
                 <tr>
-                  <td>2898</td>
-                  <td>Description of the item</td>
-                  <td>PC</td>
-                  <td>2</td>
-                  <td>Remarked</td>
+                  <td>{{$detail->ItemCode}}</td>
+                  <td>{{$detail->Particulars}}</td>
+                  <td>{{$detail->Unit}}</td>
+                  <td>{{$detail->Quantity}}</td>
+                  <td>{{$detail->Remarks}}</td>
                 </tr>
-                <tr>
-                  <td>2898</td>
-                  <td>Description of the item</td>
-                  <td>PC</td>
-                  <td>2</td>
-                  <td>Remarked</td>
-                </tr>
-                <tr>
-                  <td>2898</td>
-                  <td>Description of the item</td>
-                  <td>PC</td>
-                  <td>2</td>
-                  <td>Remarked</td>
-                </tr>
-                <tr>
-                  <td>2898</td>
-                  <td>Description of the item</td>
-                  <td>PC</td>
-                  <td>2</td>
-                  <td>Remarked</td>
-                </tr>
-                <tr>
-                  <td>2898</td>
-                  <td>Description of the item</td>
-                  <td>PC</td>
-                  <td>2</td>
-                  <td>Remarked</td>
-                </tr>
-                <tr>
-                  <td>2898</td>
-                  <td>Description of the item</td>
-                  <td>PC</td>
-                  <td>2</td>
-                  <td>Remarked</td>
-                </tr>
-                <tr>
-                  <td>2898</td>
-                  <td>Description of the item</td>
-                  <td>PC</td>
-                  <td>2</td>
-                  <td>Remarked</td>
-                </tr>
-                <tr>
-                  <td>2898</td>
-                  <td>Description of the item</td>
-                  <td>PC</td>
-                  <td>2</td>
-                  <td>Remarked</td>
-                </tr>
-                <tr>
-                  <td>2898</td>
-                  <td>Description of the item</td>
-                  <td>PC</td>
-                  <td>2</td>
-                  <td>Remarked</td>
-                </tr>
-                <tr>
-                  <td>2898</td>
-                  <td>Description of the item</td>
-                  <td>PC</td>
-                  <td>2</td>
-                  <td>Remarked</td>
-                </tr>
-                <tr>
-                  <td>2898</td>
-                  <td>Description of the item</td>
-                  <td>PC</td>
-                  <td>2</td>
-                  <td>Remarked</td>
-                </tr>
-                <tr>
-                  <td>2898</td>
-                  <td>Description of the item</td>
-                  <td>PC</td>
-                  <td>2</td>
-                  <td>Remarked</td>
-                </tr>
-                <tr>
-                  <td>2898</td>
-                  <td>Description of the item</td>
-                  <td>PC</td>
-                  <td>2</td>
-                  <td>Remarked</td>
-                </tr>
-                <tr>
-                  <td>2898</td>
-                  <td>Description of the item</td>
-                  <td>PC</td>
-                  <td>2</td>
-                  <td>Remarked</td>
-                </tr>
+                @endforeach
               </table>
             </div>
           </div>
@@ -444,18 +361,24 @@
             <div class="prepared-recommend">
               <div class="prepared">
                 <h3>Prepared by:</h3>
-                <h4>BENITO MAGLAWAY</h4>
+                @foreach ($master as $mastered)
+                <h4>{{$mastered->Preparedby}}</h4>
+                @endforeach
                 <h5>Requisitioner</h5>
               </div>
               <div class="recommended">
                 <h3>Recommended by:</h3>
-                <h4>REINERIO A. TUMABANG</h4>
+                @foreach ($master as $mastered)
+                <h4>{{$mastered->Recommendedby}}</h4>
+                @endforeach
                 <h5>Department Manager</h5>
               </div>
             </div>
             <div class="approved">
                 <h3>APPROVED:</h3>
-                <h4>DINO NICOLAS T. ROJAS</h4>
+                @foreach ($master as $mastered)
+                <h4>{{$mastered->Approvedby}}</h4>
+                @endforeach
                 <h5>General Manager</h5>
             </div>
           </div>

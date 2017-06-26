@@ -3,8 +3,9 @@
 namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
-use \App\ItemMaster;
+use \App\MasterItem;
 use App\MaterialsTicketDetail;
+use Carbon\Carbon;
 class ItemsController extends Controller
 {
     /**
@@ -37,6 +38,8 @@ class ItemsController extends Controller
      */
     public function store(Request $request)
     {
+      $date=Carbon::today();
+      $month=Carbon::today()->format('M');
       $this->NewItemValidation($request);
       $amount = $request->UnitCost * $request->Quantity;
       $itemHistory=new MaterialsTicketDetail;
@@ -51,15 +54,17 @@ class ItemsController extends Controller
       $itemHistory->CurrentCost=  $request->UnitCost;
       $itemHistory->CurrentQuantity = $request->Quantity;
       $itemHistory->CurrentAmount = $amount;
+      $itemHistory->created_at = $date;
       $itemHistory->save();
 
-      $itemMaster=new ItemMaster;
+      $itemMaster=new MasterItem;
       $itemMaster->AccountCode = $request->AccountCode;
       $itemMaster->ItemCode = $request->ItemCode;
       $itemMaster->Description = $request->Description;
       $itemMaster->Unit = $request->Unit;
       $itemMaster->UnitCost = $request->UnitCost;
       $itemMaster->Quantity = $request->Quantity;
+      $itemMaster->Month = $month;
       $itemMaster->MaterialsTicketDetails_id = $itemHistory->id;
       $itemMaster->save();
 
@@ -69,7 +74,7 @@ class ItemsController extends Controller
     public function NewItemValidation($request)
     {
       return $this->validate($request,[
-      'ItemCode'=>'required|unique:ItemMasters',
+      'ItemCode'=>'required|unique:MasterItems',
       'AccountCode'=>'required',
       'Description'=>'required',
       'Unit'=>'required',
@@ -133,8 +138,8 @@ class ItemsController extends Controller
 
     public function searchItemMaster(Request $request)
     {
-      $itemMasters=ItemMaster::where('ItemCode',$request->ItemCode)->get();
-      return view('Warehouse.MCTviews',compact('itemMasters'));
+      $itemMasters=MasterItem::where('ItemCode',$request->ItemCode)->get();
+      return view('Warehouse.MIRSviews',compact('itemMasters'));
     }
-    
+
 }

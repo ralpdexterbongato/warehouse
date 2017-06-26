@@ -4,18 +4,20 @@ namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
 use Session;
+use Carbon\Carbon;
+use App\MIRSDetail;
+use App\MIRSMaster;
 class MCTController extends Controller
 {
-  public function MCTIndex()
+  public function MIRSIndex()
   {
-    return view('Warehouse.MCTviews');
+    return view('Warehouse.MIRSviews');
   }
   public function addingSessionItem(Request $request)
   {
     $this->SessionValidator($request);
     $itemselected =[
-      'id'=>$request->id,'ItemCode' => $request->ItemCode,'Particulars' => $request->Particulars,'Unit' => $request->Unit,'Quantity' => $request->Quantity,'Remarks' => $request->Remarks
-    ];
+    'ItemCode' => $request->ItemCode,'Particulars' => $request->Particulars,'Unit' => $request->Unit,'Remarks'=>$request->Remarks,'Quantity' => $request->Quantity,];
 
     if (Session::has('ItemSelected'))
     {
@@ -58,7 +60,36 @@ class MCTController extends Controller
 
   public function StoringMIRS(Request $request)
   {
-    return view('Warehouse.MIRSprintable');
+
+    $date=Carbon::today();
+    $incremented = '2017-40';
+    $selectedITEMS=Session::get('ItemSelected');
+    $selectedITEMS = (array)$selectedITEMS;
+
+    $master=new MIRSMaster;
+    $master->MIRSNo = $incremented;
+    $master->Purpose =$request->Purpose;
+    $master->Preparedby =$request->Preparedby;
+    $master->Recommendedby =$request->Recommendedby;
+    $master->Approvedby = $request->Approvedby;
+    $master->MIRSDate = $date;
+    $master->save();
+    foreach ($selectedITEMS as $items)
+    {
+      $details=new MIRSDetail;
+      $details->MIRSNo = $incremented;
+      $details->ItemCode= $items->ItemCode;
+      $details->Particulars = $items->Particulars;
+      $details->Unit= $items->Unit;
+      $details->Remarks=$items->Remarks;
+      $details->Quantity= $items->Quantity;
+      $details->save();
+
+    }
+
+      $MIRSDetails=MIRSDetail::where('MIRSNo',$incremented)->get();
+      $MIRSMaster=MIRSMaster::where('MIRSNo',$incremented)->get();
+      return view('Warehouse.MIRSpreview',compact('MIRSDetails','MIRSMaster'));
   }
 
 }

@@ -15,10 +15,10 @@ class CreateTableMaterialsTicketDetailsTbl extends Migration
     {
         Schema::create('MaterialsTicketDetails', function (Blueprint $table) {
           $table->increments('id');
+          $table->string('ItemCode');
           $table->string('MTType');
           $table->string('MTNo');
           $table->string('AccountCode')->nullable();
-          $table->string('ItemCode')->nullable();
           $table->decimal('UnitCost',18,2)->nullable();
           $table->decimal('Quantity',18,0)->nullable();
           $table->string('Unit')->nullable();
@@ -26,7 +26,7 @@ class CreateTableMaterialsTicketDetailsTbl extends Migration
           $table->decimal('CurrentCost',18,2)->nullable();
           $table->decimal('CurrentQuantity',18,0)->nullable();
           $table->decimal('CurrentAmount',18,2)->nullable();
-          $table->timestamps();
+          $table->date('created_at');
         });
     }
 

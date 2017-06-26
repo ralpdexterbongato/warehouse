@@ -66,7 +66,7 @@ warehouse | BOHECO 1
               <td>{{$historiesfound[0]->MTNo}}</td>
               <td>{{$historiesfound[0]->AccountCode}}</td>
               <td>{{$historiesfound[0]->ItemCode}}</td>
-              <td>{{$historiesfound[0]->ItemMaster->Description}}</td>
+              <td>{{$historiesfound[0]->MasterItem->Description}}</td>
               <td>{{number_format($historiesfound[0]->UnitCost,'2','.',',')}}</td>
               <td>{{$historiesfound[0]->Quantity}}</td>
               <td>{{$historiesfound[0]->Unit}}</td>
@@ -74,7 +74,7 @@ warehouse | BOHECO 1
               <td>{{number_format($historiesfound[0]->CurrentCost,'2','.',',')}}</td>
               <td>{{$historiesfound[0]->CurrentQuantity}}</td>
               <td>{{number_format($historiesfound[0]->CurrentAmount,'2','.',',')}}</td>
-              <td>{{$historiesfound[0]->created_at->format('M')}}</td>
+              <td>{{$historiesfound[0]->MasterItem->Month}}</td>
             </tr>
         </table>
 
@@ -103,7 +103,7 @@ warehouse | BOHECO 1
               <td>{{$history->MTNo}}</td>
               <td>{{$history->AccountCode}}</td>
               <td>{{$history->ItemCode}}</td>
-              <td>{{$history->ItemMaster->Description}}</td>
+              <td>{{$history->MasterItem->Description}}</td>
               <td>{{number_format($history->UnitCost,'2','.',',')}}</td>
               <td>{{$history->Quantity}}</td>
               <td>{{$history->Unit}}</td>
@@ -111,7 +111,7 @@ warehouse | BOHECO 1
               <td>{{number_format($history->CurrentCost,'2','.',',')}}</td>
               <td>{{$history->CurrentQuantity}}</td>
               <td>{{number_format($history->CurrentAmount,'2','.',',')}}</td>
-              <td>{{$history->created_at->format('M')}}</td>
+              <td>{{$history->MasterItem->Month}}</td>
             </tr>
             @endforeach
           @endif
