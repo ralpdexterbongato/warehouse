@@ -12,8 +12,8 @@ warehouse | BOHECO 1
             <li class="dropping-parent">
               <h1>MIRS <i class="fa fa-angle-down"></i></h1>
               <ul class="dropping">
-                <a href="{{route('mct.control')}}"><li>Create MIRS</li></a>
-                <li>Search MIRS</li>
+                <a href="{{route('mirs.add')}}"><li><i class="fa fa-print"></i> Create MIRS</li></a>
+                <a href="{{route('PreviewMIRS')}}"><li><i class="fa fa-search"></i> Search MIRS</li></a>
               </ul>
             </li>
           </ul>
@@ -66,7 +66,7 @@ warehouse | BOHECO 1
               <td>{{$historiesfound[0]->MTNo}}</td>
               <td>{{$historiesfound[0]->AccountCode}}</td>
               <td>{{$historiesfound[0]->ItemCode}}</td>
-              <td>{{$historiesfound[0]->MasterItem->Description}}</td>
+              <td>{{$masterfound[0]->Description}}</td>
               <td>{{number_format($historiesfound[0]->UnitCost,'2','.',',')}}</td>
               <td>{{$historiesfound[0]->Quantity}}</td>
               <td>{{$historiesfound[0]->Unit}}</td>
@@ -74,7 +74,7 @@ warehouse | BOHECO 1
               <td>{{number_format($historiesfound[0]->CurrentCost,'2','.',',')}}</td>
               <td>{{$historiesfound[0]->CurrentQuantity}}</td>
               <td>{{number_format($historiesfound[0]->CurrentAmount,'2','.',',')}}</td>
-              <td>{{$historiesfound[0]->MasterItem->Month}}</td>
+              <td>{{$historiesfound[0]->created_at->format('M')}}</td>
             </tr>
         </table>
 
@@ -95,7 +95,7 @@ warehouse | BOHECO 1
             <th>Current cost</th>
             <th>Current quantity</th>
             <th>Current amount</th>
-            <th>Date</th>
+            <th>Month</th>
           </tr>
             @foreach ($historiesfound as $history)
             <tr>
@@ -103,7 +103,7 @@ warehouse | BOHECO 1
               <td>{{$history->MTNo}}</td>
               <td>{{$history->AccountCode}}</td>
               <td>{{$history->ItemCode}}</td>
-              <td>{{$history->MasterItem->Description}}</td>
+              <td>{{$masterfound[0]->Description}}</td>
               <td>{{number_format($history->UnitCost,'2','.',',')}}</td>
               <td>{{$history->Quantity}}</td>
               <td>{{$history->Unit}}</td>
@@ -111,9 +111,13 @@ warehouse | BOHECO 1
               <td>{{number_format($history->CurrentCost,'2','.',',')}}</td>
               <td>{{$history->CurrentQuantity}}</td>
               <td>{{number_format($history->CurrentAmount,'2','.',',')}}</td>
-              <td>{{$history->MasterItem->Month}}</td>
+              <td>{{$history->created_at->format('M')}}</td>
             </tr>
             @endforeach
+          @else
+            <div class="background-pic animated slideInRight">
+
+            </div>
           @endif
         </table>
       </div>
@@ -164,7 +168,7 @@ warehouse | BOHECO 1
               </div>
               <div class="submit-bottons-new">
                 <button id="cancel-btn" type="button">Cancel</button>
-                <button type="submit">Go</button>
+                <button id="go-create" type="submit">Go</button>
               </div>
             </div>
           </form>

@@ -6,6 +6,7 @@ use Illuminate\Http\Request;
 use \App\MasterItem;
 use App\MaterialsTicketDetail;
 use Carbon\Carbon;
+use DB;
 class ItemsController extends Controller
 {
     /**
@@ -65,9 +66,7 @@ class ItemsController extends Controller
       $itemMaster->UnitCost = $request->UnitCost;
       $itemMaster->Quantity = $request->Quantity;
       $itemMaster->Month = $month;
-      $itemMaster->MaterialsTicketDetails_id = $itemHistory->id;
       $itemMaster->save();
-
 
       return redirect()->back();
     }
@@ -76,7 +75,7 @@ class ItemsController extends Controller
       return $this->validate($request,[
       'ItemCode'=>'required|unique:MasterItems',
       'AccountCode'=>'required',
-      'Description'=>'required',
+      'Description'=>'required|max:50',
       'Unit'=>'required',
       'UnitCost'=>'required',
       'Quantity'=>'required',
@@ -130,16 +129,17 @@ class ItemsController extends Controller
 
     public function searchByItemCode(Request $request)
     {
-      $historiesfound= MaterialsTicketDetail::where('ItemCode',$request->ItemCode)->orderBy('created_at','DESC')->get();
-
-      return view('welcome',compact('historiesfound'));
+      $historiesfound= MaterialsTicketDetail::where('ItemCode',$request->ItemCode)->orderBy('id','DESC')->get();
+      $masterfound= MasterItem::where('ItemCode',$request->ItemCode)->get();
+      return view('welcome',compact('historiesfound','masterfound'));
 
     }
 
     public function searchItemMaster(Request $request)
     {
       $itemMasters=MasterItem::where('ItemCode',$request->ItemCode)->get();
-      return view('Warehouse.MIRSviews',compact('itemMasters'));
+      $currentQTY=MaterialsTicketDetail::where('ItemCode',$request->ItemCode)->orderBy('id','DESC')->take(1)->value('CurrentQuantity');
+      return view('Warehouse.MIRSviews',compact('itemMasters','currentQTY'));
     }
 
 }

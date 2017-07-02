@@ -10,39 +10,41 @@
         <div class="modal-find-button" >
             <button type="button" name="button">Add item</button>
         </div>
-        <table>
-          <tr>
-            <th>Item Code</th>
-            <th>Particular</th>
-            <th>Quantity</th>
-            <th>Unit</th>
-            <th>Remarks</th>
-            <th>Action</th>
-          </tr>
-            @if(!empty(Session::get('ItemSelected')))
-            @foreach (Session::get('ItemSelected') as $selected)
-              <tr>
-                <td>{{$selected->ItemCode}}</td>
-                <td>{{$selected->Particulars}}</td>
-                <td>{{$selected->Quantity}}</td>
-                <td>{{$selected->Unit}}</td>
-                <td>{{$selected->Remarks}}</td>
-                <td class="delete-trash"><i class="fa fa-trash" onclick="$('.delete-submit{{$selected->ItemCode}}').submit()"></i></td>
-                <form class="delete-submit{{$selected->ItemCode}}"  action="{{route('delete.session',[$selected->ItemCode])}}" method="post" style="display:none">
-                  {{method_field('DELETE')}}
-                  {{csrf_field()}}
-                </form>
-              </tr>
-            @endforeach
-            @else
-              <td></td>
-              <td></td>
-              <td><h1>Add item here</h1></td>
-              <td></td>
-              <td></td>
-              <td></td>
-            @endif
-        </table>
+        <div class="added-table-wrapper">
+          <table>
+            <tr>
+              <th>Item Code</th>
+              <th>Particular</th>
+              <th>Quantity</th>
+              <th>Unit</th>
+              <th>Remarks</th>
+              <th>Action</th>
+            </tr>
+              @if(!empty(Session::get('ItemSelected')))
+              @foreach (Session::get('ItemSelected') as $selected)
+                <tr>
+                  <td>{{$selected->ItemCode}}</td>
+                  <td>{{$selected->Particulars}}</td>
+                  <td>{{$selected->Quantity}}</td>
+                  <td>{{$selected->Unit}}</td>
+                  <td>{{$selected->Remarks}}</td>
+                  <td class="delete-trash"><i class="fa fa-trash" onclick="$('.delete-submit{{$selected->ItemCode}}').submit()"></i></td>
+                  <form class="delete-submit{{$selected->ItemCode}}"  action="{{route('delete.session',[$selected->ItemCode])}}" method="post" style="display:none">
+                    {{method_field('DELETE')}}
+                    {{csrf_field()}}
+                  </form>
+                </tr>
+              @endforeach
+              @else
+                <td></td>
+                <td></td>
+                <td><h1>Add item here</h1></td>
+                <td></td>
+                <td></td>
+                <td></td>
+              @endif
+          </table>
+        </div>
       </div>
     </div>
     <div class="MCTform-container">
@@ -75,7 +77,7 @@
           <table>
             <tr>
               <th>Item code</th>
-              <th>Description</th>
+              <th>Particular</th>
               <th>Quantity</th>
               <th>Unit</th>
               <th>Remarks</th>
@@ -92,9 +94,9 @@
                   <input type="text" name="ItemCode" value="{{$itemMaster->ItemCode}}" style="display:none">
                   <input type="text" name="Particulars" value="{{$itemMaster->Description}}" style="display:none">
                   <input type="text" name="Unit" value="{{$itemMaster->Unit}}" style="display:none">
-                  <td><input type="number" name="Quantity" min="1" required></td>
+                  <td><input type="number" name="Quantity" min="1" max="{{$currentQTY}}" required></td>
                   <td>{{$itemMaster->Unit}}</td>
-                  <td><input type="text" name="Remarks"></td>
+                  <td><input type="text" name="Remarks" required></td>
                   <td><button type="submit"><i class="fa fa-plus"></i>Add</button></td>
                 </tr>
               </form>

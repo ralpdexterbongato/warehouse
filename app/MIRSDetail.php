@@ -8,5 +8,5 @@ class MIRSDetail extends Model
 {
      public $timestamps=false;
      protected $table='MIRSDetails';
-
+     
 }

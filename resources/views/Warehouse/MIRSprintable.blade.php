@@ -59,8 +59,7 @@
     {
       margin:0 auto;
       background: #fff;
-      margin-bottom: 30px;
-      padding:40px 30px 0px 30px;
+      padding:70px 30px 0px 30px;
     }
     .top-part-titles
     {
@@ -194,7 +193,7 @@
     border-right: 1px solid black;
     padding:7px 14px;
     font-family: sans-serif;
-    font-size: 14px;
+    font-size: 13px;
   }
   .statement-container p
   {
@@ -205,21 +204,32 @@
   {
     border-left: 1px solid black;
     border-right: 1px solid black;
-    padding:5px 10px;
-    height: 37px;
+    padding:5px 10px 0px 10px;
   }
   .prepared-recommend
   {
     height: 120px;
     width: 100%;
-
   }
   .approved
   {
     height: 125px;
     width: 100%;
     text-align:center;
+    position: relative;
 
+  }
+  .approved img
+  {
+    width: 100%;
+  }
+  .approved h2
+  {
+    width: 150px;
+    height: 80px;
+    position: absolute;
+    left:300px;
+    bottom:60px;
   }
   .approved h3
   {
@@ -229,20 +239,34 @@
   .approved h4
   {
     font-size: 13px;
-    margin-top: 20px;
+    margin-top: 40px;
   }
   .approved h5
   {
     margin-top: 4px;
     font-weight: 200;
   }
+  .recommended h2 img
+  {
+    width: 100%;
+  }
+  .recommended h2
+  {
+    width: 150px;
+    height: 50px;
+    position: absolute;
+    right: 90px;
+    top: 30px;
+  }
   .recommended
   {
+    position: react
     display: inline-block;
     height: 120px;
     width: 45%;
     text-align: center;
     float:right;
+    position: relative;
   }
   .recommended h3
   {
@@ -253,12 +277,24 @@
   .recommended h4
   {
     font-size: 13px;
-    margin-top: 20px;
+    margin-top: 40px;
   }
   .recommended h5
   {
     margin-top: 4px;
     font-weight: 200;
+  }
+  .prepared h2 img
+  {
+    width: 100%;
+  }
+  .prepared h2
+  {
+    position:absolute;
+    left: 95px;
+    top: 30px;
+    width: 150px;
+    height: 50px;
   }
   .prepared
   {
@@ -267,6 +303,7 @@
     height: 120px;
     text-align: center;
     float: left;
+    position: relative;
   }
   .prepared h3
   {
@@ -277,7 +314,7 @@
   .prepared h4
   {
     font-size: 13px;
-    margin-top: 20px;
+    margin-top: 40px;
     font-weight: 300;
   }
   .prepared h5
@@ -306,15 +343,11 @@
             <div class="date-mirs-content">
               <div class="MIRS-number">
                 <label>MIRS # :</label>
-                @foreach ($master as $mastered)
-                <h1>{{$mastered->MIRSNo}}</h1>
-                @endforeach
+                <h1>{{$master[0]->MIRSNo}}</h1>
               </div>
               <div class="MIRS-date">
                 <label>Date :</label>
-                @foreach ($master as $mastered)
-                <h1>{{$mastered->MIRSDate}}</h1>
-                @endforeach
+                <h1>{{$master[0]->MIRSDate->format('M d, Y')}}</h1>
               </div>
             </div>
           </div>
@@ -326,9 +359,7 @@
             </div>
             <div class="right-purpose">
               <div class="purpose-for">
-                @foreach ($master as $mastered)
-                <p class="bold">{{$mastered->Purpose}}</p>
-                @endforeach
+                <p class="bold">{{$master[0]->Purpose}}</p>
               </div>
             </div>
           </div>
@@ -361,24 +392,21 @@
             <div class="prepared-recommend">
               <div class="prepared">
                 <h3>Prepared by:</h3>
-                @foreach ($master as $mastered)
-                <h4>{{$mastered->Preparedby}}</h4>
-                @endforeach
+                <h2 class="signature"><img src="c:/xampp/htdocs/Warehouse/public/DesignIMG/signature1.png"></h2>
+                <h4>{{$master[0]->Preparedby}}</h4>
                 <h5>Requisitioner</h5>
               </div>
               <div class="recommended">
                 <h3>Recommended by:</h3>
-                @foreach ($master as $mastered)
-                <h4>{{$mastered->Recommendedby}}</h4>
-                @endforeach
+                <h2><img src="c:/xampp/htdocs/Warehouse/public/DesignIMG/signature4.png"></h2>
+                <h4>{{$master[0]->Recommendedby}}</h4>
                 <h5>Department Manager</h5>
               </div>
             </div>
             <div class="approved">
                 <h3>APPROVED:</h3>
-                @foreach ($master as $mastered)
-                <h4>{{$mastered->Approvedby}}</h4>
-                @endforeach
+                <h2 class="signature"><img src=c:/xampp/htdocs/Warehouse/public/DesignIMG/signature5.png"></h2>
+                <h4>{{$master[0]->Approvedby}}</h4>
                 <h5>General Manager</h5>
             </div>
           </div>

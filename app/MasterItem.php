@@ -8,8 +8,4 @@ class MasterItem extends Model
 {
     protected $table = 'MasterItems';
     public $timestamps = false;
-    public function MaterialsTicketDetail()
-    {
-      return $this->hasMany('App\MaterialsTicketDetail','id','MaterialsTicketDetails_id');
-    }
 }

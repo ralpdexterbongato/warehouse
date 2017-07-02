@@ -21,6 +21,8 @@ class CreateTableMIRSMaster extends Migration
             $table->string('Recommendedby',50)->nullable();
             $table->string('Approvedby',50)->nullable();
             $table->date('MIRSDate')->nullable();
+            $table->char('Status')->nullable();
+
         });
     }
 

@@ -22,7 +22,6 @@ class CreateTableMasterItems extends Migration
             $table->decimal('UnitCost',18,2)->nullable();
             $table->decimal('Quantity',18,0)->nullable();
             $table->string('Month',50)->nullable();
-            $table->integer('MaterialsTicketDetails_id');
         });
     }
 

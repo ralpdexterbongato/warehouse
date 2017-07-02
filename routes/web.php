@@ -13,9 +13,15 @@
 
 Route::resource('/','ItemsController');
 Route::get('/SearchByItemCode','ItemsController@searchByItemCode')->name('search.code');
-Route::get('/MCT-add','MCTController@MIRSIndex')->name('mct.control');
+Route::get('/MIRS-add','MIRSController@MIRScreate')->name('mirs.add');
 Route::get('/findMasterItem','ItemsController@searchItemMaster')->name('searchItemMaster');
-Route::post('/sessionMCTitem','MCTController@addingSessionItem')->name('selecting.item');
-Route::DELETE('/removeSessions/{id}','MCTController@deletePartSession')->name('delete.session');
-Route::post('mirs-printable','MCTController@StoringMIRS')->name('mirs.store');
+Route::post('/sessionMIRSitem','MIRSController@addingSessionItem')->name('selecting.item');
+Route::DELETE('/removeSessions/{id}','MIRSController@deletePartSession')->name('delete.session');
+Route::post('mirs-storedata','MIRSController@StoringMIRS')->name('mirs.store');
 Route::post('download-pdf','PDFController@pdf')->name('mirs-download');
+Route::get('mirs-preview','MIRSController@MIRSpreview')->name('PreviewMIRS');
+Route::post('search-mirs','MIRSController@searchMIRSNo')->name('search-mirs');
+Route::post('denied','MIRSController@DeleteDenied')->name('DeleteDenied');
+Route::post('MCTstore','MCTController@StoreMCT')->name('Storing.MCT');
+Route::get('MCTpreview','MCTController@previewMCT')->name('previewMCT');
+Route::get('mct-download','PDFController@mctpdf')->name('print-mct');
