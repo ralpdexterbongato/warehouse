@@ -39,7 +39,7 @@ class ItemsController extends Controller
      */
     public function store(Request $request)
     {
-      $date=Carbon::today();
+    //  $date=Carbon::today();
       $month=Carbon::today()->format('M');
       $this->NewItemValidation($request);
       $amount = $request->UnitCost * $request->Quantity;
@@ -55,7 +55,7 @@ class ItemsController extends Controller
       $itemHistory->CurrentCost=  $request->UnitCost;
       $itemHistory->CurrentQuantity = $request->Quantity;
       $itemHistory->CurrentAmount = $amount;
-      $itemHistory->created_at = $date;
+    //  $itemHistory->created_at = $date;
       $itemHistory->save();
 
       $itemMaster=new MasterItem;
@@ -129,7 +129,7 @@ class ItemsController extends Controller
 
     public function searchByItemCode(Request $request)
     {
-      $historiesfound= MaterialsTicketDetail::where('ItemCode',$request->ItemCode)->orderBy('id','DESC')->get();
+      $historiesfound= MaterialsTicketDetail::where('ItemCode',$request->ItemCode)->orderBy('created_at','DESC')->get();
       $masterfound= MasterItem::where('ItemCode',$request->ItemCode)->get();
       return view('welcome',compact('historiesfound','masterfound'));
 

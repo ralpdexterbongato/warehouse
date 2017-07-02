@@ -26,7 +26,7 @@ class CreateTableMaterialsTicketDetailsTbl extends Migration
           $table->decimal('CurrentCost',18,2)->nullable();
           $table->decimal('CurrentQuantity',18,0)->nullable();
           $table->decimal('CurrentAmount',18,2)->nullable();
-          $table->date('created_at');
+          $table->dateTime('created_at');
         });
     }
 
