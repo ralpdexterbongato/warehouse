@@ -33,7 +33,7 @@ warehouse | BOHECO 1
       </div>
     </div>
     <div class="data-results-container">
-    @if(isset($historiesfound[0]))
+    @if(!empty($historiesfound[0]))
       <div class="small-choices">
         <div class="small-choices-btns">
           <a href="#"><button type="button">RR</button></a>
@@ -66,7 +66,7 @@ warehouse | BOHECO 1
               <td>{{$historiesfound[0]->MTNo}}</td>
               <td>{{$historiesfound[0]->AccountCode}}</td>
               <td>{{$historiesfound[0]->ItemCode}}</td>
-              <td>{{$masterfound[0]->Description}}</td>
+              <td>{{$historiesfound[0]->MasterItems->Description}}</td>
               <td>{{number_format($historiesfound[0]->UnitCost,'2','.',',')}}</td>
               <td>{{$historiesfound[0]->Quantity}}</td>
               <td>{{$historiesfound[0]->Unit}}</td>
@@ -103,7 +103,7 @@ warehouse | BOHECO 1
               <td>{{$history->MTNo}}</td>
               <td>{{$history->AccountCode}}</td>
               <td>{{$history->ItemCode}}</td>
-              <td>{{$masterfound[0]->Description}}</td>
+              <td>{{$history->MasterItems->Description}}</td>
               <td>{{number_format($history->UnitCost,'2','.',',')}}</td>
               <td>{{$history->Quantity}}</td>
               <td>{{$history->Unit}}</td>
@@ -116,7 +116,6 @@ warehouse | BOHECO 1
             @endforeach
           @else
             <div class="background-pic animated slideInRight">
-
             </div>
           @endif
         </table>

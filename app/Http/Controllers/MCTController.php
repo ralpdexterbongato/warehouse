@@ -43,7 +43,7 @@ class MCTController extends Controller
     $MIRSDetails= MIRSDetail::where('MIRSNo',$request->MIRSNo)->get(['ItemCode','Quantity']);
     foreach ($MIRSDetails as $detail)
     {
-      $latestdetail=MaterialsTicketDetail::where('ItemCode',$detail->ItemCode)->orderBy('id','DESC')->take(1)->get();
+      $latestdetail=MaterialsTicketDetail::where('ItemCode',$detail->ItemCode)->orderBy('created_at','DESC')->take(1)->get();
 
       $minusAmount= $detail->Quantity * $latestdetail[0]->CurrentCost;
       $newQTY= $latestdetail[0]->CurrentQuantity - $detail->Quantity;
@@ -68,14 +68,17 @@ class MCTController extends Controller
 
   public function previewMCT(Request $request)
   {
+
     $MCTMast=MCTMaster::where('MIRSNo',$request->MIRSNo)->get();
     $MTDetails=MaterialsTicketDetail::where('MTType', 'MCT')->where('MTNo', $MCTMast[0]->MCTNo)->get();
+
     $AccountCodeGroup = DB::table("MaterialsTicketDetails")
 	    ->select(DB::raw("SUM(Amount) as totals"),DB::raw("AccountCode as AccountCode"))
       ->where('MTType', 'MCT')->where('MTNo', $MCTMast[0]->MCTNo)
       ->orderBy("AccountCode")
 	    ->groupBy(DB::raw("AccountCode"))
 	    ->get();
+
       $totalsum=0;
       foreach ($AccountCodeGroup as $codegrouped)
       {

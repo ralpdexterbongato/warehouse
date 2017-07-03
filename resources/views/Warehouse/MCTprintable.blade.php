@@ -248,15 +248,15 @@
         <div class="mctmaster-top">
           <div class="mctmaster-left">
             <ul>
-              <li><label>Particulars:</label><h3>For NIHE Operation</h3></li>
-              <li><label>Address:</label><h3>Sub-Office Area</h3></li>
+              <li><label>Particulars:</label><h3>{{$MCTMast[0]->Particulars}}</h3></li>
+              <li><label>Address:</label><h3>{{$MCTMast[0]->AddressTo}}</h3></li>
             </ul>
           </div>
           <div class="mctmaster-right">
             <ul>
-              <li><label>MIRS No.:</label><h3>17-0439</h3></li>
-              <li><label>Date:</label><h3>3/31/2017</h3></li>
-              <li><label>MCT No.</label><h3>17-0378</h3></li>
+              <li><label>MIRS No.:</label><h3>{{$MCTMast[0]->MIRSNo}}</h3></li>
+              <li><label>Date:</label><h3>{{$MCTMast[0]->MIRSDate}}</h3></li>
+              <li><label>MCT No.</label><h3>{{$MCTMast[0]->MCTNo}}</h3></li>
             </ul>
           </div>
         </div>
@@ -273,23 +273,26 @@
                <th>Unit</th>
                <th>Quantity</th>
              </tr>
+             @foreach ($MTDetails as $MTDetail)
              <tr>
-               <td>150-154-10</td>
-               <td>L-044</td>
-               <td class="align-left">CONNECTOR COMPRESSION YHO-2(BIG)</td>
-               <td>30.29</td>
-               <td>757.25</td>
-               <td>PC</td>
-               <td>25</td>
+               <td>{{$MTDetail->AccountCode}}</td>
+               <td>{{$MTDetail->ItemCode}}</td>
+               <td class="align-left">{{$MTDetail->MasterItems->Description}}</td>
+               <td>{{number_format($MTDetail->UnitCost,'2','.',',')}}</td>
+               <td>{{number_format($MTDetail->Amount,'2','.',',')}}</td>
+               <td>{{$MTDetail->Unit}}</td>
+               <td>{{$MTDetail->Quantity}}</td>
              </tr>
-
+             @endforeach
            </table>
         </div>
       </div>
       <div class="acc-code-container">
         <div class="account-codes-present">
           <ul>
-            <li><label>150-154-20</label><h5>2,457.25</h5></li>
+            @foreach ($AccountCodeGroup as $Account)
+            <li><label>{{$Account->AccountCode}}</label><h5>{{number_format($totalsum,'2','.',',')}}</h5></li>
+            @endforeach
           </ul>
         </div>
       </div>
@@ -303,7 +306,7 @@
               <div class="signature-issued">
                 <img src="c:/xampp/htdocs/warehouse/public/DesignIMG/signature1.png" alt="signature">
               </div>
-              FELICISIMO M. CANONES
+              {{$MCTMast[0]->Issuedby}}
               <p>HEAD-Warehouse Section</p>
             </div>
           </div>
@@ -311,7 +314,7 @@
             <div class="recieve-label">
               <div class="total-amt">
                 <h3>TOTAL</h3>
-                <h4>2,457.25</h4>
+                <h4>{{number_format($totalsum,'2','.',',')}}</h4>
               </div>
               Recieved by:
             </div>
@@ -319,7 +322,7 @@
               <div class="signature-reciever">
                 <img src="c:/xampp/htdocs/warehouse/public/DesignIMG/signature5.png" alt="signature">
               </div>
-                SAMUEL MAYUMAN
+                {{$MCTMast[0]->Recievedby}}
                 <p>Leadman</p>
             </div>
           </div>

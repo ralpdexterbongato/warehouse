@@ -7,6 +7,7 @@ use \App\MasterItem;
 use App\MaterialsTicketDetail;
 use Carbon\Carbon;
 use DB;
+use Illuminate\Pagination\Paginator;
 class ItemsController extends Controller
 {
     /**
@@ -39,15 +40,14 @@ class ItemsController extends Controller
      */
     public function store(Request $request)
     {
-    //  $date=Carbon::today();
       $month=Carbon::today()->format('M');
       $this->NewItemValidation($request);
       $amount = $request->UnitCost * $request->Quantity;
       $itemHistory=new MaterialsTicketDetail;
+      $itemHistory->ItemCode = $request->ItemCode;
       $itemHistory->MTType = 'NEW';
       $itemHistory->MTNo = 'NEW';
       $itemHistory->AccountCode = $request->AccountCode;
-      $itemHistory->ItemCode = $request->ItemCode;
       $itemHistory->UnitCost = $request->UnitCost;
       $itemHistory->Quantity = $request->Quantity;
       $itemHistory->Amount = $amount;
@@ -55,25 +55,24 @@ class ItemsController extends Controller
       $itemHistory->CurrentCost=  $request->UnitCost;
       $itemHistory->CurrentQuantity = $request->Quantity;
       $itemHistory->CurrentAmount = $amount;
-    //  $itemHistory->created_at = $date;
       $itemHistory->save();
 
       $itemMaster=new MasterItem;
       $itemMaster->AccountCode = $request->AccountCode;
-      $itemMaster->ItemCode = $request->ItemCode;
       $itemMaster->Description = $request->Description;
       $itemMaster->Unit = $request->Unit;
       $itemMaster->UnitCost = $request->UnitCost;
       $itemMaster->Quantity = $request->Quantity;
       $itemMaster->Month = $month;
+      $itemMaster->ItemCode_id=$request->ItemCode;
       $itemMaster->save();
 
-      return redirect()->back();
+      return redirect()->back()->with('message', 'Successfully Maked');
     }
     public function NewItemValidation($request)
     {
       return $this->validate($request,[
-      'ItemCode'=>'required|unique:MasterItems',
+      'ItemCode'=>'required|unique:MaterialsTicketDetails',
       'AccountCode'=>'required',
       'Description'=>'required|max:50',
       'Unit'=>'required',
@@ -130,15 +129,13 @@ class ItemsController extends Controller
     public function searchByItemCode(Request $request)
     {
       $historiesfound= MaterialsTicketDetail::where('ItemCode',$request->ItemCode)->orderBy('created_at','DESC')->get();
-      $masterfound= MasterItem::where('ItemCode',$request->ItemCode)->get();
-      return view('welcome',compact('historiesfound','masterfound'));
-
+      return view('welcome',compact('historiesfound'));
     }
 
     public function searchItemMaster(Request $request)
     {
-      $itemMasters=MasterItem::where('ItemCode',$request->ItemCode)->get();
-      $currentQTY=MaterialsTicketDetail::where('ItemCode',$request->ItemCode)->orderBy('id','DESC')->take(1)->value('CurrentQuantity');
+      $itemMasters=MasterItem::where('ItemCode_id',$request->ItemCode)->get();
+      $currentQTY=MaterialsTicketDetail::where('ItemCode',$request->ItemCode)->orderBy('created_at','DESC')->take(1)->value('CurrentQuantity');
       return view('Warehouse.MIRSviews',compact('itemMasters','currentQTY'));
     }
 

@@ -37,6 +37,11 @@
               <button type="submit"><i class="fa fa-eye"></i> VIEW MCT</button>
             </form>
           </div>
+          <div class="Create-MRT-btn">
+            <form action="index.html" method="post">
+              <button type="button" name="button"><i class="fa fa-plus"></i> Make MRT</button>
+            </form>
+          </div>
         @endif
       @endif
         <form class="searchMIRSNo" action="{{route('search-mirs')}}" method="post">

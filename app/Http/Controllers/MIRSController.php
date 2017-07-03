@@ -19,7 +19,7 @@ class MIRSController extends Controller
   {
     $this->SessionValidator($request);
     $itemselected =[
-    'ItemCode' => $request->ItemCode,'Particulars' => $request->Particulars,'Unit' => $request->Unit,'Remarks'=>$request->Remarks,'Quantity' => $request->Quantity,
+    'ItemCode_id' => $request->ItemCode_id,'Particulars' => $request->Particulars,'Unit' => $request->Unit,'Remarks'=>$request->Remarks,'Quantity' => $request->Quantity,
     ];
 
 
@@ -27,7 +27,7 @@ class MIRSController extends Controller
     {
       foreach (Session::get('ItemSelected') as $selected)
       {
-        if ($selected->ItemCode == $request->ItemCode) {
+        if ($selected->ItemCode_id == $request->ItemCode) {
           return redirect('/MIRS-add')->with('message', 'This Item has been added already');
         }
       }
@@ -49,7 +49,7 @@ class MIRSController extends Controller
       $items=(array)Session::get('ItemSelected');
       foreach ($items as $key=>$item)
       {
-        if ($item->ItemCode == $id)
+        if ($item->ItemCode_id == $id)
         {
           unset($items[$key]);
         }
@@ -96,7 +96,7 @@ class MIRSController extends Controller
       {
         $details=new MIRSDetail;
         $details->MIRSNo = $incremented;
-        $details->ItemCode= $items->ItemCode;
+        $details->ItemCode= $items->ItemCode_id;
         $details->Particulars = $items->Particulars;
         $details->Unit= $items->Unit;
         $details->Remarks=$items->Remarks;

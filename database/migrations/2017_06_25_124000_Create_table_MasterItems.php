@@ -14,14 +14,15 @@ class CreateTableMasterItems extends Migration
     public function up()
     {
         Schema::create('MasterItems', function (Blueprint $table) {
-            $table->increments('id');
-            $table->string('ItemCode',20);
-            $table->string('AccountCode',20);
-            $table->string('Description',100)->nullable();
-            $table->string('Unit')->nullable();
-            $table->decimal('UnitCost',18,2)->nullable();
-            $table->decimal('Quantity',18,0)->nullable();
-            $table->string('Month',50)->nullable();
+          //$table->engine = 'InnoDB';
+          $table->increments('id');
+          $table->string('AccountCode',20);
+          $table->string('Description',100)->nullable();
+          $table->string('Unit')->nullable();
+          $table->decimal('UnitCost',18,2)->nullable();
+          $table->decimal('Quantity',18,0)->nullable();
+          $table->string('Month',50)->nullable();
+          $table->string('ItemCode_id',20);
         });
     }
 

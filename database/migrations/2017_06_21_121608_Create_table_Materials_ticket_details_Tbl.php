@@ -14,11 +14,10 @@ class CreateTableMaterialsTicketDetailsTbl extends Migration
     public function up()
     {
         Schema::create('MaterialsTicketDetails', function (Blueprint $table) {
-          $table->increments('id');
-          $table->string('ItemCode');
+          $table->string('ItemCode',20)->index();
           $table->string('MTType');
           $table->string('MTNo');
-          $table->string('AccountCode')->nullable();
+          $table->string('AccountCode',20)->nullable();
           $table->decimal('UnitCost',18,2)->nullable();
           $table->decimal('Quantity',18,0)->nullable();
           $table->string('Unit')->nullable();

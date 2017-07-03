@@ -23,13 +23,13 @@
               @if(!empty(Session::get('ItemSelected')))
               @foreach (Session::get('ItemSelected') as $selected)
                 <tr>
-                  <td>{{$selected->ItemCode}}</td>
+                  <td>{{$selected->ItemCode_id}}</td>
                   <td>{{$selected->Particulars}}</td>
                   <td>{{$selected->Quantity}}</td>
                   <td>{{$selected->Unit}}</td>
                   <td>{{$selected->Remarks}}</td>
-                  <td class="delete-trash"><i class="fa fa-trash" onclick="$('.delete-submit{{$selected->ItemCode}}').submit()"></i></td>
-                  <form class="delete-submit{{$selected->ItemCode}}"  action="{{route('delete.session',[$selected->ItemCode])}}" method="post" style="display:none">
+                  <td class="delete-trash"><i class="fa fa-trash" onclick="$('.delete-submit{{$selected->ItemCode_id}}').submit()"></i></td>
+                  <form class="delete-submit{{$selected->ItemCode_id}}"  action="{{route('delete.session',[$selected->ItemCode_id])}}" method="post" style="display:none">
                     {{method_field('DELETE')}}
                     {{csrf_field()}}
                   </form>
@@ -83,15 +83,15 @@
               <th>Remarks</th>
               <th>Action</th>
             </tr>
-            @if(isset($itemMasters[0]->ItemCode))
+            @if(isset($itemMasters[0]->ItemCode_id))
             @foreach ($itemMasters as $itemMaster)
               <form action="{{route('selecting.item')}}" method="post">
                 {{ csrf_field() }}
                 <tr>
-                  <td>{{$itemMaster->ItemCode}}</td>
+                  <td>{{$itemMaster->ItemCode_id}}</td>
                   <td>{{$itemMaster->Description}}</td>
                   <input type="text" name="id" value="{{$itemMaster->id}}" style="display:none">
-                  <input type="text" name="ItemCode" value="{{$itemMaster->ItemCode}}" style="display:none">
+                  <input type="text" name="ItemCode_id" value="{{$itemMaster->ItemCode_id}}" style="display:none">
                   <input type="text" name="Particulars" value="{{$itemMaster->Description}}" style="display:none">
                   <input type="text" name="Unit" value="{{$itemMaster->Unit}}" style="display:none">
                   <td><input type="number" name="Quantity" min="1" max="{{$currentQTY}}" required></td>

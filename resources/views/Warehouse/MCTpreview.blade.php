@@ -6,7 +6,11 @@
   <div class="Preview-MCT-container">
       <div class="print-MCT-wrap">
         <div class="MCT-title">
-          <a href="{{route('print-mct')}}"><button type="button" name="button"><i class="fa fa-file-pdf-o"></i>.pdf</button></a>
+          <form action="{{route('print-mct')}}" method="post">
+            {{ csrf_field() }}
+            <input type="text" name="MIRSNo" value="{{$MCTMast[0]->MIRSNo}}" style="display:none">
+            <button type="submit" name="button"><i class="fa fa-file-pdf-o"></i>.pdf</button>
+          </form>
           <h1>MCT Print Preview</h1>
         </div>
       <div class="bondpaper-preview">
@@ -46,7 +50,7 @@
             <tr>
               <td>{{$MTDetail->AccountCode}}</td>
               <td>{{$MTDetail->ItemCode}}</td>
-              <td class="align-left">FIX ME</td>
+              <td class="align-left">{{$MTDetail->MasterItems->Description}}</td>
               <td>{{number_format($MTDetail->UnitCost,'2','.',',')}}</td>
               <td>{{number_format($MTDetail->Amount,'2','.',',')}}</td>
               <td>{{$MTDetail->Unit}}</td>
@@ -74,7 +78,7 @@
               <div class="signature-issued">
                 <img src="/DesignIMG/signature1.png" alt="signature">
               </div>
-              <h1>FELICISIMO M. CANONES</h1>
+              <h1>{{$MCTMast[0]->Issuedby}}</h1>
               <h5>HEAD-Warehouse Section</h5>
             </div>
           </div>
@@ -86,7 +90,7 @@
               <div class="signature-recieved">
                 <img src="/DesignIMG/signature5.png" alt="signature">
               </div>
-              <h1>SAMUEL MAYUMAN</h1>
+              <h1>{{$MCTMast[0]->Recievedby}}</h1>
               <h5>Leadman</h5>
             </div>
           </div>

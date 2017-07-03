@@ -24,4 +24,4 @@ Route::post('search-mirs','MIRSController@searchMIRSNo')->name('search-mirs');
 Route::post('denied','MIRSController@DeleteDenied')->name('DeleteDenied');
 Route::post('MCTstore','MCTController@StoreMCT')->name('Storing.MCT');
 Route::get('MCTpreview','MCTController@previewMCT')->name('previewMCT');
-Route::get('mct-download','PDFController@mctpdf')->name('print-mct');
+Route::post('mct-download','PDFController@mctpdf')->name('print-mct');
