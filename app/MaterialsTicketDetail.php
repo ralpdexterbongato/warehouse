@@ -22,8 +22,4 @@ class MaterialsTicketDetail extends Model
     {
       return $this->belongsTo('App\MasterItem','ItemCode','ItemCode_id');
     }
-    public function MRTMaster()
-    {
-      return $this->belongsTo('App\MRTMaster','ItemCode','ItemCode_id');
-    }
 }

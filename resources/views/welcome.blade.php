@@ -23,7 +23,7 @@ warehouse | BOHECO 1
         <form action="{{route('search.code')}}" method="get">
           {{ csrf_field() }}
           <input id="search-code-input" type="text" name="ItemCode" placeholder="Item code here..." required>
-          <button id="search-go" type="submit" name="button"><i class="fa fa-search"></i></button>
+          <button id="search-go" type="submit"><i class="fa fa-search"></i></button>
         </form>
       </div>
       <div class="new-item">
@@ -119,6 +119,9 @@ warehouse | BOHECO 1
             </div>
           @endif
         </table>
+        @if (!empty($historiesfound[0]))
+          {{$historiesfound->links()}}
+        @endif
       </div>
     </div>
   </div>

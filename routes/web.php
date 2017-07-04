@@ -25,3 +25,7 @@ Route::post('denied','MIRSController@DeleteDenied')->name('DeleteDenied');
 Route::post('MCTstore','MCTController@StoreMCT')->name('Storing.MCT');
 Route::get('MCTpreview','MCTController@previewMCT')->name('previewMCT');
 Route::post('mct-download','PDFController@mctpdf')->name('print-mct');
+Route::get('MRT-create','MRTController@CreateMRT')->name('create.mrt');
+Route::post('MRT-store','MRTController@StoreMRT')->name('storing.mrt');
+Route::post('MRT-session','MRTController@addToSession')->name('Session.addings');
+Route::delete('MRT-delete/{id}','MRTController@deletePartSession')->name('mrtSession.deleting');

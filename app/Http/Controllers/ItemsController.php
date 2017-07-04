@@ -128,7 +128,8 @@ class ItemsController extends Controller
 
     public function searchByItemCode(Request $request)
     {
-      $historiesfound= MaterialsTicketDetail::where('ItemCode',$request->ItemCode)->orderBy('created_at','DESC')->get();
+      $historiesfound= MaterialsTicketDetail::where('ItemCode',$request->ItemCode)->orderBy('created_at','DESC')->paginate(10);
+      $historiesfound->withPath('http://localhost:8000/SearchByItemCode?_token=HqnLPVtyAoKBH4OD1wFgcuf4CvMiVrreO9mHP48t&ItemCode=L-001');
       return view('welcome',compact('historiesfound'));
     }
 

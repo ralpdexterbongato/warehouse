@@ -23,7 +23,6 @@ class CreateMRTTBLE extends Migration
             $table->string('Returnedby',50)->nullable();
             $table->string('Receivedby',50)->nullable();
             $table->string('Remarks',50)->nullable();
-            $table->string('ItemCode_id',20)->unsigned();
         });
     }
 

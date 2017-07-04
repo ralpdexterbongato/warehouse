@@ -27,7 +27,7 @@ class MIRSController extends Controller
     {
       foreach (Session::get('ItemSelected') as $selected)
       {
-        if ($selected->ItemCode_id == $request->ItemCode) {
+        if ($selected->ItemCode_id == $request->ItemCode_id) {
           return redirect('/MIRS-add')->with('message', 'This Item has been added already');
         }
       }
