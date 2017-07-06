@@ -12,8 +12,6 @@
           <input type="text" name="MIRSNo" value="{{$MIRSMaster[0]->MIRSNo}}" style="display:none">
           <button type="submit">PDF <i class="fa fa-file-pdf-o"></i></button>
         </form>
-      @elseif(Session::has('LastMIRSid'))
-        <h1>Latest MIRS created # :{{Session::get('LastMIRSid')}}</h1>
       @else
         <h1>NO CURRENT MIRS RESULT</h1>
       @endif
@@ -39,11 +37,6 @@
           </div>
         @endif
       @endif
-        <form class="searchMIRSNo" action="{{route('search-mirs')}}" method="post">
-          {{ csrf_field() }}
-          <input type="text" name="MIRSNo" placeholder="Search MIRS number">
-          <button type="submit"> <i class="fa fa-search"></i></button>
-        </form>
       </div>
       <div class="bondpaper-size">
         @if (isset($MIRSMaster[0]->MIRSNo) && isset($MIRSDetail[0]->MIRSNo))

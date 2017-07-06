@@ -2,7 +2,6 @@
 @section('title')
 warehouse | BOHECO 1
 @endsection
-
 @section('body')
   <div class="body-container">
     <div class="new-search-container">
@@ -13,7 +12,14 @@ warehouse | BOHECO 1
               <h1>MIRS <i class="fa fa-angle-down"></i></h1>
               <ul class="dropping">
                 <a href="{{route('mirs.add')}}"><li><i class="fa fa-print"></i> Create MIRS</li></a>
-                <a href="{{route('PreviewMIRS')}}"><li><i class="fa fa-search"></i> Search MIRS</li></a>
+                <a href="{{route('MIRSgridview')}}"><li><i class="fa fa-search"></i> Search MIRS</li></a>
+              </ul>
+            </li>
+            <li class="dropping-summary">
+              <h1>SUMMARY <i class="fa fa-angle-down"></i></h1>
+              <ul>
+                <a href="{{route('summary.mrt')}}"><li><i class="fa fa-list-alt"></i> MRT(summary)</li></a>
+                <a href="#"><li><i class="fa fa-list-alt"></i> MCT(summary)</li></a>
               </ul>
             </li>
           </ul>
@@ -21,7 +27,6 @@ warehouse | BOHECO 1
       </div>
       <div class="search-box">
         <form action="{{route('search.code')}}" method="get">
-          {{ csrf_field() }}
           <input id="search-code-input" type="text" name="ItemCode" placeholder="Item code here..." required>
           <button id="search-go" type="submit"><i class="fa fa-search"></i></button>
         </form>
@@ -62,19 +67,19 @@ warehouse | BOHECO 1
             <th>Date</th>
           </tr>
             <tr>
-              <td>{{$historiesfound[0]->MTType}}</td>
-              <td>{{$historiesfound[0]->MTNo}}</td>
-              <td>{{$historiesfound[0]->AccountCode}}</td>
-              <td>{{$historiesfound[0]->ItemCode}}</td>
-              <td>{{$historiesfound[0]->MasterItems->Description}}</td>
-              <td>{{number_format($historiesfound[0]->UnitCost,'2','.',',')}}</td>
-              <td>{{$historiesfound[0]->Quantity}}</td>
-              <td>{{$historiesfound[0]->Unit}}</td>
-              <td>{{number_format($historiesfound[0]->Amount,'2','.',',')}}</td>
-              <td>{{number_format($historiesfound[0]->CurrentCost,'2','.',',')}}</td>
-              <td>{{$historiesfound[0]->CurrentQuantity}}</td>
-              <td>{{number_format($historiesfound[0]->CurrentAmount,'2','.',',')}}</td>
-              <td>{{$historiesfound[0]->created_at->format('M')}}</td>
+              <td>{{$latestFound[0]->MTType}}</td>
+              <td>{{$latestFound[0]->MTNo}}</td>
+              <td>{{$latestFound[0]->AccountCode}}</td>
+              <td>{{$latestFound[0]->ItemCode}}</td>
+              <td>{{$latestFound[0]->MasterItems->Description}}</td>
+              <td>{{number_format($latestFound[0]->UnitCost,'2','.',',')}}</td>
+              <td>{{$latestFound[0]->Quantity}}</td>
+              <td>{{$latestFound[0]->Unit}}</td>
+              <td>{{number_format($latestFound[0]->Amount,'2','.',',')}}</td>
+              <td>{{number_format($latestFound[0]->CurrentCost,'2','.',',')}}</td>
+              <td>{{$latestFound[0]->CurrentQuantity}}</td>
+              <td>{{number_format($latestFound[0]->CurrentAmount,'2','.',',')}}</td>
+              <td>{{$latestFound[0]->created_at->format('M')}}</td>
             </tr>
         </table>
 

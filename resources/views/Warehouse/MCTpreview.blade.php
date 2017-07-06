@@ -11,12 +11,21 @@
             <input type="text" name="MIRSNo" value="{{$MCTMast[0]->MIRSNo}}" style="display:none">
             <button type="submit" name="button"><i class="fa fa-file-pdf-o"></i>.pdf</button>
           </form>
+          @if (empty($MRTcheck[0]))
           <div class="Create-MRT-btn">
             <form action="{{route('create.mrt')}}" method="get">
               <input type="text" name="MCTNo" value="{{$MCTMast[0]->MCTNo}}" style="display:none">
               <button type="submit"><i class="fa fa-plus"></i> Make MRT</button>
             </form>
           </div>
+          @else
+            <div class="View-MRT-btn">
+              <div class="mrt-done">
+                <h1>MRT</h1>
+                <i class="fa fa-check"></i>
+              </div>
+            </div>
+          @endif
           <h1>MCT Print Preview</h1>
         </div>
       <div class="bondpaper-preview">

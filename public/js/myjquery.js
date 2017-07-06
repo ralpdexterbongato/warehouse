@@ -32,13 +32,5 @@
         $('.mrt-items-modal').removeClass('active');
     });
 
-    $(document).bind("contextmenu",function(e)
-    {                             //disabled rightclick so user cannot edit the inspect element
-      e.preventDefault();
-    });
-    $(document).keydown(function(e){  //disabled f12 which is a shortcut openning inspect element
-    if(e.which === 123){
-       return false;
-    }
-});
+    
   });

@@ -8,7 +8,9 @@ use App\MIRSMaster;
 use App\MIRSDetail;
 use App\MaterialsTicketDetail;
 use Carbon\Carbon;
+use App\MRTMaster;
 use DB;
+use Session;
 class MCTController extends Controller
 {
   public function StoreMCT(Request $request)
@@ -39,7 +41,6 @@ class MCTController extends Controller
     $MCTMasterDB->Recievedby= $request->Recievedby;
     $MCTMasterDB->save();
     $MIRSupdate = MIRSMaster::where('MIRSNo',$request->MIRSNo)->update(['Status'=>1]);
-
     $MIRSDetails= MIRSDetail::where('MIRSNo',$request->MIRSNo)->get(['ItemCode','Quantity']);
     foreach ($MIRSDetails as $detail)
     {
@@ -63,15 +64,15 @@ class MCTController extends Controller
       $ticketDetailDB->created_at=$date;
       $ticketDetailDB->save();
     }
-    return redirect()->route('PreviewMIRS');
+    return redirect()->back();
   }
 
   public function previewMCT(Request $request)
   {
-
+    Session::forget('MCTSelected');//to refresh the session that is not submited
     $MCTMast=MCTMaster::where('MIRSNo',$request->MIRSNo)->get();
     $MTDetails=MaterialsTicketDetail::where('MTType', 'MCT')->where('MTNo', $MCTMast[0]->MCTNo)->get();
-
+    $MRTcheck=MRTMaster::where('MCTNo',$MCTMast[0]->MCTNo)->value('MRTNo');
     $AccountCodeGroup = DB::table("MaterialsTicketDetails")
 	    ->select(DB::raw("SUM(Amount) as totals"),DB::raw("AccountCode as AccountCode"))
       ->where('MTType', 'MCT')->where('MTNo', $MCTMast[0]->MCTNo)
@@ -84,6 +85,6 @@ class MCTController extends Controller
       {
         $totalsum= $totalsum +$codegrouped->totals;
       }
-      return view('Warehouse.MCTpreview',compact('MCTMast','MTDetails','AccountCodeGroup','totalsum'));
+      return view('Warehouse.MCTpreview',compact('MCTMast','MTDetails','AccountCodeGroup','totalsum','MRTcheck'));
   }
 }

@@ -104,23 +104,26 @@ class MIRSController extends Controller
         $details->save();
       }
         Session::flush();
-        Session::put('LastMIRSid',$master->MIRSNo);
-        return redirect()->route('PreviewMIRS');
+        return redirect()->route('MIRSgridview');
     }else
     {
       return redirect()->back()->with('message', 'Items cannot be empty');
     }
   }
-  public function MIRSpreview()
-  {
-    return view('Warehouse.MIRSpreview');
-  }
-  public function searchMIRSNo(Request $request)
+  public function fullMIRSNo(Request $request)
   {
     $MIRSDetail=MIRSDetail::where('MIRSNo', $request->MIRSNo)->get();
     $MIRSMaster=MIRSMaster::where('MIRSNo', $request->MIRSNo)->get();
     return view('Warehouse.MIRSpreview',compact('MIRSDetail','MIRSMaster'));
-
+  }
+  public function searchMIRSNo(Request $request)
+  {
+    $mirsResult=MIRSMaster::where('MIRSNo', $request->MIRSNo)->get();
+    if (empty($mirsResult[0]->MIRSNo))
+    {
+      return redirect()->route('MIRSgridview');
+    }
+    return view('Warehouse.MIRS-index',compact('mirsResult'));
   }
   public function DeleteDenied(Request $request)
   {
@@ -131,6 +134,12 @@ class MIRSController extends Controller
       Session::forget('LastMIRSid');
     }
     return redirect()->route('PreviewMIRS');
+  }
+
+  public function Indexgrid()
+  {
+    $AllmasterMIRS=MIRSMaster::orderBy('id','DESC')->paginate(10);
+    return view('Warehouse.MIRS-index',compact('AllmasterMIRS'));
   }
 
 }
