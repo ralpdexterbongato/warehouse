@@ -131,7 +131,7 @@
         @if ((count($errors)>0)||(Session::has('message')))
           $('.modal-for-all-notice').addClass('active');
         @endif
-        @if (isset($itemMasters))
+        @if (Session::has('itemMasters'))
           $('.modal-search-item').addClass('active');
         @endif
 

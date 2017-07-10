@@ -9,12 +9,16 @@ use App\MIRSDetail;
 use App\MIRSMaster;
 use App\MaterialsTicketDetail;
 use DB;
+use App\User;
+use App\MCTMaster;
 use Auth;
 class MIRSController extends Controller
 {
   public function MIRScreate()
   {
-    return view('Warehouse.MIRSviews');
+    $GM=User::orderBy('id','DESC')->where('Role','2')->take(1)->get(['Fname','Lname','id']);
+    $allManager=User::where('Role', '0')->get(['id','Fname','Lname','Position']);
+    return view('Warehouse.MIRSviews',compact('allManager','GM'));
   }
   public function addingSessionItem(Request $request)
   {
@@ -35,6 +39,8 @@ class MIRSController extends Controller
     }
       $itemselected = (object)$itemselected;
       Session::push('ItemSelected',$itemselected);
+      Session::forget('itemMasters');
+      Session::forget('currentQTY');
       return redirect('/MIRS-add');
   }
   public function deletePartSession($id)
@@ -79,12 +85,18 @@ class MIRSController extends Controller
         }
       $selectedITEMS=Session::get('ItemSelected');
       $selectedITEMS = (array)$selectedITEMS;
+
+      $recommend=User::where('id',$request->Recommendedby)->get(['Position','Fname','Lname']);
+      $approve=User::where('id',$request->Approvedby)->get(['Position','Fname','Lname']);
       $master=new MIRSMaster;
       $master->MIRSNo = $incremented;
       $master->Purpose =$request->Purpose;
       $master->Preparedby =Auth::user()->Fname . ' ' .Auth::user()->Lname;
-      $master->Recommendedby =$request->Recommendedby;
-      $master->Approvedby = $request->Approvedby;
+      $master->PreparedPosition=Auth::user()->Position;
+      $master->Recommendedby =$recommend[0]->Fname .' '. $recommend[0]->Lname;
+      $master->RecommendPosition=$recommend[0]->Position;
+      $master->Approvedby = $approve[0]->Fname .' '. $approve[0]->Lname;
+      $master->ApprovePosition=$approve[0]->Position;
       $master->MIRSDate = $date;
       $master->save();
       foreach ($selectedITEMS as $items)
@@ -109,7 +121,8 @@ class MIRSController extends Controller
   {
     $MIRSDetail=MIRSDetail::where('MIRSNo', $request->MIRSNo)->get();
     $MIRSMaster=MIRSMaster::where('MIRSNo', $request->MIRSNo)->get();
-    return view('Warehouse.MIRSpreview',compact('MIRSDetail','MIRSMaster'));
+    $MCTNumber=MCTMaster::where('MIRSNo', $request->MIRSNo)->value('MCTNo');
+    return view('Warehouse.MIRSpreview',compact('MIRSDetail','MIRSMaster','MCTNumber'));
   }
   public function searchMIRSNo(Request $request)
   {
@@ -137,4 +150,22 @@ class MIRSController extends Controller
     return view('Warehouse.MIRS-index',compact('AllmasterMIRS'));
   }
 
+  public function MIRSSignature(Request $request)
+  {
+    $signableNames=MIRSMaster::where('MIRSNo',$request->MIRSNo)->get(['Preparedby','Recommendedby','Approvedby']);
+    if ($signableNames[0]->Preparedby==Auth::user()->Fname .' '.Auth::user()->Lname )
+    {
+      MIRSMaster::where('MIRSNo',$request->MIRSNo)->update(['PreparedSignature'=>Auth::user()->Signature]);
+    }
+    if($signableNames[0]->Recommendedby==Auth::user()->Fname .' '.Auth::user()->Lname)
+    {
+      MIRSMaster::where('MIRSNo',$request->MIRSNo)->update(['RecommendSignature'=>Auth::user()->Signature]);
+    }
+    if ($signableNames[0]->Approvedby==Auth::user()->Fname .' '.Auth::user()->Lname)
+    {
+      MIRSMaster::where('MIRSNo',$request->MIRSNo)->update(['ApproveSignature'=>Auth::user()->Signature]);
+    }
+    return redirect()->back();
+
+  }
 }

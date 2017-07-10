@@ -47,11 +47,8 @@ class LoginController extends Controller
         $userDB->Password=bcrypt($request->Password);
         $userDB->Signature=$picname;
         $userDB->save();
-
-        $credentials = array('Username' =>$request->Username,'password'=>$request->Password);
-        if (Auth::attempt($credentials)) {
           return redirect('/');
-        }
+
       }
 
     }
@@ -64,6 +61,7 @@ class LoginController extends Controller
        'Position'=>'required',
        'Username'=>'required|max:30|unique:users',
        'Password'=>'confirmed',
+       'Signature'=>'required',
      ]);
     }
     public function logoutAccount()

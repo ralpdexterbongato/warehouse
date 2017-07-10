@@ -7,6 +7,7 @@ use \App\MasterItem;
 use App\MaterialsTicketDetail;
 use Carbon\Carbon;
 use DB;
+use Session;
 use Illuminate\Pagination\Paginator;
 class ItemsController extends Controller
 {
@@ -145,7 +146,19 @@ class ItemsController extends Controller
     {
       $itemMasters=MasterItem::where('ItemCode_id',$request->ItemCode)->get();
       $currentQTY=MaterialsTicketDetail::where('ItemCode',$request->ItemCode)->orderBy('created_at','DESC')->take(1)->value('CurrentQuantity');
-      return view('Warehouse.MIRSviews',compact('itemMasters','currentQTY'));
+    //  return view('Warehouse.MIRSviews',compact('itemMasters','currentQTY'));
+      if (!empty($itemMasters[0]))
+      {
+        Session::flash('itemMasters',$itemMasters);
+        Session::flash('currentQTY',$currentQTY);
+      }else {
+        return redirect()->back()->with('message', 'No Results found');
+      }
+      return redirect()->back();
+    }
+    public function ItemMasterbyDescription(Request $request)
+    {
+       $itemMasterByDescription=MasterItem::where('Description',$request->Description)->get();
     }
 
 }

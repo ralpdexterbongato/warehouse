@@ -39,3 +39,4 @@ Route::get('mrt-find-date','MRTController@MRTSearchdate')->name('mrt.summary.fin
 Route::get('mrt-print-summary','PDFController@mrtpdf')->name('mrt-summary-print');
 Route::get('mrt-viewer','MRTController@mrtviewing')->name('mrt-viewer');
 Route::get('mct-summary','MCTController@summaryMCT')->name('mct-summary');
+Route::post('MIRS-Signature','MIRSController@MIRSSignature')->name('MIRSSign');

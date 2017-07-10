@@ -15,28 +15,27 @@
       @else
         <h1>NO CURRENT MIRS RESULT</h1>
       @endif
-      @if (!empty($MIRSMaster[0]))
-        @if (empty($MIRSMaster[0]->Status))
-          <div class="middle-status">
-            <form class="Accept" action="index.html" method="post">
-              {{ csrf_field() }}
-              <button type="button" id="accepted" name="approved-button"><i class="fa fa-thumbs-up"></i>Approve</button>
-            </form>
-            <form class="Deny" action="denied" method="POST">
-              {{ csrf_field() }}
-              <input type="text" name="MIRSNo" value="{{$MIRSMaster[0]->MIRSNo}}" style="display:none">
-              <button type="submit" id="not-accepted"><i class="fa fa-thumbs-down"></i>Disapprove</button>
-            </form>
-          </div>
-        @else
-          <div class="MCT-link-btn">
-            <form action="{{route('previewMCT')}}" method="GET">
-              <input type="text" name="MIRSNo" value="{{$MIRSMaster[0]->MIRSNo}}" style="display:none">
-              <button type="submit"><i class="fa fa-eye"></i> VIEW MCT</button>
-            </form>
-          </div>
-        @endif
+      @if (($MIRSMaster[0]->PreparedSignature==null)||($MIRSMaster[0]->RecommendSignature==null)||($MIRSMaster[0]->ApproveSignature==null))
+        @if (($MIRSMaster[0]!=null)&&($MIRSMaster[0]->ApproveSignature!=Auth::user()->Signature)&&($MIRSMaster[0]->RecommendSignature != Auth::user()->Signature)&&($MIRSMaster[0]->PreparedSignature != Auth::user()->Signature))
+          @if (($MIRSMaster[0]->Preparedby == Auth::user()->Fname . ' '. Auth::user()->Lname)||($MIRSMaster[0]->Approvedby == Auth::user()->Fname . ' '. Auth::user()->Lname)||($MIRSMaster[0]->Recommendedby == Auth::user()->Fname . ' '. Auth::user()->Lname))
+            <div class="middle-status">
+              <form class="Accept" action="{{route('MIRSSign')}}" method="post">
+                {{ csrf_field() }}
+                <button type="submit" id="accepted" name="MIRSNo" value="{{$MIRSMaster[0]->MIRSNo}}"><i class="fa fa-thumbs-up"></i>Approve</button>
+              </form>
+              <form class="Deny" action="denied" method="POST">
+                {{ csrf_field() }}
+                <input type="text" name="MIRSNo" value="{{$MIRSMaster[0]->MIRSNo}}" style="display:none">
+                <button type="submit" id="not-accepted"><i class="fa fa-thumbs-down"></i>Disapprove</button>
+              </form>
+            </div>
+          @endif
       @endif
+    @elseif((Auth::user()->Role==4)&&$MCTNumber[0]==null)
+      <a href="#"><button type="button" name="button"> <i class="fa fa-plus"></i> Make MCT</button></a>
+    @elseif((Auth::user()->Role!=4))
+      <h1>No MCT generated yet</h1>
+    @endif
       </div>
       <div class="bondpaper-size">
         @if (isset($MIRSMaster[0]->MIRSNo) && isset($MIRSDetail[0]->MIRSNo))
@@ -45,7 +44,7 @@
             <h4>Cabulijan, Tubigon, Bohol</h4>
             <h2>MATERIALS ISSUANCE REQUISITION SLIP</h2>
             <div class="status-mirs">
-              @if (empty($MIRSMaster[0]->Status))
+              @if (($MIRSMaster[0]->PreparedSignature==null)||($MIRSMaster[0]->ApproveSignature==null)||($MIRSMaster[0]->RecommendSignature==null))
               <h1><i class="fa fa-clock-o"></i><br>Pending</h1>
               @else
               <h1 class="approved-sign"><i class="fa fa-thumbs-up"></i> <br>Approved</h1>
@@ -101,57 +100,45 @@
             <div class="request-recommend-sig">
               <div class="request-sig">
                 <h4>Prepared by:</h4>
-                <h3><img src="/DesignIMG/signature1.png"></h3>
+                <h3>
+                  @if (!empty($MIRSMaster[0]->PreparedSignature))
+                    <img src="/storage/signatures/{{$MIRSMaster[0]->PreparedSignature}}">
+                  @endif
+                </h3>
                 <h2>
                   {{$MIRSMaster[0]->Preparedby}} <br>
-                  Requisitioner
+                  {{$MIRSMaster[0]->PreparedPosition}}
                 </h2>
               </div>
               <div class="recommend-sig">
               <h4>Recommended by:</h4>
-              <h3><img src="/DesignIMG/signature4.png"></h3>
+              <h3>
+                @if (!empty($MIRSMaster[0]->RecommendSignature))
+                  <img src="/storage/signatures/{{$MIRSMaster[0]->RecommendSignature}}">
+                @endif
+              </h3>
               <h2>
               <span class="bold">{{$MIRSMaster[0]->Recommendedby}}</span><br>
-                Department Manager
+                {{$MIRSMaster[0]->RecommendPosition}}
               </h2>
               </div>
             </div>
             <div class="president-sig">
               <h4>APPROVED:</h4>
-              <h3><img src="/DesignIMG/signature5.png"></h3>
+              <h3>
+                @if (!empty($MIRSMaster[0]->ApproveSignature))
+                  <img src="/storage/signatures/{{$MIRSMaster[0]->ApproveSignature}}">
+                @endif
+              </h3>
               <h2>
               <span class="bold">{{$MIRSMaster[0]->Approvedby}}</span><br>
-                General Manager
+                {{$MIRSMaster[0]->ApprovePosition}}
               </h2>
             </div>
           </div>
           </div>
           @endif
         </div>
-      </div>
-    </div>
-  </div>
-  <div class="MCT-modal">
-    <div class="MCT-form" style="background:white">
-      <div class="title-mct-form">
-        <h1>MCT Form</h1>
-      </div>
-      <div class="form-content-mct">
-        @if (!empty($MIRSMaster[0]))
-        <form class="" action="{{route('Storing.MCT')}}" method="post">
-          {{ csrf_field() }}
-          <input type="text" name="AddressTo" placeholder="Addressed to" required><br>
-          <input type="text" name="Issuedby" placeholder="Issued by" required><br>
-          <input type="text" name="Recievedby" placeholder="Recieved by" required>
-          <input type="text" name="MIRSNo" value="{{$MIRSMaster[0]->MIRSNo}}" style="display:none">
-          <input type="text" name="MIRSDate" value="{{$MIRSMaster[0]->MIRSDate}}" style="display:none">
-          <input type="text" name="Particulars" value="{{$MIRSMaster[0]->Purpose}}"style=" display:none">
-          <div class="mct-form-buttons">
-            <button type="button" id="cancel-mct" name="button">Cancel</button>
-            <button type="submit">Submit</button>
-          </div>
-        </form>
-        @endif
       </div>
     </div>
   </div>

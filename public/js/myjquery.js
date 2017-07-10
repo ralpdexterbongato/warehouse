@@ -16,14 +16,6 @@
     $('.middle-modal-search > h5').click(function(event) {
       $('.modal-search-item').removeClass('active');
     });
-    $('#accepted').click(function(event)
-    {
-      $('.MCT-modal').addClass('active');
-    });
-    $('#cancel-mct').click(function(event)
-    {
-      $('.MCT-modal').removeClass('active');
-    });
 
     $('.pick-from-items > button').click(function(event) {
       $('.mrt-items-modal').addClass('active');

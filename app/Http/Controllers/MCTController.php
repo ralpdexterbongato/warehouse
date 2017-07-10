@@ -40,7 +40,6 @@ class MCTController extends Controller
     $MCTMasterDB->Issuedby = $request->Issuedby;
     $MCTMasterDB->Recievedby= $request->Recievedby;
     $MCTMasterDB->save();
-    $MIRSupdate = MIRSMaster::where('MIRSNo',$request->MIRSNo)->update(['Status'=>1]);
     $MIRSDetails= MIRSDetail::where('MIRSNo',$request->MIRSNo)->get(['ItemCode','Quantity']);
     foreach ($MIRSDetails as $detail)
     {

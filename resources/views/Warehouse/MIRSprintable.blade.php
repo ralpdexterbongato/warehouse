@@ -394,22 +394,34 @@
             <div class="prepared-recommend">
               <div class="prepared">
                 <h3>Prepared by:</h3>
-                <h2 class="signature"><img src="c:/xampp/htdocs/Warehouse/public/DesignIMG/signature1.png"></h2>
+                <h2 class="signature">
+                  @if (!empty($master[0]->PreparedSignature))
+                    <img src="c:/xampp/htdocs/Warehouse/public/storage/signatures/{{$master[0]->PreparedSignature}}">
+                  @endif
+                </h2>
                 <h4>{{$master[0]->Preparedby}}</h4>
-                <h5>Requisitioner</h5>
+                <h5>{{$master[0]->PreparedPosition}}</h5>
               </div>
               <div class="recommended">
                 <h3>Recommended by:</h3>
-                <h2><img src="c:/xampp/htdocs/Warehouse/public/DesignIMG/signature4.png"></h2>
+                <h2>
+                  @if (!empty($master[0]->RecommendSignature))
+                    <img src="c:/xampp/htdocs/Warehouse/public/storage/signatures/{{$master[0]->RecommendSignature}}">
+                  @endif
+                </h2>
                 <h4>{{$master[0]->Recommendedby}}</h4>
-                <h5>Department Manager</h5>
+                <h5>{{$master[0]->RecommendPosition}}</h5>
               </div>
             </div>
             <div class="approved">
                 <h3>APPROVED:</h3>
-                <h2 class="signature"><img src=c:/xampp/htdocs/Warehouse/public/DesignIMG/signature5.png"></h2>
+                <h2 class="signature">
+                  @if (!empty($master[0]->ApproveSignature))
+                    <img src="c:/xampp/htdocs/Warehouse/public/storage/signatures/{{$master[0]->ApproveSignature}}">
+                  @endif
+                </h2>
                 <h4>{{$master[0]->Approvedby}}</h4>
-                <h5>General Manager</h5>
+                <h5>{{$master[0]->ApprovePosition}}</h5>
             </div>
           </div>
         </div>

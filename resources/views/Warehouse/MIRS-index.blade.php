@@ -35,10 +35,10 @@
             <td>{{$MIRSfound->Recommendedby}}</td>
             <td>{{$MIRSfound->Approvedby}}</td>
             <td>{{$MIRSfound->MIRSDate->format('M d, Y')}}</td>
-            @if (!empty($MIRSfound->Status))
-            <td><i class="fa fa-thumbs-up"></i></td>
-            @else
+            @if(($MIRSfound->PreparedSignature==null)||($MIRSfound->ApproveSignature==null)||($MIRSfound->RecommendSignature==null))
             <td><i class="fa fa-clock-o"></i></td>
+            @else
+            <td><i class="fa fa-thumbs-up"></i></td>
             @endif
             <td class="fullmirsClick"><i class="fa fa-eye" onclick="$('.ViewingFullMIRS{{$MIRSfound->MIRSNo}}').submit()"></i></td>
           </tr>
@@ -55,10 +55,10 @@
             <td>{{$allmaster->Recommendedby}}</td>
             <td>{{$allmaster->Approvedby}}</td>
             <td>{{$allmaster->MIRSDate->format('M d, Y')}}</td>
-            @if (!empty($allmaster->Status))
-            <td><i class="fa fa-thumbs-up"></i></td>
-            @else
+            @if (($allmaster->PreparedSignature==null)||($allmaster->ApproveSignature==null)||($allmaster->RecommendSignature==null))
             <td><i class="fa fa-clock-o"></i></td>
+            @else
+            <td><i class="fa fa-thumbs-up"></i></td>
             @endif
             <td><i class="fa fa-eye" onclick="$('.ViewingFullMIRS{{$allmaster->MIRSNo}}').submit()"></i></td>
           </tr>
