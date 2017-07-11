@@ -302,7 +302,9 @@
             </div>
             <div class="issued-name">
               <div class="signature-issued">
-                <img src="c:/xampp/htdocs/warehouse/public/DesignIMG/signature1.png" alt="signature">
+                @if (!empty($MCTMast[0]->IssuedbySignature))
+                  <img src="c:/xampp/htdocs/warehouse/public/storage/signatures/{{$MCTMast[0]->IssuedbySignature}}" alt="signature">
+                @endif
               </div>
               {{$MCTMast[0]->Issuedby}}
               <p>HEAD-Warehouse Section</p>
@@ -318,9 +320,11 @@
             </div>
             <div class="recieve-name">
               <div class="signature-reciever">
-                <img src="c:/xampp/htdocs/warehouse/public/DesignIMG/signature5.png" alt="signature">
+                @if (!empty($MCTMast[0]->ReceivedbySignature))
+                  <img src="c:/xampp/htdocs/warehouse/public/storage/signatures/{{$MCTMast[0]->ReceivedbySignature}}" alt="signature">
+                @endif
               </div>
-                {{$MCTMast[0]->Recievedby}}
+                {{$MCTMast[0]->Receivedby}}
                 <p>Leadman</p>
             </div>
           </div>

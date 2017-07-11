@@ -10,7 +10,9 @@ use App\MaterialsTicketDetail;
 use Carbon\Carbon;
 use App\MRTMaster;
 use DB;
+use Auth;
 use Session;
+use App\User;
 class MCTController extends Controller
 {
   public function StoreMCT(Request $request)
@@ -31,14 +33,17 @@ class MCTController extends Controller
       $genID=$year .'-'. sprintf("%04d",'1');
       $MCTIncremented=$genID;
     }
+    $receiver=MIRSMaster::where('MIRSNo',$request->MIRSNo)->get(['Preparedby','PreparedPosition']);
     $MCTMasterDB=new MCTMaster;
     $MCTMasterDB->MCTNo = $MCTIncremented;
     $MCTMasterDB->MIRSNo= $request->MIRSNo;
     $MCTMasterDB->MIRSDate= $request->MIRSDate;
     $MCTMasterDB->Particulars = $request->Particulars;
     $MCTMasterDB->AddressTo = $request->AddressTo;
-    $MCTMasterDB->Issuedby = $request->Issuedby;
-    $MCTMasterDB->Recievedby= $request->Recievedby;
+    $MCTMasterDB->Issuedby =Auth::user()->Fname.' '.Auth::user()->Lname;
+    $MCTMasterDB->IssuedbyPosition=Auth::user()->Position;
+    $MCTMasterDB->Receivedby= $receiver[0]->Preparedby;
+    $MCTMasterDB->ReceivedbyPosition=$receiver[0]->PreparedPosition;
     $MCTMasterDB->save();
     $MIRSDetails= MIRSDetail::where('MIRSNo',$request->MIRSNo)->get(['ItemCode','Quantity']);
     foreach ($MIRSDetails as $detail)
@@ -89,5 +94,18 @@ class MCTController extends Controller
   public function summaryMCT()
   {
     return view('Warehouse.MCT-summary');
+  }
+  public function SignatureMCT(Request $request)
+  {
+    $mctmaster=MCTMaster::where('MCTNo', $request->MCTNo)->get(['Issuedby','Receivedby']);
+    if ($mctmaster[0]->Issuedby==Auth::user()->Fname.' '.Auth::user()->Lname)
+    {
+      MCTMaster::where('MCTNo',$request->MCTNo)->update(['IssuedbySignature'=>Auth::user()->Signature]);
+    }
+    if ($mctmaster[0]->Receivedby==Auth::user()->Fname.' '.Auth::user()->Lname)
+    {
+      MCTMaster::where('MCTNo',$request->MCTNo)->update(['ReceivedbySignature'=>Auth::user()->Signature]);
+    }
+    return redirect()->back();
   }
 }

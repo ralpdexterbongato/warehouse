@@ -31,4 +31,13 @@
    $('.middle-account-modal > ul >li >i').click(function(event) {
      $('.Account-modal').removeClass('active');
    });
+
+   $('#mct-modal-btn').click(function(event) {
+    $('.MCT-modal').addClass('active');
+   });
+
+   $('#cancel-mct').click(function(event) {
+      $('.MCT-modal').removeClass('active');
+   });
+
   });

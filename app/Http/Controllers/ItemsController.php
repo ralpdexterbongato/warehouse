@@ -150,7 +150,7 @@ class ItemsController extends Controller
     //  return view('Warehouse.MIRSviews',compact('itemMasters','currentQTY'));
       if (!empty($itemMasters[0]))
       {
-        Session::flash('itemMasters',$itemMasters);
+        Session::put('itemMasters',$itemMasters);
       //  Session::flash('currentQTY',$currentQTY);
       }else {
         return redirect()->back()->with('message', 'No Results found');
@@ -163,7 +163,7 @@ class ItemsController extends Controller
        $itemMasters=MasterItem::where('Description','LIKE','%'.$request->Description.'%')->paginate(5);
        if (!empty($itemMasters[0]))
        {
-        Session::flash('itemMasters',$itemMasters);
+        Session::put('itemMasters',$itemMasters);
        }
        return redirect()->back();
     }

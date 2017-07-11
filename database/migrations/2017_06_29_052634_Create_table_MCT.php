@@ -21,7 +21,11 @@ class CreateTableMCT extends Migration
             $table->string('Particulars',150)->nullable();
             $table->string('AddressTo',100)->nullable();
             $table->string('Issuedby',50)->nullable();
-            $table->string('Recievedby',50)->nullable();
+            $table->string('Receivedby',50)->nullable();
+            $table->string('IssuedbyPosition',50)->nullable();
+            $table->string('ReceivedbyPosition',50)->nullable();
+            $table->string('IssuedbySignature',150)->nullable();
+            $table->string('ReceivedbySignature',150)->nullable();
         });
     }
 

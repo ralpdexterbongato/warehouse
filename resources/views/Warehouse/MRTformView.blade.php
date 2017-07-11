@@ -45,8 +45,9 @@
           <input type="text" name="MCTNo" value="{{$MTDetails[0]->MTNo}}" style="display:none">
           <input type="text" name="Particulars" value="{{$MCTdata[0]->Particulars}}" style="display:none">
           <input type="text" name="AddressTo" value="{{$MCTdata[0]->AddressTo}}" style="display:none">
-          <input type="text" name="Returnedby" placeholder="Returned by" required>
-          <input type="text" name="Receivedby" placeholder="Received by" required>
+          <div class="returner-form">
+            To be returned by the <br> {{$MCTdata[0]->ReceivedbyPosition}} <h3>{{$MCTdata[0]->Receivedby}}</h3>
+          </div>
           <input type="text" name="Remarks" placeholder="Remarks" required>
           <div class="mrt-btns">
             <button type="button" class="mrt-cancel">Cancel</button>

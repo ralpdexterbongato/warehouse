@@ -41,3 +41,4 @@ Route::get('mrt-viewer','MRTController@mrtviewing')->name('mrt-viewer');
 Route::get('mct-summary','MCTController@summaryMCT')->name('mct-summary');
 Route::post('MIRS-Signature','MIRSController@MIRSSignature')->name('MIRSSign');
 Route::post('Items-ByDescription','ItemsController@ItemMasterbyDescription')->name('ItemsearchDescription');
+Route::post('Signature-for-mct','MCTController@SignatureMCT')->name('MCTsignature');

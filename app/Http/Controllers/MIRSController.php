@@ -39,8 +39,6 @@ class MIRSController extends Controller
     }
       $itemselected = (object)$itemselected;
       Session::push('ItemSelected',$itemselected);
-      Session::forget('itemMasters');
-      Session::forget('currentQTY');
       return redirect('/MIRS-add');
   }
   public function deletePartSession($id)
@@ -111,6 +109,7 @@ class MIRSController extends Controller
         $details->save();
       }
         Session::forget('ItemSelected');
+        Session::forget('itemMasters');
         return redirect()->route('MIRSgridview');
     }else
     {

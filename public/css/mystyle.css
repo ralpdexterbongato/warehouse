@@ -1065,7 +1065,7 @@ tr td input[type="number"]
   height: 50px;
   position: absolute;
   bottom: 35px;
-  left: -25px;
+  left:-24px;
 }
 .recommend-sig,.request-sig
 {
@@ -1207,11 +1207,26 @@ tr td input[type="number"]
   padding-top:50px;
   box-sizing: border-box;
 }
+
 .form-content-mct form
 {
   display: flex;
   flex-direction: column;
-
+}
+.receiver-form h3
+{
+  padding-bottom: 10px;
+  width: 300px;
+  margin:0 auto;
+  margin-top: 10px;
+  border-bottom: 1px solid #d1d1d1;
+}
+.receiver-form
+{
+  text-align: center;
+  font-size: 18px;
+  font-family: courier;
+  color: #00355F;
 }
 .form-content-mct
 {
@@ -1219,9 +1234,18 @@ tr td input[type="number"]
 }
 .form-content-mct input
 {
+  text-align: center;
+  font-size: 15px;
   margin:auto;
   height: 30px;
   width: 300px;
+  padding-left: 10px;
+}
+.form-content-mct select
+{
+  margin:auto;
+  height: 30px;
+  width: 315px;
   padding-left: 10px;
 }
 .mct-form-buttons
@@ -1475,23 +1499,45 @@ display: flex;
 {
   margin-bottom: 8px;
 }
+.signature-issuedmct
+{
+  width: 150px;
+  height: 50px;
+  position: absolute;
+  bottom: 35px;
+  left:5px;
+}
 .signature-issued
 {
   width: 150px;
   height: 50px;
   position: absolute;
   bottom: 35px;
+  left:0px;
 }
 .signature-issued img,.signature-recieved img
 {
   width:100%;
+}
+.signature-issuedmct img,.signature-recievedmct img
+{
+  width:100%;
+}
+.signature-recievedmct
+{
+  position: absolute;
+  width: 150px;
+  height: 50px;
+  bottom: 30px;
+  right: 16px;
 }
 .signature-recieved
 {
   position: absolute;
   width: 150px;
   height: 50px;
-  bottom: 30px;
+  bottom: 20px;
+  right: 16px;
 }
 /*PAGINATION*/
 .pagination
@@ -1528,7 +1574,13 @@ display: flex;
 {
   display: flex;
 }
-
+@media(max-width:1100px)
+{
+  .MRT-container
+  {
+    flex-direction: column;
+  }
+}
 .MRT-middle-form
 {
   background:#0063B1;
@@ -1537,6 +1589,7 @@ display: flex;
   margin-top: 25px;
   padding-left: 40px;
   padding-right: 40px;
+  padding-bottom: 40px;
 }
 
 .mrt-form
@@ -1554,6 +1607,7 @@ display: flex;
   margin:0 auto;
   margin-bottom: 10px;
   font-size: 15px;
+  text-align: center;
 }
 .mrt-btns
 {
@@ -2384,6 +2438,8 @@ border:1px solid #A0A0A0;
   padding: 10px 20px;
   font-size:16px;
   border-bottom: 1px solid #e1e1e1;
+  background: #e6e6e6;
+  margin-bottom: 3px;
 }
 .middle-account-modal ul a li:hover
 {
@@ -2398,4 +2454,19 @@ border:1px solid #A0A0A0;
 .navnotif
 {
   width: 100px;
+}
+.returner-form h3
+{
+  padding-bottom: 10px;
+  border-bottom: 1px solid #fff;
+  margin-bottom: 25px;
+  margin-top: 10px;
+}
+
+.returner-form
+{
+  text-align: center;
+  font-family: courier;
+  font-size: 18px;
+  color: #fff;
 }

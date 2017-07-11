@@ -9,12 +9,13 @@ use Carbon\Carbon;
 use App\MaterialsTicketDetail;
 use Session;
 use DB;
+use Auth;
 class MRTController extends Controller
 {
     public function CreateMRT(Request $request)
     {
       $MTDetails=MaterialsTicketDetail::where('MTType', 'MCT')->where('MTNo', $request->MCTNo)->get();
-      $MCTdata=MCTMaster::where('MCTNo',$request->MCTNo)->get(['Particulars','AddressTo']);
+      $MCTdata=MCTMaster::where('MCTNo',$request->MCTNo)->get(['Particulars','AddressTo','ReceivedbyPosition','Receivedby']);
       return view('Warehouse.MRTformView',compact('MTDetails','MCTdata'));
     }
     public function summaryMRT()
@@ -35,19 +36,22 @@ class MRTController extends Controller
           $numOnly = (int)$numOnly;
           $newID=$numOnly + 1;
           $MRTincremented= $year . '-' . sprintf("%04d",$newID);
-
         }else
         {
          $MRTincremented=  $year . '-' . sprintf("%04d",'1');
         }
+        $returner=MCTMaster::where('MCTNo',$request->MCTNo)->get(['Receivedby','ReceivedbyPosition']);
         $mrtDB=new MRTMaster;
         $mrtDB->MRTNo=$MRTincremented;
         $mrtDB->MCTNo =$request->MCTNo;
         $mrtDB->ReturnDate = Carbon::now();
         $mrtDB->Particulars =$request->Particulars;
         $mrtDB->AddressTo= $request->AddressTo;
-        $mrtDB->Returnedby = $request->Returnedby;
-        $mrtDB->Receivedby = $request->Receivedby;
+        $mrtDB->Returnedby = $returner[0]->Receivedby ;
+        $mrtDB->ReturnedbyPosition =$returner[0]->ReceivedbyPosition ;
+        $mrtDB->Receivedby = Auth::user()->Fname.' '.Auth::user()->Lname;
+        $mrtDB->ReceivedbySignature=Auth::user()->Signature;
+        $mrtDB->ReceivedbyPosition=Auth::user()->Position;
         $mrtDB->Remarks = $request->Remarks;
         $mrtDB->save();
 

@@ -21,7 +21,10 @@ class CreateMRTTBLE extends Migration
             $table->string('Particulars',100)->nullable();
             $table->string('AddressTo',50)->nullable();
             $table->string('Returnedby',50)->nullable();
+            $table->string('ReturnedbyPosition',50)->nullable();
             $table->string('Receivedby',50)->nullable();
+            $table->string('ReceivedbyPosition',50)->nullable();
+            $table->string('ReceivedbySignature',150)->nullable();
             $table->string('Remarks',50)->nullable();
         });
     }

@@ -31,10 +31,14 @@
             </div>
           @endif
       @endif
-    @elseif((Auth::user()->Role==4)&&$MCTNumber[0]==null)
-      <a href="#"><button type="button" name="button"> <i class="fa fa-plus"></i> Make MCT</button></a>
-    @elseif((Auth::user()->Role!=4))
+    @elseif((Auth::user()->Role==4)&&($MCTNumber[0]==null))
+      <a href="#"><button type="button" id="mct-modal-btn" name="button"><i class="fa fa-plus"></i> Make MCT</button></a>
+    @elseif((Auth::user()->Role!=4)&&($MCTNumber[0]==null))
       <h1>No MCT generated yet</h1>
+    @elseif(!empty($MCTNumber[0]))
+      <form class="" action="{{route('previewMCT')}}" method="get">
+        <button type="submit" name="MIRSNo" value="{{$MIRSMaster[0]->MIRSNo}}">View MCT</button>
+      </form>
     @endif
       </div>
       <div class="bondpaper-size">
@@ -142,5 +146,33 @@
       </div>
     </div>
   </div>
-
+  @if ((Auth::user()->Role==4)&&($MCTNumber[0]==null))
+  @if(($MIRSMaster[0]->PreparedSignature!=null)&&($MIRSMaster[0]->RecommendSignature!=null)&&($MIRSMaster[0]->ApproveSignature!=null))
+  <div class="MCT-modal">
+    <div class="MCT-form" style="background:white">
+      <div class="title-mct-form">
+        <h1>MCT Form</h1>
+      </div>
+      <div class="form-content-mct">
+        @if (!empty($MIRSMaster[0]))
+        <form action="{{route('Storing.MCT')}}" method="post">
+          {{ csrf_field() }}
+          <input type="text" name="AddressTo" placeholder="Addressed to" required><br>
+          <div class="receiver-form">
+            To be Receive by the<br> {{$MIRSMaster[0]->PreparedPosition}}<h3>{{$MIRSMaster[0]->Preparedby}}</h3>
+          </div>
+          <input type="text" name="MIRSNo" value="{{$MIRSMaster[0]->MIRSNo}}" style="display:none">
+          <input type="text" name="MIRSDate" value="{{$MIRSMaster[0]->MIRSDate}}" style="display:none">
+          <input type="text" name="Particulars" value="{{$MIRSMaster[0]->Purpose}}"style=" display:none">
+          <div class="mct-form-buttons">
+            <button type="button" id="cancel-mct" name="button">Cancel</button>
+            <button type="submit">Submit</button>
+          </div>
+        </form>
+        @endif
+      </div>
+    </div>
+  </div>
+@endif
+@endif
 @endsection

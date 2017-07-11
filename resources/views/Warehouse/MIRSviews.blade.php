@@ -63,7 +63,7 @@
           @if (!empty($GenMan[0]))
             <li>
               <input type="text" name="Approvedby" value="{{$GenMan[0]->id}}" style="display:none">
-              <p class="gm-label">To be Approved by the General Manager</p><br><h3 class="gm-name">{{$GenMan[0]->Fname .' '.$GenMan[0]->Lname}}</h3>
+              <p class="gm-label">To be Approve by the General Manager</p><br><h3 class="gm-name">{{$GenMan[0]->Fname .' '.$GenMan[0]->Lname}}</h3>
             </li>
           @endif
           <div class="submitMCT-btn">

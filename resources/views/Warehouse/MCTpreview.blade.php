@@ -11,14 +11,15 @@
             <input type="text" name="MIRSNo" value="{{$MCTMast[0]->MIRSNo}}" style="display:none">
             <button type="submit" name="button"><i class="fa fa-file-pdf-o"></i>.pdf</button>
           </form>
-          @if (empty($MRTcheck[0]))
+        @if (($MCTMast[0]->IssuedbySignature!=null)&&($MCTMast[0]->ReceivedbySignature!=null))
+          @if (($MRTcheck[0]==null)&&(Auth::user()->Role==4))
           <div class="Create-MRT-btn">
             <form action="{{route('create.mrt')}}" method="get">
               <input type="text" name="MCTNo" value="{{$MCTMast[0]->MCTNo}}" style="display:none">
               <button type="submit"><i class="fa fa-plus"></i> Make MRT</button>
             </form>
           </div>
-          @else
+          @elseif($MRTcheck[0]!=null)
             <div class="View-MRT-btn">
               <div class="mrt-done">
                  <form action="{{route('mrt-viewer')}}" method="get">
@@ -27,7 +28,19 @@
                  </form>
               </div>
             </div>
+          @else
+            No MRT generated yet
           @endif
+        @elseif(($MCTMast[0]->Issuedby==Auth::user()->Fname.' '.Auth::user()->Lname)||(($MCTMast[0]->Receivedby==Auth::user()->Fname.' '.Auth::user()->Lname)))
+          @if (($MCTMast[0]->IssuedbySignature!=Auth::user()->Signature)&&($MCTMast[0]->ReceivedbySignature!=Auth::user()->Signature))
+            <div class="signature-mct-btn">
+              <form action="{{route('MCTsignature')}}" method="post">
+                {{ csrf_field() }}
+                <button type="submit" name="MCTNo" value="{{$MCTMast[0]->MCTNo}}">Signature</button>
+              </form>
+            </div>
+          @endif
+        @endif
         </div>
       <div class="bondpaper-preview">
         <div class="bond-center-titles">
@@ -91,11 +104,13 @@
               Issued by:
             </div>
             <div class="issuedby-data">
-              <div class="signature-issued">
-                <img src="/DesignIMG/signature1.png" alt="signature">
+              <div class="signature-issuedmct">
+                @if (!empty($MCTMast[0]->IssuedbySignature))
+                  <img src="/storage/signatures/{{$MCTMast[0]->IssuedbySignature}}" alt="signature">
+                @endif
               </div>
               <h1>{{$MCTMast[0]->Issuedby}}</h1>
-              <h5>HEAD-Warehouse Section</h5>
+              <h5>{{$MCTMast[0]->IssuedbyPosition}}</h5>
             </div>
           </div>
           <div class="mct-signature-right">
@@ -103,11 +118,13 @@
               Recieved by:
             </div>
             <div class="recievedby-data">
-              <div class="signature-recieved">
-                <img src="/DesignIMG/signature5.png" alt="signature">
+              <div class="signature-recievedmct">
+                @if (!empty($MCTMast[0]->ReceivedbySignature))
+                 <img src="/storage/signatures/{{$MCTMast[0]->ReceivedbySignature}}" alt="signature">
+                @endif
               </div>
-              <h1>{{$MCTMast[0]->Recievedby}}</h1>
-              <h5>Leadman</h5>
+              <h1>{{$MCTMast[0]->Receivedby}}</h1>
+              <h5>{{$MCTMast[0]->ReceivedbyPosition}}</h5>
             </div>
           </div>
         </div>
