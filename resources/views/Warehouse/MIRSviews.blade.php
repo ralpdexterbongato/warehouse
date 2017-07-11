@@ -53,17 +53,19 @@
         <ul>
           <li><input type="text" name="Purpose" placeholder="Purpose" required></li>
           <li><select class="" name="Recommendedby" required>
-              <option value="">Recommended by</option>
+              <option>Recommended by</option>
             @if (!empty($allManager[0]))
               @foreach ($allManager as $manager)
                 <option value="{{$manager->id}}">{{ $manager->Fname.' '.$manager->Lname}}</option>
               @endforeach
             @endif
           </select></li>
-          <li>
-            <input type="text" name="Approvedby" value="{{$GM[0]->id}}" style="display:none">
-            <p class="gm-label">To be Approved by the General Manager</p><br><h3></h3>
-          </li>
+          @if (!empty($GenMan[0]))
+            <li>
+              <input type="text" name="Approvedby" value="{{$GenMan[0]->id}}" style="display:none">
+              <p class="gm-label">To be Approved by the General Manager</p><br><h3 class="gm-name">{{$GenMan[0]->Fname .' '.$GenMan[0]->Lname}}</h3>
+            </li>
+          @endif
           <div class="submitMCT-btn">
             <button type="button" name="button">Cancel</button>
             <button id="go-btn" type="submit">Done</button>
@@ -75,12 +77,13 @@
       <div class="middle-modal-search">
           <h5><i class="fa fa-times"></i></h5>
         <div class="search-item-bar">
-          <form class="" action="index.html" method="post">
-            <input type="text" name="" value="" placeholder="Search Description"><button type="button" name="button">submit</button>
+          <form action="{{route('ItemsearchDescription')}}" method="post">
+            {{ csrf_field() }}
+            <input type="text" name="Description" placeholder="Search by description" required><button type="submit"><i class="fa fa-search"></i></button>
           </form>
           <form action="{{route('searchItemMaster')}}" method="GET">
             {{ csrf_field() }}
-            <input type="text" name="ItemCode" placeholder="Enter item code">
+            <input type="text" name="ItemCode" placeholder="Search by item code">
             <button type="submit"><i class="fa fa-search"></i></button>
           </form>
         </div>
@@ -105,7 +108,7 @@
                   <input type="text" name="ItemCode_id" value="{{$itemMaster->ItemCode_id}}" style="display:none">
                   <input type="text" name="Particulars" value="{{$itemMaster->Description}}" style="display:none">
                   <input type="text" name="Unit" value="{{$itemMaster->Unit}}" style="display:none">
-                  <td><input type="number" name="Quantity" min="1" max="{{Session::get('currentQTY')}}" required></td>
+                  <td><input type="number" name="Quantity" min="1" max="{{$itemMaster->MaterialsTicketDetails->last()->CurrentQuantity}}" required></td>
                   <td>{{$itemMaster->Unit}}</td>
                   <td><input type="text" name="Remarks" required></td>
                   <td><button type="submit"><i class="fa fa-plus"></i>Add</button></td>

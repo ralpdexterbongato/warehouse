@@ -20,7 +20,7 @@ class ItemsController extends Controller
      public function __construct()
      {
       $this->middleware('auth');
-      $this->middleware('IsWarehouseorAdmin',['except'=>['index','searchByItemCode','searchItemMaster']]);
+      $this->middleware('IsWarehouseorAdmin',['except'=>['index','ItemMasterbyDescription','searchByItemCode','searchItemMaster']]);
      }
 
     public function index()
@@ -144,13 +144,14 @@ class ItemsController extends Controller
 
     public function searchItemMaster(Request $request)
     {
+      Session::forget('itemMasters');
       $itemMasters=MasterItem::where('ItemCode_id',$request->ItemCode)->get();
-      $currentQTY=MaterialsTicketDetail::where('ItemCode',$request->ItemCode)->orderBy('created_at','DESC')->take(1)->value('CurrentQuantity');
+    //  $currentQTY=MaterialsTicketDetail::where('ItemCode',$request->ItemCode)->orderBy('created_at','DESC')->take(1)->value('CurrentQuantity');
     //  return view('Warehouse.MIRSviews',compact('itemMasters','currentQTY'));
       if (!empty($itemMasters[0]))
       {
         Session::flash('itemMasters',$itemMasters);
-        Session::flash('currentQTY',$currentQTY);
+      //  Session::flash('currentQTY',$currentQTY);
       }else {
         return redirect()->back()->with('message', 'No Results found');
       }
@@ -158,7 +159,13 @@ class ItemsController extends Controller
     }
     public function ItemMasterbyDescription(Request $request)
     {
-       $itemMasterByDescription=MasterItem::where('Description',$request->Description)->get();
+      Session::forget('itemMasters');
+       $itemMasters=MasterItem::where('Description','LIKE','%'.$request->Description.'%')->paginate(5);
+       if (!empty($itemMasters[0]))
+       {
+        Session::flash('itemMasters',$itemMasters);
+       }
+       return redirect()->back();
     }
 
 }

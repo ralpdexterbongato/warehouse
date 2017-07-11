@@ -16,9 +16,9 @@ class MIRSController extends Controller
 {
   public function MIRScreate()
   {
-    $GM=User::orderBy('id','DESC')->where('Role','2')->take(1)->get(['Fname','Lname','id']);
+    $GenMan=User::orderBy('id','DESC')->where('Role','2')->take(1)->get(['Fname','Lname','id']);
     $allManager=User::where('Role', '0')->get(['id','Fname','Lname','Position']);
-    return view('Warehouse.MIRSviews',compact('allManager','GM'));
+    return view('Warehouse.MIRSviews',compact('allManager','GenMan'));
   }
   public function addingSessionItem(Request $request)
   {
