@@ -23,19 +23,26 @@
             <option value="General Manager">General Manager</option>
             <option value="Senior Auditor">Senior Auditor</option>
             <option value="HEAD-Warehouse Section">HEAD-Warehouse Section</option>
+            <option value="Stock Clerk">Stock Clerk</option>
+            <option value="Budget Officer">Budget Officer</option>
           </select>
           <select name="Role">
             <option value="">Choose role</option>
             <option value="0">Manager</option>
             <option value="1">Admin</option>
-            <option value="2">GM</option>
+            <option value="2">General Manager</option>
             <option value="4">WarehouseHead</option>
             <option value="5">Auditor</option>
+            <option value="6">Clerk</option>
+            <option value="7">Budget Officer</option>
           </select>
           <input type="text" name="Username"placeholder="Username">
           <input type="password" name="Password" placeholder="Password">
           <input type="password" name="Password_confirmation" placeholder="Confirm-password">
-          <input type="file" name="Signature" accept="image/PNG">
+          <input type="file" name="Signature" id="inputSignature" accept="image/PNG">
+          <div class="image-signature-wrap">
+            <img id="signaturePreview" src="#" alt="your signature" />
+          </div>
           <button type="submit">Submit</button>
         </div>
       </form>

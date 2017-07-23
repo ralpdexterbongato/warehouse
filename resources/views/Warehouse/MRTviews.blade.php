@@ -62,14 +62,15 @@
             <p>Returned by:</p>
             <div class="mrt-bottom-data">
               <p>{{$mrtMaster[0]->Returnedby}}</p>
-              <p>HEAD-Warehourse Section</p>
+              <p>{{$mrtMaster[0]->ReturnedbyPosition}}</p>
             </div>
         </div>
         <div class="mrt-received-container">
           <p>Recieved by:</p>
           <div class="mrt-bottom-data">
+            <h3><img src="/storage/signatures/{{$mrtMaster[0]->ReceivedbySignature}}" alt="signature"></h3>
             <p>{{$mrtMaster[0]->Receivedby}}</p>
-            <p>HEAD-Warehourse Section</p>
+            <p>{{$mrtMaster[0]->ReceivedbyPosition}}</p>
           </div>
         </div>
       </div>

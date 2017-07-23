@@ -1,32 +1,33 @@
 @extends('layouts.master')
 @section('title')
-  Printable| MIRS
+  Print preview| MIRS
 @endsection
 @section('body')
   <div class="printable-view-container">
     <div class="printable-paper">
       <div class="print-btn-container">
-        @if (isset($MIRSMaster[0]->MIRSNo) && isset($MIRSDetail[0]->MIRSNo))
+        @if (($MIRSMaster[0]->PreparedSignature!=null)&&($MIRSMaster[0]->RecommendSignature!=null)&&($MIRSMaster[0]->ApproveSignature!=null))
         <form class="download-form" action="{{route('mirs-download')}}" method="post">
           {{csrf_field()}}
           <input type="text" name="MIRSNo" value="{{$MIRSMaster[0]->MIRSNo}}" style="display:none">
           <button type="submit">PDF <i class="fa fa-file-pdf-o"></i></button>
         </form>
-      @else
-        <h1>NO CURRENT MIRS RESULT</h1>
-      @endif
+        @else
+          <div class="empty-left-mirs">
+          </div>
+        @endif
       @if (($MIRSMaster[0]->PreparedSignature==null)||($MIRSMaster[0]->RecommendSignature==null)||($MIRSMaster[0]->ApproveSignature==null))
-        @if (($MIRSMaster[0]!=null)&&($MIRSMaster[0]->ApproveSignature!=Auth::user()->Signature)&&($MIRSMaster[0]->RecommendSignature != Auth::user()->Signature)&&($MIRSMaster[0]->PreparedSignature != Auth::user()->Signature))
+        @if (($MIRSMaster[0]!=null)&&($MIRSMaster[0]->ApproveSignature!=Auth::user()->Signature)&&($MIRSMaster[0]->RecommendSignature != Auth::user()->Signature)&&($MIRSMaster[0]->PreparedSignature != Auth::user()->Signature)&&($MIRSMaster[0]->IfDenied == null))
           @if (($MIRSMaster[0]->Preparedby == Auth::user()->Fname . ' '. Auth::user()->Lname)||($MIRSMaster[0]->Approvedby == Auth::user()->Fname . ' '. Auth::user()->Lname)||($MIRSMaster[0]->Recommendedby == Auth::user()->Fname . ' '. Auth::user()->Lname))
             <div class="middle-status">
               <form class="Accept" action="{{route('MIRSSign')}}" method="post">
                 {{ csrf_field() }}
-                <button type="submit" id="accepted" name="MIRSNo" value="{{$MIRSMaster[0]->MIRSNo}}"><i class="fa fa-thumbs-up"></i>Approve</button>
+                <button type="submit" id="accepted" name="MIRSNo" value="{{$MIRSMaster[0]->MIRSNo}}"><i class="fa fa-pencil"></i> Signature</button>
               </form>
               <form class="Deny" action="denied" method="POST">
                 {{ csrf_field() }}
                 <input type="text" name="MIRSNo" value="{{$MIRSMaster[0]->MIRSNo}}" style="display:none">
-                <button type="submit" id="not-accepted"><i class="fa fa-thumbs-down"></i>Disapprove</button>
+                <button type="submit" id="not-accepted"><i class="fa fa-times"></i> Decline</button>
               </form>
             </div>
           @endif
@@ -47,13 +48,21 @@
           <h1>BOHOL 1 ELECTRIC COOPERATIVE, INC.</h1>
             <h4>Cabulijan, Tubigon, Bohol</h4>
             <h2>MATERIALS ISSUANCE REQUISITION SLIP</h2>
-            <div class="status-mirs">
-              @if (($MIRSMaster[0]->PreparedSignature==null)||($MIRSMaster[0]->ApproveSignature==null)||($MIRSMaster[0]->RecommendSignature==null))
-              <h1><i class="fa fa-clock-o"></i><br>Pending</h1>
+              @if ($MIRSMaster[0]->IfDenied==null)
+                @if (($MIRSMaster[0]->PreparedSignature==null)||($MIRSMaster[0]->ApproveSignature==null)||($MIRSMaster[0]->RecommendSignature==null))
+                <div class="status-mirs">
+                  <h1><i class="fa fa-clock-o"></i><br>Pending</h1>
+                </div>
+                @else
+                <div class="status-mirs approved">
+                  <h1 class="approved-sign"><i class="fa fa-thumbs-up"></i> <br>Approved</h1>
+                </div>
+                @endif
               @else
-              <h1 class="approved-sign"><i class="fa fa-thumbs-up"></i> <br>Approved</h1>
+              <div class="status-mirs declined">
+                <h1 class="deny-sign"><i class="fa fa-times"></i><br>Declined</h1>
+              </div>
               @endif
-            </div>
         </div>
         <div class="top-part-box2">
           <div class="top-box2-left">
@@ -110,7 +119,10 @@
                   @endif
                 </h3>
                 <h2>
-                  {{$MIRSMaster[0]->Preparedby}} <br>
+                  {{$MIRSMaster[0]->Preparedby}}
+                  @if ($MIRSMaster[0]->IfDenied==$MIRSMaster[0]->Preparedby)
+                    <i class="fa fa-times decliner"></i>
+                  @endif <br>
                   {{$MIRSMaster[0]->PreparedPosition}}
                 </h2>
               </div>
@@ -122,7 +134,11 @@
                 @endif
               </h3>
               <h2>
-              <span class="bold">{{$MIRSMaster[0]->Recommendedby}}</span><br>
+              <span class="bold">{{$MIRSMaster[0]->Recommendedby}}
+                @if ($MIRSMaster[0]->IfDenied==$MIRSMaster[0]->Recommendedby)
+                  <i class="fa fa-times decliner"></i>
+                @endif
+              </span><br>
                 {{$MIRSMaster[0]->RecommendPosition}}
               </h2>
               </div>
@@ -135,7 +151,11 @@
                 @endif
               </h3>
               <h2>
-              <span class="bold">{{$MIRSMaster[0]->Approvedby}}</span><br>
+              <span class="bold">{{$MIRSMaster[0]->Approvedby}}
+                @if ($MIRSMaster[0]->IfDenied==$MIRSMaster[0]->Approvedby)
+                  <i class="fa fa-times decliner"></i>
+                @endif
+              </span><br>
                 {{$MIRSMaster[0]->ApprovePosition}}
               </h2>
             </div>
@@ -159,10 +179,9 @@
           {{ csrf_field() }}
           <input type="text" name="AddressTo" placeholder="Addressed to" required><br>
           <div class="receiver-form">
-            To be Receive by the<br> {{$MIRSMaster[0]->PreparedPosition}}<h3>{{$MIRSMaster[0]->Preparedby}}</h3>
+            To be Received by the<br> {{$MIRSMaster[0]->PreparedPosition}}<h3>{{$MIRSMaster[0]->Preparedby}}</h3>
           </div>
           <input type="text" name="MIRSNo" value="{{$MIRSMaster[0]->MIRSNo}}" style="display:none">
-          <input type="text" name="MIRSDate" value="{{$MIRSMaster[0]->MIRSDate}}" style="display:none">
           <input type="text" name="Particulars" value="{{$MIRSMaster[0]->Purpose}}"style=" display:none">
           <div class="mct-form-buttons">
             <button type="button" id="cancel-mct" name="button">Cancel</button>

@@ -145,7 +145,11 @@
     {
       font-size: 14px;
     }
-
+    .receiver-container
+    {
+      page-break-inside:avoid;
+      margin-top: 100px;
+    }
     </style>
   </head>
   <body>

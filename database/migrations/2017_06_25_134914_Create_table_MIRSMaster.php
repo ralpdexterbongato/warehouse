@@ -27,7 +27,8 @@ class CreateTableMIRSMaster extends Migration
             $table->string('PreparedSignature',140)->nullable();
             $table->string('RecommendSignature',140)->nullable();
             $table->string('ApproveSignature',140)->nullable();
-
+            $table->char('WithMCT',1)->nullable();
+            $table->string('IfDenied',50)->nullable();
 
         });
     }

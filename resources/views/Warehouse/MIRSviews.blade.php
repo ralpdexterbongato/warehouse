@@ -52,8 +52,8 @@
         {{ csrf_field() }}
         <ul>
           <li><input type="text" name="Purpose" placeholder="Purpose" required></li>
-          <li><select class="" name="Recommendedby" required>
-              <option>Recommended by</option>
+          <li><select name="Recommendedby" required>
+              <option value="">Recommended by</option>
             @if (!empty($allManager[0]))
               @foreach ($allManager as $manager)
                 <option value="{{$manager->id}}">{{ $manager->Fname.' '.$manager->Lname}}</option>
@@ -63,7 +63,7 @@
           @if (!empty($GenMan[0]))
             <li>
               <input type="text" name="Approvedby" value="{{$GenMan[0]->id}}" style="display:none">
-              <p class="gm-label">To be Approve by the General Manager</p><br><h3 class="gm-name">{{$GenMan[0]->Fname .' '.$GenMan[0]->Lname}}</h3>
+              <p class="gm-label">To be Approved by the General Manager</p><br><h3 class="gm-name">{{$GenMan[0]->Fname .' '.$GenMan[0]->Lname}}</h3>
             </li>
           @endif
           <div class="submitMCT-btn">
@@ -77,7 +77,7 @@
       <div class="middle-modal-search">
           <h5><i class="fa fa-times"></i></h5>
         <div class="search-item-bar">
-          <form action="{{route('ItemsearchDescription')}}" method="post">
+          <form action="{{route('ItemsearchDescription')}}" method="GET">
             {{ csrf_field() }}
             <input type="text" name="Description" placeholder="Search by description" required><button type="submit"><i class="fa fa-search"></i></button>
           </form>
@@ -126,8 +126,12 @@
 
             </tr>
           @endif
-
           </table>
+          <div class="pagination">
+            @if (Session::has('itemMasters'))
+              {{Session::get('itemMasters')->links()}}
+            @endif
+          </div>
         </div>
       </div>
     </div>

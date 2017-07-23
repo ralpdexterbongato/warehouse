@@ -6,7 +6,7 @@ use Illuminate\Database\Eloquent\Model;
 
 class MaterialsTicketDetail extends Model
 {
-    protected $dates=['created_at'];
+    protected $dates=['MTDate'];
     protected $table = 'MaterialsTicketDetails';
     public $timestamps = false;
     protected $primaryKey=['ItemCode'];
@@ -15,7 +15,7 @@ class MaterialsTicketDetail extends Model
     {
         parent::boot();
         static::creating(function ($model) {
-            $model->created_at = $model->freshTimestamp();
+            $model->MTDate = $model->freshTimestamp();
         });
     }
     public function MasterItems()

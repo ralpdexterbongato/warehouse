@@ -14,7 +14,6 @@ class CreateTableMasterItems extends Migration
     public function up()
     {
         Schema::create('MasterItems', function (Blueprint $table) {
-          //$table->engine = 'InnoDB';
           $table->increments('id');
           $table->string('AccountCode',20);
           $table->string('Description',100)->nullable();

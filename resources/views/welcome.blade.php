@@ -15,11 +15,27 @@ warehouse | BOHECO 1
                 <a href="{{route('MIRSgridview')}}"><li><i class="fa fa-search"></i> Search MIRS</li></a>
               </ul>
             </li>
-            <li class="dropping-summary">
+            <li class="dropping-parent">
               <h1>SUMMARY <i class="fa fa-angle-down"></i></h1>
-              <ul>
+              <ul class="dropping">
                 <a href="{{route('summary.mrt')}}"><li><i class="fa fa-list-alt"></i> MRT(summary)</li></a>
                 <a href="{{route('mct-summary')}}"><li><i class="fa fa-list-alt"></i> MCT(summary)</li></a>
+              </ul>
+            </li>
+            <li class="dropping-parent">
+              <h1>RR <i class="fa fa-angle-down"></i></h1>
+              <ul class="dropping create-rr-btn">
+                @if ((Auth::check())&&(Auth::user()->Role == 4))
+                  <a href="{{route('MakeRR')}}"><li><i class="fa fa-print"></i> Create RR</li></a>
+                @endif
+                <a href="{{route('RRindexview')}}"><li><i class="fa fa-search"></i> Search RR</li></a>
+              </ul>
+            </li>
+            <li class="dropping-parent">
+              <h1>RV <i class="fa fa-angle-down"></i></h1>
+              <ul class="dropping create-rv-btn">
+                <a href="{{route('Creating.RV')}}"><li><i class="fa fa-print"></i> Create RV</li></a>
+                <a href="{{route('RVindexView')}}"><li><i class="fa fa-search"></i> Search RV</li></a>
               </ul>
             </li>
           </ul>
@@ -34,14 +50,9 @@ warehouse | BOHECO 1
     </div>
     <div class="data-results-container">
     @if(!empty($historiesfound[0]))
-      <div class="small-choices">
-        <div class="small-choices-btns">
-          <a href="#"><button type="button">RR</button></a>
-        </div>
+      <div class="search-welcome-title">
         <div class="Current-title">
           <h1>Latest Data</h1>
-        </div>
-        <div class="empty-space">
         </div>
       </div>
       <div class="latest-data">
@@ -74,7 +85,7 @@ warehouse | BOHECO 1
               <td>{{number_format($latestFound[0]->CurrentCost,'2','.',',')}}</td>
               <td>{{$latestFound[0]->CurrentQuantity}}</td>
               <td>{{number_format($latestFound[0]->CurrentAmount,'2','.',',')}}</td>
-              <td>{{$latestFound[0]->created_at->format('M')}}</td>
+              <td>{{$latestFound[0]->MTDate->format('M')}}</td>
             </tr>
         </table>
 
@@ -111,7 +122,7 @@ warehouse | BOHECO 1
               <td>{{number_format($history->CurrentCost,'2','.',',')}}</td>
               <td>{{$history->CurrentQuantity}}</td>
               <td>{{number_format($history->CurrentAmount,'2','.',',')}}</td>
-              <td>{{$history->created_at->format('M')}}</td>
+              <td>{{$history->MTDate->format('M')}}</td>
             </tr>
             @endforeach
           @else

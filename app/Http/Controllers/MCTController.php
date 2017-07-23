@@ -37,18 +37,24 @@ class MCTController extends Controller
     $MCTMasterDB=new MCTMaster;
     $MCTMasterDB->MCTNo = $MCTIncremented;
     $MCTMasterDB->MIRSNo= $request->MIRSNo;
-    $MCTMasterDB->MIRSDate= $request->MIRSDate;
+    $MCTMasterDB->MCTDate=$date;
     $MCTMasterDB->Particulars = $request->Particulars;
     $MCTMasterDB->AddressTo = $request->AddressTo;
     $MCTMasterDB->Issuedby =Auth::user()->Fname.' '.Auth::user()->Lname;
     $MCTMasterDB->IssuedbyPosition=Auth::user()->Position;
+    $MCTMasterDB->IssuedbySignature=Auth::user()->Signature;
+    if ($receiver[0]->Preparedby==Auth::user()->Fname.' '.Auth::user()->Lname)
+    {
+      $MCTMasterDB->ReceivedbySignature=Auth::user()->Signature;
+    }
     $MCTMasterDB->Receivedby= $receiver[0]->Preparedby;
     $MCTMasterDB->ReceivedbyPosition=$receiver[0]->PreparedPosition;
     $MCTMasterDB->save();
     $MIRSDetails= MIRSDetail::where('MIRSNo',$request->MIRSNo)->get(['ItemCode','Quantity']);
+    MIRSMaster::where('MIRSNo',$request->MIRSNo)->update(['WithMCT'=>'0']);
     foreach ($MIRSDetails as $detail)
     {
-      $latestdetail=MaterialsTicketDetail::where('ItemCode',$detail->ItemCode)->orderBy('created_at','DESC')->take(1)->get();
+      $latestdetail=MaterialsTicketDetail::where('ItemCode',$detail->ItemCode)->orderBy('MTDate','DESC')->take(1)->get();
 
       $minusAmount= $detail->Quantity * $latestdetail[0]->CurrentCost;
       $newQTY= $latestdetail[0]->CurrentQuantity - $detail->Quantity;
@@ -65,10 +71,10 @@ class MCTController extends Controller
       $ticketDetailDB->CurrentCost=$latestdetail[0]->CurrentCost;
       $ticketDetailDB->CurrentQuantity=$newQTY;
       $ticketDetailDB->CurrentAmount=$newAmount;
-      $ticketDetailDB->created_at=$date;
+      $ticketDetailDB->MTDate=$date;
       $ticketDetailDB->save();
     }
-    return redirect()->back();
+      return redirect()->back();
   }
 
   public function previewMCT(Request $request)
@@ -98,14 +104,19 @@ class MCTController extends Controller
   public function SignatureMCT(Request $request)
   {
     $mctmaster=MCTMaster::where('MCTNo', $request->MCTNo)->get(['Issuedby','Receivedby']);
-    if ($mctmaster[0]->Issuedby==Auth::user()->Fname.' '.Auth::user()->Lname)
-    {
-      MCTMaster::where('MCTNo',$request->MCTNo)->update(['IssuedbySignature'=>Auth::user()->Signature]);
-    }
     if ($mctmaster[0]->Receivedby==Auth::user()->Fname.' '.Auth::user()->Lname)
     {
       MCTMaster::where('MCTNo',$request->MCTNo)->update(['ReceivedbySignature'=>Auth::user()->Signature]);
     }
     return redirect()->back();
+  }
+  public function mctRequestcheck()
+  {
+    $myrequestMCT=MCTMaster::orderBy('id','DESC')->where('Issuedby',Auth::user()->Fname." ".Auth::user()->Lname)
+                    ->whereNull('IssuedbySignature')
+                    ->orWhere('Receivedby',Auth::user()->Fname." ".Auth::user()->Lname)
+                    ->whereNull('ReceivedbySignature')
+                    ->paginate(10,['MIRSNo','MCTNo','Issuedby','Receivedby','Particulars','MCTDate','AddressTo','IssuedbySignature','ReceivedbySignature']);
+                    return view('Warehouse.myMCTrequest',compact('myrequestMCT'));
   }
 }

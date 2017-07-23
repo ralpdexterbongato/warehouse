@@ -133,6 +133,7 @@
     {
       width:100%;
       height: 175px;
+      page-break-inside:avoid;
     }
     .account-codes-present ul li label,.account-codes-present ul li h5
     {
@@ -161,6 +162,10 @@
       display: inline-block;
       float: right;
       width: 40%;
+    }
+    .signatures
+    {
+      page-break-inside:avoid;
     }
     .signatures-wrapper
     {
@@ -253,7 +258,7 @@
           <div class="mctmaster-right">
             <ul>
               <li><label>MIRS No.:</label><h3>{{$MCTMast[0]->MIRSNo}}</h3></li>
-              <li><label>Date:</label><h3>{{$MCTMast[0]->MIRSDate}}</h3></li>
+              <li><label>Date:</label><h3>{{$MCTMast[0]->MCTDate->format('m/d/Y')}}</h3></li>
               <li><label>MCT No.</label><h3>{{$MCTMast[0]->MCTNo}}</h3></li>
             </ul>
           </div>

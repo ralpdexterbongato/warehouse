@@ -13,7 +13,7 @@ class DatabaseSeeder extends Seeder
     {
         // $this->call(UsersTableSeeder::class);
         //DB::table('MaterialsTicketDetails')->insert(['ItemCode'=>'17-'.str_random(4),MTType =>'NEW',MTNo=>'NEW',AccountCode=>'150'])
-        for ($i=0; $i < 500 ; $i++) {
+        for ($i=0; $i <1000 ; $i++) {
           $datetime=Carbon::now();
           $ACode='150-150-'.str_random(3);
           $ICode='L-'.str_random(3);
@@ -29,17 +29,27 @@ class DatabaseSeeder extends Seeder
               'CurrentCost'=>'5000.54',
               'CurrentQuantity'=>'8000',
               'CurrentAmount'=>'40004320',
-              'created_at'=>$datetime,
+              'MTDate'=>$datetime,
           ]);
           DB::table('MasterItems')->insert([
             'AccountCode'=>$ACode,
-            'Description'=>'This is the Description',
+            'Description'=>'Description of the item',
             'Unit'=>'PC',
             'UnitCost'=>'5000.54',
             'Quantity'=>'8000',
             'Month'=>'Jul',
             'ItemCode_id'=>$ICode,
           ]);
+
+          //DB::table('users')->insert([
+            //'Fname'=>'Ralp',
+          //  'Lname'=>str_random(10),
+          //  'Role'=>'1',
+          //  'Position'=>'Admin',
+          //  'Username'=>'admin',
+            //'password'=>bcrypt('admin'),
+            //'Signature'=>'alksdmaklsmd',
+        //  ]);
         }
     }
 }

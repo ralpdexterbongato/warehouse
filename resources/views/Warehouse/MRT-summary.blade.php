@@ -12,12 +12,11 @@
       </form>
     </div>
     <div class="results-summary-mrt">
+      @if (!empty($mrtmaster[0]))
       <div class="bondpaper-sample-mrt">
-        @if (!empty($mrtmaster[0]))
           <form class="print-mrt-summary" action="{{route('mrt-summary-print')}}" method="get">
             <button type="submit" name="monthInput" value="{{$mrtmaster[0]->ReturnDate->format('Y-m')}}"><i class="fa fa-download"></i> Summary <i class="fa fa-file-pdf-o"></i> PDF</button>
           </form>
-        @endif
         <div class="header-summary">
           <div class="header-summary-content">
             <img src="DesignIMG/logo.png" alt="logo">
@@ -60,6 +59,9 @@
           @endif
         </div>
       </div>
+      @else
+        <h1 class="no-MRT-summary">No Current Result <i class="fa fa-search"></i></h1>
+      @endif
     </div>
   </div>
 </div>

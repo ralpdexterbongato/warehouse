@@ -6,12 +6,17 @@
   <div class="Preview-MCT-container">
       <div class="print-MCT-wrap">
         <div class="MCT-title">
-          <form action="{{route('print-mct')}}" method="post">
-            {{ csrf_field() }}
-            <input type="text" name="MIRSNo" value="{{$MCTMast[0]->MIRSNo}}" style="display:none">
-            <button type="submit" name="button"><i class="fa fa-file-pdf-o"></i>.pdf</button>
-          </form>
-        @if (($MCTMast[0]->IssuedbySignature!=null)&&($MCTMast[0]->ReceivedbySignature!=null))
+          @if (($MCTMast[0]->IssuedbySignature!=null)&&($MCTMast[0]->ReceivedbySignature!=null))
+            <form class="print-buttonMCT"action="{{route('print-mct')}}" method="post">
+              {{ csrf_field() }}
+              <input type="text" name="MIRSNo" value="{{$MCTMast[0]->MIRSNo}}" style="display:none">
+              <button type="submit" name="button"><i class="fa fa-file-pdf-o"></i>.pdf</button>
+            </form>
+          @else
+            <div class="empty-div-left">
+            </div>
+          @endif
+          @if (($MCTMast[0]->IssuedbySignature!=null)&&($MCTMast[0]->ReceivedbySignature!=null))
           @if (($MRTcheck[0]==null)&&(Auth::user()->Role==4))
           <div class="Create-MRT-btn">
             <form action="{{route('create.mrt')}}" method="get">
@@ -36,7 +41,7 @@
             <div class="signature-mct-btn">
               <form action="{{route('MCTsignature')}}" method="post">
                 {{ csrf_field() }}
-                <button type="submit" name="MCTNo" value="{{$MCTMast[0]->MCTNo}}">Signature</button>
+                <button type="submit" name="MCTNo" value="{{$MCTMast[0]->MCTNo}}"><i class="fa fa-pencil"></i> Signature</button>
               </form>
             </div>
           @endif
@@ -59,7 +64,7 @@
           <div class="MCTmaster-right">
             <ul>
               <li><label>MIRS No :</label><h2>{{$MCTMast[0]->MIRSNo}}</h2></li>
-              <li><label>Date : </label><h2>{{$MCTMast[0]->MIRSDate}}</h2></li>
+              <li><label>MCT Date : </label><h2>{{$MCTMast[0]->MCTDate->format('m/d/Y')}}</h2></li>
               <li><label>MCT No.:</label><h2>{{$MCTMast[0]->MCTNo}}</h2></li>
             </ul>
           </div>

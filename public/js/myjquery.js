@@ -1,6 +1,6 @@
 
   $(document).ready(function() {
-    $('.add-noexist').click(function(event) {
+    $('.addnon-existing').click(function(event) {
       $('.add-new-modal').addClass('active');
       $('.Account-modal').removeClass('active');
     });
@@ -40,4 +40,41 @@
       $('.MCT-modal').removeClass('active');
    });
 
+   $('.searchRRitem').click(function(event) {
+     $('.search-itemRR-Container').addClass('active');
+   });
+
+   $('.search-RR-center h1').click(function(event) {
+     $('.search-itemRR-Container').removeClass('active');
+   });
+
+   //previewing Signature image before uploading
+  function readURL(input) {
+
+     if (input.files && input.files[0]) {
+         var reader = new FileReader();
+
+         reader.onload = function (e) {
+             $('#signaturePreview').attr('src', e.target.result);
+         }
+         reader.readAsDataURL(input.files[0]);
+     }
+   }
+
+   $('#signaturePreview').hide();
+
+    $("#inputSignature").change(function(){
+        readURL(this);
+        $('#signaturePreview').show();
+    });
+
+    $('.add-item-RV > button').click(function(event) {
+      $('.add-RV-item-modal').addClass('active');
+    });
+
+    $('#closemodalRV').click(function(event) {
+        $('.add-RV-item-modal').removeClass('active');
+    });
+
+    
   });

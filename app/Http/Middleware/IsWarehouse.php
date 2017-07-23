@@ -4,7 +4,7 @@ namespace App\Http\Middleware;
 
 use Closure;
 use Auth;
-class WarehouseAndAdmin
+class IsWarehouse
 {
     /**
      * Handle an incoming request.
@@ -15,7 +15,7 @@ class WarehouseAndAdmin
      */
     public function handle($request, Closure $next)
     {
-      if ((Auth::user()->Role == 1)||(Auth::user()->Role==4))
+      if ((Auth::user()->Role==4))
       {
         return $next($request);
       }

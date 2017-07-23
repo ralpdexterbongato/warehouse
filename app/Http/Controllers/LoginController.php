@@ -8,11 +8,9 @@ use Storage;
 use App\User;
 class LoginController extends Controller
 {
-
-
     public function __construct()
     {
-      $this->middleware('IsAdmin',['except' => ['logoutAccount','loginpage','loginSubmit']]);
+      $this->middleware('IsAdmin',['except'=>['loginpage','loginSubmit','logoutAccount']]);
     }
     public function loginpage()
     {

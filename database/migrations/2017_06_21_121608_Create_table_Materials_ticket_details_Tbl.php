@@ -19,13 +19,14 @@ class CreateTableMaterialsTicketDetailsTbl extends Migration
           $table->string('MTNo');
           $table->string('AccountCode',20)->nullable();
           $table->decimal('UnitCost',18,2)->nullable();
+          $table->integer('RRQuantityDelivered')->nullable();
           $table->decimal('Quantity',18,0)->nullable();
           $table->string('Unit')->nullable();
           $table->decimal('Amount',18,2)->nullable();
           $table->decimal('CurrentCost',18,2)->nullable();
           $table->decimal('CurrentQuantity',18,0)->nullable();
           $table->decimal('CurrentAmount',18,2)->nullable();
-          $table->dateTime('created_at');
+          $table->dateTime('MTDate');
         });
     }
 

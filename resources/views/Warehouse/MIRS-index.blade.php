@@ -31,14 +31,36 @@
           <tr>
             <td>{{$MIRSfound->MIRSNo}}</td>
             <td>{{$MIRSfound->Purpose}}</td>
-            <td>{{$MIRSfound->Preparedby}}</td>
-            <td>{{$MIRSfound->Recommendedby}}</td>
-            <td>{{$MIRSfound->Approvedby}}</td>
+            <td>{{$MIRSfound->Preparedby}}
+              @if (!empty($MIRSfound->PreparedSignature))
+               <i class="fa fa-check"></i>
+             @elseif($MIRSfound->IfDenied==$MIRSfound->Preparedby)
+               <i class="fa fa-times decliner"></i>
+             @endif
+            </td>
+            <td>{{$MIRSfound->Recommendedby}}
+              @if (!empty($MIRSfound->RecommendSignature))
+               <i class="fa fa-check"></i>
+             @elseif($MIRSfound->IfDenied==$MIRSfound->Recommendedby)
+               <i class="fa fa-times decliner"></i>
+             @endif
+            </td>
+            <td>{{$MIRSfound->Approvedby}}
+              @if (!empty($MIRSfound->ApproveSignature))
+               <i class="fa fa-check"></i>
+             @elseif($MIRSfound->IfDenied==$MIRSfound->Approvedby)
+               <i class="fa fa-times decliner"></i>
+              @endif
+            </td>
             <td>{{$MIRSfound->MIRSDate->format('M d, Y')}}</td>
-            @if(($MIRSfound->PreparedSignature==null)||($MIRSfound->ApproveSignature==null)||($MIRSfound->RecommendSignature==null))
-            <td><i class="fa fa-clock-o"></i></td>
+            @if ($MIRSfound->IfDenied==null)
+              @if(($MIRSfound->PreparedSignature==null)||($MIRSfound->ApproveSignature==null)||($MIRSfound->RecommendSignature==null))
+              <td><i class="fa fa-clock-o"></i></td>
+              @else
+              <td><i class="fa fa-thumbs-up"></i></td>
+              @endif
             @else
-            <td><i class="fa fa-thumbs-up"></i></td>
+              <td><i class="fa fa-times decliner"></i></td>
             @endif
             <td class="fullmirsClick"><i class="fa fa-eye" onclick="$('.ViewingFullMIRS{{$MIRSfound->MIRSNo}}').submit()"></i></td>
           </tr>
@@ -51,14 +73,37 @@
           <tr>
             <td>{{$allmaster->MIRSNo}}</td>
             <td>{{$allmaster->Purpose}}</td>
-            <td>{{$allmaster->Preparedby}}</td>
-            <td>{{$allmaster->Recommendedby}}</td>
-            <td>{{$allmaster->Approvedby}}</td>
+            <td>{{$allmaster->Preparedby}}
+              @if (!empty($allmaster->PreparedSignature))
+               <i class="fa fa-check"></i>
+             @elseif ($allmaster->Preparedby == $allmaster->IfDenied)
+               <i class="fa fa-times decliner"></i>
+             @endif
+            </td>
+            <td>
+              {{$allmaster->Recommendedby}}
+              @if (!empty($allmaster->RecommendSignature))
+               <i class="fa fa-check"></i>
+             @elseif ($allmaster->Recommendedby == $allmaster->IfDenied)
+               <i class="fa fa-times decliner"></i>
+             @endif
+            </td>
+            <td>{{$allmaster->Approvedby}}
+              @if (!empty($allmaster->ApproveSignature))
+                <i class="fa fa-check"></i>
+              @elseif ($allmaster->Approvedby == $allmaster->IfDenied)
+                <i class="fa fa-times decliner"></i>
+              @endif
+            </td>
             <td>{{$allmaster->MIRSDate->format('M d, Y')}}</td>
-            @if (($allmaster->PreparedSignature==null)||($allmaster->ApproveSignature==null)||($allmaster->RecommendSignature==null))
-            <td><i class="fa fa-clock-o"></i></td>
+            @if ($allmaster->IfDenied==null)
+              @if (($allmaster->PreparedSignature==null)||($allmaster->ApproveSignature==null)||($allmaster->RecommendSignature==null))
+              <td><i class="fa fa-clock-o"></i></td>
+              @else
+              <td><i class="fa fa-thumbs-up"></i></td>
+              @endif
             @else
-            <td><i class="fa fa-thumbs-up"></i></td>
+              <td><i class="fa fa-times decliner"></i></td>
             @endif
             <td><i class="fa fa-eye" onclick="$('.ViewingFullMIRS{{$allmaster->MIRSNo}}').submit()"></i></td>
           </tr>

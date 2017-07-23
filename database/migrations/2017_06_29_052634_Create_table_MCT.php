@@ -17,7 +17,7 @@ class CreateTableMCT extends Migration
             $table->increments('id');
             $table->char('MCTNo',7);
             $table->char('MIRSNo',7);
-            $table->date('MIRSDate')->nullable();
+            $table->date('MCTDate')->nullable();
             $table->string('Particulars',150)->nullable();
             $table->string('AddressTo',100)->nullable();
             $table->string('Issuedby',50)->nullable();

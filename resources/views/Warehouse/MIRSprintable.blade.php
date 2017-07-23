@@ -328,6 +328,7 @@
   {
     border: 1px solid black;
     font-family:sans-serif;
+    page-break-inside:avoid;
   }
     </style>
   </head>

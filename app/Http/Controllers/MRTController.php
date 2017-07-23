@@ -57,7 +57,7 @@ class MRTController extends Controller
 
         foreach (Session::get('MCTSelected') as $MRTitem)
         {
-          $MTdetails=MaterialsTicketDetail::orderBy('created_at','DESC')->where('ItemCode', $MRTitem->ItemCode)->take(1)->get();
+          $MTdetails=MaterialsTicketDetail::orderBy('MTDate','DESC')->where('ItemCode', $MRTitem->ItemCode)->take(1)->get();
           $qty=(float)$MRTitem->Summary;
           $price=(float)$MTdetails[0]->CurrentCost;
           $MRTammount=$qty * $price;
@@ -128,10 +128,10 @@ class MRTController extends Controller
     {
       $this->datesearchValidator($request);
       $datesearch=$request->monthInput;
-      $itemsummary=MaterialsTicketDetail::orderBy('ItemCode')->where('MTType','MRT')->whereDate('created_at','LIKE',date($datesearch).'%')->groupBy('ItemCode','Unit')->selectRaw('sum(Quantity) as totalQty, ItemCode as ItemCode , Unit as Unit ')->get();
+      $itemsummary=MaterialsTicketDetail::orderBy('ItemCode')->where('MTType','MRT')->whereDate('MTDate','LIKE',date($datesearch).'%')->groupBy('ItemCode','Unit')->selectRaw('sum(Quantity) as totalQty, ItemCode as ItemCode , Unit as Unit ')->get();
       if (!empty($itemsummary[0]))
       {
-        $detailMTNum =MaterialsTicketDetail::orderBy('created_at','DESC')->where('MTType','MRT')->whereDate('created_at','LIKE',date($datesearch).'%')->take(1)->get(['MTNo']);
+        $detailMTNum =MaterialsTicketDetail::orderBy('MTDate','DESC')->where('MTType','MRT')->whereDate('MTDate','LIKE',date($datesearch).'%')->take(1)->get(['MTNo']);
         $mrtmaster=MRTMaster::where('MRTNo',$detailMTNum[0]->MTNo)->get(['Receivedby','ReturnDate']);
         return view('Warehouse.MRT-summary',compact('itemsummary','mrtmaster'));
       }else

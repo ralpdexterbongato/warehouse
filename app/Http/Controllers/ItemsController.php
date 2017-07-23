@@ -20,13 +20,12 @@ class ItemsController extends Controller
      public function __construct()
      {
       $this->middleware('auth');
-      $this->middleware('IsWarehouseorAdmin',['except'=>['index','ItemMasterbyDescription','searchByItemCode','searchItemMaster']]);
+      $this->middleware('IsWarehouse',['except'=>['index','ItemMasterbyDescription','searchByItemCode','searchItemMaster']]);
      }
 
     public function index()
     {
         $allhistory=MaterialsTicketDetail::all();
-
         return view('welcome');
     }
 
@@ -136,8 +135,8 @@ class ItemsController extends Controller
 
     public function searchByItemCode(Request $request)
     {
-      $historiesfound= MaterialsTicketDetail::where('ItemCode',$request->ItemCode)->orderBy('created_at','DESC')->paginate(10);
-      $latestFound=MaterialsTicketDetail::orderBy('created_at','DESC')->where('ItemCode',$request->ItemCode)->take(1)->get();
+      $historiesfound= MaterialsTicketDetail::where('ItemCode',$request->ItemCode)->orderBy('MTDate','DESC')->paginate(10);
+      $latestFound=MaterialsTicketDetail::orderBy('MTDate','DESC')->where('ItemCode',$request->ItemCode)->take(1)->get();
       $historiesfound->withPath('http://localhost:8000/SearchByItemCode?_token=HqnLPVtyAoKBH4OD1wFgcuf4CvMiVrreO9mHP48t&ItemCode=L-001');
       return view('welcome',compact('historiesfound','latestFound'));
     }
@@ -145,13 +144,10 @@ class ItemsController extends Controller
     public function searchItemMaster(Request $request)
     {
       Session::forget('itemMasters');
-      $itemMasters=MasterItem::where('ItemCode_id',$request->ItemCode)->get();
-    //  $currentQTY=MaterialsTicketDetail::where('ItemCode',$request->ItemCode)->orderBy('created_at','DESC')->take(1)->value('CurrentQuantity');
-    //  return view('Warehouse.MIRSviews',compact('itemMasters','currentQTY'));
+      $itemMasters=MasterItem::where('ItemCode_id',$request->ItemCode)->paginate(5);
       if (!empty($itemMasters[0]))
       {
         Session::put('itemMasters',$itemMasters);
-      //  Session::flash('currentQTY',$currentQTY);
       }else {
         return redirect()->back()->with('message', 'No Results found');
       }
@@ -164,8 +160,9 @@ class ItemsController extends Controller
        if (!empty($itemMasters[0]))
        {
         Session::put('itemMasters',$itemMasters);
-       }
-       return redirect()->back();
+        return redirect()->back();
+      }
+       return redirect()->back()->with('message','No results found');
     }
 
 }
