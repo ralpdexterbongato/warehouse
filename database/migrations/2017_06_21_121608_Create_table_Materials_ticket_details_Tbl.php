@@ -21,7 +21,7 @@ class CreateTableMaterialsTicketDetailsTbl extends Migration
           $table->decimal('UnitCost',18,2)->nullable();
           $table->integer('RRQuantityDelivered')->nullable();
           $table->decimal('Quantity',18,0)->nullable();
-          $table->string('Unit')->nullable();
+          $table->string('Unit',10)->nullable();
           $table->decimal('Amount',18,2)->nullable();
           $table->decimal('CurrentCost',18,2)->nullable();
           $table->decimal('CurrentQuantity',18,0)->nullable();

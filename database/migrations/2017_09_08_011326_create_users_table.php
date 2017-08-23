@@ -22,6 +22,7 @@ class CreateUsersTable extends Migration
             $table->string('Username',30);
             $table->string('password',191);
             $table->string('Signature',100);
+            $table->char('IsActive',1)->default('0')->nullable();
             $table->rememberToken();
         });
     }

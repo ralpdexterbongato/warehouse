@@ -4,21 +4,27 @@
     <meta http-equiv="Content-Type" content="text/html; charset=utf-8"/>
     <meta name="viewport" content="width=device-width, initial-scale=1">
     <meta name="Developer's" content="Ralp Dexter Bongato & Zeshrou Añuber">
-    <link rel="icon" type="image/png" href="DesignIMG/logo.png">
-    <title>@yield('title')</title>
+    <link rel="icon" type="image/png" href="/DesignIMG/logo.png">
     <link rel="stylesheet" href="/css/mystyle.css">
     <link rel="stylesheet" href="/css/reset.css">
-    <link rel="stylesheet" href="/icons/css/font-awesome.min.css">
     <link rel="stylesheet" href="/css/animate.css">
+    <link rel="stylesheet" href="/css/bootstrap.css">
+    <script type="text/javascript"> (function() { var css = document.createElement('link'); css.href = '/icons/css/font-awesome.min.css'; css.rel = 'stylesheet'; css.type = 'text/css'; document.getElementsByTagName('head')[0].appendChild(css); })(); </script>
+    <title>@yield('title')</title>
+    <script>
+      window.Laravel = <?php echo json_encode([
+          'csrfToken' => csrf_token()
+      ]); ?>;
+    </script>
   </head>
   <body>
     <header>
       <div class="top-nav-container">
         <div class="left-nav-content">
           @if (Auth::check())
-            <button type="button" class="burger-button" name="button"><i class="fa fa-bars"></i></button>
+            <button type="button" class="burger-button" name="button"><i class="fa fa-navicon"></i></button>
           @endif
-          <a href="/"><img class="animated rollIn" src="/DesignIMG/logo.png" alt="logo"></a>
+          <a href="/"><img src="/DesignIMG/logo.png" alt="logo"></a>
         </div>
         <div class="right-nav-content">
           <div class="title-top">
@@ -46,13 +52,22 @@
               <a href="{{route('checkmyMCTrequest')}}"><li><i class="fa fa-pencil"></i> MCT signature request</li></a>
               <a href="{{route('checkmyRRrequest')}}"><li><i class="fa fa-pencil"></i> RR signature request</li></a>
               <a href="{{route('MyRVrequestlist')}}"><li><i class="fa fa-pencil"></i> RV signature request</li></a>
-              @if (Auth::user()->Role==4)
+              @if ((Auth::user()->Role==2))
+                <a href="{{route('viewPOrequest')}}"><li><i class="fa fa-pencil"></i> PO signature request</li></a>
+              @endif
+              @if ((Auth::user()->Role==2)||(Auth::user()->Role==0))
+                <a href="{{route('myMR.signature.Request')}}"><li><i class="fa fa-pencil"></i> M.R. signature request</li></a>
+              @endif
+              @if ((Auth::user()->Role==4)||(Auth::user()->Role==3))
                 <a href="{{route('mirs-ready')}}"><li><i class="fa fa-check"></i> Ready for MCT list</li></a>
+                <a href="{{route('pending-purchase-rv')}}"><li><i class="fa fa-list-ul"></i> Unpurchased RV list</li></a>
               @endif
               @if (Auth::user()->Role==1)
-                <a href="{{route('Registration')}}"><li><i class="fa fa-user"></i> Create Account</li></a>
+                <a href="{{route('Registration')}}"><li><i class="fa fa-user-plus"></i> Create Account</li></a>
+                <a href="{{route('AccountsListGM')}}"><li><i class="fa fa-medium"></i> Manage accounts</li></a>
+                <a href="{{route('view.request.gm-signature.replace')}}"><li><i class="fa fa-user-times"></i> If G.M. is absent request</li></a>
               @endif
-              <a><li onclick="$('.logoutform').submit()"><i class="fa fa-sign-out"> </i> Logout</li></a>
+              <a><li onclick="$('.logoutform').submit()"><i class="fa fa-plug"> </i> Logout</li></a>
               <form class="logoutform" action="{{route('Logging.out')}}" method="post">
                 {{ csrf_field() }}
               </form>
@@ -71,6 +86,7 @@
       </div>
     </footer>
     <script type="text/javascript" src="/js/jquery.js"></script>
+    <script type="text/javascript" src="/js/jquery.js"></script>
     <script type="text/javascript" src="/js/myjquery.js"></script>
     <script type="text/javascript">
       $(document).ready(function() {
@@ -84,6 +100,9 @@
           $('.search-itemRR-Container').addClass('active');
         @endif
 
+        @if (Session::has('SessionForStock'))
+          $('.for-stock-Modal').addClass('active');
+        @endif
       });
     </script>
   </body>

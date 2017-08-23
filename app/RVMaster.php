@@ -9,4 +9,5 @@ class RVMaster extends Model
   protected $table="RVMasters";
   public $timestamps =false;
   public $dates=['RVDate'];
+  protected $dateFormat = 'M d, Y';
 }

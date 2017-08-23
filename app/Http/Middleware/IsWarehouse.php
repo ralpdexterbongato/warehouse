@@ -15,7 +15,7 @@ class IsWarehouse
      */
     public function handle($request, Closure $next)
     {
-      if ((Auth::user()->Role==4))
+      if ((Auth::user()->Role==4)||(Auth::user()->Role==3))
       {
         return $next($request);
       }

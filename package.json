@@ -16,6 +16,11 @@
     "jquery": "^3.1.1",
     "laravel-mix": "0.*",
     "lodash": "^4.17.4",
-    "vue": "^2.1.10"
+    "vue": "^2.1.10",
+    "vue-date-filter": "^1.0.1"
+  },
+  "dependencies": {
+    "vee-validate": "^2.0.0-rc.9",
+    "vue-numeric": "^1.6.1"
   }
 }

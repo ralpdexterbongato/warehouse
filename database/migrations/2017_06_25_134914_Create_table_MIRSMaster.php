@@ -21,15 +21,18 @@ class CreateTableMIRSMaster extends Migration
             $table->string('Recommendedby',50)->nullable();
             $table->string('Approvedby',50)->nullable();
             $table->date('MIRSDate')->nullable();
-            $table->string('PreparedPosition')->nullable();
-            $table->string('RecommendPosition')->nullable();
-            $table->string('ApprovePosition')->nullable();
+            $table->string('PreparedPosition',50)->nullable();
+            $table->string('RecommendPosition',50)->nullable();
+            $table->string('ApprovePosition',50)->nullable();
             $table->string('PreparedSignature',140)->nullable();
             $table->string('RecommendSignature',140)->nullable();
             $table->string('ApproveSignature',140)->nullable();
             $table->char('WithMCT',1)->nullable();
-            $table->string('IfDenied',50)->nullable();
-
+            $table->string('IfDeclined',50)->nullable();
+            $table->string('ApprovalReplacerFname',25)->nullable();
+            $table->string('ApprovalReplacerLname',25)->nullable();
+            $table->string('ApprovalReplacerSignature',150)->nullable();
+            $table->string('ApprovalReplacerPosition',50)->nullable();
         });
     }
 

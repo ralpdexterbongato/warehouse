@@ -12,13 +12,22 @@ use DB;
 use App\User;
 use App\MCTMaster;
 use Auth;
+use App\MCTValidator;
 class MIRSController extends Controller
 {
+  public function __construct()
+  {
+    $this->middleware('auth');
+  }
   public function MIRScreate()
   {
-    $GenMan=User::orderBy('id','DESC')->where('Role','2')->take(1)->get(['Fname','Lname','id']);
-    $allManager=User::where('Role', '0')->get(['id','Fname','Lname','Position']);
-    return view('Warehouse.MIRSviews',compact('allManager','GenMan'));
+    $GenMan=User::orderBy('id','DESC')->where('Role','2')->whereNotNull('IsActive')->take(1)->get(['Fname','Lname','id']);
+    $allManager=User::where('Role', '0')->whereNotNull('IsActive')->get(['id','Fname','Lname','Position']);
+    return view('Warehouse.MIRS.MIRSCreate',compact('allManager','GenMan'));
+  }
+  public function fetchSessionMIRS()
+  {
+      return Session::get('ItemSelected');
   }
   public function addingSessionItem(Request $request)
   {
@@ -34,7 +43,7 @@ class MIRSController extends Controller
         foreach (Session::get('ItemSelected') as $selected)
         {
           if ($selected->ItemCode_id == $request->ItemCode_id) {
-            return redirect('/MIRS-add')->with('message', 'This Item has been added already');
+            return response()->json(['error'=>'This Item has been added already']);
           }
         }
       }
@@ -66,7 +75,7 @@ class MIRSController extends Controller
   {
     return $this->validate($request,[
       'Quantity' => 'Required|Integer|min:1',
-      'Remarks' => 'Required|max:50',
+      'Remarks' => 'max:50',
     ]);
   }
   public function StoringMIRS(Request $request)
@@ -87,11 +96,8 @@ class MIRSController extends Controller
         {
             $incremented = $year . '-' . sprintf("%04d",'1');
         }
-      $selectedITEMS=Session::get('ItemSelected');
-      $selectedITEMS = (array)$selectedITEMS;
-
-      $recommend=User::where('id',$request->Recommendedby)->get(['Position','Fname','Lname']);
-      $approve=User::where('id',$request->Approvedby)->get(['Position','Fname','Lname']);
+      $recommend=User::whereNotNull('IsActive')->where('id',$request->Recommendedby)->get(['Position','Fname','Lname']);
+      $approve=User::whereNotNull('IsActive')->where('id',$request->Approvedby)->get(['Position','Fname','Lname']);
       $master=new MIRSMaster;
       $master->MIRSNo = $incremented;
       $master->Purpose =$request->Purpose;
@@ -112,20 +118,16 @@ class MIRSController extends Controller
         $master->ApproveSignature=Auth::user()->Signature;
       }
       $master->save();
+      $selectedITEMS=Session::get('ItemSelected');
+      $selectedITEMS = (array)$selectedITEMS;
+      $forMIRSDetailtbl = array();
       foreach ($selectedITEMS as $items)
       {
-        $details=new MIRSDetail;
-        $details->MIRSNo = $incremented;
-        $details->ItemCode= $items->ItemCode_id;
-        $details->Particulars = $items->Particulars;
-        $details->Unit= $items->Unit;
-        $details->Remarks=$items->Remarks;
-        $details->Quantity= $items->Quantity;
-        $details->save();
+        $forMIRSDetailtbl[] = array('MIRSNo' => $incremented ,'ItemCode'=>$items->ItemCode_id,'Particulars'=>$items->Particulars,'Unit'=>$items->Unit,'Remarks'=>$items->Remarks,'Quantity'=>$items->Quantity);
       }
+      MIRSDetail::insert($forMIRSDetailtbl);
         Session::forget('ItemSelected');
-        Session::forget('itemMasters');
-        return redirect()->route('MIRSgridview');
+        return ['redirect'=>route('full-mirs',[$incremented])];
     }else
     {
       return redirect()->back()->with('message', 'Items cannot be empty');
@@ -139,32 +141,34 @@ class MIRSController extends Controller
       'Approvedby'=>'required',
     ]);
   }
-  public function fullMIRSNo(Request $request)
+  public function fullMIRSview($id)
   {
-    $MIRSDetail=MIRSDetail::where('MIRSNo', $request->MIRSNo)->get();
-    $MIRSMaster=MIRSMaster::where('MIRSNo', $request->MIRSNo)->get();
-    $MCTNumber=MCTMaster::where('MIRSNo', $request->MIRSNo)->value('MCTNo');
-    return view('Warehouse.MIRSpreview',compact('MIRSDetail','MIRSMaster','MCTNumber'));
+    $MCTValidatorQty=MCTValidator::where('MIRSNo',$id)->get(['Quantity']);
+    $unclaimed=$MCTValidatorQty->sum('Quantity');
+    $MIRSDetail=MIRSDetail::where('MIRSNo', $id)->get();
+    $MIRSMaster=MIRSMaster::where('MIRSNo', $id)->get();
+    $MCTNumber=MCTMaster::where('MIRSNo', $id)->value('MCTNo');
+    return view('Warehouse.MIRS.MIRSpreview',compact('MIRSDetail','MIRSMaster','MCTNumber','unclaimed'));
   }
   public function searchMIRSNo(Request $request)
   {
-    $mirsResult=MIRSMaster::where('MIRSNo', $request->MIRSNo)->get();
+    $mirsResult=MIRSMaster::where('MIRSNo', $request->MIRSNo)->get(['MIRSNo','Purpose','Preparedby','PreparedSignature','Recommendedby','RecommendSignature','Approvedby','ApproveSignature','MIRSDate','IfDeclined','ApprovalReplacerSignature']);
     if (empty($mirsResult[0]->MIRSNo))
     {
       return redirect()->route('MIRSgridview');
     }
-    return view('Warehouse.MIRS-index',compact('mirsResult'));
+    return view('Warehouse.MIRS.MIRS-index',compact('mirsResult'));
   }
-  public function DeniedMIRS(Request $request)
+  public function DeniedMIRS($id)
   {
-    MIRSMaster::where('MIRSNo',$request->MIRSNo)->update(['IfDenied'=>Auth::user()->Fname.' '.Auth::user()->Lname]);
+    MIRSMaster::where('MIRSNo',$id)->update(['IfDeclined'=>Auth::user()->Fname.' '.Auth::user()->Lname,'ApprovalReplacerFname'=>null,'ApprovalReplacerLname'=>null,'ApprovalReplacerSignature'=>null,'ApprovalReplacerPosition'=>null]);
     return redirect()->route('MIRSgridview');
   }
 
   public function Indexgrid()
   {
-    $AllmasterMIRS=MIRSMaster::orderBy('id','DESC')->paginate(10);
-    return view('Warehouse.MIRS-index',compact('AllmasterMIRS'));
+    $AllmasterMIRS=MIRSMaster::orderBy('id','DESC')->paginate(10,['MIRSNo','Purpose','Preparedby','PreparedSignature','Recommendedby','RecommendSignature','Approvedby','ApproveSignature','MIRSDate','IfDeclined','ApprovalReplacerSignature']);
+    return view('Warehouse.MIRS.MIRS-index',compact('AllmasterMIRS'));
   }
 
   public function MIRSSignature(Request $request)
@@ -176,26 +180,84 @@ class MIRSController extends Controller
     }
     if ($signableNames[0]->Approvedby==Auth::user()->Fname .' '.Auth::user()->Lname)
     {
-      MIRSMaster::where('MIRSNo',$request->MIRSNo)->update(['ApproveSignature'=>Auth::user()->Signature]);
+      MIRSMaster::where('MIRSNo',$request->MIRSNo)->update(['ApproveSignature'=>Auth::user()->Signature,'ApprovalReplacerFname'=>null,'ApprovalReplacerLname'=>null,'ApprovalReplacerSignature'=>null,'ApprovalReplacerPosition'=>null]);
+    }
+    $signaturesCheck=MIRSMaster::where('MIRSNo',$request->MIRSNo)->get(['RecommendSignature','ApproveSignature']);
+    if (($signaturesCheck[0]->RecommendSignature!=null)&&($signaturesCheck[0]->ApproveSignature!=null))
+    {
+      $MIRSitems=MIRSDetail::where('MIRSNo',$request->MIRSNo)->get(['MIRSNo','ItemCode','Particulars','Unit','Quantity','Remarks']);
+      $forValidatortbl = array();
+      foreach ($MIRSitems as $item)
+      {
+        $forValidatortbl[] = array('MIRSNo' =>$item->MIRSNo ,'ItemCode'=> $item->ItemCode,'Particulars'=>$item->Particulars,'Unit'=>$item->Unit,'Quantity'=>$item->Quantity,'Remarks'=>$item->Remarks);
+      }
+      MCTValidator::insert($forValidatortbl);
     }
     return redirect()->back();
 
   }
   public function mirsRequestcheck()
   {
-    $myrequestMIRS=MIRSMaster::orderBy('id','DESC')->whereNull('IfDenied')->where('Preparedby',Auth::user()->Fname." ".Auth::user()->Lname)
-                    ->whereNull('PreparedSignature')
+    $myrequestMIRS=MIRSMaster::orderBy('id','DESC')->whereNull('IfDeclined')->where('Preparedby',Auth::user()->Fname." ".Auth::user()->Lname)
+                    ->whereNull('PreparedSignature')->whereNull('ApprovalReplacerSignature')
                     ->orWhere('Recommendedby',Auth::user()->Fname." ".Auth::user()->Lname)
-                    ->whereNull('RecommendSignature')->whereNull('IfDenied')
+                    ->whereNull('RecommendSignature')->whereNull('IfDeclined')->whereNull('ApprovalReplacerSignature')
                     ->orWhere('Approvedby',Auth::user()->Fname." ".Auth::user()->Lname)
-                    ->whereNull('ApproveSignature')->whereNull('IfDenied')
+                    ->whereNull('ApproveSignature')->whereNull('IfDeclined')->whereNull('ApprovalReplacerSignature')
                     ->paginate(10,['MIRSNo','Purpose','Preparedby','Approvedby','Recommendedby','MIRSDate','RecommendSignature','PreparedSignature','ApproveSignature']);
-    return view('Warehouse.myMIRSrequest',compact('myrequestMIRS'));
+    return view('Warehouse.MIRS.myMIRSrequest',compact('myrequestMIRS'));
   }
   public function readyForMCT()
   {
-    $readyformct=MIRSMaster::orderBy('MIRSNo','DESC')->whereNull('WithMCT')->where('RecommendSignature','!=','')->where('ApproveSignature','!=','')->where('PreparedSignature','!=','')
+    $readyformct=MIRSMaster::orderBy('MIRSNo','DESC')->whereNull('WithMCT')->where('RecommendSignature','!=','')->where('ApproveSignature','!=','')->where('PreparedSignature','!=','')->orWhere('ApprovalReplacerSignature','!=',null)
     ->paginate(10,['MIRSNo','Purpose','Preparedby','Recommendedby','Approvedby','MIRSDate']);
-  return view('Warehouse.MIRSReadyList',compact('readyformct'));
+  return view('Warehouse.MIRS.MIRSReadyList',compact('readyformct'));
   }
+  public function ApproveMIRSinBehalf($id)
+  {
+    if (Auth::user()->Role==0)
+    {
+      MIRSMaster::where('MIRSNo', $id)->update(['ApprovalReplacerFname'=>Auth::user()->Fname,'ApprovalReplacerLname'=>Auth::user()->Lname]);
+    }
+    return redirect()->back();
+  }
+  public function CancelApproveMIRSinBehalf($id)
+  {
+    if (Auth::user()->Role==0)
+    {
+        $ManagerApproving=MIRSMaster::where('MIRSNo', $id)->get(['ApprovalReplacerFname','ApprovalReplacerLname','ApprovalReplacerSignature']);
+        if (($ManagerApproving[0]->ApprovalReplacerFname.' '.$ManagerApproving[0]->ApprovalReplacerLname==Auth::user()->Fname.' '.Auth::user()->Lname)&&($ManagerApproving[0]->ApprovalReplacerSignature==null))
+        {
+          MIRSMaster::where('MIRSNo', $id)->update(['ApprovalReplacerFname'=>null,'ApprovalReplacerLname'=>null]);
+        }
+        return redirect()->back();
+    }
+  }
+  public function DenyRequestofManagerMIRS($id)
+  {
+    if (Auth::user()->Role==1)
+    {
+      $ManagerApproving=MIRSMaster::where('MIRSNo', $id)->update(['ApprovalReplacerFname'=>null,'ApprovalReplacerLname'=>null]);
+    }
+    return redirect()->back();
+  }
+  public function letManagerSignatureGM($id)
+  {
+    if (Auth::user()->Role==1)
+    {
+      $MIRSitems=MIRSDetail::where('MIRSNo',$id)->get(['MIRSNo','ItemCode','Particulars','Unit','Quantity','Remarks']);
+      $forValidatortbl = array();
+      foreach ($MIRSitems as $item)
+      {
+        $forValidatortbl[] = array('MIRSNo' =>$item->MIRSNo ,'ItemCode'=> $item->ItemCode,'Particulars'=>$item->Particulars,'Unit'=>$item->Unit,'Quantity'=>$item->Quantity,'Remarks'=>$item->Remarks);
+      }
+      MCTValidator::insert($forValidatortbl);
+
+      $approveReplacer=MIRSMaster::where('MIRSNo',$id)->get(['ApprovalReplacerFname','ApprovalReplacerLname']);
+      $replacer=User::whereNotNull('IsActive')->where('Fname',$approveReplacer[0]->ApprovalReplacerFname)->where('Lname',$approveReplacer[0]->ApprovalReplacerLname)->get(['Signature','Position']);
+      MIRSMaster::where('MIRSNo',$id)->update(['ApprovalReplacerSignature'=>$replacer[0]->Signature,'ApprovalReplacerPosition'=>$replacer[0]->Position]);
+      return redirect()->back();
+    }
+  }
+
 }

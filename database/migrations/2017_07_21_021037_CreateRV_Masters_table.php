@@ -28,7 +28,13 @@ class CreateRVMastersTable extends Migration
             $table->string('BudgetOfficerSignature',150)->nullable();
             $table->string('GeneralManager',50)->nullable();
             $table->string('GeneralManagerSignature',150)->nullable();
+            $table->decimal('BudgetAvailable',12,2)->nullable();
             $table->string('IfDeclined',50)->nullable();
+            $table->char('IfPurchased',4)->nullable();
+            $table->string('ApprovalReplacerFname',30)->nullable();
+            $table->string('ApprovalReplacerLname',30)->nullable();
+            $table->string('ApprovalReplacerPosition',50)->nullable();
+            $table->string('ApprovalReplacerSignature',150)->nullable();
         });
     }
 

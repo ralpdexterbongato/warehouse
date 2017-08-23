@@ -18,15 +18,15 @@ warehouse | BOHECO 1
             <li class="dropping-parent">
               <h1>SUMMARY <i class="fa fa-angle-down"></i></h1>
               <ul class="dropping">
-                <a href="{{route('summary.mrt')}}"><li><i class="fa fa-list-alt"></i> MRT(summary)</li></a>
-                <a href="{{route('mct-summary')}}"><li><i class="fa fa-list-alt"></i> MCT(summary)</li></a>
+                <a href="{{route('summary.mrt')}}"><li><i class="fa fa-list-alt"></i> MRT</li></a>
+                <a href="{{route('mct-summary')}}"><li><i class="fa fa-list-alt"></i> MCT</li></a>
               </ul>
             </li>
             <li class="dropping-parent">
               <h1>RR <i class="fa fa-angle-down"></i></h1>
               <ul class="dropping create-rr-btn">
-                @if ((Auth::check())&&(Auth::user()->Role == 4))
-                  <a href="{{route('MakeRR')}}"><li><i class="fa fa-print"></i> Create RR</li></a>
+                @if ((Auth::check())&&((Auth::user()->Role == 4)||(Auth::user()->Role==3)))
+                  <a href="{{route('MakeRR')}}"><li><i class="fa fa-plus-circle"></i> Create RR</li></a>
                 @endif
                 <a href="{{route('RRindexview')}}"><li><i class="fa fa-search"></i> Search RR</li></a>
               </ul>
@@ -85,7 +85,7 @@ warehouse | BOHECO 1
               <td>{{number_format($latestFound[0]->CurrentCost,'2','.',',')}}</td>
               <td>{{$latestFound[0]->CurrentQuantity}}</td>
               <td>{{number_format($latestFound[0]->CurrentAmount,'2','.',',')}}</td>
-              <td>{{$latestFound[0]->MTDate->format('M')}}</td>
+              <td>{{$latestFound[0]->MTDate->format('M, Y')}}</td>
             </tr>
         </table>
 
@@ -122,16 +122,18 @@ warehouse | BOHECO 1
               <td>{{number_format($history->CurrentCost,'2','.',',')}}</td>
               <td>{{$history->CurrentQuantity}}</td>
               <td>{{number_format($history->CurrentAmount,'2','.',',')}}</td>
-              <td>{{$history->MTDate->format('M')}}</td>
+              <td>{{$history->MTDate->format('M, Y')}}</td>
             </tr>
             @endforeach
           @else
-            <div class="background-pic animated slideInRight">
+            <div class="background-pic">
             </div>
           @endif
         </table>
         @if (!empty($historiesfound[0]))
-          {{$historiesfound->links()}}
+          <div class="paginate-container">
+            {{$historiesfound->links()}}
+          </div>
         @endif
       </div>
     </div>

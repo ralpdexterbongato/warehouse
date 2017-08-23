@@ -103,6 +103,23 @@ return [
         ],
     ],
 
+    'custom' => [
+        'Price.*' => [
+            'regex' => 'Invalid Format for Price',
+        ],
+
+
+    ],
+    'custom' => [
+        'Prices.*' => [
+            'regex' => 'Invalid Format for Prices',
+            'required'=>'Prices are required, Please put 0 if not available',
+        ],
+
+
+    ],
+
+
     /*
     |--------------------------------------------------------------------------
     | Custom Validation Attributes

@@ -19,7 +19,7 @@ class CreateRVDetailsTable extends Migration
             $table->string('Particulars',100);
             $table->char('Unit',20);
             $table->decimal('Quantity',18,0);
-            $table->string('Remarks',100);
+            $table->string('Remarks',100)->nullable();
         });
     }
 

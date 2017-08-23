@@ -585,6 +585,7 @@
 
 .fadeInDown {
   animation-name: fadeInDown;
+  animation-duration: .5s;
 }
 
 @keyframes fadeInDownBig {
@@ -1287,7 +1288,8 @@
 @keyframes zoomIn {
   from {
     opacity: 0;
-    transform: scale3d(.3, .3, .3);
+    transform: scale3d(.1, .1, .1);
+    animation-duration: .1s;
   }
 
   50% {

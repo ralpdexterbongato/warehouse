@@ -13,11 +13,19 @@ use DB;
 use Auth;
 use Session;
 use App\User;
+use App\MCTValidator;
 class MCTController extends Controller
 {
   public function StoreMCT(Request $request)
   {
-    $date=Carbon::today();
+    $this->validate($request,[
+      'AddressTo'=>'required',
+    ]);
+    if (empty(Session::get('MCTSessionItems')))
+    {
+      return redirect()->back()->with('message', 'Items is required');
+    }
+    $date=Carbon::now();
     $year=Carbon::today()->format('y');
     $latest=MCTMaster::orderBy('id','DESC')->take(1)->value('MCTNo');
     if (count($latest)>0)
@@ -50,42 +58,40 @@ class MCTController extends Controller
     $MCTMasterDB->Receivedby= $receiver[0]->Preparedby;
     $MCTMasterDB->ReceivedbyPosition=$receiver[0]->PreparedPosition;
     $MCTMasterDB->save();
-    $MIRSDetails= MIRSDetail::where('MIRSNo',$request->MIRSNo)->get(['ItemCode','Quantity']);
+    $ItemsSelectedFromMIRS= Session::get('MCTSessionItems');
     MIRSMaster::where('MIRSNo',$request->MIRSNo)->update(['WithMCT'=>'0']);
-    foreach ($MIRSDetails as $detail)
+
+    $forMTDetailstable = array();
+    foreach ($ItemsSelectedFromMIRS as $detail)
     {
       $latestdetail=MaterialsTicketDetail::where('ItemCode',$detail->ItemCode)->orderBy('MTDate','DESC')->take(1)->get();
-
-      $minusAmount= $detail->Quantity * $latestdetail[0]->CurrentCost;
+      $latestRRprice=MaterialsTicketDetail::where('ItemCode',$detail->ItemCode)->where('MTType', 'RR')->orderBy('MTDate','DESC')->take(1)->get(['UnitCost']);
+      $validatorItemQTY=MCTValidator::where('MIRSNo',$request->MIRSNo)->where('ItemCode',$detail->ItemCode)->get(['Quantity']);
+      $qtyValidatorleft=$validatorItemQTY[0]->Quantity - $detail->Quantity;
+      MCTValidator::where('MIRSNo',$request->MIRSNo)->where('ItemCode',$detail->ItemCode)->Update(['Quantity'=>$qtyValidatorleft]);
+      $minusAmount= $detail->Quantity * $latestRRprice[0]->UnitCost;
       $newQTY= $latestdetail[0]->CurrentQuantity - $detail->Quantity;
-      $newAmount= $newQTY * $latestdetail[0]->CurrentCost;
-      $ticketDetailDB=new MaterialsTicketDetail;
-      $ticketDetailDB->ItemCode = $latestdetail[0]->ItemCode;
-      $ticketDetailDB->MTType = 'MCT';
-      $ticketDetailDB->MTNo = $MCTIncremented;
-      $ticketDetailDB->AccountCode=$latestdetail[0]->AccountCode;
-      $ticketDetailDB->UnitCost= $latestdetail[0]->UnitCost;
-      $ticketDetailDB->Quantity=$detail->Quantity;
-      $ticketDetailDB->Unit=$latestdetail[0]->Unit;
-      $ticketDetailDB->Amount=$minusAmount;
-      $ticketDetailDB->CurrentCost=$latestdetail[0]->CurrentCost;
-      $ticketDetailDB->CurrentQuantity=$newQTY;
-      $ticketDetailDB->CurrentAmount=$newAmount;
-      $ticketDetailDB->MTDate=$date;
-      $ticketDetailDB->save();
+      $differenceof2AMT=$latestdetail[0]->CurrentAmount - $minusAmount;
+      $newcurrentcost=$differenceof2AMT/$newQTY;
+      $newAmount= $newQTY * $newcurrentcost;
+
+        $forMTDetailstable[]=array('ItemCode' =>$latestdetail[0]->ItemCode ,'MTType' =>'MCT' ,'MTNo' =>$MCTIncremented,'AccountCode' =>$latestdetail[0]->AccountCode ,'UnitCost' =>$latestRRprice[0]->UnitCost ,'Quantity' =>$detail->Quantity,'Unit' =>$latestdetail[0]->Unit ,'Amount' =>$minusAmount
+       ,'CurrentCost' =>$newcurrentcost,'CurrentQuantity' =>$newQTY ,'CurrentAmount' =>$newAmount ,'MTDate' =>$date);
     }
-      return redirect()->back();
+    MaterialsTicketDetail::insert($forMTDetailstable);
+    Session::forget('MCTSessionItems');
+      return redirect()->route('previewMCT',[$MCTIncremented]);
   }
 
-  public function previewMCT(Request $request)
+  public function previewMCT($id)
   {
     Session::forget('MCTSelected');//to refresh the session that is not submited
-    $MCTMast=MCTMaster::where('MIRSNo',$request->MIRSNo)->get();
-    $MTDetails=MaterialsTicketDetail::where('MTType', 'MCT')->where('MTNo', $MCTMast[0]->MCTNo)->get();
-    $MRTcheck=MRTMaster::where('MCTNo',$MCTMast[0]->MCTNo)->value('MRTNo');
+    $MCTMast=MCTMaster::where('MCTNo',$id)->get();
+    $MTDetails=MaterialsTicketDetail::where('MTType', 'MCT')->where('MTNo', $id)->get();
+    $MRTcheck=MRTMaster::where('MCTNo',$id)->value('MRTNo');
     $AccountCodeGroup = DB::table("MaterialsTicketDetails")
 	    ->select(DB::raw("SUM(Amount) as totals"),DB::raw("AccountCode as AccountCode"))
-      ->where('MTType', 'MCT')->where('MTNo', $MCTMast[0]->MCTNo)
+      ->where('MTType', 'MCT')->where('MTNo', $id)
       ->orderBy("AccountCode")
 	    ->groupBy(DB::raw("AccountCode"))
 	    ->get();
@@ -95,11 +101,11 @@ class MCTController extends Controller
       {
         $totalsum= $totalsum +$codegrouped->totals;
       }
-      return view('Warehouse.MCTpreview',compact('MCTMast','MTDetails','AccountCodeGroup','totalsum','MRTcheck'));
+      return view('Warehouse.MCT.MCTpreview',compact('MCTMast','MTDetails','AccountCodeGroup','totalsum','MRTcheck'));
   }
   public function summaryMCT()
   {
-    return view('Warehouse.MCT-summary');
+    return view('Warehouse.MCT.MCT-summary');
   }
   public function SignatureMCT(Request $request)
   {
@@ -117,6 +123,71 @@ class MCTController extends Controller
                     ->orWhere('Receivedby',Auth::user()->Fname." ".Auth::user()->Lname)
                     ->whereNull('ReceivedbySignature')
                     ->paginate(10,['MIRSNo','MCTNo','Issuedby','Receivedby','Particulars','MCTDate','AddressTo','IssuedbySignature','ReceivedbySignature']);
-                    return view('Warehouse.myMCTrequest',compact('myrequestMCT'));
+                    return view('Warehouse.MCT.myMCTrequest',compact('myrequestMCT'));
+  }
+  public function MCTofMIRS($id)
+  {
+    $MCTMaster=MCTMaster::orderBy('MCTNo','DESC')->where('MIRSNo',$id)->paginate(10,['MIRSNo','MCTNo','MCTDate','Particulars','AddressTo','Receivedby']);
+    return view('Warehouse.MCT.MCTofMIRSlist',compact('MCTMaster'));
+  }
+  public function CreateMCT($id)
+  {
+    $MIRSMasterPurpose=MIRSMaster::where('MIRSNo', $id)->value('Purpose');
+    $FromValidator=MCTValidator::where('MIRSNo',$id)->paginate(5);
+    return view('Warehouse.MCT.CreateMCT',compact('FromValidator','MIRSMasterPurpose'));
+  }
+  public function MCTSessionSaving(Request $request)
+  {
+    $this->validate($request,[
+      'Quantity'=>'required|min:1',
+    ]);
+    $ItemRemaining=MCTValidator::where('MIRSNo', $request->MIRSNo)->where('ItemCode',$request->ItemCode)->get(['Quantity']);
+    if ($ItemRemaining[0]->Quantity < $request->Quantity)
+    {
+      return redirect()->back()->with('message','Quantity left of '.$request->Particulars.' in this MIRS is only '.$ItemRemaining[0]->Quantity);
+    }
+    if (Session::has('MCTSessionItems'))
+    {
+      foreach (Session::get('MCTSessionItems') as $itemadded)
+      {
+        if ($itemadded->ItemCode==$request->ItemCode)
+        {
+          return redirect()->back()->with('message','cannot duplicate items');
+        }
+      }
+    }
+    $forsessionMCT = array('ItemCode' =>$request->ItemCode,'Particulars' =>$request->Particulars,'Unit' =>$request->Unit,'Remarks' =>$request->Remarks,'Quantity' =>$request->Quantity,);
+    $forsessionMCT=(object)$forsessionMCT;
+    Session::push('MCTSessionItems',$forsessionMCT);
+    return redirect()->back();
+  }
+  public function deleteASession($id)
+  {
+    $items=(array)Session::get('MCTSessionItems');
+    foreach ($items as $key=>$item)
+    {
+      if ($item->ItemCode == $id)
+      {
+        unset($items[$key]);
+      }
+    }
+    Session::put('MCTSessionItems',$items);
+    return redirect()->back();
+  }
+  public function searchMCTsummary(Request $request)
+  {
+    $this->validate($request,[
+      'monthInput'=> 'required|min:7|max:7',
+    ]);
+    $datesearch=$request->monthInput;
+    $MCTsummaryItems=MaterialsTicketDetail::orderBy('ItemCode')->where('MTType','MCT')->whereDate('MTDate','LIKE',date($datesearch).'%')->groupBy('ItemCode')->selectRaw('sum(Quantity) as totalissued, ItemCode as ItemCode')->get();
+    $ForDisplay = array();
+    foreach ($MCTsummaryItems as $key=> $items)
+    {
+    $ForDisplay[$key]=MaterialsTicketDetail::orderBy('MTDate','DESC')->where('ItemCode',$items->ItemCode)->where('MTType','MCT')->take(1)->get(['AccountCode','ItemCode','UnitCost','Unit','CurrentQuantity','MTDate']);
+    $issued=(object)['totalissued'=>$items->totalissued];
+    $ForDisplay[$key]->push($issued);
+    }
+    return view('Warehouse.MCT.MCT-summary',compact('ForDisplay','datesearch'));
   }
 }

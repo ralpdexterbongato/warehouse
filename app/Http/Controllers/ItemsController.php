@@ -137,32 +137,29 @@ class ItemsController extends Controller
     {
       $historiesfound= MaterialsTicketDetail::where('ItemCode',$request->ItemCode)->orderBy('MTDate','DESC')->paginate(10);
       $latestFound=MaterialsTicketDetail::orderBy('MTDate','DESC')->where('ItemCode',$request->ItemCode)->take(1)->get();
-      $historiesfound->withPath('http://localhost:8000/SearchByItemCode?_token=HqnLPVtyAoKBH4OD1wFgcuf4CvMiVrreO9mHP48t&ItemCode=L-001');
+      $historiesfound->withPath('http://localhost:8000/SearchByItemCode?ItemCode='.$request->ItemCode);
       return view('welcome',compact('historiesfound','latestFound'));
     }
 
     public function searchItemMaster(Request $request)
     {
-      Session::forget('itemMasters');
-      $itemMasters=MasterItem::where('ItemCode_id',$request->ItemCode)->paginate(5);
-      if (!empty($itemMasters[0]))
-      {
-        Session::put('itemMasters',$itemMasters);
-      }else {
-        return redirect()->back()->with('message', 'No Results found');
-      }
-      return redirect()->back();
+       return $itemMasters=MasterItem::where('ItemCode_id','LIKE','%'.$request->ItemCode.'%')->paginate(5);
     }
     public function ItemMasterbyDescription(Request $request)
     {
-      Session::forget('itemMasters');
-       $itemMasters=MasterItem::where('Description','LIKE','%'.$request->Description.'%')->paginate(5);
-       if (!empty($itemMasters[0]))
-       {
-        Session::put('itemMasters',$itemMasters);
-        return redirect()->back();
-      }
-       return redirect()->back()->with('message','No results found');
+       return $itemMasters=MasterItem::where('Description','LIKE','%'.$request->search.'%')->paginate(5);
+      //  $response=[
+      //    'pagination'=>[
+      //      'total'=> $itemMasters->total(),
+      //      'per_page'=>$itemMasters->perPage(),
+      //      'current_page'=>$itemMasters->currentPage(),
+      //      'last_page'=>$itemMasters->lastPage(),
+      //      'from'=>$itemMasters->firstitem(),
+      //      'to'=>$itemMasters->lastitem(),
+      //    ],
+      //    'model'=> $itemMasters
+      //  ];
+      //  return response()->json($response);
     }
 
 }

@@ -10,13 +10,6 @@
     $('.notice-title i').click(function(event) {
       $('.modal-for-all-notice').removeClass('active');
     });
-    $('.modal-find-button button').click(function(event) {
-      $('.modal-search-item').addClass('active');
-    });
-    $('.middle-modal-search > h5').click(function(event) {
-      $('.modal-search-item').removeClass('active');
-    });
-
     $('.pick-from-items > button').click(function(event) {
       $('.mrt-items-modal').addClass('active');
     });
@@ -40,13 +33,6 @@
       $('.MCT-modal').removeClass('active');
    });
 
-   $('.searchRRitem').click(function(event) {
-     $('.search-itemRR-Container').addClass('active');
-   });
-
-   $('.search-RR-center h1').click(function(event) {
-     $('.search-itemRR-Container').removeClass('active');
-   });
 
    //previewing Signature image before uploading
   function readURL(input) {
@@ -68,13 +54,48 @@
         $('#signaturePreview').show();
     });
 
-    $('.add-item-RV > button').click(function(event) {
+    $('#none-existing-itemRV').click(function(event) {
       $('.add-RV-item-modal').addClass('active');
     });
 
     $('#closemodalRV').click(function(event) {
         $('.add-RV-item-modal').removeClass('active');
     });
+    $('#forstock-ItemRV').click(function(event) {
+      $('.for-stock-Modal').addClass('active');
+    });
 
-    
+    $('.middle-forStock-div h1 i').click(function(event) {
+      $('.for-stock-Modal').removeClass('active');
+    });
+    $('.searchRRitem').click(function(event) {
+      $('.search-itemRR-Container').addClass('active');
+    });
+    $('.search-RR-center > h1').click(function(event) {
+      $('.search-itemRR-Container').removeClass('active');
+    });
+    $('.add-toRRlist-btn').click(function(event) {
+      $('.search-itemRR-Container').removeClass('active');
+    });
+    $('.edit-budget-opener').click(function(event)
+    {
+      $('.budget-number').addClass('disable');
+      $('.edit-budget-opener').addClass('disable');
+      $('.editbudget').addClass('active');
+    });
+    $('.cancel-edit').click(function(event) {
+      $('.budget-number').removeClass('disable');
+      $('.edit-budget-opener').removeClass('disable');
+      $('.editbudget').removeClass('active');
+    });
+    $('.button-find-item-container button').click(function(event) {
+      $('.mct-modal-ofItems').addClass('active');
+    });
+    $('.mct-modal-center h1 i').click(function(event) {
+        $('.mct-modal-ofItems').removeClass('active');
+    });
   });
+
+ //  $(document).bind("contextmenu",function(e) {
+ // e.preventDefault();
+//});

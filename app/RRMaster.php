@@ -9,4 +9,5 @@ class RRMaster extends Model
   protected $table="RRMaster";
   public $timestamps =false;
   public $dates=['RRDate'];
+  public $fillable=['RVNo'];
 }

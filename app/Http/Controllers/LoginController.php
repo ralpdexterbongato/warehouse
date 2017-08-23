@@ -14,12 +14,16 @@ class LoginController extends Controller
     }
     public function loginpage()
     {
-      return view('Warehouse.login-page');
+      return view('Warehouse.Account.login-page');
     }
     public function loginSubmit(Request $request)
     {
       $credentials = array('Username' =>$request->Username,'password'=>$request->Password );
       if (Auth::attempt($credentials)) {
+        if (Auth::user()->IsActive==null)
+        {
+          Auth::logout();
+        }
         return redirect('/');
       }else
       {
@@ -28,7 +32,7 @@ class LoginController extends Controller
     }
     public function GetRegister()
     {
-      return view('Warehouse.Register');
+      return view('Warehouse.Account.Register');
     }
     public function registrationStore(Request $request)
     {
@@ -66,5 +70,39 @@ class LoginController extends Controller
     {
       Auth::logout();
       return redirect('/login');
+    }
+    public function GMAccountsList()
+    {
+      return view('Warehouse.Account.ManageAccounts');
+    }
+    public function ManagerAccountsList()
+    {
+      return view('Warehouse.Account.ManageAccountsManagers');
+    }
+    public function AdminAccountslist()
+    {
+      return view('Warehouse.Account.ManageAccountsAdmins');
+    }
+    public function otheraccountslist()
+    {
+      return view('Warehouse.Account.ManageAccountsOther');
+    }
+
+    //vue js
+    public function getallGMAccounts()
+    {
+      return User::orderBy('id','DESC')->where('Role','2')->paginate(5,['id','Fname','Lname','Signature','IsActive','Username']);
+    }
+    public function getallManagers()
+    {
+      return User::orderBy('id','DESC')->where('Role','0')->paginate(5,['id','Fname','Lname','Signature','IsActive','Username']);
+    }
+    public function getallAdmin()
+    {
+      return User::orderBy('id','DESC')->where('Role','1')->paginate(5,['id','Fname','Lname','Signature','IsActive','Username']);
+    }
+    public function getOtherAccounts()
+    {
+      return User::orderBy('id','DESC')->where('Role','3')->orWhere('Role', '4')->orWhere('Role','5')->orWhere('Role','6')->paginate(5,['id','Fname','Lname','Signature','IsActive','Username']);
     }
 }

@@ -10,20 +10,23 @@ use App\User;
 use App\RRconfirmationDetails;
 use Auth;
 use Illuminate\Http\Request;
+use App\MRMaster;
+use App\POMaster;
+use App\RVDetail;
 class RRController extends Controller
 {
   public function __construct()
   {
     $this->middleware('auth');
-    $this->middleware('IsWarehouse',['except'=>['RRindex','previewRR','signatureRR','declineRR','RRindexSearchbyRRNo','RRsignatureRequest']]);
+    $this->middleware('IsWarehouse',['except'=>['RRindex','previewRR','signatureRR','declineRR','RRindexSearchbyRRNo','RRsignatureRequest','displayRRcurrentSession']]);
   }
   public function CreateRR()
   {
-   $Auditors=User::where('Role', '5')->get(['id','Lname','Fname']);
-   $Managers=User::where('Role','0')->get(['id','Lname','Fname']);
-   $Clerks=User::where('Role','6')->get(['id','Lname','Fname']);
+   $Auditors=User::where('Role', '5')->whereNotNull('IsActive')->get(['id','Lname','Fname']);
+   $Managers=User::where('Role','0')->whereNotNull('IsActive')->get(['id','Lname','Fname']);
+   $Clerks=User::where('Role','6')->whereNotNull('IsActive')->get(['id','Lname','Fname']);
 
-   return view('Warehouse.RRCreateView',compact('Auditors','Managers','Clerks'));
+   return view('Warehouse.RR.RRCreateView',compact('Auditors','Managers','Clerks'));
   }
 
   public function StoreSessionRRnonExisting(Request $request)
@@ -56,10 +59,23 @@ class RRController extends Controller
       'AccountCode'=>'required',
       'ItemCode'=>'required|unique:MaterialsTicketDetails',
       'UnitCost'=>'required|regex:/^[0-9]{1,3}(,[0-9]{3})*(\.[0-9]+)*$/',
-      'Description'=>'required',
+      'Description'=>'required|unique:MasterItems',
       'Unit'=>'required',
       'QuantityDelivered'=>'required',
       'QuantityAccepted'=>'required',
+    ]);
+  }
+  public function storeRRExistSessionValidator($request)
+  {
+    $maximum=$request->QuantityDelivered;
+    $this->validate($request,[
+      'AccountCode'=>'required',
+      'ItemCode'=>'required',
+      'UnitCost'=>'required|regex:/^[0-9]{1,3}(,[0-9]{3})*(\.[0-9]+)*$/',
+      'Description'=>'required',
+      'Unit'=>'required',
+      'QuantityDelivered'=>'required',
+      'QuantityAccepted'=>'required|numeric|max:'.$maximum,
     ]);
   }
   public function deleteSessionStored($id)
@@ -75,20 +91,23 @@ class RRController extends Controller
          }
       }
       Session::put('RR-Items-Added',$SelectedRRitems);
-      return redirect()->back();
     }
   }
   public function searchbyItemMasterCode(Request $request)
   {
-    Session::forget('itemMastersRR');
-    $itemMasters=MasterItem::where('ItemCode_id',$request->ItemCode_id)->paginate(5);
-    if (!empty($itemMasters[0]))
-    {
-      Session::put('itemMastersRR',$itemMasters);
-    }else {
-      return redirect()->back()->with('message', 'No Results found');
-    }
-    return redirect()->back();
+    $itemMasters=MasterItem::where('ItemCode_id','LIKE','%'.$request->searchcode.'%')->paginate(5,['AccountCode','ItemCode_id','Description','Unit']);
+    $response=[
+      'pagination'=>[
+        'total'=> $itemMasters->total(),
+        'per_page'=>$itemMasters->perPage(),
+        'current_page'=>$itemMasters->currentPage(),
+        'last_page'=>$itemMasters->lastPage(),
+        'from'=>$itemMasters->firstitem(),
+        'to'=>$itemMasters->lastitem(),
+      ],
+      'model'=> $itemMasters
+    ];
+    return response()->json($response);
   }
   public function ItemMasterbyDescription(Request $request)
   {
@@ -104,21 +123,14 @@ class RRController extends Controller
 
   public function StoreSessionItemExist(Request $request)
   {
-    $this->validate($request,[
-      'UnitCost'=> array('required','regex:/^[0-9]{1,3}(,[0-9]{3})*(\.[0-9]+)*$/')
-    ]);
-    if ($request->QuantityDelivered < $request->QuantityAccepted)
-    {
-      return redirect()->back()->with('message', 'Accepted items cannot be higher than Delivered');
-    }else
-    {
+    $this->storeRRExistSessionValidator($request);
       if (Session::has('RR-Items-Added'))
       {
         foreach (Session::get('RR-Items-Added') as $items)
         {
           if ($items->ItemCode==$request->ItemCode)
           {
-            return redirect()->back()->with('message', 'This item is already added');
+            return;
           }
         }
       }
@@ -127,12 +139,38 @@ class RRController extends Controller
         $DataFromUserToArray=(object)$DataFromUserToArray;
         Session::push('RR-Items-Added',$DataFromUserToArray);
         return redirect()->back();
-    }
   }
 
   public function StoringRRtoTable(Request $request)
   {
     $this->StoringRRTableValidator($request);
+    $RVValidation=RVDetail::where('RVNo',$request->RVNo)->take(1)->get(['Particulars']);
+    if (empty($RVValidation[0]))
+    {
+      return redirect()->back()->with('message', 'The R.V number entered does not exist');
+    }else
+    {
+      foreach (Session::get('RR-Items-Added') as $itemsfromRequest)
+      {
+        $checkifDescriptionExist=RVDetail::where('RVNo',$request->RVNo)->where('Particulars', $itemsfromRequest->Description)->get(['RVNo']);
+        if(empty($checkifDescriptionExist[0]->RVNo))
+        {
+          return redirect()->back()->with('message', $itemsfromRequest->Description.' did not match any item from RV No.'.$request->RVNo);
+        }
+      }
+    }
+    if (!empty($request->PONo))
+    {
+      $POValidation=POMaster::where('PONo',$request->PONo)->whereNotNull('GeneralManagerSignature')->get(['GeneralManagerSignature','Supplier']);
+      if (empty($POValidation[0]))
+      {
+        return redirect()->back()->with('message', 'The P.O. number entered does not exist or rejected by the GM');
+      }
+      if ($POValidation[0]->Supplier!=$request->Supplier)
+      {
+        return redirect()->back()->with('message','The Supplier in P.O.'.$request->PONo.' is '.$POValidation[0]->Supplier);
+      }
+    }
     if (empty(Session::get('RR-Items-Added')))
     {
      return redirect()->back()->with('message', 'Selecting items is required');
@@ -150,17 +188,16 @@ class RRController extends Controller
     {
       $incremented=$year.'-'.sprintf("%04d",'1');
     }
-    $verifiedUser=User::where('id',$request->Verifiedby)->get(['Fname','Lname','Position']);
-    $originalReceiver=User::where('id',$request->ReceivedOriginalby)->get(['Fname','Lname','Position']);
-    $BINPoster=User::where('id', $request->PostedtoBINby)->get(['Fname','Lname','Position']);
+    $verifiedUser=User::whereNotNull('IsActive')->where('id',$request->Verifiedby)->get(['Fname','Lname','Position']);
+    $originalReceiver=User::whereNotNull('IsActive')->where('id',$request->ReceivedOriginalby)->get(['Fname','Lname','Position']);
+    $BINPoster=User::whereNotNull('IsActive')->where('id', $request->PostedtoBINby)->get(['Fname','Lname','Position']);
     $RRconfirmDB=new RRMaster;
     $RRconfirmDB->RRNo =$incremented;
     $RRconfirmDB->RRDate=$date;
-    $RRconfirmDB->Suplier=$request->Suplier;
+    $RRconfirmDB->Supplier=$request->Supplier;
     $RRconfirmDB->Address=$request->Address;
     $RRconfirmDB->InvoiceNo=$request->InvoiceNo;
     $RRconfirmDB->RVNo=$request->RVNo;
-    $RRconfirmDB->BNo=$request->BNo;
     $RRconfirmDB->Carrier=$request->Carrier;
     $RRconfirmDB->DeliveryReceiptNo=$request->DeliveryReceiptNo;
     $RRconfirmDB->PONo=$request->PONo;
@@ -187,21 +224,15 @@ class RRController extends Controller
     $RRconfirmDB->PostedToBINby=$BINPoster[0]->Fname.' '.$BINPoster[0]->Lname;
     $RRconfirmDB->PostedToBINbyPosition=$BINPoster[0]->Position;
     $RRconfirmDB->save();
+    $ForRRDB = array();
     foreach (Session::get('RR-Items-Added') as $confirmedDetail)
     {
         $AMT=$confirmedDetail->UnitCost*$confirmedDetail->QuantityAccepted;
-        $RRconfirmDetailsdb=new RRconfirmationDetails;
-        $RRconfirmDetailsdb->ItemCode=$confirmedDetail->ItemCode;
-        $RRconfirmDetailsdb->RRNo=$incremented;
-        $RRconfirmDetailsdb->AccountCode=$confirmedDetail->AccountCode;
-        $RRconfirmDetailsdb->Description=$confirmedDetail->Description;
-        $RRconfirmDetailsdb->UnitCost=$confirmedDetail->UnitCost;
-        $RRconfirmDetailsdb->RRQuantityDelivered=$confirmedDetail->QuantityDelivered;
-        $RRconfirmDetailsdb->QuantityAccepted=$confirmedDetail->QuantityAccepted;
-        $RRconfirmDetailsdb->Unit=$confirmedDetail->Unit;
-        $RRconfirmDetailsdb->Amount=$AMT;
-        $RRconfirmDetailsdb->save();
-      }
+        $ForRRDB[] = array('ItemCode' =>$confirmedDetail->ItemCode ,'RRNo' =>$incremented ,
+        'AccountCode' =>$confirmedDetail->AccountCode ,'Description' =>$confirmedDetail->Description ,'UnitCost' =>$confirmedDetail->UnitCost ,'RRQuantityDelivered' =>$confirmedDetail->QuantityDelivered,
+        'QuantityAccepted' =>$confirmedDetail->QuantityAccepted ,'Unit' =>$confirmedDetail->Unit ,'Amount' =>$AMT);
+    }
+    RRconfirmationDetails::insert($ForRRDB);
     Session::forget('RR-Items-Added');
     Session::forget('itemMastersRR');
     return redirect()->route('RRindexview')->with('message', 'Success!');
@@ -209,15 +240,14 @@ class RRController extends Controller
   public function StoringRRTableValidator($request)
   {
     $this->validate($request,[
-      'Suplier'=>'required',
+      'Supplier'=>'required',
       'Address'=>'required',
       'InvoiceNo'=>'required',
       'RVNo'=>'required',
-      'BNo'=>'required',
       'Carrier'=>'required',
       'DeliveryReceiptNo'=>'required',
-      'PONo'=>'required',
-      'Note'=>'required',
+      'PONo'=>'max:7',
+      'Note'=>'max:50',
       'Verifiedby'=>'required',
       'ReceivedOriginalby'=>'required',
       'PostedtoBINby'=>'required',
@@ -225,8 +255,8 @@ class RRController extends Controller
   }
   public function RRindex()
   {
-    $RRmasters=RRMaster::orderBy('RRNo','DESC')->paginate(10,['RRNo','Suplier','Address','RVNo','Carrier','Receivedby','ReceivedbySignature','ReceivedOriginalby','ReceivedOriginalbySignature','Verifiedby','VerifiedbySignature','PostedtoBINby','PostedtoBINbySignature','IfDeclined']);
-    return view('Warehouse.RRindex',compact('RRmasters'));
+    $RRmasters=RRMaster::orderBy('RRNo','DESC')->paginate(10,['RRNo','Supplier','Address','RVNo','Carrier','Receivedby','ReceivedbySignature','ReceivedOriginalby','ReceivedOriginalbySignature','Verifiedby','VerifiedbySignature','PostedtoBINby','PostedtoBINbySignature','IfDeclined']);
+    return view('Warehouse.RR.RRindex',compact('RRmasters'));
   }
   public function previewRR($id)
   {
@@ -235,7 +265,8 @@ class RRController extends Controller
     $VAT=$Netsales*.12;
     $TOTALamt=$Netsales+$VAT;
     $RRMaster=RRMaster::where('RRNo',$id)->get();
-    return view('Warehouse.RRfullpreview',compact('TOTALamt','VAT','Netsales','RRMaster','RRconfirmationDetails'));
+    $checkMR=MRMaster::orderBy('RRNo','DESC')->where('RRNo',$id)->take(1)->get(['MRNo']);
+    return view('Warehouse.RR.RRfullpreview',compact('allmanager','TOTALamt','VAT','checkMR','Netsales','RRMaster','RRconfirmationDetails'));
   }
   public function signatureRR(Request $request)
   {
@@ -315,8 +346,8 @@ class RRController extends Controller
   }
   public function RRindexSearchbyRRNo(Request $request)
   {
-    $RRMasterResults=RRMaster::where('RRNo',$request->RRNo)->paginate(10,['RRNo','Suplier','Address','RVNo','Carrier','Receivedby','ReceivedbySignature','ReceivedOriginalby','ReceivedbySignature','Verifiedby','VerifiedbySignature','PostedtoBINby','PostedtoBINbySignature','IfDeclined']);
-    return view('Warehouse.RRindex',compact('RRMasterResults'));
+    $RRMasterResults=RRMaster::where('RRNo',$request->RRNo)->paginate(10,['RRNo','Supplier','Address','RVNo','Carrier','Receivedby','ReceivedbySignature','ReceivedOriginalby','ReceivedbySignature','Verifiedby','VerifiedbySignature','PostedtoBINby','PostedtoBINbySignature','IfDeclined']);
+    return view('Warehouse.RR.RRindex',compact('RRMasterResults'));
   }
 
   public function RRsignatureRequest()
@@ -330,12 +361,20 @@ class RRController extends Controller
     ->orWhere('PostedtoBINby',Auth::user()->Fname.' '.Auth::user()->Lname)
     ->whereNull('PostedtoBINbySignature')
     ->whereNull('IfDeclined')
-    ->paginate(10,['RRNo','Suplier','Address','RVNo','Carrier','Receivedby','ReceivedbySignature','ReceivedOriginalby','ReceivedOriginalbySignature','Verifiedby','VerifiedbySignature','PostedtoBINby','PostedtoBINbySignature']);
-    return view('Warehouse.myRRrequest',compact('requestRR'));
+    ->paginate(10,['RRNo','Supplier','Address','RVNo','Carrier','Receivedby','ReceivedbySignature','ReceivedOriginalby','ReceivedOriginalbySignature','Verifiedby','VerifiedbySignature','PostedtoBINby','PostedtoBINbySignature']);
+    return view('Warehouse.RR.myRRrequest',compact('requestRR'));
   }
   public function declineRR(Request $request)
   {
     RRMaster::where('RRNo',$request->RRNo)->update(['IfDeclined'=>Auth::user()->Fname.' '.Auth::user()->Lname]);
     return redirect()->back();
+  }
+  public function displayRRcurrentSession()
+  {
+    $fromsession=Session::get('RR-Items-Added');
+    $response=[
+      'sessions'=> $fromsession
+    ];
+    return response()->json($response);
   }
 }
