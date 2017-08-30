@@ -12,6 +12,6 @@ class POMaster extends Model
   public $dates=['PODate','RVDate'];
   public function PODetails()
   {
-    return $this->hasMany('App\PODetail','PurchaseOrderMasters_PONo','PONo');
+    return $this->hasMany('App\PODetail','PONo','PONo');
   }
 }

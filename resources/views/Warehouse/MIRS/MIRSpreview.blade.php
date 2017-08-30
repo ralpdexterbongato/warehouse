@@ -63,7 +63,7 @@
         </form>
       </div>
       @endif
-  @if(((Auth::user()->Role==4)&&($MIRSMaster[0]->PreparedSignature!=null)&&($MIRSMaster[0]->RecommendSignature!=null)&&($MIRSMaster[0]->ApproveSignature!=null))||((Auth::user()->Role==4)&&($MIRSMaster[0]->PreparedSignature!=null)&&($MIRSMaster[0]->RecommendSignature!=null)&&($MIRSMaster[0]->ApprovalReplacerSignature!=null))||((Auth::user()->Role==3)&&($MIRSMaster[0]->PreparedSignature!=null)&&($MIRSMaster[0]->RecommendSignature!=null)&&($MIRSMaster[0]->ApproveSignature!=null))||((Auth::user()->Role==3)&&($MIRSMaster[0]->PreparedSignature!=null)&&($MIRSMaster[0]->RecommendSignature!=null)&&($MIRSMaster[0]->ApprovalReplacerSignature!=null)))
+  @if(((Auth::user()->Role==4)||(Auth::user()->Role==3))&&($MIRSMaster[0]->PreparedSignature!=null)&&($MIRSMaster[0]->RecommendSignature!=null)&&($MIRSMaster[0]->ApproveSignature!=null))
     <div class="mct-create-mct-list">
       <a href="{{route('toRecordingMCT.Page',[$MIRSMaster[0]->MIRSNo])}}"><button type="button" id="mct-modal-btn" name="button"><i class="fa fa-plus"></i> Record MCT</button></a>
       @if((Auth::user()->Role!=4)&&($MCTNumber[0]==null))

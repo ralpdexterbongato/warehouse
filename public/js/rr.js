@@ -63,7 +63,7 @@
 /******/ 	__webpack_require__.p = "";
 /******/
 /******/ 	// Load entry module and return exports
-/******/ 	return __webpack_require__(__webpack_require__.s = 69);
+/******/ 	return __webpack_require__(__webpack_require__.s = 75);
 /******/ })
 /************************************************************************/
 /******/ ([
@@ -11956,7 +11956,8 @@ module.exports = g;
 /***/ (function(module, exports, __webpack_require__) {
 
 window.Vue = __webpack_require__(27);
-Vue.component('rrcreatesearch', __webpack_require__(53));
+Vue.component('createrrnopo', __webpack_require__(54));
+Vue.component('createrrwithpo', __webpack_require__(55));
 new Vue({
     el: '#rr'
 });
@@ -11970,7 +11971,232 @@ new Vue({
 /* 39 */,
 /* 40 */,
 /* 41 */,
-/* 42 */,
+/* 42 */
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_0_axios__ = __webpack_require__(7);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_0_axios___default = __webpack_require__.n(__WEBPACK_IMPORTED_MODULE_0_axios__);
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+
+
+/* harmony default export */ __webpack_exports__["default"] = ({
+  data: function data() {
+    return {
+      ModalIsActive: false,
+      ItemCode: [],
+      AccountCode: [],
+      UnitCost: [],
+      QuantityDelivered: [],
+      QuantityAccepted: [],
+      ItemsInSession: [],
+      isDisabled: true,
+      laravelerrors: [],
+      ownerrors: '',
+      successAlerts: '',
+      Verifiedby: null,
+      ReceivedOriginalby: null,
+      PostedtoBINby: null,
+      Supplier: '',
+      Address: '',
+      InvoiceNo: '',
+      Carrier: '',
+      DeliveryReceiptNo: '',
+      Note: ''
+
+    };
+  },
+
+  props: ['fromrrvalidator', 'managers', 'auditors', 'clerks'],
+  methods: {
+    submitTosession: function submitTosession(particular, unit, count, maxqty) {
+      var vm = this;
+      __WEBPACK_IMPORTED_MODULE_0_axios___default.a.post('/rr-storing-session-no-po', {
+        AccountCode: this.AccountCode[count],
+        ItemCode: this.ItemCode[count],
+        UnitCost: this.UnitCost[count],
+        Description: particular,
+        Unit: unit,
+        QuantityDelivered: this.QuantityDelivered[count],
+        QuantityAccepted: this.QuantityAccepted[count],
+        MaxQty: maxqty
+      }).then(function (response) {
+        console.log(response);
+        if (response.data.error != null) {
+          Vue.set(vm.$data, 'ownerrors', response.data.error);
+          Vue.set(vm.$data, 'laravelerrors', '');
+          Vue.set(vm.$data, 'successAlerts', '');
+        } else {
+          Vue.set(vm.$data, 'ownerrors', '');
+          Vue.set(vm.$data, 'laravelerrors', '');
+          Vue.set(vm.$data, 'successAlerts', 'Successfully added !');
+        }
+      }, function (error) {
+        console.log(error);
+        Vue.set(vm.$data, 'laravelerrors', error.response.data);
+        Vue.set(vm.$data, 'ownerrors', '');
+        Vue.set(vm.$data, 'successAlerts', '');
+      });
+      this.fetchDataofSession();
+    },
+    fetchDataofSession: function fetchDataofSession() {
+      var vm = this;
+      __WEBPACK_IMPORTED_MODULE_0_axios___default.a.get('/show-rr-session-data').then(function (response) {
+        console.log(response);
+        Vue.set(vm.$data, 'ItemsInSession', response.data);
+      });
+    },
+    deleteSession: function deleteSession(count) {
+      var vm = this;
+      __WEBPACK_IMPORTED_MODULE_0_axios___default.a.delete('/DeleteSession-RR/' + count).then(function (response) {
+        console.log(response);
+        Vue.set(vm.$data, 'successAlerts', 'Deleted successfully !');
+        Vue.set(vm.$data, 'ownerrors', '');
+        Vue.set(vm.$data, 'laravelerrors', '');
+      });
+      this.fetchDataofSession();
+    },
+    formatPrice: function formatPrice(value) {
+      var val = (value / 1).toFixed(2).replace('.', '.');
+      return val.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ",");
+    },
+    submitToDB: function submitToDB() {
+      var vm = this;
+      __WEBPACK_IMPORTED_MODULE_0_axios___default.a.post('/save-rr-no-po-to-db', {
+        Verifiedby: this.Verifiedby,
+        ReceivedOriginalby: this.ReceivedOriginalby,
+        PostedtoBINby: this.PostedtoBINby,
+        Supplier: this.Supplier,
+        Address: this.Address,
+        InvoiceNo: this.InvoiceNo,
+        RVNo: this.fromrrvalidator[0].RVNo,
+        Carrier: this.Carrier,
+        DeliveryReceiptNo: this.DeliveryReceiptNo,
+        Note: this.Note
+      }).then(function (response) {
+        console.log(response);
+        if (response.data.error == null) {
+          window.location = response.data.redirect;
+        } else {
+          Vue.set(vm.$data, 'ownerrors', response.data.error);
+        }
+      }, function (error) {
+        console.log(error);
+        Vue.set(vm.$data, 'laravelerrors', error.response.data);
+      });
+    }
+  },
+  mounted: function mounted() {
+    this.fetchDataofSession();
+  }
+});
+
+/***/ }),
 /* 43 */
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
@@ -12072,125 +12298,111 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
 //
 //
 //
+//
+//
 
 
 /* harmony default export */ __webpack_exports__["default"] = ({
   data: function data() {
     return {
-      model: [],
-      search: '',
-      searchcode: '',
-      urlsearchcode: 'RRsearchitembyCode',
-      url: 'Items-ByDescription',
-      pagination: [],
-      offset: 4,
+      IsModalActive: false,
       QuantityDelivered: [],
       QuantityAccepted: [],
-      UnitCost: [],
-      sessions: [],
+      successAlerts: '',
       laravelerrors: [],
-      successAlerts: ''
+      ownerrors: '',
+      SessionItems: [],
+      InvoiceNo: '',
+      Carrier: '',
+      DeliveryReceiptNo: '',
+      Note: '',
+      Verifiedby: null,
+      ReceivedOriginalby: null,
+      PostedtoBINby: null
     };
   },
 
-  computed: {
-    isActive: function isActive() {
-      return this.pagination.current_page;
-    },
-    pagesNumber: function pagesNumber() {
-      if (!this.pagination.to) {
-        return [];
-      }
-      var from = this.pagination.current_page - this.offset;
-      if (from < 1) {
-        from = 1;
-      }
-      var to = from + this.offset * 2;
-      if (to >= this.pagination.last_page) {
-        to = this.pagination.last_page;
-      }
-      var pagesArray = [];
-      while (from <= to) {
-        pagesArray.push(from);
-        from++;
-      }
-      return pagesArray;
-    }
-  },
-
-  created: function created() {
-    this.fetchdataItems(this.pagination.current_page);
-    this.DisplaySessiontable();
-  },
+  props: ['pomasters', 'rrvalidatorwpo', 'auditors', 'managers', 'clerks'],
   methods: {
-    fetchdataItems: function fetchdataItems(page) {
-      this.searchcode = '';
+    addtosession: function addtosession(data, count) {
       var vm = this;
-      __WEBPACK_IMPORTED_MODULE_0_axios___default.a.get(this.url + '?search=' + this.search + '&page=' + page).then(function (response) {
-        console.log(response);
-        Vue.set(vm.$data, 'model', response.data.data);
-        Vue.set(vm.$data, 'pagination', response.data);
-      });
-    },
-    fetchdataItemsByCode: function fetchdataItemsByCode(page) {
-      this.search = '';
-      var vm = this;
-      __WEBPACK_IMPORTED_MODULE_0_axios___default.a.get(this.urlsearchcode + '?searchcode=' + this.searchcode + '&page=' + page).then(function (response) {
-        Vue.set(vm.$data, 'model', response.data.model);
-        Vue.set(vm.$data, 'pagination', response.data);
-      });
-    },
-    changePage: function changePage(page) {
-      this.pagination.current_page = page;
-      this.fetchdataItems(page);
-    },
-    changePageCode: function changePageCode(page) {
-      this.pagination.current_page = page;
-      this.fetchdataItemsByCode(page);
-    },
-    submitToSession: function submitToSession(datas) {
-      if (this.QuantityDelivered == null || this.QuantityAccepted == null || this.UnitCost == null) {
-        return [];
-      }
-      var vm = this;
-      __WEBPACK_IMPORTED_MODULE_0_axios___default.a.post('RRaddingSessionFromExistingItem', {
-        AccountCode: datas.AccountCode,
-        ItemCode: datas.ItemCode_id,
-        Description: datas.Description,
-        Unit: datas.Unit,
-        QuantityDelivered: this.QuantityDelivered[datas.ItemCode_id],
-        QuantityAccepted: this.QuantityAccepted[datas.ItemCode_id],
-        UnitCost: this.UnitCost[datas.ItemCode_id]
+      __WEBPACK_IMPORTED_MODULE_0_axios___default.a.post('/rr-storing-session-with-po', {
+        ItemCode: data.ItemCode,
+        AccountCode: data.AccountCode,
+        Description: data.Description,
+        QuantityDelivered: this.QuantityDelivered[count],
+        QuantityAccepted: this.QuantityAccepted[count],
+        UnitCost: data.Price,
+        Unit: data.Unit,
+        MaxQty: data.Qty
       }).then(function (response) {
+        if (response.data.error != null) {
+          Vue.set(vm.$data, 'ownerrors', response.data.error);
+          Vue.set(vm.$data, 'successAlerts', '');
+          Vue.set(vm.$data, 'laravelerrors', '');
+        } else {
+          Vue.set(vm.$data, 'successAlerts', 'Successfully added !');
+          Vue.set(vm.$data, 'ownerrors', '');
+          Vue.set(vm.$data, 'laravelerrors', '');
+        }
         console.log(response);
-        Vue.set(vm.$data, 'laravelerrors', '');
-        Vue.set(vm.$data, 'successAlerts', 'success !');
       }, function (error) {
-        console.log(error.response.data);
-        Vue.set(vm.$data, 'successAlerts', '');
-        Vue.set(vm.$data, 'laravelerrors', error.response.data);
+        console.log(error);
+        {
+          Vue.set(vm.$data, 'laravelerrors', error.response.data);
+          Vue.set(vm.$data, 'successAlerts', '');
+          Vue.set(vm.$data, 'ownerrors', '');
+        }
       });
-      this.DisplaySessiontable();
-
-      this.QuantityDelivered = [];
-      this.QuantityAccepted = [];
-      this.UnitCost = [];
+      this.showaddedSession();
     },
-    DisplaySessiontable: function DisplaySessiontable() {
+    showaddedSession: function showaddedSession() {
       var vm = this;
-      __WEBPACK_IMPORTED_MODULE_0_axios___default.a.get('/displayRRcreateSession').then(function (response) {
-        Vue.set(vm.$data, 'sessions', response.data.sessions);
+      __WEBPACK_IMPORTED_MODULE_0_axios___default.a.get('/show-rr-session-data').then(function (response) {
+        console.log(response);
+        Vue.set(vm.$data, 'SessionItems', response.data);
       });
-    },
-    RemoveFromSession: function RemoveFromSession(item) {
-      var vm = $(this);
-      __WEBPACK_IMPORTED_MODULE_0_axios___default.a.delete('/DeleteSession-RR/' + item);
-      this.DisplaySessiontable();
     },
     formatPrice: function formatPrice(value) {
       var val = (value / 1).toFixed(2).replace('.', '.');
       return val.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ",");
+    },
+    deleteSession: function deleteSession(count) {
+      var vm = this;
+      __WEBPACK_IMPORTED_MODULE_0_axios___default.a.delete('/DeleteSession-RR/' + count).then(function (response) {
+        console.log(response);
+        Vue.set(vm.$data, 'successAlerts', 'Successfully removed');
+        Vue.set(vm.$data, 'laravelerrors', '');
+        Vue.set(vm.$data, 'ownerrors', '');
+      });
+      this.showaddedSession();
+    },
+    SubmitRRwithPO: function SubmitRRwithPO() {
+      var vm = this;
+      __WEBPACK_IMPORTED_MODULE_0_axios___default.a.post('/save-rr-with-po-to-db', {
+        Verifiedby: this.Verifiedby,
+        ReceivedOriginalby: this.ReceivedOriginalby,
+        PostedtoBINby: this.PostedtoBINby,
+        InvoiceNo: this.InvoiceNo,
+        Carrier: this.Carrier,
+        DeliveryReceiptNo: this.DeliveryReceiptNo,
+        Note: this.Note,
+        PONo: this.rrvalidatorwpo[0].PONo
+      }).then(function (response) {
+        console.log(response);
+        if (response.data.error != null) {
+          Vue.set(vm.$data, 'ownerrors', response.data.error);
+        } else {
+          window.location = response.data.redirect;
+        }
+      }, function (error) {
+        console.log(error);
+        Vue.set(vm.$data, 'laravelerrors', error.response.data);
+      });
     }
+  },
+  mounted: function mounted() {
+    this.showaddedSession();
   }
 });
 
@@ -12204,22 +12416,23 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
 /* 50 */,
 /* 51 */,
 /* 52 */,
-/* 53 */
+/* 53 */,
+/* 54 */
 /***/ (function(module, exports, __webpack_require__) {
 
 var Component = __webpack_require__(8)(
   /* script */
-  __webpack_require__(43),
+  __webpack_require__(42),
   /* template */
-  __webpack_require__(62),
+  __webpack_require__(59),
   /* scopeId */
   null,
   /* cssModules */
   null
 )
-Component.options.__file = "c:\\xampp\\htdocs\\warehouse\\resources\\assets\\js\\components\\RRCreateView.vue"
+Component.options.__file = "c:\\xampp\\htdocs\\warehouse\\resources\\assets\\js\\components\\CreateRRNoPO.vue"
 if (Component.esModule && Object.keys(Component.esModule).some(function (key) {return key !== "default" && key !== "__esModule"})) {console.error("named exports are not supported in *.vue files.")}
-if (Component.options.functional) {console.error("[vue-loader] RRCreateView.vue: functional components are not supported with templates, they should use render functions.")}
+if (Component.options.functional) {console.error("[vue-loader] CreateRRNoPO.vue: functional components are not supported with templates, they should use render functions.")}
 
 /* hot reload */
 if (false) {(function () {
@@ -12228,9 +12441,9 @@ if (false) {(function () {
   if (!hotAPI.compatible) return
   module.hot.accept()
   if (!module.hot.data) {
-    hotAPI.createRecord("data-v-bc4fed28", Component.options)
+    hotAPI.createRecord("data-v-0a192472", Component.options)
   } else {
-    hotAPI.reload("data-v-bc4fed28", Component.options)
+    hotAPI.reload("data-v-0a192472", Component.options)
   }
 })()}
 
@@ -12238,290 +12451,869 @@ module.exports = Component.exports
 
 
 /***/ }),
-/* 54 */,
-/* 55 */,
+/* 55 */
+/***/ (function(module, exports, __webpack_require__) {
+
+var Component = __webpack_require__(8)(
+  /* script */
+  __webpack_require__(43),
+  /* template */
+  __webpack_require__(61),
+  /* scopeId */
+  null,
+  /* cssModules */
+  null
+)
+Component.options.__file = "c:\\xampp\\htdocs\\warehouse\\resources\\assets\\js\\components\\CreateRRWithPO.vue"
+if (Component.esModule && Object.keys(Component.esModule).some(function (key) {return key !== "default" && key !== "__esModule"})) {console.error("named exports are not supported in *.vue files.")}
+if (Component.options.functional) {console.error("[vue-loader] CreateRRWithPO.vue: functional components are not supported with templates, they should use render functions.")}
+
+/* hot reload */
+if (false) {(function () {
+  var hotAPI = require("vue-hot-reload-api")
+  hotAPI.install(require("vue"), false)
+  if (!hotAPI.compatible) return
+  module.hot.accept()
+  if (!module.hot.data) {
+    hotAPI.createRecord("data-v-26aec94c", Component.options)
+  } else {
+    hotAPI.reload("data-v-26aec94c", Component.options)
+  }
+})()}
+
+module.exports = Component.exports
+
+
+/***/ }),
 /* 56 */,
 /* 57 */,
 /* 58 */,
-/* 59 */,
-/* 60 */,
-/* 61 */,
-/* 62 */
+/* 59 */
 /***/ (function(module, exports, __webpack_require__) {
 
 module.exports={render:function (){var _vm=this;var _h=_vm.$createElement;var _c=_vm._self._c||_h;
   return _c('div', {
-    staticClass: "big-container-session"
+    staticClass: "containerRR-noPO"
+  }, [_vm._m(0), _vm._v(" "), _c('div', {
+    staticClass: "flexible-container"
   }, [_c('div', {
-    staticClass: "Items-RR-table"
-  }, [(_vm.laravelerrors != '') ? _c('ul', {
-    staticClass: "rr-error-tab"
+    staticClass: "selected-items-rrnopo"
+  }, [_c('div', {
+    staticClass: "btn-add-item-rrnopo"
+  }, [_c('button', {
+    attrs: {
+      "type": "button"
+    },
+    on: {
+      "click": function($event) {
+        _vm.ModalIsActive = !_vm.ModalIsActive
+      }
+    }
+  }, [_c('i', {
+    staticClass: "fa fa-plus-circle"
+  }), _vm._v(" Items")])]), _vm._v(" "), (_vm.laravelerrors != '') ? _c('ul', {
+    staticClass: "error-tab",
+    on: {
+      "click": function($event) {
+        _vm.laravelerrors = ''
+      }
+    }
   }, _vm._l((_vm.laravelerrors), function(errors) {
     return _c('span', _vm._l((errors), function(error) {
       return _c('li', [_vm._v(_vm._s(error))])
     }))
-  })) : _vm._e(), _vm._v(" "), (_vm.successAlerts != '') ? _c('div', {
-    staticClass: "successAlertRRsession"
-  }, [_c('p', [_vm._v(_vm._s(_vm.successAlerts))])]) : _vm._e(), _vm._v(" "), _c('table', [_vm._m(0), _vm._v(" "), _vm._l((_vm.sessions), function(session) {
-    return _c('tr', [_c('td', [_vm._v(_vm._s(session.ItemCode))]), _vm._v(" "), _c('td', [_vm._v(_vm._s(session.Description))]), _vm._v(" "), _c('td', [_vm._v(_vm._s(session.Unit))]), _vm._v(" "), _c('td', [_vm._v(_vm._s(session.QuantityDelivered))]), _vm._v(" "), _c('td', [_vm._v(_vm._s(session.QuantityAccepted))]), _vm._v(" "), _c('td', [_vm._v(_vm._s(_vm.formatPrice(session.UnitCost)))]), _vm._v(" "), _c('td', [_c('i', {
+  })) : _vm._e(), _vm._v(" "), (_vm.ownerrors != '') ? _c('ul', {
+    staticClass: "error-tab",
+    on: {
+      "click": function($event) {
+        _vm.ownerrors = ''
+      }
+    }
+  }, [_c('li', [_vm._v(_vm._s(_vm.ownerrors))])]) : _vm._e(), _vm._v(" "), (_vm.successAlerts != '') ? _c('div', {
+    staticClass: "successAlertRRsession",
+    on: {
+      "click": function($event) {
+        _vm.successAlerts = ''
+      }
+    }
+  }, [_c('p', [_vm._v(_vm._s(_vm.successAlerts))])]) : _vm._e(), _vm._v(" "), _c('div', {
+    staticClass: "selected-received-items-table"
+  }, [_c('table', [_vm._m(1), _vm._v(" "), _vm._l((_vm.ItemsInSession), function(sessionItem, count) {
+    return (_vm.ItemsInSession[0] != null) ? _c('tr', [(sessionItem.ItemCode != null) ? _c('td', [_vm._v(_vm._s(sessionItem.ItemCode))]) : _c('td', [_c('i', {
+      staticClass: "fa fa-ban decliner"
+    })]), _vm._v(" "), (sessionItem.AccountCode != null) ? _c('td', [_vm._v(_vm._s(sessionItem.AccountCode))]) : _c('td', [_c('i', {
+      staticClass: "fa fa-ban decliner"
+    })]), _vm._v(" "), _c('td', [_vm._v(_vm._s(sessionItem.Description))]), _vm._v(" "), _c('td', [_vm._v("₱" + _vm._s(_vm.formatPrice(sessionItem.UnitCost)))]), _vm._v(" "), _c('td', [_vm._v(_vm._s(sessionItem.QuantityDelivered))]), _vm._v(" "), _c('td', [_vm._v(_vm._s(sessionItem.QuantityAccepted))]), _vm._v(" "), _c('td', [_vm._v(_vm._s(sessionItem.Unit))]), _vm._v(" "), _c('td', [_vm._v("₱" + _vm._s(_vm.formatPrice(sessionItem.Amount)))]), _vm._v(" "), _c('td', [_c('i', {
       staticClass: "fa fa-trash",
       on: {
         "click": function($event) {
-          _vm.RemoveFromSession(session.ItemCode)
+          _vm.deleteSession(count)
         }
       }
-    })])])
-  })], 2)]), _vm._v(" "), _c('div', {
-    staticClass: "search-itemRR-Container"
-  }, [_c('div', {
-    staticClass: "search-RR-center"
-  }, [_vm._m(1), _vm._v(" "), _c('div', {
-    staticClass: "searchboxes-div"
-  }, [_c('div', {
-    staticClass: "search-rr-create"
+    })])]) : _vm._e()
+  })], 2)])]), _vm._v(" "), _c('div', {
+    staticClass: "form-input-rrnopo"
   }, [_c('input', {
     directives: [{
       name: "model",
       rawName: "v-model",
-      value: (_vm.search),
-      expression: "search"
+      value: (_vm.Supplier),
+      expression: "Supplier"
     }],
     attrs: {
+      "autocomplete": "off",
       "type": "text",
-      "name": "search",
-      "placeholder": "Search by Description"
+      "name": "Supplier",
+      "placeholder": "Supplier"
     },
     domProps: {
-      "value": (_vm.search)
+      "value": (_vm.Supplier)
     },
     on: {
-      "keyup": function($event) {
-        _vm.fetchdataItems()
-      },
       "input": function($event) {
         if ($event.target.composing) { return; }
-        _vm.search = $event.target.value
+        _vm.Supplier = $event.target.value
       }
     }
-  })]), _vm._v(" "), _c('div', {
-    staticClass: "search-rr-create"
-  }, [_c('input', {
+  }), _vm._v(" "), _c('input', {
     directives: [{
       name: "model",
       rawName: "v-model",
-      value: (_vm.searchcode),
-      expression: "searchcode"
+      value: (_vm.Address),
+      expression: "Address"
     }],
     attrs: {
+      "autocomplete": "off",
       "type": "text",
-      "name": "searchcode",
-      "placeholder": "Search by Item Code"
+      "name": "Address",
+      "placeholder": "Supplier Address"
     },
     domProps: {
-      "value": (_vm.searchcode)
+      "value": (_vm.Address)
     },
     on: {
-      "keyup": function($event) {
-        _vm.fetchdataItemsByCode()
-      },
       "input": function($event) {
         if ($event.target.composing) { return; }
-        _vm.searchcode = $event.target.value
+        _vm.Address = $event.target.value
       }
     }
-  })])]), _vm._v(" "), _c('div', {
-    staticClass: "table-RRresults-container"
-  }, [_c('table', [_vm._m(2), _vm._v(" "), _vm._l((_vm.model), function(masteritem) {
-    return _c('tr', [_c('td', [_vm._v(_vm._s(masteritem.ItemCode_id))]), _vm._v(" "), _c('td', [_vm._v(_vm._s(masteritem.Description))]), _vm._v(" "), _c('td', [_vm._v(_vm._s(masteritem.Unit))]), _vm._v(" "), _c('td', [_c('input', {
-      directives: [{
-        name: "model",
-        rawName: "v-model",
-        value: (_vm.QuantityDelivered[masteritem.ItemCode_id]),
-        expression: "QuantityDelivered[masteritem.ItemCode_id]"
-      }],
-      attrs: {
-        "type": "number",
-        "name": "QuantityDelivered",
-        "min": "1",
-        "autocomplete": "off"
-      },
-      domProps: {
-        "value": (_vm.QuantityDelivered[masteritem.ItemCode_id])
-      },
-      on: {
-        "input": function($event) {
-          if ($event.target.composing) { return; }
-          _vm.$set(_vm.QuantityDelivered, masteritem.ItemCode_id, $event.target.value)
-        }
+  }), _vm._v(" "), _c('input', {
+    directives: [{
+      name: "model",
+      rawName: "v-model",
+      value: (_vm.InvoiceNo),
+      expression: "InvoiceNo"
+    }],
+    attrs: {
+      "autocomplete": "off",
+      "type": "text",
+      "name": "InvoiceNo",
+      "placeholder": "Invoice Number (optional)"
+    },
+    domProps: {
+      "value": (_vm.InvoiceNo)
+    },
+    on: {
+      "input": function($event) {
+        if ($event.target.composing) { return; }
+        _vm.InvoiceNo = $event.target.value
       }
-    })]), _vm._v(" "), _c('td', [_c('input', {
-      directives: [{
-        name: "model",
-        rawName: "v-model",
-        value: (_vm.QuantityAccepted[masteritem.ItemCode_id]),
-        expression: "QuantityAccepted[masteritem.ItemCode_id]"
-      }],
-      attrs: {
-        "type": "number",
-        "name": "QuantityAccepted",
-        "min": "1",
-        "autocomplete": "off"
-      },
-      domProps: {
-        "value": (_vm.QuantityAccepted[masteritem.ItemCode_id])
-      },
-      on: {
-        "input": function($event) {
-          if ($event.target.composing) { return; }
-          _vm.$set(_vm.QuantityAccepted, masteritem.ItemCode_id, $event.target.value)
-        }
+    }
+  }), _vm._v(" "), _c('input', {
+    directives: [{
+      name: "model",
+      rawName: "v-model",
+      value: (_vm.Carrier),
+      expression: "Carrier"
+    }],
+    attrs: {
+      "autocomplete": "off",
+      "type": "text",
+      "name": "Carrier",
+      "placeholder": "Carrier (optional)"
+    },
+    domProps: {
+      "value": (_vm.Carrier)
+    },
+    on: {
+      "input": function($event) {
+        if ($event.target.composing) { return; }
+        _vm.Carrier = $event.target.value
       }
-    })]), _vm._v(" "), _c('td', [_c('input', {
+    }
+  }), _vm._v(" "), _c('input', {
+    directives: [{
+      name: "model",
+      rawName: "v-model",
+      value: (_vm.DeliveryReceiptNo),
+      expression: "DeliveryReceiptNo"
+    }],
+    attrs: {
+      "autocomplete": "off",
+      "type": "text",
+      "name": "DeliveryReceiptNo",
+      "placeholder": "Delivery Receipt No. (optional)"
+    },
+    domProps: {
+      "value": (_vm.DeliveryReceiptNo)
+    },
+    on: {
+      "input": function($event) {
+        if ($event.target.composing) { return; }
+        _vm.DeliveryReceiptNo = $event.target.value
+      }
+    }
+  }), _vm._v(" "), _c('input', {
+    directives: [{
+      name: "model",
+      rawName: "v-model",
+      value: (_vm.Note),
+      expression: "Note"
+    }],
+    attrs: {
+      "autocomplete": "off",
+      "type": "text",
+      "name": "Note",
+      "placeholder": "Note (optional)"
+    },
+    domProps: {
+      "value": (_vm.Note)
+    },
+    on: {
+      "input": function($event) {
+        if ($event.target.composing) { return; }
+        _vm.Note = $event.target.value
+      }
+    }
+  }), _vm._v(" "), _c('select', {
+    directives: [{
+      name: "model",
+      rawName: "v-model",
+      value: (_vm.Verifiedby),
+      expression: "Verifiedby"
+    }],
+    class: [_vm.Verifiedby != null ? 'black' : ''],
+    attrs: {
+      "name": "Verifiedby"
+    },
+    on: {
+      "change": function($event) {
+        var $$selectedVal = Array.prototype.filter.call($event.target.options, function(o) {
+          return o.selected
+        }).map(function(o) {
+          var val = "_value" in o ? o._value : o.value;
+          return val
+        });
+        _vm.Verifiedby = $event.target.multiple ? $$selectedVal : $$selectedVal[0]
+      }
+    }
+  }, [_c('option', {
+    staticClass: "gray",
+    attrs: {
+      "value": "null"
+    }
+  }, [_vm._v("Verified by")]), _vm._v(" "), _vm._l((_vm.managers), function(manager) {
+    return _c('option', {
+      staticClass: "black",
+      domProps: {
+        "value": manager.id
+      }
+    }, [_vm._v(_vm._s(manager.Fname) + " " + _vm._s(manager.Lname))])
+  })], 2), _vm._v(" "), _c('select', {
+    directives: [{
+      name: "model",
+      rawName: "v-model",
+      value: (_vm.ReceivedOriginalby),
+      expression: "ReceivedOriginalby"
+    }],
+    class: [_vm.ReceivedOriginalby != null ? 'black' : ''],
+    attrs: {
+      "name": "ReceivedOriginalby"
+    },
+    on: {
+      "change": function($event) {
+        var $$selectedVal = Array.prototype.filter.call($event.target.options, function(o) {
+          return o.selected
+        }).map(function(o) {
+          var val = "_value" in o ? o._value : o.value;
+          return val
+        });
+        _vm.ReceivedOriginalby = $event.target.multiple ? $$selectedVal : $$selectedVal[0]
+      }
+    }
+  }, [_c('option', {
+    staticClass: "gray",
+    attrs: {
+      "value": "null"
+    }
+  }, [_vm._v("Received originaly by")]), _vm._v(" "), _vm._l((_vm.auditors), function(auditor) {
+    return _c('option', {
+      staticClass: "black",
+      domProps: {
+        "value": auditor.id
+      }
+    }, [_vm._v(_vm._s(auditor.Fname) + " " + _vm._s(auditor.Lname))])
+  })], 2), _vm._v(" "), _c('select', {
+    directives: [{
+      name: "model",
+      rawName: "v-model",
+      value: (_vm.PostedtoBINby),
+      expression: "PostedtoBINby"
+    }],
+    class: [_vm.PostedtoBINby != null ? 'black' : ''],
+    attrs: {
+      "name": "PostedtoBINby"
+    },
+    on: {
+      "change": function($event) {
+        var $$selectedVal = Array.prototype.filter.call($event.target.options, function(o) {
+          return o.selected
+        }).map(function(o) {
+          var val = "_value" in o ? o._value : o.value;
+          return val
+        });
+        _vm.PostedtoBINby = $event.target.multiple ? $$selectedVal : $$selectedVal[0]
+      }
+    }
+  }, [_c('option', {
+    staticClass: "gray",
+    attrs: {
+      "value": "null"
+    }
+  }, [_vm._v("Posted to B.I.N. by")]), _vm._v(" "), _vm._l((_vm.clerks), function(clerk) {
+    return _c('option', {
+      staticClass: "black",
+      domProps: {
+        "value": clerk.id
+      }
+    }, [_vm._v(_vm._s(clerk.Fname) + " " + _vm._s(clerk.Lname))])
+  })], 2), _vm._v(" "), _c('button', {
+    attrs: {
+      "type": "button"
+    },
+    on: {
+      "click": function($event) {
+        _vm.submitToDB()
+      }
+    }
+  }, [_vm._v("Submit")])])]), _vm._v(" "), _c('div', {
+    staticClass: "modal-rr-no-po",
+    class: {
+      'active': _vm.ModalIsActive
+    },
+    on: {
+      "click": function($event) {
+        $event.preventDefault();
+        _vm.ModalIsActive = !_vm.ModalIsActive
+      }
+    }
+  }, [_c('div', {
+    staticClass: "center-white-modal",
+    on: {
+      "click": function($event) {
+        $event.preventDefault();
+        _vm.ModalIsActive = !_vm.ModalIsActive
+      }
+    }
+  }, [_c('div', {
+    staticClass: "items-from-rv-nopo-table"
+  }, [_c('table', [_vm._m(2), _vm._v(" "), _vm._l((_vm.fromrrvalidator), function(rrvalidationdata, count) {
+    return _c('tr', [(rrvalidationdata.AccountCode != null) ? _c('td', {
+      model: {
+        value: (_vm.AccountCode[count] = rrvalidationdata.AccountCode),
+        callback: function($$v) {
+          _vm.AccountCode[count] = rrvalidationdata.AccountCode = $$v
+        },
+        expression: "AccountCode[count]=rrvalidationdata.AccountCode"
+      }
+    }, [_vm._v(_vm._s(rrvalidationdata.AccountCode))]) : _c('td', [_c('i', {
+      staticClass: "fa fa-ban decliner"
+    }), _vm._v(" For Warehouse")]), _vm._v(" "), (rrvalidationdata.ItemCode != null) ? _c('td', {
+      model: {
+        value: (_vm.ItemCode[count] = rrvalidationdata.ItemCode),
+        callback: function($$v) {
+          _vm.ItemCode[count] = rrvalidationdata.ItemCode = $$v
+        },
+        expression: "ItemCode[count]=rrvalidationdata.ItemCode"
+      }
+    }, [_vm._v(_vm._s(rrvalidationdata.ItemCode))]) : _c('td', [_c('i', {
+      staticClass: "fa fa-ban decliner"
+    }), _vm._v(" For Warehouse")]), _vm._v(" "), _c('td', [_vm._v(_vm._s(rrvalidationdata.Particulars))]), _vm._v(" "), _c('td', [_c('input', {
       directives: [{
         name: "model",
         rawName: "v-model",
-        value: (_vm.UnitCost[masteritem.ItemCode_id]),
-        expression: "UnitCost[masteritem.ItemCode_id]"
+        value: (_vm.UnitCost[count]),
+        expression: "UnitCost[count]"
       }],
-      staticClass: "inputUC",
       attrs: {
+        "autocomplete": "off",
         "type": "text",
-        "name": "UnitCost",
-        "min": "1",
-        "step": "0.01",
-        "autocomplete": "off"
+        "name": "UnitCost"
       },
       domProps: {
-        "value": (_vm.UnitCost[masteritem.ItemCode_id])
+        "value": (_vm.UnitCost[count])
       },
       on: {
         "input": function($event) {
           if ($event.target.composing) { return; }
-          _vm.$set(_vm.UnitCost, masteritem.ItemCode_id, $event.target.value)
+          _vm.$set(_vm.UnitCost, count, $event.target.value)
         }
       }
-    })]), _vm._v(" "), _c('td', [_c('button', {
-      staticClass: "add-toRRlist-btn",
+    })]), _vm._v(" "), _c('td', [_c('input', {
+      directives: [{
+        name: "model",
+        rawName: "v-model",
+        value: (_vm.QuantityDelivered[count]),
+        expression: "QuantityDelivered[count]"
+      }],
+      attrs: {
+        "autocomplete": "off",
+        "min": "1",
+        "type": "number",
+        "max": rrvalidationdata.Quantity,
+        "name": "delivered"
+      },
+      domProps: {
+        "value": (_vm.QuantityDelivered[count])
+      },
+      on: {
+        "change": function($event) {
+          _vm.isDisabled = false
+        },
+        "input": function($event) {
+          if ($event.target.composing) { return; }
+          _vm.$set(_vm.QuantityDelivered, count, $event.target.value)
+        }
+      }
+    })]), _vm._v(" "), _c('td', [_c('input', {
+      directives: [{
+        name: "model",
+        rawName: "v-model",
+        value: (_vm.QuantityAccepted[count]),
+        expression: "QuantityAccepted[count]"
+      }],
+      attrs: {
+        "autocomplete": "off",
+        "min": "0",
+        "type": "number",
+        "max": _vm.QuantityDelivered[count],
+        "name": "accepted",
+        "disabled": _vm.isDisabled
+      },
+      domProps: {
+        "value": (_vm.QuantityAccepted[count])
+      },
+      on: {
+        "input": function($event) {
+          if ($event.target.composing) { return; }
+          _vm.$set(_vm.QuantityAccepted, count, $event.target.value)
+        }
+      }
+    })]), _vm._v(" "), _c('td', [_vm._v(_vm._s(rrvalidationdata.Unit))]), _vm._v(" "), _c('td', [_c('button', {
+      staticClass: "bttn-unite bttn-xs bttn-primary",
       attrs: {
         "type": "submit"
       },
       on: {
         "click": function($event) {
-          $event.preventDefault();
-          _vm.submitToSession(masteritem)
+          _vm.submitTosession(rrvalidationdata.Particulars, rrvalidationdata.Unit, count, rrvalidationdata.Quantity), _vm.ModalIsActive = !_vm.ModalIsActive
         }
       }
     }, [_c('i', {
       staticClass: "fa fa-plus"
-    }), _vm._v(" Add")])])])
-  })], 2), _vm._v(" "), _c('div', {
-    staticClass: "paginate-container"
-  }, [(this.searchcode == '') ? _c('ul', {
-    staticClass: "pagination"
-  }, [(_vm.pagination.current_page > 1) ? _c('li', [_c('a', {
-    attrs: {
-      "href": "#"
-    },
-    on: {
-      "click": function($event) {
-        $event.preventDefault();
-        _vm.changePage(_vm.pagination.current_page - 1)
-      }
-    }
-  }, [_c('i', {
-    staticClass: "fa fa-angle-left"
-  })])]) : _vm._e(), _vm._v(" "), _vm._l((_vm.pagesNumber), function(page) {
-    return _c('li', {
-      class: [page == _vm.isActive ? 'active' : '']
-    }, [_c('a', {
-      attrs: {
-        "href": "#"
-      },
-      on: {
-        "click": function($event) {
-          $event.preventDefault();
-          _vm.changePage(page)
-        }
-      }
-    }, [_vm._v(_vm._s(page))])])
-  }), _vm._v(" "), (_vm.pagination.current_page < _vm.pagination.last_page) ? _c('li', [_c('a', {
-    attrs: {
-      "href": "#"
-    },
-    on: {
-      "click": function($event) {
-        $event.preventDefault();
-        _vm.changePage(_vm.pagination.current_page + 1)
-      }
-    }
-  }, [_c('i', {
-    staticClass: "fa fa-angle-right"
-  })])]) : _vm._e()], 2) : _c('ul', {
-    staticClass: "pagination"
-  }, [(_vm.pagination.current_page > 1) ? _c('li', [_c('a', {
-    attrs: {
-      "href": "#"
-    },
-    on: {
-      "click": function($event) {
-        $event.preventDefault();
-        _vm.changePageCode(_vm.pagination.current_page - 1)
-      }
-    }
-  }, [_c('i', {
-    staticClass: "fa fa-angle-left"
-  })])]) : _vm._e(), _vm._v(" "), _vm._l((_vm.pagesNumber), function(page) {
-    return _c('li', {
-      class: [page == _vm.isActive ? 'active' : '']
-    }, [_c('a', {
-      attrs: {
-        "href": "#"
-      },
-      on: {
-        "click": function($event) {
-          $event.preventDefault();
-          _vm.changePageCode(page)
-        }
-      }
-    }, [_vm._v(_vm._s(page))])])
-  }), _vm._v(" "), (_vm.pagination.current_page < _vm.pagination.last_page) ? _c('li', [_c('a', {
-    attrs: {
-      "href": "#"
-    },
-    on: {
-      "click": function($event) {
-        $event.preventDefault();
-        _vm.changePageCode(_vm.pagination.current_page + 1)
-      }
-    }
-  }, [_c('i', {
-    staticClass: "fa fa-angle-right"
-  })])]) : _vm._e()], 2)])])])])])
+    })])])])
+  })], 2)])])])])
 },staticRenderFns: [function (){var _vm=this;var _h=_vm.$createElement;var _c=_vm._self._c||_h;
-  return _c('tr', [_c('th', [_vm._v("Code NO.")]), _vm._v(" "), _c('th', [_vm._v("Article")]), _vm._v(" "), _c('th', [_vm._v("Unit")]), _vm._v(" "), _c('th', [_vm._v("Quantity Delivered")]), _vm._v(" "), _c('th', [_vm._v("Quantity Accepted")]), _vm._v(" "), _c('th', [_vm._v("U-Cost")]), _vm._v(" "), _c('th', [_vm._v("Action")])])
+  return _c('div', {
+    staticClass: "top-title-rr-nopo"
+  }, [_c('i', {
+    staticClass: "fa fa-plus"
+  }), _vm._v(" Create receiving report w/o PO.\n  ")])
 },function (){var _vm=this;var _h=_vm.$createElement;var _c=_vm._self._c||_h;
-  return _c('h1', [_c('i', {
-    staticClass: "fa fa-times"
+  return _c('tr', [_c('th', [_vm._v("ItemCode")]), _vm._v(" "), _c('th', [_vm._v("AccountCode")]), _vm._v(" "), _c('th', [_vm._v("Description")]), _vm._v(" "), _c('th', [_vm._v("UnitCost")]), _vm._v(" "), _c('th', [_vm._v("Quantity delivered")]), _vm._v(" "), _c('th', [_vm._v("Quantity accepted")]), _vm._v(" "), _c('th', [_vm._v("Unit")]), _vm._v(" "), _c('th', [_vm._v("Amount")]), _vm._v(" "), _c('th', [_vm._v("Delete")])])
+},function (){var _vm=this;var _h=_vm.$createElement;var _c=_vm._self._c||_h;
+  return _c('tr', [_c('th', {
+    staticClass: "left-part"
+  }, [_vm._v("AccountCode")]), _vm._v(" "), _c('th', [_vm._v("Item Code")]), _vm._v(" "), _c('th', [_vm._v("Name/Description")]), _vm._v(" "), _c('th', [_vm._v("UnitCost")]), _vm._v(" "), _c('th', [_vm._v("Quantity delivered")]), _vm._v(" "), _c('th', [_vm._v("Quantity accepted")]), _vm._v(" "), _c('th', [_vm._v("Unit")]), _vm._v(" "), _c('th', {
+    staticClass: "right-part"
   })])
-},function (){var _vm=this;var _h=_vm.$createElement;var _c=_vm._self._c||_h;
-  return _c('tr', [_c('th', [_vm._v("Code No.")]), _vm._v(" "), _c('th', [_vm._v("Article")]), _vm._v(" "), _c('th', [_vm._v("Unit")]), _vm._v(" "), _c('th', [_vm._v("Quantity Delivered")]), _vm._v(" "), _c('th', [_vm._v("Quantity Accepted")]), _vm._v(" "), _c('th', [_vm._v("U-Cost")]), _vm._v(" "), _c('th', [_vm._v("Action")])])
 }]}
 module.exports.render._withStripped = true
 if (false) {
   module.hot.accept()
   if (module.hot.data) {
-     require("vue-hot-reload-api").rerender("data-v-bc4fed28", module.exports)
+     require("vue-hot-reload-api").rerender("data-v-0a192472", module.exports)
   }
 }
 
 /***/ }),
+/* 60 */,
+/* 61 */
+/***/ (function(module, exports, __webpack_require__) {
+
+module.exports={render:function (){var _vm=this;var _h=_vm.$createElement;var _c=_vm._self._c||_h;
+  return _c('div', {
+    staticClass: "vue-rr-create-withpo"
+  }, [_c('div', {
+    staticClass: "selected-session-rr-w-po"
+  }, [_c('div', {
+    staticClass: "add-item-rr-w-pobtn"
+  }, [_c('button', {
+    staticClass: "bttn-unite bttn-xs bttn-primary",
+    attrs: {
+      "type": "button"
+    },
+    on: {
+      "click": function($event) {
+        _vm.IsModalActive = !_vm.IsModalActive
+      }
+    }
+  }, [_c('i', {
+    staticClass: "fa fa-plus"
+  }), _vm._v(" items")])]), _vm._v(" "), (_vm.laravelerrors != '') ? _c('ul', {
+    staticClass: "error-tab",
+    on: {
+      "click": function($event) {
+        _vm.laravelerrors = ''
+      }
+    }
+  }, _vm._l((_vm.laravelerrors), function(errors) {
+    return _c('span', _vm._l((errors), function(error) {
+      return _c('li', [_vm._v(_vm._s(error))])
+    }))
+  })) : _vm._e(), _vm._v(" "), (_vm.ownerrors != '') ? _c('ul', {
+    staticClass: "error-tab",
+    on: {
+      "click": function($event) {
+        _vm.ownerrors = ''
+      }
+    }
+  }, [_c('li', [_vm._v(_vm._s(_vm.ownerrors))])]) : _vm._e(), _vm._v(" "), (_vm.successAlerts != '') ? _c('div', {
+    staticClass: "successAlertRRsession",
+    on: {
+      "click": function($event) {
+        _vm.successAlerts = ''
+      }
+    }
+  }, [_c('p', [_vm._v(_vm._s(_vm.successAlerts))])]) : _vm._e(), _vm._v(" "), _c('div', {
+    staticClass: "table-rr-w-po"
+  }, [_c('table', [_vm._m(0), _vm._v(" "), _vm._l((_vm.SessionItems), function(sessionitem, count) {
+    return _c('tr', [(sessionitem.ItemCode != null) ? _c('td', [_vm._v(_vm._s(sessionitem.ItemCode))]) : _c('td', [_c('i', {
+      staticClass: "fa fa-ban decliner"
+    })]), _vm._v(" "), (sessionitem.AccountCode != null) ? _c('td', [_vm._v(_vm._s(sessionitem.AccountCode))]) : _c('td', [_c('i', {
+      staticClass: "fa fa-ban decliner"
+    })]), _vm._v(" "), _c('td', [_vm._v(_vm._s(sessionitem.Description))]), _vm._v(" "), _c('td', [_vm._v("₱" + _vm._s(_vm.formatPrice(sessionitem.UnitCost)))]), _vm._v(" "), _c('td', [_vm._v(_vm._s(sessionitem.QuantityDelivered))]), _vm._v(" "), _c('td', [_vm._v(_vm._s(sessionitem.QuantityAccepted))]), _vm._v(" "), _c('td', [_vm._v(_vm._s(sessionitem.Unit))]), _vm._v(" "), _c('td', [_vm._v("₱" + _vm._s(_vm.formatPrice(sessionitem.Amount)))]), _vm._v(" "), _c('td', [_c('i', {
+      staticClass: "fa fa-trash",
+      on: {
+        "click": function($event) {
+          _vm.deleteSession(count)
+        }
+      }
+    })])])
+  })], 2)])]), _vm._v(" "), _c('div', {
+    staticClass: "right-form-rr-with-po"
+  }, [_c('input', {
+    directives: [{
+      name: "model",
+      rawName: "v-model",
+      value: (_vm.InvoiceNo),
+      expression: "InvoiceNo"
+    }],
+    attrs: {
+      "type": "text",
+      "autocomplete": "off",
+      "name": "InvoiceNo",
+      "placeholder": "Invoice number"
+    },
+    domProps: {
+      "value": (_vm.InvoiceNo)
+    },
+    on: {
+      "input": function($event) {
+        if ($event.target.composing) { return; }
+        _vm.InvoiceNo = $event.target.value
+      }
+    }
+  }), _vm._v(" "), _c('input', {
+    directives: [{
+      name: "model",
+      rawName: "v-model",
+      value: (_vm.Carrier),
+      expression: "Carrier"
+    }],
+    attrs: {
+      "type": "text",
+      "autocomplete": "off",
+      "name": "Carrier",
+      "placeholder": "Carrier"
+    },
+    domProps: {
+      "value": (_vm.Carrier)
+    },
+    on: {
+      "input": function($event) {
+        if ($event.target.composing) { return; }
+        _vm.Carrier = $event.target.value
+      }
+    }
+  }), _vm._v(" "), _c('input', {
+    directives: [{
+      name: "model",
+      rawName: "v-model",
+      value: (_vm.DeliveryReceiptNo),
+      expression: "DeliveryReceiptNo"
+    }],
+    attrs: {
+      "type": "text",
+      "autocomplete": "off",
+      "name": "DeliveryReceiptNo",
+      "placeholder": "Delivery Receipt Number"
+    },
+    domProps: {
+      "value": (_vm.DeliveryReceiptNo)
+    },
+    on: {
+      "input": function($event) {
+        if ($event.target.composing) { return; }
+        _vm.DeliveryReceiptNo = $event.target.value
+      }
+    }
+  }), _vm._v(" "), _c('input', {
+    directives: [{
+      name: "model",
+      rawName: "v-model",
+      value: (_vm.Note),
+      expression: "Note"
+    }],
+    attrs: {
+      "type": "text",
+      "autocomplete": "off",
+      "name": "Note",
+      "placeholder": "Note"
+    },
+    domProps: {
+      "value": (_vm.Note)
+    },
+    on: {
+      "input": function($event) {
+        if ($event.target.composing) { return; }
+        _vm.Note = $event.target.value
+      }
+    }
+  }), _vm._v(" "), _c('select', {
+    directives: [{
+      name: "model",
+      rawName: "v-model",
+      value: (_vm.Verifiedby),
+      expression: "Verifiedby"
+    }],
+    class: [_vm.Verifiedby != null ? 'black' : ''],
+    attrs: {
+      "name": "Verifiedby"
+    },
+    on: {
+      "change": function($event) {
+        var $$selectedVal = Array.prototype.filter.call($event.target.options, function(o) {
+          return o.selected
+        }).map(function(o) {
+          var val = "_value" in o ? o._value : o.value;
+          return val
+        });
+        _vm.Verifiedby = $event.target.multiple ? $$selectedVal : $$selectedVal[0]
+      }
+    }
+  }, [_c('option', {
+    staticClass: "gray",
+    domProps: {
+      "value": null
+    }
+  }, [_vm._v("Verified by")]), _vm._v(" "), _vm._l((_vm.managers), function(manager) {
+    return _c('option', {
+      staticClass: "black",
+      domProps: {
+        "value": manager.id
+      }
+    }, [_vm._v(_vm._s(manager.Fname) + " " + _vm._s(manager.Lname))])
+  })], 2), _vm._v(" "), _c('select', {
+    directives: [{
+      name: "model",
+      rawName: "v-model",
+      value: (_vm.ReceivedOriginalby),
+      expression: "ReceivedOriginalby"
+    }],
+    class: [_vm.ReceivedOriginalby != null ? 'black' : ''],
+    attrs: {
+      "name": "ReceivedOriginalby"
+    },
+    on: {
+      "change": function($event) {
+        var $$selectedVal = Array.prototype.filter.call($event.target.options, function(o) {
+          return o.selected
+        }).map(function(o) {
+          var val = "_value" in o ? o._value : o.value;
+          return val
+        });
+        _vm.ReceivedOriginalby = $event.target.multiple ? $$selectedVal : $$selectedVal[0]
+      }
+    }
+  }, [_c('option', {
+    staticClass: "gray",
+    domProps: {
+      "value": null
+    }
+  }, [_vm._v("Received Originaly by")]), _vm._v(" "), _vm._l((_vm.auditors), function(auditor) {
+    return _c('option', {
+      staticClass: "black",
+      domProps: {
+        "value": auditor.id
+      }
+    }, [_vm._v(_vm._s(auditor.Fname) + " " + _vm._s(auditor.Lname))])
+  })], 2), _vm._v(" "), _c('select', {
+    directives: [{
+      name: "model",
+      rawName: "v-model",
+      value: (_vm.PostedtoBINby),
+      expression: "PostedtoBINby"
+    }],
+    class: [_vm.PostedtoBINby != null ? 'black' : ''],
+    attrs: {
+      "name": "PostedtoBINby"
+    },
+    on: {
+      "change": function($event) {
+        var $$selectedVal = Array.prototype.filter.call($event.target.options, function(o) {
+          return o.selected
+        }).map(function(o) {
+          var val = "_value" in o ? o._value : o.value;
+          return val
+        });
+        _vm.PostedtoBINby = $event.target.multiple ? $$selectedVal : $$selectedVal[0]
+      }
+    }
+  }, [_c('option', {
+    staticClass: "gray",
+    domProps: {
+      "value": null
+    }
+  }, [_vm._v("Posted to BIN by")]), _vm._v(" "), _vm._l((_vm.clerks), function(clerk) {
+    return _c('option', {
+      staticClass: "black",
+      domProps: {
+        "value": clerk.id
+      }
+    }, [_vm._v(_vm._s(clerk.Fname) + " " + _vm._s(clerk.Lname))])
+  })], 2), _vm._v(" "), _c('button', {
+    attrs: {
+      "type": "button",
+      "name": "button"
+    },
+    on: {
+      "click": function($event) {
+        _vm.SubmitRRwithPO()
+      }
+    }
+  }, [_vm._v("Submit")])]), _vm._v(" "), _c('div', {
+    staticClass: "rr-with-po-modal animated",
+    class: {
+      'fadeIn active': _vm.IsModalActive
+    },
+    on: {
+      "click": function($event) {
+        _vm.IsModalActive = !_vm.IsModalActive
+      }
+    }
+  }, [_c('div', {
+    staticClass: "middle-rr-withpo",
+    on: {
+      "click": function($event) {
+        _vm.IsModalActive = !_vm.IsModalActive
+      }
+    }
+  }, [_c('table', [_vm._m(1), _vm._v(" "), _vm._l((_vm.rrvalidatorwpo), function(rrvalidator, count) {
+    return _c('tr', [(rrvalidator.ItemCode != null) ? _c('td', [_vm._v(_vm._s(rrvalidator.ItemCode))]) : _c('td', [_c('i', {
+      staticClass: "fa fa-ban decliner"
+    })]), _vm._v(" "), (rrvalidator.AccountCode != null) ? _c('td', [_vm._v(_vm._s(rrvalidator.AccountCode))]) : _c('td', [_c('i', {
+      staticClass: "fa fa-ban decliner"
+    })]), _vm._v(" "), _c('td', [_vm._v("₱" + _vm._s(_vm.formatPrice(rrvalidator.Price)))]), _vm._v(" "), _c('td', [_vm._v(_vm._s(rrvalidator.Unit))]), _vm._v(" "), _c('td', [_vm._v(_vm._s(rrvalidator.Description))]), _vm._v(" "), _c('td', [_c('input', {
+      directives: [{
+        name: "model",
+        rawName: "v-model",
+        value: (_vm.QuantityDelivered[count]),
+        expression: "QuantityDelivered[count]"
+      }],
+      attrs: {
+        "type": "text"
+      },
+      domProps: {
+        "value": (_vm.QuantityDelivered[count])
+      },
+      on: {
+        "input": function($event) {
+          if ($event.target.composing) { return; }
+          _vm.$set(_vm.QuantityDelivered, count, $event.target.value)
+        }
+      }
+    })]), _vm._v(" "), _c('td', [_c('input', {
+      directives: [{
+        name: "model",
+        rawName: "v-model",
+        value: (_vm.QuantityAccepted[count]),
+        expression: "QuantityAccepted[count]"
+      }],
+      attrs: {
+        "type": "text"
+      },
+      domProps: {
+        "value": (_vm.QuantityAccepted[count])
+      },
+      on: {
+        "input": function($event) {
+          if ($event.target.composing) { return; }
+          _vm.$set(_vm.QuantityAccepted, count, $event.target.value)
+        }
+      }
+    })]), _vm._v(" "), _c('td', [_c('button', {
+      staticClass: "bttn-unite bttn-xs bttn-primary",
+      attrs: {
+        "type": "button"
+      },
+      on: {
+        "click": function($event) {
+          _vm.IsModalActive = !_vm.IsModalActive, _vm.addtosession(rrvalidator, count)
+        }
+      }
+    }, [_c('i', {
+      staticClass: "fa fa-plus"
+    })])])])
+  })], 2)])])])
+},staticRenderFns: [function (){var _vm=this;var _h=_vm.$createElement;var _c=_vm._self._c||_h;
+  return _c('tr', [_c('th', [_vm._v("ItemCode")]), _vm._v(" "), _c('th', [_vm._v("AccountCode")]), _vm._v(" "), _c('th', [_vm._v("Description")]), _vm._v(" "), _c('th', [_vm._v("UnitCost")]), _vm._v(" "), _c('th', [_vm._v("QuantityDelivered")]), _vm._v(" "), _c('th', [_vm._v("QuantityAccepted")]), _vm._v(" "), _c('th', [_vm._v("Unit")]), _vm._v(" "), _c('th', [_vm._v("Amount")]), _vm._v(" "), _c('th', [_vm._v("Cancel")])])
+},function (){var _vm=this;var _h=_vm.$createElement;var _c=_vm._self._c||_h;
+  return _c('tr', [_c('th', [_vm._v("ItemCode")]), _vm._v(" "), _c('th', [_vm._v("AccountCode")]), _vm._v(" "), _c('th', [_vm._v("Price")]), _vm._v(" "), _c('th', [_vm._v("Unit")]), _vm._v(" "), _c('th', [_vm._v("Description")]), _vm._v(" "), _c('th', [_vm._v("Qty delivered")]), _vm._v(" "), _c('th', [_vm._v("Qty accepted")]), _vm._v(" "), _c('th', [_vm._v("Add")])])
+}]}
+module.exports.render._withStripped = true
+if (false) {
+  module.hot.accept()
+  if (module.hot.data) {
+     require("vue-hot-reload-api").rerender("data-v-26aec94c", module.exports)
+  }
+}
+
+/***/ }),
+/* 62 */,
 /* 63 */,
 /* 64 */,
 /* 65 */,
 /* 66 */,
 /* 67 */,
 /* 68 */,
-/* 69 */
+/* 69 */,
+/* 70 */,
+/* 71 */,
+/* 72 */,
+/* 73 */,
+/* 74 */,
+/* 75 */
 /***/ (function(module, exports, __webpack_require__) {
 
 module.exports = __webpack_require__(33);

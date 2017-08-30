@@ -13,6 +13,11 @@ use Illuminate\Http\Request;
 use App\MRMaster;
 use App\POMaster;
 use App\RVDetail;
+use App\RRValidatorNoPO;
+use App\RRValidatorWithPO;
+use App\RRDetailsNotForStock;
+use App\RVMaster;
+
 class RRController extends Controller
 {
   public function __construct()
@@ -20,72 +25,38 @@ class RRController extends Controller
     $this->middleware('auth');
     $this->middleware('IsWarehouse',['except'=>['RRindex','previewRR','signatureRR','declineRR','RRindexSearchbyRRNo','RRsignatureRequest','displayRRcurrentSession']]);
   }
-  public function CreateRR()
+  public function storeRRSessionValidatorNoPO($request)
   {
-   $Auditors=User::where('Role', '5')->whereNotNull('IsActive')->get(['id','Lname','Fname']);
-   $Managers=User::where('Role','0')->whereNotNull('IsActive')->get(['id','Lname','Fname']);
-   $Clerks=User::where('Role','6')->whereNotNull('IsActive')->get(['id','Lname','Fname']);
-
-   return view('Warehouse.RR.RRCreateView',compact('Auditors','Managers','Clerks'));
-  }
-
-  public function StoreSessionRRnonExisting(Request $request)
-  {
-      $this->storeRRSessionValidator($request);
-      if ($request->QuantityAccepted> $request->QuantityDelivered)
-      {
-        return redirect()->back()->with('message', 'Quantity Accepted cannot be higher than Delivered');
-      }
-      if (Session::has('RR-Items-Added'))
-      {
-        foreach (Session::get('RR-Items-Added') as $addedAlready)
-        {
-          if ($addedAlready->ItemCode == $request->ItemCode)
-          {
-            return redirect()->back()->with('message','This item is already added');
-          }
-        }
-      }
-      $nocommaUCost=str_replace(',','',$request->UnitCost);
-      $toSessionArray = array('AccountCode' =>$request->AccountCode,'ItemCode'=>$request->ItemCode,'Description'=>$request->Description,'UnitCost'=>$nocommaUCost,'Unit'=>$request->Unit,'QuantityDelivered'=>$request->QuantityDelivered,'QuantityAccepted'=>$request->QuantityAccepted );
-      $toSessionArray=(object)$toSessionArray;
-      Session::push('RR-Items-Added',$toSessionArray);
-      return redirect()->back();
-
-  }
-  public function storeRRSessionValidator($request)
-  {
+    $maxdelivered=$request->MaxQty;
+    $maximumaccept=$request->QuantityDelivered;
     $this->validate($request,[
-      'AccountCode'=>'required',
-      'ItemCode'=>'required|unique:MaterialsTicketDetails',
-      'UnitCost'=>'required|regex:/^[0-9]{1,3}(,[0-9]{3})*(\.[0-9]+)*$/',
-      'Description'=>'required|unique:MasterItems',
-      'Unit'=>'required',
-      'QuantityDelivered'=>'required',
-      'QuantityAccepted'=>'required',
-    ]);
-  }
-  public function storeRRExistSessionValidator($request)
-  {
-    $maximum=$request->QuantityDelivered;
-    $this->validate($request,[
-      'AccountCode'=>'required',
-      'ItemCode'=>'required',
-      'UnitCost'=>'required|regex:/^[0-9]{1,3}(,[0-9]{3})*(\.[0-9]+)*$/',
+      'UnitCost'=>'required|min:0.1|regex:/^[0-9]{1,3}(,[0-9]{3})*(\.[0-9]+)*$/',
       'Description'=>'required',
       'Unit'=>'required',
-      'QuantityDelivered'=>'required',
-      'QuantityAccepted'=>'required|numeric|max:'.$maximum,
+      'QuantityDelivered'=>'required|numeric|min:1|max:'.$maxdelivered,
+      'QuantityAccepted'=>'required|numeric|min:0|max:'.$maximumaccept,
+    ]);
+  }
+  public function storeRRSessionValidatorWithPO($request)
+  {
+    $maxdelivered=$request->MaxQty;
+    $maximumaccept=$request->QuantityDelivered;
+    $this->validate($request,[
+      'UnitCost'=>'required|min:0.1',
+      'Description'=>'required',
+      'Unit'=>'required',
+      'QuantityDelivered'=>'required|numeric|min:1|max:'.$maxdelivered,
+      'QuantityAccepted'=>'required|numeric|min:0|max:'.$maximumaccept,
     ]);
   }
   public function deleteSessionStored($id)
   {
     if (Session::has('RR-Items-Added'))
     {
-      $SelectedRRitems=(array)Session::get('RR-Items-Added');
+      $SelectedRRitems=Session::get('RR-Items-Added');
       foreach ($SelectedRRitems as $key => $item)
       {
-         if ($item->ItemCode==$id)
+         if ($key==$id)
          {
            unset($SelectedRRitems[$key]);
          }
@@ -120,65 +91,67 @@ class RRController extends Controller
     }
      return redirect()->back()->with('message','No results found');
   }
-
-  public function StoreSessionItemExist(Request $request)
+  public function StoreSessionRRNoPO(Request $request)
   {
-    $this->storeRRExistSessionValidator($request);
+    $this->storeRRSessionValidatorNoPO($request);
+      if ($request->UnitCost<=0)
+      {
+        return response()->json(['error'=>'UnitCost must be atleast 0.1']);
+      }
       if (Session::has('RR-Items-Added'))
       {
         foreach (Session::get('RR-Items-Added') as $items)
         {
-          if ($items->ItemCode==$request->ItemCode)
+          if (($items->ItemCode==$request->ItemCode)||($items->Description==$request->Description))
           {
-            return;
+            return response()->json(['error'=>'Oops! cannot duplicate items']);
           }
         }
       }
       $nocommaUCost=str_replace(',','',$request->UnitCost);
-        $DataFromUserToArray = array('ItemCode'=>$request->ItemCode,'AccountCode'=>$request->AccountCode,'Description'=>$request->Description,'UnitCost'=>$nocommaUCost,'Unit'=>$request->Unit,'QuantityDelivered'=>$request->QuantityDelivered,'QuantityAccepted'=>$request->QuantityAccepted );
+      $AMT=$nocommaUCost*$request->QuantityAccepted;
+        $DataFromUserToArray = array('ItemCode'=>$request->ItemCode,'AccountCode'=>$request->AccountCode,'Description'=>$request->Description,'UnitCost'=>$nocommaUCost,'Unit'=>$request->Unit,'QuantityDelivered'=>$request->QuantityDelivered,'QuantityAccepted'=>$request->QuantityAccepted,'Amount'=>$AMT);
         $DataFromUserToArray=(object)$DataFromUserToArray;
         Session::push('RR-Items-Added',$DataFromUserToArray);
-        return redirect()->back();
   }
-
-  public function StoringRRtoTable(Request $request)
+  public function StoreSessionRRWithPO(Request $request)
   {
-    $this->StoringRRTableValidator($request);
-    $RVValidation=RVDetail::where('RVNo',$request->RVNo)->take(1)->get(['Particulars']);
-    if (empty($RVValidation[0]))
-    {
-      return redirect()->back()->with('message', 'The R.V number entered does not exist');
-    }else
-    {
-      foreach (Session::get('RR-Items-Added') as $itemsfromRequest)
+    $this->storeRRSessionValidatorWithPO($request);
+      if ($request->UnitCost<=0)
       {
-        $checkifDescriptionExist=RVDetail::where('RVNo',$request->RVNo)->where('Particulars', $itemsfromRequest->Description)->get(['RVNo']);
-        if(empty($checkifDescriptionExist[0]->RVNo))
+        return response()->json(['error'=>'UnitCost must be atleast 0.1']);
+      }
+      if (Session::has('RR-Items-Added'))
+      {
+        foreach (Session::get('RR-Items-Added') as $items)
         {
-          return redirect()->back()->with('message', $itemsfromRequest->Description.' did not match any item from RV No.'.$request->RVNo);
+          if (($items->ItemCode==$request->ItemCode)||($items->Description==$request->Description))
+          {
+            return response()->json(['error'=>'Oops! cannot duplicate items']);
+          }
         }
       }
-    }
-    if (!empty($request->PONo))
-    {
-      $POValidation=POMaster::where('PONo',$request->PONo)->whereNotNull('GeneralManagerSignature')->get(['GeneralManagerSignature','Supplier']);
-      if (empty($POValidation[0]))
-      {
-        return redirect()->back()->with('message', 'The P.O. number entered does not exist or rejected by the GM');
-      }
-      if ($POValidation[0]->Supplier!=$request->Supplier)
-      {
-        return redirect()->back()->with('message','The Supplier in P.O.'.$request->PONo.' is '.$POValidation[0]->Supplier);
-      }
-    }
+      $nocommaUCost=str_replace(',','',$request->UnitCost);
+      $AMT=$nocommaUCost*$request->QuantityAccepted;
+        $DataFromUserToArray = array('ItemCode'=>$request->ItemCode,'AccountCode'=>$request->AccountCode,'Description'=>$request->Description,'UnitCost'=>$nocommaUCost,'Unit'=>$request->Unit,'QuantityDelivered'=>$request->QuantityDelivered,'QuantityAccepted'=>$request->QuantityAccepted,'Amount'=>$AMT);
+        $DataFromUserToArray=(object)$DataFromUserToArray;
+        Session::push('RR-Items-Added',$DataFromUserToArray);
+  }
+  public function showSessionRRData()
+  {
+    return Session::get('RR-Items-Added');
+  }
+  public function StoreRRtoTableNoPO(Request $request)
+  {
+    $this->StoringRRTableNoPOValidator($request);
     if (empty(Session::get('RR-Items-Added')))
     {
-     return redirect()->back()->with('message', 'Selecting items is required');
+     return response()->json(['error'=>'Selecting items is required']);
     }
     $year=Carbon::now()->format('y');
     $date=Carbon::now();
     $latestID=RRMaster::orderBy('id','DESC')->take(1)->value('RRNo');
-    if (count($latestID)>0)
+    if (isset($latestID[0]))
     {
       $numOnly=substr($latestID,'3');
       $numOnly=(int)$numOnly;
@@ -191,62 +164,156 @@ class RRController extends Controller
     $verifiedUser=User::whereNotNull('IsActive')->where('id',$request->Verifiedby)->get(['Fname','Lname','Position']);
     $originalReceiver=User::whereNotNull('IsActive')->where('id',$request->ReceivedOriginalby)->get(['Fname','Lname','Position']);
     $BINPoster=User::whereNotNull('IsActive')->where('id', $request->PostedtoBINby)->get(['Fname','Lname','Position']);
-    $RRconfirmDB=new RRMaster;
-    $RRconfirmDB->RRNo =$incremented;
-    $RRconfirmDB->RRDate=$date;
-    $RRconfirmDB->Supplier=$request->Supplier;
-    $RRconfirmDB->Address=$request->Address;
-    $RRconfirmDB->InvoiceNo=$request->InvoiceNo;
-    $RRconfirmDB->RVNo=$request->RVNo;
-    $RRconfirmDB->Carrier=$request->Carrier;
-    $RRconfirmDB->DeliveryReceiptNo=$request->DeliveryReceiptNo;
-    $RRconfirmDB->PONo=$request->PONo;
-    $RRconfirmDB->Note=$request->Note;
-    $RRconfirmDB->Receivedby=Auth::user()->Fname.' '.Auth::user()->Lname;
-    $RRconfirmDB->ReceivedbyPosition=Auth::user()->Position;
-    $RRconfirmDB->ReceivedbySignature=Auth::user()->Signature;
+    $RRMasterDB=new RRMaster;
+    $RRMasterDB->RRNo =$incremented;
+    $RRMasterDB->RRDate=$date;
+    $RRMasterDB->Supplier=$request->Supplier;
+    $RRMasterDB->Address=$request->Address;
+    $RRMasterDB->InvoiceNo=$request->InvoiceNo;
+    $RRMasterDB->RVNo=$request->RVNo;
+    $RRMasterDB->Carrier=$request->Carrier;
+    $RRMasterDB->DeliveryReceiptNo=$request->DeliveryReceiptNo;
+    $RRMasterDB->Note=$request->Note;
+    $RRMasterDB->Receivedby=Auth::user()->Fname.' '.Auth::user()->Lname;
+    $RRMasterDB->ReceivedbyPosition=Auth::user()->Position;
+    $RRMasterDB->ReceivedbySignature=Auth::user()->Signature;
     if ($verifiedUser[0]->Fname.' '.$verifiedUser[0]->Lname== Auth::user()->Fname.' '.Auth::user()->Lname)
     {
-      $RRconfirmDB->VerifiedbySignature=Auth::user()->Signature;
+      $RRMasterDB->VerifiedbySignature=Auth::user()->Signature;
     }
     if ($originalReceiver[0]->Fname.' '.$originalReceiver[0]->Lname== Auth::user()->Fname.' '.Auth::user()->Lname)
     {
-      $RRconfirmDB->ReceivedOriginalbySignature=Auth::user()->Signature;
+      $RRMasterDB->ReceivedOriginalbySignature=Auth::user()->Signature;
     }
     if ($BINPoster[0]->Fname.' '.$BINPoster[0]->Lname == Auth::user()->Fname.' '.Auth::user()->Lname)
     {
-      $RRconfirmDB->PostedtoBINbySignature=Auth::user()->Signature;
+      $RRMasterDB->PostedtoBINbySignature=Auth::user()->Signature;
     }
-    $RRconfirmDB->Verifiedby=$verifiedUser[0]->Fname.' '.$verifiedUser[0]->Lname;
-    $RRconfirmDB->VerifiedbyPosition=$verifiedUser[0]->Position;
-    $RRconfirmDB->ReceivedOriginalby=$originalReceiver[0]->Fname.' '.$originalReceiver[0]->Lname;
-    $RRconfirmDB->ReceivedOriginalbyPosition=$originalReceiver[0]->Position;
-    $RRconfirmDB->PostedToBINby=$BINPoster[0]->Fname.' '.$BINPoster[0]->Lname;
-    $RRconfirmDB->PostedToBINbyPosition=$BINPoster[0]->Position;
-    $RRconfirmDB->save();
-    $ForRRDB = array();
-    foreach (Session::get('RR-Items-Added') as $confirmedDetail)
+    $RRMasterDB->Verifiedby=$verifiedUser[0]->Fname.' '.$verifiedUser[0]->Lname;
+    $RRMasterDB->VerifiedbyPosition=$verifiedUser[0]->Position;
+    $RRMasterDB->ReceivedOriginalby=$originalReceiver[0]->Fname.' '.$originalReceiver[0]->Lname;
+    $RRMasterDB->ReceivedOriginalbyPosition=$originalReceiver[0]->Position;
+    $RRMasterDB->PostedToBINby=$BINPoster[0]->Fname.' '.$BINPoster[0]->Lname;
+    $RRMasterDB->PostedToBINbyPosition=$BINPoster[0]->Position;
+    $RRMasterDB->save();
+    $ForRRconfirmItemsDB = array();
+    $RRValidatorNoPO=RRValidatorNoPO::where('RVNo',$request->RVNo)->get(['Particulars','Quantity']);
+    foreach (Session::get('RR-Items-Added') as $forconfirmDetail)
     {
-        $AMT=$confirmedDetail->UnitCost*$confirmedDetail->QuantityAccepted;
-        $ForRRDB[] = array('ItemCode' =>$confirmedDetail->ItemCode ,'RRNo' =>$incremented ,
-        'AccountCode' =>$confirmedDetail->AccountCode ,'Description' =>$confirmedDetail->Description ,'UnitCost' =>$confirmedDetail->UnitCost ,'RRQuantityDelivered' =>$confirmedDetail->QuantityDelivered,
-        'QuantityAccepted' =>$confirmedDetail->QuantityAccepted ,'Unit' =>$confirmedDetail->Unit ,'Amount' =>$AMT);
+      $ForRRconfirmItemsDB[] = array('ItemCode' =>$forconfirmDetail->ItemCode ,'RRNo' =>$incremented ,
+      'AccountCode' =>$forconfirmDetail->AccountCode ,'Description' =>$forconfirmDetail->Description ,'UnitCost' =>$forconfirmDetail->UnitCost ,'RRQuantityDelivered' =>$forconfirmDetail->QuantityDelivered,
+      'QuantityAccepted' =>$forconfirmDetail->QuantityAccepted ,'Unit' =>$forconfirmDetail->Unit ,'Amount' =>$forconfirmDetail->Amount);
+      foreach ($RRValidatorNoPO as $validatornopo)
+      {
+        if ($validatornopo->Particulars==$forconfirmDetail->Description)
+        {
+          $newValidatorQty=$validatornopo->Quantity-$forconfirmDetail->QuantityAccepted;
+          RRValidatorNoPO::where('RVNo',$request->RVNo)->where('Particulars',$validatornopo->Particulars)->update(['Quantity'=>$newValidatorQty]);
+        }
+      }
     }
-    RRconfirmationDetails::insert($ForRRDB);
+    RRconfirmationDetails::insert($ForRRconfirmItemsDB);
     Session::forget('RR-Items-Added');
-    Session::forget('itemMastersRR');
-    return redirect()->route('RRindexview')->with('message', 'Success!');
+    return ['redirect'=>route('RRfullpreview',[$incremented])];
   }
-  public function StoringRRTableValidator($request)
+  public function StoreRRtoTableWithPO(Request $request)
+  {
+    $this->StoringRRTableWithPOValidator($request);
+    if (empty(Session::get('RR-Items-Added')))
+    {
+     return response()->json(['error'=>'Selecting items is required']);
+    }
+    $year=Carbon::now()->format('y');
+    $date=Carbon::now();
+    $latestID=RRMaster::orderBy('id','DESC')->take(1)->value('RRNo');
+    if (isset($latestID[0]))
+    {
+      $numOnly=substr($latestID,'3');
+      $numOnly=(int)$numOnly;
+      $newID=$numOnly + 1;
+      $incremented=$year.'-'.sprintf("%04d",$newID);
+    }else
+    {
+      $incremented=$year.'-'.sprintf("%04d",'1');
+    }
+    $verifiedUser=User::whereNotNull('IsActive')->where('id',$request->Verifiedby)->get(['Fname','Lname','Position']);
+    $originalReceiver=User::whereNotNull('IsActive')->where('id',$request->ReceivedOriginalby)->get(['Fname','Lname','Position']);
+    $BINPoster=User::whereNotNull('IsActive')->where('id', $request->PostedtoBINby)->get(['Fname','Lname','Position']);
+    $POMaster=POMaster::where('PONo',$request->PONo)->get(['Supplier','Address','RVNo']);
+    $RRMasterDB=new RRMaster;
+    $RRMasterDB->RRNo =$incremented;
+    $RRMasterDB->RRDate=$date;
+    $RRMasterDB->Supplier=$POMaster[0]->Supplier;
+    $RRMasterDB->Address=$POMaster[0]->Address;
+    $RRMasterDB->PONo=$request->PONo;
+    $RRMasterDB->InvoiceNo=$request->InvoiceNo;
+    $RRMasterDB->RVNo=$POMaster[0]->RVNo;
+    $RRMasterDB->Carrier=$request->Carrier;
+    $RRMasterDB->DeliveryReceiptNo=$request->DeliveryReceiptNo;
+    $RRMasterDB->Note=$request->Note;
+    $RRMasterDB->Receivedby=Auth::user()->Fname.' '.Auth::user()->Lname;
+    $RRMasterDB->ReceivedbyPosition=Auth::user()->Position;
+    $RRMasterDB->ReceivedbySignature=Auth::user()->Signature;
+    if ($verifiedUser[0]->Fname.' '.$verifiedUser[0]->Lname== Auth::user()->Fname.' '.Auth::user()->Lname)
+    {
+      $RRMasterDB->VerifiedbySignature=Auth::user()->Signature;
+    }
+    if ($originalReceiver[0]->Fname.' '.$originalReceiver[0]->Lname== Auth::user()->Fname.' '.Auth::user()->Lname)
+    {
+      $RRMasterDB->ReceivedOriginalbySignature=Auth::user()->Signature;
+    }
+    if ($BINPoster[0]->Fname.' '.$BINPoster[0]->Lname == Auth::user()->Fname.' '.Auth::user()->Lname)
+    {
+      $RRMasterDB->PostedtoBINbySignature=Auth::user()->Signature;
+    }
+    $RRMasterDB->Verifiedby=$verifiedUser[0]->Fname.' '.$verifiedUser[0]->Lname;
+    $RRMasterDB->VerifiedbyPosition=$verifiedUser[0]->Position;
+    $RRMasterDB->ReceivedOriginalby=$originalReceiver[0]->Fname.' '.$originalReceiver[0]->Lname;
+    $RRMasterDB->ReceivedOriginalbyPosition=$originalReceiver[0]->Position;
+    $RRMasterDB->PostedToBINby=$BINPoster[0]->Fname.' '.$BINPoster[0]->Lname;
+    $RRMasterDB->PostedToBINbyPosition=$BINPoster[0]->Position;
+    $RRMasterDB->save();
+    $ForRRconfirmItemsDB = array();
+    $RRValidatorWithPO=RRValidatorWithPO::where('PONo',$request->PONo)->get(['Qty','Description']);
+    foreach (Session::get('RR-Items-Added') as $forconfirmDetail)
+    {
+      $ForRRconfirmItemsDB[] = array('ItemCode' =>$forconfirmDetail->ItemCode ,'RRNo' =>$incremented ,
+      'AccountCode' =>$forconfirmDetail->AccountCode ,'Description' =>$forconfirmDetail->Description ,'UnitCost' =>$forconfirmDetail->UnitCost ,'RRQuantityDelivered' =>$forconfirmDetail->QuantityDelivered,
+      'QuantityAccepted' =>$forconfirmDetail->QuantityAccepted ,'Unit' =>$forconfirmDetail->Unit ,'Amount' =>$forconfirmDetail->Amount);
+      foreach ($RRValidatorWithPO as $validatorwithpo)
+      {
+        if ($validatorwithpo->Description==$forconfirmDetail->Description)
+        {
+          $newValidatorQty=$validatorwithpo->Qty-$forconfirmDetail->QuantityAccepted;
+          RRValidatorWithPO::where('PONo',$request->PONo)->where('Description',$validatorwithpo->Description)->update(['Qty'=>$newValidatorQty]);
+        }
+      }
+    }
+    RRconfirmationDetails::insert($ForRRconfirmItemsDB);
+    Session::forget('RR-Items-Added');
+    return ['redirect'=>route('RRfullpreview',[$incremented])];
+  }
+  public function StoringRRTableNoPOValidator($request)
   {
     $this->validate($request,[
-      'Supplier'=>'required',
-      'Address'=>'required',
-      'InvoiceNo'=>'required',
+      'Supplier'=>'required|max:50',
+      'Address'=>'required|max:30',
+      'InvoiceNo'=>'max:12',
       'RVNo'=>'required',
-      'Carrier'=>'required',
-      'DeliveryReceiptNo'=>'required',
-      'PONo'=>'max:7',
+      'Carrier'=>'max:30',
+      'DeliveryReceiptNo'=>'max:12',
+      'Note'=>'max:50',
+      'Verifiedby'=>'required',
+      'ReceivedOriginalby'=>'required',
+      'PostedtoBINby'=>'required',
+    ]);
+  }
+  public function StoringRRTableWithPOValidator($request)
+  {
+    $this->validate($request,[
+      'InvoiceNo'=>'max:12|required',
+      'Carrier'=>'max:30',
+      'DeliveryReceiptNo'=>'max:12|required',
       'Note'=>'max:50',
       'Verifiedby'=>'required',
       'ReceivedOriginalby'=>'required',
@@ -255,7 +322,7 @@ class RRController extends Controller
   }
   public function RRindex()
   {
-    $RRmasters=RRMaster::orderBy('RRNo','DESC')->paginate(10,['RRNo','Supplier','Address','RVNo','Carrier','Receivedby','ReceivedbySignature','ReceivedOriginalby','ReceivedOriginalbySignature','Verifiedby','VerifiedbySignature','PostedtoBINby','PostedtoBINbySignature','IfDeclined']);
+    $RRmasters=RRMaster::orderBy('RRNo','DESC')->paginate(10,['RRNo','Supplier','Address','RVNo','Receivedby','ReceivedbySignature','ReceivedOriginalby','ReceivedOriginalbySignature','Verifiedby','VerifiedbySignature','PostedtoBINby','PostedtoBINbySignature','IfDeclined']);
     return view('Warehouse.RR.RRindex',compact('RRmasters'));
   }
   public function previewRR($id)
@@ -270,7 +337,7 @@ class RRController extends Controller
   }
   public function signatureRR(Request $request)
   {
-    $RRMaster=RRMaster::where('RRNo',$request->RRNo)->get(['ReceivedOriginalby','Verifiedby','PostedtoBINby']);
+    $RRMaster=RRMaster::where('RRNo',$request->RRNo)->get(['ReceivedOriginalby','Verifiedby','PostedtoBINby','PONo','RVNo']);
     if ($RRMaster[0]->ReceivedOriginalby==Auth::user()->Fname.' '.Auth::user()->Lname)
     {
         RRMaster::where('RRNo',$request->RRNo)->update(['ReceivedOriginalbySignature'=>Auth::user()->Signature]);
@@ -286,67 +353,59 @@ class RRController extends Controller
     $RRMasterUpdated=RRMaster::where('RRNo',$request->RRNo)->get(['ReceivedbySignature','ReceivedOriginalbySignature','VerifiedbySignature','PostedtoBINbySignature']);
     if (($RRMasterUpdated[0]->ReceivedOriginalbySignature)&&($RRMasterUpdated[0]->VerifiedbySignature)&&($RRMasterUpdated[0]->PostedtoBINbySignature)&&($RRMasterUpdated[0]->ReceivedbySignature))
     {
+      $date=Carbon::now();
       $RRconfirmDetails=RRconfirmationDetails::where('RRNo',$request->RRNo)->get();
-      foreach ($RRconfirmDetails as $confirmedDetail)
+      $forMTDtable = array();
+      $NotforMTDtable = array();
+      foreach ($RRconfirmDetails as $forconfirmDetail)
       {
-        $MTLatestDetail=MaterialsTicketDetail::orderBy('MTDate','DESC')->where('ItemCode', $confirmedDetail->ItemCode)->take(1)->get();
-        if (!empty($MTLatestDetail[0]))
+        if ($forconfirmDetail->ItemCode)
         {
-
-          $Amount=$confirmedDetail->UnitCost*$confirmedDetail->QuantityAccepted;
-          $newQuantity=$MTLatestDetail[0]->CurrentQuantity + $confirmedDetail->QuantityAccepted;
-            $addedAMT=$MTLatestDetail[0]->CurrentAmount + $Amount;
-            $newCost=$addedAMT/$newQuantity;
+          $MTLatestDetail=MaterialsTicketDetail::orderBy('MTDate','DESC')->where('ItemCode', $forconfirmDetail->ItemCode)->take(1)->get();
+          $Amount=$forconfirmDetail->UnitCost*$forconfirmDetail->QuantityAccepted;
+          $newQuantity=$MTLatestDetail[0]->CurrentQuantity + $forconfirmDetail->QuantityAccepted;
+          $addedAMT=$MTLatestDetail[0]->CurrentAmount + $Amount;
+          $newCost=$addedAMT/$newQuantity;
           $currentAMT=$newQuantity*$newCost;
-          $MTDdb=new MaterialsTicketDetail;
-          $MTDdb->ItemCode=$confirmedDetail->ItemCode;
-          $MTDdb->MTType='RR';
-          $MTDdb->MTNo=$confirmedDetail->RRNo;
-          $MTDdb->AccountCode=$MTLatestDetail[0]->AccountCode;
-          $MTDdb->UnitCost=$confirmedDetail->UnitCost;
-          $MTDdb->RRQuantityDelivered=$confirmedDetail->QuantityDelivered;
-          $MTDdb->Quantity=$confirmedDetail->QuantityAccepted;
-          $MTDdb->Unit=$MTLatestDetail[0]->Unit;
-          $MTDdb->Amount=$Amount;
-          $MTDdb->CurrentCost=$newCost;
-          $MTDdb->CurrentQuantity=$newQuantity;
-          $MTDdb->CurrentAmount=$currentAMT;
-          $MTDdb->MTDate=Carbon::now();
-          $MTDdb->save();
+          $forMTDtable[] = array('ItemCode' =>$forconfirmDetail->ItemCode ,'MTType' =>'RR' ,'MTNo' =>$forconfirmDetail->RRNo ,
+          'AccountCode' =>$MTLatestDetail[0]->AccountCode ,
+          'UnitCost' =>$forconfirmDetail->UnitCost,'RRQuantityDelivered' =>$forconfirmDetail->QuantityDelivered ,'Quantity' =>$forconfirmDetail->QuantityAccepted,
+          'Unit' =>$MTLatestDetail[0]->Unit ,'Amount' =>$Amount ,'CurrentCost' =>$newCost ,'CurrentQuantity'=>$newQuantity,'CurrentAmount'=>$currentAMT,'MTDate'=>$date);
         }else
         {
-          $AMT=$confirmedDetail->UnitCost*$confirmedDetail->QuantityAccepted;
-          $MTDdb=new MaterialsTicketDetail;
-          $MTDdb->ItemCode=$confirmedDetail->ItemCode;
-          $MTDdb->MTType='RR';
-          $MTDdb->MTNo=$confirmedDetail->RRNo;
-          $MTDdb->AccountCode=$confirmedDetail->AccountCode;
-          $MTDdb->UnitCost=$confirmedDetail->UnitCost;
-          $MTDdb->RRQuantityDelivered=$confirmedDetail->RRQuantityDelivered;
-          $MTDdb->Quantity=$confirmedDetail->QuantityAccepted;
-          $MTDdb->Unit=$confirmedDetail->Unit;
-          $MTDdb->Amount=$AMT;
-          $MTDdb->CurrentCost=$confirmedDetail->UnitCost;
-          $MTDdb->CurrentQuantity=$confirmedDetail->QuantityAccepted;
-          $MTDdb->CurrentAmount=$AMT;
-          $MTDdb->save();
-          $MasterItemDB=new MasterItem;
-          $MasterItemDB->AccountCode=$confirmedDetail->AccountCode;
-          $MasterItemDB->Description=$confirmedDetail->Description;
-          $MasterItemDB->Unit=$confirmedDetail->Unit;
-          $MasterItemDB->UnitCost=$confirmedDetail->UnitCost;
-          $MasterItemDB->Quantity=$confirmedDetail->QuantityAccepted;
-          $MasterItemDB->Month=Carbon::now()->format('M');
-          $MasterItemDB->ItemCode_id=$confirmedDetail->ItemCode;
-          $MasterItemDB->save();
+          $NotforMTDtable[] = array('RRNo' =>$forconfirmDetail->RRNo ,'Description' =>$forconfirmDetail->Description ,'UnitCost' =>$forconfirmDetail->UnitCost ,'RRQuantityDelivered' =>$forconfirmDetail->RRQuantityDelivered ,'QuantityAccepted' =>$forconfirmDetail->QuantityAccepted ,'Unit' =>$forconfirmDetail->Unit ,'Amount' =>$forconfirmDetail->Amount);
+        }
+      }
+      MaterialsTicketDetail::insert($forMTDtable);
+      RRDetailsNotForStock::insert($NotforMTDtable);
+      if ($RRMaster[0]->PONo!=null)
+      {
+        $POofRV=POMaster::where('RVNo',$RRMaster[0]->RVNo)->get(['PONo']);
+        $unpurchasedtotal=0;
+        foreach ($POofRV as $POofrv)
+        {
+          $Qtyleft=RRValidatorWithPO::where('PONo', $POofrv->PONo)->get(['Qty']);
+          $unpurchasedtotal=$unpurchasedtotal + $Qtyleft[0]->Qty;
+        }
+        if ($unpurchasedtotal==0)
+        {
+          RVMaster::where('RVNo',$RRMaster[0]->RVNo)->update(['IfPurchased'=>'0']);
+        }
+      }else
+      {
+        $remainingQuantity=RRValidatorNoPO::where('RVNo',$RRMaster[0]->RVNo)->sum('Quantity');
+        if ($remainingQuantity==0)
+        {
+          RVMaster::where('RVNo',$RRMaster[0]->RVNo)->update(['IfPurchased'=>'0']);
         }
       }
     }
+
     return redirect()->back();
   }
   public function RRindexSearchbyRRNo(Request $request)
   {
-    $RRMasterResults=RRMaster::where('RRNo',$request->RRNo)->paginate(10,['RRNo','Supplier','Address','RVNo','Carrier','Receivedby','ReceivedbySignature','ReceivedOriginalby','ReceivedbySignature','Verifiedby','VerifiedbySignature','PostedtoBINby','PostedtoBINbySignature','IfDeclined']);
+    $RRMasterResults=RRMaster::where('RRNo',$request->RRNo)->paginate(10,['RRNo','Supplier','Address','RVNo','Receivedby','ReceivedbySignature','ReceivedOriginalby','ReceivedbySignature','Verifiedby','VerifiedbySignature','PostedtoBINby','PostedtoBINbySignature','IfDeclined']);
     return view('Warehouse.RR.RRindex',compact('RRMasterResults'));
   }
 
@@ -361,12 +420,44 @@ class RRController extends Controller
     ->orWhere('PostedtoBINby',Auth::user()->Fname.' '.Auth::user()->Lname)
     ->whereNull('PostedtoBINbySignature')
     ->whereNull('IfDeclined')
-    ->paginate(10,['RRNo','Supplier','Address','RVNo','Carrier','Receivedby','ReceivedbySignature','ReceivedOriginalby','ReceivedOriginalbySignature','Verifiedby','VerifiedbySignature','PostedtoBINby','PostedtoBINbySignature']);
+    ->paginate(10,['RRNo','Supplier','Address','RVNo','Receivedby','ReceivedbySignature','ReceivedOriginalby','ReceivedOriginalbySignature','Verifiedby','VerifiedbySignature','PostedtoBINby','PostedtoBINbySignature']);
     return view('Warehouse.RR.myRRrequest',compact('requestRR'));
   }
   public function declineRR(Request $request)
   {
     RRMaster::where('RRNo',$request->RRNo)->update(['IfDeclined'=>Auth::user()->Fname.' '.Auth::user()->Lname]);
+    $RRMaster=RRMaster::where('RRNo',$request->RRNo)->get(['PONo','RVNo']);
+    if ($RRMaster[0]->PONo!=null)
+    {
+      $Detailscanceled=RRconfirmationDetails::where('RRNo',$request->RRNo)->get(['Description','QuantityAccepted']);
+      $RRValidatorWithPO=RRValidatorWithPO::where('PONo', $RRMaster[0]->PONo)->get(['Description','Qty']);
+      foreach ($Detailscanceled as $canceldata)
+      {
+        foreach ($RRValidatorWithPO as $rrvalidatorwithpo)
+        {
+          if ($rrvalidatorwithpo->Description==$canceldata->Description)
+          {
+            $NewQty=$rrvalidatorwithpo->Qty + $canceldata->QuantityAccepted;
+            RRValidatorWithPO::where('PONo', $RRMaster[0]->PONo)->where('Description', $rrvalidatorwithpo->Description)->update(['Qty'=>$NewQty]);
+          }
+        }
+      }
+    }else
+    {
+      $Detailscanceled=RRconfirmationDetails::where('RRNo',$request->RRNo)->get(['Description','QuantityAccepted']);
+      $RRValidatorNoPO=RRValidatorNoPO::where('RVNo', $RRMaster[0]->RVNo)->get(['Particulars','Quantity']);
+      foreach ($Detailscanceled as $canceldata)
+      {
+        foreach ($RRValidatorNoPO as $rrvalidatorNopo)
+        {
+          if ($rrvalidatorNopo->Particulars==$canceldata->Description)
+          {
+            $NewQty=$rrvalidatorNopo->Quantity + $canceldata->QuantityAccepted;
+            RRValidatorNoPO::where('RVNo',$RRMaster[0]->RVNo)->where('Particulars', $rrvalidatorNopo->Particulars)->update(['Quantity'=>$NewQty]);
+          }
+        }
+      }
+    }
     return redirect()->back();
   }
   public function displayRRcurrentSession()
@@ -376,5 +467,27 @@ class RRController extends Controller
       'sessions'=> $fromsession
     ];
     return response()->json($response);
+  }
+  public function CreateRRNoPO($id)
+  {
+    $Auditors=User::where('Role', '5')->whereNotNull('IsActive')->get(['id','Lname','Fname']);
+    $Managers=User::where('Role','0')->whereNotNull('IsActive')->get(['id','Lname','Fname']);
+    $Clerks=User::where('Role','6')->whereNotNull('IsActive')->get(['id','Lname','Fname']);
+    $fromRRValidatorNoPO=RRValidatorNoPO::where('RVNo',$id)->get();
+    return view('Warehouse.RR.CreateRRNoPO',compact('fromRRValidatorNoPO','Auditors','Managers','Clerks'));
+  }
+  public function CreateRRWithPO($id)
+  {
+    $Auditors=User::where('Role', '5')->whereNotNull('IsActive')->get(['id','Lname','Fname']);
+    $Managers=User::where('Role','0')->whereNotNull('IsActive')->get(['id','Lname','Fname']);
+    $Clerks=User::where('Role','6')->whereNotNull('IsActive')->get(['id','Lname','Fname']);
+    $POMaster=POMaster::where('PONo',$id)->get(['Supplier','Address','RVNo','PONo']);
+    $RRValidatorWithPO=RRValidatorWithPO::where('PONo',$id)->get();
+    return view('Warehouse.RR.CreateRRWithPO',compact('POMaster','RRValidatorWithPO','Auditors','Managers','Clerks'));
+  }
+  public function RRofRVlist($id)
+  {
+    $RRofRV=RRMaster::where('RVNo',$id)->paginate(9,['RRNo','RVNo','RRDate','Supplier','Address','ReceivedOriginalbySignature','VerifiedbySignature','PostedtoBINbySignature','IfDeclined']);
+    return view('Warehouse.RR.RRlistOfRV',compact('RRofRV'));
   }
 }

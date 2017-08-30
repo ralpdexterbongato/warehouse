@@ -9,12 +9,12 @@
           <div class="addfromrr-btn">
             <button type="button"  v-on:click="isActive = !isActive"> Select item</button>
           </div>
-          <ul class="rr-error-tab" v-if="laravelerrors!=''">
+          <ul class="error-tab" v-if="laravelerrors!=''">
             <span v-for="errors in laravelerrors">
               <li v-for="error in errors">{{error}}</li>
             </span>
           </ul>
-          <ul class="rr-error-tab" v-if="ownerrors!=''">
+          <ul class="error-tab" v-if="ownerrors!=''">
             <li>{{ownerrors}}</li>
           </ul>
           <div class="successAlertRRsession" v-if="successAlerts!=''">
@@ -29,7 +29,7 @@
               <th>Unit Value</th>
               <th>Total Value</th>
               <th>Remarks</th>
-              <th>Action</th>
+              <th>Delete</th>
             </tr>
             <tr v-for="session in sessions">
               <td>{{session.Quantity}}</td>
@@ -69,7 +69,7 @@
               <th>Property No.</th>
               <th>Unit Value</th>
               <th>Remarks</th>
-              <th>Action</th>
+              <th>Add</th>
             </tr>
               <tr v-for="rritem in rritems">
                   <td><input type="number" name="Quantity" v-model="Quantity[rritem.ItemCode]" min="1" autocomplete="off" required ></td>

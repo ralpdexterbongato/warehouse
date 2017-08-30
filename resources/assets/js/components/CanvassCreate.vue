@@ -4,12 +4,12 @@
       <div class="top-title-canvass">
         <h1>Record your canvass</h1>
       </div>
-      <ul class="rr-error-tab" v-if="laravelerrors!=''">
+      <ul class="error-tab" v-if="laravelerrors!=''">
         <span v-for="errors in laravelerrors">
           <li v-for="error in errors">{{error}}</li>
         </span>
       </ul>
-      <ul class="rr-error-tab" v-if="ownerrors!=''">
+      <ul class="error-tab" v-if="ownerrors!=''">
         <li>{{ownerrors}}</li>
       </ul>
       <div class="successAlertRRsession" v-if="successAlerts!=''">
@@ -24,22 +24,20 @@
             <th>Article</th>
             <th>Unit</th>
             <th>Qty</th>
-            <th>None</th>
 
               <th v-for="supplier in Suppliers">{{supplier.Supplier}}<br><br>
                   <button type="button" @click.prevent="IsActive=!IsActive" v-on:click="Update=true,fetchSupplierUpdate(supplier.id)"><i class="fa fa-refresh"></i></button>
                   <button type="button" name="button" v-on:click="deleteCanvass(supplier.id)"><i class="fa fa-trash"></i></button>
               </th>
           </tr>
-
             <tr v-for="(rvdata, index) in RVdata">
               <td>{{rvdata.Particulars}}</td>
               <td>{{rvdata.Unit}}</td>
-              <td>{{rvdata.Quantity}}</td>
-              <td><input type="radio" v-bind:name="'SupplierChoice['+[index]+']'" checked="check"  value="none" required @click.prevents="changeValue([index],none)"></td>
+              <td v-if="rvdata.Quantity!=0">{{rvdata.Quantity}}</td>
+              <td v-else><i class="fa fa-check color-blue"></i></td>
               <td v-for="supplier in Suppliers">
                 {{formatPrice(supplier.canvass_detail[index].Price)}}
-                <input type="radio" @click.prevents="changeValue([index],supplier.Supplier)" v-bind:name="'SupplierChoice['+[index]+']'" v-if="supplier.canvass_detail[index].Price>0">
+                <input type="radio" @click.prevents="changeValue([index],supplier.Supplier)" v-bind:name="'SupplierChoice['+[index]+']'" v-if="supplier.canvass_detail[index].Price>0&&rvdata.Quantity!=0">
               </td>
             </tr>
         </table>
@@ -67,7 +65,7 @@
               <tr>
                 <th>Article</th>
                 <th>Unit</th>
-                <th>Supplier's Pricing</th>
+                <th>Prices</th>
               </tr>
                 <tr v-for="(rvdata, count) in RVdata" v-if="Update==false">
                   <td>{{rvdata.Particulars}}</td>
@@ -75,7 +73,10 @@
                   <input type="text" name="Particulars[]" v-model="Particulars[count]=rvdata.Particulars" style="display:none">
                   <input type="text" name="Unit[]" v-model="Unit[count]=rvdata.Unit" style="display:none">
                   <input type="text" name="Qty[]" v-model="Qty[count]=rvdata.Quantity" style="display:none">
+                  <input type="text" name="AccountCode[]" v-model="AccountCode[count]=rvdata.AccountCode" style="display:none">
+                  <input type="text" name="ItemCode[]" v-model="ItemCode[count]=rvdata.ItemCode" style="display:none">
                   <td>
+                    <!-- <vue-numeric v-bind:minus="false" v-bind:precision="2" min="0" currency="₱" v-model="PriceNew[count]" placeholder="price"></vue-numeric> -->
                     <vue-numeric v-bind:minus="false" v-bind:precision="2" min="0" currency="₱" v-model="PriceNew[count]" placeholder="price"></vue-numeric>
                   </td>
                 </tr>
@@ -117,6 +118,8 @@ Vue.use(VueNumeric)
         UpdateformSupplier:'',
         UpdateformAddress:'',
         UpdateformTelephone:'',
+        ItemCode:[],
+        AccountCode:[],
         PriceNew:[],
         UpdatePrice:[],
         Particulars:[],
@@ -127,9 +130,9 @@ Vue.use(VueNumeric)
         successAlerts:'',
         selectedValue:'',
         fetchUpdatedata:[],
-        none:'none',
       }
     },
+    props:['rvnum'],
     created:function()
     {
       this.getSuppliers();
@@ -137,11 +140,10 @@ Vue.use(VueNumeric)
      methods: {
        getSuppliers()
        {
-         var url = window.location.href;
-         var RVid= url.split('/')[4];
          var vm=this;
-         axios.get(`/canvass-suppliers/`+RVid).then(function(response)
+         axios.get(`/canvass-suppliers/`+this.rvnum[0].RVNo).then(function(response)
          {
+           console.log(response)
            Vue.set(vm.$data,'Suppliers',response.data.supplierdata);
            Vue.set(vm.$data,'RVdata',response.data.rvdata);
          },function(error)
@@ -158,6 +160,8 @@ Vue.use(VueNumeric)
          var vm=this;
          axios.post(`/supplier-save-canvass`,{
            RVNo:this.RVdata[0].RVNo,
+           AccountCode:this.AccountCode,
+           ItemCode:this.ItemCode,
            Supplier:this.formSupplier,
            Address:this.formAddress,
            Telephone:this.formTelephone,
@@ -194,7 +198,10 @@ Vue.use(VueNumeric)
         }).then(function(response)
         {
           console.log(response);
-          window.location=response.data.redirect;
+           if (response.data.error==null)
+           {
+             window.location=response.data.redirect;
+           }
         },function(error)
         {
           Vue.set(vm.$data,'laravelerrors',error.response.data);

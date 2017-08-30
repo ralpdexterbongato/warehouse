@@ -6,12 +6,12 @@
           <button type="button" name="button" v-on:click="isActive = !isActive"><i class="fa fa-plus-circle"></i> Add item</button>
       </div>
       <div class="added-table-wrapper">
-        <ul class="rr-error-tab" v-if="laravelerrors!=''">
+        <ul class="error-tab" v-if="laravelerrors!=''">
           <span v-for="errors in laravelerrors">
             <li v-for="error in errors">{{error}}</li>
           </span>
         </ul>
-        <ul class="rr-error-tab" v-if="ownerrors!=''">
+        <ul class="error-tab" v-if="ownerrors!=''">
           <li>{{ownerrors}}</li>
         </ul>
         <div class="successAlertRRsession" v-if="successAlerts!=''">
@@ -24,7 +24,7 @@
             <th>Quantity</th>
             <th>Unit</th>
             <th>Remarks</th>
-            <th>Action</th>
+            <th>Cancel</th>
           </tr>
             <tr v-for="sessionitem in SessionItems">
               <td>{{sessionitem.ItemCode_id}}</td>
@@ -57,10 +57,9 @@
       </div>
     <!-- </form> -->
   </div>
-  <div class="modal-search-item":class="{'active':isActive}">
-    <div class="middle-modal-search">
+  <div class="modal-search-item":class="{'active':isActive}" v-on:click="isActive=!isActive">
+    <div class="middle-modal-search" v-on:click="isActive=!isActive">
       <h1>MIRS</h1>
-        <h5><i class="fa fa-times" v-on:click="isActive=!isActive"></i></h5>
         <div class="table-mirs-modalcontain">
           <div class="search-item-bar">
               <div class="search-mirs-modal">

@@ -6,11 +6,13 @@ use Illuminate\Http\Request;
 use Auth;
 use Storage;
 use App\User;
-class LoginController extends Controller
+use App\MIRSMaster;
+use App\MCTMaster;
+class AccountController extends Controller
 {
     public function __construct()
     {
-      $this->middleware('IsAdmin',['except'=>['loginpage','loginSubmit','logoutAccount']]);
+      $this->middleware('IsAdmin',['except'=>['loginpage','MyMCTHistoryandSearch','MyMIRSHistoryandSearch','ShowMyHistoryPage','loginSubmit','logoutAccount']]);
     }
     public function loginpage()
     {
@@ -104,5 +106,17 @@ class LoginController extends Controller
     public function getOtherAccounts()
     {
       return User::orderBy('id','DESC')->where('Role','3')->orWhere('Role', '4')->orWhere('Role','5')->orWhere('Role','6')->paginate(5,['id','Fname','Lname','Signature','IsActive','Username']);
+    }
+    public function ShowMyHistoryPage(Request $request)
+    {
+      return view('Warehouse.Account.MyHistory');
+    }
+    public function MyMIRSHistoryandSearch(Request $request)
+    {
+      return MIRSMaster::where('Preparedby',$request->Preparedby)->where('MIRSDate','LIKE',$request->YearMonth.'%')->paginate(1,['MIRSNo','MIRSDate','Preparedby','Recommendedby','RecommendSignature','Approvedby','ApproveSignature','Purpose','IfDeclined','ApprovalReplacerSignature']);
+    }
+    public function MyMCTHistoryandSearch(Request $request)
+    {
+      return MCTMaster::where('Receivedby',$request->Receivedby)->where('MCTDate','LIKE',$request->YearMonth.'%')->paginate(1,['MCTNo','MCTDate','Particulars','AddressTo','Issuedby','Receivedby','IssuedbySignature']);
     }
 }

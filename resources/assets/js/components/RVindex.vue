@@ -19,7 +19,7 @@
       <th>General Manager</th>
       <th>RV Date</th>
       <th>Status</th>
-      <th>Action</th>
+      <th>Show</th>
     </tr>
     <tr v-for="models in model.data">
       <td>{{models.RVNo}}</td>

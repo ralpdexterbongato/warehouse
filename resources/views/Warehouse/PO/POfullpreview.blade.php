@@ -7,16 +7,24 @@
     <div class="po-full-buttons">
       <div class="print-po-btn">
         @if (($OrderMaster[0]->GeneralManagerSignature!=null)||($OrderMaster[0]->ApprovalReplacerSignature!=null))
-          <form action="{{route('downloadPO')}}" method="post">
-            {{ csrf_field() }}
-            <button type="submit" name="PONo" value="{{$OrderMaster[0]->PONo}}"><i class="fa fa-print"></i> Print</button>
-          </form>
+            <div class="left-detail-po">
+              <form action="{{route('downloadPO')}}" method="post">
+                {{ csrf_field() }}
+                <button type="submit" class="bttn-unite bttn-xs bttn-primary" name="PONo" value="{{$OrderMaster[0]->PONo}}"><i class="fa fa-print"></i> Print</button>
+              </form>
+              <li class="pending-delivery-number"><h1>Unreceived items: <span class="color-blue">{{number_format($remainingUnreceived,'0','',',')}}</span></h1></li>
+            </div>
+            @if ((Auth::user()->Role==4)||(Auth::user()->Role==3))
+              <div class="rr-with-po-btn">
+              <a href="{{route('CreateingRR.with.po',[$OrderMaster[0]->PONo])}}"><button type="button" class="bttn-unite bttn-xs bttn-primary"><i class="fa fa-plus"></i> RR</button></a>
+              </div>
+            @endif
         @else
           <div class="empty-left">
           </div>
         @endif
+        @if ((Auth::check()) && (Auth::user()->Role==2) && ($OrderMaster[0]->GeneralManager==Auth::user()->Fname.' '.Auth::user()->Lname)&&($OrderMaster[0]->GeneralManagerSignature==null)&&($OrderMaster[0]->IfDeclined==null)&&($OrderMaster[0]->ApprovalReplacerSignature==null))
         <div class="signature-btns-wrap-po">
-          @if ((Auth::check()) && (Auth::user()->Role==2) && ($OrderMaster[0]->GeneralManager==Auth::user()->Fname.' '.Auth::user()->Lname)&&($OrderMaster[0]->GeneralManagerSignature==null)&&($OrderMaster[0]->IfDeclined==null)&&($OrderMaster[0]->ApprovalReplacerSignature==null))
           <form class="signaturePObtn" action="{{route('GMSignatureOrder')}}" method="post">
             {{ csrf_field() }}
             <input type="text" name="PONo" value="{{$OrderMaster[0]->PONo}}" style="display:none">
@@ -26,6 +34,7 @@
             {{ csrf_field() }}
             <button type="submit" name="PONo" value="{{$OrderMaster[0]->PONo}}"><i class="fa fa-times"></i> Decline</button>
           </form>
+        </div>
           @endif
           @if ((Auth::user()->Role==0)&&($OrderMaster[0]->ApprovalReplacerFname==null)&&($OrderMaster[0]->ApprovalReplacerLname==null)&&($OrderMaster[0]->GeneralManagerSignature==null))
             <div class="managerNote"><h1><i class="fa fa-info-circle color-blue"></i> If the <span class="underline">General Manager</span> is N/A, you can click this </h1></div>
@@ -44,8 +53,6 @@
             </form>
           </div>
           @endif
-        </div>
-      </div>
     </div>
     <div class="PO-bondpaper">
       <div class="PO-top-titles">
@@ -132,7 +139,7 @@
       </div>
       @if ($OrderMaster[0]->ApprovalReplacerSignature)
         <div class="Authorized-in-behalf">
-          <h4>ORDER ISSUED AND AUTHORIZED <br> IN BEHALF OF THE GENERAL MANAGER DINO NICOLAS ROXAS BY :</h4>
+          <h4>ORDER ISSUED AND AUTHORIZED <br> IN BEHALF OF THE GENERAL MANAGER {{$OrderMaster[0]->GeneralManager}} :</h4>
           <div class="signature-inbehalf-authorizer">
             <h1><img src="/storage/signatures/{{$OrderMaster[0]->ApprovalReplacerSignature}}" alt="signature"></h1>
             <p>{{$OrderMaster[0]->ApprovalReplacerFname.' '.$OrderMaster[0]->ApprovalReplacerLname}}</p>
@@ -142,4 +149,5 @@
       @endif
     </div>
   </div>
+</div>
 @endsection

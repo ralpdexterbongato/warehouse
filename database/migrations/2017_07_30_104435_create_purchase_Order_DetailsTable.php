@@ -15,12 +15,14 @@ class CreatePurchaseOrderDetailsTable extends Migration
     {
         Schema::create('PurchaseOrderDetails', function (Blueprint $table) {
           $table->increments('id');
+          $table->string('ItemCode',20)->nullable();
+          $table->string('AccountCode',20)->nullable();
           $table->decimal('Price',18,2)->nullable();
           $table->string('Unit',10);
           $table->string('Description',100);
           $table->decimal('Qty',18,0);
-          $table->decimal('Amount',18,0);
-          $table->char('PurchaseOrderMasters_PONo',7)->unsigned();
+          $table->decimal('Amount',18,2);
+          $table->char('PONo',7)->unsigned();
         });
     }
 

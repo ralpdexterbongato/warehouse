@@ -63,7 +63,7 @@
 /******/ 	__webpack_require__.p = "";
 /******/
 /******/ 	// Load entry module and return exports
-/******/ 	return __webpack_require__(__webpack_require__.s = 68);
+/******/ 	return __webpack_require__(__webpack_require__.s = 74);
 /******/ })
 /************************************************************************/
 /******/ ([
@@ -11955,7 +11955,7 @@ module.exports = g;
 /***/ (function(module, exports, __webpack_require__) {
 
 window.Vue = __webpack_require__(27);
-Vue.component('mrcreate', __webpack_require__(51));
+Vue.component('mrcreate', __webpack_require__(53));
 new Vue({
     el: '#mr'
 });
@@ -12165,14 +12165,16 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
 /* 48 */,
 /* 49 */,
 /* 50 */,
-/* 51 */
+/* 51 */,
+/* 52 */,
+/* 53 */
 /***/ (function(module, exports, __webpack_require__) {
 
 var Component = __webpack_require__(8)(
   /* script */
   __webpack_require__(41),
   /* template */
-  __webpack_require__(58),
+  __webpack_require__(64),
   /* scopeId */
   null,
   /* cssModules */
@@ -12199,13 +12201,17 @@ module.exports = Component.exports
 
 
 /***/ }),
-/* 52 */,
-/* 53 */,
 /* 54 */,
 /* 55 */,
 /* 56 */,
 /* 57 */,
-/* 58 */
+/* 58 */,
+/* 59 */,
+/* 60 */,
+/* 61 */,
+/* 62 */,
+/* 63 */,
+/* 64 */
 /***/ (function(module, exports, __webpack_require__) {
 
 module.exports={render:function (){var _vm=this;var _h=_vm.$createElement;var _c=_vm._self._c||_h;
@@ -12227,13 +12233,13 @@ module.exports={render:function (){var _vm=this;var _h=_vm.$createElement;var _c
       }
     }
   }, [_vm._v(" Select item")])]), _vm._v(" "), (_vm.laravelerrors != '') ? _c('ul', {
-    staticClass: "rr-error-tab"
+    staticClass: "error-tab"
   }, _vm._l((_vm.laravelerrors), function(errors) {
     return _c('span', _vm._l((errors), function(error) {
       return _c('li', [_vm._v(_vm._s(error))])
     }))
   })) : _vm._e(), _vm._v(" "), (_vm.ownerrors != '') ? _c('ul', {
-    staticClass: "rr-error-tab"
+    staticClass: "error-tab"
   }, [_c('li', [_vm._v(_vm._s(_vm.ownerrors))])]) : _vm._e(), _vm._v(" "), (_vm.successAlerts != '') ? _c('div', {
     staticClass: "successAlertRRsession"
   }, [_c('p', [_vm._v(_vm._s(_vm.successAlerts))])]) : _vm._e(), _vm._v(" "), _c('table', [_vm._m(1), _vm._v(" "), _vm._l((_vm.sessions), function(session) {
@@ -12439,9 +12445,9 @@ module.exports={render:function (){var _vm=this;var _h=_vm.$createElement;var _c
     staticClass: "title-mr"
   }, [_c('h3', [_vm._v("Create Memorandum Receipt")])])
 },function (){var _vm=this;var _h=_vm.$createElement;var _c=_vm._self._c||_h;
-  return _c('tr', [_c('th', [_vm._v("Quantity")]), _vm._v(" "), _c('th', [_vm._v("Unit")]), _vm._v(" "), _c('th', [_vm._v("Name & Description")]), _vm._v(" "), _c('th', [_vm._v("Property No.")]), _vm._v(" "), _c('th', [_vm._v("Unit Value")]), _vm._v(" "), _c('th', [_vm._v("Total Value")]), _vm._v(" "), _c('th', [_vm._v("Remarks")]), _vm._v(" "), _c('th', [_vm._v("Action")])])
+  return _c('tr', [_c('th', [_vm._v("Quantity")]), _vm._v(" "), _c('th', [_vm._v("Unit")]), _vm._v(" "), _c('th', [_vm._v("Name & Description")]), _vm._v(" "), _c('th', [_vm._v("Property No.")]), _vm._v(" "), _c('th', [_vm._v("Unit Value")]), _vm._v(" "), _c('th', [_vm._v("Total Value")]), _vm._v(" "), _c('th', [_vm._v("Remarks")]), _vm._v(" "), _c('th', [_vm._v("Delete")])])
 },function (){var _vm=this;var _h=_vm.$createElement;var _c=_vm._self._c||_h;
-  return _c('tr', [_c('th', [_vm._v("Quantity")]), _vm._v(" "), _c('th', [_vm._v("Unit")]), _vm._v(" "), _c('th', [_vm._v("Name & Description")]), _vm._v(" "), _c('th', [_vm._v("Property No.")]), _vm._v(" "), _c('th', [_vm._v("Unit Value")]), _vm._v(" "), _c('th', [_vm._v("Remarks")]), _vm._v(" "), _c('th', [_vm._v("Action")])])
+  return _c('tr', [_c('th', [_vm._v("Quantity")]), _vm._v(" "), _c('th', [_vm._v("Unit")]), _vm._v(" "), _c('th', [_vm._v("Name & Description")]), _vm._v(" "), _c('th', [_vm._v("Property No.")]), _vm._v(" "), _c('th', [_vm._v("Unit Value")]), _vm._v(" "), _c('th', [_vm._v("Remarks")]), _vm._v(" "), _c('th', [_vm._v("Add")])])
 }]}
 module.exports.render._withStripped = true
 if (false) {
@@ -12452,16 +12458,16 @@ if (false) {
 }
 
 /***/ }),
-/* 59 */,
-/* 60 */,
-/* 61 */,
-/* 62 */,
-/* 63 */,
-/* 64 */,
 /* 65 */,
 /* 66 */,
 /* 67 */,
-/* 68 */
+/* 68 */,
+/* 69 */,
+/* 70 */,
+/* 71 */,
+/* 72 */,
+/* 73 */,
+/* 74 */
 /***/ (function(module, exports, __webpack_require__) {
 
 module.exports = __webpack_require__(32);

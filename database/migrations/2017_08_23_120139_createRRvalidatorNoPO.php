@@ -20,6 +20,8 @@ class CreateRRvalidatorNoPO extends Migration
           $table->char('Unit',20);
           $table->decimal('Quantity',18,0);
           $table->string('Remarks',100)->nullable();
+          $table->string('ItemCode',20)->nullable();
+          $table->string('AccountCode',20)->nullable();
         });
     }
 

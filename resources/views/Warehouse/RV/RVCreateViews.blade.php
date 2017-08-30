@@ -12,9 +12,9 @@
       <div class="added-items-table">
         <div class="add-item-RV">
           @if ((Auth::user()->Role==4)||(Auth::user()->Role==3))
-          <button type="button" name="button" id="forstock-ItemRV"><i class="fa fa-dropbox"></i> request item for stocks</button>
+          <button type="button" name="button" id="forstock-ItemRV"><i class="fa fa-dropbox"></i> For stocks</button>
           @endif
-          <button type="button" name="button" id="none-existing-itemRV"><i class="fa fa-plus-circle"></i> request none existing item</button>
+          <button type="button" class="bttn-unite bttn-sm bttn-primary" id="none-existing-itemRV"><i class="fa fa-plus-circle"></i> Not for stocks item</button>
         </div>
         <table>
           <tr>
@@ -71,8 +71,8 @@
             <p>General Manager</p>
           </div>
           <div class="submit-button-RV">
-            <button type="submit" name="button">Submit</button>
-          </div>
+            <button type="submit">Submit</button>
+        </div>
         </form>
       </div>
     </div>
@@ -126,6 +126,8 @@
               <tr>
               <form class="" action="{{route('AddRVforStockSession')}}" method="post">
                 {{ csrf_field() }}
+                <input type="text" name="AccountCode" value="{{$item->AccountCode}}" style="display:none">
+                <input type="text" name="ItemCode" value="{{$item->ItemCode_id}}" style="display:none">
                 <input type="text"  name="Description" value="{{$item->Description}}" style="display:none">
                 <input type="text" name="Unit" value="{{$item->Unit}}" style="display:none">
                 <td>{{$item->ItemCode_id}}</td>

@@ -5,7 +5,7 @@
 @section('body')
   <div class="login-container">
     <div class="body-login-container">
-      <div class="box-form-login">
+      <div class="box-form-login log-box">
         <h1>Login <i class="fa fa-lock"></i></h1>
         <form class="login-form" action="{{route('login-submit')}}" method="post">
           {{ csrf_field() }}

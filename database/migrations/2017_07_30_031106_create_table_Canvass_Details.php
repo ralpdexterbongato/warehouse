@@ -15,6 +15,8 @@ class CreateTableCanvassDetails extends Migration
     {
         Schema::create('CanvassDetails', function (Blueprint $table) {
           $table->increments('id');
+          $table->string('ItemCode',20)->nullable();
+          $table->string('AccountCode',20)->nullable();
           $table->decimal('Price',18,2)->nullable();
           $table->string('Unit',10);
           $table->string('Article',100);

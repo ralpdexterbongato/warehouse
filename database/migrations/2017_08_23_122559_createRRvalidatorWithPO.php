@@ -19,8 +19,10 @@ class CreateRRvalidatorWithPO extends Migration
           $table->string('Unit',10);
           $table->string('Description',100);
           $table->decimal('Qty',18,0);
-          $table->decimal('Amount',18,0);
+          $table->decimal('Amount',18,2);
           $table->char('PONo',7);
+          $table->string('ItemCode',20)->nullable();
+          $table->string('AccountCode',20)->nullable();
         });
     }
 

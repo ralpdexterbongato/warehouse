@@ -4,7 +4,7 @@ use Illuminate\Support\Facades\Schema;
 use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Database\Migrations\Migration;
 
-class CreateRVDetailsTable extends Migration
+class CreateTableMCTConfirmationDetails extends Migration
 {
     /**
      * Run the migrations.
@@ -13,15 +13,16 @@ class CreateRVDetailsTable extends Migration
      */
     public function up()
     {
-        Schema::create('RVDetails', function (Blueprint $table) {
+        Schema::create('MCTConfirmationDetails', function (Blueprint $table) {
             $table->increments('id');
-            $table->char('RVNo',7);
-            $table->string('Particulars',100);
-            $table->char('Unit',20);
-            $table->decimal('Quantity',18,0);
-            $table->string('Remarks',100)->nullable();
             $table->string('ItemCode',20)->nullable();
             $table->string('AccountCode',20)->nullable();
+            $table->string('MCTNo',7);
+            $table->string('Description',100)->nullable();
+            $table->decimal('UnitCost',18,2)->nullable();
+            $table->decimal('Quantity',18,0)->nullable();
+            $table->string('Unit')->nullable();
+            $table->decimal('Amount',18,2)->nullable();
         });
     }
 
@@ -32,6 +33,6 @@ class CreateRVDetailsTable extends Migration
      */
     public function down()
     {
-        Schema::dropIfExists('RVDetails');
+        Schema::dropIfExists('MCTConfirmationDetails');
     }
 }

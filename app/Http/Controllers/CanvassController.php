@@ -8,6 +8,7 @@ use App\CanvassDetail;
 use App\RVDetail;
 use App\POMaster;
 use App\RVMaster;
+use App\RRValidatorNoPO;
 class CanvassController extends Controller
 {
   public function __construct()
@@ -16,12 +17,12 @@ class CanvassController extends Controller
   }
   public function TocanvassPage($id)
   {
-    $checkifpurchased=RVMaster::where('RVNo',$id)->value('IfPurchased');
-    if (!empty($checkifpurchased))
+    $checkifpurchased=RVMaster::where('RVNo',$id)->get(['IfPurchased','RVNo']);
+    if ($checkifpurchased[0]->IfPurchased!=null)
     {
       return redirect()->back();
     }
-    return view('Warehouse.CanvasCreate');
+    return view('Warehouse.CanvasCreate',compact('checkifpurchased'));
   }
 
   public function saveCanvass(Request $request)
@@ -32,7 +33,7 @@ class CanvassController extends Controller
       'Address'=>'required',
       'Telephone'=>'required|max:11',
       'Particulars.*'=>'required',
-      'Price.*'=>'required|regex:/^\d*(\.\d{2})?$/',
+      'Price.*'=>'required|regex:/^[0-9]{1,3}(,[0-9]{3})*(\.[0-9]+)*$/',
       'Qty.*'=>'required|max:18',
       'Unit.*'=>'required|max:20',
     ]);
@@ -46,7 +47,7 @@ class CanvassController extends Controller
     foreach ($request->Particulars as $key => $item)
     {
       $noCommaPrice=str_replace(',','',$request->Price[$key]);
-      $insertCanvassDetails[]= array('Article' => $item, 'Price'=>$noCommaPrice,'Unit'=>$request->Unit[$key],'Qty'=> $request->Qty[$key],'CanvassMasters_id'=>$CanvassMasterDB->id);
+      $insertCanvassDetails[]= array('AccountCode'=>$request->AccountCode[$key],'ItemCode'=>$request->ItemCode[$key],'Article' => $item, 'Price'=>$noCommaPrice,'Unit'=>$request->Unit[$key],'Qty'=> $request->Qty[$key],'CanvassMasters_id'=>$CanvassMasterDB->id);
     }
     CanvassDetail::insert($insertCanvassDetails);
     return redirect()->back();
@@ -55,12 +56,12 @@ class CanvassController extends Controller
 
   public function getSupplierRecords($id)
   {
-    $detailsRV=RVDetail::where('RVNo', $id)->get();
+    $detailsRRValidator=RRValidatorNoPO::where('RVNo', $id)->get(); //i am using rrvalidatorNoPO for this so we can use it validate if the item already have PO.
      $SupplierRecords=CanvassMaster::where('RVNo',$id)->get(['Supplier','id']);
      $supplier= $SupplierRecords->load('CanvassDetail');
      $response=[
        'supplierdata'=>$supplier,
-       'rvdata'=>$detailsRV,
+       'rvdata'=>$detailsRRValidator,
      ];
      return response()->json($response);
   }

@@ -60,5 +60,7 @@ class Kernel extends HttpKernel
         'IsWarehouse'=>\App\Http\Middleware\IsWarehouse::class,
         'IsGM'=>\App\Http\Middleware\IsGM::class,
         'IsManagerOrGM'=>\App\Http\Middleware\IsManagerOrGM::class,
+        'IfAlreadyHavePO'=>\App\Http\Middleware\IfAlreadyHavePO::class,
+        'IfAlreadyHaveRR'=>\App\Http\Middleware\IfAlreadyHaveRR::class,
     ];
 }

@@ -12,6 +12,7 @@ use App\MasterItem;
 use App\POMaster;
 use Auth;
 use App\RRValidatorNoPO;
+use App\RRMaster;
 class RVController extends Controller
 {
     public function __construct()
@@ -30,7 +31,7 @@ class RVController extends Controller
       $this->validate($request,[
         'Description'=>'required|unique:MasterItems',
       ]);
-      $itemDetails = array('Description' =>$request->Description ,'Unit'=>$request->Unit,'Quantity'=>$request->Quantity,'Remarks'=>$request->Remarks);
+      $itemDetails = array('Description' =>$request->Description ,'Unit'=>$request->Unit,'Quantity'=>$request->Quantity,'Remarks'=>$request->Remarks,'AccountCode'=>null,'ItemCode'=>null);
       $itemDetails=(object)$itemDetails;
       Session::push('ItemSessionList',$itemDetails);
       return redirect()->back();
@@ -113,7 +114,7 @@ class RVController extends Controller
       $forRVdetailDB = array();
       foreach (Session::get('ItemSessionList') as $SessionItem)
       {
-        $forRVdetailDB[] = array('RVNo' =>$incremented ,'Particulars'=>$SessionItem->Description,'Unit'=>$SessionItem->Unit,'Quantity'=>$SessionItem->Quantity,'Remarks'=>$SessionItem->Remarks);
+        $forRVdetailDB[] = array('RVNo' =>$incremented ,'Particulars'=>$SessionItem->Description,'Unit'=>$SessionItem->Unit,'Quantity'=>$SessionItem->Quantity,'Remarks'=>$SessionItem->Remarks,'AccountCode'=>$SessionItem->AccountCode,'ItemCode'=>$SessionItem->ItemCode);
       }
       RVDetail::insert($forRVdetailDB);
       Session::forget('ItemSessionList');
@@ -127,10 +128,15 @@ class RVController extends Controller
     }
     public function RVfullPreview($id)
     {
-      $RVDetails=RVDetail::where('RVNo',$id)->get();
+      $RVDetails=RVDetail::where('RVNo',$id)->get(['RVNo','Particulars','Unit','Quantity','Remarks']);
       $RVMaster=RVMaster::where('RVNo',$id)->get();
+      $checkRR=RRMaster::where('RVNo', $id)->take(1)->value('RRNo');
       $checkPO=POMaster::where('RVNo',$id)->take(1)->value('PONo');
-      return view('Warehouse.RV.FullRVpreview',compact('RVMaster','RVDetails','checkPO'));
+      if (($checkPO==null)&&($checkRR!=null))
+      {
+       $undeliveredTotal=RRValidatorNoPO::where('RVNo',$id)->sum('Quantity');
+      }
+      return view('Warehouse.RV.FullRVpreview',compact('RVMaster','RVDetails','checkPO','checkRR','undeliveredTotal'));
     }
     public function Signature(Request $request)
     {
@@ -162,7 +168,7 @@ class RVController extends Controller
         $forRRNoPOValidator = array();
         foreach ($RVitems as $rvitem)
         {
-          $forRRNoPOValidator[] = array('RVNo' =>$rvitem->RVNo ,'Particulars'=>$rvitem->Particulars,'Unit'=>$rvitem->Unit ,'Quantity'=>$rvitem->Quantity ,'Remarks'=>$rvitem->Remarks);
+          $forRRNoPOValidator[] = array('RVNo' =>$rvitem->RVNo ,'Particulars'=>$rvitem->Particulars,'Unit'=>$rvitem->Unit ,'Quantity'=>$rvitem->Quantity ,'Remarks'=>$rvitem->Remarks,'ItemCode'=>$rvitem->ItemCode,'AccountCode'=>$rvitem->AccountCode);
         }
         RRValidatorNoPO::insert($forRRNoPOValidator);
       }
@@ -198,7 +204,7 @@ class RVController extends Controller
     }
     public function searchRVforStock(Request $request)
     {
-      $forStockRV=MasterItem::orderBy('id','DESC')->where('Description','LIKE','%'.$request->Description.'%')->paginate(5,['ItemCode_id','Description','Unit']);
+      $forStockRV=MasterItem::orderBy('id','DESC')->where('Description','LIKE','%'.$request->Description.'%')->paginate(5,['AccountCode','ItemCode_id','Description','Unit']);
       Session::put('SessionForStock',$forStockRV);
       return redirect()->back();
     }
@@ -213,17 +219,16 @@ class RVController extends Controller
           }
         }
       }
-      $itemselected = array('Description' =>$request->Description ,'Unit'=>$request->Unit,'Quantity'=>$request->Quantity,'Remarks'=>$request->Remarks);
+      $itemselected = array('Description' =>$request->Description ,'Unit'=>$request->Unit,'Quantity'=>$request->Quantity,'Remarks'=>$request->Remarks,'AccountCode'=>$request->AccountCode,'ItemCode'=>$request->ItemCode);
       $itemselected=(object)$itemselected;
       Session::push('ItemSessionList',$itemselected);
       return redirect()->back();
     }
 
-    public function VueRV(Request $request)
+    public function RVIndexSearch(Request $request)
     {
       $allRVMaster=RVMaster::orderBy('RVNo','DESC')->where('RVNo','LIKE','%'.$request->search.'%')->paginate(10,['RVNo','Purpose','Requisitioner','RequisitionerSignature','Recommendedby','RecommendedbySignature','BudgetOfficer','BudgetOfficerSignature','GeneralManager','GeneralManagerSignature','RVDate','IfDeclined','ApprovalReplacerSignature']);
       $response=[
-
         'pagination'=>[
           'total'=> $allRVMaster->total(),
           'per_page'=>$allRVMaster->perPage(),
@@ -242,33 +247,6 @@ class RVController extends Controller
       $unpurchaselist=RVMaster::orderBy('RVNo','DESC')->whereNotNull('RecommendedbySignature')->whereNotNull('BudgetOfficerSignature')->whereNull('IfPurchased')->whereNotNull('GeneralManagerSignature')->orWhereNotNull('ApprovalReplacerSignature')->whereNotNull('RecommendedbySignature')->whereNotNull('BudgetOfficerSignature')->whereNull('IfPurchased')->paginate(10,['RVNo','Purpose','Requisitioner','RVDate']);
       return view('Warehouse.RV.myUnpurchaseRVlist',compact('unpurchaselist'));
     }
-    // public function alreadypurchase(Request $request)
-    // {
-    //   $POMaster=POMaster::where('RVNo',$request->RVNo)->get(['GeneralManagerSignature','IfDeclined']);
-    //   if (isset($POMaster[0]))
-    //   {
-    //     foreach ($POMaster as $masterpo)
-    //     {
-    //       if (($masterpo->GeneralManagerSignature==null)&&($masterpo->IfDeclined==null))
-    //       {
-    //         return redirect()->back()->with('message', "The purchase order of this RV is still not signatured or declined by the General Manager");
-    //       }
-    //     }
-    //     foreach ($POMaster as $pomaster)
-    //     {
-    //       if ($pomaster->IfDeclined==null)
-    //       {
-    //         RVMaster::where('RVNo',$request->RVNo)->update(['IfPurchased'=>'true']);
-    //         return redirect()->back();
-    //       }
-    //     }
-    //     return redirect()->back()->with('message', 'All purchase order is declined by the GM');
-    //   }else
-    //   {
-    //     RVMaster::where('RVNo',$request->RVNo)->update(['IfPurchased'=>'true']);
-    //     return redirect()->back();
-    //   }
-    // }
     public function updateBudgetAvailable($id, Request $request)
     {
       $this->validate($request,[
@@ -313,7 +291,7 @@ class RVController extends Controller
         $forRRNoPOValidator = array();
         foreach ($RVitems as $rvitem)
         {
-          $forRRNoPOValidator[] = array('RVNo' =>$rvitem->RVNo ,'Particulars'=>$rvitem->Particulars,'Unit'=>$rvitem->Unit ,'Quantity'=>$rvitem->Quantity ,'Remarks'=>$rvitem->Remarks);
+          $forRRNoPOValidator[] = array('RVNo' =>$rvitem->RVNo ,'Particulars'=>$rvitem->Particulars,'Unit'=>$rvitem->Unit ,'Quantity'=>$rvitem->Quantity ,'Remarks'=>$rvitem->Remarks,'AccountCode'=>$rvitem->AccountCode,'ItemCode'=>$rvitem->ItemCode);
         }
         RRValidatorNoPO::insert($forRRNoPOValidator);
       }

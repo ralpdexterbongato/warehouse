@@ -20,7 +20,6 @@
               <th>Supplier</th>
               <th>Address</th>
               <th>RV No.</th>
-              <th>Carrier</th>
               <th>Received by</th>
               <th>Received original by</th>
               <th>Verified by</th>
@@ -35,7 +34,6 @@
                 <td>{{$RRresult->Supplier}}</td>
                 <td>{{$RRresult->Address}}</td>
                 <td>{{$RRresult->RVNo}}</td>
-                <td>{{$RRresult->Carrier}}</td>
                 <td>
                   {{$RRresult->Receivedby}}
                   @if($RRresult->ReceivedbySignature)
@@ -79,7 +77,6 @@
               <td>{{$rrmaster->Supplier}}</td>
               <td>{{$rrmaster->Address}}</td>
               <td>{{$rrmaster->RVNo}}</td>
-              <td>{{$rrmaster->Carrier}}</td>
               <td>
                 {{$rrmaster->Receivedby}}
                 @if ($rrmaster->ReceivedbySignature)
@@ -117,13 +114,17 @@
             </tr>
           @endforeach
           @else
-            <h1 class="RRempty">Receiving Reports index is empty</h1>
+            <h1 class="RRempty"><i class="fa fa-search"></i> Receiving Reports index is empty</h1>
           @endif
         </table>
         @if (!empty($RRmasters[0]))
-          {{$RRmasters->links()}}
+          <div class="paginate-container">
+            {{$RRmasters->links()}}
+          </div>
         @elseif (!empty($RRMasterResults[0]))
-          {{$RRMasterResults->links()}}
+          <div class="paginate-container">
+            {{$RRMasterResults->links()}}
+          </div>
         @endif
     </div>
   </div>

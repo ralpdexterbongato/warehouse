@@ -14,6 +14,7 @@ use Auth;
 use Session;
 use App\User;
 use App\MCTValidator;
+use App\MCTConfirmationDetail;
 class MCTController extends Controller
 {
   public function StoreMCT(Request $request)
@@ -28,6 +29,7 @@ class MCTController extends Controller
     $date=Carbon::now();
     $year=Carbon::today()->format('y');
     $latest=MCTMaster::orderBy('id','DESC')->take(1)->value('MCTNo');
+    $Receivedby=MIRSMaster::where('MIRSNo',$request->MIRSNo)->get(['Preparedby','PreparedPosition']);
     if (count($latest)>0)
     {
       $numOnly=substr($latest,'3');
@@ -35,63 +37,58 @@ class MCTController extends Controller
       $soloId= $numOnly + 1;
       $genID=$year . '-' . sprintf("%04d",$soloId);
       $MCTIncremented=$genID;
-
     }else
     {
       $genID=$year .'-'. sprintf("%04d",'1');
       $MCTIncremented=$genID;
     }
-    $receiver=MIRSMaster::where('MIRSNo',$request->MIRSNo)->get(['Preparedby','PreparedPosition']);
     $MCTMasterDB=new MCTMaster;
     $MCTMasterDB->MCTNo = $MCTIncremented;
     $MCTMasterDB->MIRSNo= $request->MIRSNo;
     $MCTMasterDB->MCTDate=$date;
     $MCTMasterDB->Particulars = $request->Particulars;
     $MCTMasterDB->AddressTo = $request->AddressTo;
+    $MCTMasterDB->IssuedbySignature=Auth::user()->Signature;
     $MCTMasterDB->Issuedby =Auth::user()->Fname.' '.Auth::user()->Lname;
     $MCTMasterDB->IssuedbyPosition=Auth::user()->Position;
-    $MCTMasterDB->IssuedbySignature=Auth::user()->Signature;
-    if ($receiver[0]->Preparedby==Auth::user()->Fname.' '.Auth::user()->Lname)
+    $MCTMasterDB->Receivedby=$Receivedby[0]->Preparedby;
+    $MCTMasterDB->ReceivedbyPosition=$Receivedby[0]->PreparedPosition;
+    if ($Receivedby[0]->Preparedby==Auth::user()->Fname.' '.Auth::user()->Lname)
     {
       $MCTMasterDB->ReceivedbySignature=Auth::user()->Signature;
     }
-    $MCTMasterDB->Receivedby= $receiver[0]->Preparedby;
-    $MCTMasterDB->ReceivedbyPosition=$receiver[0]->PreparedPosition;
     $MCTMasterDB->save();
-    $ItemsSelectedFromMIRS= Session::get('MCTSessionItems');
     MIRSMaster::where('MIRSNo',$request->MIRSNo)->update(['WithMCT'=>'0']);
-
-    $forMTDetailstable = array();
+    $ItemsSelectedFromMIRS= Session::get('MCTSessionItems');
+    $ForMCTConfirmation = array();
     foreach ($ItemsSelectedFromMIRS as $detail)
     {
-      $latestdetail=MaterialsTicketDetail::where('ItemCode',$detail->ItemCode)->orderBy('MTDate','DESC')->take(1)->get();
-      $latestRRprice=MaterialsTicketDetail::where('ItemCode',$detail->ItemCode)->where('MTType', 'RR')->orderBy('MTDate','DESC')->take(1)->get(['UnitCost']);
       $validatorItemQTY=MCTValidator::where('MIRSNo',$request->MIRSNo)->where('ItemCode',$detail->ItemCode)->get(['Quantity']);
       $qtyValidatorleft=$validatorItemQTY[0]->Quantity - $detail->Quantity;
       MCTValidator::where('MIRSNo',$request->MIRSNo)->where('ItemCode',$detail->ItemCode)->Update(['Quantity'=>$qtyValidatorleft]);
-      $minusAmount= $detail->Quantity * $latestRRprice[0]->UnitCost;
-      $newQTY= $latestdetail[0]->CurrentQuantity - $detail->Quantity;
-      $differenceof2AMT=$latestdetail[0]->CurrentAmount - $minusAmount;
-      $newcurrentcost=$differenceof2AMT/$newQTY;
-      $newAmount= $newQTY * $newcurrentcost;
-
-        $forMTDetailstable[]=array('ItemCode' =>$latestdetail[0]->ItemCode ,'MTType' =>'MCT' ,'MTNo' =>$MCTIncremented,'AccountCode' =>$latestdetail[0]->AccountCode ,'UnitCost' =>$latestRRprice[0]->UnitCost ,'Quantity' =>$detail->Quantity,'Unit' =>$latestdetail[0]->Unit ,'Amount' =>$minusAmount
-       ,'CurrentCost' =>$newcurrentcost,'CurrentQuantity' =>$newQTY ,'CurrentAmount' =>$newAmount ,'MTDate' =>$date);
+      $latestRR=MaterialsTicketDetail::where('ItemCode',$detail->ItemCode)->where('MTType', 'RR')->orderBy('MTDate','DESC')->take(1)->get(['AccountCode','UnitCost']);
+      $AMT=$latestRR[0]->UnitCost*$detail->Quantity;
+      $ForMCTConfirmation[]=array('AccountCode'=>$latestRR[0]->AccountCode,'ItemCode' =>$detail->ItemCode,'Description'=>$detail->Particulars,'MCTNo' =>$MCTIncremented,'UnitCost' =>$latestRR[0]->UnitCost ,'Quantity' =>$detail->Quantity,'Unit' =>$detail->Unit ,'Amount' =>$AMT);
     }
-    MaterialsTicketDetail::insert($forMTDetailstable);
+    MCTConfirmationDetail::insert($ForMCTConfirmation);
     Session::forget('MCTSessionItems');
-      return redirect()->route('previewMCT',[$MCTIncremented]);
+    return redirect()->route('previewMCT',[$MCTIncremented]);
+
+    if ($Receivedby[0]->Preparedby==Auth::user()->Fname.' '.Auth::user()->Lname)
+    {
+      //if receiver is the WarehouseMans
+    }
   }
 
   public function previewMCT($id)
   {
     Session::forget('MCTSelected');//to refresh the session that is not submited
     $MCTMast=MCTMaster::where('MCTNo',$id)->get();
-    $MTDetails=MaterialsTicketDetail::where('MTType', 'MCT')->where('MTNo', $id)->get();
+    $MCTConfirmDetails=MCTConfirmationDetail::where('MCTNo',$id)->get();
     $MRTcheck=MRTMaster::where('MCTNo',$id)->value('MRTNo');
-    $AccountCodeGroup = DB::table("MaterialsTicketDetails")
+    $AccountCodeGroup = DB::table("MCTConfirmationDetails")
 	    ->select(DB::raw("SUM(Amount) as totals"),DB::raw("AccountCode as AccountCode"))
-      ->where('MTType', 'MCT')->where('MTNo', $id)
+      ->where('MCTNo', $id)
       ->orderBy("AccountCode")
 	    ->groupBy(DB::raw("AccountCode"))
 	    ->get();
@@ -101,7 +98,7 @@ class MCTController extends Controller
       {
         $totalsum= $totalsum +$codegrouped->totals;
       }
-      return view('Warehouse.MCT.MCTpreview',compact('MCTMast','MTDetails','AccountCodeGroup','totalsum','MRTcheck'));
+      return view('Warehouse.MCT.MCTpreview',compact('MCTMast','MTDetails','MCTConfirmDetails','AccountCodeGroup','totalsum','MRTcheck'));
   }
   public function summaryMCT()
   {
@@ -109,11 +106,28 @@ class MCTController extends Controller
   }
   public function SignatureMCT(Request $request)
   {
-    $mctmaster=MCTMaster::where('MCTNo', $request->MCTNo)->get(['Issuedby','Receivedby']);
+    $mctmaster=MCTMaster::where('MCTNo',$request->MCTNo)->get(['Receivedby']);
     if ($mctmaster[0]->Receivedby==Auth::user()->Fname.' '.Auth::user()->Lname)
     {
       MCTMaster::where('MCTNo',$request->MCTNo)->update(['ReceivedbySignature'=>Auth::user()->Signature]);
     }
+      $date=Carbon::now();
+     $ItemsConfirmed= MCTConfirmationDetail::where('MCTNo',$request->MCTNo)->get();
+     $forMTDetailstable = array();
+     foreach ($ItemsConfirmed as $itemconfirmed)
+     {
+       $latestdetail=MaterialsTicketDetail::where('ItemCode',$itemconfirmed->ItemCode)->orderBy('MTDate','DESC')->take(1)->get(['CurrentQuantity','CurrentAmount']);
+       $latestPriceWhenCreated=$itemconfirmed->UnitCost;
+       $minusAmount=$itemconfirmed->Amount;
+       $newQTY= $latestdetail[0]->CurrentQuantity - $itemconfirmed->Quantity;
+       $differenceof2AMT=$latestdetail[0]->CurrentAmount - $minusAmount;
+       $newcurrentcost=$differenceof2AMT/$newQTY;
+       $newAmount= $newQTY * $newcurrentcost;
+
+         $forMTDetailstable[]=array('ItemCode' =>$itemconfirmed->ItemCode,'MTType'=>'MCT','MTNo' =>$request->MCTNo,'AccountCode' =>$itemconfirmed->AccountCode ,'UnitCost' =>$latestPriceWhenCreated,'Quantity' =>$itemconfirmed->Quantity,'Unit' =>$itemconfirmed->Unit ,'Amount' =>$minusAmount
+        ,'CurrentCost' =>$newcurrentcost,'CurrentQuantity' =>$newQTY ,'CurrentAmount' =>$newAmount ,'MTDate' =>$date);
+     }
+     MaterialsTicketDetail::insert($forMTDetailstable);
     return redirect()->back();
   }
   public function mctRequestcheck()

@@ -81,7 +81,7 @@ class PDFController extends Controller
   public function POdownload(Request $request)
   {
     $MasterPO=POMaster::where('PONo',$request->PONo)->get();
-    $Totalamt=PODetail::where('PurchaseOrderMasters_PONo',$request->PONo)->get(['Amount'])->sum('Amount');
+    $Totalamt=PODetail::where('PONo',$request->PONo)->get(['Amount'])->sum('Amount');
     $pdf=PDF::loadView('Warehouse.PO.printablePO',compact('MasterPO','Totalamt'));
     return $pdf->stream('PO_No'.$request->PONo.'.pdf');
   }

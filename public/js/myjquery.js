@@ -24,7 +24,9 @@
    $('.middle-account-modal > ul >li >i').click(function(event) {
      $('.Account-modal').removeClass('active');
    });
-
+   $('.Account-modal').click(function(event) {
+     $('.Account-modal').removeClass('active');
+   });
    $('#mct-modal-btn').click(function(event) {
     $('.MCT-modal').addClass('active');
    });
@@ -67,15 +69,6 @@
 
     $('.middle-forStock-div h1 i').click(function(event) {
       $('.for-stock-Modal').removeClass('active');
-    });
-    $('.searchRRitem').click(function(event) {
-      $('.search-itemRR-Container').addClass('active');
-    });
-    $('.search-RR-center > h1').click(function(event) {
-      $('.search-itemRR-Container').removeClass('active');
-    });
-    $('.add-toRRlist-btn').click(function(event) {
-      $('.search-itemRR-Container').removeClass('active');
     });
     $('.edit-budget-opener').click(function(event)
     {

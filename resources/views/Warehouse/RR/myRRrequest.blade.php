@@ -4,6 +4,9 @@
 @endsection
 @section('body')
   <div class="RRrequest-container">
+    <div class="title-rr-request">
+      <h1>My RR signature<i class="fa fa-pencil"></i> requests</h1>
+    </div>
     <div class="requestRR-table">
       @if (!empty($requestRR[0]))
       <table>
@@ -12,12 +15,11 @@
           <th>Supplier</th>
           <th>Address</th>
           <th>RV No.</th>
-          <th>Carrier</th>
           <th>Received by</th>
           <th>Received Original by</th>
           <th>Verified by</th>
           <th>Posted to BIN by</th>
-          <th>Action</th>
+          <th>Show</th>
         </tr>
         @foreach ($requestRR as $requestSignature)
           <tr>
@@ -25,7 +27,6 @@
             <td>{{$requestSignature->Supplier}}</td>
             <td>{{$requestSignature->Address}}</td>
             <td>{{$requestSignature->RVNo}}</td>
-            <td>{{$requestSignature->Carrier}}</td>
             <td>
               {{$requestSignature->Receivedby}}
               @if ($requestSignature->ReceivedbySignature)

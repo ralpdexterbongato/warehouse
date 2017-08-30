@@ -49,10 +49,9 @@ class MIRSController extends Controller
       }
         $itemselected = (object)$itemselected;
         Session::push('ItemSelected',$itemselected);
-        return redirect('/MIRS-add');
     }else
     {
-      return redirect()->back()->with('message', 'Quantity stock is not enough for your request');
+      return response()->json(['error'=>'Quantity stock is not enough for your request']);
     }
   }
   public function deletePartSession($id)
@@ -209,7 +208,8 @@ class MIRSController extends Controller
   }
   public function readyForMCT()
   {
-    $readyformct=MIRSMaster::orderBy('MIRSNo','DESC')->whereNull('WithMCT')->where('RecommendSignature','!=','')->where('ApproveSignature','!=','')->where('PreparedSignature','!=','')->orWhere('ApprovalReplacerSignature','!=',null)
+    $readyformct=MIRSMaster::orderBy('MIRSNo','DESC')->where('RecommendSignature','!=','')->where('ApproveSignature','!=','')->where('PreparedSignature','!=','')->whereNull('WithMCT')
+    ->orWhere('ApprovalReplacerSignature','!=','')->where('RecommendSignature','!=','')->whereNull('WithMCT')
     ->paginate(10,['MIRSNo','Purpose','Preparedby','Recommendedby','Approvedby','MIRSDate']);
   return view('Warehouse.MIRS.MIRSReadyList',compact('readyformct'));
   }

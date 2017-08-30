@@ -241,6 +241,10 @@
     {
       font-size:14px;
     }
+    .authorizeinBehalf > p
+    {
+      text-transform: uppercase;
+    }
     .replacer-data
     {
       text-align: center;

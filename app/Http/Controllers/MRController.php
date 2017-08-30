@@ -85,7 +85,6 @@ class MRController extends Controller
     public function addSessionForMR(Request $request)
     {
       $this->validate($request,[
-        'ItemCode'=>'required',
         'Quantity'=>'required|regex:/^[0-9]+$/|numeric|min:1|max:'.$request->QuantityValidator,
       ]);
       if (Session::has('MRSession')) {

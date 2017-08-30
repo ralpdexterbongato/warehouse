@@ -21,7 +21,7 @@
           <div class="Create-MRT-btn">
             <form action="{{route('create.mrt')}}" method="get">
               <input type="text" autocomplete="off" name="MCTNo" value="{{$MCTMast[0]->MCTNo}}" style="display:none">
-              <button type="submit"><i class="fa fa-plus"></i> Make MRT</button>
+              <button type="submit" class="bttn-unite bttn-xs bttn-primary"><i class="fa fa-plus"></i> Make MRT</button>
             </form>
           </div>
           @elseif($MRTcheck[0]!=null)
@@ -38,7 +38,7 @@
             <div class="signature-mct-btn">
               <form action="{{route('MCTsignature')}}" method="post">
                 {{ csrf_field() }}
-                <button type="submit" name="MCTNo" value="{{$MCTMast[0]->MCTNo}}"><i class="fa fa-pencil"></i> Signature</button>
+                <button type="submit" name="MCTNo" id="signatureMCT" value="{{$MCTMast[0]->MCTNo}}"><i class="fa fa-pencil"></i> Signature</button>
               </form>
             </div>
           @endif
@@ -77,15 +77,15 @@
               <th>Unit</th>
               <th>Quantity</th>
             </tr>
-            @foreach ($MTDetails as $MTDetail)
+            @foreach ($MCTConfirmDetails as $confirmDetail)
             <tr>
-              <td>{{$MTDetail->AccountCode}}</td>
-              <td>{{$MTDetail->ItemCode}}</td>
-              <td class="align-left">{{$MTDetail->MasterItems->Description}}</td>
-              <td>{{number_format($MTDetail->UnitCost,'2','.',',')}}</td>
-              <td>{{number_format($MTDetail->Amount,'2','.',',')}}</td>
-              <td>{{$MTDetail->Unit}}</td>
-              <td>{{$MTDetail->Quantity}}</td>
+              <td>{{$confirmDetail->AccountCode}}</td>
+              <td>{{$confirmDetail->ItemCode}}</td>
+              <td class="align-left">{{$confirmDetail->Description}}</td>
+              <td>{{number_format($confirmDetail->UnitCost,'2','.',',')}}</td>
+              <td>{{number_format($confirmDetail->Amount,'2','.',',')}}</td>
+              <td>{{$confirmDetail->Unit}}</td>
+              <td>{{$confirmDetail->Quantity}}</td>
             </tr>
             @endforeach
           </table>

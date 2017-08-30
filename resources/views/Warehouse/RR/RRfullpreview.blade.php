@@ -23,14 +23,14 @@
     <div class="print-RR-btn">
       <form action="{{route('RR-printing')}}" method="POST">
         {{ csrf_field() }}
-        <button type="submit" name="RRNo" value="{{$RRMaster[0]->RRNo}}"><i class="fa fa-file-pdf-o"></i> print</button>
+        <button type="submit" class="bttn-unite bttn-xs bttn-primary" name="RRNo" value="{{$RRMaster[0]->RRNo}}"><i class="fa fa-file-pdf-o"></i> print</button>
       </form>
       <div>
         @if (!empty($checkMR[0]))
-          <a href="{{route('ViewMR.ofRR',[$RRMaster[0]->RRNo])}}"><button type="button" id="full-mr-preview-btn"><i class="fa fa-folder"></i> M.R. list</button></a>
+          <a href="{{route('ViewMR.ofRR',[$RRMaster[0]->RRNo])}}"><button type="button" id="full-mr-preview-btn" class="bttn-unite bttn-xs bttn-primary"><i class="fa fa-folder"></i> M.R. list</button></a>
         @endif
         @if ((Auth::user()->Role==4)||(Auth::user()->Role==3))
-          <a href="{{route('create-mr',[$RRMaster[0]->RRNo])}}"><button type="button" class="make-mr"><i class="fa fa-plus"></i> Make M.R.</button></a>
+          <a href="{{route('create-mr',[$RRMaster[0]->RRNo])}}"><button type="button" class="make-mr bttn-unite bttn-xs bttn-primary"><i class="fa fa-plus"></i> Make M.R.</button></a>
         @endif
       </div>
     </div>
@@ -62,9 +62,9 @@
           </div>
           <div class="RRmaster-right">
             <ul>
-              <li><label>Carrier:</label><h4>{{$RRMaster[0]->Carrier}}</h4></li>
-              <li><label>Delivery Receipt No:</label><h4>{{$RRMaster[0]->DeliveryReceiptNo}}</h4></li>
-              <li><label>P.O. No:</label><h4>{{$RRMaster[0]->PONo}}</h4></li>
+              <li><label>Carrier:</label>@if($RRMaster[0]->Carrier!=null)<h4>{{$RRMaster[0]->Carrier}}</h4>@endif</li>
+              <li><label>Delivery Receipt No:</label>@if($RRMaster[0]->DeliveryReceiptNo!=null)<h4>{{$RRMaster[0]->DeliveryReceiptNo}}</h4>@endif</li>
+              <li><label>P.O. No:</label>@if($RRMaster[0]->PONo!=null)<h4>{{$RRMaster[0]->PONo}}</h4>@endif</li>
             </ul>
           </div>
         </div>

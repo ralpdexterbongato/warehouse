@@ -11,8 +11,8 @@ warehouse | BOHECO 1
             <li class="dropping-parent">
               <h1>MIRS <i class="fa fa-angle-down"></i></h1>
               <ul class="dropping">
-                <a href="{{route('mirs.add')}}"><li><i class="fa fa-print"></i> Create MIRS</li></a>
-                <a href="{{route('MIRSgridview')}}"><li><i class="fa fa-search"></i> Search MIRS</li></a>
+                <a href="{{route('mirs.add')}}"><li><i class="fa fa-plus"></i> Create</li></a>
+                <a href="{{route('MIRSgridview')}}"><li><i class="fa fa-search"></i> Search</li></a>
               </ul>
             </li>
             <li class="dropping-parent">
@@ -23,27 +23,21 @@ warehouse | BOHECO 1
               </ul>
             </li>
             <li class="dropping-parent">
-              <h1>RR <i class="fa fa-angle-down"></i></h1>
-              <ul class="dropping create-rr-btn">
-                @if ((Auth::check())&&((Auth::user()->Role == 4)||(Auth::user()->Role==3)))
-                  <a href="{{route('MakeRR')}}"><li><i class="fa fa-plus-circle"></i> Create RR</li></a>
-                @endif
-                <a href="{{route('RRindexview')}}"><li><i class="fa fa-search"></i> Search RR</li></a>
+              <h1>RV <i class="fa fa-angle-down"></i></h1>
+              <ul class="dropping create-rv-btn">
+                <a href="{{route('Creating.RV')}}"><li><i class="fa fa-plus"></i> Create</li></a>
+                <a href="{{route('RVindexView')}}"><li><i class="fa fa-search"></i> Search</li></a>
               </ul>
             </li>
             <li class="dropping-parent">
-              <h1>RV <i class="fa fa-angle-down"></i></h1>
-              <ul class="dropping create-rv-btn">
-                <a href="{{route('Creating.RV')}}"><li><i class="fa fa-print"></i> Create RV</li></a>
-                <a href="{{route('RVindexView')}}"><li><i class="fa fa-search"></i> Search RV</li></a>
-              </ul>
+              <a href="{{route('RRindexview')}}"><h1><p>Search RR</p><i class="fa fa-search"></i></h1></a>
             </li>
           </ul>
         </div>
       </div>
       <div class="search-box">
         <form action="{{route('search.code')}}" method="get">
-          <input id="search-code-input" type="text" name="ItemCode" placeholder="Item code here..." required>
+          <input id="search-code-input" autocomplete="off" type="text" name="ItemCode" placeholder="Item code here..." required>
           <button id="search-go" type="submit"><i class="fa fa-search"></i></button>
         </form>
       </div>

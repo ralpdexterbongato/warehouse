@@ -6,10 +6,15 @@
   <div class="fullRV-container">
     <div class="RV-signature-print-container">
       @if ((($RVMaster[0]->RequisitionerSignature!=null)&&($RVMaster[0]->RecommendedbySignature!=null)&&($RVMaster[0]->BudgetOfficerSignature!=null)&&($RVMaster[0]->GeneralManagerSignature!=null))||(($RVMaster[0]->RequisitionerSignature!=null)&&($RVMaster[0]->RecommendedbySignature!=null)&&($RVMaster[0]->BudgetOfficerSignature!=null)&&($RVMaster[0]->ApprovalReplacerSignature!=null)))
+      <div class="print-and-unreceved">
         <form action="{{route('downloadRVprint')}}" method="post">
           {{ csrf_field() }}
-          <button type="submit" name="RVNo" value="{{$RVMaster[0]->RVNo}}"><i class="fa fa-print"></i> Print</button>
+          <button type="submit" class="bttn-unite bttn-sm bttn-primary" name="RVNo" value="{{$RVMaster[0]->RVNo}}"><i class="fa fa-print"></i> Print</button>
         </form>
+        @if (($RVMaster[0]->IfPurchased==null)&&($checkPO==null)&&($checkRR!=null))
+        <li class="pending-delivery-number"><h1>Unreceived items: <span class="color-blue">{{$undeliveredTotal}}</span></h1></li>
+        @endif
+      </div>
       @else
         <div class="empty-left">
         </div>
@@ -18,7 +23,6 @@
         @if (($RVMaster[0]->RequisitionerSignature!=Auth::user()->Signature)&&($RVMaster[0]->BudgetOfficerSignature!=Auth::user()->Signature)&&($RVMaster[0]->RecommendedbySignature!=Auth::user()->Signature)&&($RVMaster[0]->GeneralManagerSignature!=Auth::user()->Signature)&&($RVMaster[0]->IfDeclined==null))
           @if(($RVMaster[0]->Requisitioner==Auth::user()->Fname.' '.Auth::user()->Lname)||($RVMaster[0]->BudgetOfficer==Auth::user()->Fname.' '.Auth::user()->Lname)||($RVMaster[0]->Recommendedby==Auth::user()->Fname.' '.Auth::user()->Lname)||($RVMaster[0]->GeneralManager==Auth::user()->Fname.' '.Auth::user()->Lname))
             @if ((Auth::user()->Fname.' '.Auth::user()->Lname==$RVMaster[0]->GeneralManager)&&($RVMaster[0]->ApprovalReplacerSignature!=null))
-              {{-- displaynothing --}}
             @else
             <div class="RVapprove">
               <button type="button" onclick="$('.rv-signature-form').submit()"><i class="fa fa-pencil"></i> Signature</button>
@@ -53,35 +57,40 @@
           <div class="viewPObtn">
             @if (!empty($RVMaster[0]->IfPurchased))
               <div class="status-po-wrapper">
-                <h1>Status : Already Purchased <i class="fa fa-check"></i></h1>
+                <h1>Status : <span class="underline">Already Purchased</span> <i class="fa fa-check"></i></h1>
               </div>
             @else
               <div class="status-po-wrapper">
-                <h1>Status: Waiting to be purchased</h1>
+                <h1>Status: <span class="underline">Waiting for all to be received</span></h1>
               </div>
             @endif
-            <a href="{{route('POListView',[$RVMaster[0]->RVNo])}}"><button type="button" name="button"><i class="fa fa-eye"></i> View P.O.</button></a>
+            <a href="{{route('POListView',[$RVMaster[0]->RVNo])}}"><button type="button" class="bttn-unite bttn-sm bttn-primary">Show P.O.</button></a>
           </div>
         @elseif((($RVMaster[0]->RequisitionerSignature!=null)&&($RVMaster[0]->RecommendedbySignature!=null)&&($RVMaster[0]->BudgetOfficerSignature!=null)&&($RVMaster[0]->GeneralManagerSignature!=null)&&($checkPO==null))||(($RVMaster[0]->RequisitionerSignature!=null)&&($RVMaster[0]->RecommendedbySignature!=null)&&($RVMaster[0]->BudgetOfficerSignature!=null)&&($RVMaster[0]->ApprovalReplacerSignature)))
-          @if (($RVMaster[0]->IfPurchased)&&($checkPO==null))
+          @if (($RVMaster[0]->IfPurchased==null)&&($checkPO==null))
           <div class="status-po-wrapper">
-            <h1 class="done-but-no-po">Status : Already purchased without P.O.</h1>
-          </div>
-        @elseif(($RVMaster[0]->IfPurchased==null)&&($checkPO==null)&&((Auth::user()->Role==4)||(Auth::user()->Role==3)))
-            <div class="CreateRRwoPO">
-              <button type="button" name="button"> <i class="fa fa-plus color-blue"></i> RR</button>
-            </div>
-          @else
-          <div class="status-po-wrapper">
-            <h1 class="no-PO">Status : Waiting to be purchased</h1>
+            <h1 class="no-PO">Status : <span class="underline">Waiting for all to be received</span></h1>
           </div>
           @endif
+          @if (($RVMaster[0]->IfPurchased)&&($checkPO==null))
+          <div class="status-po-wrapper">
+            <h1 class="done-but-no-po">Status : <span class="underline">Already purchased <i class="fa fa-check"></i> without P.O.</span></h1>
+          </div>
+          @elseif(($RVMaster[0]->IfPurchased==null)&&($checkPO==null)&&((Auth::user()->Role==4)||(Auth::user()->Role==3)))
+            <div class="CreateRRwoPO">
+              <a href="{{route('CreatingRR.without.po',[$RVMaster[0]->RVNo])}}"><button type="button" class="bttn-unite bttn-sm bttn-primary"> <i class="fa fa-plus"></i> RR</button></a>
+            </div>
+          @endif
         @endif
-      @if ((($RVMaster[0]->RequisitionerSignature!=null)&&($RVMaster[0]->RecommendedbySignature!=null)&&($RVMaster[0]->BudgetOfficerSignature!=null)&&($RVMaster[0]->GeneralManagerSignature!=null)&&(Auth::user()->Role==4)&&($RVMaster[0]->IfPurchased==null))||(($RVMaster[0]->RequisitionerSignature!=null)&&($RVMaster[0]->RecommendedbySignature!=null)&&($RVMaster[0]->BudgetOfficerSignature!=null)&&($RVMaster[0]->ApprovalReplacerSignature!=null)&&(Auth::user()->Role==4)&&($RVMaster[0]->IfPurchased==null))||(($RVMaster[0]->RequisitionerSignature!=null)&&($RVMaster[0]->RecommendedbySignature!=null)&&($RVMaster[0]->BudgetOfficerSignature!=null)&&($RVMaster[0]->GeneralManagerSignature!=null)&&(Auth::user()->Role==3)&&($RVMaster[0]->IfPurchased==null))||(($RVMaster[0]->RequisitionerSignature!=null)&&($RVMaster[0]->RecommendedbySignature!=null)&&($RVMaster[0]->BudgetOfficerSignature!=null)&&($RVMaster[0]->ApprovalReplacerSignature!=null)&&(Auth::user()->Role==3)&&($RVMaster[0]->IfPurchased==null)))
+      @if ((($checkRR==null)&&($RVMaster[0]->RequisitionerSignature!=null)&&($RVMaster[0]->RecommendedbySignature!=null)&&($RVMaster[0]->BudgetOfficerSignature!=null)&&($RVMaster[0]->GeneralManagerSignature!=null)&&(Auth::user()->Role==4)&&($RVMaster[0]->IfPurchased==null))||(($checkRR==null)&&($RVMaster[0]->RequisitionerSignature!=null)&&($RVMaster[0]->RecommendedbySignature!=null)&&($RVMaster[0]->BudgetOfficerSignature!=null)&&($RVMaster[0]->ApprovalReplacerSignature!=null)&&(Auth::user()->Role==4)&&($RVMaster[0]->IfPurchased==null))||(($checkRR==null)&&($RVMaster[0]->RequisitionerSignature!=null)&&($RVMaster[0]->RecommendedbySignature!=null)&&($RVMaster[0]->BudgetOfficerSignature!=null)&&($RVMaster[0]->GeneralManagerSignature!=null)&&(Auth::user()->Role==3)&&($RVMaster[0]->IfPurchased==null))||(($checkRR==null)&&($RVMaster[0]->RequisitionerSignature!=null)&&($RVMaster[0]->RecommendedbySignature!=null)&&($RVMaster[0]->BudgetOfficerSignature!=null)&&($RVMaster[0]->ApprovalReplacerSignature!=null)&&(Auth::user()->Role==3)&&($RVMaster[0]->IfPurchased==null)))
         <div class="CanvasBtn">
           <form action="{{route('TocanvassPage',[$RVMaster[0]->RVNo])}}" method="GET">
-            <button type="submit"><i class="fa fa-money"></i> Canvas</button>
+            <button type="submit" class="bttn-unite bttn-sm bttn-primary"><i class="fa fa-building"></i> Canvass</button>
           </form>
+        </div>
+      @elseif ($checkRR!=null)
+        <div class="show-rr-of-rv">
+          <a href="{{route('showRR-ofRV',[$RVMaster[0]->RVNo])}}"><button class="bttn-unite bttn-sm bttn-primary" type="button">R.R. history</button></a>
         </div>
       @endif
       </div>
