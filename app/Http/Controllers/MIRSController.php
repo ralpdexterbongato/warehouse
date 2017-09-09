@@ -9,6 +9,7 @@ use App\MIRSDetail;
 use App\MIRSMaster;
 use App\MaterialsTicketDetail;
 use DB;
+use Auth;
 class MIRSController extends Controller
 {
   public function MIRScreate()
@@ -32,15 +33,9 @@ class MIRSController extends Controller
         }
       }
     }
-    if (count(Session::get('ItemSelected'))==10)
-    {
-      return redirect('/MIRS-add');
-    }else
-    {
       $itemselected = (object)$itemselected;
       Session::push('ItemSelected',$itemselected);
       return redirect('/MIRS-add');
-    }
   }
   public function deletePartSession($id)
   {
@@ -87,7 +82,7 @@ class MIRSController extends Controller
       $master=new MIRSMaster;
       $master->MIRSNo = $incremented;
       $master->Purpose =$request->Purpose;
-      $master->Preparedby =$request->Preparedby;
+      $master->Preparedby =Auth::user()->Fname . ' ' .Auth::user()->Lname;
       $master->Recommendedby =$request->Recommendedby;
       $master->Approvedby = $request->Approvedby;
       $master->MIRSDate = $date;
@@ -103,7 +98,7 @@ class MIRSController extends Controller
         $details->Quantity= $items->Quantity;
         $details->save();
       }
-        Session::flush();
+        Session::forget('ItemSelected');
         return redirect()->route('MIRSgridview');
     }else
     {
@@ -133,7 +128,7 @@ class MIRSController extends Controller
     if ($mirsnum==Session::get('LastMIRSid')) {
       Session::forget('LastMIRSid');
     }
-    return redirect()->route('PreviewMIRS');
+    return redirect()->route('MIRSgridview');
   }
 
   public function Indexgrid()

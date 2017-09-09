@@ -19,7 +19,7 @@ warehouse | BOHECO 1
               <h1>SUMMARY <i class="fa fa-angle-down"></i></h1>
               <ul>
                 <a href="{{route('summary.mrt')}}"><li><i class="fa fa-list-alt"></i> MRT(summary)</li></a>
-                <a href="#"><li><i class="fa fa-list-alt"></i> MCT(summary)</li></a>
+                <a href="{{route('mct-summary')}}"><li><i class="fa fa-list-alt"></i> MCT(summary)</li></a>
               </ul>
             </li>
           </ul>
@@ -30,11 +30,6 @@ warehouse | BOHECO 1
           <input id="search-code-input" type="text" name="ItemCode" placeholder="Item code here..." required>
           <button id="search-go" type="submit"><i class="fa fa-search"></i></button>
         </form>
-      </div>
-      <div class="new-item">
-        <div class="add-new-item">
-          <button type="button">Add new record</button>
-        </div>
       </div>
     </div>
     <div class="data-results-container">
@@ -128,58 +123,6 @@ warehouse | BOHECO 1
           {{$historiesfound->links()}}
         @endif
       </div>
-    </div>
-  </div>
-  <div class="add-new-modal">
-    <div class="new-modal-box">
-        <div class="new-modal-title">
-          <h1>Create new item</h1>
-        </div>
-        <div class="add-new-item-form">
-          <form class="form-new-item" action="{{route('store')}}" method="post">
-            {{ csrf_field() }}
-            <table>
-              <tr>
-                <th>Account code</th>
-                <td><input type="text" name="AccountCode" value="{{old('AccountCode')}}"></td>
-              </tr>
-              <tr>
-                <th>Item code</th>
-                <td><input type="text" name="ItemCode" value="{{old('ItemCode')}}"></td>
-              </tr>
-              <tr>
-                <th>Description</th>
-                <td><textarea name="Description" value="{{old('Description')}}"></textarea></td>
-              </tr>
-              <tr>
-                <th>Unit cost</th>
-                <td><input type="text" name="UnitCost" value="{{old('UnitCost')}}"></td>
-              </tr>
-              <tr>
-                <th>Unit</th>
-                <td><select name="Unit" value="{{old('Unit')}}">
-                  <option value="PC">PC</option>
-                  <option value="BOX">BOX</option>
-                  <option value="DOZ">DOZ</option>
-                  <option value="REAM">REAM</option>
-                </select></td>
-              </tr>
-              <tr>
-                <th>Quantity</th>
-                <td><input type="text" name="Quantity" value="{{old('Quantity')}}"></td>
-              </tr>
-            </table>
-            <div class="submit-bottons-newitem-container">
-              <div class="empty-submit">
-
-              </div>
-              <div class="submit-bottons-new">
-                <button id="cancel-btn" type="button">Cancel</button>
-                <button id="go-create" type="submit">Go</button>
-              </div>
-            </div>
-          </form>
-        </div>
     </div>
   </div>
 @endsection

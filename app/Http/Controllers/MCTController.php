@@ -87,4 +87,8 @@ class MCTController extends Controller
       }
       return view('Warehouse.MCTpreview',compact('MCTMast','MTDetails','AccountCodeGroup','totalsum','MRTcheck'));
   }
+  public function summaryMCT()
+  {
+    return view('Warehouse.MCT-summary');
+  }
 }

@@ -122,15 +122,36 @@ class MRTController extends Controller
     }
     public function MRTSearchdate(Request $request)
     {
+      $this->datesearchValidator($request);
       $datesearch=$request->monthInput;
-      /*$MRTitems= DB::table("MaterialsTicketDetails")
-  	    ->select(DB::raw("SUM(Quantity) as totalQty"),DB::raw("ItemCode as ItemCode"))
-        ->where('MTType', 'MRT')->whereDate('created_at','LIKE',date($datesearch).'%')
-        ->orderBy("ItemCode")
-  	    ->groupBy(DB::raw("ItemCode"))
-  	    ->get();
-        return $MRTitems;*/
-      $itemsummary=MaterialsTicketDetail::where('MTType', 'MRT')->whereDate('created_at','LIKE',date($datesearch).'%')->orderBy('ItemCode','DESC')->get();
-        return view('Warehouse.MRT-summary',compact('itemsummary'));
+      $itemsummary=MaterialsTicketDetail::orderBy('ItemCode')->where('MTType','MRT')->whereDate('created_at','LIKE',date($datesearch).'%')->groupBy('ItemCode','Unit')->selectRaw('sum(Quantity) as totalQty, ItemCode as ItemCode , Unit as Unit ')->get();
+      if (!empty($itemsummary[0]))
+      {
+        $detailMTNum =MaterialsTicketDetail::orderBy('created_at','DESC')->where('MTType','MRT')->whereDate('created_at','LIKE',date($datesearch).'%')->take(1)->get(['MTNo']);
+        $mrtmaster=MRTMaster::where('MRTNo',$detailMTNum[0]->MTNo)->get(['Receivedby','ReturnDate']);
+        return view('Warehouse.MRT-summary',compact('itemsummary','mrtmaster'));
+      }else
+      {
+        return redirect('/summary-mrt');
+      }
+    }
+    public function datesearchValidator($request)
+    {
+      return $this->validate($request,[
+        'monthInput'=> 'required|min:7|max:7',
+      ]);
+    }
+
+    public function mrtviewing(Request $request)
+    {
+      $mrtMaster=MRTMaster::where('MCTNo',$request->MCTNo)->get();
+      $MTDitems=MaterialsTicketDetail::where('MTType', 'MRT')->where('MTNo',$mrtMaster[0]->MRTNo)->get();
+      $MRTbyAcntCode=MaterialsTicketDetail::orderBy('AccountCode')->where('MTType','MRT')->where('MTNo',$mrtMaster[0]->MRTNo)->groupBy('AccountCode')->selectRaw('sum(Amount) as totalAMT,AccountCode as AccountCode')->get();
+      $totalsum=0;
+      foreach ($MRTbyAcntCode as $AcntCode)
+      {
+        $totalsum= $totalsum + $AcntCode->totalAMT;
+      }
+      return view('Warehouse.MRTviews',compact('mrtMaster','MRTbyAcntCode','MTDitems','totalsum'));
     }
 }

@@ -64,10 +64,7 @@
       font-size: 15px;
       margin-top: 20px;
     }
-    .mct-print-container
-    {
-      padding:90px 20px 5px 20px;
-    }
+
     .mct-titles img
     {
         position: absolute;
@@ -132,10 +129,6 @@
     {
       text-align: left!important;
     }
-    .mct-table-container
-    {
-      height: 400px;
-    }
     .account-codes-present
     {
       width:100%;
@@ -154,7 +147,8 @@
     }
     .acc-code-container
     {
-      height:170px;
+      margin-top: 100px;
+      margin-bottom: 100px;
     }
     .signature-left
     {
@@ -231,6 +225,10 @@
       text-align: right;
       margin-left: 100px;
       padding-right: 5px;
+    }
+    body
+    {
+      padding: 90px 30px 10px 30px;
     }
     </style>
   </head>

@@ -10,7 +10,11 @@
 | contains the "web" middleware group. Now create something great!
 |
 */
-
+Route::get('/register','LoginController@GetRegister')->name('Registration');
+Route::post('/registerStore','LoginController@registrationStore')->name('StoreRegister');
+Route::get('/login','LoginController@loginpage')->name('login')->middleware('guest');
+Route::post('/logout','LoginController@logoutAccount')->name('Logging.out');
+Route::post('/login-submit','LoginController@loginSubmit')->name('login-submit');
 Route::resource('/','ItemsController');
 Route::get('/SearchByItemCode','ItemsController@searchByItemCode')->name('search.code');
 Route::get('/MIRS-add','MIRSController@MIRScreate')->name('mirs.add');
@@ -32,3 +36,6 @@ Route::get('MIRS-index','MIRSController@Indexgrid')->name('MIRSgridview');
 Route::get('findmirs','MIRSController@searchMIRSNo')->name('finding.mirs');
 Route::get('summary-mrt','MRTController@summaryMRT')->name('summary.mrt');
 Route::get('mrt-find-date','MRTController@MRTSearchdate')->name('mrt.summary.find');
+Route::get('mrt-print-summary','PDFController@mrtpdf')->name('mrt-summary-print');
+Route::get('mrt-viewer','MRTController@mrtviewing')->name('mrt-viewer');
+Route::get('mct-summary','MCTController@summaryMCT')->name('mct-summary');

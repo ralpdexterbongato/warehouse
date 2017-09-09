@@ -20,12 +20,12 @@
           <div class="middle-status">
             <form class="Accept" action="index.html" method="post">
               {{ csrf_field() }}
-              <button type="button" id="accepted" name="approved-button">Approved</button>
+              <button type="button" id="accepted" name="approved-button"><i class="fa fa-thumbs-up"></i>Approve</button>
             </form>
             <form class="Deny" action="denied" method="POST">
               {{ csrf_field() }}
               <input type="text" name="MIRSNo" value="{{$MIRSMaster[0]->MIRSNo}}" style="display:none">
-              <button type="submit" id="not-accepted">Denied</button>
+              <button type="submit" id="not-accepted"><i class="fa fa-thumbs-down"></i>Disapprove</button>
             </form>
           </div>
         @else

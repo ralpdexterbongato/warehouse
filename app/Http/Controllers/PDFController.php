@@ -8,6 +8,7 @@ use App\MIRSDetail;
 use App\MIRSMaster;
 use App\MaterialsTicketDetail;
 use App\MCTMaster;
+use App\MRTMaster;
 use DB;
 
 class PDFController extends Controller
@@ -38,5 +39,24 @@ class PDFController extends Controller
 
     $pdf = PDF::loadView('Warehouse.MCTprintable',compact('MCTMast','MTDetails','AccountCodeGroup','totalsum'));
     return $pdf->download('MCT.pdf');
+  }
+  public function MRTSummary()
+  {
+    return view('Warehouse.printableSummaryMRT');
+  }
+  public function mrtpdf(Request $request)
+  {
+      $datesearch=$request->monthInput;
+      $itemsummary=MaterialsTicketDetail::orderBy('ItemCode')->where('MTType','MRT')->whereDate('created_at','LIKE',date($datesearch).'%')->groupBy('ItemCode','Unit')->selectRaw('sum(Quantity) as totalQty, ItemCode as ItemCode , Unit as Unit ')->get();
+      if (!empty($itemsummary[0]))
+      {
+        $detailMTNum =MaterialsTicketDetail::orderBy('created_at','DESC')->where('MTType','MRT')->whereDate('created_at','LIKE',date($datesearch).'%')->take(1)->get(['MTNo']);
+        $mrtmaster=MRTMaster::where('MRTNo',$detailMTNum[0]->MTNo)->get(['Receivedby','ReturnDate']);
+        $pdf = PDF::loadView('Warehouse.printableSummaryMRT',compact('itemsummary','mrtmaster'));
+        return $pdf->download('MCT.pdf');
+      }else
+      {
+        return redirect('/summary-mrt');
+      }
   }
 }

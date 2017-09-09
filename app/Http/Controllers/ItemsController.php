@@ -15,6 +15,13 @@ class ItemsController extends Controller
      *
      * @return \Illuminate\Http\Response
      */
+
+     public function __construct()
+     {
+      $this->middleware('auth');
+      $this->middleware('IsWarehouseorAdmin',['except'=>['index','searchByItemCode','searchItemMaster']]);
+     }
+
     public function index()
     {
         $allhistory=MaterialsTicketDetail::all();

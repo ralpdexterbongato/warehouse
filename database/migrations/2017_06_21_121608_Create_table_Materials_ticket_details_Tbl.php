@@ -14,7 +14,7 @@ class CreateTableMaterialsTicketDetailsTbl extends Migration
     public function up()
     {
         Schema::create('MaterialsTicketDetails', function (Blueprint $table) {
-          $table->string('ItemCode',20)->index()->primary();
+          $table->string('ItemCode',20)->index();
           $table->string('MTType');
           $table->string('MTNo');
           $table->string('AccountCode',20)->nullable();

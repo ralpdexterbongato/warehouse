@@ -59,6 +59,9 @@
     {
       margin:0 auto;
       background: #fff;
+    }
+    body
+    {
       padding:70px 30px 0px 30px;
     }
     .top-part-titles
@@ -167,7 +170,6 @@
   }
   .ruller-wrap
   {
-    height: 458px;
     border:1px solid black;
   }
   .table-print-wrap table
@@ -229,7 +231,7 @@
     height: 80px;
     position: absolute;
     left:300px;
-    bottom:60px;
+    top: 20px;
   }
   .approved h3
   {

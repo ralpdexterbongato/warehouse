@@ -1,7 +1,8 @@
 
   $(document).ready(function() {
-    $('.add-new-item button').click(function(event) {
+    $('.add-noexist').click(function(event) {
       $('.add-new-modal').addClass('active');
+      $('.Account-modal').removeClass('active');
     });
     $('#cancel-btn').click(function(event) {
       $('.add-new-modal').removeClass('active');
@@ -32,5 +33,10 @@
         $('.mrt-items-modal').removeClass('active');
     });
 
-    
+   $('.burger-button').click(function(event) {
+     $('.Account-modal').addClass('active');
+   });
+   $('.middle-account-modal > ul >li >i').click(function(event) {
+     $('.Account-modal').removeClass('active');
+   });
   });

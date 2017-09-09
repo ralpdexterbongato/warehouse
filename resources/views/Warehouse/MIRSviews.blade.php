@@ -53,7 +53,6 @@
         {{ csrf_field() }}
         <ul>
           <li><input type="text" name="Purpose" placeholder="Purpose" required></li>
-          <li><input type="text" name="Preparedby" placeholder="Prepared by" required></li>
           <li><input type="text" name="Recommendedby" placeholder="Recommended by" required></li>
           <li><input type="text" name="Approvedby" placeholder="Approved by" required></li>
           <div class="submitMCT-btn">

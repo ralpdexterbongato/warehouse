@@ -21,12 +21,13 @@
           @else
             <div class="View-MRT-btn">
               <div class="mrt-done">
-                <h1>MRT</h1>
-                <i class="fa fa-check"></i>
+                 <form action="{{route('mrt-viewer')}}" method="get">
+                   <input type="text" name="MCTNo" value="{{$MCTMast[0]->MCTNo}}" style="display:none">
+                   <button type="submit"><i class="fa fa-eye eyesicon"></i> View MRT</button>
+                 </form>
               </div>
             </div>
           @endif
-          <h1>MCT Print Preview</h1>
         </div>
       <div class="bondpaper-preview">
         <div class="bond-center-titles">
