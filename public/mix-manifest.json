@@ -7,5 +7,10 @@
   "/js/rr.js": "/js/rr.js",
   "/js/canvass.js": "/js/canvass.js",
   "/js/AccountManagement.js": "/js/AccountManagement.js",
-  "/js/mirs.js": "/js/mirs.js"
+  "/js/mirs.js": "/js/mirs.js",
+  "/js/mct.js": "/js/mct.js",
+  "/js/item.js": "/js/item.js",
+  "/js/mrt.js": "/js/mrt.js",
+  "/js/po.js": "/js/po.js",
+  "/js/master.js": "/js/master.js"
 }

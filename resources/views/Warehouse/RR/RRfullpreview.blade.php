@@ -4,9 +4,7 @@
 @endsection
 @section('body')
   <div class="previewRR-Container">
-  @if (($RRMaster[0]->ReceivedbySignature=='')||($RRMaster[0]->ReceivedOriginalbySignature=='')||($RRMaster[0]->VerifiedbySignature=='')||($RRMaster[0]->PostedtoBINbySignature==''))
-    @if (($RRMaster[0]->ReceivedbySignature!=Auth::user()->Signature)&&($RRMaster[0]->ReceivedOriginalbySignature!=Auth::user()->Signature)&&($RRMaster[0]->VerifiedbySignature!=Auth::user()->Signature)&&($RRMaster[0]->PostedtoBINbySignature!=Auth::user()->Signature)&&($RRMaster[0]->IfDeclined==null))
-      @if (($RRMaster[0]->Verifiedby==Auth::user()->Fname.' '.Auth::user()->Lname)||($RRMaster[0]->ReceivedOriginalby==Auth::user()->Fname.' '.Auth::user()->Lname)||($RRMaster[0]->PostedtoBINby==Auth::user()->Fname.' '.Auth::user()->Lname))
+    @if ((($RRMaster[0]->Verifiedby==Auth::user()->Fname.' '.Auth::user()->Lname)&&($RRMaster[0]->VerifiedbySignature==null))||(($RRMaster[0]->ReceivedOriginalby==Auth::user()->Fname.' '.Auth::user()->Lname)&&($RRMaster[0]->ReceivedOriginalbySignature==null))||(($RRMaster[0]->PostedtoBINby==Auth::user()->Fname.' '.Auth::user()->Lname)&&($RRMaster[0]->PostedtoBINbySignature==null)))
         <div class="signature-btn">
           <form class="RRsignatureForm" action="{{route('RRsigning')}}" method="post">
             {{ csrf_field() }}
@@ -17,9 +15,7 @@
             <button type="submit" name="RRNo" value="{{$RRMaster[0]->RRNo}}"><i class="fa fa-times"></i> Decline</button>
           </form>
         </div>
-      @endif
-    @endif
-  @else
+    @else
     <div class="print-RR-btn">
       <form action="{{route('RR-printing')}}" method="POST">
         {{ csrf_field() }}

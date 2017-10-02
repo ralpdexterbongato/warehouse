@@ -17,13 +17,13 @@ use App\RRValidatorNoPO;
 use App\RRValidatorWithPO;
 use App\RRDetailsNotForStock;
 use App\RVMaster;
-
+use App\Jobs\NewCreatedRRJob;
 class RRController extends Controller
 {
   public function __construct()
   {
     $this->middleware('auth');
-    $this->middleware('IsWarehouse',['except'=>['RRindex','previewRR','signatureRR','declineRR','RRindexSearchbyRRNo','RRsignatureRequest','displayRRcurrentSession']]);
+    $this->middleware('IsWarehouse',['except'=>['RRofRVlist','refreshRRSignatureCount','RRindex','previewRR','signatureRR','declineRR','RRindexSearchbyRRNo','RRsignatureRequest','displayRRcurrentSession']]);
   }
   public function storeRRSessionValidatorNoPO($request)
   {
@@ -102,9 +102,18 @@ class RRController extends Controller
       {
         foreach (Session::get('RR-Items-Added') as $items)
         {
-          if (($items->ItemCode==$request->ItemCode)||($items->Description==$request->Description))
+          if ($items->ItemCode!=null)
           {
-            return response()->json(['error'=>'Oops! cannot duplicate items']);
+            if ($items->ItemCode==$request->ItemCode)
+            {
+              return response()->json(['error'=>'Oops! cannot duplicate items']);
+            }
+          }else
+          {
+            if (($items->Description==$request->Description))
+            {
+              return response()->json(['error'=>'Oops! cannot duplicate items']);
+            }
           }
         }
       }
@@ -212,8 +221,18 @@ class RRController extends Controller
         }
       }
     }
-    RRconfirmationDetails::insert($ForRRconfirmItemsDB);
-    Session::forget('RR-Items-Added');
+      RRconfirmationDetails::insert($ForRRconfirmItemsDB);
+      Session::forget('RR-Items-Added');
+
+    $VerifiedName=str_replace(' ','',$verifiedUser[0]->Fname.$verifiedUser[0]->Lname);
+    $ReceivedOriginalName=str_replace(' ','',$originalReceiver[0]->Fname.$originalReceiver[0]->Lname);
+    $BINPosterName=str_replace(' ','',$BINPoster[0]->Fname.$BINPoster[0]->Lname);
+
+    $NotifableName = array('first' =>$VerifiedName,'second'=>$ReceivedOriginalName,'third'=>$BINPosterName);
+    $NotifableName=(object)$NotifableName;
+    $job = (new NewCreatedRRJob($NotifableName))->delay(Carbon::now()->addSeconds(5));
+    dispatch($job);
+
     return ['redirect'=>route('RRfullpreview',[$incremented])];
   }
   public function StoreRRtoTableWithPO(Request $request)
@@ -291,6 +310,15 @@ class RRController extends Controller
     }
     RRconfirmationDetails::insert($ForRRconfirmItemsDB);
     Session::forget('RR-Items-Added');
+
+    $VerifiedName=str_replace(' ','',$verifiedUser[0]->Fname.$verifiedUser[0]->Lname);
+    $ReceivedOriginalName=str_replace(' ','',$originalReceiver[0]->Fname.$originalReceiver[0]->Lname);
+    $BINPosterName=str_replace(' ','',$BINPoster[0]->Fname.$BINPoster[0]->Lname);
+
+    $NotifableName = array('first' =>$VerifiedName,'second'=>$ReceivedOriginalName,'third'=>$BINPosterName);
+    $NotifableName=(object)$NotifableName;
+    $job = (new NewCreatedRRJob($NotifableName))->delay(Carbon::now()->addSeconds(5));
+    dispatch($job);
     return ['redirect'=>route('RRfullpreview',[$incremented])];
   }
   public function StoringRRTableNoPOValidator($request)
@@ -353,31 +381,28 @@ class RRController extends Controller
     $RRMasterUpdated=RRMaster::where('RRNo',$request->RRNo)->get(['ReceivedbySignature','ReceivedOriginalbySignature','VerifiedbySignature','PostedtoBINbySignature']);
     if (($RRMasterUpdated[0]->ReceivedOriginalbySignature)&&($RRMasterUpdated[0]->VerifiedbySignature)&&($RRMasterUpdated[0]->PostedtoBINbySignature)&&($RRMasterUpdated[0]->ReceivedbySignature))
     {
-      $date=Carbon::now();
       $RRconfirmDetails=RRconfirmationDetails::where('RRNo',$request->RRNo)->get();
       $forMTDtable = array();
-      $NotforMTDtable = array();
-      foreach ($RRconfirmDetails as $forconfirmDetail)
+      $date=RRMaster::where('RRNo', $request->RRNo)->get(['RRDate']);
+      foreach ($RRconfirmDetails as $fromconfirmDetail)
       {
-        if ($forconfirmDetail->ItemCode)
+        if ($fromconfirmDetail->ItemCode)
         {
-          $MTLatestDetail=MaterialsTicketDetail::orderBy('MTDate','DESC')->where('ItemCode', $forconfirmDetail->ItemCode)->take(1)->get();
-          $Amount=$forconfirmDetail->UnitCost*$forconfirmDetail->QuantityAccepted;
-          $newQuantity=$MTLatestDetail[0]->CurrentQuantity + $forconfirmDetail->QuantityAccepted;
+          $MTLatestDetail=MaterialsTicketDetail::orderBy('id','DESC')->where('ItemCode', $fromconfirmDetail->ItemCode)->take(1)->get();
+          $Amount=$fromconfirmDetail->UnitCost*$fromconfirmDetail->QuantityAccepted;
+          $newQuantity=$MTLatestDetail[0]->CurrentQuantity + $fromconfirmDetail->QuantityAccepted;
           $addedAMT=$MTLatestDetail[0]->CurrentAmount + $Amount;
           $newCost=$addedAMT/$newQuantity;
           $currentAMT=$newQuantity*$newCost;
-          $forMTDtable[] = array('ItemCode' =>$forconfirmDetail->ItemCode ,'MTType' =>'RR' ,'MTNo' =>$forconfirmDetail->RRNo ,
+          MasterItem::where('ItemCode_id',$fromconfirmDetail->ItemCode)->update(['CurrentQuantity'=>$newQuantity]);
+          $forMTDtable[] = array('ItemCode' =>$fromconfirmDetail->ItemCode ,'MTType' =>'RR' ,'MTNo' =>$fromconfirmDetail->RRNo ,
           'AccountCode' =>$MTLatestDetail[0]->AccountCode ,
-          'UnitCost' =>$forconfirmDetail->UnitCost,'RRQuantityDelivered' =>$forconfirmDetail->QuantityDelivered ,'Quantity' =>$forconfirmDetail->QuantityAccepted,
-          'Unit' =>$MTLatestDetail[0]->Unit ,'Amount' =>$Amount ,'CurrentCost' =>$newCost ,'CurrentQuantity'=>$newQuantity,'CurrentAmount'=>$currentAMT,'MTDate'=>$date);
-        }else
-        {
-          $NotforMTDtable[] = array('RRNo' =>$forconfirmDetail->RRNo ,'Description' =>$forconfirmDetail->Description ,'UnitCost' =>$forconfirmDetail->UnitCost ,'RRQuantityDelivered' =>$forconfirmDetail->RRQuantityDelivered ,'QuantityAccepted' =>$forconfirmDetail->QuantityAccepted ,'Unit' =>$forconfirmDetail->Unit ,'Amount' =>$forconfirmDetail->Amount);
+          'UnitCost' =>$fromconfirmDetail->UnitCost,'RRQuantityDelivered' =>$fromconfirmDetail->QuantityDelivered ,'Quantity' =>$fromconfirmDetail->QuantityAccepted,
+          'Amount' =>$Amount ,'CurrentCost' =>$newCost ,'CurrentQuantity'=>$newQuantity,'CurrentAmount'=>$currentAMT,'MTDate'=>$date[0]->RRDate);
         }
+
       }
       MaterialsTicketDetail::insert($forMTDtable);
-      RRDetailsNotForStock::insert($NotforMTDtable);
       if ($RRMaster[0]->PONo!=null)
       {
         $POofRV=POMaster::where('RVNo',$RRMaster[0]->RVNo)->get(['PONo']);
@@ -489,5 +514,21 @@ class RRController extends Controller
   {
     $RRofRV=RRMaster::where('RVNo',$id)->paginate(9,['RRNo','RVNo','RRDate','Supplier','Address','ReceivedOriginalbySignature','VerifiedbySignature','PostedtoBINbySignature','IfDeclined']);
     return view('Warehouse.RR.RRlistOfRV',compact('RRofRV'));
+  }
+  public function refreshRRSignatureCount()
+  {
+    $requestRR=RRMaster::orderBy('RRNo','DESC')->where('ReceivedOriginalby',Auth::user()->Fname.' '.Auth::user()->Lname)
+    ->whereNull('ReceivedOriginalbySignature')
+    ->whereNull('IfDeclined')
+    ->orWhere('Verifiedby',Auth::user()->Fname.' '.Auth::user()->Lname)
+    ->whereNull('VerifiedbySignature')
+    ->whereNull('IfDeclined')
+    ->orWhere('PostedtoBINby',Auth::user()->Fname.' '.Auth::user()->Lname)
+    ->whereNull('PostedtoBINbySignature')
+    ->whereNull('IfDeclined')->count();
+    $response = [
+      'RRrequestCount' =>$requestRR
+    ];
+    return response()->json($response);
   }
 }

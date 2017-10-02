@@ -31,7 +31,7 @@
               <th>Remarks</th>
               <th>Delete</th>
             </tr>
-            <tr v-for="session in sessions">
+            <tr v-for="(session, count) in sessions">
               <td>{{session.Quantity}}</td>
               <td>{{session.Unit}}</td>
               <td>{{session.Description}}</td>
@@ -39,17 +39,19 @@
               <td>{{formatPrice(session.UnitCost)}}</td>
               <td>{{formatPrice(session.Amount)}}</td>
               <td>{{session.Remarks}}</td>
-              <td><a @click.prevent="deleteSession(session.ItemCode)"><i class="fa fa-trash"></i></a></td>
+              <td><a @click.prevent="deleteSession(count)"><i class="fa fa-trash"></i></a></td>
             </tr>
           </table>
         </div>
         <div class="form-left-mr">
           <div class="form-left-box-mr">
-            <input type="text" name="Receivedby" v-model="Receivedby" placeholder="Recieved by" autocomplete="off">
-            <input type="text" name="ReceivedbyPosition" v-model="ReceivedbyPosition" placeholder="Receiver's position" autocomplete="off">
+            <select v-model="Receivedby">
+              <option value="null">Received by</option>
+              <option v-bind:value="activeuser.id" v-for="activeuser in allactive">{{activeuser.Fname}} {{activeuser.Lname}}</option>
+            </select>
             <select name="ManagerID" v-model="ManagerID" autocomplete="off">
               <option :value="null">Recommended by</option>
-              <option v-for="manager in allmanager" v-bind:value="manager.id">{{manager.Fname}}</option>
+              <option v-for="manager in allmanager" v-bind:value="manager.id">{{manager.Fname}} {{manager.Lname}}</option>
             </select>
             <textarea name="Note" v-model="Note" placeholder="Note" autocomplete="none"></textarea>
             <button type="button" v-on:click="submitMR()"><i class="fa fa-check-square"></i> Submit</button>
@@ -89,7 +91,7 @@
 <script>
 import axios from 'axios';
 export default {
-  props:['rritems','allmanager'],
+  props:['rritems','allmanager','allactive'],
   data(){
     return{
       Quantity:[],
@@ -99,8 +101,7 @@ export default {
       laravelerrors:[],
       successAlerts:[],
       ownerrors:[],
-      Receivedby:'',
-      ReceivedbyPosition:'',
+      Receivedby:null,
       ManagerID:null,
       Note:'',
     }
@@ -149,15 +150,18 @@ export default {
    });
   },
 
-  deleteSession(code)
+  deleteSession(count)
   {
     var vm=this
-    axios.delete(`/deletemrSession/`+code).then(function(response)
+    axios.delete(`/deletemrSession/`+count).then(function(response)
   {
     Vue.set(vm.$data,'ownerrors','')
     Vue.set(vm.$data,'laravelerrors','');
     Vue.set(vm.$data,'successAlerts','Removed successfully !')
-  })
+  },function(error)
+  {
+    console.log(error);
+  });
   this.fetchSessionDatas();
   },
   formatPrice(value) {
@@ -171,7 +175,6 @@ export default {
       Note:this.Note,
       ManagerID:this.ManagerID,
       Receivedby:this.Receivedby,
-      ReceivedbyPosition:this.ReceivedbyPosition,
       RRNo:this.rritems[0].RRNo,
     }).then(function(response)
     {

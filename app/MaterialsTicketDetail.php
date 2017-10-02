@@ -11,6 +11,7 @@ class MaterialsTicketDetail extends Model
     public $timestamps = false;
     protected $primaryKey=['ItemCode'];
     public $incrementing = false;
+    protected $dateFormat = 'M - Y';
     public static function boot()
     {
         parent::boot();

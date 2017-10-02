@@ -23,7 +23,7 @@ class CreateMRMasterTable extends Migration
             $table->char('PONo',7)->nullable();
             $table->string('Note',100)->nullable();
             $table->string('Supplier',50)->nullable();
-            $table->char('InvoiceNo',12);
+            $table->char('InvoiceNo',12)->nullable();
             $table->string('Recommendedby',50)->nullable();
             $table->string('RecommendedbyPosition',50)->nullable();
             $table->string('RecommendedbySignature',150)->nullable();
@@ -31,11 +31,10 @@ class CreateMRMasterTable extends Migration
             $table->string('GeneralManagerSignature',150)->nullable();
             $table->string('Receivedby',50)->nullable();
             $table->string('ReceivedbyPosition',50)->nullable();
+            $table->string('ReceivedbySignature',150)->nullable();
             $table->string('WarehouseMan',50)->nullable();
             $table->string('IfDeclined',50)->nullable();
-            $table->string('ApprovalReplacerFname',30)->nullable();
-            $table->string('ApprovalReplacerLname',30)->nullable();
-            $table->string('ApprovalReplacerPosition',50)->nullable();
+            $table->string('ApprovalReplacer',50)->nullable();
             $table->string('ApprovalReplacerSignature',150)->nullable();
         });
     }

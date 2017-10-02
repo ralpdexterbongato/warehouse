@@ -8,11 +8,16 @@ use Storage;
 use App\User;
 use App\MIRSMaster;
 use App\MCTMaster;
+use App\MRTMaster;
+use App\MRMaster;
+use App\RVMaster;
+use \Carbon\Carbon;
+use Image;
 class AccountController extends Controller
 {
     public function __construct()
     {
-      $this->middleware('IsAdmin',['except'=>['loginpage','MyMCTHistoryandSearch','MyMIRSHistoryandSearch','ShowMyHistoryPage','loginSubmit','logoutAccount']]);
+      $this->middleware('IsAdmin',['except'=>['loginpage','getCurrentAssigned','UpdateManagerTakePlace','getActiveManager','toManagerTakePlacePage','fetchDataofSelectedUser','MyRVHistoryandSearch','MyMRHistoryandSearch','MyMRTHistoryandSearch','MyMCTHistoryandSearch','MyMIRSHistoryandSearch','ShowMyHistoryPage','loginSubmit','logoutAccount']]);
     }
     public function loginpage()
     {
@@ -20,58 +25,27 @@ class AccountController extends Controller
     }
     public function loginSubmit(Request $request)
     {
+      $this->validate($request,[
+        'Username'=>'required',
+        'Password'=>'required',
+    ]);
       $credentials = array('Username' =>$request->Username,'password'=>$request->Password );
       if (Auth::attempt($credentials)) {
         if (Auth::user()->IsActive==null)
         {
           Auth::logout();
+          return ['message'=>'Sorry this account has been deactivated by the admin.'];
         }
-        return redirect('/');
+      return ['redirect'=>'/'];
       }else
       {
-        return redirect()->back();
+        return ['message'=>'Incorrect username/password.'];
       }
-    }
-    public function GetRegister()
-    {
-      return view('Warehouse.Account.Register');
-    }
-    public function registrationStore(Request $request)
-    {
-      $this->RegistrationValidation($request);
-      if ($request->hasFile('Signature')) {
-        $picname=$request->Signature->hashName();
-        Storage::putFile('public\signatures',$request->Signature);
-        $userDB= new User;
-        $userDB->Fname=$request->Fname;
-        $userDB->Lname=$request->Lname;
-        $userDB->Role=$request->Role;
-        $userDB->Position=$request->Position;
-        $userDB->Username=$request->Username;
-        $userDB->Password=bcrypt($request->Password);
-        $userDB->Signature=$picname;
-        $userDB->save();
-          return redirect('/');
-
-      }
-
-    }
-    public function RegistrationValidation($request)
-    {
-     $this->validate($request,[
-       'Fname'=>'required|max:30',
-       'Lname'=>'required|max:30',
-       'Role'=>'required',
-       'Position'=>'required',
-       'Username'=>'required|max:30|unique:users',
-       'Password'=>'confirmed',
-       'Signature'=>'required',
-     ]);
     }
     public function logoutAccount()
     {
       Auth::logout();
-      return redirect('/login');
+      return ['redirect'=>route('login')];
     }
     public function GMAccountsList()
     {
@@ -105,18 +79,229 @@ class AccountController extends Controller
     }
     public function getOtherAccounts()
     {
-      return User::orderBy('id','DESC')->where('Role','3')->orWhere('Role', '4')->orWhere('Role','5')->orWhere('Role','6')->paginate(5,['id','Fname','Lname','Signature','IsActive','Username']);
+      return User::orderBy('id','DESC')->where('Role','3')->orWhere('Role', '4')->orWhere('Role','5')->orWhere('Role','6')->orWhere('Role','7')->orWhere('Role','8')->paginate(5,['id','Fname','Lname','Signature','IsActive','Username']);
     }
     public function ShowMyHistoryPage(Request $request)
     {
-      return view('Warehouse.Account.MyHistory');
+      $ActiveNames=User::whereNotNull('IsActive')->get(['Fname','Lname']);
+      return view('Warehouse.Account.MyHistory',compact('ActiveNames'));
     }
     public function MyMIRSHistoryandSearch(Request $request)
     {
-      return MIRSMaster::where('Preparedby',$request->Preparedby)->where('MIRSDate','LIKE',$request->YearMonth.'%')->paginate(1,['MIRSNo','MIRSDate','Preparedby','Recommendedby','RecommendSignature','Approvedby','ApproveSignature','Purpose','IfDeclined','ApprovalReplacerSignature']);
+      return MIRSMaster::orderBy('MIRSNo','DESC')->where('Preparedby',$request->Preparedby)->where('MIRSDate','LIKE',$request->YearMonth.'%')->paginate(10,['MIRSNo','MIRSDate','Preparedby','Recommendedby','RecommendSignature','Approvedby','ApproveSignature','Purpose','IfDeclined','ApprovalReplacerSignature','ManagerReplacerSignature']);
     }
     public function MyMCTHistoryandSearch(Request $request)
     {
-      return MCTMaster::where('Receivedby',$request->Receivedby)->where('MCTDate','LIKE',$request->YearMonth.'%')->paginate(1,['MCTNo','MCTDate','Particulars','AddressTo','Issuedby','Receivedby','IssuedbySignature']);
+      return MCTMaster::orderBy('MCTNo','DESC')->where('Receivedby',$request->Receivedby)->where('MCTDate','LIKE',$request->YearMonth.'%')->paginate(10,['MCTNo','MCTDate','Particulars','AddressTo','Receivedby','ReceivedbySignature','IfDeclined']);
+    }
+    public function MyMRTHistoryandSearch(Request $request)
+    {
+      return MRTMaster::orderBy('id','DESC')->where('Returnedby',$request->Returnedby)->where('ReturnDate','LIKE',$request->YearMonth.'%')->paginate(10,['MRTNo','ReturnDate','Particulars','AddressTo','Returnedby','ReturnedbySignature','IfDeclined']);
+    }
+    public function MyMRHistoryandSearch(Request $request)
+    {
+      return MRMaster::orderBy('MRNo','DESC')->where('Receivedby',$request->Receivedby)->where('MRDate','LIKE',$request->YearMonth.'%')->paginate(10,['MRNo','MRDate','Supplier','Receivedby','ReceivedbySignature','Recommendedby','RecommendedbySignature','GeneralManager','GeneralManagerSignature'
+      ,'IfDeclined']);
+    }
+    public function MyRVHistoryandSearch(Request $request)
+    {
+      return RVMaster::orderBy('RVNo','DESC')->where('Requisitioner',$request->Receivedby)->where('RVDate','LIKE',$request->YearMonth.'%')->paginate(10,['RVNo','RVDate','Purpose','Requisitioner','Recommendedby','RecommendedbySignature','GeneralManager','GeneralManagerSignature','BudgetOfficer'
+      ,'ManagerReplacerSignature','BudgetOfficerSignature','IfDeclined']);
+    }
+    public function fetchDataofSelectedUser($id)
+    {
+      return User::where('id',$id)->get(['id','Fname','Lname','Signature','Position','Role','Username','IsActive','Manager']);
+    }
+    public function updateUser(Request $request,$id)
+    {
+      $this->validate($request,[
+        'Fname'=>'required|max:30',
+        'Lname'=>'required|max:30',
+        'Role'=>'required',
+        'Username'=>'required|max:30',
+        'Password'=>'confirmed',
+        'Manager'=>'numeric',
+        'IsActive'=>'max:1',
+      ]);
+      if ($request->Signature!=null)
+      {
+        $imageData = $request->get('Signature');
+        $fileName = Carbon::now()->timestamp . '_' . uniqid() . '.' . explode('/', explode(':', substr($imageData, 0, strpos($imageData, ';')))[1])[1];
+        Image::make($request->get('Signature'))->save(public_path('/storage/signatures/').$fileName);
+      }
+      $validateUniqueName=User::where('Fname',$request->Fname)->where('Lname', $request->Lname)->where('id','!=',$id)->get(['id']);
+      if (!empty($validateUniqueName[0]))
+      {
+        return response()->json(['error'=>$request->Fname.' '.$request->Lname.' has already been taken']);
+      }
+      $validateUniqueUN=User::where('Username', $request->Username)->where('id','!=',$id)->get(['id']);
+        if (!empty($validateUN[0]))
+        {
+          return response()->json(['error'=>'Username has already been taken']);
+        }
+        $userDB= User::find($id);
+        $userDB->Fname=$request->Fname;
+        $userDB->Lname=$request->Lname;
+        $userDB->Role=$request->Role;
+        $userDB->Manager=$request->Manager;
+        if ($request->Position)
+        {
+          $userDB->Position=$request->Position;
+        }elseif($request->Role==0)
+        {
+          $userDB->Position='Manager';
+        }elseif($request->Role==1)
+        {
+          $userDB->Position='Admin';
+        }elseif($request->Role==2)
+        {
+          $userDB->Position='General Manager';
+        }elseif($request->Role==3)
+        {
+          $userDB->Position='Warehouse Assistant';
+        }elseif($request->Role==4)
+        {
+          $userDB->Position='Warehouse-Head';
+        }elseif($request->Role==5)
+        {
+          $userDB->Position='Senior Auditor';
+        }elseif($request->Role==6)
+        {
+          $userDB->Position='Stock clerk';
+        }elseif($request->Role==7)
+        {
+          $userDB->Position='Budget Officer';
+        }elseif($request->Role==8)
+        {
+          $userDB->Position='Requisitioner';
+        }
+
+        $userDB->Username=$request->Username;
+        if ($request->Password!=null)
+        {
+          $userDB->Password=bcrypt($request->Password);
+        }
+        if ($request->Signature!=null)
+        {
+          $userDB->Signature=$fileName;
+        }
+        if ($request->IsActive==null)
+        {
+          $userDB->IsActive=null;
+        }elseif($request->IsActive!=null)
+        {
+          $userDB->IsActive='0';
+        }
+        $userDB->save();
+    }
+    public function deleteAccount($id)
+    {
+      User::where('id',$id)->delete();
+    }
+    public function toManagerTakePlacePage()
+    {
+      return view('Warehouse.ManagerTakePlaceGM');
+    }
+    public function UpdateManagerTakePlace(Request $request)
+    {
+      User::whereNotNull('IfApproveReplacer')->update(['IfApproveReplacer'=>null]);
+      if ($request->ManagerID!=null)
+      {
+        User::where('id', $request->ManagerID)->update(['IfApproveReplacer'=>0]);
+      }
+    }
+    public function getActiveManager()
+    {
+        return User::where('Role',0)->whereNotNull('IsActive')->get(['id','Fname','Lname']);
+    }
+    public function getCurrentAssigned()
+    {
+      return User::whereNotNull('IfApproveReplacer')->take(1)->get(['Fname','Lname']);
+    }
+
+
+    // Create Manager Account
+    public function SaveManagerAcc(Request $request)
+    {
+      $this->validate($request,[
+        'Fname'=>'required|max:25',
+        'Lname'=>'required|max:25',
+        'Username'=>'required',
+        'Position'=>'required|max:50',
+        'Password'=>'required|confirmed',
+        'Signature'=>'required',
+      ]);
+      if ($request->Signature!=null)
+      {
+        $imageData = $request->get('Signature');
+        $fileName = Carbon::now()->timestamp . '_' . uniqid() . '.' . explode('/', explode(':', substr($imageData, 0, strpos($imageData, ';')))[1])[1];
+        Image::make($request->get('Signature'))->save(public_path('/storage/signatures/').$fileName);
+      }
+      $userDB=new User;
+      $userDB->Fname=$request->Fname;
+      $userDB->Lname=$request->Lname;
+      $userDB->Username=$request->Username;
+      $userDB->Role='0';
+      $userDB->Position=$request->Position;
+      $userDB->Password=bcrypt($request->Password);
+      $userDB->Signature=$fileName;
+      $userDB->save();
+    }
+    public function SaveNewUser(Request $request)
+    {
+      $this->validate($request,[
+        'Fname'=>'required|max:25',
+        'Lname'=>'required|max:25',
+        'Username'=>'required',
+        'Role'=>'required',
+        'Manager'=>'max:50',
+        'Password'=>'required|confirmed',
+        'Signature'=>'required',
+        'Manager'=>'numeric',
+      ]);
+      if (($request->Manager==null)&&($request->Role!=2))
+      {
+        return ['error'=>'The manager is required'];
+      }
+      if ($request->Signature!=null)
+      {
+        $imageData = $request->get('Signature');
+        $fileName = Carbon::now()->timestamp . '_' . uniqid() . '.' . explode('/', explode(':', substr($imageData, 0, strpos($imageData, ';')))[1])[1];
+        Image::make($request->get('Signature'))->save(public_path('/storage/signatures/').$fileName);
+      }
+      $userDB=new User;
+      $userDB->Fname=$request->Fname;
+      $userDB->Lname=$request->Lname;
+      $userDB->Username=$request->Username;
+      $userDB->Role=$request->Role;
+      if($request->Role==1)
+      {
+        $userDB->Position='Admin';
+      }elseif($request->Role==2)
+      {
+        $userDB->Position='General Manager';
+      }elseif($request->Role==3)
+      {
+        $userDB->Position='Warehouse Assistant';
+      }elseif($request->Role==4)
+      {
+        $userDB->Position='Warehouse-Head';
+      }elseif($request->Role==5)
+      {
+        $userDB->Position='Senior Auditor';
+      }elseif($request->Role==6)
+      {
+        $userDB->Position='Stock clerk';
+      }elseif($request->Role==7)
+      {
+        $userDB->Position='Budget Officer';
+      }elseif($request->Role==8)
+      {
+        $userDB->Position='Requisitioner';
+      }
+      $userDB->Manager=$request->Manager;
+      $userDB->Password=bcrypt($request->Password);
+      $userDB->Signature=$fileName;
+      $userDB->save();
     }
 }

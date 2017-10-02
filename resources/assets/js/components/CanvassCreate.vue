@@ -42,7 +42,9 @@
             </tr>
         </table>
         <div class="GeneratePO-btn">
-          <button type="button" @click.prevent="generatePO()">Submit <i class="fa fa-check-circle"></i></button>
+          <longpress duration="3" class="generate-po-btn" :on-confirm="generatePO" pressing-text="Submitting in {$rcounter}" action-text="Loading . . .">
+          Submit <i class="fa fa-check-circle"></i>
+        </longpress>
         </div>
       </div>
     </div>
@@ -76,15 +78,15 @@
                   <input type="text" name="AccountCode[]" v-model="AccountCode[count]=rvdata.AccountCode" style="display:none">
                   <input type="text" name="ItemCode[]" v-model="ItemCode[count]=rvdata.ItemCode" style="display:none">
                   <td>
-                    <!-- <vue-numeric v-bind:minus="false" v-bind:precision="2" min="0" currency="₱" v-model="PriceNew[count]" placeholder="price"></vue-numeric> -->
-                    <vue-numeric v-bind:minus="false" v-bind:precision="2" min="0" currency="₱" v-model="PriceNew[count]" placeholder="price"></vue-numeric>
+
+                    <vue-numeric v-bind:minus="false" v-bind:precision="2" min="0" currency="₱"  v-model="PriceNew[count]=Integ[count].price" placeholder="price"></vue-numeric>
                   </td>
                 </tr>
-                <tr v-for="(canvassData, count) in fetchUpdatedata.canvass_detail" v-if="Update==true">
+                <tr v-for="(canvassData, loop) in fetchUpdatedata.canvass_detail" v-if="Update==true">
                   <td>{{canvassData.Article}}</td>
                   <td>{{canvassData.Unit}}</td>
                 <td>
-                  <vue-numeric v-bind:minus="false" v-bind:precision="2" min="0" currency="₱" v-model="UpdatePrice[count]=canvassData.Price" placeholder="price"></vue-numeric>
+                  <vue-numeric v-bind:minus="false" v-bind:precision="2" min="0" currency="₱" v-model="UpdatePrice[loop]=canvassData.Price" placeholder="price"></vue-numeric>
                 </td>
                 </tr>
             </table>
@@ -102,8 +104,9 @@
 
 <script>
 import axios from 'axios';
+import Longpress from 'vue-longpress';
 import VueNumeric from 'vue-numeric';
-Vue.use(VueNumeric)
+Vue.use(VueNumeric);
   export default {
     data () {
       return {
@@ -120,8 +123,9 @@ Vue.use(VueNumeric)
         UpdateformTelephone:'',
         ItemCode:[],
         AccountCode:[],
-        PriceNew:[],
         UpdatePrice:[],
+        PriceNew:[],
+        Integ:[],
         Particulars:[],
         Unit:[],
         Qty:[],
@@ -130,9 +134,10 @@ Vue.use(VueNumeric)
         successAlerts:'',
         selectedValue:'',
         fetchUpdatedata:[],
+        btndisabled:false
       }
     },
-    props:['rvnum'],
+    props:['rvno'],
     created:function()
     {
       this.getSuppliers();
@@ -141,11 +146,12 @@ Vue.use(VueNumeric)
        getSuppliers()
        {
          var vm=this;
-         axios.get(`/canvass-suppliers/`+this.rvnum[0].RVNo).then(function(response)
+         axios.get(`/canvass-suppliers/`+this.rvno.RVNo).then(function(response)
          {
            console.log(response)
            Vue.set(vm.$data,'Suppliers',response.data.supplierdata);
            Vue.set(vm.$data,'RVdata',response.data.rvdata);
+           Vue.set(vm.$data,'Integ',response.data.integ);
          },function(error)
          {
           console.log(error);
@@ -267,6 +273,9 @@ Vue.use(VueNumeric)
         this.getSuppliers();
       },
      },
+     components: {
+        Longpress
+      },
 
   }
 </script>

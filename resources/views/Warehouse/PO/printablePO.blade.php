@@ -207,6 +207,7 @@
       text-align: center;
       width: 200px;
       position: relative;
+      font-size: 12px;
     }
     .gm-signature h1 img
     {
@@ -237,31 +238,11 @@
       width: 200px;
       border-bottom: 1px solid black;
     }
-    .authorizeinBehalf
+    .for
     {
-      font-size:14px;
-    }
-    .authorizeinBehalf > p
-    {
-      text-transform: uppercase;
-    }
-    .replacer-data
-    {
-      text-align: center;
-      margin-top: 64px;
-      position: relative;
-    }
-    .replacer-data img
-    {
-      width: 100%;
-    }
-    .replacer-data h1
-    {
-      position: absolute;
-      width: 150px;
-      height: 50px;
-      top:-60px;
-      left: 305px;
+      position:absolute;
+      left: -10px;
+      top:-40px;
     }
     </style>
   </head>
@@ -346,6 +327,8 @@
             <div class="gm-signature">
               @if ($MasterPO[0]->GeneralManagerSignature)
                 <h1><img src="c:/xampp/htdocs/warehouse/public/storage/signatures/{{$MasterPO[0]->GeneralManagerSignature}}" alt="signature"></h1>
+              @elseif ($MasterPO[0]->ApprovalReplacerSignature)
+                <medium class="for">For :</medium><h1><img src="c:/xampp/htdocs/warehouse/public/storage/signatures/{{$MasterPO[0]->ApprovalReplacerSignature}}" alt="signature"></h1>
               @endif
               <h4>{{$MasterPO[0]->GeneralManager}}</h4>
               <p>General Manager</p>
@@ -353,17 +336,6 @@
           </div>
         </div>
       </div>
-      @if ($MasterPO[0]->ApprovalReplacerSignature)
-      <div class="authorizeinBehalf">
-        <p>ORDER ISSUED AND AUTHORIZED <br>
-          IN BEHALF OF THE GENERAL MANAGER {{$MasterPO[0]->GeneralManager}} BY :</p>
-          <div class="replacer-data">
-            <h1><img src="c:/xampp/htdocs/warehouse/public/storage/signatures/{{$MasterPO[0]->ApprovalReplacerSignature}}"alt="signature"></h1>
-            <h4>{{$MasterPO[0]->ApprovalReplacerFname}} {{$MasterPO[0]->ApprovalREplacerLname}}</h4>
-            <p>{{$MasterPO[0]->ApprovalReplacerPosition}}</p>
-          </div>
-      </div>
-      @endif
     </div>
     </div>
   </body>

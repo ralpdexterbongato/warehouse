@@ -62,5 +62,9 @@ class Kernel extends HttpKernel
         'IsManagerOrGM'=>\App\Http\Middleware\IsManagerOrGM::class,
         'IfAlreadyHavePO'=>\App\Http\Middleware\IfAlreadyHavePO::class,
         'IfAlreadyHaveRR'=>\App\Http\Middleware\IfAlreadyHaveRR::class,
+        'IsWarehouseAndAdmin'=>\App\Http\Middleware\IsWarehouseAndAdmin::class,
+        'IfAlreadyHaveMRT'=>\App\Http\Middleware\AlreadyHaveMRT::class,
+        'RRWithoutPO'=>\App\Http\Middleware\HaveRRWithoutPO::class,
+        'MustNotGMorManager'=>\App\Http\Middleware\IsNotGMorManager::class,
     ];
 }

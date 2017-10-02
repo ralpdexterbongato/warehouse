@@ -17,11 +17,10 @@ class CreateTableMasterItems extends Migration
           $table->increments('id');
           $table->string('AccountCode',20);
           $table->string('Description',100)->nullable();
-          $table->string('Unit')->nullable();
-          $table->decimal('UnitCost',18,2)->nullable();
-          $table->decimal('Quantity',18,0)->nullable();
-          $table->string('Month',50)->nullable();
+          $table->string('Unit',20)->nullable();
           $table->string('ItemCode_id',20);
+          $table->decimal('CurrentQuantity',18,0);
+          $table->decimal('AlertIfBelow',18,0)->nullable();
         });
     }
 

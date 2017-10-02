@@ -22,7 +22,9 @@ class CreateUsersTable extends Migration
             $table->string('Username',30);
             $table->string('password',191);
             $table->string('Signature',100);
+            $table->decimal('IfApproveReplacer',1,0)->nullable();
             $table->char('IsActive',1)->default('0')->nullable();
+            $table->decimal('Manager',11,0)->nullable();
             $table->rememberToken();
         });
     }

@@ -8,6 +8,7 @@
 
                     <div class="panel-body">
                         I'm an example component!
+                        {{message}}
                     </div>
                 </div>
             </div>
@@ -17,8 +18,13 @@
 
 <script>
     export default {
-        mounted() {
-            console.log('Component mounted.')
+      data () {
+        return {
+          message:'',
         }
+      },
+      created() {
+
+      }
     }
 </script>

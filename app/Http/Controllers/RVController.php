@@ -13,6 +13,9 @@ use App\POMaster;
 use Auth;
 use App\RRValidatorNoPO;
 use App\RRMaster;
+use App\MaterialsTicketDetail;
+use App\Jobs\NewRVCreatedJob;
+use App\Jobs\NewRVApprovedJob;
 class RVController extends Controller
 {
     public function __construct()
@@ -21,15 +24,17 @@ class RVController extends Controller
     }
     public function RVcreate()
     {
+      $mymanager=User::where('id', Auth::user()->Manager)->get(['Fname','Lname']);
       $currentBudgetOfficer=User::orderBy('id','DESC')->whereNotNull('IsActive')->where('Role', '7')->take(1)->get(['Fname','Lname']);
-      $managers=User::where('Role','0')->whereNotNull('IsActive')->get(['Fname','Lname','id']);
       $GM=User::orderBy('id','DESC')->whereNotNull('IsActive')->where('Role', '2')->take(1)->get(['Fname','Lname']);
-      return view('Warehouse.RV.RVCreateViews',compact('GM','managers','currentBudgetOfficer'));
+      return view('Warehouse.RV.RVCreateViews',compact('GM','mymanager','currentBudgetOfficer'));
     }
     public function SaveSession(Request $request)
     {
       $this->validate($request,[
         'Description'=>'required|unique:MasterItems',
+        'Unit'=>'required',
+        'Quantity'=>'required',
       ]);
       $itemDetails = array('Description' =>$request->Description ,'Unit'=>$request->Unit,'Quantity'=>$request->Quantity,'Remarks'=>$request->Remarks,'AccountCode'=>null,'ItemCode'=>null);
       $itemDetails=(object)$itemDetails;
@@ -41,28 +46,26 @@ class RVController extends Controller
       $itemList=Session::get('ItemSessionList');
       unset($itemList[$id]);
       Session::put('ItemSessionList',$itemList);
-      return redirect()->back();
     }
     public function savingToTable(Request $request)
     {
       $this->validate($request,[
         'Purpose'=> 'required',
-        'Recommendedby'=>'required',
-        'BudgetAvailable'=>'regex:/^[0-9]{1,3}(,[0-9]{3})*(\.[0-9]+)*$/',
+        'BudgetAvailable'=>'max:50',
       ]);
       if (Session::get('ItemSessionList')==null)
       {
-        return redirect()->back()->with('message', 'Item is Required');
+        return ['error'=>'Item is Required'];
       }
       $currentBudgetOfficer=User::orderBy('id','DESC')->whereNotNull('IsActive')->where('Role', '7')->take(1)->get(['Fname','Lname']);//also using this at the bottom for RVdetails
       $GM=User::orderBy('id','DESC')->whereNotNull('IsActive')->where('Role', '2')->take(1)->get(['Fname','Lname']);//also using this at the bottom for RVdetails
       if (empty($currentBudgetOfficer[0]))
       {
-        return redirect()->back()->with('message','Budget Officer cannot be empty');
+        return ['error'=>'Budget Officer cannot be empty'];
       }
       if (empty($GM[0]))
       {
-        return redirect()->back()->with('message','General Manager cannot be empty');
+        return ['error'=>'General Manager cannot be empty'];
       }
       $year=Carbon::now()->format('y');
       $date=Carbon::now();
@@ -77,7 +80,7 @@ class RVController extends Controller
       {
         $incremented=$year.'-'.sprintf("%04d",'1');
       }
-      $recommended=User::whereNotNull('IsActive')->where('id',$request->Recommendedby)->get(['Fname','Lname','Position']);
+      $recommended=User::whereNotNull('IsActive')->where('id',Auth::user()->Manager)->get(['Fname','Lname','Position']);
       $RVMaster=new RVMaster;
       $RVMaster->RVNo=$incremented;
       $RVMaster->RVDate=$date;
@@ -85,27 +88,16 @@ class RVController extends Controller
       $RVMaster->Requisitioner=Auth::user()->Fname.' '.Auth::user()->Lname;
       $RVMaster->RequisitionerPosition=Auth::user()->Position;
       $RVMaster->RequisitionerSignature=Auth::user()->Signature;
-      if ($recommended[0]->Fname.' '.$recommended[0]->Lname==Auth::user()->Fname.' '.Auth::user()->Lname)
+      $approveReplacer=User::whereNotNull('IfApproveReplacer')->get(['Fname','Lname']);
+      if (!empty($approveReplacer[0]))
       {
-        $RVMaster->RecommendedbySignature=Auth::user()->Signature;
-      }
-      if ($currentBudgetOfficer[0]->Fname.' '.$currentBudgetOfficer[0]->Lname==Auth::user()->Fname.' '.Auth::user()->Lname)
-      {
-        $RVMaster->BudgetOfficerSignature=Auth::user()->Signature;
-      }
-      if ($GM[0]->Fname.' '.$GM[0]->Lname==Auth::user()->Fname.' '.Auth::user()->Lname)
-      {
-        $RVMaster->GeneralManagerSignature=Auth::user()->Signature;
+        $RVMaster->ApprovalReplacer=$approveReplacer[0]->Fname.' '.$approveReplacer[0]->Lname;
       }
       $RVMaster->Recommendedby=$recommended[0]->Fname.' '.$recommended[0]->Lname;
       $RVMaster->RecommendedbyPosition=$recommended[0]->Position;
-      if (($request->BudgetAvailable==null)&&(Auth::user()->Role==7))
+      if (($request->BudgetAvailable!=null)&&(Auth::user()->Role==7))
       {
-        return redirect()->back()->with('message', 'Budget available is required');
-      }elseif(Auth::user()->Role=='7')
-      {
-        $budgetNocomma=str_replace(',','',$request->BudgetAvailable);
-        $RVMaster->BudgetAvailable=$budgetNocomma;
+        $RVMaster->BudgetAvailable=$request->BudgetAvailable;
       }
       $RVMaster->BudgetOfficer=$currentBudgetOfficer[0]->Fname.' '.$currentBudgetOfficer[0]->Lname;
       $RVMaster->GeneralManager=$GM[0]->Fname.' '.$GM[0]->Lname;
@@ -119,7 +111,12 @@ class RVController extends Controller
       RVDetail::insert($forRVdetailDB);
       Session::forget('ItemSessionList');
       Session::forget('SessionForStock');
-      return redirect()->route('RVindexView')->with('message','Success');
+      $nospaceName=str_replace(' ','',$recommended[0]->Fname.$recommended[0]->Lname);
+      $NotifyThisPerson = array('NotificReceiver'=>$nospaceName);
+      $NotifyThisPerson=(object)$NotifyThisPerson;
+      $job = (new NewRVCreatedJob($NotifyThisPerson))->delay(Carbon::now()->addSeconds(5));
+      dispatch($job);
+      return ['redirect' => route('RVfullpreviewing',[$incremented])];
     }
 
     public function RVindexView()
@@ -128,43 +125,68 @@ class RVController extends Controller
     }
     public function RVfullPreview($id)
     {
+      $RVNumber = array('RVNo' =>$id);
+      $RVNumber=json_encode($RVNumber);
+      return view('Warehouse.RV.FullRVpreview',compact('RVNumber'));
+    }
+    public function RVfullpreviewFetchData($id)
+    {
       $RVDetails=RVDetail::where('RVNo',$id)->get(['RVNo','Particulars','Unit','Quantity','Remarks']);
       $RVMaster=RVMaster::where('RVNo',$id)->get();
       $checkRR=RRMaster::where('RVNo', $id)->take(1)->value('RRNo');
       $checkPO=POMaster::where('RVNo',$id)->take(1)->value('PONo');
+      $undeliveredTotal=null;
       if (($checkPO==null)&&($checkRR!=null))
       {
        $undeliveredTotal=RRValidatorNoPO::where('RVNo',$id)->sum('Quantity');
       }
-      return view('Warehouse.RV.FullRVpreview',compact('RVMaster','RVDetails','checkPO','checkRR','undeliveredTotal'));
+      $response = array('RVMaster'=>$RVMaster ,'RVDetails'=>$RVDetails,'checkPO'=>$checkPO,'checkRR'=>$checkRR,'undeliveredTotal'=>$undeliveredTotal);
+      return response()->json($response);
     }
-    public function Signature(Request $request)
+    public function Signature($id,Request $request)
     {
-      $RVMasterNames=RVMaster::where('RVNo',$request->RVNo)->get(['Requisitioner','BudgetOfficer','Recommendedby','GeneralManager']);
-      if ($RVMasterNames[0]->Requisitioner == Auth::user()->Fname.' '.Auth::user()->Lname)
-      {
-        RVMaster::where('RVNo',$request->RVNo)->update(['RequisitionerSignature'=>Auth::user()->Signature]);
-      }
+      $RVMasterNames=RVMaster::where('RVNo',$id)->get(['Requisitioner','BudgetOfficer','Recommendedby','GeneralManager','ApprovalReplacer']);
       if ($RVMasterNames[0]->BudgetOfficer == Auth::user()->Fname.' '.Auth::user()->Lname)
       {
         $this->validate($request,[
-            'BudgetAvailable'=>'required|regex:/^[0-9]{1,3}(,[0-9]{3})*(\.[0-9]+)*$/',
+            'BudgetAvailable'=>'max:50',
         ]);
-        $budget=str_replace(',','',$request->BudgetAvailable);
-        RVMaster::where('RVNo',$request->RVNo)->update(['BudgetOfficerSignature'=>Auth::user()->Signature,'BudgetAvailable'=>$budget]);
+        RVMaster::where('RVNo',$id)->update(['BudgetOfficerSignature'=>Auth::user()->Signature,'BudgetAvailable'=>$request->BudgetAvailable]);
+        $nospaceName=str_replace(' ','',$RVMasterNames[0]->GeneralManager);
+        $NotifyThisPerson = array('NotificReceiver' => $nospaceName);
+        $NotifyThisPerson=(object)$NotifyThisPerson;
+        $job = (new NewRVCreatedJob($NotifyThisPerson))->delay(Carbon::now()->addSeconds(5));
+        dispatch($job);
+        if (!empty($RVMasterNames[0]->ApprovalReplacer))
+        {
+          $nospaceName=str_replace(' ','',$RVMasterNames[0]->ApprovalReplacer);
+          $NotifyThisPerson = array('NotificReceiver' => $nospaceName);
+          $NotifyThisPerson=(object)$NotifyThisPerson;
+          $job = (new NewRVCreatedJob($NotifyThisPerson))->delay(Carbon::now()->addSeconds(5));
+          dispatch($job);
+        }
       }
       if ($RVMasterNames[0]->Recommendedby == Auth::user()->Fname.' '.Auth::user()->Lname)
       {
-        RVMaster::where('RVNo',$request->RVNo)->update(['RecommendedbySignature'=>Auth::user()->Signature]);
+        RVMaster::where('RVNo',$id)->update(['RecommendedbySignature'=>Auth::user()->Signature,'ManagerReplacer'=>null,'ManagerReplacerSignature'=>null]);
+        $nospaceName=str_replace(' ','',$RVMasterNames[0]->BudgetOfficer);
+        $NotifyThisPerson = array('NotificReceiver' => $nospaceName);
+        $NotifyThisPerson=(object)$NotifyThisPerson;
+        $job = (new NewRVCreatedJob($NotifyThisPerson))->delay(Carbon::now()->addSeconds(5));
+        dispatch($job);
       }
       if ($RVMasterNames[0]->GeneralManager == Auth::user()->Fname.' '.Auth::user()->Lname)
       {
-        RVMaster::where('RVNo',$request->RVNo)->update(['GeneralManagerSignature'=>Auth::user()->Signature,'ApprovalReplacerFname'=>null,'ApprovalReplacerLname'=>null,'ApprovalReplacerSignature'=>null,'ApprovalReplacerPosition'=>null]);
+        RVMaster::where('RVNo',$id)->update(['GeneralManagerSignature'=>Auth::user()->Signature,'ApprovalReplacer'=>null,'ApprovalReplacerSignature'=>null]);
+        $notifyWarehouse = array('dummy' =>'dummy');
+        $notifyWarehouse=(object)$notifyWarehouse;
+        $job = (new NewRVApprovedJob($notifyWarehouse))->delay(Carbon::now()->addSeconds(5));
+        dispatch($job);
       }
-      $RVSignatures=RVMaster::where('RVNo',$request->RVNo)->get(['RequisitionerSignature','BudgetOfficerSignature','RecommendedbySignature','GeneralManagerSignature','ApprovalReplacerSignature']);
-      if ((($RVSignatures[0]->RequisitionerSignature!=null)&&($RVSignatures[0]->BudgetOfficerSignature!=null)&&($RVSignatures[0]->RecommendedbySignature!=null)&&($RVSignatures[0]->GeneralManagerSignature!=null))||(($RVSignatures[0]->RequisitionerSignature!=null)&&($RVSignatures[0]->BudgetOfficerSignature!=null)&&($RVSignatures[0]->RecommendedbySignature!=null)&&($RVSignatures[0]->ApprovalReplacerSignature!=null)))
+      $RVSignatures=RVMaster::where('RVNo',$id)->get(['RequisitionerSignature','BudgetOfficerSignature','RecommendedbySignature','GeneralManagerSignature','ApprovalReplacerSignature','ManagerReplacerSignature']);
+      if ((($RVSignatures[0]->RequisitionerSignature!=null)&&($RVSignatures[0]->BudgetOfficerSignature!=null)&&(($RVSignatures[0]->RecommendedbySignature!=null)||($RVSignatures[0]->ManagerReplacerSignature!=null))&&($RVSignatures[0]->GeneralManagerSignature!=null))||(($RVSignatures[0]->RequisitionerSignature!=null)&&($RVSignatures[0]->BudgetOfficerSignature!=null)&&($RVSignatures[0]->RecommendedbySignature!=null)&&($RVSignatures[0]->ApprovalReplacerSignature!=null)))
       {
-        $RVitems=RVDetail::where('RVNo', $request->RVNo)->get();
+        $RVitems=RVDetail::where('RVNo', $id)->get();
         $forRRNoPOValidator = array();
         foreach ($RVitems as $rvitem)
         {
@@ -172,30 +194,57 @@ class RVController extends Controller
         }
         RRValidatorNoPO::insert($forRRNoPOValidator);
       }
-      return redirect()->back();
+
     }
     public function RVrequest()
     {
-    $myRVPendingrequest=RVMaster::orderBy('RVNo','DESC')->where('Requisitioner',Auth::user()->Fname.' '.Auth::user()->Lname)
-    ->whereNull('RequisitionerSignature')
-    ->whereNull('IfDeclined')
+    $myRVPendingrequest=RVMaster::orderBy('RVNo','DESC')
     ->orWhere('Recommendedby',Auth::user()->Fname.' '.Auth::user()->Lname)
     ->whereNull('RecommendedbySignature')
     ->whereNull('IfDeclined')
+    ->whereNotNull('RequisitionerSignature')
+    ->whereNull('ManagerReplacerSignature')
     ->orWhere('BudgetOfficer',Auth::user()->Fname.' '.Auth::user()->Lname)
     ->whereNull('BudgetOfficerSignature')
+    ->whereNotNull('RecommendedbySignature')
+    ->whereNull('IfDeclined')
+    ->orWhere('BudgetOfficer',Auth::user()->Fname.' '.Auth::user()->Lname)
+    ->whereNull('BudgetOfficerSignature')
+    ->whereNotNull('ManagerReplacerSignature')
     ->whereNull('IfDeclined')
     ->orWhere('GeneralManager',Auth::user()->Fname.' '.Auth::user()->Lname)
     ->whereNull('GeneralManagerSignature')
-    ->whereNull('IfDeclined')
     ->whereNull('ApprovalReplacerSignature')
-    ->paginate(10,['RVNo','Purpose','Requisitioner','RequisitionerSignature','Recommendedby','RecommendedbySignature','BudgetOfficer','BudgetOfficerSignature','GeneralManager','GeneralManagerSignature','RVDate','ApprovalReplacerSignature']);
+    ->whereNull('IfDeclined')
+    ->whereNotNull('RequisitionerSignature')
+    ->whereNotNull('RecommendedbySignature')
+    ->whereNotNull('BudgetOfficerSignature')
+    ->whereNull('ApprovalReplacerSignature')
+    ->orWhere('GeneralManager',Auth::user()->Fname.' '.Auth::user()->Lname)
+    ->whereNull('GeneralManagerSignature')
+    ->whereNull('ApprovalReplacerSignature')
+    ->whereNull('IfDeclined')
+    ->whereNotNull('ManagerReplacerSignature')
+    ->whereNotNull('BudgetOfficerSignature')
+    ->orWhere('ManagerReplacer',Auth::user()->Fname.' '.Auth::user()->Lname)
+    ->whereNull('ManagerReplacerSignature')
+    ->whereNull('RecommendedbySignature')
+    ->orWhere('ApprovalReplacer',Auth::user()->Fname.' '.Auth::user()->Lname)
+    ->whereNull('ApprovalReplacerSignature')
+    ->whereNull('GeneralManagerSignature')
+    ->whereNotNull('RecommendedbySignature')
+    ->whereNotNull('BudgetOfficerSignature')
+    ->orWhere('ApprovalReplacer',Auth::user()->Fname.' '.Auth::user()->Lname)
+    ->whereNull('ApprovalReplacerSignature')
+    ->whereNull('GeneralManagerSignature')
+    ->whereNotNull('ManagerReplacerSignature')
+    ->whereNotNull('BudgetOfficerSignature')
+    ->paginate(10,['RVNo','Purpose','Requisitioner','RequisitionerSignature','Recommendedby','RecommendedbySignature','BudgetOfficer','BudgetOfficerSignature','GeneralManager','GeneralManagerSignature','RVDate','ApprovalReplacerSignature','ManagerReplacerSignature']);
       return view('Warehouse.RV.MyRVrequest',compact('myRVPendingrequest'));
     }
     public function declineRV($id)
     {
-      RVMaster::where('RVNo',$id)->update(['IfDeclined'=>Auth::user()->Fname.' '.Auth::user()->Lname,'ApprovalReplacerFname'=>null,'ApprovalReplacerLname'=>null,'ApprovalReplacerSignature'=>null,'ApprovalReplacerPosition'=>null]);
-      return redirect()->back();
+      RVMaster::where('RVNo',$id)->update(['IfDeclined'=>Auth::user()->Fname.' '.Auth::user()->Lname,'ApprovalReplacer'=>null,'ApprovalReplacerSignature'=>null]);
     }
     public function searchRV(Request $request)
     {
@@ -204,30 +253,32 @@ class RVController extends Controller
     }
     public function searchRVforStock(Request $request)
     {
-      $forStockRV=MasterItem::orderBy('id','DESC')->where('Description','LIKE','%'.$request->Description.'%')->paginate(5,['AccountCode','ItemCode_id','Description','Unit']);
-      Session::put('SessionForStock',$forStockRV);
-      return redirect()->back();
+       $MasterResults=MasterItem::orderBy('id','DESC')->where('Description','LIKE','%'.$request->Description.'%')->paginate(8,['AccountCode','ItemCode_id','Description','Unit','CurrentQuantity','AlertIfBelow']);
+       return response()->json(['MasterResults'=>$MasterResults]);
     }
     public function addtoStockSession(Request $request)
     {
+      $this->validate($request,[
+        'Quantity'=>'required|numeric|min:1',
+      ]);
       if (Session::has('ItemSessionList'))
       {
         foreach (Session::get('ItemSessionList') as $sessionItem)
         {
           if ($sessionItem->Description==$request->Description) {
-            return redirect()->back()->with('message','This item is already in the list');
+            return ['error'=>'Sorry, you can`t duplicate items '];
           }
         }
       }
       $itemselected = array('Description' =>$request->Description ,'Unit'=>$request->Unit,'Quantity'=>$request->Quantity,'Remarks'=>$request->Remarks,'AccountCode'=>$request->AccountCode,'ItemCode'=>$request->ItemCode);
       $itemselected=(object)$itemselected;
       Session::push('ItemSessionList',$itemselected);
-      return redirect()->back();
     }
 
     public function RVIndexSearch(Request $request)
     {
-      $allRVMaster=RVMaster::orderBy('RVNo','DESC')->where('RVNo','LIKE','%'.$request->search.'%')->paginate(10,['RVNo','Purpose','Requisitioner','RequisitionerSignature','Recommendedby','RecommendedbySignature','BudgetOfficer','BudgetOfficerSignature','GeneralManager','GeneralManagerSignature','RVDate','IfDeclined','ApprovalReplacerSignature']);
+      $allRVMaster=RVMaster::orderBy('RVNo','DESC')->where('RVNo','LIKE','%'.$request->search.'%')->paginate(10,['RVNo','Purpose','Requisitioner','RequisitionerSignature','Recommendedby','RecommendedbySignature','BudgetOfficer','BudgetOfficerSignature','GeneralManager','GeneralManagerSignature','RVDate','IfDeclined','ApprovalReplacerSignature',
+      'ManagerReplacerSignature']);
       $response=[
         'pagination'=>[
           'total'=> $allRVMaster->total(),
@@ -244,48 +295,44 @@ class RVController extends Controller
     }
     public function UnpurchaseList()
     {
-      $unpurchaselist=RVMaster::orderBy('RVNo','DESC')->whereNotNull('RecommendedbySignature')->whereNotNull('BudgetOfficerSignature')->whereNull('IfPurchased')->whereNotNull('GeneralManagerSignature')->orWhereNotNull('ApprovalReplacerSignature')->whereNotNull('RecommendedbySignature')->whereNotNull('BudgetOfficerSignature')->whereNull('IfPurchased')->paginate(10,['RVNo','Purpose','Requisitioner','RVDate']);
+      $unpurchaselist=RVMaster::orderBy('RVNo','DESC')
+      ->whereNotNull('RecommendedbySignature')
+      ->whereNotNull('BudgetOfficerSignature')
+      ->whereNull('IfPurchased')
+      ->whereNotNull('GeneralManagerSignature')
+      ->orWhereNotNull('ApprovalReplacerSignature')
+      ->whereNotNull('RecommendedbySignature')
+      ->whereNotNull('BudgetOfficerSignature')
+      ->whereNull('IfPurchased')
+      ->orWhereNotNull('ApprovalReplacerSignature')
+      ->whereNotNull('ManagerReplacerSignature')
+      ->whereNotNull('BudgetOfficerSignature')
+      ->whereNull('IfPurchased')
+      ->orWhereNotNull('ManagerReplacerSignature')
+      ->whereNotNull('BudgetOfficerSignature')
+      ->whereNull('IfPurchased')
+      ->whereNotNull('GeneralManagerSignature')
+      ->paginate(10,['RVNo','Purpose','Requisitioner','RVDate']);
       return view('Warehouse.RV.myUnpurchaseRVlist',compact('unpurchaselist'));
     }
     public function updateBudgetAvailable($id, Request $request)
     {
       $this->validate($request,[
-        'BudgetUpdate' => 'required|regex:/^[0-9]{1,3}(,[0-9]{3})*(\.[0-9]+)*$/'
+        'BudgetUpdate' => 'max:50',
       ]);
-      $noComma=str_replace(',','',$request->BudgetUpdate);
-      RVMaster::where('RVNo',$id)->update(['BudgetAvailable'=>$noComma]);
-      return redirect()->back();
-    }
-    public function SignatureApproveInBehalf($id)
-    {
-      if (Auth::user()->Role==0)
-      {
-        RVMaster::where('RVNo', $id)->update(['ApprovalReplacerFname'=>Auth::user()->Fname,'ApprovalReplacerLname'=>Auth::user()->Lname]);
-      }
-      return redirect()->back();
-    }
-    public function SignatureApproveInBehalfCancel($id)
-    {
-      $RVMaster=RVMaster::where('RVNo', $id)->get(['ApprovalReplacerFname','ApprovalReplacerLname','ApprovalReplacerSignature']);
-      if (($RVMaster[0]->ApprovalReplacerFname.' '.$RVMaster[0]->ApprovalReplacerLname==Auth::user()->Fname.' '.Auth::user()->Lname)&&($RVMaster[0]->ApprovalReplacerSignature==null))
-      {
-        RVMaster::where('RVNo', $id)->update(['ApprovalReplacerFname'=>null,'ApprovalReplacerLname'=>null]);
-      }
-      return redirect()->back();
-    }
-    public function SignatureBehalfDenybyadmin($id)
-    {
-      RVMaster::where('RVNo', $id)->update(['ApprovalReplacerFname'=>null,'ApprovalReplacerLname'=>null]);
-      return redirect()->back();
-    }
-    public function confirmSignatureBehalf($id)
-    {
-      $RVMaster=RVMaster::where('RVNo', $id)->get(['ApprovalReplacerFname','ApprovalReplacerLname']);
-      $manager=User::whereNotNull('IsActive')->where('Fname',$RVMaster[0]->ApprovalReplacerFname)->where('Lname',$RVMaster[0]->ApprovalReplacerLname)->get(['Signature','Position']);
-      RVMaster::where('RVNo', $id)->update(['ApprovalReplacerSignature'=>$manager[0]->Signature,'ApprovalReplacerPosition'=>$manager[0]->Position]);
 
-      $RVSignatures=RVMaster::where('RVNo',$id)->get(['RequisitionerSignature','BudgetOfficerSignature','RecommendedbySignature','GeneralManagerSignature','ApprovalReplacerSignature']);
-      if ((($RVSignatures[0]->RequisitionerSignature!=null)&&($RVSignatures[0]->BudgetOfficerSignature!=null)&&($RVSignatures[0]->RecommendedbySignature!=null)&&($RVSignatures[0]->GeneralManagerSignature!=null))||(($RVSignatures[0]->RequisitionerSignature!=null)&&($RVSignatures[0]->BudgetOfficerSignature!=null)&&($RVSignatures[0]->RecommendedbySignature!=null)&&($RVSignatures[0]->ApprovalReplacerSignature!=null)))
+      RVMaster::where('RVNo',$id)->update(['BudgetAvailable'=>$request->BudgetUpdate]);
+      return redirect()->back();
+    }
+    public function cancelSignatureApproveInBehalf($id)
+    {
+        RVMaster::where('RVNo', $id)->update(['ApprovalReplacer'=>null]);
+    }
+    public function AcceptSignatureBehalf($id)
+    {
+      RVMaster::where('RVNo', $id)->update(['ApprovalReplacerSignature'=>Auth::user()->Signature]);
+      $RVSignatures=RVMaster::where('RVNo',$id)->get(['RequisitionerSignature','BudgetOfficerSignature','ManagerReplacerSignature','RecommendedbySignature','GeneralManagerSignature','ApprovalReplacerSignature']);
+      if(($RVSignatures[0]->BudgetOfficerSignature!=null)&&(($RVSignatures[0]->RecommendedbySignature!=null)||($RVSignatures[0]->ManagerReplacerSignature!=null))&&(($RVSignatures[0]->GeneralManagerSignature!=null)||($RVSignatures[0]->ApprovalReplacerSignature!=null)))
       {
         $RVitems=RVDetail::where('RVNo', $id)->get();
         $forRRNoPOValidator = array();
@@ -294,7 +341,131 @@ class RVController extends Controller
           $forRRNoPOValidator[] = array('RVNo' =>$rvitem->RVNo ,'Particulars'=>$rvitem->Particulars,'Unit'=>$rvitem->Unit ,'Quantity'=>$rvitem->Quantity ,'Remarks'=>$rvitem->Remarks,'AccountCode'=>$rvitem->AccountCode,'ItemCode'=>$rvitem->ItemCode);
         }
         RRValidatorNoPO::insert($forRRNoPOValidator);
+        $notifyWarehouse = array('dummy' =>'dummy');
+        $notifyWarehouse=(object)$notifyWarehouse;
+        $job = (new NewRVApprovedJob($notifyWarehouse))->delay(Carbon::now()->addSeconds(5));
+        dispatch($job);
       }
-      return redirect()->back();
+    }
+    public function fetchSessionRV()
+    {
+      return Session::get('ItemSessionList');
+    }
+    public function getBelowminimumItems()
+    {
+      return MasterItem::whereColumn('AlertIfBelow','>','CurrentQuantity')->orderBy('CurrentQuantity','ASC')->paginate('8');
+    }
+    public function fetchAllManagerRV()
+    {
+      return User::whereNotNull('IsActive')->where('Role',0)->get(['Fname','Lname','id']);
+    }
+    public function sendRequestManagerReplacer($id,Request $request)
+    {
+      if ($request->ManagerID==null)
+      {
+        return ['error'=>'required'];
+      }
+      $replacer=User::where('id',$request->ManagerID)->get(['Fname','Lname']);
+      RVMaster::where('RVNo',$id)->update(['ManagerReplacer'=>$replacer[0]->Fname.' '.$replacer[0]->Lname]);
+      $nospaceName=str_replace(' ','',$replacer[0]->Fname.$replacer[0]->Lname);
+      $NotifyThisPerson = array('NotificReceiver' => $nospaceName);
+      $NotifyThisPerson=(object)$NotifyThisPerson;
+      $job = (new NewRVCreatedJob($NotifyThisPerson))->delay(Carbon::now()->addSeconds(5));
+      dispatch($job);
+    }
+    public function cancelrequestsentReplacer($id)
+    {
+      RVMaster::where('RVNo', $id)->update(['ManagerReplacer'=>null]);
+    }
+    public function AcceptManagerReplacer($id)
+    {
+      RVMaster::where('RVNo', $id)->update(['ManagerReplacerSignature'=>Auth::user()->Signature,'RecommendedbySignature'=>null]);
+      $BudgetOfficer=RVMaster::where('RVNo', $id)->value('BudgetOfficer');
+      $nospaceName=str_replace(' ','',$BudgetOfficer);
+      $NotifyThisPerson = array('NotificReceiver' => $nospaceName);
+      $NotifyThisPerson=(object)$NotifyThisPerson;
+      $job = (new NewRVCreatedJob($NotifyThisPerson))->delay(Carbon::now()->addSeconds(5));
+      dispatch($job);
+    }
+    public function savePendingRemark($id,Request $request)
+    {
+      $this->validate($request,[
+          'PendingRemarks'=>'required',
+      ]);
+      RVMaster::where('RVNo',$id)->update(['PendingRemarks'=>$request->PendingRemarks]);
+    }
+    public function showBORemarks($id)
+    {
+      return RVMaster::where('RVNo',$id)->get(['PendingRemarks']);
+    }
+    public function RVRequestCount()
+    {
+      $myRVPendingrequest=RVMaster::orderBy('RVNo','DESC')
+      ->orWhere('Recommendedby',Auth::user()->Fname.' '.Auth::user()->Lname)
+      ->whereNull('RecommendedbySignature')
+      ->whereNull('IfDeclined')
+      ->whereNotNull('RequisitionerSignature')
+      ->whereNull('ManagerReplacerSignature')
+      ->orWhere('BudgetOfficer',Auth::user()->Fname.' '.Auth::user()->Lname)
+      ->whereNull('BudgetOfficerSignature')
+      ->whereNotNull('RecommendedbySignature')
+      ->whereNull('IfDeclined')
+      ->orWhere('BudgetOfficer',Auth::user()->Fname.' '.Auth::user()->Lname)
+      ->whereNull('BudgetOfficerSignature')
+      ->whereNotNull('ManagerReplacerSignature')
+      ->whereNull('IfDeclined')
+      ->orWhere('GeneralManager',Auth::user()->Fname.' '.Auth::user()->Lname)
+      ->whereNull('GeneralManagerSignature')
+      ->whereNull('ApprovalReplacerSignature')
+      ->whereNull('IfDeclined')
+      ->whereNotNull('RequisitionerSignature')
+      ->whereNotNull('RecommendedbySignature')
+      ->whereNotNull('BudgetOfficerSignature')
+      ->whereNull('ApprovalReplacerSignature')
+      ->orWhere('GeneralManager',Auth::user()->Fname.' '.Auth::user()->Lname)
+      ->whereNull('GeneralManagerSignature')
+      ->whereNull('ApprovalReplacerSignature')
+      ->whereNull('IfDeclined')
+      ->whereNotNull('ManagerReplacerSignature')
+      ->whereNotNull('BudgetOfficerSignature')
+      ->orWhere('ManagerReplacer',Auth::user()->Fname.' '.Auth::user()->Lname)
+      ->whereNull('ManagerReplacerSignature')
+      ->whereNull('RecommendedbySignature')
+      ->orWhere('ApprovalReplacer',Auth::user()->Fname.' '.Auth::user()->Lname)
+      ->whereNull('ApprovalReplacerSignature')
+      ->whereNull('GeneralManagerSignature')
+      ->whereNotNull('RecommendedbySignature')
+      ->whereNotNull('BudgetOfficerSignature')
+      ->orWhere('ApprovalReplacer',Auth::user()->Fname.' '.Auth::user()->Lname)
+      ->whereNull('ApprovalReplacerSignature')
+      ->whereNull('GeneralManagerSignature')
+      ->whereNotNull('ManagerReplacerSignature')
+      ->whereNotNull('BudgetOfficerSignature')
+      ->count();
+      $response = array('RVRequestCount'=>$myRVPendingrequest);
+      return response()->json($response);
+    }
+    public function RefreshRVWaitingForRRCount()
+    {
+      $RVWaitingPurchaseCount=RVMaster::orderBy('RVNo','DESC')
+      ->whereNotNull('RecommendedbySignature')
+      ->whereNotNull('BudgetOfficerSignature')
+      ->whereNull('IfPurchased')
+      ->whereNotNull('GeneralManagerSignature')
+      ->orWhereNotNull('ApprovalReplacerSignature')
+      ->whereNotNull('RecommendedbySignature')
+      ->whereNotNull('BudgetOfficerSignature')
+      ->whereNull('IfPurchased')
+      ->orWhereNotNull('ApprovalReplacerSignature')
+      ->whereNotNull('ManagerReplacerSignature')
+      ->whereNotNull('BudgetOfficerSignature')
+      ->whereNull('IfPurchased')
+      ->orWhereNotNull('ManagerReplacerSignature')
+      ->whereNotNull('BudgetOfficerSignature')
+      ->whereNull('IfPurchased')
+      ->whereNotNull('GeneralManagerSignature')
+      ->count();
+      $response = array('RVwaitingRR' =>$RVWaitingPurchaseCount);
+      return response()->json($response);
     }
 }

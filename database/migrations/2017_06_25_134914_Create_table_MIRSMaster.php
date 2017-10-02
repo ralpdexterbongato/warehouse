@@ -29,10 +29,10 @@ class CreateTableMIRSMaster extends Migration
             $table->string('ApproveSignature',140)->nullable();
             $table->char('WithMCT',1)->nullable();
             $table->string('IfDeclined',50)->nullable();
-            $table->string('ApprovalReplacerFname',25)->nullable();
-            $table->string('ApprovalReplacerLname',25)->nullable();
+            $table->string('ManagerReplacer',50)->nullable();
+            $table->string('ManagerReplacerSignature',150)->nullable();
+            $table->string('ApprovalReplacer',50)->nullable();
             $table->string('ApprovalReplacerSignature',150)->nullable();
-            $table->string('ApprovalReplacerPosition',50)->nullable();
         });
     }
 

@@ -15,6 +15,8 @@ use Session;
 use App\User;
 use App\MCTValidator;
 use App\MCTConfirmationDetail;
+use App\MasterItem;
+use App\Jobs\NewCreatedMCTJob;
 class MCTController extends Controller
 {
   public function StoreMCT(Request $request)
@@ -59,27 +61,49 @@ class MCTController extends Controller
     }
     $MCTMasterDB->save();
     MIRSMaster::where('MIRSNo',$request->MIRSNo)->update(['WithMCT'=>'0']);
-    $ItemsSelectedFromMIRS= Session::get('MCTSessionItems');
     $ForMCTConfirmation = array();
-    foreach ($ItemsSelectedFromMIRS as $detail)
+    foreach (Session::get('MCTSessionItems') as $detail)
     {
       $validatorItemQTY=MCTValidator::where('MIRSNo',$request->MIRSNo)->where('ItemCode',$detail->ItemCode)->get(['Quantity']);
       $qtyValidatorleft=$validatorItemQTY[0]->Quantity - $detail->Quantity;
       MCTValidator::where('MIRSNo',$request->MIRSNo)->where('ItemCode',$detail->ItemCode)->Update(['Quantity'=>$qtyValidatorleft]);
-      $latestRR=MaterialsTicketDetail::where('ItemCode',$detail->ItemCode)->where('MTType', 'RR')->orderBy('MTDate','DESC')->take(1)->get(['AccountCode','UnitCost']);
+      $latestRR=MaterialsTicketDetail::where('ItemCode',$detail->ItemCode)->where('MTType', 'RR')->orderBy('id','DESC')->take(1)->get(['AccountCode','UnitCost']);
       $AMT=$latestRR[0]->UnitCost*$detail->Quantity;
       $ForMCTConfirmation[]=array('AccountCode'=>$latestRR[0]->AccountCode,'ItemCode' =>$detail->ItemCode,'Description'=>$detail->Particulars,'MCTNo' =>$MCTIncremented,'UnitCost' =>$latestRR[0]->UnitCost ,'Quantity' =>$detail->Quantity,'Unit' =>$detail->Unit ,'Amount' =>$AMT);
     }
     MCTConfirmationDetail::insert($ForMCTConfirmation);
-    Session::forget('MCTSessionItems');
-    return redirect()->route('previewMCT',[$MCTIncremented]);
-
+     Session::forget('MCTSessionItems');
     if ($Receivedby[0]->Preparedby==Auth::user()->Fname.' '.Auth::user()->Lname)
     {
-      //if receiver is the WarehouseMans
+      $forMTDetailstable = array();
+      foreach ($ForMCTConfirmation as $mcttoMTD)
+      {
+        $mcttoMTD=(object)$mcttoMTD;
+        $latestdetail=MaterialsTicketDetail::where('ItemCode',$mcttoMTD->ItemCode)->orderBy('id','DESC')->take(1)->get(['CurrentQuantity','CurrentAmount']);
+        $minusAmount=$mcttoMTD->Amount;
+        $newQTY= $latestdetail[0]->CurrentQuantity - $mcttoMTD->Quantity;
+        $differenceof2AMT=$latestdetail[0]->CurrentAmount - $minusAmount;
+        $newcurrentcost=$differenceof2AMT/$newQTY;
+        $newAmount= $newQTY * $newcurrentcost;
+        MasterItem::where('ItemCode_id',$mcttoMTD->ItemCode)->update(['CurrentQuantity'=>$newQTY]);
+        $forMTDetailstable[]=array('ItemCode' =>$mcttoMTD->ItemCode,'MTType'=>'MCT','MTNo' =>$MCTIncremented,'AccountCode' =>$mcttoMTD->AccountCode ,'UnitCost' =>$mcttoMTD->UnitCost,'Quantity' =>$mcttoMTD->Quantity,'Amount' =>$minusAmount
+       ,'CurrentCost' =>$newcurrentcost,'CurrentQuantity' =>$newQTY ,'CurrentAmount' =>$newAmount ,'MTDate' =>$date);
+      }
+      MaterialsTicketDetail::insert($forMTDetailstable);
     }
+    //notification
+    $Receiver=str_replace(' ','',$Receivedby[0]->Preparedby);
+    $ReceiverName = array('Receiver' =>$Receiver);
+    $ReceiverName=(object)$ReceiverName;
+    $jobs=(new NewCreatedMCTJob($ReceiverName))->delay(Carbon::now()->addSeconds(5));
+    dispatch($jobs);
+    return redirect()->route('MCTpageOnly',[$MCTIncremented]);
   }
-
+  public function previewMCTPage($id)
+  {
+    $MCTNo = MCTMaster::where('MCTNo', $id)->get(['MCTNo']);
+    return view('Warehouse.MCT.MCTpreview',compact('MCTNo'));
+  }
   public function previewMCT($id)
   {
     Session::forget('MCTSelected');//to refresh the session that is not submited
@@ -98,50 +122,66 @@ class MCTController extends Controller
       {
         $totalsum= $totalsum +$codegrouped->totals;
       }
-      return view('Warehouse.MCT.MCTpreview',compact('MCTMast','MTDetails','MCTConfirmDetails','AccountCodeGroup','totalsum','MRTcheck'));
+      $response = array(
+
+          'MCTMaster' => $MCTMast,
+          'MCTConfirmDetails'=>$MCTConfirmDetails,
+          'AccountCodeGroup'=>$AccountCodeGroup,
+          'totalsum'=>$totalsum,
+          'MRTcheck'=>$MRTcheck
+
+      );
+      return response()->json($response);
   }
   public function summaryMCT()
   {
     return view('Warehouse.MCT.MCT-summary');
   }
-  public function SignatureMCT(Request $request)
+  public function SignatureMCT($id)
   {
-    $mctmaster=MCTMaster::where('MCTNo',$request->MCTNo)->get(['Receivedby']);
-    if ($mctmaster[0]->Receivedby==Auth::user()->Fname.' '.Auth::user()->Lname)
-    {
-      MCTMaster::where('MCTNo',$request->MCTNo)->update(['ReceivedbySignature'=>Auth::user()->Signature]);
-    }
-      $date=Carbon::now();
-     $ItemsConfirmed= MCTConfirmationDetail::where('MCTNo',$request->MCTNo)->get();
+      $date=MCTMaster::where('MCTNo',$id)->get(['MCTDate']);
+     $ItemsConfirmed= MCTConfirmationDetail::where('MCTNo',$id)->get();
      $forMTDetailstable = array();
      foreach ($ItemsConfirmed as $itemconfirmed)
      {
-       $latestdetail=MaterialsTicketDetail::where('ItemCode',$itemconfirmed->ItemCode)->orderBy('MTDate','DESC')->take(1)->get(['CurrentQuantity','CurrentAmount']);
+       $latestdetail=MaterialsTicketDetail::where('ItemCode',$itemconfirmed->ItemCode)->orderBy('id','DESC')->take(1)->get(['CurrentQuantity','CurrentAmount']);
        $latestPriceWhenCreated=$itemconfirmed->UnitCost;
        $minusAmount=$itemconfirmed->Amount;
        $newQTY= $latestdetail[0]->CurrentQuantity - $itemconfirmed->Quantity;
        $differenceof2AMT=$latestdetail[0]->CurrentAmount - $minusAmount;
-       $newcurrentcost=$differenceof2AMT/$newQTY;
+       if ($newQTY>0)
+       {
+        $newcurrentcost=$differenceof2AMT/$newQTY;
+      }else
+      {
+        $newcurrentcost=0;
+      }
        $newAmount= $newQTY * $newcurrentcost;
-
-         $forMTDetailstable[]=array('ItemCode' =>$itemconfirmed->ItemCode,'MTType'=>'MCT','MTNo' =>$request->MCTNo,'AccountCode' =>$itemconfirmed->AccountCode ,'UnitCost' =>$latestPriceWhenCreated,'Quantity' =>$itemconfirmed->Quantity,'Unit' =>$itemconfirmed->Unit ,'Amount' =>$minusAmount
-        ,'CurrentCost' =>$newcurrentcost,'CurrentQuantity' =>$newQTY ,'CurrentAmount' =>$newAmount ,'MTDate' =>$date);
+        MasterItem::where('ItemCode_id',$itemconfirmed->ItemCode)->update(['CurrentQuantity'=>$newQTY]);
+         $forMTDetailstable[]=array('ItemCode' =>$itemconfirmed->ItemCode,'MTType'=>'MCT','MTNo' =>$id,'AccountCode' =>$itemconfirmed->AccountCode ,'UnitCost' =>$latestPriceWhenCreated,'Quantity' =>$itemconfirmed->Quantity,'Amount' =>$minusAmount
+        ,'CurrentCost' =>$newcurrentcost,'CurrentQuantity' =>$newQTY ,'CurrentAmount' =>$newAmount ,'MTDate' =>$date[0]->MCTDate);
      }
      MaterialsTicketDetail::insert($forMTDetailstable);
-    return redirect()->back();
+     $mctmaster=MCTMaster::where('MCTNo',$id)->get(['Receivedby']);
+     if ($mctmaster[0]->Receivedby==Auth::user()->Fname.' '.Auth::user()->Lname)
+     {
+       MCTMaster::where('MCTNo',$id)->update(['ReceivedbySignature'=>Auth::user()->Signature]);
+     }
   }
   public function mctRequestcheck()
   {
     $myrequestMCT=MCTMaster::orderBy('id','DESC')->where('Issuedby',Auth::user()->Fname." ".Auth::user()->Lname)
                     ->whereNull('IssuedbySignature')
+                    ->whereNull('IfDeclined')
                     ->orWhere('Receivedby',Auth::user()->Fname." ".Auth::user()->Lname)
                     ->whereNull('ReceivedbySignature')
+                    ->whereNull('IfDeclined')
                     ->paginate(10,['MIRSNo','MCTNo','Issuedby','Receivedby','Particulars','MCTDate','AddressTo','IssuedbySignature','ReceivedbySignature']);
                     return view('Warehouse.MCT.myMCTrequest',compact('myrequestMCT'));
   }
   public function MCTofMIRS($id)
   {
-    $MCTMaster=MCTMaster::orderBy('MCTNo','DESC')->where('MIRSNo',$id)->paginate(10,['MIRSNo','MCTNo','MCTDate','Particulars','AddressTo','Receivedby']);
+    $MCTMaster=MCTMaster::orderBy('MCTNo','DESC')->where('MIRSNo',$id)->paginate(10,['MIRSNo','MCTNo','MCTDate','Particulars','AddressTo','Receivedby','ReceivedbySignature','IfDeclined']);
     return view('Warehouse.MCT.MCTofMIRSlist',compact('MCTMaster'));
   }
   public function CreateMCT($id)
@@ -155,6 +195,11 @@ class MCTController extends Controller
     $this->validate($request,[
       'Quantity'=>'required|min:1',
     ]);
+    $StockinWarehouse=MaterialsTicketDetail::where('ItemCode',$request->ItemCode)->orderBy('id','DESC')->get(['CurrentQuantity']);
+    if ($StockinWarehouse[0]->CurrentQuantity<$request->Quantity)
+    {
+      return redirect()->back()->with('message','Sorry , our '.$request->ItemCode.' stock is not enough');
+    }
     $ItemRemaining=MCTValidator::where('MIRSNo', $request->MIRSNo)->where('ItemCode',$request->ItemCode)->get(['Quantity']);
     if ($ItemRemaining[0]->Quantity < $request->Quantity)
     {
@@ -198,10 +243,85 @@ class MCTController extends Controller
     $ForDisplay = array();
     foreach ($MCTsummaryItems as $key=> $items)
     {
-    $ForDisplay[$key]=MaterialsTicketDetail::orderBy('MTDate','DESC')->where('ItemCode',$items->ItemCode)->where('MTType','MCT')->take(1)->get(['AccountCode','ItemCode','UnitCost','Unit','CurrentQuantity','MTDate']);
-    $issued=(object)['totalissued'=>$items->totalissued];
+    $ForDisplay[$key]=MaterialsTicketDetail::orderBy('id','DESC')->where('ItemCode',$items->ItemCode)->whereDate('MTDate','LIKE',date($datesearch).'%')->take(1)->get(['AccountCode','ItemCode','CurrentQuantity','MTDate']);
+    $UnitCost=MaterialsTicketDetail::orderBy('id','DESC')->where('MTType','RR')->where('ItemCode',$items->ItemCode)->whereDate('MTDate','LIKE',date($datesearch).'%')->take(1)->get(['UnitCost']);
+
+    $issued=(object)['totalissued'=>$items->totalissued,'UnitCost'=>$UnitCost[0]->UnitCost];
     $ForDisplay[$key]->push($issued);
     }
     return view('Warehouse.MCT.MCT-summary',compact('ForDisplay','datesearch'));
+  }
+  public function updateMCT(Request $request,$id)
+  {
+    $this->validate($request,[
+      'NewAddressTo'=>'required',
+      'NewQuantity.*'=>'required|numeric|min:1',
+    ]);
+    $MCTMaster=MCTMaster::where('MCTNo',$id)->get(['MIRSNo']);
+    MCTMaster::where('MCTNo',$id)->update(['AddressTo'=>$request->NewAddressTo]);
+    $DetailsToBeUpdated=MCTConfirmationDetail::where('MCTNo',$id)->get(['ItemCode','Quantity','UnitCost']);
+    //each item validaton
+    foreach ($DetailsToBeUpdated as $key=> $confirmationMCT)
+    {
+      $currentValidatorQuantity=MCTValidator::where('MIRSNo',$MCTMaster[0]->MIRSNo)->where('ItemCode',$confirmationMCT->ItemCode)->get(['Quantity']);
+      if($confirmationMCT->Quantity<$request->NewQuantity[$key])
+      {
+        $tobeused=$request->NewQuantity[$key]-$confirmationMCT->Quantity;
+        $NewValidatorQty=$currentValidatorQuantity[0]->Quantity-$tobeused;
+        if ($NewValidatorQty<0)
+        {
+          return ['error'=>'Sorry,you have reached the maximum quantity left in your MIRS'];
+        }
+      }
+    }
+
+    foreach ($DetailsToBeUpdated as $key=> $confirmationMCT)
+    {
+      $currentValidatorQuantity=MCTValidator::where('MIRSNo',$MCTMaster[0]->MIRSNo)->where('ItemCode',$confirmationMCT->ItemCode)->get(['Quantity']);
+      if ($confirmationMCT->Quantity>$request->NewQuantity[$key])
+      {
+        $tobeused=$confirmationMCT->Quantity-$request->NewQuantity[$key];
+        $NewValidatorQty=$currentValidatorQuantity[0]->Quantity+$tobeused;
+        MCTValidator::where('MIRSNo',$MCTMaster[0]->MIRSNo)->where('ItemCode',$confirmationMCT->ItemCode)->update(['Quantity'=>$NewValidatorQty]);
+      }elseif($confirmationMCT->Quantity<$request->NewQuantity[$key])
+      {
+        $tobeused=$request->NewQuantity[$key]-$confirmationMCT->Quantity;
+        $NewValidatorQty=$currentValidatorQuantity[0]->Quantity-$tobeused;
+        MCTValidator::where('MIRSNo',$MCTMaster[0]->MIRSNo)->where('ItemCode',$confirmationMCT->ItemCode)->update(['Quantity'=>$NewValidatorQty]);
+      }
+      $newAMT=$confirmationMCT->UnitCost*$request->NewQuantity[$key];
+      MCTConfirmationDetail::where('MCTNo',$id)->where('ItemCode',$confirmationMCT->ItemCode)->update(['Quantity'=>$request->NewQuantity[$key],'Amount'=>$newAMT]);
+    }
+  }
+  public function declineMCT($id)
+  {
+    $MIRSNo=MCTMaster::where('MCTNo',$id)->value('MIRSNo');
+    $MCTconfirmation=MCTConfirmationDetail::where('MCTNo',$id)->get(['ItemCode','Quantity']);
+    foreach ($MCTconfirmation as $confirmation)
+    {
+      $currentMCTValidatorQty=MCTValidator::where('MIRSNo',$MIRSNo)->where('ItemCode', $confirmation->ItemCode)->get(['Quantity']);
+      $newMCTValidatorQty=$currentMCTValidatorQty[0]->Quantity+$confirmation->Quantity;
+      MCTValidator::where('MIRSNo',$MIRSNo)->where('ItemCode', $confirmation->ItemCode)->update(['Quantity'=>$newMCTValidatorQty]);
+    }
+    MCTMaster::where('MCTNo',$id)->update(['IfDeclined'=>Auth::user()->Fname.' '.Auth::user()->Lname]);
+  }
+  public function MCTRequestSignatureCount()
+  {
+      $myrequestMCT=MCTMaster::orderBy('id','DESC')->where('Issuedby',Auth::user()->Fname." ".Auth::user()->Lname)
+                    ->whereNull('IssuedbySignature')
+                    ->whereNull('IfDeclined')
+                    ->orWhere('Receivedby',Auth::user()->Fname." ".Auth::user()->Lname)
+                    ->whereNull('ReceivedbySignature')
+                    ->whereNull('IfDeclined')->count();
+                    $response = array('MCTRequestCount' => $myrequestMCT);
+                    return response()->json($response);
+  }
+  public function MCTindexPage()
+  {
+    return view('Warehouse.MCT.MCTindex');
+  }
+  public function fetchSearchIndexMCTlist(Request $request)
+  {
+    return MCTMaster::orderBy('id','DESC')->where('MCTNo','LIKE','%'.$request->MCTNo.'%')->paginate(10,['MCTNo','MCTDate','MIRSNo','AddressTo','Particulars','Issuedby','Receivedby','ReceivedbySignature','IfDeclined']);
   }
 }

@@ -3,7 +3,7 @@
 <div class="table-rv-container">
   <div class="top-RV-index">
     <div class="rv-index-title">
-      <h1>Requisition Voucher index</h1>
+      <h1><i class="fa fa-th-large"></i> Requisition Voucher index</h1>
     </div>
     <div class="searchbox-RV">
       <input @keyup="fetchdataRV()" type="text" name="search" v-model="search" placeholder="Search RV Number">
@@ -25,12 +25,11 @@
       <td>{{models.RVNo}}</td>
       <td>{{models.Purpose}}</td>
       <td>{{models.Requisitioner}}<br><i v-if="models.RequisitionerSignature!=null" class="fa fa-check"></i><i v-else-if="models.Requisitioner==models.IfDeclined" class="fa fa-times decliner"></i></td>
-      <td>{{models.Recommendedby}}<br><i v-if="models.RecommendedbySignature!=null" class="fa fa-check"></i><i v-else-if="models.Recommendedby==models.IfDeclined" class="fa fa-times decliner"></i></td>
+      <td>{{models.Recommendedby}}<br><i v-if="(models.RecommendedbySignature!=null)||(models.ManagerReplacerSignature!=null)" class="fa fa-check"></i><i v-else-if="models.Recommendedby==models.IfDeclined" class="fa fa-times decliner"></i></td>
       <td>{{models.BudgetOfficer}}<br><i v-if="models.BudgetOfficerSignature!=null" class="fa fa-check"></i><i v-else-if="models.BudgetOfficer==models.IfDeclined" class="fa fa-times decliner"></i></td>
       <td>{{models.GeneralManager}}<br><i v-if="models.GeneralManagerSignature!=null||models.ApprovalReplacerSignature!=null" class="fa fa-check"></i><i v-else-if="models.GeneralManager==models.IfDeclined" class="fa fa-times decliner"></i></td>
       <td>{{models.RVDate}}</td>
-      <td v-if="models.RequisitionerSignature!=null&&models.RecommendedbySignature!=null&&models.BudgetOfficerSignature!=null&&models.ApprovalReplacerSignature!=null"><i class="fa fa-thumbs-up"></i></td>
-      <td v-else-if="models.RequisitionerSignature!=null&&models.RecommendedbySignature!=null&&models.BudgetOfficerSignature!=null&&models.GeneralManagerSignature!=null"><i class="fa fa-thumbs-up"></i></td>
+      <td v-if="(((models.RecommendedbySignature!=null)||(models.ManagerReplacerSignature!=null))&&(models.BudgetOfficerSignature!=null)&&((models.ApprovalReplacerSignature!=null)||(models.GeneralManagerSignature!=null)))"><i class="fa fa-thumbs-up"></i></td>
       <td v-else-if="models.IfDeclined==null"><i class="fa fa-clock-o"></i></td>
       <td v-else><i class="fa fa-times decliner"></i></td>
       <td><a v-bind:href="'RVfullview/'+models.RVNo"><i class="fa fa-eye"></i></a></td>
@@ -111,7 +110,7 @@ export default {
     changepageRV(next){
     this.pagination.current_page = next;
     this.fetchdataRV(next);
-    }
+    },
   }
 }
 </script>

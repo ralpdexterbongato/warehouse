@@ -122,6 +122,7 @@
     {
       width: 45%;
       margin-top: 30px;
+      font-size: 14px;
       display: inline-block;
     }
     .left-box h5
@@ -170,20 +171,6 @@
       top:-50px;
       left: 60px;
     }
-    .SignatureInBehalf
-    {
-      margin-top: 40px;
-      font-size: 14px;
-    }
-    .SignatureInBehalf p
-    {
-      font-size: 14px;
-    }
-    .signature-inbehalf-signature
-    {
-      text-align: center;
-      margin-top: 70px;
-    }
     .underline
     {
       text-decoration: underline;
@@ -191,6 +178,12 @@
     .uppercase
     {
       text-transform:uppercase;
+    }
+    .for
+    {
+      position: absolute;
+      left: 16px;
+      top: -20px;
     }
   </style>
   <body>
@@ -270,14 +263,6 @@ property for which I am responsible, subject to the provision of the usual accou
           should be FILED in the OFFICE OF THE<br>
           Accounting Section.(4) QUADRUPLICATE<br>
           must be KEPT by the Responsible Employee.
-          <div class="SignatureInBehalf">
-            <p>APPROVED IN BEHALF OF THE<br>
-              GENERAL MANAGER <br><span class="underline uppercase">{{$MRMaster[0]->GeneralManager}}</span> BY :</p>
-              <div class="signature-inbehalf-signature">
-                <p class="underline">{{$MRMaster[0]->ApprovalReplacerFname}} {{$MRMaster[0]->ApprovalReplacerLname}}</p>
-                <label>{{$MRMaster[0]->ApprovalReplacerPosition}}</label>
-              </div>
-          </div>
         </p>
 
         </div>
@@ -298,6 +283,8 @@ property for which I am responsible, subject to the provision of the usual accou
             <div class="signature-names">
               @if ($MRMaster[0]->GeneralManagerSignature)
                 <h1><img src="c:/xampp/htdocs/warehouse/public/storage/signatures/{{$MRMaster[0]->GeneralManagerSignature}}" alt="signatures"></h1>
+              @elseif($MRMaster[0]->ApprovalReplacerSignature)
+                <medium class="for">For :</medium> <h1><img src="c:/xampp/htdocs/warehouse/public/storage/signatures/{{$MRMaster[0]->ApprovalReplacerSignature}}" alt="signatures"></h1>
               @endif
               <p>{{$MRMaster[0]->GeneralManager}}</p>
               <label>General Manager</label>
@@ -306,6 +293,9 @@ property for which I am responsible, subject to the provision of the usual accou
           <div class="signature-box">
             <label>RECEIVED:</label>
             <div class="signature-names">
+              @if ($MRMaster[0]->ReceivedbySignature)
+                <h1><img src="c:/xampp/htdocs/warehouse/public/storage/signatures/{{$MRMaster[0]->ReceivedbySignature}}" alt="signatures"></h1>
+              @endif
               <p>{{$MRMaster[0]->Receivedby}}</p>
               <label>{{$MRMaster[0]->ReceivedbyPosition}}</label>
             </div>

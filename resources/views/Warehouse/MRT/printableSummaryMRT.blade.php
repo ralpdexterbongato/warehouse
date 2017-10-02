@@ -175,7 +175,7 @@
               <tr>
                 <td>{{$item->ItemCode}}</td>
                 <td>{{$item->MasterItems->Description}}</td>
-                <td>{{$item->Unit}}</td>
+                <td>{{$item->MasterItems->Unit}}</td>
                 <td class="align-right">{{$item->totalQty}}</td>
               </tr>
             @endforeach

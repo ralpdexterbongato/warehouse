@@ -14,19 +14,19 @@ class CreateTableMaterialsTicketDetailsTbl extends Migration
     public function up()
     {
         Schema::create('MaterialsTicketDetails', function (Blueprint $table) {
+          $table->increments('id');
           $table->string('ItemCode',20)->index();
-          $table->string('MTType');
-          $table->string('MTNo');
+          $table->string('MTType',5);
+          $table->string('MTNo',7);
           $table->string('AccountCode',20)->nullable();
           $table->decimal('UnitCost',18,2)->nullable();
-          $table->integer('RRQuantityDelivered')->nullable();
           $table->decimal('Quantity',18,0)->nullable();
-          $table->string('Unit',10)->nullable();
+          $table->decimal('RRQuantityDelivered',18,0)->nullable();
           $table->decimal('Amount',18,2)->nullable();
           $table->decimal('CurrentCost',18,2)->nullable();
           $table->decimal('CurrentQuantity',18,0)->nullable();
           $table->decimal('CurrentAmount',18,2)->nullable();
-          $table->dateTime('MTDate');
+          $table->date('MTDate');
         });
     }
 

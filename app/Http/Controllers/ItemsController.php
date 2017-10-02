@@ -20,125 +20,22 @@ class ItemsController extends Controller
      public function __construct()
      {
       $this->middleware('auth');
-      $this->middleware('IsWarehouse',['except'=>['index','ItemMasterbyDescription','searchByItemCode','searchItemMaster']]);
+      $this->middleware('IsWarehouse',['except'=>['index','UpdateItem','FetchItemToEdit','SearchDescriptionAndRecentAdded','SaveNewItem','addNonexistinwarehouseItem','ItemMasterbyDescription','FetchAndsearchItemCode','searchItemMaster']]);
      }
 
     public function index()
     {
-        $allhistory=MaterialsTicketDetail::all();
         return view('welcome');
     }
 
-    /**
-     * Show the form for creating a new resource.
-     *
-     * @return \Illuminate\Http\Response
-     */
-    public function create()
+    public function FetchAndsearchItemCode(Request $request)
     {
-        //
-    }
+      $historiesfound= MaterialsTicketDetail::where('ItemCode',$request->ItemCode)->orderBy('id','DESC')->paginate(10);
+      $latestFound=MaterialsTicketDetail::orderBy('id','DESC')->where('ItemCode',$request->ItemCode)->take(1)->get();
+      $latestFound->load('MasterItems');
 
-    /**
-     * Store a newly created resource in storage.
-     *
-     * @param  \Illuminate\Http\Request  $request
-     * @return \Illuminate\Http\Response
-     */
-    public function store(Request $request)
-    {
-      $month=Carbon::today()->format('M');
-      $this->NewItemValidation($request);
-      $amount = $request->UnitCost * $request->Quantity;
-      $itemHistory=new MaterialsTicketDetail;
-      $itemHistory->ItemCode = $request->ItemCode;
-      $itemHistory->MTType = 'NEW';
-      $itemHistory->MTNo = 'NEW';
-      $itemHistory->AccountCode = $request->AccountCode;
-      $itemHistory->UnitCost = $request->UnitCost;
-      $itemHistory->Quantity = $request->Quantity;
-      $itemHistory->Amount = $amount;
-      $itemHistory->Unit = $request->Unit;
-      $itemHistory->CurrentCost=  $request->UnitCost;
-      $itemHistory->CurrentQuantity = $request->Quantity;
-      $itemHistory->CurrentAmount = $amount;
-      $itemHistory->save();
-
-      $itemMaster=new MasterItem;
-      $itemMaster->AccountCode = $request->AccountCode;
-      $itemMaster->Description = $request->Description;
-      $itemMaster->Unit = $request->Unit;
-      $itemMaster->UnitCost = $request->UnitCost;
-      $itemMaster->Quantity = $request->Quantity;
-      $itemMaster->Month = $month;
-      $itemMaster->ItemCode_id=$request->ItemCode;
-      $itemMaster->save();
-
-      return redirect()->back()->with('message', 'Successfully Maked');
-    }
-    public function NewItemValidation($request)
-    {
-      return $this->validate($request,[
-      'ItemCode'=>'required|unique:MaterialsTicketDetails',
-      'AccountCode'=>'required',
-      'Description'=>'required|max:50',
-      'Unit'=>'required',
-      'UnitCost'=>'required',
-      'Quantity'=>'required',
-      ]);
-    }
-
-    /**
-     * Display the specified resource.
-     *
-     * @param  int  $id
-     * @return \Illuminate\Http\Response
-     */
-    public function show($id)
-    {
-        //
-    }
-
-    /**
-     * Show the form for editing the specified resource.
-     *
-     * @param  int  $id
-     * @return \Illuminate\Http\Response
-     */
-    public function edit($id)
-    {
-        //
-    }
-
-    /**
-     * Update the specified resource in storage.
-     *
-     * @param  \Illuminate\Http\Request  $request
-     * @param  int  $id
-     * @return \Illuminate\Http\Response
-     */
-    public function update(Request $request, $id)
-    {
-        //
-    }
-
-    /**
-     * Remove the specified resource from storage.
-     *
-     * @param  int  $id
-     * @return \Illuminate\Http\Response
-     */
-    public function destroy($id)
-    {
-        //
-    }
-
-    public function searchByItemCode(Request $request)
-    {
-      $historiesfound= MaterialsTicketDetail::where('ItemCode',$request->ItemCode)->orderBy('MTDate','DESC')->paginate(10);
-      $latestFound=MaterialsTicketDetail::orderBy('MTDate','DESC')->where('ItemCode',$request->ItemCode)->take(1)->get();
-      $historiesfound->withPath('http://localhost:8000/SearchByItemCode?ItemCode='.$request->ItemCode);
-      return view('welcome',compact('historiesfound','latestFound'));
+      $response = array('historiesfound'=>$historiesfound ,'latestFound'=>$latestFound);
+      return response()->json($response);
     }
 
     public function searchItemMaster(Request $request)
@@ -148,18 +45,113 @@ class ItemsController extends Controller
     public function ItemMasterbyDescription(Request $request)
     {
        return $itemMasters=MasterItem::where('Description','LIKE','%'.$request->search.'%')->paginate(5);
-      //  $response=[
-      //    'pagination'=>[
-      //      'total'=> $itemMasters->total(),
-      //      'per_page'=>$itemMasters->perPage(),
-      //      'current_page'=>$itemMasters->currentPage(),
-      //      'last_page'=>$itemMasters->lastPage(),
-      //      'from'=>$itemMasters->firstitem(),
-      //      'to'=>$itemMasters->lastitem(),
-      //    ],
-      //    'model'=> $itemMasters
-      //  ];
-      //  return response()->json($response);
     }
 
+    public function addNonexistinwarehouseItem()
+    {
+      return view('Warehouse.AddItemToList');
+    }
+    public function ItemSaveValidator($request)
+    {
+      $this->validate($request,[
+        'AccountCode'=>'required|max:20',
+        'ItemCode'=>'required|max:20|unique:MaterialsTicketDetails',
+        'CurrentQuantity'=>'required|numeric|min:0',
+        'Unit'=>'required|max:10',
+        'CurrentCost'=>'required|max:18',
+        'Description'=>'required|max:100|unique:MasterItems',
+        'AlertIfBelow'=>'required|numeric|min:1',
+      ]);
+    }
+    public function ItemUpdateValidator($request)
+    {
+      $this->validate($request,[
+        'AccountCode'=>'required|max:20',
+        'ItemCode'=>'required|max:20',
+        'CurrentQuantity'=>'required|numeric|min:0',
+        'Unit'=>'required|max:10',
+        'CurrentCost'=>'required|max:18',
+        'Description'=>'required|max:100',
+        'AlertIfBelow'=>'required|numeric|min:1',
+      ]);
+    }
+    public function SaveNewItem(Request $request)
+    {
+      $this->ItemSaveValidator($request);
+      if (($request->CurrentQuantity>0)&&($request->CurrentCost<=0))
+      {
+        return ['error'=>'The currentcost cannot be 0 if the quantity is not 0'];
+      }
+      if (($request->CurrentCost>0)&&($request->CurrentQuantity==0))
+      {
+        return ['error'=>'The currentcost must be 0 if the quantity is 0'];
+      }
+      $nocommaCost=str_replace(',','',$request->CurrentCost);
+      $AMT=$nocommaCost*$request->CurrentQuantity;
+      $MTDtable=new MaterialsTicketDetail;
+      $MTDtable->ItemCode=$request->ItemCode;
+      $MTDtable->AccountCode=$request->AccountCode;
+      $MTDtable->MTType='RR';
+      $MTDtable->MTNo='Init';
+      $MTDtable->Quantity=$request->CurrentQuantity;
+      $MTDtable->CurrentQuantity=$request->CurrentQuantity;
+      $MTDtable->UnitCost=$nocommaCost;
+      $MTDtable->Amount=$AMT;
+      $MTDtable->CurrentCost=$nocommaCost;
+      $MTDtable->CurrentAmount=$AMT;
+      $MTDtable->MTDate=Carbon::now();
+      $MTDtable->save();
+      $ItemMasterTable=new MasterItem;
+      $ItemMasterTable->AccountCode=$request->AccountCode;
+      $ItemMasterTable->ItemCode_id=$request->ItemCode;
+      $ItemMasterTable->Description=$request->Description;
+      $ItemMasterTable->Unit=$request->Unit;
+      $ItemMasterTable->AlertIfBelow=$request->AlertIfBelow;
+      $ItemMasterTable->CurrentQuantity=$request->CurrentQuantity;
+      $ItemMasterTable->save();
+    }
+    public function SearchDescriptionAndRecentAdded(Request $request)
+    {
+        $MasterItem=MaterialsTicketDetail::where('ItemCode','LIKE','%'.$request->ItemCode.'%')->where('MTNo', 'Init')->orderBy('id','DESC')->paginate(10,['AccountCode','ItemCode','CurrentCost','CurrentQuantity','id']);
+        $MasterItem->load('MasterItems');
+        $response = array('pagination'=>$MasterItem);
+       return response()->json($response);
+    }
+    public function FetchItemToEdit($id)
+    {
+      $MaterialTD=MaterialsTicketDetail::where('id', $id)->get(['AccountCode','ItemCode','CurrentQuantity','CurrentCost','id']);
+      $MaterialTD->load('MasterItems');
+      return response()->json([
+        'response'=>$MaterialTD,
+      ]);
+    }
+    public function UpdateItem($id,Request $request)
+    {
+      $this->ItemUpdateValidator($request);
+      $ItemCodeUniqueTest=MaterialsTicketDetail::where('ItemCode',$request->ItemCode)->where('MTNo','Init')->where('id','!=',$id)->get(['id']);
+      if (!empty($ItemCodeUniqueTest[0]))
+      {
+        return ['error'=>'Item code has already been taken'];
+      }
+      if ($request->CurrentQuantity>0&&$request->CurrentCost<=0)
+      {
+        return ['error'=>'The currentcost cannot be 0 if the quantity is not 0'];
+      }
+      if ($request->CurrentCost>0&&$request->CurrentQuantity==0)
+      {
+        return ['error'=>'The currentcost must be 0 if the quantity is 0'];
+      }
+      $OldItemCode=MaterialsTicketDetail::where('id', $id)->get(['ItemCode']);
+       $nocommaCost=str_replace(',','',$request->CurrentCost);
+       $AMT=$nocommaCost*$request->CurrentQuantity;
+      $MTdetailsTBL=MaterialsTicketDetail::where('id',$id)->update(['AccountCode'=>$request->AccountCode,'ItemCode'=>$request->ItemCode,'Quantity'=>$request->CurrentQuantity,'UnitCost'=>$nocommaCost,'Amount'=>$AMT,'CurrentQuantity'=>$request->CurrentQuantity,'CurrentCost'=>$nocommaCost]);
+      $checkifnew=MaterialsTicketDetail::where('ItemCode', $OldItemCode[0]->ItemCode)->take(2)->get(['ItemCode']);
+      if (count($checkifnew)>1)
+      {
+        MasterItem::where('ItemCode_id', $OldItemCode[0]->ItemCode)->update(['AccountCode'=>$request->AccountCode,'ItemCode_id'=>$request->ItemCode,'Description'=>$request->Description,'Unit'=>$request->Unit,'AlertIfBelow'=>$request->AlertIfBelow]);
+      }else
+      {
+        MasterItem::where('ItemCode_id', $OldItemCode[0]->ItemCode)->update(['AccountCode'=>$request->AccountCode,'ItemCode_id'=>$request->ItemCode,'CurrentQuantity'=>$request->CurrentQuantity,'Description'=>$request->Description,'Unit'=>$request->Unit,'AlertIfBelow'=>$request->AlertIfBelow]);
+      }
+    }
 }

@@ -27,7 +27,7 @@ MIRS signature request list
               @endif
             </td>
             <td>{{$mirsRequest->Recommendedby}}
-              @if($mirsRequest->RecommendSignature)
+              @if(($mirsRequest->RecommendSignature)||($mirsRequest->ManagerReplacerSignature!=null))
                 <i class="fa fa-check"></i>
               @endif
             </td>
@@ -41,7 +41,9 @@ MIRS signature request list
           </tr>
           @endforeach
       </table>
-      {{$myrequestMIRS->links()}}
+      <div class="paginate-container">
+        {{$myrequestMIRS->links()}}
+      </div>
     </div>
   @else
   <h3 class="MIRS-request-empty">MIRS request is empty</h3>

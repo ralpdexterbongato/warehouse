@@ -12,23 +12,27 @@ use App\User;
 use App\RRconfirmationDetails;
 use Session;
 use Auth;
+use App\Jobs\NewMRCreatedJob;
 class MRController extends Controller
 {
     public function __construct()
     {
-      $this->middleware('IsWarehouse',['except'=>['confirmApproveinBehalf','denyApproveinBehalf','approveinBehalfcancel','approveinBehalfMRsent','myMRrequest','previewFullMR','MRofRRlist','SignatureMR','DeclineMR']]);
+      $this->middleware('IsWarehouse',['except'=>['MRindexFetchAndSearch','MRindexPage','previewFullMRFetchData','MyMRrequestCount','refuseMRApproveInBehalf','confirmApproveinBehalf','myMRrequest','previewFullMR','MRofRRlist','SignatureMR','DeclineMR']]);
     }
     public function SaveMR(Request $request)
     {
      $this->validate($request,[
-       'Note'=>'required|max:50',
+       'Note'=>'max:50',
        'ManagerID'=>'required|max:2',
-       'Receivedby'=>'required|max:35',
-       'ReceivedbyPosition'=>'required|max:30',
+       'Receivedby'=>'required|max:2',
        'RRNo'=>'required'
      ]);
+     if (Session::get('MRSession')==null) {
+       return redirect()->back();
+     }
      $year=Carbon::now()->format('y');
      $MRNum=MRMaster::orderBy('MRNo','DESC')->take(1)->value('MRNo');
+     $ApprovalReplacer=User::whereNotNull('IfApproveReplacer')->get(['Fname','Lname']);
      if (count($MRNum)>0)
      {
        $numOnly=substr($MRNum,'3');
@@ -43,7 +47,7 @@ class MRController extends Controller
      $RVDate=RVMaster::where('RVNo',$RRMasterData[0]->RVNo)->value('RVDate');
      $Recommended=User::where('id', $request->ManagerID)->whereNotNull('IsActive')->get(['Fname','Lname','Position']);
      $GM=User::orderBy('id','DESC')->where('Role', '2')->whereNotNull('IsActive')->take(1)->get(['Fname','Lname']);
-     $CurrentWarehouseMan=User::orderBy('id','DESC')->whereNotNull('IsActive')->where('Role','4')->get(['Fname','Lname']);
+     $Receiver=User::where('id',$request->Receivedby)->get(['Fname','Lname','Position']);
      $MRMasterDB= new MRMaster;
      $MRMasterDB->MRNo=$incremented;
      $MRMasterDB->MRDate=Carbon::now();
@@ -57,10 +61,14 @@ class MRController extends Controller
      $MRMasterDB->InvoiceNo=$RRMasterData[0]->InvoiceNo;
      $MRMasterDB->Recommendedby=$Recommended[0]->Fname.' '.$Recommended[0]->Lname;
      $MRMasterDB->RecommendedbyPosition=$Recommended[0]->Position;
+     if (!empty($ApprovalReplacer[0]))
+     {
+     $MRMasterDB->ApprovalReplacer=$ApprovalReplacer[0]->Fname.' '.$ApprovalReplacer[0]->Lname;
+     }
      $MRMasterDB->GeneralManager=$GM[0]->Fname.' '.$GM[0]->Lname;
-     $MRMasterDB->Receivedby=$request->Receivedby;
-     $MRMasterDB->ReceivedbyPosition=$request->ReceivedbyPosition;
-     $MRMasterDB->WarehouseMan=$CurrentWarehouseMan[0]->Fname.' '.$CurrentWarehouseMan[0]->Lname;
+     $MRMasterDB->Receivedby=$Receiver[0]->Fname.' '.$Receiver[0]->Lname;
+     $MRMasterDB->ReceivedbyPosition=$Receiver[0]->Position;
+     $MRMasterDB->WarehouseMan=Auth::user()->Fname.' '.Auth::user()->Lname;
      $MRMasterDB->save();
      $ForMRDetailDB = array();
      foreach (Session::get('MRSession') as $items)
@@ -69,18 +77,30 @@ class MRController extends Controller
      }
      MRDetail::insert($ForMRDetailDB);
      Session::forget('MRSession');
+     $notifythis=str_replace(' ','',$Recommended[0]->Fname.$Recommended[0]->Lname);
+     $job=(new NewMRCreatedJob($notifythis))->delay(Carbon::now()->addSeconds(5));
+     dispatch($job);
      return ['redirect'=>route('fullMR',[$incremented])];
     }
     public function previewFullMR($id)
     {
+      $MRNumber = array('MRNo' =>$id);
+      $MRNumber=json_encode($MRNumber);
+      return view('Warehouse.MR.MRFullpreview',compact('MRNumber'));
+    }
+    public function previewFullMRFetchData($id)
+    {
       $MRMaster=MRMaster::where('MRNo',$id)->get();
-      return view('Warehouse.MR.MRFullpreview',compact('MRMaster'));
+      $MRDetail=MRDetail::where('MRNo',$id)->get();
+      $response = array('MRMaster' =>$MRMaster,'MRDetail'=>$MRDetail);
+      return response()->json($response);
     }
     public function createMR($id)
     {
       $RRItemsdetail=RRconfirmationDetails::where('RRNo',$id)->get(['QuantityAccepted','Unit','Description','UnitCost','Amount','ItemCode','RRNo']);
       $allmanager=User::where('Role', '0')->whereNotNull('IsActive')->get(['Fname','Lname','id']);
-      return view('Warehouse.MR.CreateMRViews',compact('allmanager','RRItemsdetail'));
+      $AllActiveUsers=User::whereNotNull('IsActive')->orderBy('Role')->get(['Fname','Lname','id']);
+      return view('Warehouse.MR.CreateMRViews',compact('allmanager','RRItemsdetail','AllActiveUsers'));
     }
     public function addSessionForMR(Request $request)
     {
@@ -90,9 +110,9 @@ class MRController extends Controller
       if (Session::has('MRSession')) {
         foreach (Session::get('MRSession') as $key => $items)
         {
-          if ($items->ItemCode == $request->ItemCode )
+          if ($items->Description == $request->Description )
           {
-            $response = ['error'=>'An item with thesame code has already been added'];
+            $response = ['error'=>'Cannot duplicate items'];
             return response()->json($response);
           }
         }
@@ -114,81 +134,88 @@ class MRController extends Controller
     {
       $Items=Session::get('MRSession');
       foreach ($Items as $count => $item) {
-        if ($item->ItemCode==$id)
-        {
-           unset($Items[$count]);
-        }
+
+           unset($Items[$id]);
       }
       Session::put('MRSession',$Items);
     }
     public function MRofRRlist($id)
     {
-      $MRmaster=MRMaster::where('RRNo',$id)->get(['MRNo','GeneralManagerSignature','RecommendedbySignature','IfDeclined','ApprovalReplacerSignature']);
+      $MRmaster=MRMaster::where('RRNo',$id)->get(['MRNo','GeneralManagerSignature','RecommendedbySignature','ReceivedbySignature','IfDeclined','ApprovalReplacerSignature']);
       return view('Warehouse.MR.MRofRRlist',compact('MRmaster'));
     }
-    public function SignatureMR(Request $request)
+    public function SignatureMR($id)
     {
-      $MRMaster=MRMaster::where('MRNo',$request->MRNo)->get(['Recommendedby','GeneralManager']);
+      $MRMaster=MRMaster::where('MRNo',$id)->get(['Recommendedby','GeneralManager','Receivedby']);
       if (Auth::user()->Fname.' '.Auth::user()->Lname==$MRMaster[0]->Recommendedby)
       {
-        MRMaster::where('MRNo',$request->MRNo)->update(['RecommendedbySignature'=>Auth::user()->Signature]);
+        MRMaster::where('MRNo',$id)->update(['RecommendedbySignature'=>Auth::user()->Signature]);
+        $notifythis=str_replace(' ','',$MRMaster[0]->GeneralManager);
+        $job=(new NewMRCreatedJob($notifythis))->delay(Carbon::now()->addSeconds(5));
+        dispatch($job);
       }
       if (Auth::user()->Fname.' '.Auth::user()->Lname==$MRMaster[0]->GeneralManager)
       {
-        MRMaster::where('MRNo',$request->MRNo)->update(['GeneralManagerSignature'=>Auth::user()->Signature,'ApprovalReplacerFname'=>null,'ApprovalReplacerLname'=>null,'ApprovalReplacerPosition'=>null,'ApprovalReplacerSignature'=>null]);
+        MRMaster::where('MRNo',$id)->update(['GeneralManagerSignature'=>Auth::user()->Signature,'ApprovalReplacer'=>null,'ApprovalReplacerSignature'=>null]);
+        $notifythis=str_replace(' ','',$MRMaster[0]->Receivedby);
+        $job=(new NewMRCreatedJob($notifythis))->delay(Carbon::now()->addSeconds(5));
+        dispatch($job);
       }
-      return redirect()->back();
+      if (Auth::user()->Fname.' '.Auth::user()->Lname==$MRMaster[0]->Receivedby)
+      {
+        MRMaster::where('MRNo',$id)->update(['ReceivedbySignature'=>Auth::user()->Signature]);
+      }
     }
-    public function DeclineMR(Request $request)
+    public function DeclineMR($id)
     {
-      $MRMaster=MRMaster::where('MRNo',$request->MRNo)->get(['Recommendedby','GeneralManager']);
-      if (Auth::user()->Fname.' '.Auth::user()->Lname==$MRMaster[0]->GeneralManager)
+      $MRMaster=MRMaster::where('MRNo',$id)->get(['Recommendedby','GeneralManager']);
+      if (Auth::user()->Role==2)
       {
-        MRMaster::where('MRNo',$request->MRNo)->update(['IfDeclined'=>Auth::user()->Fname.' '.Auth::user()->Lname,'ApprovalReplacerFname'=>null,'ApprovalReplacerLname'=>null,'ApprovalReplacerPosition'=>null,'ApprovalReplacerSignature'=>null]);
-      }elseif(Auth::user()->Fname.' '.Auth::user()->Lname==$MRMaster[0]->Recommendedby)
+        MRMaster::where('MRNo',$id)->update(['IfDeclined'=>Auth::user()->Fname.' '.Auth::user()->Lname,'ApprovalReplacer'=>null,'ApprovalReplacerSignature'=>null]);
+      }else
       {
-        MRMaster::where('MRNo',$request->MRNo)->update(['IfDeclined'=>Auth::user()->Fname.' '.Auth::user()->Lname]);
+        MRMaster::where('MRNo',$id)->update(['IfDeclined'=>Auth::user()->Fname.' '.Auth::user()->Lname]);
       }
-      return redirect()->back();
     }
     public function myMRrequest()
     {
       $MRRequest=MRMaster::orderBy('MRNo','DESC')->where('Recommendedby', Auth::user()->Fname.' '.Auth::user()->Lname)->whereNull('RecommendedbySignature')->whereNull('IfDeclined')
-      ->orWhere('GeneralManager', Auth::user()->Fname.' '.Auth::user()->Lname)->whereNull('GeneralManagerSignature')->whereNull('IfDeclined')->whereNull('ApprovalReplacerSignature')->paginate(10,['MRNo','Note','Recommendedby','RecommendedbySignature','Receivedby','GeneralManager','GeneralManagerSignature','MRDate']);
+      ->orWhere('GeneralManager', Auth::user()->Fname.' '.Auth::user()->Lname)->whereNull('GeneralManagerSignature')->whereNotNull('RecommendedbySignature')->whereNull('IfDeclined')->whereNull('ApprovalReplacerSignature')
+      ->orWhere('Receivedby', Auth::user()->Fname.' '.Auth::user()->Lname)->whereNull('ReceivedbySignature')->whereNotNull('GeneralManagerSignature')->whereNotNull('RecommendedbySignature')->whereNull('IfDeclined')->whereNull('ApprovalReplacerSignature')
+      ->orWhere('Receivedby', Auth::user()->Fname.' '.Auth::user()->Lname)->whereNull('ReceivedbySignature')->whereNull('GeneralManagerSignature')->whereNotNull('RecommendedbySignature')->whereNull('IfDeclined')->whereNotNull('ApprovalReplacerSignature')
+      ->orWhere('ApprovalReplacer',Auth::user()->Fname.' '.Auth::user()->Lname)->whereNull('ApprovalReplacerSignature')->whereNull('GeneralManagerSignature')->whereNotNull('RecommendedbySignature')->paginate(10,['MRNo','Note','Recommendedby','RecommendedbySignature','Receivedby','ReceivedbySignature','GeneralManager','GeneralManagerSignature','MRDate']);
       return view('Warehouse.MR.MyMRRequest',compact('MRRequest'));
     }
-
-    public function approveinBehalfMRsent($id)
+    public function refuseMRApproveInBehalf($id)
     {
-      if (Auth::user()->Role==0)
-      {
-        MRMaster::where('MRNo',$id)->update(['ApprovalReplacerFname'=>Auth::user()->Fname,'ApprovalReplacerLname'=>Auth::user()->Lname]);
-      }
-      return redirect()->back();
-    }
-    public function approveinBehalfcancel($id)
-    {
-      $replacer=MRMaster::where('MRNo',$id)->get(['ApprovalReplacerFname','ApprovalReplacerLname']);
-      if (Auth::user()->Fname.' '.Auth::user()->Lname==$replacer[0]->ApprovalReplacerFname.' '.$replacer[0]->ApprovalReplacerLname)
-      {
-        MRMaster::where('MRNo',$id)->update(['ApprovalReplacerFname'=>null,'ApprovalReplacerLname'=>null,'ApprovalReplacerSignature'=>null,'ApprovalReplacerPosition'=>null]);
-      }
-      return redirect()->back();
+      MRMaster::where('MRNo',$id)->update(['ApprovalReplacer'=>null]);
     }
     public function confirmApproveinBehalf($id)
     {
-      $MRMaster=MRMaster::where('MRNo',$id)->get(['GeneralManagerSignature','ApprovalReplacerFname','ApprovalReplacerLname']);
+      $MRMaster=MRMaster::where('MRNo',$id)->get(['GeneralManagerSignature']);
       if ($MRMaster[0]->GeneralManagerSignature==null)
       {
-        $replacerdata=User::whereNotNull('IsActive')->where('Fname', $MRMaster[0]->ApprovalReplacerFname)->where('Lname',$MRMaster[0]->ApprovalReplacerLname)->get(['Position','Signature']);
-        MRMaster::where('MRNo',$id)->update(['ApprovalReplacerSignature'=>$replacerdata[0]->Signature,'ApprovalReplacerPosition'=>$replacerdata[0]->Position]);
+        MRMaster::where('MRNo',$id)->update(['ApprovalReplacerSignature'=>Auth::user()->Signature]);
       }
-      return redirect()->back();
     }
-    public function denyApproveinBehalf($id)
+    public function MyMRrequestCount()
     {
-      MRMaster::where('MRNo',$id)->update(['ApprovalReplacerFname'=>null,'ApprovalReplacerLname'=>null,'ApprovalReplacerSignature'=>null,'ApprovalReplacerPosition'=>null]);
-      return redirect()->back();
+      $MRRequestCount=MRMaster::orderBy('MRNo','DESC')->where('Recommendedby', Auth::user()->Fname.' '.Auth::user()->Lname)->whereNull('RecommendedbySignature')->whereNull('IfDeclined')
+      ->orWhere('GeneralManager', Auth::user()->Fname.' '.Auth::user()->Lname)->whereNull('GeneralManagerSignature')->whereNotNull('RecommendedbySignature')->whereNull('IfDeclined')->whereNull('ApprovalReplacerSignature')
+      ->orWhere('Receivedby', Auth::user()->Fname.' '.Auth::user()->Lname)->whereNull('ReceivedbySignature')->whereNotNull('GeneralManagerSignature')->whereNotNull('RecommendedbySignature')->whereNull('IfDeclined')->whereNull('ApprovalReplacerSignature')
+      ->orWhere('Receivedby', Auth::user()->Fname.' '.Auth::user()->Lname)->whereNull('ReceivedbySignature')->whereNull('GeneralManagerSignature')->whereNotNull('RecommendedbySignature')->whereNull('IfDeclined')->whereNotNull('ApprovalReplacerSignature')
+      ->orWhere('ApprovalReplacer',Auth::user()->Fname.' '.Auth::user()->Lname)->whereNull('ApprovalReplacerSignature')->whereNull('GeneralManagerSignature')->whereNotNull('RecommendedbySignature')->count();
+      $response=[
+        'CountMRRequest'=>$MRRequestCount,
+      ];
+      return response()->json($response);
     }
-
+    public function MRindexPage()
+    {
+      return view('Warehouse.MR.MRindex');
+    }
+    public function MRindexFetchAndSearch(Request $request)
+    {
+      return MRMaster::where('MRNo','LIKE','%'.$request->MRNo.'%')->orderBy('MRNo','DESC')->paginate(10,['MRNo','MRDate','RVNo','RRNo','PONo','Supplier','Recommendedby','GeneralManager','Receivedby','RecommendedbySignature','GeneralManagerSignature','ReceivedbySignature','ApprovalReplacerSignature','IfDeclined']);
+    }
 }

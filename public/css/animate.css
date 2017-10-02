@@ -197,6 +197,9 @@
 .swing {
   transform-origin: top center;
   animation-name: swing;
+  animation-duration:.5s;
+  animation-delay:.3s;
+  animation-iteration-count:3;
 }
 
 @keyframes tada {

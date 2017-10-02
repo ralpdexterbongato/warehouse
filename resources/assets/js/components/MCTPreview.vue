@@ -1,0 +1,193 @@
+<template lang="html">
+<div class="print-MCT-wrap">
+    <div class="MCT-title">
+        <span v-if="MCTMaster.IssuedbySignature!=null&&MCTMaster.ReceivedbySignature!=null">
+          <form action="/mct-download" method="get">
+            <button type="submit" :value="this.mctno[0].MCTNo" name="MCTNo"><i class="fa fa-file-pdf-o"></i>.pdf</button>
+          </form>
+        </span>
+        <div class="empty-div-left mct-edit-container" v-else-if="user.Fname+' '+user.Lname==MCTMaster.Issuedby">
+          <span class="edit-mct" :class="ShowEdit==true?'hide':'show'"><i class="fa fa-edit" v-on:click="ShowEdit=true"></i>Edit</span>
+          <span class="edit-mct" :class="ShowEdit==false?'hide':'show'"><span class="color-blue">Save?</span> <button type="button" v-on:click="ShowEdit=false,fetchData();">cancel</button> <button v-on:click="ShowEdit=false,editMCTSave()" type="button" name="button">Save</button></span>
+        </div>
+        <span v-else>
+        </span>
+  <span v-if="MCTMaster.IssuedbySignature!=null&&MCTMaster.ReceivedbySignature!=null">
+    <span v-if="MRTCheck==null&&user.Role==4||MRTCheck==null&&user.Role==3">
+      <div class="Create-MRT-btn">
+        <a :href="'/MRT-create/'+this.mctno[0].MCTNo"><button type="submit" class="bttn-unite bttn-xs bttn-primary"><i class="fa fa-plus"></i> Make MRT</button></a>
+      </div>
+    </span>
+    <span v-else-if="MRTCheck!=null">
+      <div class="View-MRT-btn">
+        <div class="mrt-done">
+         <a :href="'/mrt-preview-page/'+MRTCheck"><button type="submit"><i class="fa fa-eye eyesicon"></i> View MRT</button></a>
+        </div>
+      </div>
+    </span>
+    <span v-else> No MRT generated yet</span>
+</span>
+<span v-else-if="MCTMaster.Issuedby==user.Fname+' '+user.Lname||MCTMaster.Receivedby==user.Fname+' '+user.Lname">
+    <span v-if="MCTMaster.IssuedbySignature!=user.Signature&&MCTMaster.ReceivedbySignature!=user.Signature&&MCTMaster.IfDeclined==null">
+        <div class="signature-mct-btn">
+         <button type="button" v-on:click="signatureMCT(),IsDisabled=true"id="signatureMCT" :disabled="IsDisabled"><i class="fa fa-pencil"></i> Signature</button>
+         <button type="button" v-on:click="declineMCT(),IsDisabled=true" id="declineMCT" :disabled="IsDisabled"><i class="fa fa-times"></i> Decline</button>
+        </div>
+    </span>
+</span>
+
+    </div>
+    <div class="bondpaper-preview">
+    <div class="bond-center-titles">
+      <h1>BOHOL I ELECTRIC COOPERATIVE, INC.</h1>
+      <h5>Cabulijan, Tubigon, Bohol</h5>
+      <h2>MATERIALS CHARGE TICKET</h2>
+      <img src="/DesignIMG/logo.png" alt="logo">
+    </div>
+    <div class="MCTMaster-details">
+      <div class="MCTmaster-left">
+        <ul>
+          <li><label>Particulars :</label><h2>{{MCTMaster.Particulars}}</h2></li>
+          <li><label>Address :</label><h2 :class="ShowEdit==true?'hide':'true'">{{MCTMaster.AddressTo}}</h2><h2 :class="ShowEdit==true?'show':'hide'" v-if="MCTMaster.ReceivedbySignature!=null||MCTMaster.IssuedbySignature!=null"><input type="text" v-model="AddressToEdit=MCTMaster.AddressTo"></h2></li>
+        </ul>
+      </div>
+      <div class="MCTmaster-right">
+        <ul>
+          <li><label>MIRS No :</label><h2>{{MCTMaster.MIRSNo}}</h2></li>
+          <li><label>MCT Date : </label><h2>{{MCTMaster.MCTDate}}</h2></li>
+          <li><label>MCT No.:</label><h2>{{MCTMaster.MCTNo}}</h2></li>
+        </ul>
+      </div>
+    </div>
+    <div class="MCTpreview">
+      <table>
+        <tr>
+          <th>AcctCode</th>
+          <th>Item Code</th>
+          <th>Description</th>
+          <th>Unit Cost</th>
+          <th>Quantity</th>
+          <th>Amount</th>
+          <th>Unit</th>
+        </tr>
+        <tr v-for="(mctconfirm, count) in MCTConfirmDetails">
+          <td>{{mctconfirm.AccountCode}}</td>
+          <td>{{mctconfirm.ItemCode}}</td>
+          <td class="align-left">{{mctconfirm.Description}}</td>
+          <td>{{formatPrice(mctconfirm.UnitCost)}}</td>
+          <td><span :class="ShowEdit==true?'hide':'show'">{{mctconfirm.Quantity}}</span><input type="text" v-if="MCTMaster.ReceivedbySignature!=null||MCTMaster.IssuedbySignature!=null" v-model="QuantityArray[count]=mctconfirm.Quantity" :class="ShowEdit==true?'show':'hide'"></td>
+          <td>{{formatPrice(mctconfirm.Amount)}}</td>
+          <td>{{mctconfirm.Unit}}</td>
+        </tr>
+      </table>
+    </div>
+    <div class="totalcost-mct">
+      <ul>
+        <li v-for="accountcode in AccountCodeGroup"><label>{{accountcode.AccountCode}}</label><h1>{{formatPrice(accountcode.totals)}}</h1></li>
+      </ul>
+      <div class="total-result">
+        <h1>TOTAL</h1><h2>{{formatPrice(TotalSum)}}</h2>
+      </div>
+    </div>
+    <div class="signatures-mct-preview">
+      <div class="mct-signature-left">
+        <div class="issuedby-label">
+          Issued by:
+        </div>
+        <div class="issuedby-data">
+          <div class="signature-issuedmct">
+              <img :src="'/storage/signatures/'+MCTMaster.IssuedbySignature" v-if="MCTMaster.IssuedbySignature!=null" alt="signature">
+          </div>
+          <h1>{{MCTMaster.Issuedby}}</h1>
+          <h5>{{MCTMaster.IssuedbyPosition}}</h5>
+        </div>
+      </div>
+      <div class="mct-signature-right">
+        <div class="recievedby-label">
+          Recieved by:
+        </div>
+        <div class="recievedby-data">
+          <div class="signature-recievedmct">
+            <img :src="'/storage/signatures/'+MCTMaster.ReceivedbySignature" v-if="MCTMaster.ReceivedbySignature!=null" alt="signature">
+          </div>
+          <h1>{{MCTMaster.Receivedby}} <i v-if="MCTMaster.IfDeclined==MCTMaster.Receivedby" class="fa fa-times decliner"></i></h1>
+          <h5>{{MCTMaster.ReceivedbyPosition}}</h5>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+</template>
+
+<script>
+import axios from 'axios'
+  export default {
+
+     data () {
+        return {
+          MRTCheck:'',
+          MCTMaster:[],
+          MCTConfirmDetails:[],
+          AccountCodeGroup:[],
+          TotalSum:'',
+          ShowEdit:false,
+          AddressToEdit:'',
+          QuantityArray:[],
+          IsDisabled:false,
+        }
+      },
+     props: ['mctno','user'],
+     methods: {
+       fetchData()
+       {
+         var vm=this;
+         axios.get(`/MCTpreview/`+this.mctno[0].MCTNo).then(function(response)
+        {
+          console.log(response);
+          Vue.set(vm.$data,'MRTCheck',response.data.MRTcheck);
+          Vue.set(vm.$data,'MCTMaster',response.data.MCTMaster[0]);
+          Vue.set(vm.$data,'MCTConfirmDetails',response.data.MCTConfirmDetails);
+          Vue.set(vm.$data,'AccountCodeGroup',response.data.AccountCodeGroup);
+          Vue.set(vm.$data,'TotalSum',response.data.totalsum);
+        });
+      },
+      signatureMCT()
+      {
+        var vm=this;
+        axios.put(`/Signature-for-mct/`+this.mctno[0].MCTNo).then(function(response)
+        {
+          console.log(response);
+        });
+        this.fetchData();
+      },
+      declineMCT()
+      {
+        var vm=this;
+        axios.put(`/decline-mct/`+this.mctno[0].MCTNo).then(function(response)
+        {
+          console.log(response);
+        });
+        this.fetchData();
+      },
+      formatPrice(value) {
+            let val = (value/1).toFixed(2).replace('.', '.')
+            return val.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ",")
+      },
+      editMCTSave()
+      {
+        var vm=this;
+        axios.put(`/update-mct/`+this.mctno[0].MCTNo,{
+          NewQuantity:this.QuantityArray,
+          NewAddressTo:this.AddressToEdit,
+        }).then(function(response)
+        {
+          console.log(response);
+        });
+        this.fetchData();
+      },
+     },
+     created () {
+       this.fetchData();
+     },
+  }
+</script>

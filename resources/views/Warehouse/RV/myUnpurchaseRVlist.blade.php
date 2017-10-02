@@ -27,7 +27,11 @@
       </tr>
       @endforeach
     </table>
-    {{$unpurchaselist->links()}}
+    <div class="pagination-container">
+      {{$unpurchaselist->links()}}
+    </div>
+    @else
+      <h1 class="all-is-purchased">No pending RV purchase <i class="fa fa-thumbs-up"></i></h1>
     @endif
   </div>
 </div>

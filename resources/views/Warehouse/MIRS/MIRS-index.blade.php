@@ -6,7 +6,7 @@
   <div class="grid-mirs-container">
     <div class="top-wrap-index-mirs">
       <div class="Title-MIRS-Index">
-        MIRS INDEX
+      <i class="fa fa-th-large"></i>  Materials Issuance Requisition Slip index
       </div>
       <div class="search-mirs-container">
         <form action="{{route('finding.mirs')}}" method="get">
@@ -39,7 +39,7 @@
              @endif
             </td>
             <td>{{$MIRSfound->Recommendedby}}
-              @if (!empty($MIRSfound->RecommendSignature))
+              @if (($MIRSfound->RecommendSignature)||($MIRSfound->ManagerReplacerSignature))
                <i class="fa fa-check"></i>
              @elseif($MIRSfound->IfDeclined==$MIRSfound->Recommendedby)
                <i class="fa fa-times decliner"></i>
@@ -55,7 +55,7 @@
             <td>{{$MIRSfound->MIRSDate->format('M d, Y')}}</td>
             @if ($MIRSfound->IfDeclined==null)
               @if ($MIRSfound->ApprovalReplacerSignature==null)
-                @if(($MIRSfound->PreparedSignature==null)||($MIRSfound->ApproveSignature==null)||($MIRSfound->RecommendSignature==null))
+                @if(($MIRSfound->PreparedSignature==null)||($MIRSfound->ApproveSignature==null)||(($MIRSfound->RecommendSignature==null)&&($MIRSfound->ManagerReplacerSignature==null)))
                 <td><i class="fa fa-clock-o"></i></td>
                 @else
                 <td><i class="fa fa-thumbs-up"></i></td>
@@ -74,7 +74,7 @@
           <tr>
             <td>{{$allmaster->MIRSNo}}</td>
             <td>{{$allmaster->Purpose}}</td>
-            <td>{{$allmaster->Preparedby}}
+            <td>{{$allmaster->Preparedby}}<br>
               @if (!empty($allmaster->PreparedSignature))
                <i class="fa fa-check"></i>
              @elseif ($allmaster->Preparedby == $allmaster->IfDeclined)
@@ -82,14 +82,14 @@
              @endif
             </td>
             <td>
-              {{$allmaster->Recommendedby}}
-              @if (!empty($allmaster->RecommendSignature))
+              {{$allmaster->Recommendedby}}<br>
+              @if (($allmaster->RecommendSignature)||($allmaster->ManagerReplacerSignature))
                <i class="fa fa-check"></i>
              @elseif ($allmaster->Recommendedby == $allmaster->IfDeclined)
                <i class="fa fa-times decliner"></i>
              @endif
             </td>
-            <td>{{$allmaster->Approvedby}}
+            <td>{{$allmaster->Approvedby}}<br>
               @if (($allmaster->ApproveSignature!=null)||($allmaster->ApprovalReplacerSignature!=null))
                 <i class="fa fa-check"></i>
               @elseif ($allmaster->Approvedby == $allmaster->IfDeclined)
@@ -99,7 +99,7 @@
             <td>{{$allmaster->MIRSDate->format('M d, Y')}}</td>
             @if ($allmaster->IfDeclined==null)
               @if ($allmaster->ApprovalReplacerSignature==null)
-                @if (($allmaster->PreparedSignature==null)||($allmaster->ApproveSignature==null)||($allmaster->RecommendSignature==null))
+                @if (($allmaster->PreparedSignature==null)||($allmaster->ApproveSignature==null)||(($allmaster->RecommendSignature==null)&&($allmaster->ManagerReplacerSignature==null)))
                 <td><i class="fa fa-clock-o"></i></td>
                 @else
                 <td><i class="fa fa-thumbs-up"></i></td>
@@ -116,7 +116,9 @@
         @endif
       </table>
       @if (!empty($AllmasterMIRS[0]))
-        {{$AllmasterMIRS->links()}}
+        <div class="pagination-container">
+          {{$AllmasterMIRS->links()}}
+        </div>
       @endif
     </div>
   </div>

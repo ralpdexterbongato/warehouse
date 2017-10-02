@@ -28,7 +28,9 @@ MIRS Ready for MCT
           </tr>
         @endforeach
       </table>
-      {{$readyformct->links()}}
+      <div class="paginate-container">
+        {{$readyformct->links()}}
+      </div>
       @else
         <h1 class="no-waitingMIRS">MIRS waiting for MCT is empty</h1>
       @endif

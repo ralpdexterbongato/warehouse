@@ -9,7 +9,7 @@
       <a href="{{route('fullMR',[$master->MRNo])}}">
         <div class="mr-box">
           <h1>{{$master->MRNo}}</h1>
-          @if ((($master->GeneralManagerSignature!=null)&&($master->RecommendedbySignature!=null))||(($master->ApprovalReplacerSignature!=null)&&($master->RecommendedbySignature!=null)))
+          @if ((($master->ReceivedbySignature!=null)&&($master->GeneralManagerSignature!=null)&&($master->RecommendedbySignature!=null))||(($master->ApprovalReplacerSignature!=null)&&($master->RecommendedbySignature!=null)))
             <h2><i class="fa fa-check"></i></h2>
           @elseif($master->IfDeclined)
             <h2><i class="fa fa-times big-x"></i></h2>

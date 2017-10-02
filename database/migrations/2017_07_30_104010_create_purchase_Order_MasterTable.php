@@ -25,9 +25,7 @@ class CreatePurchaseOrderMasterTable extends Migration
           $table->string('IfDeclined')->nullable();
           $table->date('RVDate')->nullable();
           $table->date('PODate')->nullable();
-          $table->string('ApprovalReplacerFname',30)->nullable();
-          $table->string('ApprovalReplacerLname',30)->nullable();
-          $table->string('ApprovalReplacerPosition',50)->nullable();
+          $table->string('ApprovalReplacer',50)->nullable();
           $table->string('ApprovalReplacerSignature',150)->nullable();
         });
     }

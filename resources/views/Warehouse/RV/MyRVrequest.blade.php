@@ -32,7 +32,7 @@
               </td>
               <td>
                 {{$myRVrequest->Recommendedby}}
-                @if ($myRVrequest->RecommendedbySignature)
+                @if (($myRVrequest->RecommendedbySignature)||($myRVrequest->ManagerReplacerSignature))
                   <br><i class="fa fa-check"></i>
                 @endif
               </td>

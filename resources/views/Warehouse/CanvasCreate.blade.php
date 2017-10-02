@@ -4,7 +4,7 @@
 @endsection
 @section('body')
   <div id="canvass">
-      <canvasscreate :rvnum="{{$checkifpurchased}}">
+      <canvasscreate :rvno="{{$checkifpurchased[0]}}">
       </canvasscreate>
   </div>
   <script type="text/javascript" src="/js/canvass.js">

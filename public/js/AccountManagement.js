@@ -63,7 +63,7 @@
 /******/ 	__webpack_require__.p = "";
 /******/
 /******/ 	// Load entry module and return exports
-/******/ 	return __webpack_require__(__webpack_require__.s = 71);
+/******/ 	return __webpack_require__(__webpack_require__.s = 125);
 /******/ })
 /************************************************************************/
 /******/ ([
@@ -73,7 +73,7 @@
 "use strict";
 
 
-var bind = __webpack_require__(6);
+var bind = __webpack_require__(8);
 
 /*global toString:true*/
 
@@ -380,7 +380,7 @@ module.exports = {
 /* WEBPACK VAR INJECTION */(function(process) {
 
 var utils = __webpack_require__(0);
-var normalizeHeaderName = __webpack_require__(23);
+var normalizeHeaderName = __webpack_require__(24);
 
 var PROTECTION_PREFIX = /^\)\]\}',?\n/;
 var DEFAULT_CONTENT_TYPE = {
@@ -397,10 +397,10 @@ function getDefaultAdapter() {
   var adapter;
   if (typeof XMLHttpRequest !== 'undefined') {
     // For browsers use XHR adapter
-    adapter = __webpack_require__(2);
+    adapter = __webpack_require__(4);
   } else if (typeof process !== 'undefined') {
     // For node use HTTP adapter
-    adapter = __webpack_require__(2);
+    adapter = __webpack_require__(4);
   }
   return adapter;
 }
@@ -471,22 +471,85 @@ utils.forEach(['post', 'put', 'patch'], function forEachMethodWithData(method) {
 
 module.exports = defaults;
 
-/* WEBPACK VAR INJECTION */}.call(exports, __webpack_require__(26)))
+/* WEBPACK VAR INJECTION */}.call(exports, __webpack_require__(27)))
 
 /***/ }),
 /* 2 */
+/***/ (function(module, exports, __webpack_require__) {
+
+module.exports = __webpack_require__(10);
+
+/***/ }),
+/* 3 */
+/***/ (function(module, exports) {
+
+// this module is a runtime utility for cleaner component module output and will
+// be included in the final webpack user bundle
+
+module.exports = function normalizeComponent (
+  rawScriptExports,
+  compiledTemplate,
+  scopeId,
+  cssModules
+) {
+  var esModule
+  var scriptExports = rawScriptExports = rawScriptExports || {}
+
+  // ES6 modules interop
+  var type = typeof rawScriptExports.default
+  if (type === 'object' || type === 'function') {
+    esModule = rawScriptExports
+    scriptExports = rawScriptExports.default
+  }
+
+  // Vue.extend constructor export interop
+  var options = typeof scriptExports === 'function'
+    ? scriptExports.options
+    : scriptExports
+
+  // render functions
+  if (compiledTemplate) {
+    options.render = compiledTemplate.render
+    options.staticRenderFns = compiledTemplate.staticRenderFns
+  }
+
+  // scopedId
+  if (scopeId) {
+    options._scopeId = scopeId
+  }
+
+  // inject cssModules
+  if (cssModules) {
+    var computed = Object.create(options.computed || null)
+    Object.keys(cssModules).forEach(function (key) {
+      var module = cssModules[key]
+      computed[key] = function () { return module }
+    })
+    options.computed = computed
+  }
+
+  return {
+    esModule: esModule,
+    exports: scriptExports,
+    options: options
+  }
+}
+
+
+/***/ }),
+/* 4 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
 
 
 var utils = __webpack_require__(0);
-var settle = __webpack_require__(15);
-var buildURL = __webpack_require__(18);
-var parseHeaders = __webpack_require__(24);
-var isURLSameOrigin = __webpack_require__(22);
-var createError = __webpack_require__(5);
-var btoa = (typeof window !== 'undefined' && window.btoa && window.btoa.bind(window)) || __webpack_require__(17);
+var settle = __webpack_require__(16);
+var buildURL = __webpack_require__(19);
+var parseHeaders = __webpack_require__(25);
+var isURLSameOrigin = __webpack_require__(23);
+var createError = __webpack_require__(7);
+var btoa = (typeof window !== 'undefined' && window.btoa && window.btoa.bind(window)) || __webpack_require__(18);
 
 module.exports = function xhrAdapter(config) {
   return new Promise(function dispatchXhrRequest(resolve, reject) {
@@ -582,7 +645,7 @@ module.exports = function xhrAdapter(config) {
     // This is only done if running in a standard browser environment.
     // Specifically not if we're in a web worker, or react-native.
     if (utils.isStandardBrowserEnv()) {
-      var cookies = __webpack_require__(20);
+      var cookies = __webpack_require__(21);
 
       // Add xsrf header
       var xsrfValue = (config.withCredentials || isURLSameOrigin(config.url)) && config.xsrfCookieName ?
@@ -658,7 +721,7 @@ module.exports = function xhrAdapter(config) {
 
 
 /***/ }),
-/* 3 */
+/* 5 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -684,7 +747,7 @@ module.exports = Cancel;
 
 
 /***/ }),
-/* 4 */
+/* 6 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -696,13 +759,13 @@ module.exports = function isCancel(value) {
 
 
 /***/ }),
-/* 5 */
+/* 7 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
 
 
-var enhanceError = __webpack_require__(14);
+var enhanceError = __webpack_require__(15);
 
 /**
  * Create an Error with the specified message, config, error code, and response.
@@ -720,7 +783,7 @@ module.exports = function createError(message, config, code, response) {
 
 
 /***/ }),
-/* 6 */
+/* 8 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -738,78 +801,42 @@ module.exports = function bind(fn, thisArg) {
 
 
 /***/ }),
-/* 7 */
-/***/ (function(module, exports, __webpack_require__) {
-
-module.exports = __webpack_require__(9);
-
-/***/ }),
-/* 8 */
+/* 9 */
 /***/ (function(module, exports) {
 
-// this module is a runtime utility for cleaner component module output and will
-// be included in the final webpack user bundle
+var g;
 
-module.exports = function normalizeComponent (
-  rawScriptExports,
-  compiledTemplate,
-  scopeId,
-  cssModules
-) {
-  var esModule
-  var scriptExports = rawScriptExports = rawScriptExports || {}
+// This works in non-strict mode
+g = (function() {
+	return this;
+})();
 
-  // ES6 modules interop
-  var type = typeof rawScriptExports.default
-  if (type === 'object' || type === 'function') {
-    esModule = rawScriptExports
-    scriptExports = rawScriptExports.default
-  }
-
-  // Vue.extend constructor export interop
-  var options = typeof scriptExports === 'function'
-    ? scriptExports.options
-    : scriptExports
-
-  // render functions
-  if (compiledTemplate) {
-    options.render = compiledTemplate.render
-    options.staticRenderFns = compiledTemplate.staticRenderFns
-  }
-
-  // scopedId
-  if (scopeId) {
-    options._scopeId = scopeId
-  }
-
-  // inject cssModules
-  if (cssModules) {
-    var computed = Object.create(options.computed || null)
-    Object.keys(cssModules).forEach(function (key) {
-      var module = cssModules[key]
-      computed[key] = function () { return module }
-    })
-    options.computed = computed
-  }
-
-  return {
-    esModule: esModule,
-    exports: scriptExports,
-    options: options
-  }
+try {
+	// This works if eval is allowed (see CSP)
+	g = g || Function("return this")() || (1,eval)("this");
+} catch(e) {
+	// This works if the window reference is available
+	if(typeof window === "object")
+		g = window;
 }
+
+// g can still be undefined, but nothing to do about it...
+// We return undefined, instead of nothing here, so it's
+// easier to handle this case. if(!global) { ...}
+
+module.exports = g;
 
 
 /***/ }),
-/* 9 */
+/* 10 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
 
 
 var utils = __webpack_require__(0);
-var bind = __webpack_require__(6);
-var Axios = __webpack_require__(11);
+var bind = __webpack_require__(8);
+var Axios = __webpack_require__(12);
 var defaults = __webpack_require__(1);
 
 /**
@@ -843,15 +870,15 @@ axios.create = function create(instanceConfig) {
 };
 
 // Expose Cancel & CancelToken
-axios.Cancel = __webpack_require__(3);
-axios.CancelToken = __webpack_require__(10);
-axios.isCancel = __webpack_require__(4);
+axios.Cancel = __webpack_require__(5);
+axios.CancelToken = __webpack_require__(11);
+axios.isCancel = __webpack_require__(6);
 
 // Expose all/spread
 axios.all = function all(promises) {
   return Promise.all(promises);
 };
-axios.spread = __webpack_require__(25);
+axios.spread = __webpack_require__(26);
 
 module.exports = axios;
 
@@ -860,13 +887,13 @@ module.exports.default = axios;
 
 
 /***/ }),
-/* 10 */
+/* 11 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
 
 
-var Cancel = __webpack_require__(3);
+var Cancel = __webpack_require__(5);
 
 /**
  * A `CancelToken` is an object that can be used to request cancellation of an operation.
@@ -924,7 +951,7 @@ module.exports = CancelToken;
 
 
 /***/ }),
-/* 11 */
+/* 12 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -932,10 +959,10 @@ module.exports = CancelToken;
 
 var defaults = __webpack_require__(1);
 var utils = __webpack_require__(0);
-var InterceptorManager = __webpack_require__(12);
-var dispatchRequest = __webpack_require__(13);
-var isAbsoluteURL = __webpack_require__(21);
-var combineURLs = __webpack_require__(19);
+var InterceptorManager = __webpack_require__(13);
+var dispatchRequest = __webpack_require__(14);
+var isAbsoluteURL = __webpack_require__(22);
+var combineURLs = __webpack_require__(20);
 
 /**
  * Create a new instance of Axios
@@ -1016,7 +1043,7 @@ module.exports = Axios;
 
 
 /***/ }),
-/* 12 */
+/* 13 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -1075,15 +1102,15 @@ module.exports = InterceptorManager;
 
 
 /***/ }),
-/* 13 */
+/* 14 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
 
 
 var utils = __webpack_require__(0);
-var transformData = __webpack_require__(16);
-var isCancel = __webpack_require__(4);
+var transformData = __webpack_require__(17);
+var isCancel = __webpack_require__(6);
 var defaults = __webpack_require__(1);
 
 /**
@@ -1161,7 +1188,7 @@ module.exports = function dispatchRequest(config) {
 
 
 /***/ }),
-/* 14 */
+/* 15 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -1187,13 +1214,13 @@ module.exports = function enhanceError(error, config, code, response) {
 
 
 /***/ }),
-/* 15 */
+/* 16 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
 
 
-var createError = __webpack_require__(5);
+var createError = __webpack_require__(7);
 
 /**
  * Resolve or reject a Promise based on response status.
@@ -1219,7 +1246,7 @@ module.exports = function settle(resolve, reject, response) {
 
 
 /***/ }),
-/* 16 */
+/* 17 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -1246,7 +1273,7 @@ module.exports = function transformData(data, headers, fns) {
 
 
 /***/ }),
-/* 17 */
+/* 18 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -1289,7 +1316,7 @@ module.exports = btoa;
 
 
 /***/ }),
-/* 18 */
+/* 19 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -1364,7 +1391,7 @@ module.exports = function buildURL(url, params, paramsSerializer) {
 
 
 /***/ }),
-/* 19 */
+/* 20 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -1383,7 +1410,7 @@ module.exports = function combineURLs(baseURL, relativeURL) {
 
 
 /***/ }),
-/* 20 */
+/* 21 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -1443,7 +1470,7 @@ module.exports = (
 
 
 /***/ }),
-/* 21 */
+/* 22 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -1464,7 +1491,7 @@ module.exports = function isAbsoluteURL(url) {
 
 
 /***/ }),
-/* 22 */
+/* 23 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -1539,7 +1566,7 @@ module.exports = (
 
 
 /***/ }),
-/* 23 */
+/* 24 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -1558,7 +1585,7 @@ module.exports = function normalizeHeaderName(headers, normalizedName) {
 
 
 /***/ }),
-/* 24 */
+/* 25 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -1602,7 +1629,7 @@ module.exports = function parseHeaders(headers) {
 
 
 /***/ }),
-/* 25 */
+/* 26 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -1636,7 +1663,7 @@ module.exports = function spread(callback) {
 
 
 /***/ }),
-/* 26 */
+/* 27 */
 /***/ (function(module, exports) {
 
 // shim for using process in browser
@@ -1826,7 +1853,7 @@ process.umask = function() { return 0; };
 
 
 /***/ }),
-/* 27 */
+/* 28 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -11918,484 +11945,161 @@ Vue$3.compile = compileToFunctions;
 
 module.exports = Vue$3;
 
-/* WEBPACK VAR INJECTION */}.call(exports, __webpack_require__(28)))
+/* WEBPACK VAR INJECTION */}.call(exports, __webpack_require__(9)))
 
 /***/ }),
-/* 28 */
-/***/ (function(module, exports) {
-
-var g;
-
-// This works in non-strict mode
-g = (function() {
-	return this;
-})();
-
-try {
-	// This works if eval is allowed (see CSP)
-	g = g || Function("return this")() || (1,eval)("this");
-} catch(e) {
-	// This works if the window reference is available
-	if(typeof window === "object")
-		g = window;
-}
-
-// g can still be undefined, but nothing to do about it...
-// We return undefined, instead of nothing here, so it's
-// easier to handle this case. if(!global) { ...}
-
-module.exports = g;
-
-
-/***/ }),
-/* 29 */
+/* 29 */,
+/* 30 */,
+/* 31 */
 /***/ (function(module, exports, __webpack_require__) {
 
-window.Vue = __webpack_require__(27);
-Vue.component('generalmanagers', __webpack_require__(49));
-Vue.component('managers', __webpack_require__(50));
-Vue.component('admin', __webpack_require__(48));
-Vue.component('other', __webpack_require__(51));
-Vue.component('history', __webpack_require__(57));
+window.Vue = __webpack_require__(28);
+Vue.component('accountsettings', __webpack_require__(74));
+Vue.component('history', __webpack_require__(91));
+Vue.component('loginpage', __webpack_require__(97));
+Vue.component('managers', __webpack_require__(90));
 new Vue({
     el: '#accounts'
 });
 
 /***/ }),
-/* 30 */,
-/* 31 */,
 /* 32 */,
 /* 33 */,
 /* 34 */,
 /* 35 */,
-/* 36 */
-/***/ (function(module, __webpack_exports__, __webpack_require__) {
-
-"use strict";
-Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_0_axios__ = __webpack_require__(7);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_0_axios___default = __webpack_require__.n(__WEBPACK_IMPORTED_MODULE_0_axios__);
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-
-
-/* harmony default export */ __webpack_exports__["default"] = ({
-  data: function data() {
-    return {
-      Admins: [],
-      pagination: [],
-      offset: 4
-    };
-  },
-
-  methods: {
-    getAllAdmins: function getAllAdmins(page) {
-      var vm = this;
-      __WEBPACK_IMPORTED_MODULE_0_axios___default.a.get('/getallAdmin?page=' + page).then(function (response) {
-        console.log(response);
-        Vue.set(vm.$data, 'Admins', response.data.data);
-        Vue.set(vm.$data, 'pagination', response.data);
-      }, function (error) {
-        console.log(error);
-      });
-    },
-    changepage: function changepage(next) {
-      this.pagination.current_page = next;
-      this.getAllAdmins(next);
-    }
-  },
-  computed: {
-    Activepage: function Activepage() {
-      return this.pagination.current_page;
-    },
-    pagesNumber: function pagesNumber() {
-      if (!this.pagination.to) {
-        return [];
-      }
-      var from = this.pagination.current_page - this.offset;
-      if (from < 1) {
-        from = 1;
-      }
-      var to = from + this.offset * 2;
-      if (to >= this.pagination.last_page) {
-        to = this.pagination.last_page;
-      }
-      var pagesArray = [];
-      while (from <= to) {
-        pagesArray.push(from);
-        from++;
-      }
-      return pagesArray;
-    }
-  },
-  mounted: function mounted() {
-    this.getAllAdmins(this.pagination.current_page);
-  }
-});
-
-/***/ }),
-/* 37 */
-/***/ (function(module, __webpack_exports__, __webpack_require__) {
-
-"use strict";
-Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_0_axios__ = __webpack_require__(7);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_0_axios___default = __webpack_require__.n(__WEBPACK_IMPORTED_MODULE_0_axios__);
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-
-
-/* harmony default export */ __webpack_exports__["default"] = ({
-  data: function data() {
-    return {
-      GeneralManagers: [],
-      pagination: [],
-      offset: 4
-    };
-  },
-
-  methods: {
-    getAllGM: function getAllGM(page) {
-      var vm = this;
-      __WEBPACK_IMPORTED_MODULE_0_axios___default.a.get('/get-general-managers?page=' + page).then(function (response) {
-        console.log(response);
-        Vue.set(vm.$data, 'GeneralManagers', response.data.data);
-        Vue.set(vm.$data, 'pagination', response.data);
-      }, function (error) {
-        console.log(error);
-      });
-    },
-    changepage: function changepage(next) {
-      this.pagination.current_page = next;
-      this.getAllGM(next);
-    }
-  },
-  computed: {
-    Activepage: function Activepage() {
-      return this.pagination.current_page;
-    },
-    pagesNumber: function pagesNumber() {
-      if (!this.pagination.to) {
-        return [];
-      }
-      var from = this.pagination.current_page - this.offset;
-      if (from < 1) {
-        from = 1;
-      }
-      var to = from + this.offset * 2;
-      if (to >= this.pagination.last_page) {
-        to = this.pagination.last_page;
-      }
-      var pagesArray = [];
-      while (from <= to) {
-        pagesArray.push(from);
-        from++;
-      }
-      return pagesArray;
-    }
-  },
-  mounted: function mounted() {
-    this.getAllGM(this.pagination.current_page);
-  }
-});
-
-/***/ }),
-/* 38 */
-/***/ (function(module, __webpack_exports__, __webpack_require__) {
-
-"use strict";
-Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_0_axios__ = __webpack_require__(7);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_0_axios___default = __webpack_require__.n(__WEBPACK_IMPORTED_MODULE_0_axios__);
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-
-
-/* harmony default export */ __webpack_exports__["default"] = ({
-  data: function data() {
-    return {
-      Managers: [],
-      pagination: [],
-      offset: 4
-    };
-  },
-
-  methods: {
-    getAllManagers: function getAllManagers(page) {
-      var vm = this;
-      __WEBPACK_IMPORTED_MODULE_0_axios___default.a.get('/get-all-managers?page=' + page).then(function (response) {
-        console.log(response);
-        Vue.set(vm.$data, 'Managers', response.data.data);
-        Vue.set(vm.$data, 'pagination', response.data);
-      }, function (error) {
-        console.log(error);
-      });
-    },
-    changepage: function changepage(next) {
-      this.pagination.current_page = next;
-      this.getAllManagers(next);
-    }
-  },
-  computed: {
-    Activepage: function Activepage() {
-      return this.pagination.current_page;
-    },
-    pagesNumber: function pagesNumber() {
-      if (!this.pagination.to) {
-        return [];
-      }
-      var from = this.pagination.current_page - this.offset;
-      if (from < 1) {
-        from = 1;
-      }
-      var to = from + this.offset * 2;
-      if (to >= this.pagination.last_page) {
-        to = this.pagination.last_page;
-      }
-      var pagesArray = [];
-      while (from <= to) {
-        pagesArray.push(from);
-        from++;
-      }
-      return pagesArray;
-    }
-  },
-  mounted: function mounted() {
-    this.getAllManagers(this.pagination.current_page);
-  }
-});
-
-/***/ }),
-/* 39 */
-/***/ (function(module, __webpack_exports__, __webpack_require__) {
-
-"use strict";
-Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_0_axios__ = __webpack_require__(7);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_0_axios___default = __webpack_require__.n(__WEBPACK_IMPORTED_MODULE_0_axios__);
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-
-
-/* harmony default export */ __webpack_exports__["default"] = ({
-  data: function data() {
-    return {
-      Others: [],
-      pagination: [],
-      offset: 4
-    };
-  },
-
-  methods: {
-    getOtherAcc: function getOtherAcc(page) {
-      var vm = this;
-      __WEBPACK_IMPORTED_MODULE_0_axios___default.a.get('/get-other-accounts?page=' + page).then(function (response) {
-        console.log(response);
-        Vue.set(vm.$data, 'Others', response.data.data);
-        Vue.set(vm.$data, 'pagination', response.data);
-      }, function (error) {
-        console.log(error);
-      });
-    },
-    changepage: function changepage(next) {
-      this.pagination.current_page = next;
-      this.getOtherAcc(next);
-    }
-  },
-  computed: {
-    Activepage: function Activepage() {
-      return this.pagination.current_page;
-    },
-    pagesNumber: function pagesNumber() {
-      if (!this.pagination.to) {
-        return [];
-      }
-      var from = this.pagination.current_page - this.offset;
-      if (from < 1) {
-        from = 1;
-      }
-      var to = from + this.offset * 2;
-      if (to >= this.pagination.last_page) {
-        to = this.pagination.last_page;
-      }
-      var pagesArray = [];
-      while (from <= to) {
-        pagesArray.push(from);
-        from++;
-      }
-      return pagesArray;
-    }
-  },
-  mounted: function mounted() {
-    this.getOtherAcc(this.pagination.current_page);
-  }
-});
-
-/***/ }),
+/* 36 */,
+/* 37 */,
+/* 38 */,
+/* 39 */,
 /* 40 */,
 /* 41 */,
 /* 42 */,
-/* 43 */,
-/* 44 */,
-/* 45 */
+/* 43 */
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
 "use strict";
 Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_0_axios__ = __webpack_require__(7);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_0_axios__ = __webpack_require__(2);
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_0_axios___default = __webpack_require__.n(__WEBPACK_IMPORTED_MODULE_0_axios__);
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
 //
 //
 //
@@ -12489,17 +12193,617 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
 
 
 /* harmony default export */ __webpack_exports__["default"] = ({
-  props: ['user'],
+  data: function data() {
+    return {
+      AccountResults: [],
+      pagination: [],
+      offset: 4,
+      gmbtn: true,
+      managerbtn: false,
+      adminbtn: false,
+      otherbtn: false,
+      modalUpdate: false,
+      userFetched: [],
+      fname: '',
+      lname: '',
+      position: '',
+      role: null,
+      activeUser: null,
+      mymanager: null,
+      username: '',
+      Password: '',
+      Password_confirmation: '',
+      image: '',
+      laravelerrors: [],
+      ownerrors: '',
+      successAlerts: '',
+      createAccMenu: false,
+      ManagerCreateModal: false,
+      //managerregistration
+      ManagerRegisterFname: '',
+      ManagerRegisterLname: '',
+      ManagerRegisterUsername: '',
+      ManagerRegisterPosition: '',
+      ManagerRegisterPassword: null,
+      ManagerPwordConfirm: null,
+      image2: '',
+      //NewUserCreate
+      ManagerChoices: [],
+      newusermodal: false,
+      image3: '',
+      RegisterFname: '',
+      RegisterLname: '',
+      RegisterUsername: '',
+      RegisterRole: '',
+      ChoosenManager: null,
+      RegisterPassword: null,
+      RegisterPwordConfirm: null
+    };
+  },
+
+  methods: {
+    getSelected: function getSelected(page) {
+      if (this.gmbtn == true) {
+        var url = '/get-general-managers';
+      } else if (this.managerbtn == true) {
+        var url = '/get-all-managers';
+      } else if (this.adminbtn == true) {
+        var url = '/getallAdmin';
+      } else if (this.otherbtn == true) {
+        var url = '/get-other-accounts';
+      }
+      var vm = this;
+      __WEBPACK_IMPORTED_MODULE_0_axios___default.a.get(url + '?page=' + page).then(function (response) {
+        console.log(response);
+        Vue.set(vm.$data, 'AccountResults', response.data.data);
+        Vue.set(vm.$data, 'pagination', response.data);
+      }, function (error) {
+        console.log(error);
+      });
+    },
+    changepage: function changepage(next) {
+      this.pagination.current_page = next;
+      this.getSelected(next);
+    },
+    fetchselecteduser: function fetchselecteduser(id) {
+      var vm = this;
+      __WEBPACK_IMPORTED_MODULE_0_axios___default.a.get('/fetchDataofSelectedUser/' + id).then(function (response) {
+        console.log(response);
+        Vue.set(vm.$data, 'userFetched', response.data[0]);
+        Vue.set(vm.$data, 'Password', '');
+        Vue.set(vm.$data, 'Password_confirmation', '');
+      });
+    },
+    onFileChange: function onFileChange(e) {
+      var files = e.target.files || e.dataTransfer.files;
+      if (!files.length) return;
+      this.createImage(files[0]);
+    },
+    createImage: function createImage(file) {
+      var image = new Image();
+      var reader = new FileReader();
+      var vm = this;
+
+      reader.onload = function (e) {
+        vm.image = e.target.result;
+      };
+      reader.readAsDataURL(file);
+    },
+    onFileChange2: function onFileChange2(e) {
+      var files = e.target.files || e.dataTransfer.files;
+      if (!files.length) return;
+      this.createImage2(files[0]);
+    },
+    createImage2: function createImage2(file) {
+      var image2 = new Image();
+      var reader = new FileReader();
+      var vm = this;
+
+      reader.onload = function (e) {
+        vm.image2 = e.target.result;
+      };
+      reader.readAsDataURL(file);
+    },
+    onFileChange3: function onFileChange3(e) {
+      var files = e.target.files || e.dataTransfer.files;
+      if (!files.length) return;
+      this.createImage3(files[0]);
+    },
+    createImage3: function createImage3(file) {
+      var image3 = new Image();
+      var reader = new FileReader();
+      var vm = this;
+
+      reader.onload = function (e) {
+        vm.image3 = e.target.result;
+      };
+      reader.readAsDataURL(file);
+    },
+    submitUpdate: function submitUpdate(id) {
+      var vm = this;
+      __WEBPACK_IMPORTED_MODULE_0_axios___default.a.put('/update-user-data/' + id, {
+        emulateJSON: true,
+        Fname: this.fname,
+        Lname: this.lname,
+        Role: this.role,
+        Position: this.position,
+        Manager: this.mymanager,
+        Username: this.username,
+        Password: this.Password,
+        Password_confirmation: this.Password_confirmation,
+        Signature: this.image,
+        IsActive: this.activeUser
+      }).then(function (response) {
+        console.log(response);
+        if (response.data.error != null) {
+          Vue.set(vm.$data, 'ownerrors', response.data.error);
+          Vue.set(vm.$data, 'successAlerts', '');
+          Vue.set(vm.$data, 'laravelerrors', '');
+        } else {
+          Vue.set(vm.$data, 'successAlerts', 'Updated Successfully');
+          Vue.set(vm.$data, 'laravelerrors', '');
+          Vue.set(vm.$data, 'ownerrors', '');
+        }
+      }, function (error) {
+        Vue.set(vm.$data, 'laravelerrors', error.response.data);
+        Vue.set(vm.$data, 'successAlerts', '');
+        Vue.set(vm.$data, 'ownerrors', '');
+      });
+      this.getSelected();
+      this.image = '';
+    },
+    deleteAccount: function deleteAccount(id) {
+      var vm = this;
+      __WEBPACK_IMPORTED_MODULE_0_axios___default.a.delete('/deleteAccount/' + id).then(function (response) {
+        console.log(response);
+        Vue.set(vm.$data, 'successAlerts', 'Account removed successfully');
+      }, function (error) {
+        console.log(error);
+      });
+      this.getSelected();
+    },
+    saveManagerAccount: function saveManagerAccount() {
+      var vm = this;
+      __WEBPACK_IMPORTED_MODULE_0_axios___default.a.post('/saving-account-manager', {
+        Fname: this.ManagerRegisterFname,
+        Lname: this.ManagerRegisterLname,
+        Username: this.ManagerRegisterUsername,
+        Position: this.ManagerRegisterPosition,
+        Password: this.ManagerRegisterPassword,
+        Password_confirmation: this.ManagerPwordConfirm,
+        Signature: this.image2
+      }).then(function (response) {
+        console.log(response);
+        Vue.set(vm.$data, 'successAlerts', 'Success');
+        Vue.set(vm.$data, 'laravelerrors', '');
+        Vue.set(vm.$data, 'ManagerRegisterFname', '');
+        Vue.set(vm.$data, 'ManagerRegisterLname', '');
+        Vue.set(vm.$data, 'ManagerRegisterUsername', '');
+        Vue.set(vm.$data, 'ManagerRegisterPosition', '');
+        Vue.set(vm.$data, 'ManagerRegisterPassword', null);
+        Vue.set(vm.$data, 'ManagerPwordConfirm', null);
+        Vue.set(vm.$data, 'image2', null);
+      }, function (error) {
+        Vue.set(vm.$data, 'laravelerrors', error.response.data);
+        Vue.set(vm.$data, 'successAlerts', '');
+      });
+      if (this.managerbtn) {
+        this.getSelected();
+      }
+    },
+    SubmitNewUser: function SubmitNewUser() {
+      var vm = this;
+      __WEBPACK_IMPORTED_MODULE_0_axios___default.a.post('/save-account-user', {
+        Fname: this.RegisterFname,
+        Lname: this.RegisterLname,
+        Username: this.RegisterUsername,
+        Role: this.RegisterRole,
+        Manager: this.ChoosenManager,
+        Password: this.RegisterPassword,
+        Password_confirmation: this.RegisterPwordConfirm,
+        Signature: this.image3
+      }).then(function (response) {
+        console.log(response);
+        if (response.data.error != null) {
+          Vue.set(vm.$data, 'ownerrors', response.data.error);
+        } else {
+          Vue.set(vm.$data, 'successAlerts', 'Success');
+          Vue.set(vm.$data, 'ownerrors', '');
+          Vue.set(vm.$data, 'laravelerrors', '');
+          Vue.set(vm.$data, 'RegisterFname', '');
+          Vue.set(vm.$data, 'RegisterLname', '');
+          Vue.set(vm.$data, 'RegisterUsername', '');
+          Vue.set(vm.$data, 'RegisterRole', '');
+          Vue.set(vm.$data, 'ChoosenManager', null);
+          Vue.set(vm.$data, 'RegisterPassword', null);
+          Vue.set(vm.$data, 'RegisterPwordConfirm', null);
+          Vue.set(vm.$data, 'image3', null);
+        }
+      }, function (error) {
+        Vue.set(vm.$data, 'laravelerrors', error.response.data);
+        Vue.set(vm.$data, 'successAlerts', '');
+        Vue.set(vm.$data, 'ownerrors', '');
+      });
+      this.getSelected();
+    },
+    fetchManagerChoices: function fetchManagerChoices() {
+      var vm = this;
+      __WEBPACK_IMPORTED_MODULE_0_axios___default.a.get('/get-all-managers').then(function (response) {
+        console.log(response);
+        Vue.set(vm.$data, 'ManagerChoices', response.data.data);
+      });
+    }
+  },
+  computed: {
+    Activepage: function Activepage() {
+      return this.pagination.current_page;
+    },
+    pagesNumber: function pagesNumber() {
+      if (!this.pagination.to) {
+        return [];
+      }
+      var from = this.pagination.current_page - this.offset;
+      if (from < 1) {
+        from = 1;
+      }
+      var to = from + this.offset * 2;
+      if (to >= this.pagination.last_page) {
+        to = this.pagination.last_page;
+      }
+      var pagesArray = [];
+      while (from <= to) {
+        pagesArray.push(from);
+        from++;
+      }
+      return pagesArray;
+    }
+  },
+  mounted: function mounted() {
+    this.getSelected(this.pagination.current_page);
+  }
+});
+
+/***/ }),
+/* 44 */,
+/* 45 */,
+/* 46 */,
+/* 47 */,
+/* 48 */,
+/* 49 */,
+/* 50 */,
+/* 51 */,
+/* 52 */,
+/* 53 */,
+/* 54 */,
+/* 55 */,
+/* 56 */,
+/* 57 */,
+/* 58 */,
+/* 59 */
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_0_axios__ = __webpack_require__(2);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_0_axios___default = __webpack_require__.n(__WEBPACK_IMPORTED_MODULE_0_axios__);
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+
+
+/* harmony default export */ __webpack_exports__["default"] = ({
+  data: function data() {
+    return {
+      editActive: false,
+      Managers: [],
+      currentAssigned: [],
+      AssignedManagerID: null
+    };
+  },
+
+  methods: {
+    getCurrentAssigned: function getCurrentAssigned() {
+      var vm = this;
+      __WEBPACK_IMPORTED_MODULE_0_axios___default.a.get('/get-current-assigned-bygm').then(function (response) {
+        console.log(response);
+        Vue.set(vm.$data, 'currentAssigned', response.data[0]);
+      });
+    },
+    fetchAllManager: function fetchAllManager() {
+      var vm = this;
+      __WEBPACK_IMPORTED_MODULE_0_axios___default.a.get('/get-all-active-manager').then(function (response) {
+        console.log(response);
+        Vue.set(vm.$data, 'Managers', response.data);
+      });
+    },
+    UpdateManagerToTakePlace: function UpdateManagerToTakePlace() {
+      var vm = this;
+      __WEBPACK_IMPORTED_MODULE_0_axios___default.a.put('/update-manager-to-take-place', { ManagerID: this.AssignedManagerID }).then(function (response) {
+        console.log(response);
+      });
+      this.getCurrentAssigned();
+      this.editActive = false;
+    }
+  },
+  created: function created() {
+    this.fetchAllManager();
+    this.getCurrentAssigned();
+  }
+});
+
+/***/ }),
+/* 60 */
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_0_axios__ = __webpack_require__(2);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_0_axios___default = __webpack_require__.n(__WEBPACK_IMPORTED_MODULE_0_axios__);
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+
+
+/* harmony default export */ __webpack_exports__["default"] = ({
+  props: ['user', 'activenames'],
   data: function data() {
     return {
       searchmonth: '',
-      searchname: '',
+      searchname: null,
       mirsResults: [],
       mctResults: [],
+      mrtResults: [],
+      mrResults: [],
+      rvResults: [],
       mirsbtn: true,
       mctbtn: false,
       mrbtn: false,
       mrtbtn: false,
+      rvbtn: false,
       pagination: [],
       offset: 4
     };
@@ -12507,7 +12811,7 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
 
   methods: {
     searchMIRS: function searchMIRS(page) {
-      if (this.searchname == '') {
+      if (this.searchname == null) {
         var fullname = this.user.Fname + '%20' + this.user.Lname;
       } else {
         var fullname = this.searchname;
@@ -12522,7 +12826,7 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
       });
     },
     searchMCT: function searchMCT(page) {
-      if (this.searchname == '') {
+      if (this.searchname == null) {
         var fullname = this.user.Fname + '%20' + this.user.Lname;
       } else {
         var fullname = this.searchname;
@@ -12534,12 +12838,57 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
         Vue.set(vm.$data, 'pagination', response.data);
       });
     },
+    searchMRT: function searchMRT(page) {
+      if (this.searchname == null) {
+        var fullname = this.user.Fname + '%20' + this.user.Lname;
+      } else {
+        var fullname = this.searchname;
+      }
+      var vm = this;
+      __WEBPACK_IMPORTED_MODULE_0_axios___default.a.get('/search-my-mrt-history?Returnedby=' + fullname + '&YearMonth=' + this.searchmonth + '&page=' + page, {}).then(function (response) {
+        console.log(response);
+        Vue.set(vm.$data, 'mrtResults', response.data.data);
+        Vue.set(vm.$data, 'pagination', response.data);
+      });
+    },
+    searchMR: function searchMR(page) {
+      if (this.searchname == null) {
+        var fullname = this.user.Fname + '%20' + this.user.Lname;
+      } else {
+        var fullname = this.searchname;
+      }
+      var vm = this;
+      __WEBPACK_IMPORTED_MODULE_0_axios___default.a.get('/search-my-mr-history?Receivedby=' + fullname + '&YearMonth=' + this.searchmonth + '&page=' + page, {}).then(function (response) {
+        console.log(response);
+        Vue.set(vm.$data, 'mrResults', response.data.data);
+        Vue.set(vm.$data, 'pagination', response.data);
+      });
+    },
+    searchRV: function searchRV(page) {
+      if (this.searchname == null) {
+        var fullname = this.user.Fname + '%20' + this.user.Lname;
+      } else {
+        var fullname = this.searchname;
+      }
+      var vm = this;
+      __WEBPACK_IMPORTED_MODULE_0_axios___default.a.get('/search-my-rv-history?Receivedby=' + fullname + '&YearMonth=' + this.searchmonth + '&page=' + page, {}).then(function (response) {
+        console.log(response);
+        Vue.set(vm.$data, 'rvResults', response.data.data);
+        Vue.set(vm.$data, 'pagination', response.data);
+      });
+    },
     changepage: function changepage(next) {
       this.pagination.current_page = next;
       if (this.mirsbtn == true) {
         this.searchMIRS(next);
       } else if (this.mctbtn == true) {
         this.searchMCT(next);
+      } else if (this.mrtbtn == true) {
+        this.searchMRT(next);
+      } else if (this.mrbtn == true) {
+        this.searchMR(next);
+      } else if (this.rvbtn == true) {
+        this.searchRV(next);
       }
     }
   },
@@ -12575,50 +12924,91 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
 });
 
 /***/ }),
-/* 46 */,
-/* 47 */,
-/* 48 */
-/***/ (function(module, exports, __webpack_require__) {
+/* 61 */,
+/* 62 */,
+/* 63 */,
+/* 64 */,
+/* 65 */,
+/* 66 */
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
 
-var Component = __webpack_require__(8)(
-  /* script */
-  __webpack_require__(36),
-  /* template */
-  __webpack_require__(60),
-  /* scopeId */
-  null,
-  /* cssModules */
-  null
-)
-Component.options.__file = "c:\\xampp\\htdocs\\warehouse\\resources\\assets\\js\\components\\AccountManagementAdmin.vue"
-if (Component.esModule && Object.keys(Component.esModule).some(function (key) {return key !== "default" && key !== "__esModule"})) {console.error("named exports are not supported in *.vue files.")}
-if (Component.options.functional) {console.error("[vue-loader] AccountManagementAdmin.vue: functional components are not supported with templates, they should use render functions.")}
+"use strict";
+Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_0_axios__ = __webpack_require__(2);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_0_axios___default = __webpack_require__.n(__WEBPACK_IMPORTED_MODULE_0_axios__);
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
 
-/* hot reload */
-if (false) {(function () {
-  var hotAPI = require("vue-hot-reload-api")
-  hotAPI.install(require("vue"), false)
-  if (!hotAPI.compatible) return
-  module.hot.accept()
-  if (!module.hot.data) {
-    hotAPI.createRecord("data-v-0cafa58a", Component.options)
-  } else {
-    hotAPI.reload("data-v-0cafa58a", Component.options)
+
+/* harmony default export */ __webpack_exports__["default"] = ({
+  data: function data() {
+    return {
+      Username: '',
+      Password: '',
+      failmsg: '',
+      loadingMsg: '',
+      laravelerror: []
+    };
+  },
+
+  methods: {
+    submitCredentials: function submitCredentials() {
+      var vm = this;
+      __WEBPACK_IMPORTED_MODULE_0_axios___default.a.post('/login-submit', {
+        Username: this.Username,
+        Password: this.Password
+      }).then(function (response) {
+        if (response.data.message != null) {
+          Vue.set(vm.$data, 'failmsg', response.data.message);
+        } else {
+          window.location = response.data.redirect;
+          Vue.set(vm.$data, 'loadingMsg', 'Loading');
+        }
+        console.log('response');
+      }, function (error) {
+        console.log(error);
+        Vue.set(vm.$data, 'failmsg', 'Fields are required');
+      });
+    }
   }
-})()}
-
-module.exports = Component.exports
-
+});
 
 /***/ }),
-/* 49 */
+/* 67 */,
+/* 68 */,
+/* 69 */,
+/* 70 */,
+/* 71 */,
+/* 72 */,
+/* 73 */,
+/* 74 */
 /***/ (function(module, exports, __webpack_require__) {
 
-var Component = __webpack_require__(8)(
+var Component = __webpack_require__(3)(
   /* script */
-  __webpack_require__(37),
+  __webpack_require__(43),
   /* template */
-  __webpack_require__(67),
+  __webpack_require__(118),
   /* scopeId */
   null,
   /* cssModules */
@@ -12645,22 +13035,37 @@ module.exports = Component.exports
 
 
 /***/ }),
-/* 50 */
+/* 75 */,
+/* 76 */,
+/* 77 */,
+/* 78 */,
+/* 79 */,
+/* 80 */,
+/* 81 */,
+/* 82 */,
+/* 83 */,
+/* 84 */,
+/* 85 */,
+/* 86 */,
+/* 87 */,
+/* 88 */,
+/* 89 */,
+/* 90 */
 /***/ (function(module, exports, __webpack_require__) {
 
-var Component = __webpack_require__(8)(
+var Component = __webpack_require__(3)(
   /* script */
-  __webpack_require__(38),
+  __webpack_require__(59),
   /* template */
-  __webpack_require__(66),
+  __webpack_require__(106),
   /* scopeId */
   null,
   /* cssModules */
   null
 )
-Component.options.__file = "c:\\xampp\\htdocs\\warehouse\\resources\\assets\\js\\components\\AccountManagementManagers.vue"
+Component.options.__file = "c:\\xampp\\htdocs\\warehouse\\resources\\assets\\js\\components\\ManagerTakePlacer.vue"
 if (Component.esModule && Object.keys(Component.esModule).some(function (key) {return key !== "default" && key !== "__esModule"})) {console.error("named exports are not supported in *.vue files.")}
-if (Component.options.functional) {console.error("[vue-loader] AccountManagementManagers.vue: functional components are not supported with templates, they should use render functions.")}
+if (Component.options.functional) {console.error("[vue-loader] ManagerTakePlacer.vue: functional components are not supported with templates, they should use render functions.")}
 
 /* hot reload */
 if (false) {(function () {
@@ -12669,9 +13074,9 @@ if (false) {(function () {
   if (!hotAPI.compatible) return
   module.hot.accept()
   if (!module.hot.data) {
-    hotAPI.createRecord("data-v-8977600a", Component.options)
+    hotAPI.createRecord("data-v-3078aa38", Component.options)
   } else {
-    hotAPI.reload("data-v-8977600a", Component.options)
+    hotAPI.reload("data-v-3078aa38", Component.options)
   }
 })()}
 
@@ -12679,53 +13084,14 @@ module.exports = Component.exports
 
 
 /***/ }),
-/* 51 */
+/* 91 */
 /***/ (function(module, exports, __webpack_require__) {
 
-var Component = __webpack_require__(8)(
+var Component = __webpack_require__(3)(
   /* script */
-  __webpack_require__(39),
+  __webpack_require__(60),
   /* template */
-  __webpack_require__(69),
-  /* scopeId */
-  null,
-  /* cssModules */
-  null
-)
-Component.options.__file = "c:\\xampp\\htdocs\\warehouse\\resources\\assets\\js\\components\\AccountManagementOther.vue"
-if (Component.esModule && Object.keys(Component.esModule).some(function (key) {return key !== "default" && key !== "__esModule"})) {console.error("named exports are not supported in *.vue files.")}
-if (Component.options.functional) {console.error("[vue-loader] AccountManagementOther.vue: functional components are not supported with templates, they should use render functions.")}
-
-/* hot reload */
-if (false) {(function () {
-  var hotAPI = require("vue-hot-reload-api")
-  hotAPI.install(require("vue"), false)
-  if (!hotAPI.compatible) return
-  module.hot.accept()
-  if (!module.hot.data) {
-    hotAPI.createRecord("data-v-d1334e6a", Component.options)
-  } else {
-    hotAPI.reload("data-v-d1334e6a", Component.options)
-  }
-})()}
-
-module.exports = Component.exports
-
-
-/***/ }),
-/* 52 */,
-/* 53 */,
-/* 54 */,
-/* 55 */,
-/* 56 */,
-/* 57 */
-/***/ (function(module, exports, __webpack_require__) {
-
-var Component = __webpack_require__(8)(
-  /* script */
-  __webpack_require__(45),
-  /* template */
-  __webpack_require__(65),
+  __webpack_require__(116),
   /* scopeId */
   null,
   /* cssModules */
@@ -12752,95 +13118,146 @@ module.exports = Component.exports
 
 
 /***/ }),
-/* 58 */,
-/* 59 */,
-/* 60 */
+/* 92 */,
+/* 93 */,
+/* 94 */,
+/* 95 */,
+/* 96 */,
+/* 97 */
+/***/ (function(module, exports, __webpack_require__) {
+
+var Component = __webpack_require__(3)(
+  /* script */
+  __webpack_require__(66),
+  /* template */
+  __webpack_require__(123),
+  /* scopeId */
+  null,
+  /* cssModules */
+  null
+)
+Component.options.__file = "c:\\xampp\\htdocs\\warehouse\\resources\\assets\\js\\components\\loginpage.vue"
+if (Component.esModule && Object.keys(Component.esModule).some(function (key) {return key !== "default" && key !== "__esModule"})) {console.error("named exports are not supported in *.vue files.")}
+if (Component.options.functional) {console.error("[vue-loader] loginpage.vue: functional components are not supported with templates, they should use render functions.")}
+
+/* hot reload */
+if (false) {(function () {
+  var hotAPI = require("vue-hot-reload-api")
+  hotAPI.install(require("vue"), false)
+  if (!hotAPI.compatible) return
+  module.hot.accept()
+  if (!module.hot.data) {
+    hotAPI.createRecord("data-v-eb432c86", Component.options)
+  } else {
+    hotAPI.reload("data-v-eb432c86", Component.options)
+  }
+})()}
+
+module.exports = Component.exports
+
+
+/***/ }),
+/* 98 */,
+/* 99 */,
+/* 100 */,
+/* 101 */,
+/* 102 */,
+/* 103 */,
+/* 104 */,
+/* 105 */,
+/* 106 */
 /***/ (function(module, exports, __webpack_require__) {
 
 module.exports={render:function (){var _vm=this;var _h=_vm.$createElement;var _c=_vm._self._c||_h;
   return _c('div', {
-    staticClass: "setting-accounts-table"
-  }, [_c('h1', [_vm._v("Admins")]), _vm._v(" "), _c('table', [_vm._m(0), _vm._v(" "), _vm._l((_vm.Admins), function(admin) {
-    return _c('tr', [_c('td', [_c('h2', [_c('p', [_vm._v(_vm._s(admin.Fname))])])]), _vm._v(" "), _c('td', [_vm._v(_vm._s(admin.Lname))]), _vm._v(" "), _c('td', [_vm._v(_vm._s(admin.Username))]), _vm._v(" "), _c('td', [_c('h1', [_c('img', {
-      attrs: {
-        "src": '/storage/signatures/' + admin.Signature,
-        "alt": "signature"
+    staticClass: "managerbox-container"
+  }, [_c('div', {
+    staticClass: "manager-box"
+  }, [_vm._m(0), _vm._v(" "), _c('div', {
+    staticClass: "manager-assigned-name"
+  }, [(_vm.currentAssigned != null) ? _c('h1', [_vm._v(_vm._s(_vm.currentAssigned.Fname) + " " + _vm._s(_vm.currentAssigned.Lname))]) : _c('h1', [_vm._v("No one was assigned")])]), _vm._v(" "), _c('div', {
+    staticClass: "Manager-List"
+  }, [_c('p', [_vm._v("Allow\r\n      "), (_vm.editActive == true) ? _c('select', {
+    directives: [{
+      name: "model",
+      rawName: "v-model",
+      value: (_vm.AssignedManagerID),
+      expression: "AssignedManagerID"
+    }],
+    on: {
+      "change": function($event) {
+        var $$selectedVal = Array.prototype.filter.call($event.target.options, function(o) {
+          return o.selected
+        }).map(function(o) {
+          var val = "_value" in o ? o._value : o.value;
+          return val
+        });
+        _vm.AssignedManagerID = $event.target.multiple ? $$selectedVal : $$selectedVal[0]
       }
-    })])]), _vm._v(" "), _c('td', {
-      staticClass: "userstatus"
-    }, [(admin.IsActive != null) ? _c('i', {
-      staticClass: "fa fa-circle active"
-    }) : _c('i', {
-      staticClass: "fa fa-circle"
-    })]), _vm._v(" "), _vm._m(1, true)])
-  })], 2), _vm._v(" "), _c('div', {
-    staticClass: "paginate-container"
-  }, [_c('ul', {
-    staticClass: "pagination"
-  }, [(_vm.pagination.current_page > 1) ? _c('li', [_c('a', {
+    }
+  }, [_c('option', {
+    domProps: {
+      "value": null
+    }
+  }, [_vm._v("No one")]), _vm._v(" "), _vm._l((_vm.Managers), function(manager) {
+    return _c('option', {
+      domProps: {
+        "value": manager.id
+      }
+    }, [_vm._v(_vm._s(manager.Fname) + " " + _vm._s(manager.Lname))])
+  })], 2) : _vm._e(), _vm._v(" "), (_vm.editActive == false && _vm.currentAssigned != null) ? _c('span', {
+    staticClass: "underline"
+  }, [_vm._v(_vm._s(_vm.currentAssigned.Fname) + " " + _vm._s(_vm.currentAssigned.Lname))]) : (_vm.editActive == false && _vm.currentAssigned == null) ? _c('span', {
+    staticClass: "underline"
+  }, [_vm._v("no one")]) : _vm._e(), _vm._v("\r\n       to take place whenever im not available")]), _vm._v(" "), (_vm.editActive == false) ? _c('i', {
+    staticClass: "fa fa-edit darker-blue",
+    on: {
+      "click": function($event) {
+        _vm.editActive = true
+      }
+    }
+  }) : _vm._e(), _vm._v(" "), (_vm.editActive == true) ? _c('span', [_c('i', {
+    staticClass: "fa fa-check color-blue",
     attrs: {
-      "href": "#"
+      "disable": [_vm.AssignedManagerID == null ? 'true' : 'false']
     },
     on: {
       "click": function($event) {
-        $event.preventDefault();
-        _vm.changepage(_vm.pagination.current_page - 1)
+        _vm.UpdateManagerToTakePlace()
       }
     }
-  }, [_c('i', {
-    staticClass: "fa fa-angle-left"
-  })])]) : _vm._e(), _vm._v(" "), _vm._l((_vm.pagesNumber), function(page) {
-    return _c('li', {
-      class: [page == _vm.Activepage ? 'active' : '']
-    }, [_c('a', {
-      attrs: {
-        "href": "#"
-      },
-      on: {
-        "click": function($event) {
-          $event.preventDefault();
-          _vm.changepage(page)
-        }
-      }
-    }, [_vm._v(_vm._s(page))])])
-  }), _vm._v(" "), (_vm.pagination.current_page < _vm.pagination.last_page) ? _c('li', [_c('a', {
-    attrs: {
-      "href": "#"
-    },
-    on: {
-      "click": function($event) {
-        $event.preventDefault();
-        _vm.changepage(_vm.pagination.current_page + 1)
-      }
-    }
-  }, [_c('i', {
-    staticClass: "fa fa-angle-right"
-  })])]) : _vm._e()], 2)])])
-},staticRenderFns: [function (){var _vm=this;var _h=_vm.$createElement;var _c=_vm._self._c||_h;
-  return _c('tr', [_c('th', [_vm._v("First Name")]), _vm._v(" "), _c('th', [_vm._v("Last Name")]), _vm._v(" "), _c('th', [_vm._v("Username")]), _vm._v(" "), _c('th', [_vm._v("Signature")]), _vm._v(" "), _c('th', [_vm._v("Active")]), _vm._v(" "), _c('th', [_vm._v("Action")])])
-},function (){var _vm=this;var _h=_vm.$createElement;var _c=_vm._self._c||_h;
-  return _c('td', {
-    staticClass: "settingActions"
-  }, [_c('i', {
-    staticClass: "fa fa-edit"
   }), _vm._v(" "), _c('i', {
-    staticClass: "fa fa-trash"
-  })])
+    staticClass: "fa fa-times decliner",
+    on: {
+      "click": function($event) {
+        _vm.editActive = false
+      }
+    }
+  })]) : _vm._e()])])])
+},staticRenderFns: [function (){var _vm=this;var _h=_vm.$createElement;var _c=_vm._self._c||_h;
+  return _c('h1', [_c('i', {
+    staticClass: "fa fa-info-circle color-blue"
+  }), _vm._v(" This manager will be able to signature any request that belongs to you, whenever you are not available.")])
 }]}
 module.exports.render._withStripped = true
 if (false) {
   module.hot.accept()
   if (module.hot.data) {
-     require("vue-hot-reload-api").rerender("data-v-0cafa58a", module.exports)
+     require("vue-hot-reload-api").rerender("data-v-3078aa38", module.exports)
   }
 }
 
 /***/ }),
-/* 61 */,
-/* 62 */,
-/* 63 */,
-/* 64 */,
-/* 65 */
+/* 107 */,
+/* 108 */,
+/* 109 */,
+/* 110 */,
+/* 111 */,
+/* 112 */,
+/* 113 */,
+/* 114 */,
+/* 115 */,
+/* 116 */
 /***/ (function(module, exports, __webpack_require__) {
 
 module.exports={render:function (){var _vm=this;var _h=_vm.$createElement;var _c=_vm._self._c||_h;
@@ -12850,7 +13267,7 @@ module.exports={render:function (){var _vm=this;var _h=_vm.$createElement;var _c
     staticClass: "top-history-setting"
   }, [_c('div', {
     staticClass: "title-history"
-  }, [_vm._v("\n      My History\n    ")]), _vm._v(" "), _c('ul', [_c('li', [_c('button', {
+  }, [_vm._v("\n      History\n    ")]), _vm._v(" "), _c('ul', [_c('li', [_c('button', {
     staticClass: "bttn-fill bttn-sm bttn-primary",
     class: [_vm.mirsbtn == true ? 'active' : ''],
     attrs: {
@@ -12858,7 +13275,7 @@ module.exports={render:function (){var _vm=this;var _h=_vm.$createElement;var _c
     },
     on: {
       "click": function($event) {
-        _vm.mirsbtn = true, _vm.mctbtn = false, _vm.mrtbtn = false, _vm.mrbtn = false, _vm.searchMIRS()
+        _vm.mirsbtn = true, _vm.mctbtn = false, _vm.mrtbtn = false, _vm.mrbtn = false, _vm.rvbtn = false, _vm.searchMIRS(1)
       }
     }
   }, [_vm._v("MIRS")])]), _vm._v(" "), _c('li', [_c('button', {
@@ -12869,7 +13286,7 @@ module.exports={render:function (){var _vm=this;var _h=_vm.$createElement;var _c
     },
     on: {
       "click": function($event) {
-        _vm.mirsbtn = false, _vm.mctbtn = true, _vm.mrtbtn = false, _vm.mrbtn = false, _vm.searchMCT()
+        _vm.mirsbtn = false, _vm.mctbtn = true, _vm.mrtbtn = false, _vm.mrbtn = false, _vm.rvbtn = false, _vm.searchMCT(1)
       }
     }
   }, [_vm._v("MCT")])]), _vm._v(" "), _c('li', [_c('button', {
@@ -12880,7 +13297,7 @@ module.exports={render:function (){var _vm=this;var _h=_vm.$createElement;var _c
     },
     on: {
       "click": function($event) {
-        _vm.mirsbtn = false, _vm.mctbtn = false, _vm.mrtbtn = true, _vm.mrbtn = false
+        _vm.mirsbtn = false, _vm.mctbtn = false, _vm.mrtbtn = true, _vm.mrbtn = false, _vm.rvbtn = false, _vm.searchMRT(1)
       }
     }
   }, [_vm._v("MRT")])]), _vm._v(" "), _c('li', [_c('button', {
@@ -12891,12 +13308,55 @@ module.exports={render:function (){var _vm=this;var _h=_vm.$createElement;var _c
     },
     on: {
       "click": function($event) {
-        _vm.mirsbtn = false, _vm.mctbtn = false, _vm.mrtbtn = false, _vm.mrbtn = true
+        _vm.mirsbtn = false, _vm.mctbtn = false, _vm.mrtbtn = false, _vm.mrbtn = true, _vm.rvbtn = false, _vm.searchMR(1)
       }
     }
-  }, [_vm._v("MR")])])])]), _vm._v(" "), _c('div', {
+  }, [_vm._v("MR")])]), _vm._v(" "), _c('li', [_c('button', {
+    staticClass: "bttn-fill bttn-sm bttn-primary",
+    class: [_vm.rvbtn == true ? 'active' : ''],
+    attrs: {
+      "type": "button"
+    },
+    on: {
+      "click": function($event) {
+        _vm.mirsbtn = false, _vm.mctbtn = false, _vm.mrtbtn = false, _vm.mrbtn = false, _vm.rvbtn = true, _vm.searchRV(1)
+      }
+    }
+  }, [_vm._v("RV")])])])]), _vm._v(" "), _c('div', {
     staticClass: "searchbar-month-history"
-  }, [_c('span', [_vm._v("Month: "), _c('input', {
+  }, [(_vm.user.Role == 4 || _vm.user.Role == 3 || _vm.user.Role == 1) ? _c('div', {
+    staticClass: "searchbox-for-admin-warehouse"
+  }, [_vm._v("\r\n      Histories of\r\n      "), _c('select', {
+    directives: [{
+      name: "model",
+      rawName: "v-model",
+      value: (_vm.searchname),
+      expression: "searchname"
+    }],
+    on: {
+      "change": function($event) {
+        var $$selectedVal = Array.prototype.filter.call($event.target.options, function(o) {
+          return o.selected
+        }).map(function(o) {
+          var val = "_value" in o ? o._value : o.value;
+          return val
+        });
+        _vm.searchname = $event.target.multiple ? $$selectedVal : $$selectedVal[0]
+      }
+    }
+  }, [_c('option', {
+    domProps: {
+      "value": null
+    }
+  }, [_vm._v(_vm._s(_vm.user.Fname) + " " + _vm._s(_vm.user.Lname))]), _vm._v(" "), _vm._l((_vm.activenames), function(name) {
+    return _c('option', {
+      domProps: {
+        "value": name.Fname + ' ' + name.Lname
+      }
+    }, [_vm._v(_vm._s(name.Fname) + " " + _vm._s(name.Lname))])
+  })], 2)]) : _c('div'), _vm._v(" "), _c('span', {
+    staticClass: "monthsearch-history"
+  }, [_c('h1', [_vm._v("Sort by date")]), _c('input', {
     directives: [{
       name: "model",
       rawName: "v-model",
@@ -12905,7 +13365,7 @@ module.exports={render:function (){var _vm=this;var _h=_vm.$createElement;var _c
     }],
     attrs: {
       "type": "text",
-      "placeholder": "yyyy-mm"
+      "placeholder": "y y y y - m m"
     },
     domProps: {
       "value": (_vm.searchmonth)
@@ -12914,7 +13374,7 @@ module.exports={render:function (){var _vm=this;var _h=_vm.$createElement;var _c
       "keypress": function($event) {
         if (!('button' in $event) && _vm._k($event.keyCode, "enter", 13)) { return null; }
         $event.preventDefault();
-        [_vm.mirsbtn == true ? _vm.searchMIRS() : '', _vm.mctbtn == true ? _vm.searchMCT() : '']
+        [_vm.mirsbtn == true ? _vm.searchMIRS() : '', _vm.mctbtn == true ? _vm.searchMCT() : '', _vm.mrtbtn == true ? _vm.searchMRT() : '', _vm.mrbtn == true ? _vm.searchMR() : '', _vm.rvbtn == true ? _vm.searchRV() : '']
       },
       "input": function($event) {
         if ($event.target.composing) { return; }
@@ -12928,7 +13388,7 @@ module.exports={render:function (){var _vm=this;var _h=_vm.$createElement;var _c
     },
     on: {
       "click": function($event) {
-        [_vm.mirsbtn == true ? _vm.searchMIRS() : '', _vm.mctbtn == true ? _vm.searchMCT() : '']
+        [_vm.mirsbtn == true ? _vm.searchMIRS() : '', _vm.mctbtn == true ? _vm.searchMCT() : '', _vm.mrtbtn == true ? _vm.searchMRT() : '', _vm.mrbtn == true ? _vm.searchMR() : '', _vm.rvbtn == true ? _vm.searchRV() : '']
       }
     }
   }, [_c('i', {
@@ -12936,19 +13396,19 @@ module.exports={render:function (){var _vm=this;var _h=_vm.$createElement;var _c
   })])])]), _vm._v(" "), _c('div', {
     staticClass: "table-history-container"
   }, [(_vm.mirsbtn == true) ? _c('table', [_vm._m(0), _vm._v(" "), _vm._l((_vm.mirsResults), function(mirs) {
-    return (_vm.mirsResults != null) ? _c('tr', [_c('td', [_vm._v(_vm._s(mirs.MIRSNo))]), _vm._v(" "), _c('td', [_vm._v(_vm._s(mirs.MIRSDate))]), _vm._v(" "), _c('td', [_vm._v("\r\n          " + _vm._s(mirs.Preparedby) + "\r\n          "), _c('i', {
+    return (_vm.mirsResults != null) ? _c('tr', [_c('td', [_vm._v(_vm._s(mirs.MIRSNo))]), _vm._v(" "), _c('td', [_vm._v(_vm._s(mirs.MIRSDate))]), _vm._v(" "), _c('td', [_vm._v("\r\n          " + _vm._s(mirs.Preparedby)), _c('br'), _vm._v(" "), _c('i', {
       staticClass: "fa fa-check"
     }), _vm._v(" "), (mirs.Preparedby == mirs.IfDeclined) ? _c('i', {
       staticClass: "fa fa-times decliner"
-    }) : _vm._e()]), _vm._v(" "), _c('td', [_vm._v("\r\n          " + _vm._s(mirs.Recommendedby) + "\r\n          "), (mirs.RecommendSignature != null) ? _c('i', {
+    }) : _vm._e()]), _vm._v(" "), _c('td', [_vm._v("\r\n          " + _vm._s(mirs.Recommendedby)), _c('br'), _vm._v(" "), (mirs.RecommendSignature != null || mirs.ManagerReplacerSignature != null) ? _c('i', {
       staticClass: "fa fa-check"
     }) : _vm._e(), _vm._v(" "), (mirs.Recommendedby == mirs.IfDeclined) ? _c('i', {
       staticClass: "fa fa-times decliner"
-    }) : _vm._e()]), _vm._v(" "), _c('td', [_vm._v("\r\n          " + _vm._s(mirs.Approvedby) + "\r\n          "), (mirs.ApproveSignature != null) ? _c('i', {
+    }) : _vm._e()]), _vm._v(" "), _c('td', [_vm._v("\r\n          " + _vm._s(mirs.Approvedby)), _c('br'), _vm._v(" "), (mirs.ApproveSignature != null || mirs.ApprovalReplacerSignature != null) ? _c('i', {
       staticClass: "fa fa-check"
     }) : _vm._e(), _vm._v(" "), (mirs.Approvedby == mirs.IfDeclined) ? _c('i', {
       staticClass: "fa fa-times decliner"
-    }) : _vm._e()]), _vm._v(" "), _c('td', [_vm._v(_vm._s(mirs.Purpose))]), _vm._v(" "), _c('td', [(mirs.RecommendSignature != null && mirs.ApproveSignature != null) ? _c('i', {
+    }) : _vm._e()]), _vm._v(" "), _c('td', [_vm._v(_vm._s(mirs.Purpose))]), _vm._v(" "), _c('td', [((((mirs.RecommendSignature != null) || (mirs.ManagerReplacerSignature != null)) && ((mirs.ApproveSignature != null) || (mirs.ApprovalReplacerSignature != null)))) ? _c('i', {
       staticClass: "fa fa-thumbs-up"
     }) : (mirs.IfDeclined != null) ? _c('i', {
       staticClass: "fa fa-times decliner"
@@ -12962,7 +13422,99 @@ module.exports={render:function (){var _vm=this;var _h=_vm.$createElement;var _c
       staticClass: "fa fa-eye"
     })])])]) : _vm._e()
   })], 2) : _vm._e(), _vm._v(" "), (_vm.mctbtn == true) ? _c('table', [_vm._m(1), _vm._v(" "), _vm._l((_vm.mctResults), function(mct) {
-    return (_vm.mctResults != null) ? _c('tr', [_c('td', [_vm._v(_vm._s(mct.MCTNo))]), _vm._v(" "), _c('td', [_vm._v(_vm._s(mct.MCTDate))]), _vm._v(" "), _c('td', [_vm._v(_vm._s(mct.Receivedby))]), _vm._v(" "), _c('td', [_vm._v(_vm._s(mct.AddressTo))]), _vm._v(" "), _c('td', [_vm._v(_vm._s(mct.Particulars))]), _vm._v(" "), _vm._m(2, true)]) : _vm._e()
+    return (_vm.mctResults != null) ? _c('tr', [_c('td', [_vm._v(_vm._s(mct.MCTNo))]), _vm._v(" "), _c('td', [_vm._v(_vm._s(mct.MCTDate))]), _vm._v(" "), _c('td', [_vm._v(_vm._s(mct.Receivedby) + "\r\n          "), (mct.ReceivedbySignature != null) ? _c('i', {
+      staticClass: "fa fa-check"
+    }) : _vm._e()]), _vm._v(" "), _c('td', [_vm._v(_vm._s(mct.AddressTo))]), _vm._v(" "), _c('td', [_vm._v(_vm._s(mct.Particulars))]), _vm._v(" "), _c('td', [(mct.ReceivedbySignature != null) ? _c('i', {
+      staticClass: "fa fa-thumbs-up"
+    }) : (mct.IfDeclined != null) ? _c('i', {
+      staticClass: "fa fa-times decliner"
+    }) : _c('i', {
+      staticClass: "fa fa-clock-o"
+    })]), _vm._v(" "), _c('td', [_c('a', {
+      attrs: {
+        "href": '/preview-mct-page-only/' + mct.MCTNo
+      }
+    }, [_c('i', {
+      staticClass: "fa fa-eye"
+    })])])]) : _vm._e()
+  })], 2) : _vm._e(), _vm._v(" "), (_vm.mrtbtn == true) ? _c('table', [_vm._m(2), _vm._v(" "), _vm._l((_vm.mrtResults), function(mrt) {
+    return _c('tr', [_c('td', [_vm._v(_vm._s(mrt.MRTNo))]), _vm._v(" "), _c('td', [_vm._v(_vm._s(mrt.ReturnDate))]), _vm._v(" "), _c('td', [_vm._v(_vm._s(mrt.Particulars))]), _vm._v(" "), _c('td', [_vm._v(_vm._s(mrt.AddressTo))]), _vm._v(" "), _c('td', [_vm._v(_vm._s(mrt.Returnedby) + "\r\n          "), (mrt.IfDeclined == mrt.Returnedby) ? _c('i', {
+      staticClass: "fa fa-times decliner"
+    }) : (mrt.ReturnedbySignature != null) ? _c('i', {
+      staticClass: "fa fa-check"
+    }) : _vm._e()]), _vm._v(" "), _c('td', [(mrt.IfDeclined != null) ? _c('i', {
+      staticClass: "fa fa-times decliner"
+    }) : (mrt.ReturnedbySignature != null) ? _c('i', {
+      staticClass: "fa fa-thumbs-up"
+    }) : _c('i', {
+      staticClass: "fa fa-clock-o color-blue"
+    })]), _vm._v(" "), _c('td', [_c('a', {
+      attrs: {
+        "href": '/mrt-preview-page/' + mrt.MRTNo
+      }
+    }, [_c('i', {
+      staticClass: "fa fa-eye"
+    })])])])
+  })], 2) : _vm._e(), _vm._v(" "), (_vm.mrbtn == true) ? _c('table', [_vm._m(3), _vm._v(" "), _vm._l((_vm.mrResults), function(mr) {
+    return _c('tr', [_c('td', [_vm._v(_vm._s(mr.MRNo))]), _vm._v(" "), _c('td', [_vm._v(_vm._s(mr.Supplier))]), _vm._v(" "), _c('td', [_vm._v(_vm._s(mr.Receivedby) + "\r\n          "), (mr.ReceivedbySignature != null) ? _c('i', {
+      staticClass: "fa fa-check"
+    }) : (mr.IfDeclined == mr.Receivedby) ? _c('i', {
+      staticClass: "fa fa-times decliner"
+    }) : _vm._e()]), _vm._v(" "), _c('td', [_vm._v("\r\n          " + _vm._s(mr.Recommendedby) + "\r\n          "), (mr.RecommendedbySignature != null) ? _c('i', {
+      staticClass: "fa fa-check"
+    }) : (mr.IfDeclined == mr.Recommendedby) ? _c('i', {
+      staticClass: "fa fa-times decliner"
+    }) : _vm._e()]), _vm._v(" "), (mr.ApprovalReplacerSignature != null) ? _c('td', [_vm._v("\r\n          " + _vm._s(mr.ApprovalReplacerFname) + " " + _vm._s(mr.ApprovalReplacerLname) + "\r\n          "), _c('i', {
+      staticClass: "fa fa-check"
+    })]) : _c('td', [_vm._v("\r\n          " + _vm._s(mr.GeneralManager) + "\r\n          "), (mr.GeneralManagerSignature != null) ? _c('i', {
+      staticClass: "fa fa-check"
+    }) : (mr.IfDeclined == mr.GeneralManager) ? _c('i', {
+      staticClass: "fa fa-times decliner"
+    }) : _vm._e()]), _vm._v(" "), _c('td', [(mr.IfDeclined != null) ? _c('i', {
+      staticClass: "fa fa-times decliner"
+    }) : (mr.ReceivedbySignature != null && mr.RecommendedbySignature != null && mr.GeneralManagerSignature != null) ? _c('i', {
+      staticClass: "fa fa-thumbs-up"
+    }) : (mr.ReceivedbySignature != null && mr.RecommendedbySignature != null && mr.ApprovalReplacerSignature != null) ? _c('i', {
+      staticClass: "fa fa-thumbs-up"
+    }) : _c('i', {
+      staticClass: "fa fa-clock-o"
+    })]), _vm._v(" "), _c('td', [_c('a', {
+      attrs: {
+        "href": 'full-preview-MR/' + mr.MRNo
+      }
+    }, [_c('i', {
+      staticClass: "fa fa-eye"
+    })])])])
+  })], 2) : _vm._e(), _vm._v(" "), (_vm.rvbtn == true) ? _c('table', [_vm._m(4), _vm._v(" "), _vm._l((_vm.rvResults), function(rv) {
+    return _c('tr', [_c('td', [_vm._v(_vm._s(rv.RVNo))]), _vm._v(" "), _c('td', [_vm._v(_vm._s(rv.RVDate))]), _vm._v(" "), _c('td', [_vm._v(_vm._s(rv.Purpose))]), _vm._v(" "), _c('td', [_vm._v("\r\n          " + _vm._s(rv.Requisitioner)), _c('br'), _vm._v(" "), _c('i', {
+      staticClass: "fa fa-check"
+    })]), _vm._v(" "), _c('td', [_vm._v("\r\n          " + _vm._s(rv.Recommendedby)), _c('br'), _vm._v(" "), (rv.RecommendedbySignature != null || rv.ManagerReplacerSignature != null) ? _c('i', {
+      staticClass: "fa fa-check"
+    }) : (rv.Recommendedby == rv.IfDeclined) ? _c('i', {
+      staticClass: "fa fa-times decliner"
+    }) : _vm._e()]), _vm._v(" "), _c('td', [_vm._v("\r\n          " + _vm._s(rv.BudgetOfficer)), _c('br'), _vm._v(" "), (rv.BudgetOfficerSignature != null) ? _c('i', {
+      staticClass: "fa fa-check"
+    }) : (rv.BudgetOfficer == rv.IfDeclined) ? _c('i', {
+      staticClass: "fa fa-times decliner"
+    }) : _vm._e()]), _vm._v(" "), (rv.ApprovalReplacerSignature != null) ? _c('td', [_vm._v("\r\n          " + _vm._s(rv.ApprovalReplacerFname) + " " + _vm._s(rv.ApprovalReplacerLname) + "\r\n          "), _c('i', {
+      staticClass: "fa fa-check"
+    })]) : _c('td', [_vm._v("\r\n          " + _vm._s(rv.GeneralManager)), _c('br'), _vm._v(" "), (rv.GeneralManagerSignature != null) ? _c('i', {
+      staticClass: "fa fa-check"
+    }) : (rv.GeneralManager == rv.IfDeclined) ? _c('i', {
+      staticClass: "fa fa-times decliner"
+    }) : _vm._e()]), _vm._v(" "), _c('td', [((((rv.GeneralManagerSignature != null) || (rv.ApprovalReplacerSignature != null)) && ((rv.RecommendedbySignature != null) || (rv.ManagerReplacerSignature != null)) && (rv.BudgetOfficerSignature != null))) ? _c('i', {
+      staticClass: "fa fa-thumbs-up"
+    }) : (rv.IfDeclined != null) ? _c('i', {
+      staticClass: "fa fa-times decliner"
+    }) : _c('i', {
+      staticClass: "fa fa-clock-o"
+    })]), _vm._v(" "), _c('td', [_c('a', {
+      attrs: {
+        "href": '/RVfullview/' + rv.RVNo
+      }
+    }, [_c('i', {
+      staticClass: "fa fa-eye"
+    })])])])
   })], 2) : _vm._e(), _vm._v(" "), _c('div', {
     staticClass: "paginate-container"
   }, [_c('ul', {
@@ -13015,13 +13567,15 @@ module.exports={render:function (){var _vm=this;var _h=_vm.$createElement;var _c
 },function (){var _vm=this;var _h=_vm.$createElement;var _c=_vm._self._c||_h;
   return _c('tr', [_c('th', {
     staticClass: "left-part"
-  }, [_vm._v("MCT No.")]), _vm._v(" "), _c('th', [_vm._v("MCTDate")]), _vm._v(" "), _c('th', [_vm._v("Receiver")]), _vm._v(" "), _c('th', [_vm._v("Addressed to")]), _vm._v(" "), _c('th', [_vm._v("Particular")]), _vm._v(" "), _c('th', {
+  }, [_vm._v("MCT No.")]), _vm._v(" "), _c('th', [_vm._v("MCTDate")]), _vm._v(" "), _c('th', [_vm._v("Receiver")]), _vm._v(" "), _c('th', [_vm._v("Addressed to")]), _vm._v(" "), _c('th', [_vm._v("Particular")]), _vm._v(" "), _c('th', [_vm._v("Status")]), _vm._v(" "), _c('th', {
     staticClass: "right-part"
   }, [_vm._v("Show")])])
 },function (){var _vm=this;var _h=_vm.$createElement;var _c=_vm._self._c||_h;
-  return _c('td', [_c('i', {
-    staticClass: "fa fa-eye"
-  })])
+  return _c('tr', [_c('th', [_vm._v("MRT No.")]), _vm._v(" "), _c('th', [_vm._v("Return Date")]), _vm._v(" "), _c('th', [_vm._v("Particulars")]), _vm._v(" "), _c('th', [_vm._v("Address To")]), _vm._v(" "), _c('th', [_vm._v("Returned by")]), _vm._v(" "), _c('th', [_vm._v("Status")]), _vm._v(" "), _c('th', [_vm._v("Show")])])
+},function (){var _vm=this;var _h=_vm.$createElement;var _c=_vm._self._c||_h;
+  return _c('tr', [_c('th', [_vm._v("MRNo")]), _vm._v(" "), _c('th', [_vm._v("Supplier")]), _vm._v(" "), _c('th', [_vm._v("Received by")]), _vm._v(" "), _c('th', [_vm._v("Recommended by")]), _vm._v(" "), _c('th', [_vm._v("Approved by")]), _vm._v(" "), _c('th', [_vm._v("Status")]), _vm._v(" "), _c('th', [_vm._v("Show")])])
+},function (){var _vm=this;var _h=_vm.$createElement;var _c=_vm._self._c||_h;
+  return _c('tr', [_c('th', [_vm._v("RVNo")]), _vm._v(" "), _c('th', [_vm._v("RVDate")]), _vm._v(" "), _c('th', [_vm._v("Purpose")]), _vm._v(" "), _c('th', [_vm._v("Requisitioner")]), _vm._v(" "), _c('th', [_vm._v("Recommended by")]), _vm._v(" "), _c('th', [_vm._v("Budget Officer")]), _vm._v(" "), _c('th', [_vm._v("Approved by")]), _vm._v(" "), _c('th', [_vm._v("Status")]), _vm._v(" "), _c('th', [_vm._v("Show")])])
 }]}
 module.exports.render._withStripped = true
 if (false) {
@@ -13032,25 +13586,132 @@ if (false) {
 }
 
 /***/ }),
-/* 66 */
+/* 117 */,
+/* 118 */
 /***/ (function(module, exports, __webpack_require__) {
 
 module.exports={render:function (){var _vm=this;var _h=_vm.$createElement;var _c=_vm._self._c||_h;
   return _c('div', {
     staticClass: "setting-accounts-table"
-  }, [_c('h1', [_vm._v("Managers")]), _vm._v(" "), _c('table', [_vm._m(0), _vm._v(" "), _vm._l((_vm.Managers), function(manager) {
-    return _c('tr', [_c('td', [_c('h2', [_c('p', [_vm._v(_vm._s(manager.Fname))])])]), _vm._v(" "), _c('td', [_vm._v(_vm._s(manager.Lname))]), _vm._v(" "), _c('td', [_vm._v(_vm._s(manager.Username))]), _vm._v(" "), _c('td', [_c('h1', [_c('img', {
+  }, [_c('div', {
+    staticClass: "title-account-manager"
+  }, [_c('h1', [(_vm.gmbtn == true) ? _c('span', [_vm._v("List of General Managers")]) : _vm._e(), _vm._v(" "), (_vm.managerbtn == true) ? _c('span', [_vm._v("List of Managers")]) : _vm._e(), _vm._v(" "), (_vm.adminbtn == true) ? _c('span', [_vm._v("List of Admins")]) : _vm._e(), _vm._v(" "), (_vm.otherbtn == true) ? _c('span', [_vm._v("List of Other accounts")]) : _vm._e(), _vm._v(" "), _c('i', {
+    staticClass: "fa fa-group color-blue"
+  })])]), _vm._v(" "), _c('div', {
+    staticClass: "top-right-menu-accounts"
+  }, [_c('ul', [_c('li', [_c('button', {
+    class: [_vm.gmbtn == true ? 'active' : ''],
+    attrs: {
+      "type": "button"
+    },
+    on: {
+      "click": function($event) {
+        _vm.gmbtn = true, _vm.managerbtn = false, _vm.adminbtn = false, _vm.otherbtn = false, _vm.getSelected()
+      }
+    }
+  }, [_vm._v("General Managers")])]), _vm._v(" "), _c('li', [_c('button', {
+    class: [_vm.managerbtn == true ? 'active' : ''],
+    attrs: {
+      "type": "button"
+    },
+    on: {
+      "click": function($event) {
+        _vm.gmbtn = false, _vm.managerbtn = true, _vm.adminbtn = false, _vm.otherbtn = false, _vm.getSelected()
+      }
+    }
+  }, [_vm._v("Managers")])]), _vm._v(" "), _c('li', [_c('button', {
+    class: [_vm.adminbtn == true ? 'active' : ''],
+    attrs: {
+      "type": "button"
+    },
+    on: {
+      "click": function($event) {
+        _vm.gmbtn = false, _vm.managerbtn = false, _vm.adminbtn = true, _vm.otherbtn = false, _vm.getSelected()
+      }
+    }
+  }, [_vm._v("Admins")])]), _vm._v(" "), _c('li', [_c('button', {
+    class: [_vm.otherbtn == true ? 'active' : ''],
+    attrs: {
+      "type": "button"
+    },
+    on: {
+      "click": function($event) {
+        _vm.gmbtn = false, _vm.managerbtn = false, _vm.adminbtn = false, _vm.otherbtn = true, _vm.getSelected()
+      }
+    }
+  }, [_vm._v("Other")])]), _vm._v(" "), _c('li', [_c('button', {
+    attrs: {
+      "type": "button"
+    },
+    on: {
+      "click": function($event) {
+        _vm.createAccMenu = !_vm.createAccMenu
+      }
+    }
+  }, [_c('i', {
+    staticClass: "fa fa-user-plus"
+  })]), _vm._v(" "), _c('div', {
+    staticClass: "create-acc-minimenu",
+    class: [_vm.createAccMenu == true ? 'active' : '']
+  }, [_vm._m(0), _vm._v(" "), _c('h2', [_c('input', {
+    attrs: {
+      "type": "button",
+      "value": "manager"
+    },
+    on: {
+      "click": function($event) {
+        _vm.ManagerCreateModal = true
+      }
+    }
+  }), _vm._v(" "), _c('input', {
+    attrs: {
+      "type": "button",
+      "value": "user"
+    },
+    on: {
+      "click": function($event) {
+        _vm.newusermodal = true, [_vm.ManagerChoices[0] == null ? _vm.fetchManagerChoices() : '']
+      }
+    }
+  })])])])])]), _vm._v(" "), (_vm.gmbtn == true) ? _c('h1', [_vm._v("General Managers")]) : _vm._e(), _vm._v(" "), (_vm.managerbtn == true) ? _c('h1', [_vm._v("Managers")]) : _vm._e(), _vm._v(" "), (_vm.adminbtn == true) ? _c('h1', [_vm._v("Admins")]) : _vm._e(), _vm._v(" "), (_vm.otherbtn == true) ? _c('h1', [_vm._v("Other accounts")]) : _vm._e(), _vm._v(" "), (_vm.laravelerrors != '') ? _c('ul', {
+    staticClass: "error-tab"
+  }, _vm._l((_vm.laravelerrors), function(errors) {
+    return _c('span', _vm._l((errors), function(error) {
+      return _c('li', [_vm._v(_vm._s(error))])
+    }))
+  })) : _vm._e(), _vm._v(" "), (_vm.ownerrors != '') ? _c('ul', {
+    staticClass: "error-tab"
+  }, [_c('h5', [_vm._v(_vm._s(_vm.ownerrors))])]) : _vm._e(), _vm._v(" "), (_vm.successAlerts != '') ? _c('div', {
+    staticClass: "successAlertRRsession"
+  }, [_c('p', [_vm._v(_vm._s(_vm.successAlerts))])]) : _vm._e(), _vm._v(" "), _c('table', [_vm._m(1), _vm._v(" "), _vm._l((_vm.AccountResults), function(account) {
+    return _c('tr', [_c('td', [_c('h2', [_c('p', [_vm._v(_vm._s(account.Fname))])])]), _vm._v(" "), _c('td', [_vm._v(_vm._s(account.Lname))]), _vm._v(" "), _c('td', [_vm._v(_vm._s(account.Username))]), _vm._v(" "), _c('td', [_c('h1', [_c('img', {
       attrs: {
-        "src": '/storage/signatures/' + manager.Signature,
+        "src": '/storage/signatures/' + account.Signature,
         "alt": "signature"
       }
     })])]), _vm._v(" "), _c('td', {
       staticClass: "userstatus"
-    }, [(manager.IsActive != null) ? _c('i', {
+    }, [(account.IsActive != null) ? _c('i', {
       staticClass: "fa fa-circle active"
     }) : _c('i', {
       staticClass: "fa fa-circle"
-    })]), _vm._v(" "), _vm._m(1, true)])
+    })]), _vm._v(" "), _c('td', {
+      staticClass: "settingActions"
+    }, [_c('i', {
+      staticClass: "fa fa-edit",
+      on: {
+        "click": function($event) {
+          _vm.modalUpdate = !_vm.modalUpdate, _vm.fetchselecteduser(account.id), _vm.fetchManagerChoices()
+        }
+      }
+    }), _vm._v(" "), _c('i', {
+      staticClass: "fa fa-trash",
+      on: {
+        "click": function($event) {
+          _vm.deleteAccount(account.id)
+        }
+      }
+    })])])
   })], 2), _vm._v(" "), _c('div', {
     staticClass: "paginate-container"
   }, [_c('ul', {
@@ -13093,99 +13754,749 @@ module.exports={render:function (){var _vm=this;var _h=_vm.$createElement;var _c
     }
   }, [_c('i', {
     staticClass: "fa fa-angle-right"
-  })])]) : _vm._e()], 2)])])
-},staticRenderFns: [function (){var _vm=this;var _h=_vm.$createElement;var _c=_vm._self._c||_h;
-  return _c('tr', [_c('th', [_vm._v("First Name")]), _vm._v(" "), _c('th', [_vm._v("Last Name")]), _vm._v(" "), _c('th', [_vm._v("Username")]), _vm._v(" "), _c('th', [_vm._v("Signature")]), _vm._v(" "), _c('th', [_vm._v("Active")]), _vm._v(" "), _c('th', [_vm._v("Action")])])
-},function (){var _vm=this;var _h=_vm.$createElement;var _c=_vm._self._c||_h;
-  return _c('td', {
-    staticClass: "settingActions"
-  }, [_c('i', {
-    staticClass: "fa fa-edit"
-  }), _vm._v(" "), _c('i', {
-    staticClass: "fa fa-trash"
-  })])
-}]}
-module.exports.render._withStripped = true
-if (false) {
-  module.hot.accept()
-  if (module.hot.data) {
-     require("vue-hot-reload-api").rerender("data-v-8977600a", module.exports)
-  }
-}
-
-/***/ }),
-/* 67 */
-/***/ (function(module, exports, __webpack_require__) {
-
-module.exports={render:function (){var _vm=this;var _h=_vm.$createElement;var _c=_vm._self._c||_h;
-  return _c('div', {
-    staticClass: "setting-accounts-table"
-  }, [_c('h1', [_vm._v("General Managers")]), _vm._v(" "), _c('table', [_vm._m(0), _vm._v(" "), _vm._l((_vm.GeneralManagers), function(gm) {
-    return _c('tr', [_c('td', [_c('h2', [_c('p', [_vm._v(_vm._s(gm.Fname))])])]), _vm._v(" "), _c('td', [_vm._v(_vm._s(gm.Lname))]), _vm._v(" "), _c('td', [_vm._v(_vm._s(gm.Username))]), _vm._v(" "), _c('td', [_c('h1', [_c('img', {
-      attrs: {
-        "src": '/storage/signatures/' + gm.Signature,
-        "alt": "signature"
-      }
-    })])]), _vm._v(" "), _c('td', {
-      staticClass: "userstatus"
-    }, [(gm.IsActive != null) ? _c('i', {
-      staticClass: "fa fa-circle active"
-    }) : _c('i', {
-      staticClass: "fa fa-circle"
-    })]), _vm._v(" "), _vm._m(1, true)])
-  })], 2), _vm._v(" "), _c('div', {
-    staticClass: "paginate-container"
-  }, [_c('ul', {
-    staticClass: "pagination"
-  }, [(_vm.pagination.current_page > 1) ? _c('li', [_c('a', {
-    attrs: {
-      "href": "#"
+  })])]) : _vm._e()], 2)]), _vm._v(" "), _c('div', {
+    staticClass: "update-account-modal",
+    class: {
+      'active animated fadeIn': _vm.modalUpdate
     },
     on: {
       "click": function($event) {
-        $event.preventDefault();
-        _vm.changepage(_vm.pagination.current_page - 1)
+        _vm.modalUpdate = !_vm.modalUpdate
       }
     }
-  }, [_c('i', {
-    staticClass: "fa fa-angle-left"
-  })])]) : _vm._e(), _vm._v(" "), _vm._l((_vm.pagesNumber), function(page) {
-    return _c('li', {
-      class: [page == _vm.Activepage ? 'active' : '']
-    }, [_c('a', {
-      attrs: {
-        "href": "#"
-      },
-      on: {
-        "click": function($event) {
-          $event.preventDefault();
-          _vm.changepage(page)
-        }
+  }, [_c('div', {
+    staticClass: "update-modal-center",
+    on: {
+      "click": function($event) {
+        _vm.modalUpdate = !_vm.modalUpdate
       }
-    }, [_vm._v(_vm._s(page))])])
-  }), _vm._v(" "), (_vm.pagination.current_page < _vm.pagination.last_page) ? _c('li', [_c('a', {
+    }
+  }, [_c('h1', [_vm._v("Update account")]), _vm._v(" "), _c('div', {
+    staticClass: "triangle-top-right-update"
+  }), _vm._v(" "), _c('div', {
+    staticClass: "update-inputs"
+  }, [_c('span', {
+    staticClass: "doubleform"
+  }, [_c('div', {
+    staticClass: "updateinput-label"
+  }, [_c('h3', {
+    class: [_vm.fname != '' ? 'active' : '']
+  }, [_vm._v("Firstname")]), _vm._v(" "), _c('input', {
+    directives: [{
+      name: "model",
+      rawName: "v-model",
+      value: (_vm.fname = _vm.userFetched.Fname),
+      expression: "fname=userFetched.Fname"
+    }],
     attrs: {
-      "href": "#"
+      "type": "text",
+      "name": "Fname"
+    },
+    domProps: {
+      "value": (_vm.fname = _vm.userFetched.Fname)
+    },
+    on: {
+      "input": function($event) {
+        if ($event.target.composing) { return; }
+        _vm.fname = _vm.userFetched.Fname = $event.target.value
+      }
+    }
+  })]), _vm._v(" "), _c('div', {
+    staticClass: "updateinput-label"
+  }, [_c('h3', {
+    class: [_vm.lname != '' ? 'active' : '']
+  }, [_vm._v("Lastname")]), _vm._v(" "), _c('input', {
+    directives: [{
+      name: "model",
+      rawName: "v-model",
+      value: (_vm.lname = _vm.userFetched.Lname),
+      expression: "lname=userFetched.Lname"
+    }],
+    attrs: {
+      "type": "text",
+      "name": "Lname"
+    },
+    domProps: {
+      "value": (_vm.lname = _vm.userFetched.Lname)
+    },
+    on: {
+      "input": function($event) {
+        if ($event.target.composing) { return; }
+        _vm.lname = _vm.userFetched.Lname = $event.target.value
+      }
+    }
+  })])]), _vm._v(" "), _c('span', {
+    staticClass: "doubleform"
+  }, [(_vm.userFetched.Role == 0) ? _c('div', {
+    staticClass: "updateinput-label"
+  }, [_c('h3', {
+    staticClass: "active"
+  }, [_vm._v("Position")]), _vm._v(" "), _c('input', {
+    directives: [{
+      name: "model",
+      rawName: "v-model",
+      value: (_vm.position = _vm.userFetched.Position),
+      expression: "position=userFetched.Position"
+    }],
+    attrs: {
+      "type": "text"
+    },
+    domProps: {
+      "value": (_vm.position = _vm.userFetched.Position)
+    },
+    on: {
+      "input": function($event) {
+        if ($event.target.composing) { return; }
+        _vm.position = _vm.userFetched.Position = $event.target.value
+      }
+    }
+  })]) : _vm._e(), _vm._v(" "), _c('div', {
+    staticClass: "updateinput-label"
+  }, [_c('h3', {
+    staticClass: "active"
+  }, [_vm._v("Role")]), _vm._v(" "), _c('select', {
+    directives: [{
+      name: "model",
+      rawName: "v-model",
+      value: (_vm.role = _vm.userFetched.Role),
+      expression: "role=userFetched.Role"
+    }],
+    on: {
+      "change": function($event) {
+        var $$selectedVal = Array.prototype.filter.call($event.target.options, function(o) {
+          return o.selected
+        }).map(function(o) {
+          var val = "_value" in o ? o._value : o.value;
+          return val
+        });
+        _vm.role = _vm.userFetched.Role = $event.target.multiple ? $$selectedVal : $$selectedVal[0]
+      }
+    }
+  }, [_c('option', {
+    attrs: {
+      "value": "0"
+    }
+  }, [_vm._v("Manager")]), _vm._v(" "), _c('option', {
+    attrs: {
+      "value": "1"
+    }
+  }, [_vm._v("Admin")]), _vm._v(" "), _c('option', {
+    attrs: {
+      "value": "2"
+    }
+  }, [_vm._v("General Manager")]), _vm._v(" "), _c('option', {
+    attrs: {
+      "value": "3"
+    }
+  }, [_vm._v("Warehouse Assistant")]), _vm._v(" "), _c('option', {
+    attrs: {
+      "value": "4"
+    }
+  }, [_vm._v("WarehouseHead")]), _vm._v(" "), _c('option', {
+    attrs: {
+      "value": "5"
+    }
+  }, [_vm._v("Auditor")]), _vm._v(" "), _c('option', {
+    attrs: {
+      "value": "6"
+    }
+  }, [_vm._v("Clerk")]), _vm._v(" "), _c('option', {
+    attrs: {
+      "value": "7"
+    }
+  }, [_vm._v("Budget Officer")]), _vm._v(" "), _c('option', {
+    attrs: {
+      "value": "8"
+    }
+  }, [_vm._v("Normal User")])])])]), _vm._v(" "), _c('div', {
+    staticClass: "updateinput-label short-width"
+  }, [_c('h3', {
+    staticClass: "active"
+  }, [_vm._v("Account status")]), _vm._v(" "), _c('select', {
+    directives: [{
+      name: "model",
+      rawName: "v-model",
+      value: (_vm.activeUser = _vm.userFetched.IsActive),
+      expression: "activeUser=userFetched.IsActive"
+    }],
+    on: {
+      "change": function($event) {
+        var $$selectedVal = Array.prototype.filter.call($event.target.options, function(o) {
+          return o.selected
+        }).map(function(o) {
+          var val = "_value" in o ? o._value : o.value;
+          return val
+        });
+        _vm.activeUser = _vm.userFetched.IsActive = $event.target.multiple ? $$selectedVal : $$selectedVal[0]
+      }
+    }
+  }, [_c('option', {
+    domProps: {
+      "value": '0'
+    }
+  }, [_vm._v("Active")]), _vm._v(" "), _c('option', {
+    domProps: {
+      "value": null
+    }
+  }, [_vm._v("Inactive")])])]), _vm._v(" "), (((_vm.userFetched.Role != 0) && (_vm.userFetched.Role != 2))) ? _c('div', {
+    staticClass: "updateinput-label short-width"
+  }, [_c('h3', {
+    class: [_vm.mymanager != null ? 'active' : '']
+  }, [_vm._v("Manager")]), _vm._v(" "), _c('select', {
+    directives: [{
+      name: "model",
+      rawName: "v-model",
+      value: (_vm.mymanager = _vm.userFetched.Manager),
+      expression: "mymanager=userFetched.Manager"
+    }],
+    on: {
+      "change": function($event) {
+        var $$selectedVal = Array.prototype.filter.call($event.target.options, function(o) {
+          return o.selected
+        }).map(function(o) {
+          var val = "_value" in o ? o._value : o.value;
+          return val
+        });
+        _vm.mymanager = _vm.userFetched.Manager = $event.target.multiple ? $$selectedVal : $$selectedVal[0]
+      }
+    }
+  }, _vm._l((_vm.ManagerChoices), function(manager) {
+    return _c('option', {
+      domProps: {
+        "value": manager.id
+      }
+    }, [_vm._v(_vm._s(manager.Fname) + " " + _vm._s(manager.Lname))])
+  }))]) : _vm._e(), _vm._v(" "), _c('div', {
+    staticClass: "updateinput-label short-width"
+  }, [_c('h3', {
+    class: [_vm.username != '' ? 'active' : '']
+  }, [_vm._v("Username")]), _vm._v(" "), _c('input', {
+    directives: [{
+      name: "model",
+      rawName: "v-model",
+      value: (_vm.username = _vm.userFetched.Username),
+      expression: "username=userFetched.Username"
+    }],
+    attrs: {
+      "type": "text",
+      "name": "Username",
+      "autocomplete": "off"
+    },
+    domProps: {
+      "value": (_vm.username = _vm.userFetched.Username)
+    },
+    on: {
+      "input": function($event) {
+        if ($event.target.composing) { return; }
+        _vm.username = _vm.userFetched.Username = $event.target.value
+      }
+    }
+  })]), _vm._v(" "), _c('div', {
+    staticClass: "updateinput-label short-width"
+  }, [_c('h3', {
+    class: [_vm.Password != '' ? 'active' : '']
+  }, [_vm._v("Change password")]), _vm._v(" "), _c('input', {
+    directives: [{
+      name: "model",
+      rawName: "v-model",
+      value: (_vm.Password),
+      expression: "Password"
+    }],
+    attrs: {
+      "type": "password",
+      "name": "Password",
+      "autocomplete": "off"
+    },
+    domProps: {
+      "value": (_vm.Password)
+    },
+    on: {
+      "input": function($event) {
+        if ($event.target.composing) { return; }
+        _vm.Password = $event.target.value
+      }
+    }
+  })]), _vm._v(" "), _c('div', {
+    staticClass: "updateinput-label short-width"
+  }, [_c('h3', {
+    class: [_vm.Password_confirmation != '' ? 'active' : '']
+  }, [_vm._v("Confirm new password")]), _vm._v(" "), _c('input', {
+    directives: [{
+      name: "model",
+      rawName: "v-model",
+      value: (_vm.Password_confirmation),
+      expression: "Password_confirmation"
+    }],
+    attrs: {
+      "type": "password",
+      "name": "PasswordConfirmation",
+      "autocomplete": "off"
+    },
+    domProps: {
+      "value": (_vm.Password_confirmation)
+    },
+    on: {
+      "input": function($event) {
+        if ($event.target.composing) { return; }
+        _vm.Password_confirmation = $event.target.value
+      }
+    }
+  })]), _vm._v(" "), _c('input', {
+    attrs: {
+      "type": "file",
+      "name": "Signature",
+      "autocomplete": "off",
+      "id": "inputSignature",
+      "accept": "image/PNG"
+    },
+    on: {
+      "change": _vm.onFileChange
+    }
+  }), _vm._v(" "), _c('div', {
+    staticClass: "image-signature-wrap"
+  }, [(_vm.image == '' && _vm.userFetched != '') ? _c('img', {
+    attrs: {
+      "id": "signatureUpdate",
+      "src": '/storage/signatures/' + _vm.userFetched.Signature,
+      "alt": "your signature"
+    }
+  }) : _c('img', {
+    attrs: {
+      "id": "signatureUpdate",
+      "src": _vm.image,
+      "alt": "your signature"
+    }
+  })]), _vm._v(" "), _c('button', {
+    attrs: {
+      "type": "button"
     },
     on: {
       "click": function($event) {
-        $event.preventDefault();
-        _vm.changepage(_vm.pagination.current_page + 1)
+        _vm.submitUpdate(_vm.userFetched.id), _vm.modalUpdate = !_vm.modalUpdate
+      }
+    }
+  }, [_vm._v("Update")])])])]), _vm._v(" "), _c('div', {
+    staticClass: "CreateManagerAccount-Modal",
+    class: {
+      'active': _vm.ManagerCreateModal
+    },
+    on: {
+      "click": function($event) {
+        _vm.ManagerCreateModal = !_vm.ManagerCreateModal
+      }
+    }
+  }, [_c('div', {
+    staticClass: "center-manager-create-form",
+    on: {
+      "click": function($event) {
+        _vm.ManagerCreateModal = !_vm.ManagerCreateModal
+      }
+    }
+  }, [_vm._m(2), _vm._v(" "), _c('div', {
+    staticClass: "manager-form-inputs"
+  }, [_c('div', {
+    staticClass: "doubleform"
+  }, [_c('input', {
+    directives: [{
+      name: "model",
+      rawName: "v-model",
+      value: (_vm.ManagerRegisterFname),
+      expression: "ManagerRegisterFname"
+    }],
+    attrs: {
+      "type": "text",
+      "placeholder": "Firstname"
+    },
+    domProps: {
+      "value": (_vm.ManagerRegisterFname)
+    },
+    on: {
+      "input": function($event) {
+        if ($event.target.composing) { return; }
+        _vm.ManagerRegisterFname = $event.target.value
+      }
+    }
+  }), _vm._v(" "), _c('input', {
+    directives: [{
+      name: "model",
+      rawName: "v-model",
+      value: (_vm.ManagerRegisterLname),
+      expression: "ManagerRegisterLname"
+    }],
+    attrs: {
+      "type": "text",
+      "placeholder": "Lastname"
+    },
+    domProps: {
+      "value": (_vm.ManagerRegisterLname)
+    },
+    on: {
+      "input": function($event) {
+        if ($event.target.composing) { return; }
+        _vm.ManagerRegisterLname = $event.target.value
+      }
+    }
+  })]), _vm._v(" "), _c('div', {
+    staticClass: "doubleform"
+  }, [_c('input', {
+    directives: [{
+      name: "model",
+      rawName: "v-model",
+      value: (_vm.ManagerRegisterUsername),
+      expression: "ManagerRegisterUsername"
+    }],
+    attrs: {
+      "type": "text",
+      "placeholder": "Username"
+    },
+    domProps: {
+      "value": (_vm.ManagerRegisterUsername)
+    },
+    on: {
+      "input": function($event) {
+        if ($event.target.composing) { return; }
+        _vm.ManagerRegisterUsername = $event.target.value
+      }
+    }
+  }), _vm._v(" "), _c('input', {
+    directives: [{
+      name: "model",
+      rawName: "v-model",
+      value: (_vm.ManagerRegisterPosition),
+      expression: "ManagerRegisterPosition"
+    }],
+    attrs: {
+      "type": "text",
+      "placeholder": "Position"
+    },
+    domProps: {
+      "value": (_vm.ManagerRegisterPosition)
+    },
+    on: {
+      "input": function($event) {
+        if ($event.target.composing) { return; }
+        _vm.ManagerRegisterPosition = $event.target.value
+      }
+    }
+  })]), _vm._v(" "), _c('div', {
+    staticClass: "doubleform"
+  }, [_c('input', {
+    directives: [{
+      name: "model",
+      rawName: "v-model",
+      value: (_vm.ManagerRegisterPassword),
+      expression: "ManagerRegisterPassword"
+    }],
+    attrs: {
+      "type": "password",
+      "placeholder": "Password"
+    },
+    domProps: {
+      "value": (_vm.ManagerRegisterPassword)
+    },
+    on: {
+      "input": function($event) {
+        if ($event.target.composing) { return; }
+        _vm.ManagerRegisterPassword = $event.target.value
+      }
+    }
+  }), _vm._v(" "), _c('input', {
+    directives: [{
+      name: "model",
+      rawName: "v-model",
+      value: (_vm.ManagerPwordConfirm),
+      expression: "ManagerPwordConfirm"
+    }],
+    attrs: {
+      "type": "password",
+      "placeholder": "Confirm-password"
+    },
+    domProps: {
+      "value": (_vm.ManagerPwordConfirm)
+    },
+    on: {
+      "input": function($event) {
+        if ($event.target.composing) { return; }
+        _vm.ManagerPwordConfirm = $event.target.value
+      }
+    }
+  })]), _vm._v(" "), _c('input', {
+    attrs: {
+      "type": "file",
+      "accept": "image/PNG"
+    },
+    on: {
+      "change": _vm.onFileChange2
+    }
+  }), _vm._v(" "), _c('h3', {
+    staticClass: "signature-preview"
+  }, [_c('img', {
+    attrs: {
+      "src": _vm.image2,
+      "alt": "your signature"
+    }
+  })]), _vm._v(" "), _c('button', {
+    staticClass: "save-btn-manager",
+    attrs: {
+      "type": "button"
+    },
+    on: {
+      "click": function($event) {
+        _vm.saveManagerAccount()
       }
     }
   }, [_c('i', {
-    staticClass: "fa fa-angle-right"
-  })])]) : _vm._e()], 2)])])
+    staticClass: "fa fa-user"
+  }), _vm._v(" Save Account")])])])]), _vm._v(" "), _c('div', {
+    staticClass: "CreateNEwUserModal",
+    class: {
+      'active': _vm.newusermodal
+    },
+    on: {
+      "click": function($event) {
+        _vm.newusermodal = !_vm.newusermodal
+      }
+    }
+  }, [_c('div', {
+    staticClass: "center-form-newuser",
+    on: {
+      "click": function($event) {
+        _vm.newusermodal = !_vm.newusermodal
+      }
+    }
+  }, [_vm._m(3), _vm._v(" "), _c('div', {
+    staticClass: "newuserinputs"
+  }, [_c('div', {
+    staticClass: "doubleform"
+  }, [_c('input', {
+    directives: [{
+      name: "model",
+      rawName: "v-model",
+      value: (_vm.RegisterFname),
+      expression: "RegisterFname"
+    }],
+    attrs: {
+      "type": "text",
+      "placeholder": "Firstname"
+    },
+    domProps: {
+      "value": (_vm.RegisterFname)
+    },
+    on: {
+      "input": function($event) {
+        if ($event.target.composing) { return; }
+        _vm.RegisterFname = $event.target.value
+      }
+    }
+  }), _vm._v(" "), _c('input', {
+    directives: [{
+      name: "model",
+      rawName: "v-model",
+      value: (_vm.RegisterLname),
+      expression: "RegisterLname"
+    }],
+    attrs: {
+      "type": "text",
+      "placeholder": "Lastname"
+    },
+    domProps: {
+      "value": (_vm.RegisterLname)
+    },
+    on: {
+      "input": function($event) {
+        if ($event.target.composing) { return; }
+        _vm.RegisterLname = $event.target.value
+      }
+    }
+  })]), _vm._v(" "), _c('div', {
+    staticClass: "doubleform"
+  }, [_c('input', {
+    directives: [{
+      name: "model",
+      rawName: "v-model",
+      value: (_vm.RegisterUsername),
+      expression: "RegisterUsername"
+    }],
+    attrs: {
+      "type": "text",
+      "placeholder": "Username"
+    },
+    domProps: {
+      "value": (_vm.RegisterUsername)
+    },
+    on: {
+      "input": function($event) {
+        if ($event.target.composing) { return; }
+        _vm.RegisterUsername = $event.target.value
+      }
+    }
+  }), _vm._v(" "), _c('input', {
+    directives: [{
+      name: "model",
+      rawName: "v-model",
+      value: (_vm.RegisterPassword),
+      expression: "RegisterPassword"
+    }],
+    attrs: {
+      "type": "password",
+      "placeholder": "Password"
+    },
+    domProps: {
+      "value": (_vm.RegisterPassword)
+    },
+    on: {
+      "input": function($event) {
+        if ($event.target.composing) { return; }
+        _vm.RegisterPassword = $event.target.value
+      }
+    }
+  })]), _vm._v(" "), _c('input', {
+    directives: [{
+      name: "model",
+      rawName: "v-model",
+      value: (_vm.RegisterPwordConfirm),
+      expression: "RegisterPwordConfirm"
+    }],
+    attrs: {
+      "type": "password",
+      "placeholder": "Password-confirmation"
+    },
+    domProps: {
+      "value": (_vm.RegisterPwordConfirm)
+    },
+    on: {
+      "input": function($event) {
+        if ($event.target.composing) { return; }
+        _vm.RegisterPwordConfirm = $event.target.value
+      }
+    }
+  }), _vm._v(" "), _c('select', {
+    directives: [{
+      name: "model",
+      rawName: "v-model",
+      value: (_vm.RegisterRole),
+      expression: "RegisterRole"
+    }],
+    attrs: {
+      "name": "Role"
+    },
+    on: {
+      "change": function($event) {
+        var $$selectedVal = Array.prototype.filter.call($event.target.options, function(o) {
+          return o.selected
+        }).map(function(o) {
+          var val = "_value" in o ? o._value : o.value;
+          return val
+        });
+        _vm.RegisterRole = $event.target.multiple ? $$selectedVal : $$selectedVal[0]
+      }
+    }
+  }, [_c('option', {
+    attrs: {
+      "value": ""
+    }
+  }, [_vm._v("Choose role")]), _vm._v(" "), _c('option', {
+    attrs: {
+      "value": "1"
+    }
+  }, [_vm._v("Admin")]), _vm._v(" "), _c('option', {
+    attrs: {
+      "value": "2"
+    }
+  }, [_vm._v("General Manager")]), _vm._v(" "), _c('option', {
+    attrs: {
+      "value": "3"
+    }
+  }, [_vm._v("Warehouse Assistant")]), _vm._v(" "), _c('option', {
+    attrs: {
+      "value": "4"
+    }
+  }, [_vm._v("WarehouseHead")]), _vm._v(" "), _c('option', {
+    attrs: {
+      "value": "5"
+    }
+  }, [_vm._v("Auditor")]), _vm._v(" "), _c('option', {
+    attrs: {
+      "value": "6"
+    }
+  }, [_vm._v("Clerk")]), _vm._v(" "), _c('option', {
+    attrs: {
+      "value": "7"
+    }
+  }, [_vm._v("Budget Officer")]), _vm._v(" "), _c('option', {
+    attrs: {
+      "value": "8"
+    }
+  }, [_vm._v("Requisitioner")])]), _vm._v(" "), _c('select', {
+    directives: [{
+      name: "model",
+      rawName: "v-model",
+      value: (_vm.ChoosenManager),
+      expression: "ChoosenManager"
+    }],
+    on: {
+      "change": function($event) {
+        var $$selectedVal = Array.prototype.filter.call($event.target.options, function(o) {
+          return o.selected
+        }).map(function(o) {
+          var val = "_value" in o ? o._value : o.value;
+          return val
+        });
+        _vm.ChoosenManager = $event.target.multiple ? $$selectedVal : $$selectedVal[0]
+      }
+    }
+  }, [_c('option', {
+    domProps: {
+      "value": null
+    }
+  }, [_vm._v("His/Her manager")]), _vm._v(" "), _vm._l((_vm.ManagerChoices), function(manager) {
+    return _c('option', {
+      domProps: {
+        "value": manager.id
+      }
+    }, [_vm._v(_vm._s(manager.Fname) + " " + _vm._s(manager.Lname))])
+  })], 2), _vm._v(" "), _c('input', {
+    attrs: {
+      "type": "file",
+      "accept": "image/PNG"
+    },
+    on: {
+      "change": _vm.onFileChange3
+    }
+  }), _vm._v(" "), _c('h3', {
+    staticClass: "signature-preview"
+  }, [_c('img', {
+    attrs: {
+      "src": _vm.image3,
+      "alt": "your signature"
+    }
+  })]), _vm._v(" "), _c('button', {
+    staticClass: "save-btn-user",
+    attrs: {
+      "type": "button"
+    },
+    on: {
+      "click": function($event) {
+        _vm.SubmitNewUser()
+      }
+    }
+  }, [_c('i', {
+    staticClass: "fa fa-user"
+  }), _vm._v(" Save account")])])])])])
 },staticRenderFns: [function (){var _vm=this;var _h=_vm.$createElement;var _c=_vm._self._c||_h;
+  return _c('h1', [_c('i', {
+    staticClass: "fa fa-user-plus"
+  }), _vm._v(" Create Account")])
+},function (){var _vm=this;var _h=_vm.$createElement;var _c=_vm._self._c||_h;
   return _c('tr', [_c('th', [_vm._v("First Name")]), _vm._v(" "), _c('th', [_vm._v("Last Name")]), _vm._v(" "), _c('th', [_vm._v("Username")]), _vm._v(" "), _c('th', [_vm._v("Signature")]), _vm._v(" "), _c('th', [_vm._v("Active")]), _vm._v(" "), _c('th', [_vm._v("Action")])])
 },function (){var _vm=this;var _h=_vm.$createElement;var _c=_vm._self._c||_h;
-  return _c('td', {
-    staticClass: "settingActions"
-  }, [_c('i', {
-    staticClass: "fa fa-edit"
-  }), _vm._v(" "), _c('i', {
-    staticClass: "fa fa-trash"
-  })])
+  return _c('h1', [_c('i', {
+    staticClass: "fa fa-user-plus"
+  }), _vm._v(" Manager Account\n      ")])
+},function (){var _vm=this;var _h=_vm.$createElement;var _c=_vm._self._c||_h;
+  return _c('h1', [_c('i', {
+    staticClass: "fa fa-user-plus"
+  }), _vm._v(" New account")])
 }]}
 module.exports.render._withStripped = true
 if (false) {
@@ -13196,94 +14507,124 @@ if (false) {
 }
 
 /***/ }),
-/* 68 */,
-/* 69 */
+/* 119 */,
+/* 120 */,
+/* 121 */,
+/* 122 */,
+/* 123 */
 /***/ (function(module, exports, __webpack_require__) {
 
 module.exports={render:function (){var _vm=this;var _h=_vm.$createElement;var _c=_vm._self._c||_h;
   return _c('div', {
-    staticClass: "setting-accounts-table"
-  }, [_c('h1', [_vm._v("Other accounts")]), _vm._v(" "), _c('table', [_vm._m(0), _vm._v(" "), _vm._l((_vm.Others), function(other) {
-    return _c('tr', [_c('td', [_c('h2', [_c('p', [_vm._v(_vm._s(other.Fname))])])]), _vm._v(" "), _c('td', [_vm._v(_vm._s(other.Lname))]), _vm._v(" "), _c('td', [_vm._v(_vm._s(other.Username))]), _vm._v(" "), _c('td', [_c('h1', [_c('img', {
-      attrs: {
-        "src": '/storage/signatures/' + other.Signature,
-        "alt": "signature"
-      }
-    })])]), _vm._v(" "), _c('td', {
-      staticClass: "userstatus"
-    }, [(other.IsActive != null) ? _c('i', {
-      staticClass: "fa fa-circle active"
-    }) : _c('i', {
-      staticClass: "fa fa-circle"
-    })]), _vm._v(" "), _vm._m(1, true)])
-  })], 2), _vm._v(" "), _c('div', {
-    staticClass: "paginate-container"
-  }, [_c('ul', {
-    staticClass: "pagination"
-  }, [(_vm.pagination.current_page > 1) ? _c('li', [_c('a', {
-    attrs: {
-      "href": "#"
-    },
+    staticClass: "middle-box-login"
+  }, [(_vm.failmsg != '') ? _c('div', {
+    staticClass: "error-tab login-errors",
     on: {
       "click": function($event) {
-        $event.preventDefault();
-        _vm.changepage(_vm.pagination.current_page - 1)
+        _vm.failmsg = ''
       }
     }
+  }, [_vm._v("\n    " + _vm._s(_vm.failmsg) + "\n  ")]) : _vm._e(), _vm._v(" "), _c('div', {
+    staticClass: "box-form-login log-box animated",
+    class: [_vm.failmsg != '' ? 'headShake' : '']
+  }, [(_vm.loadingMsg == '') ? _c('h1', [_vm._v("Login "), _c('i', {
+    staticClass: "fa fa-lock"
+  })]) : _vm._e(), _vm._v(" "), (_vm.loadingMsg != '') ? _c('h1', [_vm._v(_vm._s(_vm.loadingMsg))]) : _vm._e(), _vm._v(" "), (_vm.loadingMsg != '') ? _c('h1', {
+    staticClass: "login-loading"
   }, [_c('i', {
-    staticClass: "fa fa-angle-left"
-  })])]) : _vm._e(), _vm._v(" "), _vm._l((_vm.pagesNumber), function(page) {
-    return _c('li', {
-      class: [page == _vm.Activepage ? 'active' : '']
-    }, [_c('a', {
-      attrs: {
-        "href": "#"
+    staticClass: "fa fa-spinner fa-spin fa-pulse"
+  })]) : _vm._e(), _vm._v(" "), (_vm.loadingMsg == '') ? _c('div', {
+    staticClass: "login-form"
+  }, [_c('div', {
+    staticClass: "login-input-container"
+  }, [_vm._m(0), _c('input', {
+    directives: [{
+      name: "model",
+      rawName: "v-model",
+      value: (_vm.Username),
+      expression: "Username"
+    }],
+    attrs: {
+      "type": "text",
+      "autocomplete": "off",
+      "name": "Username",
+      "placeholder": "Username"
+    },
+    domProps: {
+      "value": (_vm.Username)
+    },
+    on: {
+      "change": function($event) {
+        _vm.failmsg = ''
       },
-      on: {
-        "click": function($event) {
-          $event.preventDefault();
-          _vm.changepage(page)
-        }
+      "input": function($event) {
+        if ($event.target.composing) { return; }
+        _vm.Username = $event.target.value
       }
-    }, [_vm._v(_vm._s(page))])])
-  }), _vm._v(" "), (_vm.pagination.current_page < _vm.pagination.last_page) ? _c('li', [_c('a', {
+    }
+  })]), _vm._v(" "), _c('div', {
+    staticClass: "login-input-container"
+  }, [_vm._m(1), _c('input', {
+    directives: [{
+      name: "model",
+      rawName: "v-model",
+      value: (_vm.Password),
+      expression: "Password"
+    }],
     attrs: {
-      "href": "#"
+      "type": "password",
+      "name": "Password",
+      "placeholder": "Password"
+    },
+    domProps: {
+      "value": (_vm.Password)
+    },
+    on: {
+      "change": function($event) {
+        _vm.failmsg = ''
+      },
+      "keyup": function($event) {
+        if (!('button' in $event) && _vm._k($event.keyCode, "enter", 13)) { return null; }
+        _vm.submitCredentials()
+      },
+      "input": function($event) {
+        if ($event.target.composing) { return; }
+        _vm.Password = $event.target.value
+      }
+    }
+  })]), _vm._v(" "), _c('button', {
+    attrs: {
+      "type": "button"
     },
     on: {
       "click": function($event) {
-        $event.preventDefault();
-        _vm.changepage(_vm.pagination.current_page + 1)
+        _vm.submitCredentials()
       }
     }
-  }, [_c('i', {
-    staticClass: "fa fa-angle-right"
-  })])]) : _vm._e()], 2)])])
+  }, [_vm._v("Login ")])]) : _vm._e()])])
 },staticRenderFns: [function (){var _vm=this;var _h=_vm.$createElement;var _c=_vm._self._c||_h;
-  return _c('tr', [_c('th', [_vm._v("First Name")]), _vm._v(" "), _c('th', [_vm._v("Last Name")]), _vm._v(" "), _c('th', [_vm._v("Username")]), _vm._v(" "), _c('th', [_vm._v("Signature")]), _vm._v(" "), _c('th', [_vm._v("Active")]), _vm._v(" "), _c('th', [_vm._v("Action")])])
+  return _c('p', [_c('i', {
+    staticClass: "fa fa-user"
+  })])
 },function (){var _vm=this;var _h=_vm.$createElement;var _c=_vm._self._c||_h;
-  return _c('td', {
-    staticClass: "settingActions"
-  }, [_c('i', {
-    staticClass: "fa fa-edit"
-  }), _vm._v(" "), _c('i', {
-    staticClass: "fa fa-trash"
+  return _c('p', [_c('i', {
+    staticClass: "fa fa-key"
   })])
 }]}
 module.exports.render._withStripped = true
 if (false) {
   module.hot.accept()
   if (module.hot.data) {
-     require("vue-hot-reload-api").rerender("data-v-d1334e6a", module.exports)
+     require("vue-hot-reload-api").rerender("data-v-eb432c86", module.exports)
   }
 }
 
 /***/ }),
-/* 70 */,
-/* 71 */
+/* 124 */,
+/* 125 */
 /***/ (function(module, exports, __webpack_require__) {
 
-module.exports = __webpack_require__(29);
+module.exports = __webpack_require__(31);
 
 
 /***/ })

@@ -23,7 +23,12 @@
           <tr>
             <td>{{$mrRequest->MRNo}}</td>
             <td>{{$mrRequest->Note}}</td>
-            <td>{{$mrRequest->Receivedby}}</td>
+            <td>
+              {{$mrRequest->Receivedby}}
+              @if ($mrRequest->ReceivedbySignature)
+                <i class="fa fa-check"></i>
+              @endif
+            </td>
             <td>
               {{$mrRequest->Recommendedby}}
               @if ($mrRequest->RecommendedbySignature)

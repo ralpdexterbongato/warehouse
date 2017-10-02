@@ -6,7 +6,7 @@
   <div class="summary-mct-container">
     <div class="MCTSummaryForm">
       <div class="title-summary-mct">
-        <i class="fa fa-list"></i>  Summary of Charges
+        <i class="fa fa-calendar"></i>  Summary of Charges
       </div>
       <form class="mct-sum-search" action="{{route('mct-search-date')}}" method="get">
         <input type="text" autocomplete="off" name="monthInput" placeholder="Year-Month(yyyy-mm)"><button type="submit"><i class="fa fa-search"></i></button>
@@ -62,8 +62,8 @@
                 <td>{{$item[0]->AccountCode}}</td>
                 <td>{{$item[0]->ItemCode}}</td>
                 <td>{{$item[0]->MasterItems->Description}}</td>
-                <td>{{$item[0]->UnitCost}}</td>
-                <td>{{$item[0]->Unit}}</td>
+                <td>{{$item[1]->UnitCost}}</td>
+                <td>{{$item[0]->MasterItems->Unit}}</td>
                 <td>{{$item[0]->CurrentQuantity}}</td>
                 <td>{{$item[1]->totalissued}}</td>
               </tr>

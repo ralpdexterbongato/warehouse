@@ -91,6 +91,10 @@
     text-align: center;
     padding:3px;
   }
+  .align-left
+  {
+    text-align: left;
+  }
   </style>
   <body>
     <div class="bondpaper-container">
@@ -124,9 +128,9 @@
           <tr>
             <td>{{$summary[0]->AccountCode}}</td>
             <td>{{$summary[0]->ItemCode}}</td>
-            <td>{{$summary[0]->MasterItems->Description}}</td>
-            <td>{{$summary[0]->UnitCost}}</td>
-            <td>{{$summary[0]->Unit}}</td>
+            <td class="align-left">{{$summary[0]->MasterItems->Description}}</td>
+            <td>{{$summary[1]->UnitCost}}</td>
+            <td>{{$summary[0]->MasterItems->Unit}}</td>
             <td>{{$summary[0]->CurrentQuantity}}</td>
             <td>{{$summary[1]->totalissued}}</td>
           </tr>

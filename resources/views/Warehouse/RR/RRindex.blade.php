@@ -5,7 +5,7 @@
 @section('body')
   <div class="RR-index-container">
     <div class="index-RRtitle-container">
-      <h1>Receiving Report index</h1>
+      <h1><i class="fa fa-th-large"></i> Receiving Report index</h1>
       <div class="box-search-rr">
         <form class="searchbox-formRR" action="{{route('RRSearchNo')}}" method="GET">
           <input type="text" autocomplete="off" name="RRNo" placeholder="Search by RR No . . ."><button type="submit" name="button"><i class="fa fa-search"></i></button>

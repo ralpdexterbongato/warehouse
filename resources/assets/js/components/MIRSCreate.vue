@@ -6,15 +6,15 @@
           <button type="button" name="button" v-on:click="isActive = !isActive"><i class="fa fa-plus-circle"></i> Add item</button>
       </div>
       <div class="added-table-wrapper">
-        <ul class="error-tab" v-if="laravelerrors!=''">
+        <ul class="error-tab" v-if="laravelerrors!=''" v-on:click="laravelerrors=''">
           <span v-for="errors in laravelerrors">
             <li v-for="error in errors">{{error}}</li>
           </span>
         </ul>
-        <ul class="error-tab" v-if="ownerrors!=''">
+        <ul class="error-tab" v-if="ownerrors!=''" v-on:click="ownerrors=''">
           <li>{{ownerrors}}</li>
         </ul>
-        <div class="successAlertRRsession" v-if="successAlerts!=''">
+        <div class="successAlertRRsession" v-if="successAlerts!=''" v-on:click="successAlerts=''">
           <p>{{successAlerts}}</p>
         </div>
         <table>
@@ -33,31 +33,30 @@
               <td>{{sessionitem.Unit}}</td>
               <td>{{sessionitem.Remarks}}</td>
               <td class="delete-trash"><i class="fa fa-trash" v-on:click="deleteSession(sessionitem.ItemCode_id)"></i></td>
-            <!-- <form class="delete-submit{{$selected->ItemCode_id}}"  action="{{route('delete.session',[$selected->ItemCode_id])}}" method="post" style="display:none">
-            </form> -->
           </tr>
         </table>
       </div>
     </div>
   </div>
   <div class="MIRSform-container">
-    <!-- <form action="{{route('mirs.store')}}" method="post"> -->
-      <div class="form-wrap-mirs">
-        <ul>
-          <li><input type="text" autocomplete="off" name="Purpose" v-model="purpose" placeholder="Purpose"></li>
-          <li><select name="Recommendedby" v-model="Recommendedby">
-            <option :value="null">Recommended by</option>
-            <option v-for="manager in managers" v-bind:value="manager.id">{{manager.Fname}} {{manager.Lname}}</option>
-          </select></li>
-            <li v-if="gm[0]!=null">
-              <p class="gm-label">To be Approved by the General Manager</p><br><h3 class="gm-name">{{gm[0].Fname}} {{gm[0].Lname}}</h3>
-            </li>
-            <button id="go-btn" class="submitMCT-btn" v-on:click="submitWholePage()" type="submit">Submit</button>
-        </ul>
-      </div>
-    <!-- </form> -->
+    <div class="form-wrap-mirs">
+      <ul>
+        <li><input type="text" autocomplete="off" name="Purpose" v-model="purpose" placeholder="Purpose"></li>
+        <li v-if="manager[0]!=null">
+          <h3 class="mymanagerName">{{manager[0].Fname}} {{manager[0].Lname}}</h3>
+          <p>Recommended by</p>
+        </li>
+        <li v-if="gm[0]!=null">
+          <h3 class="gm-name">{{gm[0].Fname}} {{gm[0].Lname}}</h3>
+          <p>General Manager</p>
+        </li>
+        <longpress id="go-btn"  class="submitMCT-btn" duration="3" :on-confirm="submitWholePage" pressing-text="Keep pressing for {$rcounter} seconds to submit" action-text="Submitting, please wait...">
+        Submit
+      </longpress>
+      </ul>
+    </div>
   </div>
-  <div class="modal-search-item":class="{'active':isActive}" v-on:click="isActive=!isActive">
+  <div class="modal-search-item":class="{'active animated fadeIn':isActive}" v-on:click="isActive=!isActive">
     <div class="middle-modal-search" v-on:click="isActive=!isActive">
       <h1>MIRS</h1>
         <div class="table-mirs-modalcontain">
@@ -86,7 +85,7 @@
                   <td><input type="number" min="1" name="Quantity[]" v-model="Quantity[itemcoderesult.id]"></td>
                   <td>{{itemcoderesult.Unit}}</td>
                   <td><input type="text" autocomplete="off" min="1"  name="Remarks[]" v-model="Remarks[itemcoderesult.id]"></td>
-                  <td><button type="button" v-on:click="submitTosession(itemcoderesult),isActive=!isActive"><i class="fa fa-plus"></i>Add</button></td>
+                  <td><button type="button" class="bttn-unite bttn-xs bttn-primary" v-on:click="submitTosession(itemcoderesult),isActive=!isActive"><i class="fa fa-plus"></i></button></td>
                 </tr>
               </table>
               <div class="pagination-container">
@@ -119,15 +118,13 @@
   </div>
 </div>
 </template>
-
 <script>
+import Longpress from 'vue-longpress';
 import axios from 'axios';
   export default {
-
      data () {
        return{
          isActive:false,
-         Recommendedby:null,
          purpose:'',
          ItemCodeSearch:'',
          SearchDescription:'',
@@ -142,9 +139,10 @@ import axios from 'axios';
          ownerrors:[],
          SessionItems:[],
          offset:4,
+         DisabledButton:false,
        }
      },
-     props: ['managers','gm'],
+     props: ['manager','gm'],
 
      methods: {
        searchbyItemCode(page)
@@ -205,6 +203,9 @@ import axios from 'axios';
         axios.delete(`/removeSessions/`+code,{}).then(function(response)
         {
           console.log(response);
+          Vue.set(vm.$data,'ownerrors','');
+          Vue.set(vm.$data,'laravelerrors','');
+          Vue.set(vm.$data,'successAlerts','Successfully removed.');
         },function(error)
         {
           console.log(error);
@@ -225,7 +226,6 @@ import axios from 'axios';
           var vm=this;
           axios.post(`/mirs-storedata`,{
             Purpose:this.purpose,
-            Recommendedby:this.Recommendedby,
             Approvedby:this.gm[0].id,
           }).then(function(response)
           {
@@ -234,7 +234,8 @@ import axios from 'axios';
           },function(error)
           {
             console.log(error);
-              Vue.set(vm.$data,'laravelerrors',error.response.data);
+            Vue.set(vm.$data,'DisabledButton',false);
+            Vue.set(vm.$data,'laravelerrors',error.response.data);
           });
         },
         changePageCode(page){
@@ -274,6 +275,9 @@ import axios from 'axios';
                    return pagesArray;
         }
      },
+     components: {
+    Longpress
+      },
 
   }
 </script>

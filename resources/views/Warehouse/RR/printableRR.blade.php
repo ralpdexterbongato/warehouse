@@ -257,6 +257,10 @@
 {
   page-break-inside:avoid;
 }
+.signatures p,.signatures label
+{
+  font-size: 14px;
+}
 .top-signatures,.bottom-signatures
 {
   text-align: center;
@@ -303,8 +307,16 @@
         </div>
         <div class="right-details">
           <ul>
-            <li><label>Carrier:</label><p>{{$RRconfirmMasterResult[0]->Carrier}}</p></li>
-            <li><label>Delivery Receipt No:</label><p>{{$RRconfirmMasterResult[0]->DeliveryReceiptNo}}</p></li>
+            <li><label>Carrier:</label>
+              @if ($RRconfirmMasterResult[0]->Carrier)
+              <p>{{$RRconfirmMasterResult[0]->Carrier}}</p>
+              @endif
+            </li>
+            <li><label>Delivery Receipt No:</label>
+              @if ($RRconfirmMasterResult[0]->DeliveryReceiptNo)
+                <p>{{$RRconfirmMasterResult[0]->DeliveryReceiptNo}}</p>
+              @endif
+            </li>
             <li><label>P.O No.:</label>
               @if ($RRconfirmMasterResult[0]->PONo)
               <p>{{$RRconfirmMasterResult[0]->PONo}}</p>

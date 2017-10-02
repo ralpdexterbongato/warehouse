@@ -13,6 +13,8 @@ Vue.use(VeeValidate);
  * or customize the JavaScript scaffolding to fit your unique needs.
  */
 Vue.component('rvtable', require('./components/RVindex.vue'));
+Vue.component('rvpreview', require('./components/FullRVpreview.vue'));
+Vue.component('rvcreate', require('./components/RVCreate.vue'));
 new Vue({
     el:'#rv',
 });

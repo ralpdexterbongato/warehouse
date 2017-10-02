@@ -27,16 +27,16 @@ class CanvassController extends Controller
 
   public function saveCanvass(Request $request)
   {
-    $this->validate($request,[
-      'RVNo'=>'required',
-      'Supplier'=>'required',
-      'Address'=>'required',
-      'Telephone'=>'required|max:11',
-      'Particulars.*'=>'required',
-      'Price.*'=>'required|regex:/^[0-9]{1,3}(,[0-9]{3})*(\.[0-9]+)*$/',
-      'Qty.*'=>'required|max:18',
-      'Unit.*'=>'required|max:20',
-    ]);
+     $this->validate($request,[
+       'RVNo'=>'required',
+       'Supplier'=>'required',
+       'Address'=>'required',
+       'Telephone'=>'required|numeric|max:99999999999',
+       'Particulars.*'=>'required',
+       'Price.*'=>'required|numeric|min:0',
+       'Qty.*'=>'required|max:18',
+       'Unit.*'=>'required|max:20',
+     ]);
     $CanvassMasterDB = new CanvassMaster;
     $CanvassMasterDB->RVNo = $request->RVNo;
     $CanvassMasterDB->Supplier = $request->Supplier;
@@ -50,18 +50,22 @@ class CanvassController extends Controller
       $insertCanvassDetails[]= array('AccountCode'=>$request->AccountCode[$key],'ItemCode'=>$request->ItemCode[$key],'Article' => $item, 'Price'=>$noCommaPrice,'Unit'=>$request->Unit[$key],'Qty'=> $request->Qty[$key],'CanvassMasters_id'=>$CanvassMasterDB->id);
     }
     CanvassDetail::insert($insertCanvassDetails);
-    return redirect()->back();
   }
 
 
   public function getSupplierRecords($id)
   {
     $detailsRRValidator=RRValidatorNoPO::where('RVNo', $id)->get(); //i am using rrvalidatorNoPO for this so we can use it validate if the item already have PO.
+    $integ =[];
+    foreach ($detailsRRValidator as $key => $rvdetail) {
+      $integ[] = array('price' =>0);
+    }
      $SupplierRecords=CanvassMaster::where('RVNo',$id)->get(['Supplier','id']);
      $supplier= $SupplierRecords->load('CanvassDetail');
      $response=[
        'supplierdata'=>$supplier,
        'rvdata'=>$detailsRRValidator,
+       'integ'=>$integ,
      ];
      return response()->json($response);
   }
@@ -76,7 +80,7 @@ class CanvassController extends Controller
       'Supplier'=>'required|max:50',
       'Address'=>'required',
       'Telephone'=>'required|max:11',
-      'Prices.*'=>'regex:/^\d*(\.\d{2})?$/|required',
+      'Prices.*'=>'numeric|required|min:0',
     ]);
     $canvassMasterDB=CanvassMaster::find($id);
     $canvassMasterDB->Supplier=$request->Supplier;

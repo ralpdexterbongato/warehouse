@@ -67,7 +67,7 @@
   {
     float: right;
     margin-top: 20px;
-    font-size: 15px;
+    font-size: 14px;
   }
   .RV-DateAndNo label
   {
@@ -82,7 +82,7 @@
   }
   .ToGM
   {
-    font-size:15px;
+    font-size:14px;
   }
   .ToGM p
   {
@@ -92,9 +92,14 @@
   {
     display: inline-block;
     float: right;
-    width: 240px;
+    width: 380px;
     text-align:center;
-    border-bottom: 1px solid black;
+    margin-top: 7px;
+    border-bottom: .5px solid black;
+  }
+  .reason
+  {
+    text-align: left!important;
   }
   .RV-DATENOWrapper
   {
@@ -108,13 +113,14 @@
   {
     width: 100%;
     border:1px solid black;
+    font-size: 14px;
   }
   .RV-table-wrapper th
   {
     border:1px solid black;
     padding:4px 8px;
     text-align:center;
-    font-size: 15px;
+    font-size: 14px;
     font-weight: 600;
   }
   .RV-table-wrapper td
@@ -146,7 +152,7 @@
   .bottom-left-sign h1,.bottom-right-sign h1,.left-budget h1
   {
     position: absolute;
-    top: -50px;
+    top: -70px;
     left:65px;
     height: 50px;
     width: 150px;
@@ -167,6 +173,10 @@
     float: right;
     width: 45%;
   }
+  .bottom-right-sign.bottom
+  {
+    margin-top: 20px;
+  }
   .bottom-signatures-container.bottom
   {
     border-top:0px;
@@ -174,8 +184,9 @@
   .bottom-signatures-container
   {
     border:1px solid black;
-    height: 130px;
+    height: 150px;
     padding:10px;
+
   }
   .left-budget
   {
@@ -194,42 +205,19 @@
   .left-budget li
   {
     list-style: none;
-    margin-top: 60px;
+    margin-top: 80px;
     text-align: center;
   }
   .signatures
   {
     page-break-inside:avoid;
+    font-size: 15px;
   }
-  .approval-in-behalf
-  {
-    border:1px solid black;
-    border-top: none;
-    height: 140px;
-    font-size: 16px;
-    padding:4px;
-  }
-  .signature-approve-replacer
-  {
-    text-align: center;
-    margin-top: 70px;
-    position: relative;
-  }
-  .signature-approve-replacer p
-  {
-    margin-bottom: 3px;
-  }
-  .signature-approve-replacer h1
+  .for
   {
     position: absolute;
-    top:-57px;
-    left: 300px;
-    width: 150px;
-    height: 50px;
-  }
-  .signature-approve-replacer img
-  {
-    width: 100%;
+    left:30px;
+    top: -35px;
   }
   </style>
   <body>
@@ -296,6 +284,8 @@
             <li>
               @if ($RVMaster[0]->RecommendedbySignature)
                 <h1><img src="c:/xampp/htdocs/Warehouse/public/storage/signatures/{{$RVMaster[0]->RecommendedbySignature}}" alt="signature"></h1>
+              @elseif($RVMaster[0]->ManagerReplacerSignature)
+                <medium class="for">For :</medium><h1><img src="c:/xampp/htdocs/Warehouse/public/storage/signatures/{{$RVMaster[0]->ManagerReplacerSignature}}" alt="signature"></h1>
               @endif
               <p>{{$RVMaster[0]->Recommendedby}}</p>
               <p>{{$RVMaster[0]->RecommendedbyPosition}}</p>
@@ -305,7 +295,7 @@
         <div class="bottom-signatures-container bottom">
           <div class="left-budget">
             <label>BUDGET AVAILABLE ON THIS REQUEST</label>
-            <p class="availableAmmount">P{{number_format($RVMaster[0]->BudgetAvailable,'2','.',',')}}</p>
+            <p class="availableAmmount">{{$RVMaster[0]->BudgetAvailable,'2','.',','}}</p>
             <li>
               @if ($RVMaster[0]->BudgetOfficerSignature)
                 <h1><img src="c:/xampp/htdocs/Warehouse/public/storage/signatures/{{$RVMaster[0]->BudgetOfficerSignature}}" alt="signature"></h1>
@@ -314,27 +304,19 @@
               <p>Budget Officer</p>
             </li>
           </div>
-          <div class="bottom-right-sign">
+          <div class="bottom-right-sign bottom">
             <h5>Approved:</h5>
             <li>
               @if ($RVMaster[0]->GeneralManagerSignature)
                 <h1><img src="c:/xampp/htdocs/Warehouse/public/storage/signatures/{{$RVMaster[0]->GeneralManagerSignature}}" alt="signature"></h1>
+              @elseif($RVMaster[0]->ApprovalReplacerSignature!=null)
+                <medium class="for">For :</medium><h1><img src="c:/xampp/htdocs/Warehouse/public/storage/signatures/{{$RVMaster[0]->ApprovalReplacerSignature}}" alt="signature"></h1>
               @endif
               <p>{{$RVMaster[0]->GeneralManager}}</p>
               <p>General Manager</p>
             </li>
           </div>
         </div>
-        @if ($RVMaster[0]->ApprovalReplacerSignature)
-        <div class="approval-in-behalf">
-          <h5>Approved in behalf of the General Manager {{$RVMaster[0]->GeneralManager}}</h5>
-          <div class="signature-approve-replacer">
-            <h1><img src="c:/xampp/htdocs/Warehouse/public/storage/signatures/{{$RVMaster[0]->ApprovalReplacerSignature}}" alt="signature"></h1>
-            <p>{{$RVMaster[0]->ApprovalReplacerFname}} {{$RVMaster[0]->ApprovalReplacerLname}}</p>
-            <label>{{$RVMaster[0]->ApprovalReplacerPosition}}</label>
-          </div>
-        </div>
-        @endif
       </div>
     </div>
   </body>

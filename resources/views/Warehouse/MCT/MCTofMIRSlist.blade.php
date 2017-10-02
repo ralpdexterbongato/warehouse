@@ -16,6 +16,7 @@
           <th>Particulars</th>
           <th>Address to</th>
           <th>Received by</th>
+          <th>Status</th>
           <th>View</th>
         </tr>
         @foreach ($MCTMaster as $mctmaster)
@@ -24,8 +25,21 @@
             <td>{{$mctmaster->MCTDate->format('M d, Y')}}</td>
             <td>{{$mctmaster->Particulars}}</td>
             <td>{{$mctmaster->AddressTo}}</td>
-            <td>{{$mctmaster->Receivedby}}</td>
-            <td><a href="{{route('previewMCT',[$mctmaster->MCTNo])}}"><i class="fa fa-eye"></i></a></td>
+            <td>{{$mctmaster->Receivedby}}
+            @if ($mctmaster->IfDeclined==$mctmaster->Receivedby)
+              <i class="fa fa-times decliner"></i>
+            @endif
+            </td>
+            <td>
+              @if ($mctmaster->IfDeclined!=null)
+                <i class="fa fa-times decliner"></i>
+              @elseif($mctmaster->ReceivedbySignature!=null)
+                <i class="fa fa-thumbs-up"></i>
+              @else
+                <i class="fa fa-clock-o color-blue"></i>
+              @endif
+            </td>
+            <td><a href="{{route('MCTpageOnly',[$mctmaster->MCTNo])}}"><i class="fa fa-eye"></i></a></td>
           </tr>
         @endforeach
       </table>

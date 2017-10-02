@@ -6,7 +6,7 @@
 @section('body')
   <div class="MIRS-CONTAINER">
     <div id="mirs">
-      <mirscreate :managers="{{$allManager}}" :gm="{{$GenMan}}"></mirscreate>
+      <mirscreate :manager="{{$mymanager}}" :gm="{{$GenMan}}"></mirscreate>
     </div>
   </div>
   <script type="text/javascript" src="/js/mirs.js">

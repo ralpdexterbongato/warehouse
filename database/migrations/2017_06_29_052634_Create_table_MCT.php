@@ -26,6 +26,7 @@ class CreateTableMCT extends Migration
             $table->string('ReceivedbyPosition',50)->nullable();
             $table->string('IssuedbySignature',150)->nullable();
             $table->string('ReceivedbySignature',150)->nullable();
+            $table->string('IfDeclined',50)->nullable();
         });
     }
 

@@ -11,19 +11,20 @@ use Session;
 use DB;
 use Auth;
 use App\MCTValidator;
+use App\MRTConfirmationDetail;
+use App\MCTConfirmationDetail;
+use App\MasterItem;
+use App\Jobs\NewCreatedMRTJob;
 class MRTController extends Controller
 {
     public function __construct()
     {
       $this->middleware('auth');
     }
-    public function CreateMRT(Request $request)
+    public function CreateMRT($id)
     {
-      $this->validate($request,[
-        'MCTNo' => 'unique:MRTMaster',
-      ]);
-      $MTDetails=MaterialsTicketDetail::where('MTType', 'MCT')->where('MTNo', $request->MCTNo)->get();
-      $MCTdata=MCTMaster::where('MCTNo',$request->MCTNo)->get(['Particulars','AddressTo','ReceivedbyPosition','Receivedby']);
+      $MTDetails=MaterialsTicketDetail::where('MTType', 'MCT')->where('MTNo', $id)->get();
+      $MCTdata=MCTMaster::where('MCTNo',$id)->get(['Particulars','AddressTo','ReceivedbyPosition','Receivedby']);
       return view('Warehouse.MRT.MRTformView',compact('MTDetails','MCTdata'));
     }
     public function summaryMRT()
@@ -31,11 +32,12 @@ class MRTController extends Controller
       return view('Warehouse.MRT.MRT-summary');
     }
 
-    public function StoreMRT(Request $request)
+    public function StoreMRT(Request $request,$id)
     {
-      $this->MRTValidator($request);
-      if (!empty(Session::get('MCTSelected')))
-      {
+        if (empty(Session::get('MCTSelected')))
+        {
+          return redirect()->back()->with('message', 'item is required');
+        }
         $year=Carbon::now()->format('y');
         $datenow=Carbon::now();
         $MRTNum=MRTMaster::orderBy('id','DESC')->take(1)->value('MRTNo');
@@ -49,10 +51,10 @@ class MRTController extends Controller
         {
          $MRTincremented=  $year . '-' . sprintf("%04d",'1');
         }
-        $MCTMaster=MCTMaster::where('MCTNo',$request->MCTNo)->get(['Receivedby','ReceivedbyPosition','MIRSNo']);
+        $MCTMaster=MCTMaster::where('MCTNo',$id)->get(['Receivedby','ReceivedbyPosition','MIRSNo']);
         $mrtDB=new MRTMaster;
         $mrtDB->MRTNo=$MRTincremented;
-        $mrtDB->MCTNo =$request->MCTNo;
+        $mrtDB->MCTNo =$id;
         $mrtDB->ReturnDate =$datenow;
         $mrtDB->Particulars =$request->Particulars;
         $mrtDB->AddressTo= $request->AddressTo;
@@ -64,33 +66,22 @@ class MRTController extends Controller
         $mrtDB->Remarks = $request->Remarks;
         $mrtDB->save();
 
-        $forMRTtbl = array();
+        $forMRTConfirmation = array();
         foreach (Session::get('MCTSelected') as $MRTitem)
         {
-          $validatorItemQTY=MCTValidator::where('MIRSNo',$MCTMaster[0]->MIRSNo)->where('ItemCode',$MRTitem->ItemCode)->get(['Quantity']);
-          $qtyValidatorleft=$validatorItemQTY[0]->Quantity + $MRTitem->Summary;
-          MCTValidator::where('MIRSNo',$MCTMaster[0]->MIRSNo)->where('ItemCode',$MRTitem->ItemCode)->Update(['Quantity'=>$qtyValidatorleft]);
-
-          $MTdetails=MaterialsTicketDetail::orderBy('MTDate','DESC')->where('ItemCode', $MRTitem->ItemCode)->take(1)->get();
-          $pricefromitsMCT=MaterialsTicketDetail::orderBy('MTDate','DESC')->where('MTType', 'MCT')->where('MTNo', $request->MCTNo)->take(1)->get(['UnitCost']);
-          $qty=(float)$MRTitem->Summary;
-          $MRTammount=$qty * $pricefromitsMCT[0]->UnitCost;
-          $currentQty=$qty + $MTdetails[0]->CurrentQuantity;
-
-          $totalofamt=$MTdetails[0]->CurrentAmount+ $MRTammount;
-          $newcurrentcost=$totalofamt/$currentQty;
-          $currentAmnt= $currentQty * $newcurrentcost;
-          $forMRTtbl[] = array('ItemCode' =>$MRTitem->ItemCode,'MTType'=>'MRT','MTNo' =>$MRTincremented ,'AccountCode' =>$MTdetails[0]->AccountCode ,'UnitCost' =>$pricefromitsMCT[0]->UnitCost ,'Quantity' =>$MRTitem->Summary
-          ,'Unit' =>$MTdetails[0]->Unit ,'Amount' =>$MRTammount ,'CurrentCost' =>$newcurrentcost ,'CurrentQuantity' =>$currentQty ,'CurrentAmount' =>$currentAmnt ,'MTDate' =>$datenow );
-
+          $pricefromitsMCT=MaterialsTicketDetail::orderBy('id','DESC')->where('ItemCode',$MRTitem->ItemCode)->where('MTType', 'MCT')->where('MTNo', $id)->take(1)->get(['UnitCost','AccountCode']);
+          $amount=$MRTitem->Summary*$pricefromitsMCT[0]->UnitCost;
+          $forMRTConfirmation[] = array('ItemCode' =>$MRTitem->ItemCode,'AccountCode'=>$pricefromitsMCT[0]->AccountCode,'MRTNo'=>$MRTincremented,'Unit'=>$MRTitem->Unit,'Description'=>$MRTitem->Description,'UnitCost' =>$pricefromitsMCT[0]->UnitCost,'Quantity' =>$MRTitem->Summary
+          ,'Amount' =>$amount);
         }
-        MaterialsTicketDetail::insert($forMRTtbl);
+        MRTConfirmationDetail::insert($forMRTConfirmation);
         Session::forget('MCTSelected');
-        return redirect('/mrt-viewer/'.$MRTincremented);
-      }else
-      {
-        return redirect()->back()->with('message', 'item is required');
-      }
+        $nospacename=str_replace(' ','',$MCTMaster[0]->Receivedby);
+        $notifythis = array('tobeNotify'=>$nospacename);
+        $notifythis=(object)$notifythis;
+        $job = (new NewCreatedMRTJob($notifythis))->delay(Carbon::now()->addSeconds(5));
+        dispatch($job);
+        return redirect('/mrt-preview-page/'.$MRTincremented);
     }
     public function addToSession(Request $request)
     {
@@ -125,21 +116,16 @@ class MRTController extends Controller
         return redirect()->back();
       }
     }
-    public function MRTValidator($request)
-    {
-      return $this->validate($request,[
-       'MCTNo'=>'required|unique:MRTMaster',
-      ]);
-    }
+
     public function MRTSearchdate(Request $request)
     {
       $this->datesearchValidator($request);
       $datesearch=$request->monthInput;
-      $itemsummary=MaterialsTicketDetail::orderBy('ItemCode')->where('MTType','MRT')->whereDate('MTDate','LIKE',date($datesearch).'%')->groupBy('ItemCode','Unit')->selectRaw('sum(Quantity) as totalQty, ItemCode as ItemCode , Unit as Unit ')->get();
+      $itemsummary=MaterialsTicketDetail::orderBy('ItemCode')->where('MTType','MRT')->whereDate('MTDate','LIKE',date($datesearch).'%')->groupBy('ItemCode')->selectRaw('sum(Quantity) as totalQty, ItemCode as ItemCode')->get();
       if (!empty($itemsummary[0]))
       {
-        $detailMTNum =MaterialsTicketDetail::orderBy('MTDate','DESC')->where('MTType','MRT')->whereDate('MTDate','LIKE',date($datesearch).'%')->take(1)->get(['MTNo']);
-        $mrtmaster=MRTMaster::where('MRTNo',$detailMTNum[0]->MTNo)->get(['Receivedby','ReturnDate']);
+        $detailMTNum =MaterialsTicketDetail::orderBy('id','DESC')->where('MTType','MRT')->whereDate('MTDate','LIKE',date($datesearch).'%')->take(1)->get(['MTNo']);
+        $mrtmaster=MRTMaster::where('MRTNo',$detailMTNum[0]->MTNo)->get(['Receivedby','ReturnDate','ReceivedbyPosition']);
         return view('Warehouse.MRT.MRT-summary',compact('itemsummary','mrtmaster'));
       }else
       {
@@ -152,17 +138,91 @@ class MRTController extends Controller
         'monthInput'=> 'required|min:7|max:7',
       ]);
     }
-
+    public function toMRTpreviewPage($id)
+    {
+      $MRTNo=MRTMaster::where('MRTNo', $id)->get(['MRTNo']);
+      return view('Warehouse.MRT.MRTfullPreview',compact('MRTNo'));
+    }
     public function mrtviewing($id)
     {
       $mrtMaster=MRTMaster::where('MRTNo',$id)->get();
-      $MTDitems=MaterialsTicketDetail::where('MTType', 'MRT')->where('MTNo',$id)->get();
-      $MRTbyAcntCode=MaterialsTicketDetail::orderBy('AccountCode')->where('MTType','MRT')->where('MTNo',$id)->groupBy('AccountCode')->selectRaw('sum(Amount) as totalAMT,AccountCode as AccountCode')->get();
+      $MRTConfirmationItems=MRTConfirmationDetail::where('MRTNo',$id)->get();
+      $MRTbyAcntCode=MRTConfirmationDetail::orderBy('AccountCode')->where('MRTNo',$id)->groupBy('AccountCode')->selectRaw('sum(Amount) as totalAMT,AccountCode as AccountCode')->get();
       $totalsum=0;
       foreach ($MRTbyAcntCode as $AcntCode)
       {
         $totalsum= $totalsum + $AcntCode->totalAMT;
       }
-      return view('Warehouse.MRT.MRTfullPreview',compact('mrtMaster','MRTbyAcntCode','MTDitems','totalsum'));
+      $response = array('MRTMaster' =>$mrtMaster ,'MRTbyAcntCode'=>$MRTbyAcntCode,'MRTConfirmationItems'=>$MRTConfirmationItems,'totalsum'=>$totalsum );
+      return response()->json($response);
+    }
+    public function signatureMRT($id)
+    {
+      $datenow=MRTMaster::where('MRTNo',$id)->get(['ReturnDate']);
+      $FromConfirmation=MRTConfirmationDetail::where('MRTNo',$id)->get();
+      $forMRTtbl = array();
+      foreach ($FromConfirmation as $fromConfirm)
+      {
+        $MTdetails=MaterialsTicketDetail::orderBy('id','DESC')->where('ItemCode', $fromConfirm->ItemCode)->take(1)->get(['CurrentQuantity','CurrentAmount']);
+        $MRTammount=$fromConfirm->Quantity* $fromConfirm->UnitCost;
+        $currentQty=$fromConfirm->Quantity + $MTdetails[0]->CurrentQuantity;
+
+        $totalofamt=$MTdetails[0]->CurrentAmount+ $MRTammount;
+        $newcurrentcost=$totalofamt/$currentQty;
+        $currentAmnt= $currentQty * $newcurrentcost;
+        MasterItem::where('ItemCode_id',$fromConfirm->ItemCode)->update(['CurrentQuantity'=>$currentQty]);
+        $forMRTtbl[] = array('ItemCode' =>$fromConfirm->ItemCode,'MTType'=>'MRT','MTNo' =>$fromConfirm->MRTNo ,'AccountCode' =>$fromConfirm->AccountCode,'UnitCost' =>$fromConfirm->UnitCost ,'Quantity' =>$fromConfirm->Quantity
+        ,'Amount' =>$MRTammount ,'CurrentCost' =>$newcurrentcost ,'CurrentQuantity' =>$currentQty ,'CurrentAmount' =>$currentAmnt ,'MTDate' =>$datenow[0]->ReturnDate );
+      }
+      MaterialsTicketDetail::insert($forMRTtbl);
+      MRTMaster::where('MRTNo',$id)->update(['ReturnedbySignature'=>Auth::user()->Signature]);
+    }
+    public function DeclineMRT($id)
+    {
+      MRTMaster::where('MRTNo',$id)->update(['IfDeclined'=>Auth::user()->Fname.' '.Auth::user()->Lname]);
+    }
+    public function updateQuantityMRT($id,Request $request)
+    {
+      $MRTConfirmdetail=MRTConfirmationDetail::where('MRTNo',$id)->get(['ItemCode','Quantity','UnitCost']);
+      $MRTMaster=MRTMaster::where('MRTNo',$id)->get(['MCTNo']);
+      foreach ($MRTConfirmdetail as $count=> $mrtconfirm)
+      {
+        $MCTitemQty=MCTConfirmationDetail::where('MCTNo',$MRTMaster[0]->MCTNo)->where('ItemCode',$mrtconfirm->ItemCode)->get(['Quantity']);
+        if ($request->UpdatedQty[$count]>$MCTitemQty[0]->Quantity)
+        {
+          return ['error'=>$mrtconfirm->ItemCode.' quantity may not be greater than'.$MCTitemQty[0]->Quantity];
+        }
+      }
+      foreach ($MRTConfirmdetail as $key=> $mrtconfirm)
+      {
+        $newAMT=$mrtconfirm->UnitCost*$request->UpdatedQty[$key];
+        MRTConfirmationDetail::where('MRTNo',$id)->where('ItemCode',$mrtconfirm->ItemCode)->update(['Quantity'=>$request->UpdatedQty[$key],'Amount'=>$newAMT]);
+      }
+    }
+    public function myMRTSignatureRequest()
+    {
+      return view('Warehouse.MRT.myMRTSignatureRequest');
+    }
+    public function myMRTSignatureFetchData()
+    {
+      return MRTMaster::orderBy('id','DESC')
+      ->where('Returnedby',Auth::user()->Fname.' '.Auth::user()->Lname)
+      ->whereNull('IfDeclined')
+      ->whereNull('ReturnedbySignature')
+      ->paginate(10,['MRTNo','ReturnDate','Particulars','AddressTo','Returnedby','Receivedby','Remarks']);
+    }
+    public function MRTSignatureRequestCount()
+    {
+      $NumberofRequest= MRTMaster::orderBy('id','DESC')->where('Returnedby',Auth::user()->Fname.' '.Auth::user()->Lname)->whereNull('IfDeclined')->whereNull('ReturnedbySignature')->count();
+      $response = array('MRTRequestCount' => $NumberofRequest);
+      return response()->json($response);
+    }
+    public function MRTindexPage()
+    {
+      return view('Warehouse.MRT.MRTindex');
+    }
+    public function MRTindexSearch(Request $request)
+    {
+      return MRTMaster::orderBy('id','DESC')->where('MRTNo','LIKE','%'.$request->MRTNo.'%')->paginate(10,['MRTNo','MCTNo','ReturnDate','Particulars','AddressTo','Receivedby','Returnedby','ReturnedbySignature','IfDeclined']);
     }
 }

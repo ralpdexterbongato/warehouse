@@ -112,7 +112,7 @@
     }
     .mct-table table th
     {
-     font-size: 15px;
+     font-size: 14px;
      font-family:helvetica;
      border: 1px solid black;
      text-align: center;
@@ -124,10 +124,6 @@
       padding-top: 4px;
       font-family: sans-serif;
       font-size: 13px;
-    }
-    .align-left
-    {
-      text-align: left!important;
     }
     .account-codes-present
     {
@@ -272,19 +268,19 @@
                <th>Item Code</th>
                <th>Description</th>
                <th>Unit Cost</th>
+               <th>Quantity</th>
                <th>Amount</th>
                <th>Unit</th>
-               <th>Quantity</th>
              </tr>
              @foreach ($MTDetails as $MTDetail)
              <tr>
                <td>{{$MTDetail->AccountCode}}</td>
                <td>{{$MTDetail->ItemCode}}</td>
-               <td class="align-left">{{$MTDetail->MasterItems->Description}}</td>
+               <td>{{$MTDetail->MasterItems->Description}}</td>
                <td>{{number_format($MTDetail->UnitCost,'2','.',',')}}</td>
-               <td>{{number_format($MTDetail->Amount,'2','.',',')}}</td>
-               <td>{{$MTDetail->Unit}}</td>
                <td>{{$MTDetail->Quantity}}</td>
+               <td>{{number_format($MTDetail->Amount,'2','.',',')}}</td>
+               <td>{{$MTDetail->MasterItems->Unit}}</td>
              </tr>
              @endforeach
            </table>
@@ -294,7 +290,7 @@
         <div class="account-codes-present">
           <ul>
             @foreach ($AccountCodeGroup as $Account)
-            <li><label>{{$Account->AccountCode}}</label><h5>{{number_format($totalsum,'2','.',',')}}</h5></li>
+            <li><label>{{$Account->AccountCode}}</label><h5>{{number_format($Account->totals,'2','.',',')}}</h5></li>
             @endforeach
           </ul>
         </div>
@@ -330,7 +326,7 @@
                 @endif
               </div>
                 {{$MCTMast[0]->Receivedby}}
-                <p>Leadman</p>
+                <p>{{$MCTMast[0]->ReceivedbyPosition}}</p>
             </div>
           </div>
         </div>

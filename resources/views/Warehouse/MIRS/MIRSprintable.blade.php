@@ -143,13 +143,14 @@
   .purpose-for
   {
     margin-left: 56px;
+    margin-top: 10px;
     border-bottom: 1px solid black;
-    width: 218px;
+    width:100%;
   }
   .left-purpose
   {
     display: inline-block;
-    width: 45%;
+    width: 35%;
     height:50px;
     padding-top: 10px;
     font-family: sans-serif;
@@ -158,9 +159,8 @@
   .right-purpose
   {
     display: inline-block;
-    width: 45%;
+    width: 65%;
     height:50px;
-    float: right;
     font-family: sans-serif;
     font-size: 13px;
   }
@@ -170,12 +170,11 @@
   }
   .ruller-wrap
   {
-    border:1px solid black;
+    border:.2px solid black;
   }
   .table-print-wrap table
   {
     width: 100%;
-
   }
   .table-print-wrap th
   {
@@ -204,8 +203,7 @@
   }
   .statement-container
   {
-    border-left: 1px solid black;
-    border-right: 1px solid black;
+    border-bottom: .2px solid black;
     padding:5px 10px 0px 10px;
   }
   .prepared-recommend
@@ -219,7 +217,13 @@
     width: 100%;
     text-align:center;
     position: relative;
-
+  }
+  .approved > p
+  {
+    position: absolute;
+    left: 270px;
+    top: 40px;
+    font-size: 14px;
   }
   .approved img
   {
@@ -241,7 +245,7 @@
   .approved h4
   {
     font-size: 13px;
-    margin-top: 40px;
+    margin-top: 60px;
   }
   .approved h5
   {
@@ -252,13 +256,21 @@
   {
     width: 100%;
   }
+  .recommended > p
+  {
+    position: absolute;
+    left:70px;
+    top: 50px;
+    font-size: 14px;
+
+  }
   .recommended h2
   {
     width: 150px;
     height: 50px;
     position: absolute;
     right: 90px;
-    top: 30px;
+    top: 25px;
   }
   .recommended
   {
@@ -279,7 +291,7 @@
   .recommended h4
   {
     font-size: 13px;
-    margin-top: 40px;
+    margin-top: 60px;
   }
   .recommended h5
   {
@@ -294,7 +306,7 @@
   {
     position:absolute;
     left: 95px;
-    top: 30px;
+    top:  20px;
     width: 150px;
     height: 50px;
   }
@@ -316,7 +328,7 @@
   .prepared h4
   {
     font-size: 13px;
-    margin-top: 40px;
+    margin-top: 60px;
     font-weight: 300;
   }
   .prepared h5
@@ -327,37 +339,9 @@
   .signatures-container
   {
     border: 1px solid black;
+    border-top: .2px solid black;
     font-family:sans-serif;
     page-break-inside:avoid;
-  }
-  .approved-in-behalf
-  {
-    border-top:1px solid black;
-    height: 130px;
-    font-size: 14px;
-  }
-  .approving-replace
-  {
-    text-align: center;
-    position: relative;
-    margin-top: 60px;
-  }
-  .approving-replace h5
-  {
-      font-weight: 200;
-      margin-top: 5px;
-  }
-  .replacer-signature
-  {
-    position: absolute;
-    width: 150px;
-    height: 50px;
-    top: -55px;
-    left: 300px;
-  }
-  .replacer-signature img
-  {
-    width: 100%;
   }
     </style>
   </head>
@@ -417,10 +401,10 @@
               </table>
             </div>
           </div>
-          <div class="statement-container">
-            <p>I hereby certify that the materials / supplies requested above are <br> necessary and with purpose stated above</p>
-          </div>
           <div class="signatures-container">
+            <div class="statement-container">
+              <p>I hereby certify that the materials / supplies requested above are <br> necessary and with purpose stated above</p>
+            </div>
             <div class="prepared-recommend">
               <div class="prepared">
                 <h3>Prepared by:</h3>
@@ -434,35 +418,35 @@
               </div>
               <div class="recommended">
                 <h3>Recommended by:</h3>
-                <h2>
                   @if (!empty($master[0]->RecommendSignature))
+                  <h2>
                     <img src="c:/xampp/htdocs/Warehouse/public/storage/signatures/{{$master[0]->RecommendSignature}}">
+                  </h2>
                   @endif
-                </h2>
+                  @if (!empty($master[0]->ManagerReplacerSignature))
+                    <p>For :</p>
+                  <h2>
+                    <img src="c:/xampp/htdocs/Warehouse/public/storage/signatures/{{$master[0]->ManagerReplacerSignature}}">
+                  </h2>
+                  @endif
+
                 <h4>{{$master[0]->Recommendedby}}</h4>
                 <h5>{{$master[0]->RecommendPosition}}</h5>
               </div>
             </div>
             <div class="approved">
                 <h3>APPROVED:</h3>
+                <p>For :</p>
                 <h2 class="signature">
                   @if (!empty($master[0]->ApproveSignature))
                     <img src="c:/xampp/htdocs/Warehouse/public/storage/signatures/{{$master[0]->ApproveSignature}}">
+                  @elseif (!empty($master[0]->ApprovalReplacerSignature))
+                    <img src="c:/xampp/htdocs/Warehouse/public/storage/signatures/{{$master[0]->ApprovalReplacerSignature}}">
                   @endif
                 </h2>
                 <h4>{{$master[0]->Approvedby}}</h4>
                 <h5>{{$master[0]->ApprovePosition}}</h5>
             </div>
-            @if ($master[0]->ApprovalReplacerSignature)
-            <div class="approved-in-behalf">
-              <p>Approved in behalf of the General Manager GManager GManager:</p>
-              <div class="approving-replace">
-                <h2 class="replacer-signature"><img src="c:/xampp/htdocs/Warehouse/public/storage/signatures/{{$master[0]->ApprovalReplacerSignature}}"></h2>
-                <h4>{{$master[0]->ApprovalReplacerFname.' '.$master[0]->ApprovalReplacerLname}}</h4>
-                <h5>ISD Manager</h5>
-              </div>
-            </div>
-            @endif
           </div>
         </div>
   </body>

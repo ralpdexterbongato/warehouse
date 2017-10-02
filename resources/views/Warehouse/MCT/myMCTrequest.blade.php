@@ -36,7 +36,7 @@
                 @endif
               </td>
               <td>{{$myMCT->MCTDate->format('m/d/Y')}}</td>
-              <td><a href="{{route('previewMCT',[$myMCT->MCTNo])}}"><i class="fa fa-eye"></i></a></td>
+              <td><a href="{{route('MCTpageOnly',[$myMCT->MCTNo])}}"><i class="fa fa-eye"></i></a></td>
             </tr>
           @endforeach
         </tr>
