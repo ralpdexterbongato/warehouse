@@ -294,7 +294,7 @@ class RVController extends Controller
     }
     public function UnpurchaseList()
     {
-      $unpurchaselist=RVMaster::orderBy('RVNo','DESC')
+      $unpurchaselist=RVMaster::orderBy('RVNo','ASC')
       ->whereNotNull('RecommendedbySignature')
       ->whereNotNull('BudgetOfficerSignature')
       ->whereNull('IfPurchased')

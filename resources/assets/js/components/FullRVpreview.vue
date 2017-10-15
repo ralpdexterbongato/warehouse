@@ -216,10 +216,10 @@
               <h3>BUDGET AVAILABLE ON THIS REQUEST</h3>
               <h4>
                 <span class="rv-signature-form">
-                  <input type="text"  v-model="BudgetAvail" v-if="(user.Role==7)&&(RVMaster.BudgetAvailable==null)&&(RVMaster.BudgetOfficer==user.Fname+' '+user.Lname)&&((RVMaster.RecommendedbySignature!=null)||(RVMaster.ManagerReplacerSignature!=null))" class="forBudgetOfficerOnly">
+                  <input type="text"  v-model="BudgetAvail" v-if="(user.Role==7)&&(RVMaster.BudgetAvailable==null)&&(RVMaster.BudgetOfficer==user.Fname+' '+user.Lname)&&(RVMaster.BudgetOfficerSignature==null)&&((RVMaster.RecommendedbySignature!=null)||(RVMaster.ManagerReplacerSignature!=null))" class="forBudgetOfficerOnly">
                 </span>
                   <span class="budget-from" v-if="(editbudgetActive==false)">{{RVMaster.BudgetAvailable}}</span>
-                    <span class="form-edit-budget" v-if="((user.Role==7)&&(RVMaster.BudgetAvailable!=null)&&(RVMaster.BudgetOfficer==user.Fname+' '+user.Lname)&&((RVMaster.RecommendedbySignature==null)||(RVMaster.GeneralManagerSignature==null)))">
+                    <span class="form-edit-budget" v-if="((user.Role==7)&&(RVMaster.BudgetOfficer==user.Fname+' '+user.Lname)&&(RVMaster.BudgetOfficerSignature!=null)&&((RVMaster.RecommendedbySignature==null)||(RVMaster.GeneralManagerSignature==null)))">
                       <span v-if="editbudgetActive==true" class="flex">
                         <input type="text" class="editbudget-input" v-model="BudgetUpdate=RVMaster.BudgetAvailable">
                         <span class="update-budget-btn">

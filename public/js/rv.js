@@ -5661,7 +5661,7 @@ var Component = __webpack_require__(4)(
   /* cssModules */
   null
 )
-Component.options.__file = "c:\\xampp\\htdocs\\warehouse\\resources\\assets\\js\\components\\FullRVpreview.vue"
+Component.options.__file = "C:\\xampp\\htdocs\\warehouse\\resources\\assets\\js\\components\\FullRVpreview.vue"
 if (Component.esModule && Object.keys(Component.esModule).some(function (key) {return key !== "default" && key !== "__esModule"})) {console.error("named exports are not supported in *.vue files.")}
 if (Component.options.functional) {console.error("[vue-loader] FullRVpreview.vue: functional components are not supported with templates, they should use render functions.")}
 
@@ -5777,7 +5777,7 @@ var Component = __webpack_require__(4)(
   /* cssModules */
   null
 )
-Component.options.__file = "c:\\xampp\\htdocs\\warehouse\\resources\\assets\\js\\components\\RVCreate.vue"
+Component.options.__file = "C:\\xampp\\htdocs\\warehouse\\resources\\assets\\js\\components\\RVCreate.vue"
 if (Component.esModule && Object.keys(Component.esModule).some(function (key) {return key !== "default" && key !== "__esModule"})) {console.error("named exports are not supported in *.vue files.")}
 if (Component.options.functional) {console.error("[vue-loader] RVCreate.vue: functional components are not supported with templates, they should use render functions.")}
 
@@ -5812,7 +5812,7 @@ var Component = __webpack_require__(4)(
   /* cssModules */
   null
 )
-Component.options.__file = "c:\\xampp\\htdocs\\warehouse\\resources\\assets\\js\\components\\RVindex.vue"
+Component.options.__file = "C:\\xampp\\htdocs\\warehouse\\resources\\assets\\js\\components\\RVindex.vue"
 if (Component.esModule && Object.keys(Component.esModule).some(function (key) {return key !== "default" && key !== "__esModule"})) {console.error("named exports are not supported in *.vue files.")}
 if (Component.options.functional) {console.error("[vue-loader] RVindex.vue: functional components are not supported with templates, they should use render functions.")}
 
@@ -6799,7 +6799,7 @@ module.exports={render:function (){var _vm=this;var _h=_vm.$createElement;var _c
     }
   })]) : _vm._e(), _vm._v(" "), _c('h3', [_vm._v("BUDGET AVAILABLE ON THIS REQUEST")]), _vm._v(" "), _c('h4', [_c('span', {
     staticClass: "rv-signature-form"
-  }, [((_vm.user.Role == 7) && (_vm.RVMaster.BudgetAvailable == null) && (_vm.RVMaster.BudgetOfficer == _vm.user.Fname + ' ' + _vm.user.Lname) && ((_vm.RVMaster.RecommendedbySignature != null) || (_vm.RVMaster.ManagerReplacerSignature != null))) ? _c('input', {
+  }, [((_vm.user.Role == 7) && (_vm.RVMaster.BudgetAvailable == null) && (_vm.RVMaster.BudgetOfficer == _vm.user.Fname + ' ' + _vm.user.Lname) && (_vm.RVMaster.BudgetOfficerSignature == null) && ((_vm.RVMaster.RecommendedbySignature != null) || (_vm.RVMaster.ManagerReplacerSignature != null))) ? _c('input', {
     directives: [{
       name: "model",
       rawName: "v-model",
@@ -6821,7 +6821,7 @@ module.exports={render:function (){var _vm=this;var _h=_vm.$createElement;var _c
     }
   }) : _vm._e()]), _vm._v(" "), ((_vm.editbudgetActive == false)) ? _c('span', {
     staticClass: "budget-from"
-  }, [_vm._v(_vm._s(_vm.RVMaster.BudgetAvailable))]) : _vm._e(), _vm._v(" "), (((_vm.user.Role == 7) && (_vm.RVMaster.BudgetAvailable != null) && (_vm.RVMaster.BudgetOfficer == _vm.user.Fname + ' ' + _vm.user.Lname) && ((_vm.RVMaster.RecommendedbySignature == null) || (_vm.RVMaster.GeneralManagerSignature == null)))) ? _c('span', {
+  }, [_vm._v(_vm._s(_vm.RVMaster.BudgetAvailable))]) : _vm._e(), _vm._v(" "), (((_vm.user.Role == 7) && (_vm.RVMaster.BudgetOfficer == _vm.user.Fname + ' ' + _vm.user.Lname) && (_vm.RVMaster.BudgetOfficerSignature != null) && ((_vm.RVMaster.RecommendedbySignature == null) || (_vm.RVMaster.GeneralManagerSignature == null)))) ? _c('span', {
     staticClass: "form-edit-budget"
   }, [(_vm.editbudgetActive == true) ? _c('span', {
     staticClass: "flex"

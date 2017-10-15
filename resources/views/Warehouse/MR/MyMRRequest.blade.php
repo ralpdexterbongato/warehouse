@@ -37,7 +37,7 @@
             </td>
             <td>
               {{$mrRequest->GeneralManager}}
-              @if ($mrRequest->GeneralManagerSignature)
+              @if (($mrRequest->GeneralManagerSignature)||($mrRequest->ApprovalReplacerSignature))
                 <i class="fa fa-check"></i>
               @endif
             </td>

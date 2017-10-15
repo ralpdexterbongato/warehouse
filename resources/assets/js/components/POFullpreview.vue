@@ -6,10 +6,10 @@
           The <span class="color-blue">Warehouse section</span> is asking for your signature b/c the General Manager is not available
         </h6>
         <span class="approval-po-replacer-btn">
-          <longpress duration="3" class="signaturePObtn" :on-confirm="ApproveAuthorizeInBehalf"  pressing-text="signature in {$rcounter}" action-text="please wait . .">
+          <longpress duration="3" class="signaturePObtn" :on-confirm="ApproveAuthorizeInBehalf"  pressing-text="confirmed in {$rcounter}" action-text="please wait . .">
           <i class="fa fa-pencil"></i> Signature
           </longpress>
-          <longpress  duration="3" class="declinePObtn" :on-confirm="RefuseToAuthorizeInBehalf"  pressing-text="refuse in {$rcounter}" action-text="please wait . .">
+          <longpress  duration="3" class="declinePObtn" :on-confirm="RefuseToAuthorizeInBehalf"  pressing-text="confirmed in {$rcounter}" action-text="please wait . .">
           <i class="fa fa-times"></i> I Can't
           </longpress>
         </span>
@@ -26,10 +26,10 @@
       <div v-else class="empty-left">
       </div>
       <div class="signature-btns-wrap-po" v-if="((user.Role==2)&&(OrderMaster.GeneralManager==user.Fname+' '+user.Lname)&&(OrderMaster.GeneralManagerSignature==null)&&(OrderMaster.IfDeclined==null)&&(OrderMaster.ApprovalReplacerSignature==null))">
-        <longpress duration="3" class="signaturePObtn" :on-confirm="GMsignaturePO"  pressing-text="signature in {$rcounter}" action-text="please wait . .">
+        <longpress duration="3" class="signaturePObtn" :on-confirm="GMsignaturePO"  pressing-text="confirmed in {$rcounter}" action-text="please wait . .">
         <i class="fa fa-pencil"></i> Signature
         </longpress>
-        <longpress  duration="3" class="declinePObtn" :on-confirm="GMDeclinedPO" pressing-text="decline in {$rcounter}" action-text="please wait . .">
+        <longpress  duration="3" class="declinePObtn" :on-confirm="GMDeclinedPO" pressing-text="confirmed in {$rcounter}" action-text="please wait . .">
         <i class="fa fa-times"></i> Decline
         </longpress>
       </div>

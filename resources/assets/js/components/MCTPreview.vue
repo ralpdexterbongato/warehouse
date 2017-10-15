@@ -1,46 +1,47 @@
 <template lang="html">
 <div class="print-MCT-wrap">
-    <div class="MCT-title">
-        <span v-if="MCTMaster.IssuedbySignature!=null&&MCTMaster.ReceivedbySignature!=null">
-          <form action="/mct-download" method="get">
-            <button type="submit" :value="this.mctno[0].MCTNo" name="MCTNo"><i class="fa fa-file-pdf-o"></i>.pdf</button>
-          </form>
-        </span>
-        <div class="empty-div-left mct-edit-container" v-else-if="user.Fname+' '+user.Lname==MCTMaster.Issuedby">
-          <span class="edit-mct" :class="ShowEdit==true?'hide':'show'"><i class="fa fa-edit" v-on:click="ShowEdit=true"></i>Edit</span>
-          <span class="edit-mct" :class="ShowEdit==false?'hide':'show'"><span class="color-blue">Save?</span> <button type="button" v-on:click="ShowEdit=false,fetchData();">cancel</button> <button v-on:click="ShowEdit=false,editMCTSave()" type="button" name="button">Save</button></span>
-        </div>
-        <span v-else>
-        </span>
-  <span v-if="MCTMaster.IssuedbySignature!=null&&MCTMaster.ReceivedbySignature!=null">
-    <span v-if="MRTCheck==null&&user.Role==4||MRTCheck==null&&user.Role==3">
-      <div class="Create-MRT-btn">
-        <a :href="'/MRT-create/'+this.mctno[0].MCTNo"><button type="submit" class="bttn-unite bttn-xs bttn-primary"><i class="fa fa-plus"></i> Make MRT</button></a>
-      </div>
+  <div class="MCT-title">
+    <span v-if="MCTMaster.IssuedbySignature!=null&&MCTMaster.ReceivedbySignature!=null">
+      <form action="/mct-download" method="get">
+        <button type="submit" :value="this.mctno[0].MCTNo" name="MCTNo"><i class="fa fa-file-pdf-o"></i>.pdf</button>
+      </form>
     </span>
-    <span v-else-if="MRTCheck!=null">
-      <div class="View-MRT-btn">
-        <div class="mrt-done">
-         <a :href="'/mrt-preview-page/'+MRTCheck"><button type="submit"><i class="fa fa-eye eyesicon"></i> View MRT</button></a>
-        </div>
-      </div>
-    </span>
-    <span v-else> No MRT generated yet</span>
-</span>
-<span v-else-if="MCTMaster.Issuedby==user.Fname+' '+user.Lname||MCTMaster.Receivedby==user.Fname+' '+user.Lname">
-    <span v-if="MCTMaster.IssuedbySignature!=user.Signature&&MCTMaster.ReceivedbySignature!=user.Signature&&MCTMaster.IfDeclined==null">
-        <div class="signature-mct-btn">
-          <longpress id="signatureMCT" duration="3" :on-confirm="signatureMCT" :disabled="IsDisabled" pressing-text="confirm in {$rcounter}" action-text="Loading . . .">
-          <i class="fa fa-pencil"></i> Signature
-          </longpress>
-          <longpress id="declineMCT" duration="3" :on-confirm="declineMCT" :disabled="IsDisabled" pressing-text="confirm in {$rcounter}" action-text="Loading . . .">
-          <i class="fa fa-times"></i> I can't
-          </longpress>
-        </div>
-    </span>
-</span>
-
+    <div class="empty-div-left mct-edit-container" v-else-if="user.Fname+' '+user.Lname==MCTMaster.Issuedby">
+      <span class="edit-mct" :class="ShowEdit==true?'hide':'show'"><i class="fa fa-edit" v-on:click="ShowEdit=true"></i>Edit</span>
+      <span class="edit-mct" :class="ShowEdit==false?'hide':'show'"><span class="color-blue">Save?</span> <button type="button" v-on:click="ShowEdit=false,fetchData();">cancel</button> <button v-on:click="ShowEdit=false,editMCTSave()" type="button" name="button">Save</button></span>
     </div>
+    <span v-else>
+    </span>
+    <span v-if="MCTMaster.IssuedbySignature!=null&&MCTMaster.ReceivedbySignature!=null">
+      <span v-if="MRTCheck==null&&user.Role==4||MRTCheck==null&&user.Role==3">
+        <div class="Create-MRT-btn">
+          <a :href="'/MRT-create/'+this.mctno[0].MCTNo"><button type="submit" class="bttn-unite bttn-xs bttn-primary"><i class="fa fa-plus"></i> Make MRT</button></a>
+        </div>
+      </span>
+      <span v-else-if="MRTCheck!=null">
+        <div class="View-MRT-btn">
+          <div class="mrt-done">
+           <a :href="'/mrt-preview-page/'+MRTCheck"><button type="submit"><i class="fa fa-eye eyesicon"></i> View MRT</button></a>
+          </div>
+        </div>
+      </span>
+      <span v-else>
+        No MRT generated yet
+      </span>
+  </span>
+  <span v-else-if="MCTMaster.Issuedby==user.Fname+' '+user.Lname||MCTMaster.Receivedby==user.Fname+' '+user.Lname">
+    <span v-if="MCTMaster.IssuedbySignature!=user.Signature&&MCTMaster.ReceivedbySignature!=user.Signature&&MCTMaster.IfDeclined==null">
+      <div class="signature-mct-btn">
+        <longpress id="signatureMCT" duration="3" :on-confirm="signatureMCT" :disabled="IsDisabled" pressing-text="confirm in {$rcounter}" action-text="Loading . . .">
+        <i class="fa fa-pencil"></i> Signature
+        </longpress>
+        <longpress id="declineMCT" duration="3" :on-confirm="declineMCT" :disabled="IsDisabled" pressing-text="confirm in {$rcounter}" action-text="Loading . . .">
+        <i class="fa fa-times"></i> I can't
+        </longpress>
+      </div>
+    </span>
+  </span>
+  </div>
     <div class="bondpaper-preview">
     <div class="bond-center-titles">
       <h1>BOHOL I ELECTRIC COOPERATIVE, INC.</h1>

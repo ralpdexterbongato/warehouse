@@ -33,11 +33,7 @@
                   <td>{{session.Unit}}</td>
                   <td>{{session.Summary}}</td>
                   <td><i v-on:click="deleteSession(session.ItemCode)" class="fa fa-trash"></i></td>
-                  <!-- <form class="deletemctSession{{$MCTselected->ItemCode}}" action="{{route('mrtSession.deleting',[$MCTselected->ItemCode])}}" method="post">
-                  </form> -->
                 </tr>
-              <!-- @endforeach
-              @endif -->
             </table>
           </div>
       </div>

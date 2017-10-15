@@ -61,7 +61,9 @@
       <option :value="null" class="gray">Posted to BIN by</option>
       <option v-for="clerk in clerks" class="black" :value="clerk.id">{{clerk.Fname}} {{clerk.Lname}}</option>
     </select>
-    <button type="button" name="button" v-on:click="SubmitRRwithPO()">Submit</button>
+    <longpress id="withposubmit" duration="3" :on-confirm="SubmitRRwithPO" pressing-text="Submitting in {$rcounter}" action-text="Loading . . .">
+    Submit
+    </longpress>
   </div>
   <div class="rr-with-po-modal animated" :class="{'fadeIn active':IsModalActive}" v-on:click="IsModalActive=!IsModalActive">
     <div class="middle-rr-withpo" v-on:click="IsModalActive=!IsModalActive">
@@ -95,7 +97,8 @@
 </template>
 
 <script>
-import axios from 'axios';
+import axios from 'axios'
+import Longpress from 'vue-longpress'
   export default {
   data () {
      return {
@@ -211,5 +214,8 @@ import axios from 'axios';
       mounted () {
         this.showaddedSession();
       },
+      components: {
+         Longpress
+       },
   }
 </script>

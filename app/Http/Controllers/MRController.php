@@ -183,7 +183,7 @@ class MRController extends Controller
       ->orWhere('GeneralManager', Auth::user()->Fname.' '.Auth::user()->Lname)->whereNull('GeneralManagerSignature')->whereNotNull('RecommendedbySignature')->whereNull('IfDeclined')->whereNull('ApprovalReplacerSignature')
       ->orWhere('Receivedby', Auth::user()->Fname.' '.Auth::user()->Lname)->whereNull('ReceivedbySignature')->whereNotNull('GeneralManagerSignature')->whereNotNull('RecommendedbySignature')->whereNull('IfDeclined')->whereNull('ApprovalReplacerSignature')
       ->orWhere('Receivedby', Auth::user()->Fname.' '.Auth::user()->Lname)->whereNull('ReceivedbySignature')->whereNull('GeneralManagerSignature')->whereNotNull('RecommendedbySignature')->whereNull('IfDeclined')->whereNotNull('ApprovalReplacerSignature')
-      ->orWhere('ApprovalReplacer',Auth::user()->Fname.' '.Auth::user()->Lname)->whereNull('ApprovalReplacerSignature')->whereNull('GeneralManagerSignature')->whereNotNull('RecommendedbySignature')->paginate(10,['MRNo','Note','Recommendedby','RecommendedbySignature','Receivedby','ReceivedbySignature','GeneralManager','GeneralManagerSignature','MRDate']);
+      ->orWhere('ApprovalReplacer',Auth::user()->Fname.' '.Auth::user()->Lname)->whereNull('ApprovalReplacerSignature')->whereNull('GeneralManagerSignature')->whereNotNull('RecommendedbySignature')->paginate(10,['MRNo','Note','Recommendedby','RecommendedbySignature','Receivedby','ReceivedbySignature','GeneralManager','GeneralManagerSignature','ApprovalReplacerSignature','MRDate']);
       return view('Warehouse.MR.MyMRRequest',compact('MRRequest'));
     }
     public function refuseMRApproveInBehalf($id)

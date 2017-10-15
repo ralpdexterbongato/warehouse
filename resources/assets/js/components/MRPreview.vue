@@ -3,22 +3,26 @@
   <div class="btns-mr-full">
     <div>
       <a :href="'/mr-print/'+this.mrno.MRNo" v-if="(((MRMaster.RecommendedbySignature!=null)&&(MRMaster.GeneralManagerSignature!=null)&&(MRMaster.ReceivedbySignature!=null))||((MRMaster.RecommendedbySignature!=null)&&(MRMaster.ApprovalReplacerSignature!=null)&&(MRMaster.ReceivedbySignature!=null)))"><button type="submit" name="MRNo" value="mrnohere"><i class="fa fa-print"></i> Print</button></a>
-      <h6 class="approve-managerreplace-note" v-if="user.Fname+' '+user.Lname==MRMaster.ApprovalReplacer"><i class="fa fa-info-circle color-blue"></i>
+      <h6 class="approve-managerreplace-note" v-if="(user.Fname+' '+user.Lname==MRMaster.ApprovalReplacer)&&(MRMaster.ApprovalReplacerSignature==null)&&(MRMaster.RecommendedbySignature!=null)&&(MRMaster.GeneralManagerSignature==null)"><i class="fa fa-info-circle color-blue"></i>
         The <span class="color-blue">{{MRMaster.WarehouseMan}}</span> is asking for your signature b/c the General Manager is not available
       </h6>
     </div>
     <div class="signature-MR-btns">
       <span class="Approve-MR-inBehalf-btn" v-if="MRMaster.ApprovalReplacer==user.Fname+' '+user.Lname&&MRMaster.GeneralManagerSignature==null&&MRMaster.ApprovalReplacerSignature==null&&MRMaster.RecommendedbySignature!=null">
-        <button type="button" v-on:click="SignatureApproveInBehalf()"><i class="fa fa-pencil"></i> Signature</button>
-        <button type="button" v-on:click="refuseApproveInBehalf()"><i class="fa fa-times"></i> Refuse</button>
+        <longpress class="rvapprovebtn" duration="3" :on-confirm="SignatureApproveInBehalf" pressing-text="confirm in {$rcounter}" action-text="Loading . . .">
+        <i class="fa fa-pencil"></i> Signature
+        </longpress>
+        <longpress class="RVdeclineBtn" duration="3" :on-confirm="refuseApproveInBehalf" pressing-text="confirm in {$rcounter}" action-text="Loading . . .">
+        <i class="fa fa-times"></i> I can't
+        </longpress>
       </span>
       <span v-if="(((MRMaster.RecommendedbySignature==null)&&(MRMaster.Recommendedby==user.Fname+' '+user.Lname)&&(MRMaster.IfDeclined==null))||((MRMaster.GeneralManagerSignature==null)&&(MRMaster.GeneralManager==user.Fname+' '+user.Lname)&&(MRMaster.RecommendedbySignature!=null)&&(MRMaster.IfDeclined==null))||((MRMaster.ReceivedbySignature==null)&&(MRMaster.ReceivedbySignature==null)&&(MRMaster.Receivedby==user.Fname+' '+user.Lname)&&(MRMaster.IfDeclined==null)&&((MRMaster.GeneralManagerSignature!=null)||(MRMaster.ApprovalReplacerSignature!=null))))">
-        <div class="signature-mr">
-          <button type="submit" v-on:click="signatureMR()" name="MRNo"><i class="fa fa-pencil"></i> Signature</button>
-        </div>
-        <div class="decline-mr">
-          <button v-on:click="declineMR()" type="submit" name="MRNo" value="MRNohere">Decline</button>
-        </div>
+        <longpress class="rvapprovebtn" id="signatureMRbtn" duration="3" :on-confirm="signatureMR" pressing-text="confirm in {$rcounter}" action-text="Loading . . .">
+        <i class="fa fa-pencil"></i> Signature
+        </longpress>
+        <longpress class="RVdeclineBtn" id="declineMRbtn" duration="3" :on-confirm="declineMR" pressing-text="confirm in {$rcounter}" action-text="Loading . . .">
+        <i class="fa fa-times"></i> Decline
+        </longpress>
       </span>
     </div>
   </div>
@@ -140,7 +144,8 @@
 </template>
 
 <script>
-import axios from 'axios';
+import axios from 'axios'
+import Longpress from 'vue-longpress'
   export default {
     props: ['mrno','user'],
      data () {
@@ -203,6 +208,9 @@ import axios from 'axios';
      created()
      {
        this.fetchData();
-     }
+     },
+     components: {
+        Longpress
+      },
   }
 </script>

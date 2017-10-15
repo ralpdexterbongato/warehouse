@@ -67,7 +67,9 @@
           <option value="null" class="gray">Posted to B.I.N. by</option>
           <option class="black" v-for="clerk in clerks" v-bind:value="clerk.id">{{clerk.Fname}} {{clerk.Lname}}</option>
         </select>
-        <button type="button" v-on:click="submitToDB()">Submit</button>
+        <longpress  duration="3" id="submitNoPO" :on-confirm="submitToDB" pressing-text="submitting in {$rcounter}" action-text="Loading . . .">
+         Submit
+        </longpress>
       </div>
     </div>
     <div @click.prevent="ModalIsActive=!ModalIsActive" class="modal-rr-no-po" :class="{'active' : ModalIsActive}">
@@ -104,7 +106,8 @@
 </template>
 
 <script>
-import axios from 'axios';
+import axios from 'axios'
+import Longpress from 'vue-longpress'
   export default {
 
     data ()
@@ -229,5 +232,8 @@ import axios from 'axios';
      {
        this.fetchDataofSession();
      },
+     components: {
+        Longpress
+      },
   }
 </script>

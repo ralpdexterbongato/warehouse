@@ -1,14 +1,20 @@
 <template lang="html">
 <div class="rr-preview-vue">
   <div class="signature-btn" v-if="(((RRMaster.Verifiedby==user.Fname+' '+user.Lname)&&(RRMaster.VerifiedbySignature==null)&&(RRMaster.IfDeclined==null))||((RRMaster.ReceivedOriginalby==user.Fname+' '+user.Lname)&&(RRMaster.ReceivedOriginalbySignature==null)&&(RRMaster.IfDeclined==null))||((RRMaster.PostedtoBINby==user.Fname+' '+user.Lname)&&(RRMaster.PostedtoBINbySignature==null)&&(RRMaster.IfDeclined==null)))">
-    <div class="RRsignatureForm">
+    <!-- <div class="RRsignatureForm">
       <button type="submit" v-on:click="signature()"><i class="fa fa-pencil"></i> Signature</button>
     </div>
     <div class="Declined">
       <button type="submit" v-on:click="declinesignature()"><i class="fa fa-times"></i> Decline</button>
-    </div>
+    </div> -->
+    <longpress id="RRsignature" duration="3" :on-confirm="signature"  pressing-text="confirm in {$rcounter}" action-text="Loading . . .">
+    <i class="fa fa-pencil"></i> Signature
+    </longpress>
+    <longpress id="RRdecline" duration="3" :on-confirm="declinesignature"  pressing-text="confirm in {$rcounter}" action-text="Loading . . .">
+    <i class="fa fa-times"></i> I can't
+    </longpress>
   </div>
-  <div class="print-RR-btn" v-else>
+  <div class="print-RR-btn" v-else-if="((RRMaster.ReceivedOriginalbySignature!=null)&&(RRMaster.VerifiedbySignature!=null)&&(RRMaster.PostedtoBINbySignature!=null))">
       <a :href="'/printRRpdf/'+RRMaster.RRNo"><button type="submit" class="bttn-unite bttn-xs bttn-primary" name="RRNo" value="RRNohere"><i class="fa fa-file-pdf-o"></i> print</button></a>
     <div>
       <a :href="'/view-list-MR-of-RR/'+RRMaster.RRNo" v-if="checkMR!=0"><button type="button" id="full-mr-preview-btn" class="bttn-unite bttn-xs bttn-primary"><i class="fa fa-folder"></i> M.R. list</button></a>
@@ -138,7 +144,8 @@
 </template>
 
 <script>
-import axios from 'axios';
+import axios from 'axios'
+import Longpress from 'vue-longpress'
   export default {
     data () { return {
       RRMaster:[],
@@ -191,5 +198,8 @@ import axios from 'axios';
     created () {
       this.FetchData();
     },
+    components: {
+       Longpress
+     },
   }
 </script>

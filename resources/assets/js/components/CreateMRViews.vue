@@ -54,7 +54,9 @@
               <option v-for="manager in allmanager" v-bind:value="manager.id">{{manager.Fname}} {{manager.Lname}}</option>
             </select>
             <textarea name="Note" v-model="Note" placeholder="Note" autocomplete="none"></textarea>
-            <button type="button" v-on:click="submitMR()"><i class="fa fa-check-square"></i> Submit</button>
+            <longpress id="submitMRbtn" duration="3" :on-confirm="submitMR"  pressing-text="Submitting in {$rcounter}" action-text="Loading . . .">
+              <i class="fa fa-check-square"></i> Submit
+            </longpress>
           </div>
         </div>
       </div>
@@ -89,7 +91,8 @@
   </span>
 </template>
 <script>
-import axios from 'axios';
+import axios from 'axios'
+import Longpress from 'vue-longpress'
 export default {
   props:['rritems','allmanager','allactive'],
   data(){
@@ -187,6 +190,9 @@ export default {
     });
   }
 },
+components: {
+   Longpress
+ },
 
 }
 </script>
