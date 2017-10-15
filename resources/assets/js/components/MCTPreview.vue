@@ -30,8 +30,12 @@
 <span v-else-if="MCTMaster.Issuedby==user.Fname+' '+user.Lname||MCTMaster.Receivedby==user.Fname+' '+user.Lname">
     <span v-if="MCTMaster.IssuedbySignature!=user.Signature&&MCTMaster.ReceivedbySignature!=user.Signature&&MCTMaster.IfDeclined==null">
         <div class="signature-mct-btn">
-         <button type="button" v-on:click="signatureMCT(),IsDisabled=true"id="signatureMCT" :disabled="IsDisabled"><i class="fa fa-pencil"></i> Signature</button>
-         <button type="button" v-on:click="declineMCT(),IsDisabled=true" id="declineMCT" :disabled="IsDisabled"><i class="fa fa-times"></i> Decline</button>
+          <longpress id="signatureMCT" duration="3" :on-confirm="signatureMCT" :disabled="IsDisabled" pressing-text="confirm in {$rcounter}" action-text="Loading . . .">
+          <i class="fa fa-pencil"></i> Signature
+          </longpress>
+          <longpress id="declineMCT" duration="3" :on-confirm="declineMCT" :disabled="IsDisabled" pressing-text="confirm in {$rcounter}" action-text="Loading . . .">
+          <i class="fa fa-times"></i> I can't
+          </longpress>
         </div>
     </span>
 </span>
@@ -121,6 +125,7 @@
 
 <script>
 import axios from 'axios'
+import Longpress from 'vue-longpress'
   export default {
 
      data () {
@@ -189,5 +194,8 @@ import axios from 'axios'
      created () {
        this.fetchData();
      },
+     components: {
+        Longpress
+      },
   }
 </script>

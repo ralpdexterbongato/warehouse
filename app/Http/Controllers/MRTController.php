@@ -23,9 +23,21 @@ class MRTController extends Controller
     }
     public function CreateMRT($id)
     {
-      $MTDetails=MaterialsTicketDetail::where('MTType', 'MCT')->where('MTNo', $id)->get();
       $MCTdata=MCTMaster::where('MCTNo',$id)->get(['Particulars','AddressTo','ReceivedbyPosition','Receivedby']);
-      return view('Warehouse.MRT.MRTformView',compact('MTDetails','MCTdata'));
+      $MCTNumber = array('MCTNo' =>$id);
+      $MCTNumber=json_encode($MCTNumber);
+      return view('Warehouse.MRT.MRTCreate',compact('MCTNumber','MCTdata'));
+    }
+    public function CreateMRTFetchMCTdata($id)
+    {
+      $MTDetails=MaterialsTicketDetail::where('MTType', 'MCT')->where('MTNo', $id)->paginate(5);
+      $MTDetails->load('MasterItems');
+      return response()->json(['MTDetails'=>$MTDetails]);
+    }
+    public function DisplaySessionMRT()
+    {
+      $SelectedSession=Session::get('MCTSelected');
+      return response()->json(['SelectedSession'=>$SelectedSession]);
     }
     public function summaryMRT()
     {
@@ -36,7 +48,7 @@ class MRTController extends Controller
     {
         if (empty(Session::get('MCTSelected')))
         {
-          return redirect()->back()->with('message', 'item is required');
+          return ['error'=>'Selecting item is required'];
         }
         $year=Carbon::now()->format('y');
         $datenow=Carbon::now();
@@ -81,24 +93,26 @@ class MRTController extends Controller
         $notifythis=(object)$notifythis;
         $job = (new NewCreatedMRTJob($notifythis))->delay(Carbon::now()->addSeconds(5));
         dispatch($job);
-        return redirect('/mrt-preview-page/'.$MRTincremented);
+        return ['redirect'=>route('MRTpreviewPage',$MRTincremented)];
     }
     public function addToSession(Request $request)
     {
+      $this->validate($request,[
+        'Summary'=>'required|numeric|min:1|max:'.$request->Limit,
+      ]);
       if (Session::has('MCTSelected'))
       {
         foreach (Session::get('MCTSelected') as $Alreadyhere)
         {
           if ($Alreadyhere->ItemCode === $request->ItemCode)
           {
-            return redirect()->back()->with('message', 'Sorry this item is already added');
+            return ['error'=>'Sorry duplicate is not allowed'];
           }
         }
       }
       $MRTselected = array('ItemCode'=>$request->ItemCode ,'Description'=>$request->Description,'Unit'=>$request->Unit,'Summary'=>$request->Summary );
       $MRTselected = (object)$MRTselected;
       Session::push('MCTSelected',$MRTselected);
-      return redirect()->back();
     }
     public function deletePartSession($id)
     {
@@ -113,7 +127,6 @@ class MRTController extends Controller
           }
         }
         Session::put('MCTSelected',$items);
-        return redirect()->back();
       }
     }
 

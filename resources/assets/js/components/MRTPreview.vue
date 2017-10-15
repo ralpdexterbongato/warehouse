@@ -12,8 +12,14 @@
       <span v-else>
       </span>
       <span class="signature-decline-mrt" v-if="user.Fname+' '+user.Lname==MRTMaster.Returnedby&&MRTMaster.ReturnedbySignature==null&&MRTMaster.IfDeclined==null">
-        <button type="button" id="signature-mrt" name="button" v-on:click="signatureMRT(),DisableBtn=true" :disabled="DisableBtn"><i class="fa fa-pencil"></i> Signature</button>
-        <button type="button" id="decline-mrt" name="button" v-on:click="declineMRT(),DisableBtn=true":disabled="DisableBtn"><i class="fa fa-times"></i> Decline</button>
+        <!-- <button type="button" id="signature-mrt" name="button" v-on:click="signatureMRT(),DisableBtn=true" :disabled="DisableBtn"><i class="fa fa-pencil"></i> Signature</button>
+        <button type="button" id="decline-mrt" name="button" v-on:click="declineMRT(),DisableBtn=true":disabled="DisableBtn"><i class="fa fa-times"></i> Decline</button> -->
+        <longpress id="signature-mrt" duration="3" :on-confirm="signatureMRT" pressing-text="confirm in {$rcounter}" action-text="Loading . . .">
+        <i class="fa fa-pencil"></i> Signature
+        </longpress>
+        <longpress id="decline-mrt" duration="3" :on-confirm="declineMRT" pressing-text="confirm in {$rcounter}" action-text="Loading . . .">
+        <i class="fa fa-times"></i> I can't
+        </longpress>
       </span>
     </div>
     <div class="Bondpaper-mrt-preview">
@@ -88,6 +94,7 @@
 
 <script>
 import axios from 'axios';
+import Longpress from 'vue-longpress'
   export default {
      data () {
         return {
@@ -150,6 +157,9 @@ import axios from 'axios';
      },
      mounted () {
        this.fetchdata();
+     },
+     components: {
+        Longpress
      },
   }
 </script>

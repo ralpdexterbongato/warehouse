@@ -26,7 +26,7 @@ class MCTController extends Controller
     ]);
     if (empty(Session::get('MCTSessionItems')))
     {
-      return redirect()->back()->with('message', 'Items is required');
+      return response()->json(['error'=>'Items is required']);
     }
     $date=Carbon::now();
     $year=Carbon::today()->format('y');
@@ -97,7 +97,7 @@ class MCTController extends Controller
     $ReceiverName=(object)$ReceiverName;
     $jobs=(new NewCreatedMCTJob($ReceiverName))->delay(Carbon::now()->addSeconds(5));
     dispatch($jobs);
-    return redirect()->route('MCTpageOnly',[$MCTIncremented]);
+    return ['redirect'=>route('MCTpageOnly',[$MCTIncremented])];
   }
   public function previewMCTPage($id)
   {
@@ -186,9 +186,15 @@ class MCTController extends Controller
   }
   public function CreateMCT($id)
   {
-    $MIRSMasterPurpose=MIRSMaster::where('MIRSNo', $id)->value('Purpose');
-    $FromValidator=MCTValidator::where('MIRSNo',$id)->paginate(5);
-    return view('Warehouse.MCT.CreateMCT',compact('FromValidator','MIRSMasterPurpose'));
+    $MIRSMasterPurpose=MIRSMaster::where('MIRSNo', $id)->get(['Purpose']);
+    $MIRSNumber = array('MIRSNo' =>$id );
+    $MIRSNumber=json_encode($MIRSNumber);
+    return view('Warehouse.MCT.CreateMCT',compact('MIRSNumber','MIRSMasterPurpose'));
+  }
+  public function FetchMCTvalidator($id)
+  {
+     $FromValidator=MCTValidator::where('MIRSNo',$id)->paginate(5);
+     return response()->json(['FromValidator'=>$FromValidator]);
   }
   public function MCTSessionSaving(Request $request)
   {
@@ -203,7 +209,7 @@ class MCTController extends Controller
     $ItemRemaining=MCTValidator::where('MIRSNo', $request->MIRSNo)->where('ItemCode',$request->ItemCode)->get(['Quantity']);
     if ($ItemRemaining[0]->Quantity < $request->Quantity)
     {
-      return redirect()->back()->with('message','Quantity left of '.$request->Particulars.' in this MIRS is only '.$ItemRemaining[0]->Quantity);
+      return response()->json(['error'=>'Sorry only '.$ItemRemaining[0]->Quantity.' left']);
     }
     if (Session::has('MCTSessionItems'))
     {
@@ -211,14 +217,18 @@ class MCTController extends Controller
       {
         if ($itemadded->ItemCode==$request->ItemCode)
         {
-          return redirect()->back()->with('message','cannot duplicate items');
+          return response()->json(['error'=>'cannot duplicate items']);
         }
       }
     }
     $forsessionMCT = array('ItemCode' =>$request->ItemCode,'Particulars' =>$request->Particulars,'Unit' =>$request->Unit,'Remarks' =>$request->Remarks,'Quantity' =>$request->Quantity,);
     $forsessionMCT=(object)$forsessionMCT;
     Session::push('MCTSessionItems',$forsessionMCT);
-    return redirect()->back();
+  }
+  public function displayMCTSessionStored()
+  {
+    $SessionData=Session::get('MCTSessionItems');
+    return response()->json(['SessionData'=>$SessionData]);
   }
   public function deleteASession($id)
   {
@@ -231,7 +241,6 @@ class MCTController extends Controller
       }
     }
     Session::put('MCTSessionItems',$items);
-    return redirect()->back();
   }
   public function searchMCTsummary(Request $request)
   {

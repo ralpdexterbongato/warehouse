@@ -63,17 +63,18 @@
 /******/ 	__webpack_require__.p = "";
 /******/
 /******/ 	// Load entry module and return exports
-/******/ 	return __webpack_require__(__webpack_require__.s = 133);
+/******/ 	return __webpack_require__(__webpack_require__.s = 268);
 /******/ })
 /************************************************************************/
-/******/ ([
-/* 0 */
+/******/ ({
+
+/***/ 0:
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
 
 
-var bind = __webpack_require__(8);
+var bind = __webpack_require__(9);
 
 /*global toString:true*/
 
@@ -373,435 +374,8 @@ module.exports = {
 
 
 /***/ }),
-/* 1 */
-/***/ (function(module, exports, __webpack_require__) {
 
-"use strict";
-/* WEBPACK VAR INJECTION */(function(process) {
-
-var utils = __webpack_require__(0);
-var normalizeHeaderName = __webpack_require__(24);
-
-var PROTECTION_PREFIX = /^\)\]\}',?\n/;
-var DEFAULT_CONTENT_TYPE = {
-  'Content-Type': 'application/x-www-form-urlencoded'
-};
-
-function setContentTypeIfUnset(headers, value) {
-  if (!utils.isUndefined(headers) && utils.isUndefined(headers['Content-Type'])) {
-    headers['Content-Type'] = value;
-  }
-}
-
-function getDefaultAdapter() {
-  var adapter;
-  if (typeof XMLHttpRequest !== 'undefined') {
-    // For browsers use XHR adapter
-    adapter = __webpack_require__(4);
-  } else if (typeof process !== 'undefined') {
-    // For node use HTTP adapter
-    adapter = __webpack_require__(4);
-  }
-  return adapter;
-}
-
-var defaults = {
-  adapter: getDefaultAdapter(),
-
-  transformRequest: [function transformRequest(data, headers) {
-    normalizeHeaderName(headers, 'Content-Type');
-    if (utils.isFormData(data) ||
-      utils.isArrayBuffer(data) ||
-      utils.isStream(data) ||
-      utils.isFile(data) ||
-      utils.isBlob(data)
-    ) {
-      return data;
-    }
-    if (utils.isArrayBufferView(data)) {
-      return data.buffer;
-    }
-    if (utils.isURLSearchParams(data)) {
-      setContentTypeIfUnset(headers, 'application/x-www-form-urlencoded;charset=utf-8');
-      return data.toString();
-    }
-    if (utils.isObject(data)) {
-      setContentTypeIfUnset(headers, 'application/json;charset=utf-8');
-      return JSON.stringify(data);
-    }
-    return data;
-  }],
-
-  transformResponse: [function transformResponse(data) {
-    /*eslint no-param-reassign:0*/
-    if (typeof data === 'string') {
-      data = data.replace(PROTECTION_PREFIX, '');
-      try {
-        data = JSON.parse(data);
-      } catch (e) { /* Ignore */ }
-    }
-    return data;
-  }],
-
-  timeout: 0,
-
-  xsrfCookieName: 'XSRF-TOKEN',
-  xsrfHeaderName: 'X-XSRF-TOKEN',
-
-  maxContentLength: -1,
-
-  validateStatus: function validateStatus(status) {
-    return status >= 200 && status < 300;
-  }
-};
-
-defaults.headers = {
-  common: {
-    'Accept': 'application/json, text/plain, */*'
-  }
-};
-
-utils.forEach(['delete', 'get', 'head'], function forEachMehtodNoData(method) {
-  defaults.headers[method] = {};
-});
-
-utils.forEach(['post', 'put', 'patch'], function forEachMethodWithData(method) {
-  defaults.headers[method] = utils.merge(DEFAULT_CONTENT_TYPE);
-});
-
-module.exports = defaults;
-
-/* WEBPACK VAR INJECTION */}.call(exports, __webpack_require__(27)))
-
-/***/ }),
-/* 2 */
-/***/ (function(module, exports, __webpack_require__) {
-
-module.exports = __webpack_require__(10);
-
-/***/ }),
-/* 3 */
-/***/ (function(module, exports) {
-
-// this module is a runtime utility for cleaner component module output and will
-// be included in the final webpack user bundle
-
-module.exports = function normalizeComponent (
-  rawScriptExports,
-  compiledTemplate,
-  scopeId,
-  cssModules
-) {
-  var esModule
-  var scriptExports = rawScriptExports = rawScriptExports || {}
-
-  // ES6 modules interop
-  var type = typeof rawScriptExports.default
-  if (type === 'object' || type === 'function') {
-    esModule = rawScriptExports
-    scriptExports = rawScriptExports.default
-  }
-
-  // Vue.extend constructor export interop
-  var options = typeof scriptExports === 'function'
-    ? scriptExports.options
-    : scriptExports
-
-  // render functions
-  if (compiledTemplate) {
-    options.render = compiledTemplate.render
-    options.staticRenderFns = compiledTemplate.staticRenderFns
-  }
-
-  // scopedId
-  if (scopeId) {
-    options._scopeId = scopeId
-  }
-
-  // inject cssModules
-  if (cssModules) {
-    var computed = Object.create(options.computed || null)
-    Object.keys(cssModules).forEach(function (key) {
-      var module = cssModules[key]
-      computed[key] = function () { return module }
-    })
-    options.computed = computed
-  }
-
-  return {
-    esModule: esModule,
-    exports: scriptExports,
-    options: options
-  }
-}
-
-
-/***/ }),
-/* 4 */
-/***/ (function(module, exports, __webpack_require__) {
-
-"use strict";
-
-
-var utils = __webpack_require__(0);
-var settle = __webpack_require__(16);
-var buildURL = __webpack_require__(19);
-var parseHeaders = __webpack_require__(25);
-var isURLSameOrigin = __webpack_require__(23);
-var createError = __webpack_require__(7);
-var btoa = (typeof window !== 'undefined' && window.btoa && window.btoa.bind(window)) || __webpack_require__(18);
-
-module.exports = function xhrAdapter(config) {
-  return new Promise(function dispatchXhrRequest(resolve, reject) {
-    var requestData = config.data;
-    var requestHeaders = config.headers;
-
-    if (utils.isFormData(requestData)) {
-      delete requestHeaders['Content-Type']; // Let the browser set it
-    }
-
-    var request = new XMLHttpRequest();
-    var loadEvent = 'onreadystatechange';
-    var xDomain = false;
-
-    // For IE 8/9 CORS support
-    // Only supports POST and GET calls and doesn't returns the response headers.
-    // DON'T do this for testing b/c XMLHttpRequest is mocked, not XDomainRequest.
-    if ("development" !== 'test' &&
-        typeof window !== 'undefined' &&
-        window.XDomainRequest && !('withCredentials' in request) &&
-        !isURLSameOrigin(config.url)) {
-      request = new window.XDomainRequest();
-      loadEvent = 'onload';
-      xDomain = true;
-      request.onprogress = function handleProgress() {};
-      request.ontimeout = function handleTimeout() {};
-    }
-
-    // HTTP basic authentication
-    if (config.auth) {
-      var username = config.auth.username || '';
-      var password = config.auth.password || '';
-      requestHeaders.Authorization = 'Basic ' + btoa(username + ':' + password);
-    }
-
-    request.open(config.method.toUpperCase(), buildURL(config.url, config.params, config.paramsSerializer), true);
-
-    // Set the request timeout in MS
-    request.timeout = config.timeout;
-
-    // Listen for ready state
-    request[loadEvent] = function handleLoad() {
-      if (!request || (request.readyState !== 4 && !xDomain)) {
-        return;
-      }
-
-      // The request errored out and we didn't get a response, this will be
-      // handled by onerror instead
-      // With one exception: request that using file: protocol, most browsers
-      // will return status as 0 even though it's a successful request
-      if (request.status === 0 && !(request.responseURL && request.responseURL.indexOf('file:') === 0)) {
-        return;
-      }
-
-      // Prepare the response
-      var responseHeaders = 'getAllResponseHeaders' in request ? parseHeaders(request.getAllResponseHeaders()) : null;
-      var responseData = !config.responseType || config.responseType === 'text' ? request.responseText : request.response;
-      var response = {
-        data: responseData,
-        // IE sends 1223 instead of 204 (https://github.com/mzabriskie/axios/issues/201)
-        status: request.status === 1223 ? 204 : request.status,
-        statusText: request.status === 1223 ? 'No Content' : request.statusText,
-        headers: responseHeaders,
-        config: config,
-        request: request
-      };
-
-      settle(resolve, reject, response);
-
-      // Clean up request
-      request = null;
-    };
-
-    // Handle low level network errors
-    request.onerror = function handleError() {
-      // Real errors are hidden from us by the browser
-      // onerror should only fire if it's a network error
-      reject(createError('Network Error', config));
-
-      // Clean up request
-      request = null;
-    };
-
-    // Handle timeout
-    request.ontimeout = function handleTimeout() {
-      reject(createError('timeout of ' + config.timeout + 'ms exceeded', config, 'ECONNABORTED'));
-
-      // Clean up request
-      request = null;
-    };
-
-    // Add xsrf header
-    // This is only done if running in a standard browser environment.
-    // Specifically not if we're in a web worker, or react-native.
-    if (utils.isStandardBrowserEnv()) {
-      var cookies = __webpack_require__(21);
-
-      // Add xsrf header
-      var xsrfValue = (config.withCredentials || isURLSameOrigin(config.url)) && config.xsrfCookieName ?
-          cookies.read(config.xsrfCookieName) :
-          undefined;
-
-      if (xsrfValue) {
-        requestHeaders[config.xsrfHeaderName] = xsrfValue;
-      }
-    }
-
-    // Add headers to the request
-    if ('setRequestHeader' in request) {
-      utils.forEach(requestHeaders, function setRequestHeader(val, key) {
-        if (typeof requestData === 'undefined' && key.toLowerCase() === 'content-type') {
-          // Remove Content-Type if data is undefined
-          delete requestHeaders[key];
-        } else {
-          // Otherwise add header to the request
-          request.setRequestHeader(key, val);
-        }
-      });
-    }
-
-    // Add withCredentials to request if needed
-    if (config.withCredentials) {
-      request.withCredentials = true;
-    }
-
-    // Add responseType to request if needed
-    if (config.responseType) {
-      try {
-        request.responseType = config.responseType;
-      } catch (e) {
-        if (request.responseType !== 'json') {
-          throw e;
-        }
-      }
-    }
-
-    // Handle progress if needed
-    if (typeof config.onDownloadProgress === 'function') {
-      request.addEventListener('progress', config.onDownloadProgress);
-    }
-
-    // Not all browsers support upload events
-    if (typeof config.onUploadProgress === 'function' && request.upload) {
-      request.upload.addEventListener('progress', config.onUploadProgress);
-    }
-
-    if (config.cancelToken) {
-      // Handle cancellation
-      config.cancelToken.promise.then(function onCanceled(cancel) {
-        if (!request) {
-          return;
-        }
-
-        request.abort();
-        reject(cancel);
-        // Clean up request
-        request = null;
-      });
-    }
-
-    if (requestData === undefined) {
-      requestData = null;
-    }
-
-    // Send the request
-    request.send(requestData);
-  });
-};
-
-
-/***/ }),
-/* 5 */
-/***/ (function(module, exports, __webpack_require__) {
-
-"use strict";
-
-
-/**
- * A `Cancel` is an object that is thrown when an operation is canceled.
- *
- * @class
- * @param {string=} message The message.
- */
-function Cancel(message) {
-  this.message = message;
-}
-
-Cancel.prototype.toString = function toString() {
-  return 'Cancel' + (this.message ? ': ' + this.message : '');
-};
-
-Cancel.prototype.__CANCEL__ = true;
-
-module.exports = Cancel;
-
-
-/***/ }),
-/* 6 */
-/***/ (function(module, exports, __webpack_require__) {
-
-"use strict";
-
-
-module.exports = function isCancel(value) {
-  return !!(value && value.__CANCEL__);
-};
-
-
-/***/ }),
-/* 7 */
-/***/ (function(module, exports, __webpack_require__) {
-
-"use strict";
-
-
-var enhanceError = __webpack_require__(15);
-
-/**
- * Create an Error with the specified message, config, error code, and response.
- *
- * @param {string} message The error message.
- * @param {Object} config The config.
- * @param {string} [code] The error code (for example, 'ECONNABORTED').
- @ @param {Object} [response] The response.
- * @returns {Error} The created error.
- */
-module.exports = function createError(message, config, code, response) {
-  var error = new Error(message);
-  return enhanceError(error, config, code, response);
-};
-
-
-/***/ }),
-/* 8 */
-/***/ (function(module, exports, __webpack_require__) {
-
-"use strict";
-
-
-module.exports = function bind(fn, thisArg) {
-  return function wrap() {
-    var args = new Array(arguments.length);
-    for (var i = 0; i < args.length; i++) {
-      args[i] = arguments[i];
-    }
-    return fn.apply(thisArg, args);
-  };
-};
-
-
-/***/ }),
-/* 9 */
+/***/ 10:
 /***/ (function(module, exports) {
 
 var g;
@@ -828,16 +402,17 @@ module.exports = g;
 
 
 /***/ }),
-/* 10 */
+
+/***/ 11:
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
 
 
 var utils = __webpack_require__(0);
-var bind = __webpack_require__(8);
-var Axios = __webpack_require__(12);
-var defaults = __webpack_require__(1);
+var bind = __webpack_require__(9);
+var Axios = __webpack_require__(13);
+var defaults = __webpack_require__(2);
 
 /**
  * Create an instance of Axios
@@ -870,15 +445,15 @@ axios.create = function create(instanceConfig) {
 };
 
 // Expose Cancel & CancelToken
-axios.Cancel = __webpack_require__(5);
-axios.CancelToken = __webpack_require__(11);
-axios.isCancel = __webpack_require__(6);
+axios.Cancel = __webpack_require__(6);
+axios.CancelToken = __webpack_require__(12);
+axios.isCancel = __webpack_require__(7);
 
 // Expose all/spread
 axios.all = function all(promises) {
   return Promise.all(promises);
 };
-axios.spread = __webpack_require__(26);
+axios.spread = __webpack_require__(27);
 
 module.exports = axios;
 
@@ -887,13 +462,14 @@ module.exports.default = axios;
 
 
 /***/ }),
-/* 11 */
+
+/***/ 12:
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
 
 
-var Cancel = __webpack_require__(5);
+var Cancel = __webpack_require__(6);
 
 /**
  * A `CancelToken` is an object that can be used to request cancellation of an operation.
@@ -951,18 +527,19 @@ module.exports = CancelToken;
 
 
 /***/ }),
-/* 12 */
+
+/***/ 13:
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
 
 
-var defaults = __webpack_require__(1);
+var defaults = __webpack_require__(2);
 var utils = __webpack_require__(0);
-var InterceptorManager = __webpack_require__(13);
-var dispatchRequest = __webpack_require__(14);
-var isAbsoluteURL = __webpack_require__(22);
-var combineURLs = __webpack_require__(20);
+var InterceptorManager = __webpack_require__(14);
+var dispatchRequest = __webpack_require__(15);
+var isAbsoluteURL = __webpack_require__(23);
+var combineURLs = __webpack_require__(21);
 
 /**
  * Create a new instance of Axios
@@ -1043,7 +620,8 @@ module.exports = Axios;
 
 
 /***/ }),
-/* 13 */
+
+/***/ 14:
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -1102,16 +680,17 @@ module.exports = InterceptorManager;
 
 
 /***/ }),
-/* 14 */
+
+/***/ 15:
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
 
 
 var utils = __webpack_require__(0);
-var transformData = __webpack_require__(17);
-var isCancel = __webpack_require__(6);
-var defaults = __webpack_require__(1);
+var transformData = __webpack_require__(18);
+var isCancel = __webpack_require__(7);
+var defaults = __webpack_require__(2);
 
 /**
  * Throws a `Cancel` if cancellation has been requested.
@@ -1188,7 +767,22 @@ module.exports = function dispatchRequest(config) {
 
 
 /***/ }),
-/* 15 */
+
+/***/ 156:
+/***/ (function(module, exports, __webpack_require__) {
+
+
+window.Vue = __webpack_require__(29);
+Vue.component('example', __webpack_require__(205));
+Vue.component('pofullpreview', __webpack_require__(220));
+Vue.component('poindex', __webpack_require__(221));
+new Vue({
+   el: '#po'
+});
+
+/***/ }),
+
+/***/ 16:
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -1214,13 +808,49 @@ module.exports = function enhanceError(error, config, code, response) {
 
 
 /***/ }),
-/* 16 */
+
+/***/ 167:
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+
+/* harmony default export */ __webpack_exports__["default"] = ({
+  data: function data() {
+    return {
+      message: ''
+    };
+  },
+  created: function created() {}
+});
+
+/***/ }),
+
+/***/ 17:
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
 
 
-var createError = __webpack_require__(7);
+var createError = __webpack_require__(8);
 
 /**
  * Resolve or reject a Promise based on response status.
@@ -1246,7 +876,8 @@ module.exports = function settle(resolve, reject, response) {
 
 
 /***/ }),
-/* 17 */
+
+/***/ 18:
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -1273,7 +904,323 @@ module.exports = function transformData(data, headers, fns) {
 
 
 /***/ }),
-/* 18 */
+
+/***/ 182:
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_0_axios__ = __webpack_require__(3);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_0_axios___default = __webpack_require__.n(__WEBPACK_IMPORTED_MODULE_0_axios__);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_1_vue_longpress__ = __webpack_require__(30);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_1_vue_longpress___default = __webpack_require__.n(__WEBPACK_IMPORTED_MODULE_1_vue_longpress__);
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+
+
+
+/* harmony default export */ __webpack_exports__["default"] = ({
+  data: function data() {
+    return {
+      OrderMaster: [],
+      totalAmt: 0,
+      remaining: 0
+    };
+  },
+
+  components: {
+    Longpress: __WEBPACK_IMPORTED_MODULE_1_vue_longpress___default.a
+  },
+  props: ['pono', 'user'],
+  methods: {
+    fetchPOPreview: function fetchPOPreview() {
+      var vm = this;
+      __WEBPACK_IMPORTED_MODULE_0_axios___default.a.get('/po-full-preview-fetch/' + this.pono.PONo).then(function (response) {
+        console.log(response);
+        Vue.set(vm.$data, 'OrderMaster', response.data.OrderMaster[0]);
+        Vue.set(vm.$data, 'totalAmt', response.data.totalAmt);
+        Vue.set(vm.$data, 'remaining', response.data.remainingUnreceived);
+      });
+    },
+    GMsignaturePO: function GMsignaturePO() {
+      var vm = this;
+      __WEBPACK_IMPORTED_MODULE_0_axios___default.a.put('/gm-signature-po/' + this.pono.PONo).then(function (response) {
+        console.log(response);
+      });
+      this.fetchPOPreview();
+    },
+    GMDeclinedPO: function GMDeclinedPO() {
+      var vm = this;
+      __WEBPACK_IMPORTED_MODULE_0_axios___default.a.put('/gm-decline-po/' + this.pono.PONo).then(function (response) {
+        console.log(response);
+      });
+      this.fetchPOPreview();
+    },
+    formatPrice: function formatPrice(value) {
+      var val = (value / 1).toFixed(2).replace('.', '.');
+      return val.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ",");
+    },
+    RefuseToAuthorizeInBehalf: function RefuseToAuthorizeInBehalf() {
+      var vm = this;
+      __WEBPACK_IMPORTED_MODULE_0_axios___default.a.put('/declined-Authorize-inbehalf/' + this.pono.PONo).then(function (response) {
+        console.log(response);
+      });
+      this.fetchPOPreview();
+    },
+    ApproveAuthorizeInBehalf: function ApproveAuthorizeInBehalf() {
+      var vm = this;
+      __WEBPACK_IMPORTED_MODULE_0_axios___default.a.put('/authorize-in-behalf-confirmed/' + this.pono.PONo).then(function (response) {
+        console.log(response);
+      });
+      this.fetchPOPreview();
+    }
+  },
+  created: function created() {
+    this.fetchPOPreview();
+  }
+});
+
+/***/ }),
+
+/***/ 183:
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_0_axios__ = __webpack_require__(3);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_0_axios___default = __webpack_require__.n(__WEBPACK_IMPORTED_MODULE_0_axios__);
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+
+
+/* harmony default export */ __webpack_exports__["default"] = ({
+  data: function data() {
+    return {
+      ponumsearch: '',
+      POindexData: [],
+      pagination: [],
+      offset: 4
+    };
+  },
+
+  // props: [],
+  methods: {
+    FetchAndSearch: function FetchAndSearch(page) {
+      var vm = this;
+      __WEBPACK_IMPORTED_MODULE_0_axios___default.a.get('/po-index-fetch-and-search?PONo=' + this.ponumsearch + '&page=' + page).then(function (response) {
+        console.log(response);
+        Vue.set(vm.$data, 'POindexData', response.data.data);
+        Vue.set(vm.$data, 'pagination', response.data);
+      });
+    },
+    changepage: function changepage(next) {
+      this.pagination.current_page = next;
+      this.FetchAndSearch(next);
+    }
+  },
+  created: function created() {
+    this.FetchAndSearch(1);
+  },
+
+  computed: {
+    isActive: function isActive() {
+      return this.pagination.current_page;
+    },
+    pagesNumber: function pagesNumber() {
+      if (!this.pagination.to) {
+        return [];
+      }
+      var from = this.pagination.current_page - this.offset;
+      if (from < 1) {
+        from = 1;
+      }
+      var to = from + this.offset * 2;
+      if (to >= this.pagination.last_page) {
+        to = this.pagination.last_page;
+      }
+      var pagesArray = [];
+      while (from <= to) {
+        pagesArray.push(from);
+        from++;
+      }
+      return pagesArray;
+    }
+  }
+});
+
+/***/ }),
+
+/***/ 19:
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -1316,7 +1263,110 @@ module.exports = btoa;
 
 
 /***/ }),
-/* 19 */
+
+/***/ 2:
+/***/ (function(module, exports, __webpack_require__) {
+
+"use strict";
+/* WEBPACK VAR INJECTION */(function(process) {
+
+var utils = __webpack_require__(0);
+var normalizeHeaderName = __webpack_require__(25);
+
+var PROTECTION_PREFIX = /^\)\]\}',?\n/;
+var DEFAULT_CONTENT_TYPE = {
+  'Content-Type': 'application/x-www-form-urlencoded'
+};
+
+function setContentTypeIfUnset(headers, value) {
+  if (!utils.isUndefined(headers) && utils.isUndefined(headers['Content-Type'])) {
+    headers['Content-Type'] = value;
+  }
+}
+
+function getDefaultAdapter() {
+  var adapter;
+  if (typeof XMLHttpRequest !== 'undefined') {
+    // For browsers use XHR adapter
+    adapter = __webpack_require__(5);
+  } else if (typeof process !== 'undefined') {
+    // For node use HTTP adapter
+    adapter = __webpack_require__(5);
+  }
+  return adapter;
+}
+
+var defaults = {
+  adapter: getDefaultAdapter(),
+
+  transformRequest: [function transformRequest(data, headers) {
+    normalizeHeaderName(headers, 'Content-Type');
+    if (utils.isFormData(data) ||
+      utils.isArrayBuffer(data) ||
+      utils.isStream(data) ||
+      utils.isFile(data) ||
+      utils.isBlob(data)
+    ) {
+      return data;
+    }
+    if (utils.isArrayBufferView(data)) {
+      return data.buffer;
+    }
+    if (utils.isURLSearchParams(data)) {
+      setContentTypeIfUnset(headers, 'application/x-www-form-urlencoded;charset=utf-8');
+      return data.toString();
+    }
+    if (utils.isObject(data)) {
+      setContentTypeIfUnset(headers, 'application/json;charset=utf-8');
+      return JSON.stringify(data);
+    }
+    return data;
+  }],
+
+  transformResponse: [function transformResponse(data) {
+    /*eslint no-param-reassign:0*/
+    if (typeof data === 'string') {
+      data = data.replace(PROTECTION_PREFIX, '');
+      try {
+        data = JSON.parse(data);
+      } catch (e) { /* Ignore */ }
+    }
+    return data;
+  }],
+
+  timeout: 0,
+
+  xsrfCookieName: 'XSRF-TOKEN',
+  xsrfHeaderName: 'X-XSRF-TOKEN',
+
+  maxContentLength: -1,
+
+  validateStatus: function validateStatus(status) {
+    return status >= 200 && status < 300;
+  }
+};
+
+defaults.headers = {
+  common: {
+    'Accept': 'application/json, text/plain, */*'
+  }
+};
+
+utils.forEach(['delete', 'get', 'head'], function forEachMehtodNoData(method) {
+  defaults.headers[method] = {};
+});
+
+utils.forEach(['post', 'put', 'patch'], function forEachMethodWithData(method) {
+  defaults.headers[method] = utils.merge(DEFAULT_CONTENT_TYPE);
+});
+
+module.exports = defaults;
+
+/* WEBPACK VAR INJECTION */}.call(exports, __webpack_require__(28)))
+
+/***/ }),
+
+/***/ 20:
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -1391,7 +1441,43 @@ module.exports = function buildURL(url, params, paramsSerializer) {
 
 
 /***/ }),
-/* 20 */
+
+/***/ 205:
+/***/ (function(module, exports, __webpack_require__) {
+
+var Component = __webpack_require__(4)(
+  /* script */
+  __webpack_require__(167),
+  /* template */
+  __webpack_require__(231),
+  /* scopeId */
+  null,
+  /* cssModules */
+  null
+)
+Component.options.__file = "c:\\xampp\\htdocs\\warehouse\\resources\\assets\\js\\components\\Example.vue"
+if (Component.esModule && Object.keys(Component.esModule).some(function (key) {return key !== "default" && key !== "__esModule"})) {console.error("named exports are not supported in *.vue files.")}
+if (Component.options.functional) {console.error("[vue-loader] Example.vue: functional components are not supported with templates, they should use render functions.")}
+
+/* hot reload */
+if (false) {(function () {
+  var hotAPI = require("vue-hot-reload-api")
+  hotAPI.install(require("vue"), false)
+  if (!hotAPI.compatible) return
+  module.hot.accept()
+  if (!module.hot.data) {
+    hotAPI.createRecord("data-v-0f64ebcf", Component.options)
+  } else {
+    hotAPI.reload("data-v-0f64ebcf", Component.options)
+  }
+})()}
+
+module.exports = Component.exports
+
+
+/***/ }),
+
+/***/ 21:
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -1410,7 +1496,8 @@ module.exports = function combineURLs(baseURL, relativeURL) {
 
 
 /***/ }),
-/* 21 */
+
+/***/ 22:
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -1470,7 +1557,78 @@ module.exports = (
 
 
 /***/ }),
-/* 22 */
+
+/***/ 220:
+/***/ (function(module, exports, __webpack_require__) {
+
+var Component = __webpack_require__(4)(
+  /* script */
+  __webpack_require__(182),
+  /* template */
+  __webpack_require__(257),
+  /* scopeId */
+  null,
+  /* cssModules */
+  null
+)
+Component.options.__file = "c:\\xampp\\htdocs\\warehouse\\resources\\assets\\js\\components\\POFullpreview.vue"
+if (Component.esModule && Object.keys(Component.esModule).some(function (key) {return key !== "default" && key !== "__esModule"})) {console.error("named exports are not supported in *.vue files.")}
+if (Component.options.functional) {console.error("[vue-loader] POFullpreview.vue: functional components are not supported with templates, they should use render functions.")}
+
+/* hot reload */
+if (false) {(function () {
+  var hotAPI = require("vue-hot-reload-api")
+  hotAPI.install(require("vue"), false)
+  if (!hotAPI.compatible) return
+  module.hot.accept()
+  if (!module.hot.data) {
+    hotAPI.createRecord("data-v-b83bc0c2", Component.options)
+  } else {
+    hotAPI.reload("data-v-b83bc0c2", Component.options)
+  }
+})()}
+
+module.exports = Component.exports
+
+
+/***/ }),
+
+/***/ 221:
+/***/ (function(module, exports, __webpack_require__) {
+
+var Component = __webpack_require__(4)(
+  /* script */
+  __webpack_require__(183),
+  /* template */
+  __webpack_require__(246),
+  /* scopeId */
+  null,
+  /* cssModules */
+  null
+)
+Component.options.__file = "c:\\xampp\\htdocs\\warehouse\\resources\\assets\\js\\components\\POindex.vue"
+if (Component.esModule && Object.keys(Component.esModule).some(function (key) {return key !== "default" && key !== "__esModule"})) {console.error("named exports are not supported in *.vue files.")}
+if (Component.options.functional) {console.error("[vue-loader] POindex.vue: functional components are not supported with templates, they should use render functions.")}
+
+/* hot reload */
+if (false) {(function () {
+  var hotAPI = require("vue-hot-reload-api")
+  hotAPI.install(require("vue"), false)
+  if (!hotAPI.compatible) return
+  module.hot.accept()
+  if (!module.hot.data) {
+    hotAPI.createRecord("data-v-4c6da790", Component.options)
+  } else {
+    hotAPI.reload("data-v-4c6da790", Component.options)
+  }
+})()}
+
+module.exports = Component.exports
+
+
+/***/ }),
+
+/***/ 23:
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -1491,7 +1649,36 @@ module.exports = function isAbsoluteURL(url) {
 
 
 /***/ }),
-/* 23 */
+
+/***/ 231:
+/***/ (function(module, exports, __webpack_require__) {
+
+module.exports={render:function (){var _vm=this;var _h=_vm.$createElement;var _c=_vm._self._c||_h;
+  return _c('div', {
+    staticClass: "container"
+  }, [_c('div', {
+    staticClass: "row"
+  }, [_c('div', {
+    staticClass: "col-md-8 col-md-offset-2"
+  }, [_c('div', {
+    staticClass: "panel panel-default"
+  }, [_c('div', {
+    staticClass: "panel-heading"
+  }, [_vm._v("Example Component")]), _vm._v(" "), _c('div', {
+    staticClass: "panel-body"
+  }, [_vm._v("\n                    I'm an example component!\n                    " + _vm._s(_vm.message) + "\n                ")])])])])])
+},staticRenderFns: []}
+module.exports.render._withStripped = true
+if (false) {
+  module.hot.accept()
+  if (module.hot.data) {
+     require("vue-hot-reload-api").rerender("data-v-0f64ebcf", module.exports)
+  }
+}
+
+/***/ }),
+
+/***/ 24:
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -1566,7 +1753,115 @@ module.exports = (
 
 
 /***/ }),
-/* 24 */
+
+/***/ 246:
+/***/ (function(module, exports, __webpack_require__) {
+
+module.exports={render:function (){var _vm=this;var _h=_vm.$createElement;var _c=_vm._self._c||_h;
+  return _c('div', {
+    staticClass: "po-index-vue"
+  }, [_c('div', {
+    staticClass: "po-index-title-and-search"
+  }, [_vm._m(0), _vm._v(" "), _c('input', {
+    directives: [{
+      name: "model",
+      rawName: "v-model",
+      value: (_vm.ponumsearch),
+      expression: "ponumsearch"
+    }],
+    attrs: {
+      "type": "text",
+      "placeholder": "PO #"
+    },
+    domProps: {
+      "value": (_vm.ponumsearch)
+    },
+    on: {
+      "keyup": function($event) {
+        _vm.FetchAndSearch(1)
+      },
+      "input": function($event) {
+        if ($event.target.composing) { return; }
+        _vm.ponumsearch = $event.target.value
+      }
+    }
+  })]), _vm._v(" "), _c('div', {
+    staticClass: "po-index-table"
+  }, [_c('table', [_vm._m(1), _vm._v(" "), _vm._l((_vm.POindexData), function(data) {
+    return _c('tr', [_c('td', [_vm._v(_vm._s(data.PONo))]), _vm._v(" "), _c('td', [_vm._v(_vm._s(data.PODate))]), _vm._v(" "), _c('td', [_vm._v(_vm._s(data.RVNo))]), _vm._v(" "), _c('td', [_vm._v(_vm._s(data.RVDate))]), _vm._v(" "), _c('td', [_vm._v(_vm._s(data.Supplier))]), _vm._v(" "), _c('td', [_vm._v(_vm._s(data.Purpose))]), _vm._v(" "), _c('td', [_vm._v(_vm._s(data.GeneralManager))]), _vm._v(" "), _c('td', [(data.ApprovalReplacerSignature != null || data.GeneralManagerSignature != null) ? _c('i', {
+      staticClass: "fa fa-thumbs-up"
+    }) : (data.IfDeclined != null) ? _c('i', {
+      staticClass: "fa fa-times decliner"
+    }) : _c('i', {
+      staticClass: "fa fa-clock-o darker-blue"
+    })]), _vm._v(" "), _c('td', [_c('a', {
+      attrs: {
+        "href": '/po-full-preview/' + data.PONo
+      }
+    }, [_c('i', {
+      staticClass: "fa fa-eye"
+    })])])])
+  })], 2), _vm._v(" "), _c('div', {
+    staticClass: "paginate-container"
+  }, [_c('ul', {
+    staticClass: "pagination"
+  }, [(_vm.pagination.current_page > 1) ? _c('li', [_c('a', {
+    attrs: {
+      "href": "#"
+    },
+    on: {
+      "click": function($event) {
+        $event.preventDefault();
+        _vm.changepage(_vm.pagination.current_page - 1)
+      }
+    }
+  }, [_c('i', {
+    staticClass: "fa fa-angle-left"
+  })])]) : _vm._e(), _vm._v(" "), _vm._l((_vm.pagesNumber), function(page) {
+    return _c('li', {
+      class: [page == _vm.isActive ? 'active' : '']
+    }, [_c('a', {
+      attrs: {
+        "href": "#"
+      },
+      on: {
+        "click": function($event) {
+          $event.preventDefault();
+          _vm.changepage(page)
+        }
+      }
+    }, [_vm._v(_vm._s(page))])])
+  }), _vm._v(" "), (_vm.pagination.current_page < _vm.pagination.last_page) ? _c('li', [_c('a', {
+    attrs: {
+      "href": "#"
+    },
+    on: {
+      "click": function($event) {
+        $event.preventDefault();
+        _vm.changepage(_vm.pagination.current_page + 1)
+      }
+    }
+  }, [_c('i', {
+    staticClass: "fa fa-angle-right"
+  })])]) : _vm._e()], 2)])])])
+},staticRenderFns: [function (){var _vm=this;var _h=_vm.$createElement;var _c=_vm._self._c||_h;
+  return _c('h1', [_c('i', {
+    staticClass: "fa fa-th-large"
+  }), _vm._v(" Purchase Order index")])
+},function (){var _vm=this;var _h=_vm.$createElement;var _c=_vm._self._c||_h;
+  return _c('tr', [_c('th', [_vm._v("PO #")]), _vm._v(" "), _c('th', [_vm._v("PO Date")]), _vm._v(" "), _c('th', [_vm._v("RV #")]), _vm._v(" "), _c('th', [_vm._v("RV Date")]), _vm._v(" "), _c('th', [_vm._v("Supplier")]), _vm._v(" "), _c('th', [_vm._v("Purpose")]), _vm._v(" "), _c('th', [_vm._v("General Manager")]), _vm._v(" "), _c('th', [_vm._v("Status")]), _vm._v(" "), _c('th', [_vm._v("Show")])])
+}]}
+module.exports.render._withStripped = true
+if (false) {
+  module.hot.accept()
+  if (module.hot.data) {
+     require("vue-hot-reload-api").rerender("data-v-4c6da790", module.exports)
+  }
+}
+
+/***/ }),
+
+/***/ 25:
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -1585,7 +1880,172 @@ module.exports = function normalizeHeaderName(headers, normalizedName) {
 
 
 /***/ }),
-/* 25 */
+
+/***/ 257:
+/***/ (function(module, exports, __webpack_require__) {
+
+module.exports={render:function (){var _vm=this;var _h=_vm.$createElement;var _c=_vm._self._c||_h;
+  return _c('div', {
+    staticClass: "po-full-buttons"
+  }, [_c('div', {
+    staticClass: "print-po-btn"
+  }, [((_vm.user.Fname + ' ' + _vm.user.Lname == _vm.OrderMaster.ApprovalReplacer) && (_vm.OrderMaster.GeneralManagerSignature == null) && (_vm.OrderMaster.ApprovalReplacerSignature == null)) ? _c('div', {
+    staticClass: "Approve-replacer-accept-cant Request-manager-replace"
+  }, [_vm._m(0), _vm._v(" "), _c('span', {
+    staticClass: "approval-po-replacer-btn"
+  }, [_c('longpress', {
+    staticClass: "signaturePObtn",
+    attrs: {
+      "duration": "3",
+      "on-confirm": _vm.ApproveAuthorizeInBehalf,
+      "pressing-text": "signature in {$rcounter}",
+      "action-text": "please wait . ."
+    }
+  }, [_c('i', {
+    staticClass: "fa fa-pencil"
+  }), _vm._v(" Signature\n        ")]), _vm._v(" "), _c('longpress', {
+    staticClass: "declinePObtn",
+    attrs: {
+      "duration": "3",
+      "on-confirm": _vm.RefuseToAuthorizeInBehalf,
+      "pressing-text": "refuse in {$rcounter}",
+      "action-text": "please wait . ."
+    }
+  }, [_c('i', {
+    staticClass: "fa fa-times"
+  }), _vm._v(" I Can't\n        ")])], 1)]) : _vm._e(), _vm._v(" "), (((_vm.OrderMaster.GeneralManagerSignature != null) || (_vm.OrderMaster.ApprovalReplacerSignature != null))) ? _c('span', {
+    staticClass: "make-rr-and-print"
+  }, [_c('div', {
+    staticClass: "left-detail-po"
+  }, [_c('a', {
+    attrs: {
+      "href": '/po-download-print/' + _vm.pono.PONo
+    }
+  }, [_vm._m(1)]), _vm._v(" "), _c('li', {
+    staticClass: "pending-delivery-number"
+  }, [_c('h1', [_vm._v("Unreceived items: "), _c('span', {
+    staticClass: "color-blue"
+  }, [_vm._v(_vm._s(_vm.remaining))])])])]), _vm._v(" "), (_vm.user.Role == 4 || _vm.user.Role == 3) ? _c('div', {
+    staticClass: "rr-with-po-btn"
+  }, [_c('a', {
+    attrs: {
+      "href": '/create-rr-w-po/' + _vm.pono.PONo
+    }
+  }, [_vm._m(2)])]) : _vm._e()]) : _c('div', {
+    staticClass: "empty-left"
+  }), _vm._v(" "), (((_vm.user.Role == 2) && (_vm.OrderMaster.GeneralManager == _vm.user.Fname + ' ' + _vm.user.Lname) && (_vm.OrderMaster.GeneralManagerSignature == null) && (_vm.OrderMaster.IfDeclined == null) && (_vm.OrderMaster.ApprovalReplacerSignature == null))) ? _c('div', {
+    staticClass: "signature-btns-wrap-po"
+  }, [_c('longpress', {
+    staticClass: "signaturePObtn",
+    attrs: {
+      "duration": "3",
+      "on-confirm": _vm.GMsignaturePO,
+      "pressing-text": "signature in {$rcounter}",
+      "action-text": "please wait . ."
+    }
+  }, [_c('i', {
+    staticClass: "fa fa-pencil"
+  }), _vm._v(" Signature\n      ")]), _vm._v(" "), _c('longpress', {
+    staticClass: "declinePObtn",
+    attrs: {
+      "duration": "3",
+      "on-confirm": _vm.GMDeclinedPO,
+      "pressing-text": "decline in {$rcounter}",
+      "action-text": "please wait . ."
+    }
+  }, [_c('i', {
+    staticClass: "fa fa-times"
+  }), _vm._v(" Decline\n      ")])], 1) : _vm._e()]), _vm._v(" "), _c('div', {
+    staticClass: "PO-bondpaper"
+  }, [_vm._m(3), _vm._v(" "), _c('div', {
+    staticClass: "po-master-data"
+  }, [_c('div', {
+    staticClass: "left-data-po"
+  }, [_c('ul', [_c('li', [_c('label', [_vm._v("TO: ")]), _vm._v(" "), _c('h1', [_vm._v(_vm._s(_vm.OrderMaster.Supplier))])]), _vm._v(" "), _c('li', [_c('label'), _c('h1', [_vm._v(_vm._s(_vm.OrderMaster.Address))])]), _vm._v(" "), _c('li', [_c('label'), _c('h1', [_vm._v("Tel# " + _vm._s(_vm.OrderMaster.Telephone))])])])]), _vm._v(" "), _c('div', {
+    staticClass: "right-data-po"
+  }, [_c('ul', [_c('li', [_c('label', [_vm._v("P.O. No.")]), _c('h1', [_vm._v(_vm._s(_vm.OrderMaster.PONo))])]), _vm._v(" "), _c('li', [_c('label', [_vm._v("DATE:")]), _c('h1', [_vm._v(_vm._s(_vm.OrderMaster.PODate))])]), _vm._v(" "), _vm._m(4), _vm._v(" "), _c('li', [_vm._v("( " + _vm._s(_vm.OrderMaster.Purpose) + " )")])])])]), _vm._v(" "), _vm._m(5), _vm._v(" "), _c('div', {
+    staticClass: "PO-Details-table"
+  }, [_c('table', [_vm._m(6), _vm._v(" "), _vm._l((_vm.OrderMaster.p_o_details), function(podetail, index) {
+    return _c('tr', [_c('td', [_vm._v(_vm._s(index + 1))]), _vm._v(" "), _c('td', [_vm._v(_vm._s(podetail.Qty))]), _vm._v(" "), _c('td', [_vm._v(_vm._s(podetail.Unit))]), _vm._v(" "), _c('td', [_vm._v(_vm._s(podetail.Description))]), _vm._v(" "), _c('td', [_vm._v(_vm._s(_vm.formatPrice(podetail.Price)))]), _vm._v(" "), _c('td', [_vm._v(_vm._s(_vm.formatPrice(podetail.Amount)))])])
+  }), _vm._v(" "), _c('tr', {
+    staticClass: "total-amt-po"
+  }, [_c('td'), _vm._v(" "), _c('td'), _vm._v(" "), _c('td'), _vm._v(" "), _c('td'), _vm._v(" "), _c('td', [_vm._v("TOTAL AMOUNT:")]), _vm._v(" "), _c('td', [_vm._v(_vm._s(_vm.formatPrice(_vm.totalAmt)))])])], 2)]), _vm._v(" "), _c('div', {
+    staticClass: "RV-data-in-PO"
+  }, [_c('h1', [_vm._v("APPROVED RV No." + _vm._s(_vm.OrderMaster.RVNo))]), _c('p', [_vm._v("Dated: " + _vm._s(_vm.OrderMaster.RVDate))])]), _vm._v(" "), _c('div', {
+    staticClass: "signatures-po"
+  }, [_vm._m(7), _vm._v(" "), _c('div', {
+    staticClass: "label-signatures-po"
+  }, [_vm._m(8), _vm._v(" "), _c('li', [(_vm.OrderMaster.GeneralManagerSignature != null) ? _c('h6', [_c('img', {
+    attrs: {
+      "src": '/storage/signatures/' + _vm.OrderMaster.GeneralManagerSignature,
+      "alt": "signature"
+    }
+  })]) : (_vm.OrderMaster.ApprovalReplacerSignature != null) ? _c('h6', [_c('p', [_vm._v("For :")]), _c('img', {
+    attrs: {
+      "src": '/storage/signatures/' + _vm.OrderMaster.ApprovalReplacerSignature,
+      "alt": "signature"
+    }
+  })]) : _vm._e(), _vm._v(" "), _c('h3', [_vm._v("\n          " + _vm._s(_vm.OrderMaster.GeneralManager) + "\n          "), (_vm.OrderMaster.IfDeclined != null) ? _c('i', {
+    staticClass: "fa fa-times decliner"
+  }) : _vm._e()]), _vm._v(" "), _c('label', [_vm._v("General Manager")])])])])])])
+},staticRenderFns: [function (){var _vm=this;var _h=_vm.$createElement;var _c=_vm._self._c||_h;
+  return _c('h6', {
+    staticClass: "approve-managerreplace-note"
+  }, [_c('i', {
+    staticClass: "fa fa-info-circle color-blue"
+  }), _vm._v("\n        The "), _c('span', {
+    staticClass: "color-blue"
+  }, [_vm._v("Warehouse section")]), _vm._v(" is asking for your signature b/c the General Manager is not available\n      ")])
+},function (){var _vm=this;var _h=_vm.$createElement;var _c=_vm._self._c||_h;
+  return _c('button', {
+    staticClass: "bttn-unite bttn-xs bttn-primary",
+    attrs: {
+      "type": "submit",
+      "name": "PONo",
+      "value": "ponohere"
+    }
+  }, [_c('i', {
+    staticClass: "fa fa-print"
+  }), _vm._v(" Print")])
+},function (){var _vm=this;var _h=_vm.$createElement;var _c=_vm._self._c||_h;
+  return _c('button', {
+    staticClass: "bttn-unite bttn-xs bttn-primary",
+    attrs: {
+      "type": "button"
+    }
+  }, [_c('i', {
+    staticClass: "fa fa-plus"
+  }), _vm._v(" RR")])
+},function (){var _vm=this;var _h=_vm.$createElement;var _c=_vm._self._c||_h;
+  return _c('div', {
+    staticClass: "PO-top-titles"
+  }, [_c('h3', [_vm._v("BOHOL 1 ELECTRIC COOPERATIVE INC.")]), _vm._v(" "), _c('h3', [_vm._v("CABULIJAN, TUBIGON, BOHOL")]), _vm._v(" "), _c('p', [_vm._v("Tel# 508-9741 / 508-9731")]), _vm._v(" "), _c('h1', [_vm._v("PURCHASE ORDER")])])
+},function (){var _vm=this;var _h=_vm.$createElement;var _c=_vm._self._c||_h;
+  return _c('li', [_c('label', [_vm._v("TERMS:")]), _c('h1')])
+},function (){var _vm=this;var _h=_vm.$createElement;var _c=_vm._self._c||_h;
+  return _c('div', {
+    staticClass: "po-statement"
+  }, [_c('p', [_vm._v("Please furnish the following articles subject to all terms and conditions stated here and in accordance with the quotation.")])])
+},function (){var _vm=this;var _h=_vm.$createElement;var _c=_vm._self._c||_h;
+  return _c('tr', [_c('th', [_vm._v("ITEM")]), _vm._v(" "), _c('th', [_vm._v("QTY")]), _vm._v(" "), _c('th', [_vm._v("UNIT")]), _vm._v(" "), _c('th', [_vm._v("DESCRIPTION")]), _vm._v(" "), _c('th', [_vm._v("UNIT PRICE")]), _vm._v(" "), _c('th', [_vm._v("AMOUNT")])])
+},function (){var _vm=this;var _h=_vm.$createElement;var _c=_vm._self._c||_h;
+  return _c('div', {
+    staticClass: "label-signatures-po"
+  }, [_c('h4', [_vm._v("ACCEPTED ORDER AND RECEIVED"), _c('br'), _vm._v(" ORIGINAL COPY OF THIS PURCHASE"), _c('br'), _vm._v(" ORDER:")]), _vm._v(" "), _c('h1'), _vm._v(" "), _c('p', [_vm._v("(Seller)")]), _vm._v(" "), _c('h1')])
+},function (){var _vm=this;var _h=_vm.$createElement;var _c=_vm._self._c||_h;
+  return _c('h4', [_vm._v("ORDER ISSUED AND AUTHORIZED"), _c('br'), _vm._v(" BY:")])
+}]}
+module.exports.render._withStripped = true
+if (false) {
+  module.hot.accept()
+  if (module.hot.data) {
+     require("vue-hot-reload-api").rerender("data-v-b83bc0c2", module.exports)
+  }
+}
+
+/***/ }),
+
+/***/ 26:
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -1629,7 +2089,16 @@ module.exports = function parseHeaders(headers) {
 
 
 /***/ }),
-/* 26 */
+
+/***/ 268:
+/***/ (function(module, exports, __webpack_require__) {
+
+module.exports = __webpack_require__(156);
+
+
+/***/ }),
+
+/***/ 27:
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -1663,7 +2132,8 @@ module.exports = function spread(callback) {
 
 
 /***/ }),
-/* 27 */
+
+/***/ 28:
 /***/ (function(module, exports) {
 
 // shim for using process in browser
@@ -1853,7 +2323,8 @@ process.umask = function() { return 0; };
 
 
 /***/ }),
-/* 28 */
+
+/***/ 29:
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -11945,10 +12416,18 @@ Vue$3.compile = compileToFunctions;
 
 module.exports = Vue$3;
 
-/* WEBPACK VAR INJECTION */}.call(exports, __webpack_require__(9)))
+/* WEBPACK VAR INJECTION */}.call(exports, __webpack_require__(10)))
 
 /***/ }),
-/* 29 */
+
+/***/ 3:
+/***/ (function(module, exports, __webpack_require__) {
+
+module.exports = __webpack_require__(11);
+
+/***/ }),
+
+/***/ 30:
 /***/ (function(module, exports, __webpack_require__) {
 
 /*!
@@ -12075,862 +12554,332 @@ function(module,exports){"use strict";Object.defineProperty(exports,"__esModule"
 function(module,exports){module.exports={render:function(){var _vm=this,_h=_vm.$createElement,_c=_vm._self._c||_h;return _c("div",{staticClass:"longpress-button",class:_vm.status,on:{touchend:function($event){_vm.cancel()},touchstart:function($event){$event.preventDefault(),_vm.triggerCount()},mouseup:function($event){_vm.cancel()},mousedown:function($event){$event.preventDefault(),_vm.triggerCount()}}},[_c("div",["default"===_vm.status?_vm._t("default"):_vm._e(),_vm._v(" "),"counting"===_vm.status?_c("span",[_vm._v(_vm._s(_vm.countingPressingText||"Keep pressing"))]):_vm._e(),_vm._v(" "),"executing"===_vm.status?_c("span",[_vm._v(_vm._s(_vm.actionText||"Please wait..."))]):_vm._e()],2),_vm._v(" "),_c("span",{staticClass:"progress-bar",style:"animation-duration:"+_vm.duration+"s"})])},staticRenderFns:[]}}])});
 
 /***/ }),
-/* 30 */,
-/* 31 */,
-/* 32 */,
-/* 33 */,
-/* 34 */,
-/* 35 */,
-/* 36 */,
-/* 37 */,
-/* 38 */,
-/* 39 */
-/***/ (function(module, exports, __webpack_require__) {
 
+/***/ 4:
+/***/ (function(module, exports) {
 
-window.Vue = __webpack_require__(28);
-Vue.component('example', __webpack_require__(80));
-Vue.component('pofullpreview', __webpack_require__(93));
-Vue.component('poindex', __webpack_require__(94));
-new Vue({
-   el: '#po'
-});
+// this module is a runtime utility for cleaner component module output and will
+// be included in the final webpack user bundle
 
-/***/ }),
-/* 40 */,
-/* 41 */,
-/* 42 */,
-/* 43 */,
-/* 44 */,
-/* 45 */,
-/* 46 */,
-/* 47 */,
-/* 48 */,
-/* 49 */
-/***/ (function(module, __webpack_exports__, __webpack_require__) {
+module.exports = function normalizeComponent (
+  rawScriptExports,
+  compiledTemplate,
+  scopeId,
+  cssModules
+) {
+  var esModule
+  var scriptExports = rawScriptExports = rawScriptExports || {}
 
-"use strict";
-Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-
-/* harmony default export */ __webpack_exports__["default"] = ({
-  data: function data() {
-    return {
-      message: ''
-    };
-  },
-  created: function created() {}
-});
-
-/***/ }),
-/* 50 */,
-/* 51 */,
-/* 52 */,
-/* 53 */,
-/* 54 */,
-/* 55 */,
-/* 56 */,
-/* 57 */,
-/* 58 */,
-/* 59 */,
-/* 60 */,
-/* 61 */,
-/* 62 */
-/***/ (function(module, __webpack_exports__, __webpack_require__) {
-
-"use strict";
-Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_0_axios__ = __webpack_require__(2);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_0_axios___default = __webpack_require__.n(__WEBPACK_IMPORTED_MODULE_0_axios__);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_1_vue_longpress__ = __webpack_require__(29);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_1_vue_longpress___default = __webpack_require__.n(__WEBPACK_IMPORTED_MODULE_1_vue_longpress__);
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-
-
-
-/* harmony default export */ __webpack_exports__["default"] = ({
-  data: function data() {
-    return {
-      OrderMaster: [],
-      totalAmt: 0,
-      remaining: 0
-    };
-  },
-
-  components: {
-    Longpress: __WEBPACK_IMPORTED_MODULE_1_vue_longpress___default.a
-  },
-  props: ['pono', 'user'],
-  methods: {
-    fetchPOPreview: function fetchPOPreview() {
-      var vm = this;
-      __WEBPACK_IMPORTED_MODULE_0_axios___default.a.get('/po-full-preview-fetch/' + this.pono.PONo).then(function (response) {
-        console.log(response);
-        Vue.set(vm.$data, 'OrderMaster', response.data.OrderMaster[0]);
-        Vue.set(vm.$data, 'totalAmt', response.data.totalAmt);
-        Vue.set(vm.$data, 'remaining', response.data.remainingUnreceived);
-      });
-    },
-    GMsignaturePO: function GMsignaturePO() {
-      var vm = this;
-      __WEBPACK_IMPORTED_MODULE_0_axios___default.a.put('/gm-signature-po/' + this.pono.PONo).then(function (response) {
-        console.log(response);
-      });
-      this.fetchPOPreview();
-    },
-    GMDeclinedPO: function GMDeclinedPO() {
-      var vm = this;
-      __WEBPACK_IMPORTED_MODULE_0_axios___default.a.put('/gm-decline-po/' + this.pono.PONo).then(function (response) {
-        console.log(response);
-      });
-      this.fetchPOPreview();
-    },
-    formatPrice: function formatPrice(value) {
-      var val = (value / 1).toFixed(2).replace('.', '.');
-      return val.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ",");
-    },
-    RefuseToAuthorizeInBehalf: function RefuseToAuthorizeInBehalf() {
-      var vm = this;
-      __WEBPACK_IMPORTED_MODULE_0_axios___default.a.put('/declined-Authorize-inbehalf/' + this.pono.PONo).then(function (response) {
-        console.log(response);
-      });
-      this.fetchPOPreview();
-    },
-    ApproveAuthorizeInBehalf: function ApproveAuthorizeInBehalf() {
-      var vm = this;
-      __WEBPACK_IMPORTED_MODULE_0_axios___default.a.put('/authorize-in-behalf-confirmed/' + this.pono.PONo).then(function (response) {
-        console.log(response);
-      });
-      this.fetchPOPreview();
-    }
-  },
-  created: function created() {
-    this.fetchPOPreview();
+  // ES6 modules interop
+  var type = typeof rawScriptExports.default
+  if (type === 'object' || type === 'function') {
+    esModule = rawScriptExports
+    scriptExports = rawScriptExports.default
   }
-});
 
-/***/ }),
-/* 63 */
-/***/ (function(module, __webpack_exports__, __webpack_require__) {
+  // Vue.extend constructor export interop
+  var options = typeof scriptExports === 'function'
+    ? scriptExports.options
+    : scriptExports
 
-"use strict";
-Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_0_axios__ = __webpack_require__(2);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_0_axios___default = __webpack_require__.n(__WEBPACK_IMPORTED_MODULE_0_axios__);
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-
-
-/* harmony default export */ __webpack_exports__["default"] = ({
-  data: function data() {
-    return {
-      ponumsearch: '',
-      POindexData: [],
-      pagination: [],
-      offset: 4
-    };
-  },
-
-  // props: [],
-  methods: {
-    FetchAndSearch: function FetchAndSearch(page) {
-      var vm = this;
-      __WEBPACK_IMPORTED_MODULE_0_axios___default.a.get('/po-index-fetch-and-search?PONo=' + this.ponumsearch + '&page=' + page).then(function (response) {
-        console.log(response);
-        Vue.set(vm.$data, 'POindexData', response.data.data);
-        Vue.set(vm.$data, 'pagination', response.data);
-      });
-    },
-    changepage: function changepage(next) {
-      this.pagination.current_page = next;
-      this.FetchAndSearch(next);
-    }
-  },
-  created: function created() {
-    this.FetchAndSearch(1);
-  },
-
-  computed: {
-    isActive: function isActive() {
-      return this.pagination.current_page;
-    },
-    pagesNumber: function pagesNumber() {
-      if (!this.pagination.to) {
-        return [];
-      }
-      var from = this.pagination.current_page - this.offset;
-      if (from < 1) {
-        from = 1;
-      }
-      var to = from + this.offset * 2;
-      if (to >= this.pagination.last_page) {
-        to = this.pagination.last_page;
-      }
-      var pagesArray = [];
-      while (from <= to) {
-        pagesArray.push(from);
-        from++;
-      }
-      return pagesArray;
-    }
+  // render functions
+  if (compiledTemplate) {
+    options.render = compiledTemplate.render
+    options.staticRenderFns = compiledTemplate.staticRenderFns
   }
-});
 
-/***/ }),
-/* 64 */,
-/* 65 */,
-/* 66 */,
-/* 67 */,
-/* 68 */,
-/* 69 */,
-/* 70 */,
-/* 71 */,
-/* 72 */,
-/* 73 */,
-/* 74 */,
-/* 75 */,
-/* 76 */,
-/* 77 */,
-/* 78 */,
-/* 79 */,
-/* 80 */
-/***/ (function(module, exports, __webpack_require__) {
-
-var Component = __webpack_require__(3)(
-  /* script */
-  __webpack_require__(49),
-  /* template */
-  __webpack_require__(101),
-  /* scopeId */
-  null,
-  /* cssModules */
-  null
-)
-Component.options.__file = "c:\\xampp\\htdocs\\warehouse\\resources\\assets\\js\\components\\Example.vue"
-if (Component.esModule && Object.keys(Component.esModule).some(function (key) {return key !== "default" && key !== "__esModule"})) {console.error("named exports are not supported in *.vue files.")}
-if (Component.options.functional) {console.error("[vue-loader] Example.vue: functional components are not supported with templates, they should use render functions.")}
-
-/* hot reload */
-if (false) {(function () {
-  var hotAPI = require("vue-hot-reload-api")
-  hotAPI.install(require("vue"), false)
-  if (!hotAPI.compatible) return
-  module.hot.accept()
-  if (!module.hot.data) {
-    hotAPI.createRecord("data-v-0f64ebcf", Component.options)
-  } else {
-    hotAPI.reload("data-v-0f64ebcf", Component.options)
+  // scopedId
+  if (scopeId) {
+    options._scopeId = scopeId
   }
-})()}
 
-module.exports = Component.exports
-
-
-/***/ }),
-/* 81 */,
-/* 82 */,
-/* 83 */,
-/* 84 */,
-/* 85 */,
-/* 86 */,
-/* 87 */,
-/* 88 */,
-/* 89 */,
-/* 90 */,
-/* 91 */,
-/* 92 */,
-/* 93 */
-/***/ (function(module, exports, __webpack_require__) {
-
-var Component = __webpack_require__(3)(
-  /* script */
-  __webpack_require__(62),
-  /* template */
-  __webpack_require__(122),
-  /* scopeId */
-  null,
-  /* cssModules */
-  null
-)
-Component.options.__file = "c:\\xampp\\htdocs\\warehouse\\resources\\assets\\js\\components\\POFullpreview.vue"
-if (Component.esModule && Object.keys(Component.esModule).some(function (key) {return key !== "default" && key !== "__esModule"})) {console.error("named exports are not supported in *.vue files.")}
-if (Component.options.functional) {console.error("[vue-loader] POFullpreview.vue: functional components are not supported with templates, they should use render functions.")}
-
-/* hot reload */
-if (false) {(function () {
-  var hotAPI = require("vue-hot-reload-api")
-  hotAPI.install(require("vue"), false)
-  if (!hotAPI.compatible) return
-  module.hot.accept()
-  if (!module.hot.data) {
-    hotAPI.createRecord("data-v-b83bc0c2", Component.options)
-  } else {
-    hotAPI.reload("data-v-b83bc0c2", Component.options)
+  // inject cssModules
+  if (cssModules) {
+    var computed = Object.create(options.computed || null)
+    Object.keys(cssModules).forEach(function (key) {
+      var module = cssModules[key]
+      computed[key] = function () { return module }
+    })
+    options.computed = computed
   }
-})()}
 
-module.exports = Component.exports
-
-
-/***/ }),
-/* 94 */
-/***/ (function(module, exports, __webpack_require__) {
-
-var Component = __webpack_require__(3)(
-  /* script */
-  __webpack_require__(63),
-  /* template */
-  __webpack_require__(111),
-  /* scopeId */
-  null,
-  /* cssModules */
-  null
-)
-Component.options.__file = "c:\\xampp\\htdocs\\warehouse\\resources\\assets\\js\\components\\POindex.vue"
-if (Component.esModule && Object.keys(Component.esModule).some(function (key) {return key !== "default" && key !== "__esModule"})) {console.error("named exports are not supported in *.vue files.")}
-if (Component.options.functional) {console.error("[vue-loader] POindex.vue: functional components are not supported with templates, they should use render functions.")}
-
-/* hot reload */
-if (false) {(function () {
-  var hotAPI = require("vue-hot-reload-api")
-  hotAPI.install(require("vue"), false)
-  if (!hotAPI.compatible) return
-  module.hot.accept()
-  if (!module.hot.data) {
-    hotAPI.createRecord("data-v-4c6da790", Component.options)
-  } else {
-    hotAPI.reload("data-v-4c6da790", Component.options)
-  }
-})()}
-
-module.exports = Component.exports
-
-
-/***/ }),
-/* 95 */,
-/* 96 */,
-/* 97 */,
-/* 98 */,
-/* 99 */,
-/* 100 */,
-/* 101 */
-/***/ (function(module, exports, __webpack_require__) {
-
-module.exports={render:function (){var _vm=this;var _h=_vm.$createElement;var _c=_vm._self._c||_h;
-  return _c('div', {
-    staticClass: "container"
-  }, [_c('div', {
-    staticClass: "row"
-  }, [_c('div', {
-    staticClass: "col-md-8 col-md-offset-2"
-  }, [_c('div', {
-    staticClass: "panel panel-default"
-  }, [_c('div', {
-    staticClass: "panel-heading"
-  }, [_vm._v("Example Component")]), _vm._v(" "), _c('div', {
-    staticClass: "panel-body"
-  }, [_vm._v("\n                    I'm an example component!\n                    " + _vm._s(_vm.message) + "\n                ")])])])])])
-},staticRenderFns: []}
-module.exports.render._withStripped = true
-if (false) {
-  module.hot.accept()
-  if (module.hot.data) {
-     require("vue-hot-reload-api").rerender("data-v-0f64ebcf", module.exports)
+  return {
+    esModule: esModule,
+    exports: scriptExports,
+    options: options
   }
 }
 
+
 /***/ }),
-/* 102 */,
-/* 103 */,
-/* 104 */,
-/* 105 */,
-/* 106 */,
-/* 107 */,
-/* 108 */,
-/* 109 */,
-/* 110 */,
-/* 111 */
+
+/***/ 5:
 /***/ (function(module, exports, __webpack_require__) {
 
-module.exports={render:function (){var _vm=this;var _h=_vm.$createElement;var _c=_vm._self._c||_h;
-  return _c('div', {
-    staticClass: "po-index-vue"
-  }, [_c('div', {
-    staticClass: "po-index-title-and-search"
-  }, [_vm._m(0), _vm._v(" "), _c('input', {
-    directives: [{
-      name: "model",
-      rawName: "v-model",
-      value: (_vm.ponumsearch),
-      expression: "ponumsearch"
-    }],
-    attrs: {
-      "type": "text",
-      "placeholder": "PO #"
-    },
-    domProps: {
-      "value": (_vm.ponumsearch)
-    },
-    on: {
-      "keyup": function($event) {
-        _vm.FetchAndSearch(1)
-      },
-      "input": function($event) {
-        if ($event.target.composing) { return; }
-        _vm.ponumsearch = $event.target.value
+"use strict";
+
+
+var utils = __webpack_require__(0);
+var settle = __webpack_require__(17);
+var buildURL = __webpack_require__(20);
+var parseHeaders = __webpack_require__(26);
+var isURLSameOrigin = __webpack_require__(24);
+var createError = __webpack_require__(8);
+var btoa = (typeof window !== 'undefined' && window.btoa && window.btoa.bind(window)) || __webpack_require__(19);
+
+module.exports = function xhrAdapter(config) {
+  return new Promise(function dispatchXhrRequest(resolve, reject) {
+    var requestData = config.data;
+    var requestHeaders = config.headers;
+
+    if (utils.isFormData(requestData)) {
+      delete requestHeaders['Content-Type']; // Let the browser set it
+    }
+
+    var request = new XMLHttpRequest();
+    var loadEvent = 'onreadystatechange';
+    var xDomain = false;
+
+    // For IE 8/9 CORS support
+    // Only supports POST and GET calls and doesn't returns the response headers.
+    // DON'T do this for testing b/c XMLHttpRequest is mocked, not XDomainRequest.
+    if ("development" !== 'test' &&
+        typeof window !== 'undefined' &&
+        window.XDomainRequest && !('withCredentials' in request) &&
+        !isURLSameOrigin(config.url)) {
+      request = new window.XDomainRequest();
+      loadEvent = 'onload';
+      xDomain = true;
+      request.onprogress = function handleProgress() {};
+      request.ontimeout = function handleTimeout() {};
+    }
+
+    // HTTP basic authentication
+    if (config.auth) {
+      var username = config.auth.username || '';
+      var password = config.auth.password || '';
+      requestHeaders.Authorization = 'Basic ' + btoa(username + ':' + password);
+    }
+
+    request.open(config.method.toUpperCase(), buildURL(config.url, config.params, config.paramsSerializer), true);
+
+    // Set the request timeout in MS
+    request.timeout = config.timeout;
+
+    // Listen for ready state
+    request[loadEvent] = function handleLoad() {
+      if (!request || (request.readyState !== 4 && !xDomain)) {
+        return;
+      }
+
+      // The request errored out and we didn't get a response, this will be
+      // handled by onerror instead
+      // With one exception: request that using file: protocol, most browsers
+      // will return status as 0 even though it's a successful request
+      if (request.status === 0 && !(request.responseURL && request.responseURL.indexOf('file:') === 0)) {
+        return;
+      }
+
+      // Prepare the response
+      var responseHeaders = 'getAllResponseHeaders' in request ? parseHeaders(request.getAllResponseHeaders()) : null;
+      var responseData = !config.responseType || config.responseType === 'text' ? request.responseText : request.response;
+      var response = {
+        data: responseData,
+        // IE sends 1223 instead of 204 (https://github.com/mzabriskie/axios/issues/201)
+        status: request.status === 1223 ? 204 : request.status,
+        statusText: request.status === 1223 ? 'No Content' : request.statusText,
+        headers: responseHeaders,
+        config: config,
+        request: request
+      };
+
+      settle(resolve, reject, response);
+
+      // Clean up request
+      request = null;
+    };
+
+    // Handle low level network errors
+    request.onerror = function handleError() {
+      // Real errors are hidden from us by the browser
+      // onerror should only fire if it's a network error
+      reject(createError('Network Error', config));
+
+      // Clean up request
+      request = null;
+    };
+
+    // Handle timeout
+    request.ontimeout = function handleTimeout() {
+      reject(createError('timeout of ' + config.timeout + 'ms exceeded', config, 'ECONNABORTED'));
+
+      // Clean up request
+      request = null;
+    };
+
+    // Add xsrf header
+    // This is only done if running in a standard browser environment.
+    // Specifically not if we're in a web worker, or react-native.
+    if (utils.isStandardBrowserEnv()) {
+      var cookies = __webpack_require__(22);
+
+      // Add xsrf header
+      var xsrfValue = (config.withCredentials || isURLSameOrigin(config.url)) && config.xsrfCookieName ?
+          cookies.read(config.xsrfCookieName) :
+          undefined;
+
+      if (xsrfValue) {
+        requestHeaders[config.xsrfHeaderName] = xsrfValue;
       }
     }
-  })]), _vm._v(" "), _c('div', {
-    staticClass: "po-index-table"
-  }, [_c('table', [_vm._m(1), _vm._v(" "), _vm._l((_vm.POindexData), function(data) {
-    return _c('tr', [_c('td', [_vm._v(_vm._s(data.PONo))]), _vm._v(" "), _c('td', [_vm._v(_vm._s(data.PODate))]), _vm._v(" "), _c('td', [_vm._v(_vm._s(data.RVNo))]), _vm._v(" "), _c('td', [_vm._v(_vm._s(data.RVDate))]), _vm._v(" "), _c('td', [_vm._v(_vm._s(data.Supplier))]), _vm._v(" "), _c('td', [_vm._v(_vm._s(data.Purpose))]), _vm._v(" "), _c('td', [_vm._v(_vm._s(data.GeneralManager))]), _vm._v(" "), _c('td', [(data.ApprovalReplacerSignature != null || data.GeneralManagerSignature != null) ? _c('i', {
-      staticClass: "fa fa-thumbs-up"
-    }) : (data.IfDeclined != null) ? _c('i', {
-      staticClass: "fa fa-times decliner"
-    }) : _c('i', {
-      staticClass: "fa fa-clock-o darker-blue"
-    })]), _vm._v(" "), _c('td', [_c('a', {
-      attrs: {
-        "href": '/po-full-preview/' + data.PONo
-      }
-    }, [_c('i', {
-      staticClass: "fa fa-eye"
-    })])])])
-  })], 2), _vm._v(" "), _c('div', {
-    staticClass: "paginate-container"
-  }, [_c('ul', {
-    staticClass: "pagination"
-  }, [(_vm.pagination.current_page > 1) ? _c('li', [_c('a', {
-    attrs: {
-      "href": "#"
-    },
-    on: {
-      "click": function($event) {
-        $event.preventDefault();
-        _vm.changepage(_vm.pagination.current_page - 1)
-      }
+
+    // Add headers to the request
+    if ('setRequestHeader' in request) {
+      utils.forEach(requestHeaders, function setRequestHeader(val, key) {
+        if (typeof requestData === 'undefined' && key.toLowerCase() === 'content-type') {
+          // Remove Content-Type if data is undefined
+          delete requestHeaders[key];
+        } else {
+          // Otherwise add header to the request
+          request.setRequestHeader(key, val);
+        }
+      });
     }
-  }, [_c('i', {
-    staticClass: "fa fa-angle-left"
-  })])]) : _vm._e(), _vm._v(" "), _vm._l((_vm.pagesNumber), function(page) {
-    return _c('li', {
-      class: [page == _vm.isActive ? 'active' : '']
-    }, [_c('a', {
-      attrs: {
-        "href": "#"
-      },
-      on: {
-        "click": function($event) {
-          $event.preventDefault();
-          _vm.changepage(page)
+
+    // Add withCredentials to request if needed
+    if (config.withCredentials) {
+      request.withCredentials = true;
+    }
+
+    // Add responseType to request if needed
+    if (config.responseType) {
+      try {
+        request.responseType = config.responseType;
+      } catch (e) {
+        if (request.responseType !== 'json') {
+          throw e;
         }
       }
-    }, [_vm._v(_vm._s(page))])])
-  }), _vm._v(" "), (_vm.pagination.current_page < _vm.pagination.last_page) ? _c('li', [_c('a', {
-    attrs: {
-      "href": "#"
-    },
-    on: {
-      "click": function($event) {
-        $event.preventDefault();
-        _vm.changepage(_vm.pagination.current_page + 1)
-      }
     }
-  }, [_c('i', {
-    staticClass: "fa fa-angle-right"
-  })])]) : _vm._e()], 2)])])])
-},staticRenderFns: [function (){var _vm=this;var _h=_vm.$createElement;var _c=_vm._self._c||_h;
-  return _c('h1', [_c('i', {
-    staticClass: "fa fa-th-large"
-  }), _vm._v(" Purchase Order index")])
-},function (){var _vm=this;var _h=_vm.$createElement;var _c=_vm._self._c||_h;
-  return _c('tr', [_c('th', [_vm._v("PO #")]), _vm._v(" "), _c('th', [_vm._v("PO Date")]), _vm._v(" "), _c('th', [_vm._v("RV #")]), _vm._v(" "), _c('th', [_vm._v("RV Date")]), _vm._v(" "), _c('th', [_vm._v("Supplier")]), _vm._v(" "), _c('th', [_vm._v("Purpose")]), _vm._v(" "), _c('th', [_vm._v("General Manager")]), _vm._v(" "), _c('th', [_vm._v("Status")]), _vm._v(" "), _c('th', [_vm._v("Show")])])
-}]}
-module.exports.render._withStripped = true
-if (false) {
-  module.hot.accept()
-  if (module.hot.data) {
-     require("vue-hot-reload-api").rerender("data-v-4c6da790", module.exports)
-  }
-}
+
+    // Handle progress if needed
+    if (typeof config.onDownloadProgress === 'function') {
+      request.addEventListener('progress', config.onDownloadProgress);
+    }
+
+    // Not all browsers support upload events
+    if (typeof config.onUploadProgress === 'function' && request.upload) {
+      request.upload.addEventListener('progress', config.onUploadProgress);
+    }
+
+    if (config.cancelToken) {
+      // Handle cancellation
+      config.cancelToken.promise.then(function onCanceled(cancel) {
+        if (!request) {
+          return;
+        }
+
+        request.abort();
+        reject(cancel);
+        // Clean up request
+        request = null;
+      });
+    }
+
+    if (requestData === undefined) {
+      requestData = null;
+    }
+
+    // Send the request
+    request.send(requestData);
+  });
+};
+
 
 /***/ }),
-/* 112 */,
-/* 113 */,
-/* 114 */,
-/* 115 */,
-/* 116 */,
-/* 117 */,
-/* 118 */,
-/* 119 */,
-/* 120 */,
-/* 121 */,
-/* 122 */
+
+/***/ 6:
 /***/ (function(module, exports, __webpack_require__) {
 
-module.exports={render:function (){var _vm=this;var _h=_vm.$createElement;var _c=_vm._self._c||_h;
-  return _c('div', {
-    staticClass: "po-full-buttons"
-  }, [_c('div', {
-    staticClass: "print-po-btn"
-  }, [((_vm.user.Fname + ' ' + _vm.user.Lname == _vm.OrderMaster.ApprovalReplacer) && (_vm.OrderMaster.GeneralManagerSignature == null) && (_vm.OrderMaster.ApprovalReplacerSignature == null)) ? _c('div', {
-    staticClass: "Approve-replacer-accept-cant Request-manager-replace"
-  }, [_vm._m(0), _vm._v(" "), _c('span', {
-    staticClass: "approval-po-replacer-btn"
-  }, [_c('longpress', {
-    staticClass: "signaturePObtn",
-    attrs: {
-      "duration": "3",
-      "on-confirm": _vm.ApproveAuthorizeInBehalf,
-      "pressing-text": "signature in {$rcounter}",
-      "action-text": "please wait . ."
-    }
-  }, [_c('i', {
-    staticClass: "fa fa-pencil"
-  }), _vm._v(" Signature\n        ")]), _vm._v(" "), _c('longpress', {
-    staticClass: "declinePObtn",
-    attrs: {
-      "duration": "3",
-      "on-confirm": _vm.RefuseToAuthorizeInBehalf,
-      "pressing-text": "refuse in {$rcounter}",
-      "action-text": "please wait . ."
-    }
-  }, [_c('i', {
-    staticClass: "fa fa-times"
-  }), _vm._v(" I Can't\n        ")])], 1)]) : _vm._e(), _vm._v(" "), (((_vm.OrderMaster.GeneralManagerSignature != null) || (_vm.OrderMaster.ApprovalReplacerSignature != null))) ? _c('span', {
-    staticClass: "make-rr-and-print"
-  }, [_c('div', {
-    staticClass: "left-detail-po"
-  }, [_c('a', {
-    attrs: {
-      "href": '/po-download-print/' + _vm.pono.PONo
-    }
-  }, [_vm._m(1)]), _vm._v(" "), _c('li', {
-    staticClass: "pending-delivery-number"
-  }, [_c('h1', [_vm._v("Unreceived items: "), _c('span', {
-    staticClass: "color-blue"
-  }, [_vm._v(_vm._s(_vm.remaining))])])])]), _vm._v(" "), (_vm.user.Role == 4 || _vm.user.Role == 3) ? _c('div', {
-    staticClass: "rr-with-po-btn"
-  }, [_c('a', {
-    attrs: {
-      "href": '/create-rr-w-po/' + _vm.pono.PONo
-    }
-  }, [_vm._m(2)])]) : _vm._e()]) : _c('div', {
-    staticClass: "empty-left"
-  }), _vm._v(" "), (((_vm.user.Role == 2) && (_vm.OrderMaster.GeneralManager == _vm.user.Fname + ' ' + _vm.user.Lname) && (_vm.OrderMaster.GeneralManagerSignature == null) && (_vm.OrderMaster.IfDeclined == null) && (_vm.OrderMaster.ApprovalReplacerSignature == null))) ? _c('div', {
-    staticClass: "signature-btns-wrap-po"
-  }, [_c('longpress', {
-    staticClass: "signaturePObtn",
-    attrs: {
-      "duration": "3",
-      "on-confirm": _vm.GMsignaturePO,
-      "pressing-text": "signature in {$rcounter}",
-      "action-text": "please wait . ."
-    }
-  }, [_c('i', {
-    staticClass: "fa fa-pencil"
-  }), _vm._v(" Signature\n      ")]), _vm._v(" "), _c('longpress', {
-    staticClass: "declinePObtn",
-    attrs: {
-      "duration": "3",
-      "on-confirm": _vm.GMDeclinedPO,
-      "pressing-text": "decline in {$rcounter}",
-      "action-text": "please wait . ."
-    }
-  }, [_c('i', {
-    staticClass: "fa fa-times"
-  }), _vm._v(" Decline\n      ")])], 1) : _vm._e()]), _vm._v(" "), _c('div', {
-    staticClass: "PO-bondpaper"
-  }, [_vm._m(3), _vm._v(" "), _c('div', {
-    staticClass: "po-master-data"
-  }, [_c('div', {
-    staticClass: "left-data-po"
-  }, [_c('ul', [_c('li', [_c('label', [_vm._v("TO: ")]), _vm._v(" "), _c('h1', [_vm._v(_vm._s(_vm.OrderMaster.Supplier))])]), _vm._v(" "), _c('li', [_c('label'), _c('h1', [_vm._v(_vm._s(_vm.OrderMaster.Address))])]), _vm._v(" "), _c('li', [_c('label'), _c('h1', [_vm._v("Tel# " + _vm._s(_vm.OrderMaster.Telephone))])])])]), _vm._v(" "), _c('div', {
-    staticClass: "right-data-po"
-  }, [_c('ul', [_c('li', [_c('label', [_vm._v("P.O. No.")]), _c('h1', [_vm._v(_vm._s(_vm.OrderMaster.PONo))])]), _vm._v(" "), _c('li', [_c('label', [_vm._v("DATE:")]), _c('h1', [_vm._v(_vm._s(_vm.OrderMaster.PODate))])]), _vm._v(" "), _vm._m(4), _vm._v(" "), _c('li', [_vm._v("( " + _vm._s(_vm.OrderMaster.Purpose) + " )")])])])]), _vm._v(" "), _vm._m(5), _vm._v(" "), _c('div', {
-    staticClass: "PO-Details-table"
-  }, [_c('table', [_vm._m(6), _vm._v(" "), _vm._l((_vm.OrderMaster.p_o_details), function(podetail, index) {
-    return _c('tr', [_c('td', [_vm._v(_vm._s(index + 1))]), _vm._v(" "), _c('td', [_vm._v(_vm._s(podetail.Qty))]), _vm._v(" "), _c('td', [_vm._v(_vm._s(podetail.Unit))]), _vm._v(" "), _c('td', [_vm._v(_vm._s(podetail.Description))]), _vm._v(" "), _c('td', [_vm._v(_vm._s(_vm.formatPrice(podetail.Price)))]), _vm._v(" "), _c('td', [_vm._v(_vm._s(_vm.formatPrice(podetail.Amount)))])])
-  }), _vm._v(" "), _c('tr', {
-    staticClass: "total-amt-po"
-  }, [_c('td'), _vm._v(" "), _c('td'), _vm._v(" "), _c('td'), _vm._v(" "), _c('td'), _vm._v(" "), _c('td', [_vm._v("TOTAL AMOUNT:")]), _vm._v(" "), _c('td', [_vm._v(_vm._s(_vm.formatPrice(_vm.totalAmt)))])])], 2)]), _vm._v(" "), _c('div', {
-    staticClass: "RV-data-in-PO"
-  }, [_c('h1', [_vm._v("APPROVED RV No." + _vm._s(_vm.OrderMaster.RVNo))]), _c('p', [_vm._v("Dated: " + _vm._s(_vm.OrderMaster.RVDate))])]), _vm._v(" "), _c('div', {
-    staticClass: "signatures-po"
-  }, [_vm._m(7), _vm._v(" "), _c('div', {
-    staticClass: "label-signatures-po"
-  }, [_vm._m(8), _vm._v(" "), _c('li', [(_vm.OrderMaster.GeneralManagerSignature != null) ? _c('h6', [_c('img', {
-    attrs: {
-      "src": '/storage/signatures/' + _vm.OrderMaster.GeneralManagerSignature,
-      "alt": "signature"
-    }
-  })]) : (_vm.OrderMaster.ApprovalReplacerSignature != null) ? _c('h6', [_c('p', [_vm._v("For :")]), _c('img', {
-    attrs: {
-      "src": '/storage/signatures/' + _vm.OrderMaster.ApprovalReplacerSignature,
-      "alt": "signature"
-    }
-  })]) : _vm._e(), _vm._v(" "), _c('h3', [_vm._v("\n          " + _vm._s(_vm.OrderMaster.GeneralManager) + "\n          "), (_vm.OrderMaster.IfDeclined != null) ? _c('i', {
-    staticClass: "fa fa-times decliner"
-  }) : _vm._e()]), _vm._v(" "), _c('label', [_vm._v("General Manager")])])])])])])
-},staticRenderFns: [function (){var _vm=this;var _h=_vm.$createElement;var _c=_vm._self._c||_h;
-  return _c('h6', {
-    staticClass: "approve-managerreplace-note"
-  }, [_c('i', {
-    staticClass: "fa fa-info-circle color-blue"
-  }), _vm._v("\n        The "), _c('span', {
-    staticClass: "color-blue"
-  }, [_vm._v("Warehouse section")]), _vm._v(" is asking for your signature b/c the General Manager is not available\n      ")])
-},function (){var _vm=this;var _h=_vm.$createElement;var _c=_vm._self._c||_h;
-  return _c('button', {
-    staticClass: "bttn-unite bttn-xs bttn-primary",
-    attrs: {
-      "type": "submit",
-      "name": "PONo",
-      "value": "ponohere"
-    }
-  }, [_c('i', {
-    staticClass: "fa fa-print"
-  }), _vm._v(" Print")])
-},function (){var _vm=this;var _h=_vm.$createElement;var _c=_vm._self._c||_h;
-  return _c('button', {
-    staticClass: "bttn-unite bttn-xs bttn-primary",
-    attrs: {
-      "type": "button"
-    }
-  }, [_c('i', {
-    staticClass: "fa fa-plus"
-  }), _vm._v(" RR")])
-},function (){var _vm=this;var _h=_vm.$createElement;var _c=_vm._self._c||_h;
-  return _c('div', {
-    staticClass: "PO-top-titles"
-  }, [_c('h3', [_vm._v("BOHOL 1 ELECTRIC COOPERATIVE INC.")]), _vm._v(" "), _c('h3', [_vm._v("CABULIJAN, TUBIGON, BOHOL")]), _vm._v(" "), _c('p', [_vm._v("Tel# 508-9741 / 508-9731")]), _vm._v(" "), _c('h1', [_vm._v("PURCHASE ORDER")])])
-},function (){var _vm=this;var _h=_vm.$createElement;var _c=_vm._self._c||_h;
-  return _c('li', [_c('label', [_vm._v("TERMS:")]), _c('h1')])
-},function (){var _vm=this;var _h=_vm.$createElement;var _c=_vm._self._c||_h;
-  return _c('div', {
-    staticClass: "po-statement"
-  }, [_c('p', [_vm._v("Please furnish the following articles subject to all terms and conditions stated here and in accordance with the quotation.")])])
-},function (){var _vm=this;var _h=_vm.$createElement;var _c=_vm._self._c||_h;
-  return _c('tr', [_c('th', [_vm._v("ITEM")]), _vm._v(" "), _c('th', [_vm._v("QTY")]), _vm._v(" "), _c('th', [_vm._v("UNIT")]), _vm._v(" "), _c('th', [_vm._v("DESCRIPTION")]), _vm._v(" "), _c('th', [_vm._v("UNIT PRICE")]), _vm._v(" "), _c('th', [_vm._v("AMOUNT")])])
-},function (){var _vm=this;var _h=_vm.$createElement;var _c=_vm._self._c||_h;
-  return _c('div', {
-    staticClass: "label-signatures-po"
-  }, [_c('h4', [_vm._v("ACCEPTED ORDER AND RECEIVED"), _c('br'), _vm._v(" ORIGINAL COPY OF THIS PURCHASE"), _c('br'), _vm._v(" ORDER:")]), _vm._v(" "), _c('h1'), _vm._v(" "), _c('p', [_vm._v("(Seller)")]), _vm._v(" "), _c('h1')])
-},function (){var _vm=this;var _h=_vm.$createElement;var _c=_vm._self._c||_h;
-  return _c('h4', [_vm._v("ORDER ISSUED AND AUTHORIZED"), _c('br'), _vm._v(" BY:")])
-}]}
-module.exports.render._withStripped = true
-if (false) {
-  module.hot.accept()
-  if (module.hot.data) {
-     require("vue-hot-reload-api").rerender("data-v-b83bc0c2", module.exports)
-  }
+"use strict";
+
+
+/**
+ * A `Cancel` is an object that is thrown when an operation is canceled.
+ *
+ * @class
+ * @param {string=} message The message.
+ */
+function Cancel(message) {
+  this.message = message;
 }
 
+Cancel.prototype.toString = function toString() {
+  return 'Cancel' + (this.message ? ': ' + this.message : '');
+};
+
+Cancel.prototype.__CANCEL__ = true;
+
+module.exports = Cancel;
+
+
 /***/ }),
-/* 123 */,
-/* 124 */,
-/* 125 */,
-/* 126 */,
-/* 127 */,
-/* 128 */,
-/* 129 */,
-/* 130 */,
-/* 131 */,
-/* 132 */,
-/* 133 */
+
+/***/ 7:
 /***/ (function(module, exports, __webpack_require__) {
 
-module.exports = __webpack_require__(39);
+"use strict";
+
+
+module.exports = function isCancel(value) {
+  return !!(value && value.__CANCEL__);
+};
+
+
+/***/ }),
+
+/***/ 8:
+/***/ (function(module, exports, __webpack_require__) {
+
+"use strict";
+
+
+var enhanceError = __webpack_require__(16);
+
+/**
+ * Create an Error with the specified message, config, error code, and response.
+ *
+ * @param {string} message The error message.
+ * @param {Object} config The config.
+ * @param {string} [code] The error code (for example, 'ECONNABORTED').
+ @ @param {Object} [response] The response.
+ * @returns {Error} The created error.
+ */
+module.exports = function createError(message, config, code, response) {
+  var error = new Error(message);
+  return enhanceError(error, config, code, response);
+};
+
+
+/***/ }),
+
+/***/ 9:
+/***/ (function(module, exports, __webpack_require__) {
+
+"use strict";
+
+
+module.exports = function bind(fn, thisArg) {
+  return function wrap() {
+    var args = new Array(arguments.length);
+    for (var i = 0; i < args.length; i++) {
+      args[i] = arguments[i];
+    }
+    return fn.apply(thisArg, args);
+  };
+};
 
 
 /***/ })
-/******/ ]);
+
+/******/ });

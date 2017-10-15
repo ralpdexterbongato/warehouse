@@ -7,7 +7,7 @@
           <span class="big"><i class="fa fa-search"></i> Search</span> & <span class="big">check</span> item's latest data & history.
         </p>
         <h1 v-else>
-          <i class="fa fa-th-large"></i> Item # {{latestFound.MTNo}} detail
+          <i class="fa fa-th-large"></i> Item # {{latestFound.ItemCode}} data
         </h1>
       </div>
       <div class="Search-item-box">
@@ -46,14 +46,14 @@
               <td>{{latestFound.AccountCode}}</td>
               <td>{{latestFound.ItemCode}}</td>
               <td>{{latestFound.master_items.Description}}</td>
-              <td>{{latestFound.UnitCost}}</td>
+              <td>{{formatPrice(latestFound.UnitCost)}}</td>
               <td>{{latestFound.Quantity}}</td>
               <td>{{latestFound.master_items.Unit}}</td>
-              <td>{{latestFound.Amount}}</td>
-              <td>{{latestFound.CurrentCost}}</td>
+              <td>{{formatPrice(latestFound.Amount)}}</td>
+              <td>{{formatPrice(latestFound.CurrentCost)}}</td>
               <td>{{latestFound.CurrentQuantity}}</td>
-              <td>{{latestFound.CurrentAmount}}</td>
-              <td>{{latestFound.MTDate}}</td>
+              <td>{{formatPrice(latestFound.CurrentAmount)}}</td>
+              <td>{{FormatMonth(latestFound.MTDate)}}</td>
             </tr>
         </table>
 
@@ -83,14 +83,14 @@
               <td>{{history.AccountCode}}</td>
               <td>{{history.ItemCode}}</td>
               <td>{{latestFound.master_items.Description}}</td>
-              <td>{{history.UnitCost}}</td>
+              <td>{{formatPrice(history.UnitCost)}}</td>
               <td>{{history.Quantity}}</td>
               <td>{{latestFound.master_items.Unit}}</td>
-              <td>{{history.Amount}}</td>
-              <td>{{history.CurrentCost}}</td>
+              <td>{{formatPrice(history.Amount)}}</td>
+              <td>{{formatPrice(history.CurrentCost)}}</td>
               <td>{{history.CurrentQuantity}}</td>
-              <td>{{history.CurrentAmount}}</td>
-              <td>{{history.MTDate}}</td>
+              <td>{{formatPrice(history.CurrentAmount)}}</td>
+              <td>{{FormatMonth(history.MTDate)}}</td>
             </tr>
             <!-- @endforeach -->
         </table>
@@ -116,7 +116,8 @@
 </template>
 
 <script>
-import axios from 'axios';
+import axios from 'axios'
+import moment from 'moment'
   export default {
     data () {
       return {
@@ -140,10 +141,20 @@ import axios from 'axios';
           Vue.set(vm.$data,'pagination',response.data.historiesfound);
         });
       },
+      formatPrice(value) {
+            let val = (value/1).toFixed(2).replace('.', '.')
+            return val.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ",")
+      },
       changepage(next){
         this.pagination.current_page = next;
         this.SearchItemHistory(next);
       },
+      FormatMonth(value)
+      {
+        if (value) {
+        return moment(String(value)).format('MM-YYYY');
+        }
+      }
     },
     computed:{
       isActive:function(){
@@ -169,5 +180,6 @@ import axios from 'axios';
                   return pagesArray;
       },
     },
+
   }
 </script>

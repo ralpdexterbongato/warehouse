@@ -39,7 +39,6 @@ class RVController extends Controller
       $itemDetails = array('Description' =>$request->Description ,'Unit'=>$request->Unit,'Quantity'=>$request->Quantity,'Remarks'=>$request->Remarks,'AccountCode'=>null,'ItemCode'=>null);
       $itemDetails=(object)$itemDetails;
       Session::push('ItemSessionList',$itemDetails);
-      return redirect()->back();
     }
     public function DeleteSession($id)
     {
@@ -447,7 +446,7 @@ class RVController extends Controller
     }
     public function RefreshRVWaitingForRRCount()
     {
-      $RVWaitingPurchaseCount=RVMaster::orderBy('RVNo','DESC')
+      $RVWaitingPurchaseCount=RVMaster::orderBy('RVNo','ASC')
       ->whereNotNull('RecommendedbySignature')
       ->whereNotNull('BudgetOfficerSignature')
       ->whereNull('IfPurchased')

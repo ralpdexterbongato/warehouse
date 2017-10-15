@@ -1,6 +1,6 @@
 @extends('layouts.master')
 @section('title')
-  MIRS | index
+  MRT | index
 @endsection
 @section('body')
 <div class="container-big-index-mrt" id="mrt">

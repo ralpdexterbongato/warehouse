@@ -175,25 +175,18 @@ class MIRSController extends Controller
    );
    return response()->json($response);
   }
-  public function searchMIRSNo(Request $request)
+  public function searchMIRSNoAndFetch(Request $request)
   {
-    $mirsResult=MIRSMaster::where('MIRSNo', $request->MIRSNo)->get(['MIRSNo','Purpose','Preparedby','PreparedSignature','Recommendedby','RecommendSignature','Approvedby','ApproveSignature','MIRSDate','IfDeclined','ApprovalReplacerSignature','ManagerReplacerSignature']);
-    if (empty($mirsResult[0]->MIRSNo))
-    {
-      return redirect()->route('MIRSgridview');
-    }
-    return view('Warehouse.MIRS.MIRS-index',compact('mirsResult'));
+    return MIRSMaster::where('MIRSNo','LIKE','%'.$request->MIRSNo.'%')->orderBy('MIRSNo','DESC')->paginate(10,['MIRSNo','Purpose','Preparedby','PreparedSignature','Recommendedby','RecommendSignature','Approvedby','ApproveSignature','MIRSDate','IfDeclined','ApprovalReplacerSignature','ManagerReplacerSignature']);
+  }
+  public function MIRSIndexPage()
+  {
+    return view('Warehouse.MIRS.MIRS-index');
   }
   public function DeniedMIRS($id)
   {
     MIRSMaster::where('MIRSNo',$id)->update(['IfDeclined'=>Auth::user()->Fname.' '.Auth::user()->Lname,'ApprovalReplacerSignature'=>null]);
     return redirect()->route('MIRSgridview');
-  }
-
-  public function Indexgrid()
-  {
-    $AllmasterMIRS=MIRSMaster::orderBy('id','DESC')->paginate(10,['MIRSNo','Purpose','Preparedby','PreparedSignature','Recommendedby','RecommendSignature','Approvedby','ApproveSignature','MIRSDate','IfDeclined','ApprovalReplacerSignature','ManagerReplacerSignature']);
-    return view('Warehouse.MIRS.MIRS-index',compact('AllmasterMIRS'));
   }
 
   public function MIRSSignature($id)

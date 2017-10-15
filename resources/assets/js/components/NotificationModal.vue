@@ -3,8 +3,8 @@
     <div class="Account-modal" :class="[modalOpen==true?'active':'']" v-on:click="modalOpen=false">
       <div class="middle-account-modal">
         <li class="userinfo">
-          <h3 class="account-image"><img src="/DesignIMG/sampleprofile.jpg" alt="pic"></h3>
-          <p class="name-of-user bold">{{user.Fname}} {{user.Lname}}</p>
+          <h3 class="account-image"><img src="/DesignIMG/logo.png" alt="pic"></h3>
+          <p class="name-of-user">{{user.Fname}} {{user.Lname}}</p>
           <p class="position">{{user.Position}}</p>
           <h1><a href="/show-my-history"><i class="fa fa-history"></i> Histories</a></h1>
         </li>

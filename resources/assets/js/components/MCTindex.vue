@@ -68,7 +68,6 @@ import axios from 'axios';
          offset:4,
        }
      },
-    // props: [],
      methods: {
        fetchdatatable(page)
        {

@@ -11,16 +11,24 @@ class MaterialsTicketDetail extends Model
     public $timestamps = false;
     protected $primaryKey=['ItemCode'];
     public $incrementing = false;
-    protected $dateFormat = 'M - Y';
-    public static function boot()
-    {
-        parent::boot();
-        static::creating(function ($model) {
-            $model->MTDate = $model->freshTimestamp();
-        });
-    }
+    // protected $dateFormat = 'M-Y';
+    // public static function boot()
+    // {
+    //     parent::boot();
+    //     static::creating(function ($model) {
+    //         $model->MTDate = $model->freshTimestamp();
+    //     });
+    // }
     public function MasterItems()
     {
       return $this->belongsTo('App\MasterItem','ItemCode','ItemCode_id');
     }
+    // public function getMTDateAttribute($value)
+    // {
+    //   return $dateFormat='M Y';
+    // }
+    // public function getFnameAttribute($value)
+    // {
+    //   return ucfirst($value);
+    // }
 }

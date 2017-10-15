@@ -29,8 +29,14 @@
         <span class="color-blue">{{RVMaster.Requisitioner}}</span> is asking for your signature b/c the {{RVMaster.RecommendedbyPosition}} is not available
       </h6>
       <span>
-        <button type="button" name="button" v-on:click="signatureRequestManagerReplacer(),btndisabled=true" :disabled="btndisabled"><i class="fa fa-pencil"></i> Signature</button>
-        <button type="button" name="button" v-on:click="cancelRequestManagerReplacer(),btndisabled=true" :disabled="btndisabled"> <i class="fa fa-times"></i> I Can't</button>
+        <!-- <button type="button" name="button" v-on:click="signatureRequestManagerReplacer(),btndisabled=true" :disabled="btndisabled"><i class="fa fa-pencil"></i> Signature</button>
+        <button type="button" name="button" v-on:click="cancelRequestManagerReplacer(),btndisabled=true" :disabled="btndisabled"> <i class="fa fa-times"></i> I Can't</button> -->
+        <longpress class="rvapprovebtn" duration="3" :on-confirm="signatureRequestManagerReplacer" :disabled="btndisabled" pressing-text="confirm in {$rcounter}" action-text="Loading . . .">
+        <i class="fa fa-pencil"></i> Signature
+        </longpress>
+        <longpress class="RVdeclineBtn" duration="3" :on-confirm="cancelRequestManagerReplacer" :disabled="btndisabled" pressing-text="confirm in {$rcounter}" action-text="Loading . . .">
+        <i class="fa fa-times"></i> I can't
+        </longpress>
       </span>
     </div>
     <div class="Approve-replacer-accept-cant Request-manager-replace" v-if="((RVMaster.BudgetOfficerSignature!=null)&&(user.Fname+' '+user.Lname==RVMaster.ApprovalReplacer)&&(RVMaster.ApprovalReplacerSignature==null)&&((RVMaster.GeneralManagerSignature==null)&&((RVMaster.ManagerReplacerSignature!=null)||(RVMaster.RecommendedbySignature!=null))))">
@@ -38,19 +44,23 @@
         <span class="color-blue">{{RVMaster.Requisitioner}}</span> is asking for your signature b/c the General Manager is not available
       </h6>
       <span>
-        <button type="button" v-on:click="acceptApproveRequest(),approveBtnReplacer=true" :disabled="approveBtnReplacer"><i class="fa fa-pencil"></i> Signature</button>
-        <button type="button" v-on:click="cancelApprovalRequest(),approveBtnReplacer=true" :disabled="approveBtnReplacer"> <i class="fa fa-times"></i> I Can't</button>
+        <longpress class="rvapprovebtn" duration="3" :on-confirm="acceptApproveRequest" :disabled="approveBtnReplacer" pressing-text="confirm in {$rcounter}" action-text="Loading . . .">
+        <i class="fa fa-pencil"></i> Signature
+        </longpress>
+        <longpress class="RVdeclineBtn" duration="3" :on-confirm="cancelApprovalRequest" :disabled="approveBtnReplacer" pressing-text="confirm in {$rcounter}" action-text="Loading . . .">
+        <i class="fa fa-times"></i> I can't
+        </longpress>
       </span>
     </div>
     <div class="declineOrSignatureBtn">
           <span v-if="(((RVMaster.BudgetOfficer==user.Fname+' '+user.Lname)&&(RVMaster.BudgetOfficerSignature==null)&&((RVMaster.RecommendedbySignature!=null)||(RVMaster.ManagerReplacerSignature!=null))&&(RVMaster.IfDeclined==null))||((RVMaster.IfDeclined==null)&&(RVMaster.Recommendedby==user.Fname+' '+user.Lname)&&(RVMaster.RecommendedbySignature==null)&&(RVMaster.ManagerReplacerSignature==null))||((RVMaster.IfDeclined==null)&&(RVMaster.GeneralManager==user.Fname+' '+user.Lname)&&(RVMaster.GeneralManagerSignature==null)&&(RVMaster.ApprovalReplacerSignature==null)&&(RVMaster.BudgetOfficerSignature!=null)&&((RVMaster.RecommendedbySignature!=null)||(RVMaster.ManagerReplacerSignature!=null))))">
             <div class="RVapprove">
-              <longpress class="rvapprovebtn" duration="3" :on-confirm="Signature" pressing-text="signature in {$rcounter}" action-text="Loading . . .">
+              <longpress class="rvapprovebtn" duration="3" :on-confirm="Signature" pressing-text="confirm in {$rcounter}" action-text="Loading . . .">
               <i class="fa fa-pencil"></i> Signature
               </longpress>
             </div>
             <div class="RVdecline">
-              <longpress class="RVdeclineBtn" duration="3" :on-confirm="declineRV" pressing-text="Declining in {$rcounter}" action-text="Loading . . .">
+              <longpress class="RVdeclineBtn" duration="3" :on-confirm="declineRV" pressing-text="confirm in {$rcounter}" action-text="Loading . . .">
               <i class="fa fa-times"></i> Decline
               </longpress>
             </div>

@@ -63,17 +63,18 @@
 /******/ 	__webpack_require__.p = "";
 /******/
 /******/ 	// Load entry module and return exports
-/******/ 	return __webpack_require__(__webpack_require__.s = 130);
+/******/ 	return __webpack_require__(__webpack_require__.s = 265);
 /******/ })
 /************************************************************************/
-/******/ ([
-/* 0 */
+/******/ ({
+
+/***/ 0:
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
 
 
-var bind = __webpack_require__(8);
+var bind = __webpack_require__(9);
 
 /*global toString:true*/
 
@@ -373,435 +374,8 @@ module.exports = {
 
 
 /***/ }),
-/* 1 */
-/***/ (function(module, exports, __webpack_require__) {
 
-"use strict";
-/* WEBPACK VAR INJECTION */(function(process) {
-
-var utils = __webpack_require__(0);
-var normalizeHeaderName = __webpack_require__(24);
-
-var PROTECTION_PREFIX = /^\)\]\}',?\n/;
-var DEFAULT_CONTENT_TYPE = {
-  'Content-Type': 'application/x-www-form-urlencoded'
-};
-
-function setContentTypeIfUnset(headers, value) {
-  if (!utils.isUndefined(headers) && utils.isUndefined(headers['Content-Type'])) {
-    headers['Content-Type'] = value;
-  }
-}
-
-function getDefaultAdapter() {
-  var adapter;
-  if (typeof XMLHttpRequest !== 'undefined') {
-    // For browsers use XHR adapter
-    adapter = __webpack_require__(4);
-  } else if (typeof process !== 'undefined') {
-    // For node use HTTP adapter
-    adapter = __webpack_require__(4);
-  }
-  return adapter;
-}
-
-var defaults = {
-  adapter: getDefaultAdapter(),
-
-  transformRequest: [function transformRequest(data, headers) {
-    normalizeHeaderName(headers, 'Content-Type');
-    if (utils.isFormData(data) ||
-      utils.isArrayBuffer(data) ||
-      utils.isStream(data) ||
-      utils.isFile(data) ||
-      utils.isBlob(data)
-    ) {
-      return data;
-    }
-    if (utils.isArrayBufferView(data)) {
-      return data.buffer;
-    }
-    if (utils.isURLSearchParams(data)) {
-      setContentTypeIfUnset(headers, 'application/x-www-form-urlencoded;charset=utf-8');
-      return data.toString();
-    }
-    if (utils.isObject(data)) {
-      setContentTypeIfUnset(headers, 'application/json;charset=utf-8');
-      return JSON.stringify(data);
-    }
-    return data;
-  }],
-
-  transformResponse: [function transformResponse(data) {
-    /*eslint no-param-reassign:0*/
-    if (typeof data === 'string') {
-      data = data.replace(PROTECTION_PREFIX, '');
-      try {
-        data = JSON.parse(data);
-      } catch (e) { /* Ignore */ }
-    }
-    return data;
-  }],
-
-  timeout: 0,
-
-  xsrfCookieName: 'XSRF-TOKEN',
-  xsrfHeaderName: 'X-XSRF-TOKEN',
-
-  maxContentLength: -1,
-
-  validateStatus: function validateStatus(status) {
-    return status >= 200 && status < 300;
-  }
-};
-
-defaults.headers = {
-  common: {
-    'Accept': 'application/json, text/plain, */*'
-  }
-};
-
-utils.forEach(['delete', 'get', 'head'], function forEachMehtodNoData(method) {
-  defaults.headers[method] = {};
-});
-
-utils.forEach(['post', 'put', 'patch'], function forEachMethodWithData(method) {
-  defaults.headers[method] = utils.merge(DEFAULT_CONTENT_TYPE);
-});
-
-module.exports = defaults;
-
-/* WEBPACK VAR INJECTION */}.call(exports, __webpack_require__(27)))
-
-/***/ }),
-/* 2 */
-/***/ (function(module, exports, __webpack_require__) {
-
-module.exports = __webpack_require__(10);
-
-/***/ }),
-/* 3 */
-/***/ (function(module, exports) {
-
-// this module is a runtime utility for cleaner component module output and will
-// be included in the final webpack user bundle
-
-module.exports = function normalizeComponent (
-  rawScriptExports,
-  compiledTemplate,
-  scopeId,
-  cssModules
-) {
-  var esModule
-  var scriptExports = rawScriptExports = rawScriptExports || {}
-
-  // ES6 modules interop
-  var type = typeof rawScriptExports.default
-  if (type === 'object' || type === 'function') {
-    esModule = rawScriptExports
-    scriptExports = rawScriptExports.default
-  }
-
-  // Vue.extend constructor export interop
-  var options = typeof scriptExports === 'function'
-    ? scriptExports.options
-    : scriptExports
-
-  // render functions
-  if (compiledTemplate) {
-    options.render = compiledTemplate.render
-    options.staticRenderFns = compiledTemplate.staticRenderFns
-  }
-
-  // scopedId
-  if (scopeId) {
-    options._scopeId = scopeId
-  }
-
-  // inject cssModules
-  if (cssModules) {
-    var computed = Object.create(options.computed || null)
-    Object.keys(cssModules).forEach(function (key) {
-      var module = cssModules[key]
-      computed[key] = function () { return module }
-    })
-    options.computed = computed
-  }
-
-  return {
-    esModule: esModule,
-    exports: scriptExports,
-    options: options
-  }
-}
-
-
-/***/ }),
-/* 4 */
-/***/ (function(module, exports, __webpack_require__) {
-
-"use strict";
-
-
-var utils = __webpack_require__(0);
-var settle = __webpack_require__(16);
-var buildURL = __webpack_require__(19);
-var parseHeaders = __webpack_require__(25);
-var isURLSameOrigin = __webpack_require__(23);
-var createError = __webpack_require__(7);
-var btoa = (typeof window !== 'undefined' && window.btoa && window.btoa.bind(window)) || __webpack_require__(18);
-
-module.exports = function xhrAdapter(config) {
-  return new Promise(function dispatchXhrRequest(resolve, reject) {
-    var requestData = config.data;
-    var requestHeaders = config.headers;
-
-    if (utils.isFormData(requestData)) {
-      delete requestHeaders['Content-Type']; // Let the browser set it
-    }
-
-    var request = new XMLHttpRequest();
-    var loadEvent = 'onreadystatechange';
-    var xDomain = false;
-
-    // For IE 8/9 CORS support
-    // Only supports POST and GET calls and doesn't returns the response headers.
-    // DON'T do this for testing b/c XMLHttpRequest is mocked, not XDomainRequest.
-    if ("development" !== 'test' &&
-        typeof window !== 'undefined' &&
-        window.XDomainRequest && !('withCredentials' in request) &&
-        !isURLSameOrigin(config.url)) {
-      request = new window.XDomainRequest();
-      loadEvent = 'onload';
-      xDomain = true;
-      request.onprogress = function handleProgress() {};
-      request.ontimeout = function handleTimeout() {};
-    }
-
-    // HTTP basic authentication
-    if (config.auth) {
-      var username = config.auth.username || '';
-      var password = config.auth.password || '';
-      requestHeaders.Authorization = 'Basic ' + btoa(username + ':' + password);
-    }
-
-    request.open(config.method.toUpperCase(), buildURL(config.url, config.params, config.paramsSerializer), true);
-
-    // Set the request timeout in MS
-    request.timeout = config.timeout;
-
-    // Listen for ready state
-    request[loadEvent] = function handleLoad() {
-      if (!request || (request.readyState !== 4 && !xDomain)) {
-        return;
-      }
-
-      // The request errored out and we didn't get a response, this will be
-      // handled by onerror instead
-      // With one exception: request that using file: protocol, most browsers
-      // will return status as 0 even though it's a successful request
-      if (request.status === 0 && !(request.responseURL && request.responseURL.indexOf('file:') === 0)) {
-        return;
-      }
-
-      // Prepare the response
-      var responseHeaders = 'getAllResponseHeaders' in request ? parseHeaders(request.getAllResponseHeaders()) : null;
-      var responseData = !config.responseType || config.responseType === 'text' ? request.responseText : request.response;
-      var response = {
-        data: responseData,
-        // IE sends 1223 instead of 204 (https://github.com/mzabriskie/axios/issues/201)
-        status: request.status === 1223 ? 204 : request.status,
-        statusText: request.status === 1223 ? 'No Content' : request.statusText,
-        headers: responseHeaders,
-        config: config,
-        request: request
-      };
-
-      settle(resolve, reject, response);
-
-      // Clean up request
-      request = null;
-    };
-
-    // Handle low level network errors
-    request.onerror = function handleError() {
-      // Real errors are hidden from us by the browser
-      // onerror should only fire if it's a network error
-      reject(createError('Network Error', config));
-
-      // Clean up request
-      request = null;
-    };
-
-    // Handle timeout
-    request.ontimeout = function handleTimeout() {
-      reject(createError('timeout of ' + config.timeout + 'ms exceeded', config, 'ECONNABORTED'));
-
-      // Clean up request
-      request = null;
-    };
-
-    // Add xsrf header
-    // This is only done if running in a standard browser environment.
-    // Specifically not if we're in a web worker, or react-native.
-    if (utils.isStandardBrowserEnv()) {
-      var cookies = __webpack_require__(21);
-
-      // Add xsrf header
-      var xsrfValue = (config.withCredentials || isURLSameOrigin(config.url)) && config.xsrfCookieName ?
-          cookies.read(config.xsrfCookieName) :
-          undefined;
-
-      if (xsrfValue) {
-        requestHeaders[config.xsrfHeaderName] = xsrfValue;
-      }
-    }
-
-    // Add headers to the request
-    if ('setRequestHeader' in request) {
-      utils.forEach(requestHeaders, function setRequestHeader(val, key) {
-        if (typeof requestData === 'undefined' && key.toLowerCase() === 'content-type') {
-          // Remove Content-Type if data is undefined
-          delete requestHeaders[key];
-        } else {
-          // Otherwise add header to the request
-          request.setRequestHeader(key, val);
-        }
-      });
-    }
-
-    // Add withCredentials to request if needed
-    if (config.withCredentials) {
-      request.withCredentials = true;
-    }
-
-    // Add responseType to request if needed
-    if (config.responseType) {
-      try {
-        request.responseType = config.responseType;
-      } catch (e) {
-        if (request.responseType !== 'json') {
-          throw e;
-        }
-      }
-    }
-
-    // Handle progress if needed
-    if (typeof config.onDownloadProgress === 'function') {
-      request.addEventListener('progress', config.onDownloadProgress);
-    }
-
-    // Not all browsers support upload events
-    if (typeof config.onUploadProgress === 'function' && request.upload) {
-      request.upload.addEventListener('progress', config.onUploadProgress);
-    }
-
-    if (config.cancelToken) {
-      // Handle cancellation
-      config.cancelToken.promise.then(function onCanceled(cancel) {
-        if (!request) {
-          return;
-        }
-
-        request.abort();
-        reject(cancel);
-        // Clean up request
-        request = null;
-      });
-    }
-
-    if (requestData === undefined) {
-      requestData = null;
-    }
-
-    // Send the request
-    request.send(requestData);
-  });
-};
-
-
-/***/ }),
-/* 5 */
-/***/ (function(module, exports, __webpack_require__) {
-
-"use strict";
-
-
-/**
- * A `Cancel` is an object that is thrown when an operation is canceled.
- *
- * @class
- * @param {string=} message The message.
- */
-function Cancel(message) {
-  this.message = message;
-}
-
-Cancel.prototype.toString = function toString() {
-  return 'Cancel' + (this.message ? ': ' + this.message : '');
-};
-
-Cancel.prototype.__CANCEL__ = true;
-
-module.exports = Cancel;
-
-
-/***/ }),
-/* 6 */
-/***/ (function(module, exports, __webpack_require__) {
-
-"use strict";
-
-
-module.exports = function isCancel(value) {
-  return !!(value && value.__CANCEL__);
-};
-
-
-/***/ }),
-/* 7 */
-/***/ (function(module, exports, __webpack_require__) {
-
-"use strict";
-
-
-var enhanceError = __webpack_require__(15);
-
-/**
- * Create an Error with the specified message, config, error code, and response.
- *
- * @param {string} message The error message.
- * @param {Object} config The config.
- * @param {string} [code] The error code (for example, 'ECONNABORTED').
- @ @param {Object} [response] The response.
- * @returns {Error} The created error.
- */
-module.exports = function createError(message, config, code, response) {
-  var error = new Error(message);
-  return enhanceError(error, config, code, response);
-};
-
-
-/***/ }),
-/* 8 */
-/***/ (function(module, exports, __webpack_require__) {
-
-"use strict";
-
-
-module.exports = function bind(fn, thisArg) {
-  return function wrap() {
-    var args = new Array(arguments.length);
-    for (var i = 0; i < args.length; i++) {
-      args[i] = arguments[i];
-    }
-    return fn.apply(thisArg, args);
-  };
-};
-
-
-/***/ }),
-/* 9 */
+/***/ 10:
 /***/ (function(module, exports) {
 
 var g;
@@ -828,16 +402,17 @@ module.exports = g;
 
 
 /***/ }),
-/* 10 */
+
+/***/ 11:
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
 
 
 var utils = __webpack_require__(0);
-var bind = __webpack_require__(8);
-var Axios = __webpack_require__(12);
-var defaults = __webpack_require__(1);
+var bind = __webpack_require__(9);
+var Axios = __webpack_require__(13);
+var defaults = __webpack_require__(2);
 
 /**
  * Create an instance of Axios
@@ -870,15 +445,15 @@ axios.create = function create(instanceConfig) {
 };
 
 // Expose Cancel & CancelToken
-axios.Cancel = __webpack_require__(5);
-axios.CancelToken = __webpack_require__(11);
-axios.isCancel = __webpack_require__(6);
+axios.Cancel = __webpack_require__(6);
+axios.CancelToken = __webpack_require__(12);
+axios.isCancel = __webpack_require__(7);
 
 // Expose all/spread
 axios.all = function all(promises) {
   return Promise.all(promises);
 };
-axios.spread = __webpack_require__(26);
+axios.spread = __webpack_require__(27);
 
 module.exports = axios;
 
@@ -887,13 +462,14 @@ module.exports.default = axios;
 
 
 /***/ }),
-/* 11 */
+
+/***/ 12:
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
 
 
-var Cancel = __webpack_require__(5);
+var Cancel = __webpack_require__(6);
 
 /**
  * A `CancelToken` is an object that can be used to request cancellation of an operation.
@@ -951,18 +527,19 @@ module.exports = CancelToken;
 
 
 /***/ }),
-/* 12 */
+
+/***/ 13:
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
 
 
-var defaults = __webpack_require__(1);
+var defaults = __webpack_require__(2);
 var utils = __webpack_require__(0);
-var InterceptorManager = __webpack_require__(13);
-var dispatchRequest = __webpack_require__(14);
-var isAbsoluteURL = __webpack_require__(22);
-var combineURLs = __webpack_require__(20);
+var InterceptorManager = __webpack_require__(14);
+var dispatchRequest = __webpack_require__(15);
+var isAbsoluteURL = __webpack_require__(23);
+var combineURLs = __webpack_require__(21);
 
 /**
  * Create a new instance of Axios
@@ -1043,7 +620,8 @@ module.exports = Axios;
 
 
 /***/ }),
-/* 13 */
+
+/***/ 14:
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -1102,16 +680,17 @@ module.exports = InterceptorManager;
 
 
 /***/ }),
-/* 14 */
+
+/***/ 15:
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
 
 
 var utils = __webpack_require__(0);
-var transformData = __webpack_require__(17);
-var isCancel = __webpack_require__(6);
-var defaults = __webpack_require__(1);
+var transformData = __webpack_require__(18);
+var isCancel = __webpack_require__(7);
+var defaults = __webpack_require__(2);
 
 /**
  * Throws a `Cancel` if cancellation has been requested.
@@ -1188,7 +767,21 @@ module.exports = function dispatchRequest(config) {
 
 
 /***/ }),
-/* 15 */
+
+/***/ 153:
+/***/ (function(module, exports, __webpack_require__) {
+
+window.Vue = __webpack_require__(29);
+Vue.component('mirscreate', __webpack_require__(209));
+Vue.component('mirspreview', __webpack_require__(210));
+Vue.component('mirsindex', __webpack_require__(211));
+new Vue({
+  el: '#mirs'
+});
+
+/***/ }),
+
+/***/ 16:
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -1214,13 +807,14 @@ module.exports = function enhanceError(error, config, code, response) {
 
 
 /***/ }),
-/* 16 */
+
+/***/ 17:
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
 
 
-var createError = __webpack_require__(7);
+var createError = __webpack_require__(8);
 
 /**
  * Resolve or reject a Promise based on response status.
@@ -1246,7 +840,733 @@ module.exports = function settle(resolve, reject, response) {
 
 
 /***/ }),
-/* 17 */
+
+/***/ 171:
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_0_vue_longpress__ = __webpack_require__(30);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_0_vue_longpress___default = __webpack_require__.n(__WEBPACK_IMPORTED_MODULE_0_vue_longpress__);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_1_axios__ = __webpack_require__(3);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_1_axios___default = __webpack_require__.n(__WEBPACK_IMPORTED_MODULE_1_axios__);
+function _defineProperty(obj, key, value) { if (key in obj) { Object.defineProperty(obj, key, { value: value, enumerable: true, configurable: true, writable: true }); } else { obj[key] = value; } return obj; }
+
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+
+
+
+/* harmony default export */ __webpack_exports__["default"] = ({
+  data: function data() {
+    var _ref;
+
+    return _ref = {
+      isActive: false,
+      purpose: '',
+      ItemCodeSearch: '',
+      SearchDescription: '',
+      DescriptionSearch: '',
+      SearchResults: [],
+      Pagination: []
+    }, _defineProperty(_ref, 'Pagination', []), _defineProperty(_ref, 'Quantity', []), _defineProperty(_ref, 'Remarks', []), _defineProperty(_ref, 'laravelerrors', []), _defineProperty(_ref, 'successAlerts', []), _defineProperty(_ref, 'ownerrors', []), _defineProperty(_ref, 'SessionItems', []), _defineProperty(_ref, 'offset', 4), _defineProperty(_ref, 'DisabledButton', false), _ref;
+  },
+
+  props: ['manager', 'gm'],
+
+  methods: {
+    searchbyItemCode: function searchbyItemCode(page) {
+      this.SearchDescription = '';
+      var vm = this;
+      __WEBPACK_IMPORTED_MODULE_1_axios___default.a.get('/findMasterItem?ItemCode=' + this.ItemCodeSearch + '&page=' + page).then(function (response) {
+        console.log(response);
+        Vue.set(vm.$data, 'SearchResults', response.data.data);
+        Vue.set(vm.$data, 'Pagination', response.data);
+      });
+    },
+    searchbyDescriptionMIRS: function searchbyDescriptionMIRS(page) {
+      this.ItemCodeSearch = '';
+      var vm = this;
+      __WEBPACK_IMPORTED_MODULE_1_axios___default.a.get('/Items-ByDescription?search=' + this.SearchDescription + '&page=' + page).then(function (response) {
+        console.log(response);
+        Vue.set(vm.$data, 'SearchResults', response.data.data);
+        Vue.set(vm.$data, 'Pagination', response.data);
+      });
+    },
+    submitTosession: function submitTosession(datas) {
+      var vm = this;
+      __WEBPACK_IMPORTED_MODULE_1_axios___default.a.post('/sessionMIRSitem', {
+        ItemCode_id: datas.ItemCode_id,
+        Particulars: datas.Description,
+        Unit: datas.Unit,
+        Remarks: this.Remarks[datas.id],
+        Quantity: this.Quantity[datas.id]
+      }).then(function (response) {
+        console.log(response);
+        if (response.data.error == null) {
+          Vue.set(vm.$data, 'successAlerts', 'Successfully added !');
+          Vue.set(vm.$data, 'ownerrors', '');
+          Vue.set(vm.$data, 'laravelerrors', '');
+        } else {
+          Vue.set(vm.$data, 'ownerrors', response.data.error);
+          Vue.set(vm.$data, 'successAlerts', '');
+          Vue.set(vm.$data, 'laravelerrors', '');
+        }
+      }, function (error) {
+        console.log(error);
+        Vue.set(vm.$data, 'laravelerrors', error.response.data);
+      });
+      this.fetchAddedSession();
+    },
+    deleteSession: function deleteSession(code) {
+      var vm = this;
+      __WEBPACK_IMPORTED_MODULE_1_axios___default.a.delete('/removeSessions/' + code, {}).then(function (response) {
+        console.log(response);
+        Vue.set(vm.$data, 'ownerrors', '');
+        Vue.set(vm.$data, 'laravelerrors', '');
+        Vue.set(vm.$data, 'successAlerts', 'Successfully removed.');
+      }, function (error) {
+        console.log(error);
+      });
+      this.fetchAddedSession();
+    },
+    fetchAddedSession: function fetchAddedSession() {
+      var vm = this;
+      __WEBPACK_IMPORTED_MODULE_1_axios___default.a.get('/fetchSessionMIRS').then(function (response) {
+        console.log(response);
+        Vue.set(vm.$data, 'SessionItems', response.data);
+      });
+    },
+    submitWholePage: function submitWholePage() {
+      var vm = this;
+      __WEBPACK_IMPORTED_MODULE_1_axios___default.a.post('/mirs-storedata', {
+        Purpose: this.purpose,
+        Approvedby: this.gm[0].id
+      }).then(function (response) {
+        console.log(response);
+        window.location = response.data.redirect;
+      }, function (error) {
+        console.log(error);
+        Vue.set(vm.$data, 'DisabledButton', false);
+        Vue.set(vm.$data, 'laravelerrors', error.response.data);
+      });
+    },
+    changePageCode: function changePageCode(page) {
+      this.Pagination.current_page = page;
+      this.searchbyItemCode(page);
+    },
+    changePage: function changePage(page) {
+      this.Pagination.current_page = page;
+      this.searchbyDescriptionMIRS(page);
+    }
+  },
+  created: function created() {
+    this.searchbyItemCode();
+    this.fetchAddedSession();
+  },
+  computed: {
+    PageActive: function PageActive() {
+      return this.Pagination.current_page;
+    },
+    pagesNumber: function pagesNumber() {
+      if (!this.Pagination.to) {
+        return [];
+      }
+      var from = this.Pagination.current_page - this.offset;
+      if (from < 1) {
+        from = 1;
+      }
+      var to = from + this.offset * 2;
+      if (to >= this.Pagination.last_page) {
+        to = this.Pagination.last_page;
+      }
+      var pagesArray = [];
+      while (from <= to) {
+        pagesArray.push(from);
+        from++;
+      }
+      return pagesArray;
+    }
+  },
+  components: {
+    Longpress: __WEBPACK_IMPORTED_MODULE_0_vue_longpress___default.a
+  }
+
+});
+
+/***/ }),
+
+/***/ 172:
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_0_axios__ = __webpack_require__(3);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_0_axios___default = __webpack_require__.n(__WEBPACK_IMPORTED_MODULE_0_axios__);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_1_vue_longpress__ = __webpack_require__(30);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_1_vue_longpress___default = __webpack_require__.n(__WEBPACK_IMPORTED_MODULE_1_vue_longpress__);
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+
+
+
+/* harmony default export */ __webpack_exports__["default"] = ({
+  data: function data() {
+    return {
+      MIRSMaster: [],
+      MCTNumber: null,
+      MIRSDetail: [],
+      unclaimed: 0,
+      btndisable: false,
+      ManagerBehalfActive: false,
+      allManager: [],
+      ManagerReplacerID: null,
+      error: null,
+      ApproveReplacerName: ''
+    };
+  },
+
+  props: ['mirsno', 'user'],
+  methods: {
+    fetchMIRSData: function fetchMIRSData() {
+      var vm = this;
+      __WEBPACK_IMPORTED_MODULE_0_axios___default.a.get('/fetchpreview-full-mirs-/' + this.mirsno.MIRSNo).then(function (response) {
+        console.log(response);
+        Vue.set(vm.$data, 'MIRSMaster', response.data.MIRSMaster[0]);
+        Vue.set(vm.$data, 'MIRSDetail', response.data.MIRSDetail);
+        Vue.set(vm.$data, 'MCTNumber', response.data.MCTNumber);
+        Vue.set(vm.$data, 'unclaimed', response.data.unclaimed);
+      });
+    },
+    SignatureMIRS: function SignatureMIRS() {
+      var vm = this;
+      __WEBPACK_IMPORTED_MODULE_0_axios___default.a.put('/MIRS-Signature/' + this.mirsno.MIRSNo).then(function (response) {
+        console.log(response);
+      });
+      this.fetchMIRSData();
+    },
+    DeclineMIRS: function DeclineMIRS() {
+      var vm = this;
+      __WEBPACK_IMPORTED_MODULE_0_axios___default.a.put('/deniedmirs/' + this.mirsno.MIRSNo).then(function (response) {
+        console.log(response);
+      });
+      this.fetchMIRSData();
+    },
+    ApproveinBehalf: function ApproveinBehalf() {
+      var vm = this;
+      __WEBPACK_IMPORTED_MODULE_0_axios___default.a.put('/mirs-signature-if-gm-isabsent/' + this.mirsno.MIRSNo).then(function (response) {
+        console.log(response);
+      });
+      this.fetchMIRSData();
+    },
+    CancelApproveinBehalf: function CancelApproveinBehalf() {
+      var vm = this;
+      __WEBPACK_IMPORTED_MODULE_0_axios___default.a.put('/cancel-request-toadmin/' + this.mirsno.MIRSNo).then(function (response) {
+        console.log(response);
+      });
+      this.fetchMIRSData();
+    },
+    fetchAllManager: function fetchAllManager() {
+      var vm = this;
+      __WEBPACK_IMPORTED_MODULE_0_axios___default.a.get('/fetch-all-managers').then(function (response) {
+        console.log(response);
+        Vue.set(vm.$data, 'allManager', response.data);
+      });
+    },
+    sendrequestReplacer: function sendrequestReplacer() {
+      var vm = this;
+      __WEBPACK_IMPORTED_MODULE_0_axios___default.a.put('/send-request-manager-replacer/' + this.mirsno.MIRSNo, {
+        ManagerReplacerID: this.ManagerReplacerID
+      }).then(function (response) {
+        if (response.data.error != null) {
+          Vue.set(vm.$data, 'error', response.data.error);
+        }
+      });
+      this.fetchMIRSData();
+    },
+    cancelrequestReplacer: function cancelrequestReplacer() {
+      var vm = this;
+      __WEBPACK_IMPORTED_MODULE_0_axios___default.a.put('/cancel-request-manager-replacer/' + this.mirsno.MIRSNo).then(function (response) {
+        Vue.set(vm.$data, 'ManagerBehalfActive', false);
+        console.log(response);
+      });
+      this.fetchMIRSData();
+    },
+    AcceptrequestReplacer: function AcceptrequestReplacer() {
+      var vm = this;
+      __WEBPACK_IMPORTED_MODULE_0_axios___default.a.put('/signature-replacer-accepted/' + this.mirsno.MIRSNo).then(function (response) {
+        console.log(response);
+      });
+      this.fetchMIRSData();
+    },
+    cancelRequestApprovalReplacer: function cancelRequestApprovalReplacer() {
+      var vm = this;
+      __WEBPACK_IMPORTED_MODULE_0_axios___default.a.put('/cancel-request-approval/' + this.mirsno.MIRSNo).then(function (response) {
+        console.log(response);
+      });
+      this.fetchMIRSData();
+    },
+    AcceptApprovalReplacerequest: function AcceptApprovalReplacerequest() {
+      var vm = this;
+      __WEBPACK_IMPORTED_MODULE_0_axios___default.a.put('/confirm-manager-toreplace-gm-signature/' + this.mirsno.MIRSNo).then(function (response) {
+        console.log(response);
+      });
+      this.fetchMIRSData();
+    }
+  },
+  mounted: function mounted() {
+    this.fetchMIRSData();
+  },
+
+  components: {
+    Longpress: __WEBPACK_IMPORTED_MODULE_1_vue_longpress___default.a
+  }
+});
+
+/***/ }),
+
+/***/ 173:
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_0_axios__ = __webpack_require__(3);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_0_axios___default = __webpack_require__.n(__WEBPACK_IMPORTED_MODULE_0_axios__);
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+
+
+/* harmony default export */ __webpack_exports__["default"] = ({
+  data: function data() {
+    return {
+      SearchInput: '',
+      SearchResult: [],
+      pagination: [],
+      offset: 4
+    };
+  },
+
+  // props: [],
+  methods: {
+    SearchAndFetch: function SearchAndFetch(page) {
+      var vm = this;
+      __WEBPACK_IMPORTED_MODULE_0_axios___default.a.get('/findmirs-and-fetch?MIRSNo=' + this.SearchInput + '&page=' + page).then(function (response) {
+        console.log(response);
+        Vue.set(vm.$data, 'SearchResult', response.data.data);
+        Vue.set(vm.$data, 'pagination', response.data);
+      });
+    },
+    changepage: function changepage(next) {
+      this.pagination.current_page = next;
+      this.SearchAndFetch(next);
+    }
+  },
+  mounted: function mounted() {
+    this.SearchAndFetch(1);
+  },
+
+  computed: {
+    isActive: function isActive() {
+      return this.pagination.current_page;
+    },
+    pagesNumber: function pagesNumber() {
+      if (!this.pagination.to) {
+        return [];
+      }
+      var from = this.pagination.current_page - this.offset;
+      if (from < 1) {
+        from = 1;
+      }
+      var to = from + this.offset * 2;
+      if (to >= this.pagination.last_page) {
+        to = this.pagination.last_page;
+      }
+      var pagesArray = [];
+      while (from <= to) {
+        pagesArray.push(from);
+        from++;
+      }
+      return pagesArray;
+    }
+  }
+});
+
+/***/ }),
+
+/***/ 18:
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -1273,7 +1593,8 @@ module.exports = function transformData(data, headers, fns) {
 
 
 /***/ }),
-/* 18 */
+
+/***/ 19:
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -1316,7 +1637,110 @@ module.exports = btoa;
 
 
 /***/ }),
-/* 19 */
+
+/***/ 2:
+/***/ (function(module, exports, __webpack_require__) {
+
+"use strict";
+/* WEBPACK VAR INJECTION */(function(process) {
+
+var utils = __webpack_require__(0);
+var normalizeHeaderName = __webpack_require__(25);
+
+var PROTECTION_PREFIX = /^\)\]\}',?\n/;
+var DEFAULT_CONTENT_TYPE = {
+  'Content-Type': 'application/x-www-form-urlencoded'
+};
+
+function setContentTypeIfUnset(headers, value) {
+  if (!utils.isUndefined(headers) && utils.isUndefined(headers['Content-Type'])) {
+    headers['Content-Type'] = value;
+  }
+}
+
+function getDefaultAdapter() {
+  var adapter;
+  if (typeof XMLHttpRequest !== 'undefined') {
+    // For browsers use XHR adapter
+    adapter = __webpack_require__(5);
+  } else if (typeof process !== 'undefined') {
+    // For node use HTTP adapter
+    adapter = __webpack_require__(5);
+  }
+  return adapter;
+}
+
+var defaults = {
+  adapter: getDefaultAdapter(),
+
+  transformRequest: [function transformRequest(data, headers) {
+    normalizeHeaderName(headers, 'Content-Type');
+    if (utils.isFormData(data) ||
+      utils.isArrayBuffer(data) ||
+      utils.isStream(data) ||
+      utils.isFile(data) ||
+      utils.isBlob(data)
+    ) {
+      return data;
+    }
+    if (utils.isArrayBufferView(data)) {
+      return data.buffer;
+    }
+    if (utils.isURLSearchParams(data)) {
+      setContentTypeIfUnset(headers, 'application/x-www-form-urlencoded;charset=utf-8');
+      return data.toString();
+    }
+    if (utils.isObject(data)) {
+      setContentTypeIfUnset(headers, 'application/json;charset=utf-8');
+      return JSON.stringify(data);
+    }
+    return data;
+  }],
+
+  transformResponse: [function transformResponse(data) {
+    /*eslint no-param-reassign:0*/
+    if (typeof data === 'string') {
+      data = data.replace(PROTECTION_PREFIX, '');
+      try {
+        data = JSON.parse(data);
+      } catch (e) { /* Ignore */ }
+    }
+    return data;
+  }],
+
+  timeout: 0,
+
+  xsrfCookieName: 'XSRF-TOKEN',
+  xsrfHeaderName: 'X-XSRF-TOKEN',
+
+  maxContentLength: -1,
+
+  validateStatus: function validateStatus(status) {
+    return status >= 200 && status < 300;
+  }
+};
+
+defaults.headers = {
+  common: {
+    'Accept': 'application/json, text/plain, */*'
+  }
+};
+
+utils.forEach(['delete', 'get', 'head'], function forEachMehtodNoData(method) {
+  defaults.headers[method] = {};
+});
+
+utils.forEach(['post', 'put', 'patch'], function forEachMethodWithData(method) {
+  defaults.headers[method] = utils.merge(DEFAULT_CONTENT_TYPE);
+});
+
+module.exports = defaults;
+
+/* WEBPACK VAR INJECTION */}.call(exports, __webpack_require__(28)))
+
+/***/ }),
+
+/***/ 20:
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -1391,7 +1815,43 @@ module.exports = function buildURL(url, params, paramsSerializer) {
 
 
 /***/ }),
-/* 20 */
+
+/***/ 209:
+/***/ (function(module, exports, __webpack_require__) {
+
+var Component = __webpack_require__(4)(
+  /* script */
+  __webpack_require__(171),
+  /* template */
+  __webpack_require__(239),
+  /* scopeId */
+  null,
+  /* cssModules */
+  null
+)
+Component.options.__file = "c:\\xampp\\htdocs\\warehouse\\resources\\assets\\js\\components\\MIRSCreate.vue"
+if (Component.esModule && Object.keys(Component.esModule).some(function (key) {return key !== "default" && key !== "__esModule"})) {console.error("named exports are not supported in *.vue files.")}
+if (Component.options.functional) {console.error("[vue-loader] MIRSCreate.vue: functional components are not supported with templates, they should use render functions.")}
+
+/* hot reload */
+if (false) {(function () {
+  var hotAPI = require("vue-hot-reload-api")
+  hotAPI.install(require("vue"), false)
+  if (!hotAPI.compatible) return
+  module.hot.accept()
+  if (!module.hot.data) {
+    hotAPI.createRecord("data-v-31b7b644", Component.options)
+  } else {
+    hotAPI.reload("data-v-31b7b644", Component.options)
+  }
+})()}
+
+module.exports = Component.exports
+
+
+/***/ }),
+
+/***/ 21:
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -1410,7 +1870,78 @@ module.exports = function combineURLs(baseURL, relativeURL) {
 
 
 /***/ }),
-/* 21 */
+
+/***/ 210:
+/***/ (function(module, exports, __webpack_require__) {
+
+var Component = __webpack_require__(4)(
+  /* script */
+  __webpack_require__(172),
+  /* template */
+  __webpack_require__(248),
+  /* scopeId */
+  null,
+  /* cssModules */
+  null
+)
+Component.options.__file = "c:\\xampp\\htdocs\\warehouse\\resources\\assets\\js\\components\\MIRSPreview.vue"
+if (Component.esModule && Object.keys(Component.esModule).some(function (key) {return key !== "default" && key !== "__esModule"})) {console.error("named exports are not supported in *.vue files.")}
+if (Component.options.functional) {console.error("[vue-loader] MIRSPreview.vue: functional components are not supported with templates, they should use render functions.")}
+
+/* hot reload */
+if (false) {(function () {
+  var hotAPI = require("vue-hot-reload-api")
+  hotAPI.install(require("vue"), false)
+  if (!hotAPI.compatible) return
+  module.hot.accept()
+  if (!module.hot.data) {
+    hotAPI.createRecord("data-v-4f5770a0", Component.options)
+  } else {
+    hotAPI.reload("data-v-4f5770a0", Component.options)
+  }
+})()}
+
+module.exports = Component.exports
+
+
+/***/ }),
+
+/***/ 211:
+/***/ (function(module, exports, __webpack_require__) {
+
+var Component = __webpack_require__(4)(
+  /* script */
+  __webpack_require__(173),
+  /* template */
+  __webpack_require__(240),
+  /* scopeId */
+  null,
+  /* cssModules */
+  null
+)
+Component.options.__file = "c:\\xampp\\htdocs\\warehouse\\resources\\assets\\js\\components\\MIRSindex.vue"
+if (Component.esModule && Object.keys(Component.esModule).some(function (key) {return key !== "default" && key !== "__esModule"})) {console.error("named exports are not supported in *.vue files.")}
+if (Component.options.functional) {console.error("[vue-loader] MIRSindex.vue: functional components are not supported with templates, they should use render functions.")}
+
+/* hot reload */
+if (false) {(function () {
+  var hotAPI = require("vue-hot-reload-api")
+  hotAPI.install(require("vue"), false)
+  if (!hotAPI.compatible) return
+  module.hot.accept()
+  if (!module.hot.data) {
+    hotAPI.createRecord("data-v-364bebda", Component.options)
+  } else {
+    hotAPI.reload("data-v-364bebda", Component.options)
+  }
+})()}
+
+module.exports = Component.exports
+
+
+/***/ }),
+
+/***/ 22:
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -1470,7 +2001,8 @@ module.exports = (
 
 
 /***/ }),
-/* 22 */
+
+/***/ 23:
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -1491,7 +2023,341 @@ module.exports = function isAbsoluteURL(url) {
 
 
 /***/ }),
-/* 23 */
+
+/***/ 239:
+/***/ (function(module, exports, __webpack_require__) {
+
+module.exports={render:function (){var _vm=this;var _h=_vm.$createElement;var _c=_vm._self._c||_h;
+  return _c('div', {
+    staticClass: "MIRS-create-wrap"
+  }, [_c('div', {
+    staticClass: "Search-item-container"
+  }, [_c('div', {
+    staticClass: "Added-Items"
+  }, [_c('div', {
+    staticClass: "modal-find-button"
+  }, [_c('button', {
+    attrs: {
+      "type": "button",
+      "name": "button"
+    },
+    on: {
+      "click": function($event) {
+        _vm.isActive = !_vm.isActive
+      }
+    }
+  }, [_c('i', {
+    staticClass: "fa fa-plus-circle"
+  }), _vm._v(" Add item")])]), _vm._v(" "), _c('div', {
+    staticClass: "added-table-wrapper"
+  }, [(_vm.laravelerrors != '') ? _c('ul', {
+    staticClass: "error-tab",
+    on: {
+      "click": function($event) {
+        _vm.laravelerrors = ''
+      }
+    }
+  }, _vm._l((_vm.laravelerrors), function(errors) {
+    return _c('span', _vm._l((errors), function(error) {
+      return _c('li', [_vm._v(_vm._s(error))])
+    }))
+  })) : _vm._e(), _vm._v(" "), (_vm.ownerrors != '') ? _c('ul', {
+    staticClass: "error-tab",
+    on: {
+      "click": function($event) {
+        _vm.ownerrors = ''
+      }
+    }
+  }, [_c('li', [_vm._v(_vm._s(_vm.ownerrors))])]) : _vm._e(), _vm._v(" "), (_vm.successAlerts != '') ? _c('div', {
+    staticClass: "successAlertRRsession",
+    on: {
+      "click": function($event) {
+        _vm.successAlerts = ''
+      }
+    }
+  }, [_c('p', [_vm._v(_vm._s(_vm.successAlerts))])]) : _vm._e(), _vm._v(" "), _c('table', [_vm._m(0), _vm._v(" "), _vm._l((_vm.SessionItems), function(sessionitem) {
+    return _c('tr', [_c('td', [_vm._v(_vm._s(sessionitem.ItemCode_id))]), _vm._v(" "), _c('td', [_vm._v(_vm._s(sessionitem.Particulars))]), _vm._v(" "), _c('td', [_vm._v(_vm._s(sessionitem.Quantity))]), _vm._v(" "), _c('td', [_vm._v(_vm._s(sessionitem.Unit))]), _vm._v(" "), _c('td', [_vm._v(_vm._s(sessionitem.Remarks))]), _vm._v(" "), _c('td', {
+      staticClass: "delete-trash"
+    }, [_c('i', {
+      staticClass: "fa fa-trash",
+      on: {
+        "click": function($event) {
+          _vm.deleteSession(sessionitem.ItemCode_id)
+        }
+      }
+    })])])
+  })], 2)])])]), _vm._v(" "), _c('div', {
+    staticClass: "MIRSform-container"
+  }, [_c('div', {
+    staticClass: "form-wrap-mirs"
+  }, [_c('ul', [_c('li', [_c('input', {
+    directives: [{
+      name: "model",
+      rawName: "v-model",
+      value: (_vm.purpose),
+      expression: "purpose"
+    }],
+    attrs: {
+      "type": "text",
+      "autocomplete": "off",
+      "name": "Purpose",
+      "placeholder": "Purpose"
+    },
+    domProps: {
+      "value": (_vm.purpose)
+    },
+    on: {
+      "input": function($event) {
+        if ($event.target.composing) { return; }
+        _vm.purpose = $event.target.value
+      }
+    }
+  })]), _vm._v(" "), (_vm.manager[0] != null) ? _c('li', [_c('h3', {
+    staticClass: "mymanagerName"
+  }, [_vm._v(_vm._s(_vm.manager[0].Fname) + " " + _vm._s(_vm.manager[0].Lname))]), _vm._v(" "), _c('p', [_vm._v("Recommended by")])]) : _vm._e(), _vm._v(" "), (_vm.gm[0] != null) ? _c('li', [_c('h3', {
+    staticClass: "gm-name"
+  }, [_vm._v(_vm._s(_vm.gm[0].Fname) + " " + _vm._s(_vm.gm[0].Lname))]), _vm._v(" "), _c('p', [_vm._v("General Manager")])]) : _vm._e(), _vm._v(" "), _c('longpress', {
+    staticClass: "submitMCT-btn",
+    attrs: {
+      "id": "go-btn",
+      "duration": "3",
+      "on-confirm": _vm.submitWholePage,
+      "pressing-text": "Keep pressing for {$rcounter} seconds to submit",
+      "action-text": "Submitting, please wait..."
+    }
+  }, [_vm._v("\r\n        Submit\r\n      ")])], 1)])]), _vm._v(" "), _c('div', {
+    staticClass: "modal-search-item",
+    class: {
+      'active animated fadeIn': _vm.isActive
+    },
+    on: {
+      "click": function($event) {
+        _vm.isActive = !_vm.isActive
+      }
+    }
+  }, [_c('div', {
+    staticClass: "middle-modal-search",
+    on: {
+      "click": function($event) {
+        _vm.isActive = !_vm.isActive
+      }
+    }
+  }, [_c('h1', [_vm._v("MIRS")]), _vm._v(" "), _c('div', {
+    staticClass: "table-mirs-modalcontain"
+  }, [_c('div', {
+    staticClass: "search-item-bar"
+  }, [_c('div', {
+    staticClass: "search-mirs-modal"
+  }, [_c('input', {
+    directives: [{
+      name: "model",
+      rawName: "v-model",
+      value: (_vm.SearchDescription),
+      expression: "SearchDescription"
+    }],
+    attrs: {
+      "type": "text",
+      "autocomplete": "off",
+      "name": "Description",
+      "placeholder": "Search by description"
+    },
+    domProps: {
+      "value": (_vm.SearchDescription)
+    },
+    on: {
+      "keyup": function($event) {
+        _vm.searchbyDescriptionMIRS()
+      },
+      "input": function($event) {
+        if ($event.target.composing) { return; }
+        _vm.SearchDescription = $event.target.value
+      }
+    }
+  })]), _vm._v(" "), _c('div', {
+    staticClass: "search-mirs-modal"
+  }, [_c('input', {
+    directives: [{
+      name: "model",
+      rawName: "v-model",
+      value: (_vm.ItemCodeSearch),
+      expression: "ItemCodeSearch"
+    }],
+    attrs: {
+      "type": "text",
+      "autocomplete": "off",
+      "name": "ItemCode",
+      "placeholder": "Search by item code"
+    },
+    domProps: {
+      "value": (_vm.ItemCodeSearch)
+    },
+    on: {
+      "keyup": function($event) {
+        _vm.searchbyItemCode()
+      },
+      "input": function($event) {
+        if ($event.target.composing) { return; }
+        _vm.ItemCodeSearch = $event.target.value
+      }
+    }
+  })])]), _vm._v(" "), _c('div', {
+    staticClass: "modal-search-results"
+  }, [_c('table', [_vm._m(1), _vm._v(" "), _vm._l((_vm.SearchResults), function(itemcoderesult) {
+    return _c('tr', [_c('td', [_vm._v(_vm._s(itemcoderesult.ItemCode_id))]), _vm._v(" "), _c('td', [_vm._v(_vm._s(itemcoderesult.Description))]), _vm._v(" "), _c('td', [_c('input', {
+      directives: [{
+        name: "model",
+        rawName: "v-model",
+        value: (_vm.Quantity[itemcoderesult.id]),
+        expression: "Quantity[itemcoderesult.id]"
+      }],
+      attrs: {
+        "type": "number",
+        "min": "1",
+        "name": "Quantity[]"
+      },
+      domProps: {
+        "value": (_vm.Quantity[itemcoderesult.id])
+      },
+      on: {
+        "input": function($event) {
+          if ($event.target.composing) { return; }
+          _vm.$set(_vm.Quantity, itemcoderesult.id, $event.target.value)
+        }
+      }
+    })]), _vm._v(" "), _c('td', [_vm._v(_vm._s(itemcoderesult.Unit))]), _vm._v(" "), _c('td', [_c('input', {
+      directives: [{
+        name: "model",
+        rawName: "v-model",
+        value: (_vm.Remarks[itemcoderesult.id]),
+        expression: "Remarks[itemcoderesult.id]"
+      }],
+      attrs: {
+        "type": "text",
+        "autocomplete": "off",
+        "min": "1",
+        "name": "Remarks[]"
+      },
+      domProps: {
+        "value": (_vm.Remarks[itemcoderesult.id])
+      },
+      on: {
+        "input": function($event) {
+          if ($event.target.composing) { return; }
+          _vm.$set(_vm.Remarks, itemcoderesult.id, $event.target.value)
+        }
+      }
+    })]), _vm._v(" "), _c('td', [_c('button', {
+      staticClass: "bttn-unite bttn-xs bttn-primary",
+      attrs: {
+        "type": "button"
+      },
+      on: {
+        "click": function($event) {
+          _vm.submitTosession(itemcoderesult), _vm.isActive = !_vm.isActive
+        }
+      }
+    }, [_c('i', {
+      staticClass: "fa fa-plus"
+    })])])])
+  })], 2), _vm._v(" "), _c('div', {
+    staticClass: "pagination-container"
+  }, [(_vm.ItemCodeSearch != '') ? _c('ul', {
+    staticClass: "pagination"
+  }, [(_vm.Pagination.current_page > 1) ? _c('li', [_c('a', {
+    attrs: {
+      "href": "#"
+    },
+    on: {
+      "click": function($event) {
+        $event.preventDefault();
+        _vm.changePageCode(_vm.Pagination.current_page - 1)
+      }
+    }
+  }, [_c('i', {
+    staticClass: "fa fa-angle-left"
+  })])]) : _vm._e(), _vm._v(" "), _vm._l((_vm.pagesNumber), function(page) {
+    return _c('li', {
+      class: [page == _vm.PageActive ? 'active' : '']
+    }, [_c('a', {
+      attrs: {
+        "href": "#"
+      },
+      on: {
+        "click": function($event) {
+          $event.preventDefault();
+          _vm.changePageCode(page)
+        }
+      }
+    }, [_vm._v(_vm._s(page))])])
+  }), _vm._v(" "), (_vm.Pagination.current_page < _vm.Pagination.last_page) ? _c('li', [_c('a', {
+    attrs: {
+      "href": "#"
+    },
+    on: {
+      "click": function($event) {
+        $event.preventDefault();
+        _vm.changePageCode(_vm.Pagination.current_page + 1)
+      }
+    }
+  }, [_c('i', {
+    staticClass: "fa fa-angle-right"
+  })])]) : _vm._e()], 2) : _c('ul', {
+    staticClass: "pagination"
+  }, [(_vm.Pagination.current_page > 1) ? _c('li', [_c('a', {
+    attrs: {
+      "href": "#"
+    },
+    on: {
+      "click": function($event) {
+        $event.preventDefault();
+        _vm.changePage(_vm.Pagination.current_page - 1)
+      }
+    }
+  }, [_c('i', {
+    staticClass: "fa fa-angle-left"
+  })])]) : _vm._e(), _vm._v(" "), _vm._l((_vm.pagesNumber), function(page) {
+    return _c('li', {
+      class: [page == _vm.PageActive ? 'active' : '']
+    }, [_c('a', {
+      attrs: {
+        "href": "#"
+      },
+      on: {
+        "click": function($event) {
+          $event.preventDefault();
+          _vm.changePage(page)
+        }
+      }
+    }, [_vm._v(_vm._s(page))])])
+  }), _vm._v(" "), (_vm.Pagination.current_page < _vm.Pagination.last_page) ? _c('li', [_c('a', {
+    attrs: {
+      "href": "#"
+    },
+    on: {
+      "click": function($event) {
+        $event.preventDefault();
+        _vm.changePage(_vm.Pagination.current_page + 1)
+      }
+    }
+  }, [_c('i', {
+    staticClass: "fa fa-angle-right"
+  })])]) : _vm._e()], 2)])])])])])])
+},staticRenderFns: [function (){var _vm=this;var _h=_vm.$createElement;var _c=_vm._self._c||_h;
+  return _c('tr', [_c('th', [_vm._v("Item Code")]), _vm._v(" "), _c('th', [_vm._v("Particular")]), _vm._v(" "), _c('th', [_vm._v("Quantity")]), _vm._v(" "), _c('th', [_vm._v("Unit")]), _vm._v(" "), _c('th', [_vm._v("Remarks")]), _vm._v(" "), _c('th', [_vm._v("Cancel")])])
+},function (){var _vm=this;var _h=_vm.$createElement;var _c=_vm._self._c||_h;
+  return _c('tr', [_c('th', [_vm._v("Item code")]), _vm._v(" "), _c('th', [_vm._v("Particular")]), _vm._v(" "), _c('th', [_vm._v("Quantity")]), _vm._v(" "), _c('th', [_vm._v("Unit")]), _vm._v(" "), _c('th', [_vm._v("Remarks")]), _vm._v(" "), _c('th', [_vm._v("Action")])])
+}]}
+module.exports.render._withStripped = true
+if (false) {
+  module.hot.accept()
+  if (module.hot.data) {
+     require("vue-hot-reload-api").rerender("data-v-31b7b644", module.exports)
+  }
+}
+
+/***/ }),
+
+/***/ 24:
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -1566,7 +2432,470 @@ module.exports = (
 
 
 /***/ }),
-/* 24 */
+
+/***/ 240:
+/***/ (function(module, exports, __webpack_require__) {
+
+module.exports={render:function (){var _vm=this;var _h=_vm.$createElement;var _c=_vm._self._c||_h;
+  return _c('div', {
+    staticClass: "mirs-index-vue"
+  }, [_c('div', {
+    staticClass: "top-wrap-index-mirs"
+  }, [_vm._m(0), _vm._v(" "), _c('div', {
+    staticClass: "search-mirs-container"
+  }, [_c('input', {
+    directives: [{
+      name: "model",
+      rawName: "v-model",
+      value: (_vm.SearchInput),
+      expression: "SearchInput"
+    }],
+    attrs: {
+      "type": "text",
+      "autocomplete": "off",
+      "placeholder": "Enter MIRS #"
+    },
+    domProps: {
+      "value": (_vm.SearchInput)
+    },
+    on: {
+      "keyup": function($event) {
+        _vm.SearchAndFetch()
+      },
+      "input": function($event) {
+        if ($event.target.composing) { return; }
+        _vm.SearchInput = $event.target.value
+      }
+    }
+  })])]), _vm._v(" "), _c('div', {
+    staticClass: "table-mirs-list"
+  }, [_c('table', [_vm._m(1), _vm._v(" "), _vm._l((_vm.SearchResult), function(result) {
+    return _c('tr', [_c('td', [_vm._v(_vm._s(result.MIRSNo))]), _vm._v(" "), _c('td', [_vm._v(_vm._s(result.Purpose))]), _vm._v(" "), _c('td', [_vm._v(_vm._s(result.Preparedby) + "\r\n             "), _c('i', {
+      staticClass: "fa fa-check"
+    })]), _vm._v(" "), _c('td', [_vm._v(_vm._s(result.Recommendedby) + "\r\n             "), (result.RecommendSignature != null || result.ManagerReplacerSignature != null) ? _c('i', {
+      staticClass: "fa fa-check"
+    }) : (result.Recommendedby == result.IfDeclined) ? _c('i', {
+      staticClass: "fa fa-times decliner"
+    }) : _vm._e()]), _vm._v(" "), _c('td', [_vm._v(_vm._s(result.Approvedby) + "\r\n             "), (result.ApproveSignature != null || result.ApprovalReplacerSignature != null) ? _c('i', {
+      staticClass: "fa fa-check"
+    }) : _vm._e(), _vm._v(" "), (result.IfDeclined == result.Approvedby) ? _c('i', {
+      staticClass: "fa fa-times decliner"
+    }) : _vm._e()]), _vm._v(" "), _c('td', [_vm._v(_vm._s(result.MIRSDate))]), _vm._v(" "), _c('td', [((((result.RecommendSignature != null) || (result.ManagerReplacerSignature != null)) && ((result.ApproveSignature != null) || (result.ApprovalReplacerSignature != null)))) ? _c('i', {
+      staticClass: "fa fa-thumbs-up"
+    }) : (result.IfDeclined != null) ? _c('i', {
+      staticClass: "fa fa-times decliner"
+    }) : _c('i', {
+      staticClass: "fa fa-clock-o"
+    })]), _vm._v(" "), _c('td', {
+      staticClass: "fullmirsClick"
+    }, [_c('a', {
+      attrs: {
+        "href": '/previewFullMIRS/' + result.MIRSNo
+      }
+    }, [_c('i', {
+      staticClass: "fa fa-eye"
+    })])])])
+  })], 2), _vm._v(" "), _c('div', {
+    staticClass: "paginate-container"
+  }, [_c('ul', {
+    staticClass: "pagination"
+  }, [(_vm.pagination.current_page > 1) ? _c('li', [_c('a', {
+    attrs: {
+      "href": "#"
+    },
+    on: {
+      "click": function($event) {
+        $event.preventDefault();
+        _vm.changepage(_vm.pagination.current_page - 1)
+      }
+    }
+  }, [_c('i', {
+    staticClass: "fa fa-angle-left"
+  })])]) : _vm._e(), _vm._v(" "), _vm._l((_vm.pagesNumber), function(page) {
+    return _c('li', {
+      class: [page == _vm.isActive ? 'active' : '']
+    }, [_c('a', {
+      attrs: {
+        "href": "#"
+      },
+      on: {
+        "click": function($event) {
+          $event.preventDefault();
+          _vm.changepage(page)
+        }
+      }
+    }, [_vm._v(_vm._s(page))])])
+  }), _vm._v(" "), (_vm.pagination.current_page < _vm.pagination.last_page) ? _c('li', [_c('a', {
+    attrs: {
+      "href": "#"
+    },
+    on: {
+      "click": function($event) {
+        $event.preventDefault();
+        _vm.changepage(_vm.pagination.current_page + 1)
+      }
+    }
+  }, [_c('i', {
+    staticClass: "fa fa-angle-right"
+  })])]) : _vm._e()], 2)])])])
+},staticRenderFns: [function (){var _vm=this;var _h=_vm.$createElement;var _c=_vm._self._c||_h;
+  return _c('div', {
+    staticClass: "Title-MIRS-Index"
+  }, [_c('i', {
+    staticClass: "fa fa-th-large"
+  }), _vm._v("  Materials Issuance Requisition Slip index\r\n    ")])
+},function (){var _vm=this;var _h=_vm.$createElement;var _c=_vm._self._c||_h;
+  return _c('tr', [_c('th', [_vm._v("MIRSNo")]), _vm._v(" "), _c('th', [_vm._v("Purpose")]), _vm._v(" "), _c('th', [_vm._v("Prepared by")]), _vm._v(" "), _c('th', [_vm._v("Recommended by")]), _vm._v(" "), _c('th', [_vm._v("Approved by")]), _vm._v(" "), _c('th', [_vm._v("Date")]), _vm._v(" "), _c('th', [_vm._v("Status")]), _vm._v(" "), _c('th', [_vm._v("Action")])])
+}]}
+module.exports.render._withStripped = true
+if (false) {
+  module.hot.accept()
+  if (module.hot.data) {
+     require("vue-hot-reload-api").rerender("data-v-364bebda", module.exports)
+  }
+}
+
+/***/ }),
+
+/***/ 248:
+/***/ (function(module, exports, __webpack_require__) {
+
+module.exports={render:function (){var _vm=this;var _h=_vm.$createElement;var _c=_vm._self._c||_h;
+  return _c('span', [_c('div', {
+    staticClass: "printable-paper"
+  }, [_c('div', {
+    staticClass: "print-btn-container"
+  }, [((_vm.MIRSMaster.PreparedSignature != null) && ((_vm.MIRSMaster.RecommendSignature != null) || (_vm.MIRSMaster.ManagerReplacerSignature != null)) && ((_vm.MIRSMaster.ApproveSignature != null) || (_vm.MIRSMaster.ApprovalReplacerSignature != null))) ? _c('div', {
+    staticClass: "download-form"
+  }, [_c('a', {
+    attrs: {
+      "href": '/download-pdf/' + _vm.mirsno.MIRSNo
+    }
+  }, [_vm._m(0)]), _vm._v("\r\n        unclaimed:"), _c('span', {
+    staticClass: "color-blue"
+  }, [_vm._v(_vm._s(_vm.unclaimed))])]) : ((_vm.MIRSMaster.Recommendedby != _vm.user.Fname + ' ' + _vm.user.Lname)) ? _c('div', {
+    staticClass: "empty-left-mirs"
+  }) : _c('div', {
+    staticClass: "empty-left"
+  }), _vm._v(" "), (((_vm.MIRSMaster.ManagerReplacer == _vm.user.Fname + ' ' + _vm.user.Lname) && (_vm.MIRSMaster.ManagerReplacerSignature == null))) ? _c('div', {
+    staticClass: "Request-manager-replace"
+  }, [_c('h6', {
+    staticClass: "mirs-managerreplace-info"
+  }, [_c('i', {
+    staticClass: "fa fa-info-circle color-blue"
+  }), _vm._v(" "), _c('span', {
+    staticClass: "color-blue"
+  }, [_vm._v(_vm._s(_vm.MIRSMaster.Preparedby))]), _vm._v(" is asking for your signature b/c the " + _vm._s(_vm.MIRSMaster.RecommendPosition) + " is not available\r\n          ")]), _vm._v(" "), _c('span', {
+    staticClass: "manager-replacer-accept-cant"
+  }, [_c('longpress', {
+    attrs: {
+      "duration": "3",
+      "id": "manager-replacer-accept",
+      "on-confirm": _vm.AcceptrequestReplacer,
+      "disabled": _vm.btndisable,
+      "pressing-text": "confirm in {$rcounter}",
+      "action-text": "Loading . . ."
+    }
+  }, [_c('i', {
+    staticClass: "fa fa-pencil"
+  }), _vm._v(" Signature\r\n            ")]), _vm._v(" "), _c('longpress', {
+    attrs: {
+      "duration": "3",
+      "id": "manager-replacer-cant",
+      "on-confirm": _vm.cancelrequestReplacer,
+      "disabled": _vm.btndisable,
+      "pressing-text": "confirm in {$rcounter}",
+      "action-text": "Loading . . ."
+    }
+  }, [_c('i', {
+    staticClass: "fa fa-pencil"
+  }), _vm._v(" I can't\r\n            ")])], 1)]) : _vm._e(), _vm._v(" "), (((_vm.MIRSMaster.ApprovalReplacer == _vm.user.Fname + ' ' + _vm.user.Lname) && (_vm.MIRSMaster.ApprovalReplacerSignature == null) && (_vm.MIRSMaster.ApproveSignature == null) && ((_vm.MIRSMaster.ManagerReplacerSignature != null) || (_vm.MIRSMaster.RecommendSignature != null)))) ? _c('div', {
+    staticClass: "Request-manager-replace"
+  }, [_c('h6', {
+    staticClass: "mirs-managerreplace-info"
+  }, [_c('i', {
+    staticClass: "fa fa-info-circle color-blue"
+  }), _vm._v(" "), _c('span', {
+    staticClass: "color-blue"
+  }, [_vm._v(_vm._s(_vm.MIRSMaster.Preparedby))]), _vm._v(" is asking for your signature b/c the General Manager is not available\r\n            ")]), _vm._v(" "), _c('span', {
+    staticClass: "Approve-replacer-accept-cant"
+  }, [_c('longpress', {
+    attrs: {
+      "duration": "3",
+      "id": "manager-replacer-accept",
+      "on-confirm": _vm.AcceptApprovalReplacerequest,
+      "disabled": _vm.btndisable,
+      "pressing-text": "confirm in {$rcounter}",
+      "action-text": "Loading . . ."
+    }
+  }, [_c('i', {
+    staticClass: "fa fa-pencil"
+  }), _vm._v(" Signature\r\n              ")]), _vm._v(" "), _c('longpress', {
+    attrs: {
+      "duration": "3",
+      "id": "manager-replacer-cant",
+      "on-confirm": _vm.cancelRequestApprovalReplacer,
+      "disabled": _vm.btndisable,
+      "pressing-text": "confirm in {$rcounter}",
+      "action-text": "Loading . . ."
+    }
+  }, [_c('i', {
+    staticClass: "fa fa-pencil"
+  }), _vm._v(" I can't\r\n              ")])], 1)]) : _vm._e(), _vm._v(" "), (((_vm.MIRSMaster.Recommendedby == _vm.user.Fname + ' ' + _vm.user.Lname) && (_vm.MIRSMaster.RecommendSignature == null) && (_vm.MIRSMaster.IfDeclined == null) && (_vm.MIRSMaster.ManagerReplacerSignature == null)) || ((_vm.MIRSMaster.Approvedby == _vm.user.Fname + ' ' + _vm.user.Lname) && (_vm.MIRSMaster.ApproveSignature == null) && (_vm.MIRSMaster.IfDeclined == null))) ? _c('span', [(((_vm.user.Role == 2) && ((_vm.MIRSMaster.PreparedSignature == null) || ((_vm.MIRSMaster.RecommendSignature == null) && (_vm.MIRSMaster.ManagerReplacerSignature == null))))) ? _c('span') : _c('div', {
+    staticClass: "middle-status"
+  }, [_c('longpress', {
+    attrs: {
+      "id": "accepted",
+      "duration": "3",
+      "on-confirm": _vm.SignatureMIRS,
+      "disabled": _vm.btndisable,
+      "pressing-text": "confirm in {$rcounter}",
+      "action-text": "Loading . . ."
+    }
+  }, [_c('i', {
+    staticClass: "fa fa-pencil"
+  }), _vm._v(" Signature\r\n            ")]), _vm._v(" "), _c('longpress', {
+    attrs: {
+      "id": "not-accepted",
+      "duration": "3",
+      "on-confirm": _vm.DeclineMIRS,
+      "disabled": _vm.btndisable,
+      "pressing-text": "confirm in {$rcounter}",
+      "action-text": "Loading . . ."
+    }
+  }, [_c('i', {
+    staticClass: "fa fa-times"
+  }), _vm._v(" Decline\r\n            ")])], 1)]) : _vm._e(), _vm._v(" "), ((((_vm.MIRSMaster.RecommendSignature != null) || (_vm.MIRSMaster.ManagerReplacerSignature != null)) && ((_vm.MIRSMaster.ApproveSignature != null) || (_vm.MIRSMaster.ApprovalReplacerSignature != null)))) ? _c('div', {
+    staticClass: "mct-create-mct-list"
+  }, [(((_vm.user.Role == 4) || (_vm.user.Role == 3))) ? _c('a', {
+    attrs: {
+      "href": '/create-mct/' + _vm.mirsno.MIRSNo
+    }
+  }, [_vm._m(1)]) : _vm._e(), _vm._v(" "), (((_vm.user.Role != 3) && (_vm.user.Role != 4) && (_vm.MCTNumber == null))) ? _c('h1', [_vm._v("Empty MCT")]) : (_vm.MCTNumber != null) ? _c('a', {
+    attrs: {
+      "href": '/MCTofMIRS/' + _vm.mirsno.MIRSNo
+    }
+  }, [_vm._m(2)]) : _vm._e()]) : _vm._e()])]), _vm._v(" "), _c('div', {
+    staticClass: "bondpaper-size"
+  }, [_c('div', {
+    staticClass: "top-part-box1"
+  }, [_c('h1', [_vm._v("BOHOL 1 ELECTRIC COOPERATIVE, INC.")]), _vm._v(" "), _c('h4', [_vm._v("Cabulijan, Tubigon, Bohol")]), _vm._v(" "), _c('h2', [_vm._v("MATERIALS ISSUANCE REQUISITION SLIP")]), _vm._v(" "), (_vm.MIRSMaster.IfDeclined != null) ? _c('div', {
+    staticClass: "status-mirs declined"
+  }, [_vm._m(3)]) : ((((_vm.MIRSMaster.ApprovalReplacerSignature != null) || (_vm.MIRSMaster.ApproveSignature != null)) && ((_vm.MIRSMaster.RecommendSignature != null) || (_vm.MIRSMaster.ManagerReplacerSignature != null)) && _vm.MIRSMaster.PreparedSignature != null)) ? _c('div', {
+    staticClass: "status-mirs approved"
+  }, [_vm._m(4)]) : _c('div', {
+    staticClass: "status-mirs"
+  }, [_vm._m(5)])]), _vm._v(" "), _c('div', {
+    staticClass: "top-part-box2"
+  }, [_c('div', {
+    staticClass: "top-box2-left"
+  }), _vm._v(" "), _c('div', {
+    staticClass: "top-box2-right"
+  }, [_c('div', {
+    staticClass: "top-box2-right-data"
+  }, [_c('label', [_vm._v("MIRS #:")]), _c('h1', [_vm._v(_vm._s(_vm.MIRSMaster.MIRSNo))])]), _vm._v(" "), _c('div', {
+    staticClass: "top-box2-right-data"
+  }, [_c('label', [_vm._v("Date:")]), _c('h1', [_vm._v(_vm._s(_vm.MIRSMaster.MIRSDate))])])])]), _vm._v(" "), _c('div', {
+    staticClass: "top-part-box3"
+  }, [_vm._m(6), _vm._v(" "), _c('div', {
+    staticClass: "purpose-container"
+  }, [_c('h2', [_vm._v(_vm._s(_vm.MIRSMaster.Purpose))])])]), _vm._v(" "), _c('div', {
+    staticClass: "mirs-details-container"
+  }, [_c('div', {
+    staticClass: "table-mirs-container"
+  }, [_c('table', [_vm._m(7), _vm._v(" "), _vm._l((_vm.MIRSDetail), function(mirsdata) {
+    return _c('tr', [_c('td', {
+      staticClass: "noborder-left"
+    }, [_vm._v(_vm._s(mirsdata.ItemCode))]), _vm._v(" "), _c('td', {
+      staticClass: "particular"
+    }, [_vm._v(_vm._s(mirsdata.Particulars))]), _vm._v(" "), _c('td', [_vm._v(_vm._s(mirsdata.Unit))]), _vm._v(" "), _c('td', [_vm._v(_vm._s(mirsdata.Quantity))]), _vm._v(" "), _c('td', [_vm._v(_vm._s(mirsdata.Remarks))])])
+  })], 2)]), _vm._v(" "), _vm._m(8), _vm._v(" "), _c('div', {
+    staticClass: "bottom-mirs-part"
+  }, [_c('div', {
+    staticClass: "request-recommend-sig"
+  }, [_c('div', {
+    staticClass: "request-sig"
+  }, [_c('h4', [_vm._v("Prepared by:")]), _vm._v(" "), _c('h3', [((_vm.MIRSMaster.PreparedSignature != null)) ? _c('img', {
+    attrs: {
+      "src": '/storage/signatures/' + _vm.MIRSMaster.PreparedSignature
+    }
+  }) : _vm._e()]), _vm._v(" "), _c('h2', [_vm._v("\r\n                " + _vm._s(_vm.MIRSMaster.Preparedby) + "\r\n                  "), ((_vm.MIRSMaster.IfDeclined == _vm.MIRSMaster.Preparedby)) ? _c('i', {
+    staticClass: "fa fa-times decliner"
+  }) : _vm._e(), _vm._v(" "), _c('br'), _vm._v("\r\n                " + _vm._s(_vm.MIRSMaster.PreparedPosition) + "\r\n              ")])]), _vm._v(" "), _c('div', {
+    staticClass: "recommend-sig"
+  }, [_c('h4', [_vm._v("Recommended by:")]), _vm._v(" "), (_vm.MIRSMaster.RecommendSignature != null) ? _c('h3', [_c('img', {
+    attrs: {
+      "src": '/storage/signatures/' + _vm.MIRSMaster.RecommendSignature
+    }
+  })]) : (_vm.MIRSMaster.ManagerReplacerSignature != null) ? _c('h3', [_c('h2', [_vm._v("For :")]), _vm._v(" "), _c('img', {
+    attrs: {
+      "src": '/storage/signatures/' + _vm.MIRSMaster.ManagerReplacerSignature
+    }
+  })]) : _vm._e(), _vm._v(" "), _c('h2', [_c('span', {
+    staticClass: "bold"
+  }, [_vm._v(_vm._s(_vm.MIRSMaster.Recommendedby) + "\r\n             "), _c('span', {
+    staticClass: "opener-manager-replace"
+  }, [(_vm.user.Fname + ' ' + _vm.user.Lname == _vm.MIRSMaster.Preparedby && this.ManagerBehalfActive == true) ? _c('div', {
+    staticClass: "mini-menu-managers"
+  }, [(_vm.MIRSMaster.ManagerReplacer == null) ? _c('h1', [_vm._v("Request signature to")]) : _c('h1', [_vm._v("Request pending "), _c('i', {
+    staticClass: "fa fa-clock-o color-white"
+  })]), _vm._v(" "), (_vm.MIRSMaster.ManagerReplacer == null) ? _c('div', {
+    staticClass: "manager-list-menu"
+  }, [_c('select', {
+    directives: [{
+      name: "model",
+      rawName: "v-model",
+      value: (_vm.ManagerReplacerID),
+      expression: "ManagerReplacerID"
+    }],
+    on: {
+      "change": function($event) {
+        var $$selectedVal = Array.prototype.filter.call($event.target.options, function(o) {
+          return o.selected
+        }).map(function(o) {
+          var val = "_value" in o ? o._value : o.value;
+          return val
+        });
+        _vm.ManagerReplacerID = $event.target.multiple ? $$selectedVal : $$selectedVal[0]
+      }
+    }
+  }, [_c('option', {
+    domProps: {
+      "value": null
+    }
+  }, [_vm._v("Choose a manager")]), _vm._v(" "), _vm._l((_vm.allManager), function(manager) {
+    return (manager.Fname + ' ' + manager.Lname != _vm.MIRSMaster.Recommendedby) ? _c('option', {
+      domProps: {
+        "value": manager.id
+      }
+    }, [_vm._v(_vm._s(manager.Fname) + " " + _vm._s(manager.Lname))]) : _vm._e()
+  })], 2), _vm._v(" "), (_vm.error != null) ? _c('p', {
+    staticClass: "color-red"
+  }, [_vm._v("*" + _vm._s(_vm.error))]) : _vm._e(), _vm._v(" "), _c('span', {
+    staticClass: "send-cancel-btns"
+  }, [_c('button', {
+    attrs: {
+      "type": "button"
+    },
+    on: {
+      "click": function($event) {
+        _vm.ManagerBehalfActive = false
+      }
+    }
+  }, [_vm._v("Cancel")]), _vm._v(" "), _c('button', {
+    attrs: {
+      "type": "button"
+    },
+    on: {
+      "click": function($event) {
+        _vm.sendrequestReplacer()
+      }
+    }
+  }, [_vm._v("Send")])])]) : _c('div', {
+    staticClass: "manager-replacer-sent"
+  }, [_c('p', [_vm._v("Your request has been sent to"), _c('br'), _vm._v(" "), _c('span', {
+    staticClass: "underline"
+  }, [_vm._v(_vm._s(_vm.MIRSMaster.ManagerReplacer))])]), _vm._v(" "), _c('span', {
+    staticClass: "cancel-manager-replace",
+    on: {
+      "click": function($event) {
+        _vm.cancelrequestReplacer()
+      }
+    }
+  }, [_c('i', {
+    staticClass: "fa fa-times color-red"
+  }), _vm._v("cancel")])])]) : _vm._e(), _vm._v(" "), ((_vm.MIRSMaster.RecommendSignature == null) && (_vm.MIRSMaster.Preparedby == _vm.user.Fname + ' ' + _vm.user.Lname) && (_vm.MIRSMaster.ManagerReplacerSignature == null)) ? _c('i', {
+    staticClass: "color-blue",
+    class: [_vm.MIRSMaster.ManagerReplacer == null ? 'fa fa-users' : 'fa fa-clock-o'],
+    on: {
+      "click": function($event) {
+        _vm.ManagerBehalfActive = !_vm.ManagerBehalfActive, [_vm.allManager[0] == null ? _vm.fetchAllManager() : '']
+      }
+    }
+  }) : _vm._e()]), _vm._v(" "), ((_vm.MIRSMaster.IfDeclined == _vm.MIRSMaster.Recommendedby)) ? _c('i', {
+    staticClass: "fa fa-times decliner"
+  }) : _vm._e()]), _c('br'), _vm._v("\r\n               " + _vm._s(_vm.MIRSMaster.RecommendPosition) + "\r\n            ")])])]), _vm._v(" "), _c('div', {
+    staticClass: "gm-sig"
+  }, [_c('h4', [_vm._v("APPROVED:")]), _vm._v(" "), ((_vm.MIRSMaster.ApproveSignature != null)) ? _c('h3', [_c('img', {
+    attrs: {
+      "src": '/storage/signatures/' + _vm.MIRSMaster.ApproveSignature
+    }
+  })]) : ((_vm.MIRSMaster.ApprovalReplacerSignature != null)) ? _c('h3', [_c('p', [_vm._v("For :")]), _c('img', {
+    attrs: {
+      "src": '/storage/signatures/' + _vm.MIRSMaster.ApprovalReplacerSignature
+    }
+  })]) : _vm._e(), _vm._v(" "), _c('h2', [_c('span', {
+    staticClass: "gm-info-box bold"
+  }, [_vm._v("\r\n              " + _vm._s(_vm.MIRSMaster.Approvedby) + "\r\n              "), ((_vm.MIRSMaster.IfDeclined == _vm.MIRSMaster.Approvedby)) ? _c('i', {
+    staticClass: "fa fa-times decliner"
+  }) : _vm._e()]), _c('br'), _vm._v("\r\n              " + _vm._s(_vm.MIRSMaster.ApprovePosition) + "\r\n            ")])])])])])])
+},staticRenderFns: [function (){var _vm=this;var _h=_vm.$createElement;var _c=_vm._self._c||_h;
+  return _c('button', {
+    attrs: {
+      "type": "submit"
+    }
+  }, [_vm._v("PDF "), _c('i', {
+    staticClass: "fa fa-file-pdf-o"
+  })])
+},function (){var _vm=this;var _h=_vm.$createElement;var _c=_vm._self._c||_h;
+  return _c('button', {
+    attrs: {
+      "type": "button",
+      "id": "mct-modal-btn",
+      "name": "button"
+    }
+  }, [_c('i', {
+    staticClass: "fa fa-plus"
+  }), _vm._v(" Record MCT")])
+},function (){var _vm=this;var _h=_vm.$createElement;var _c=_vm._self._c||_h;
+  return _c('button', {
+    attrs: {
+      "type": "button",
+      "name": "button"
+    }
+  }, [_c('i', {
+    staticClass: "fa fa-table"
+  }), _vm._v(" M.C.T. list")])
+},function (){var _vm=this;var _h=_vm.$createElement;var _c=_vm._self._c||_h;
+  return _c('h1', {
+    staticClass: "deny-sign"
+  }, [_c('i', {
+    staticClass: "fa fa-times"
+  }), _c('br'), _vm._v("Declined")])
+},function (){var _vm=this;var _h=_vm.$createElement;var _c=_vm._self._c||_h;
+  return _c('h1', {
+    staticClass: "approved-sign"
+  }, [_c('i', {
+    staticClass: "fa fa-thumbs-up"
+  }), _vm._v(" "), _c('br'), _vm._v("Approved")])
+},function (){var _vm=this;var _h=_vm.$createElement;var _c=_vm._self._c||_h;
+  return _c('h1', [_c('i', {
+    staticClass: "fa fa-clock-o"
+  }), _c('br'), _vm._v("Pending")])
+},function (){var _vm=this;var _h=_vm.$createElement;var _c=_vm._self._c||_h;
+  return _c('p', [_vm._v("\r\n          TO: The General Manager "), _c('br'), _vm._v("\r\n          Please furnish the following materials for :\r\n        ")])
+},function (){var _vm=this;var _h=_vm.$createElement;var _c=_vm._self._c||_h;
+  return _c('tr', [_c('th', {
+    staticClass: "noborder-left"
+  }, [_vm._v("CODE")]), _vm._v(" "), _c('th', [_vm._v("PARTICULARS")]), _vm._v(" "), _c('th', [_vm._v("UNIT")]), _vm._v(" "), _c('th', [_vm._v("QUANTITY")]), _vm._v(" "), _c('th', {
+    staticClass: "noborder-right"
+  }, [_vm._v("REMARKS")])])
+},function (){var _vm=this;var _h=_vm.$createElement;var _c=_vm._self._c||_h;
+  return _c('div', {
+    staticClass: "statement-container"
+  }, [_c('p', [_vm._v("I hereby certify that the materials/supplies requested above are "), _c('br'), _vm._v("necessary and with purpose stated above")])])
+}]}
+module.exports.render._withStripped = true
+if (false) {
+  module.hot.accept()
+  if (module.hot.data) {
+     require("vue-hot-reload-api").rerender("data-v-4f5770a0", module.exports)
+  }
+}
+
+/***/ }),
+
+/***/ 25:
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -1585,7 +2914,8 @@ module.exports = function normalizeHeaderName(headers, normalizedName) {
 
 
 /***/ }),
-/* 25 */
+
+/***/ 26:
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -1629,7 +2959,16 @@ module.exports = function parseHeaders(headers) {
 
 
 /***/ }),
-/* 26 */
+
+/***/ 265:
+/***/ (function(module, exports, __webpack_require__) {
+
+module.exports = __webpack_require__(153);
+
+
+/***/ }),
+
+/***/ 27:
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -1663,7 +3002,8 @@ module.exports = function spread(callback) {
 
 
 /***/ }),
-/* 27 */
+
+/***/ 28:
 /***/ (function(module, exports) {
 
 // shim for using process in browser
@@ -1853,7 +3193,8 @@ process.umask = function() { return 0; };
 
 
 /***/ }),
-/* 28 */
+
+/***/ 29:
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -11945,10 +13286,18 @@ Vue$3.compile = compileToFunctions;
 
 module.exports = Vue$3;
 
-/* WEBPACK VAR INJECTION */}.call(exports, __webpack_require__(9)))
+/* WEBPACK VAR INJECTION */}.call(exports, __webpack_require__(10)))
 
 /***/ }),
-/* 29 */
+
+/***/ 3:
+/***/ (function(module, exports, __webpack_require__) {
+
+module.exports = __webpack_require__(11);
+
+/***/ }),
+
+/***/ 30:
 /***/ (function(module, exports, __webpack_require__) {
 
 /*!
@@ -12075,1438 +13424,332 @@ function(module,exports){"use strict";Object.defineProperty(exports,"__esModule"
 function(module,exports){module.exports={render:function(){var _vm=this,_h=_vm.$createElement,_c=_vm._self._c||_h;return _c("div",{staticClass:"longpress-button",class:_vm.status,on:{touchend:function($event){_vm.cancel()},touchstart:function($event){$event.preventDefault(),_vm.triggerCount()},mouseup:function($event){_vm.cancel()},mousedown:function($event){$event.preventDefault(),_vm.triggerCount()}}},[_c("div",["default"===_vm.status?_vm._t("default"):_vm._e(),_vm._v(" "),"counting"===_vm.status?_c("span",[_vm._v(_vm._s(_vm.countingPressingText||"Keep pressing"))]):_vm._e(),_vm._v(" "),"executing"===_vm.status?_c("span",[_vm._v(_vm._s(_vm.actionText||"Please wait..."))]):_vm._e()],2),_vm._v(" "),_c("span",{staticClass:"progress-bar",style:"animation-duration:"+_vm.duration+"s"})])},staticRenderFns:[]}}])});
 
 /***/ }),
-/* 30 */,
-/* 31 */,
-/* 32 */,
-/* 33 */,
-/* 34 */,
-/* 35 */,
-/* 36 */
-/***/ (function(module, exports, __webpack_require__) {
 
-window.Vue = __webpack_require__(28);
-Vue.component('mirscreate', __webpack_require__(84));
-Vue.component('mirspreview', __webpack_require__(85));
-new Vue({
-  el: '#mirs'
-});
+/***/ 4:
+/***/ (function(module, exports) {
 
-/***/ }),
-/* 37 */,
-/* 38 */,
-/* 39 */,
-/* 40 */,
-/* 41 */,
-/* 42 */,
-/* 43 */,
-/* 44 */,
-/* 45 */,
-/* 46 */,
-/* 47 */,
-/* 48 */,
-/* 49 */,
-/* 50 */,
-/* 51 */,
-/* 52 */,
-/* 53 */
-/***/ (function(module, __webpack_exports__, __webpack_require__) {
+// this module is a runtime utility for cleaner component module output and will
+// be included in the final webpack user bundle
 
-"use strict";
-Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_0_vue_longpress__ = __webpack_require__(29);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_0_vue_longpress___default = __webpack_require__.n(__WEBPACK_IMPORTED_MODULE_0_vue_longpress__);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_1_axios__ = __webpack_require__(2);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_1_axios___default = __webpack_require__.n(__WEBPACK_IMPORTED_MODULE_1_axios__);
-function _defineProperty(obj, key, value) { if (key in obj) { Object.defineProperty(obj, key, { value: value, enumerable: true, configurable: true, writable: true }); } else { obj[key] = value; } return obj; }
+module.exports = function normalizeComponent (
+  rawScriptExports,
+  compiledTemplate,
+  scopeId,
+  cssModules
+) {
+  var esModule
+  var scriptExports = rawScriptExports = rawScriptExports || {}
 
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-
-
-
-/* harmony default export */ __webpack_exports__["default"] = ({
-  data: function data() {
-    var _ref;
-
-    return _ref = {
-      isActive: false,
-      purpose: '',
-      ItemCodeSearch: '',
-      SearchDescription: '',
-      DescriptionSearch: '',
-      SearchResults: [],
-      Pagination: []
-    }, _defineProperty(_ref, 'Pagination', []), _defineProperty(_ref, 'Quantity', []), _defineProperty(_ref, 'Remarks', []), _defineProperty(_ref, 'laravelerrors', []), _defineProperty(_ref, 'successAlerts', []), _defineProperty(_ref, 'ownerrors', []), _defineProperty(_ref, 'SessionItems', []), _defineProperty(_ref, 'offset', 4), _defineProperty(_ref, 'DisabledButton', false), _ref;
-  },
-
-  props: ['manager', 'gm'],
-
-  methods: {
-    searchbyItemCode: function searchbyItemCode(page) {
-      this.SearchDescription = '';
-      var vm = this;
-      __WEBPACK_IMPORTED_MODULE_1_axios___default.a.get('/findMasterItem?ItemCode=' + this.ItemCodeSearch + '&page=' + page).then(function (response) {
-        console.log(response);
-        Vue.set(vm.$data, 'SearchResults', response.data.data);
-        Vue.set(vm.$data, 'Pagination', response.data);
-      });
-    },
-    searchbyDescriptionMIRS: function searchbyDescriptionMIRS(page) {
-      this.ItemCodeSearch = '';
-      var vm = this;
-      __WEBPACK_IMPORTED_MODULE_1_axios___default.a.get('/Items-ByDescription?search=' + this.SearchDescription + '&page=' + page).then(function (response) {
-        console.log(response);
-        Vue.set(vm.$data, 'SearchResults', response.data.data);
-        Vue.set(vm.$data, 'Pagination', response.data);
-      });
-    },
-    submitTosession: function submitTosession(datas) {
-      var vm = this;
-      __WEBPACK_IMPORTED_MODULE_1_axios___default.a.post('/sessionMIRSitem', {
-        ItemCode_id: datas.ItemCode_id,
-        Particulars: datas.Description,
-        Unit: datas.Unit,
-        Remarks: this.Remarks[datas.id],
-        Quantity: this.Quantity[datas.id]
-      }).then(function (response) {
-        console.log(response);
-        if (response.data.error == null) {
-          Vue.set(vm.$data, 'successAlerts', 'Successfully added !');
-          Vue.set(vm.$data, 'ownerrors', '');
-          Vue.set(vm.$data, 'laravelerrors', '');
-        } else {
-          Vue.set(vm.$data, 'ownerrors', response.data.error);
-          Vue.set(vm.$data, 'successAlerts', '');
-          Vue.set(vm.$data, 'laravelerrors', '');
-        }
-      }, function (error) {
-        console.log(error);
-        Vue.set(vm.$data, 'laravelerrors', error.response.data);
-      });
-      this.fetchAddedSession();
-    },
-    deleteSession: function deleteSession(code) {
-      var vm = this;
-      __WEBPACK_IMPORTED_MODULE_1_axios___default.a.delete('/removeSessions/' + code, {}).then(function (response) {
-        console.log(response);
-        Vue.set(vm.$data, 'ownerrors', '');
-        Vue.set(vm.$data, 'laravelerrors', '');
-        Vue.set(vm.$data, 'successAlerts', 'Successfully removed.');
-      }, function (error) {
-        console.log(error);
-      });
-      this.fetchAddedSession();
-    },
-    fetchAddedSession: function fetchAddedSession() {
-      var vm = this;
-      __WEBPACK_IMPORTED_MODULE_1_axios___default.a.get('/fetchSessionMIRS').then(function (response) {
-        console.log(response);
-        Vue.set(vm.$data, 'SessionItems', response.data);
-      });
-    },
-    submitWholePage: function submitWholePage() {
-      var vm = this;
-      __WEBPACK_IMPORTED_MODULE_1_axios___default.a.post('/mirs-storedata', {
-        Purpose: this.purpose,
-        Approvedby: this.gm[0].id
-      }).then(function (response) {
-        console.log(response);
-        window.location = response.data.redirect;
-      }, function (error) {
-        console.log(error);
-        Vue.set(vm.$data, 'DisabledButton', false);
-        Vue.set(vm.$data, 'laravelerrors', error.response.data);
-      });
-    },
-    changePageCode: function changePageCode(page) {
-      this.Pagination.current_page = page;
-      this.searchbyItemCode(page);
-    },
-    changePage: function changePage(page) {
-      this.Pagination.current_page = page;
-      this.searchbyDescriptionMIRS(page);
-    }
-  },
-  created: function created() {
-    this.searchbyItemCode();
-    this.fetchAddedSession();
-  },
-  computed: {
-    PageActive: function PageActive() {
-      return this.Pagination.current_page;
-    },
-    pagesNumber: function pagesNumber() {
-      if (!this.Pagination.to) {
-        return [];
-      }
-      var from = this.Pagination.current_page - this.offset;
-      if (from < 1) {
-        from = 1;
-      }
-      var to = from + this.offset * 2;
-      if (to >= this.Pagination.last_page) {
-        to = this.Pagination.last_page;
-      }
-      var pagesArray = [];
-      while (from <= to) {
-        pagesArray.push(from);
-        from++;
-      }
-      return pagesArray;
-    }
-  },
-  components: {
-    Longpress: __WEBPACK_IMPORTED_MODULE_0_vue_longpress___default.a
+  // ES6 modules interop
+  var type = typeof rawScriptExports.default
+  if (type === 'object' || type === 'function') {
+    esModule = rawScriptExports
+    scriptExports = rawScriptExports.default
   }
 
-});
+  // Vue.extend constructor export interop
+  var options = typeof scriptExports === 'function'
+    ? scriptExports.options
+    : scriptExports
+
+  // render functions
+  if (compiledTemplate) {
+    options.render = compiledTemplate.render
+    options.staticRenderFns = compiledTemplate.staticRenderFns
+  }
+
+  // scopedId
+  if (scopeId) {
+    options._scopeId = scopeId
+  }
+
+  // inject cssModules
+  if (cssModules) {
+    var computed = Object.create(options.computed || null)
+    Object.keys(cssModules).forEach(function (key) {
+      var module = cssModules[key]
+      computed[key] = function () { return module }
+    })
+    options.computed = computed
+  }
+
+  return {
+    esModule: esModule,
+    exports: scriptExports,
+    options: options
+  }
+}
+
 
 /***/ }),
-/* 54 */
-/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+/***/ 5:
+/***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
-Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_0_axios__ = __webpack_require__(2);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_0_axios___default = __webpack_require__.n(__WEBPACK_IMPORTED_MODULE_0_axios__);
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
 
 
-/* harmony default export */ __webpack_exports__["default"] = ({
-  data: function data() {
-    return {
-      MIRSMaster: [],
-      MCTNumber: null,
-      MIRSDetail: [],
-      unclaimed: 0,
-      btndisable: false,
-      ManagerBehalfActive: false,
-      allManager: [],
-      ManagerReplacerID: null,
-      error: null,
-      ApproveReplacerName: ''
+var utils = __webpack_require__(0);
+var settle = __webpack_require__(17);
+var buildURL = __webpack_require__(20);
+var parseHeaders = __webpack_require__(26);
+var isURLSameOrigin = __webpack_require__(24);
+var createError = __webpack_require__(8);
+var btoa = (typeof window !== 'undefined' && window.btoa && window.btoa.bind(window)) || __webpack_require__(19);
+
+module.exports = function xhrAdapter(config) {
+  return new Promise(function dispatchXhrRequest(resolve, reject) {
+    var requestData = config.data;
+    var requestHeaders = config.headers;
+
+    if (utils.isFormData(requestData)) {
+      delete requestHeaders['Content-Type']; // Let the browser set it
+    }
+
+    var request = new XMLHttpRequest();
+    var loadEvent = 'onreadystatechange';
+    var xDomain = false;
+
+    // For IE 8/9 CORS support
+    // Only supports POST and GET calls and doesn't returns the response headers.
+    // DON'T do this for testing b/c XMLHttpRequest is mocked, not XDomainRequest.
+    if ("development" !== 'test' &&
+        typeof window !== 'undefined' &&
+        window.XDomainRequest && !('withCredentials' in request) &&
+        !isURLSameOrigin(config.url)) {
+      request = new window.XDomainRequest();
+      loadEvent = 'onload';
+      xDomain = true;
+      request.onprogress = function handleProgress() {};
+      request.ontimeout = function handleTimeout() {};
+    }
+
+    // HTTP basic authentication
+    if (config.auth) {
+      var username = config.auth.username || '';
+      var password = config.auth.password || '';
+      requestHeaders.Authorization = 'Basic ' + btoa(username + ':' + password);
+    }
+
+    request.open(config.method.toUpperCase(), buildURL(config.url, config.params, config.paramsSerializer), true);
+
+    // Set the request timeout in MS
+    request.timeout = config.timeout;
+
+    // Listen for ready state
+    request[loadEvent] = function handleLoad() {
+      if (!request || (request.readyState !== 4 && !xDomain)) {
+        return;
+      }
+
+      // The request errored out and we didn't get a response, this will be
+      // handled by onerror instead
+      // With one exception: request that using file: protocol, most browsers
+      // will return status as 0 even though it's a successful request
+      if (request.status === 0 && !(request.responseURL && request.responseURL.indexOf('file:') === 0)) {
+        return;
+      }
+
+      // Prepare the response
+      var responseHeaders = 'getAllResponseHeaders' in request ? parseHeaders(request.getAllResponseHeaders()) : null;
+      var responseData = !config.responseType || config.responseType === 'text' ? request.responseText : request.response;
+      var response = {
+        data: responseData,
+        // IE sends 1223 instead of 204 (https://github.com/mzabriskie/axios/issues/201)
+        status: request.status === 1223 ? 204 : request.status,
+        statusText: request.status === 1223 ? 'No Content' : request.statusText,
+        headers: responseHeaders,
+        config: config,
+        request: request
+      };
+
+      settle(resolve, reject, response);
+
+      // Clean up request
+      request = null;
     };
-  },
 
-  props: ['mirsno', 'user'],
-  methods: {
-    fetchMIRSData: function fetchMIRSData() {
-      var vm = this;
-      __WEBPACK_IMPORTED_MODULE_0_axios___default.a.get('/fetchpreview-full-mirs-/' + this.mirsno.MIRSNo).then(function (response) {
-        console.log(response);
-        Vue.set(vm.$data, 'MIRSMaster', response.data.MIRSMaster[0]);
-        Vue.set(vm.$data, 'MIRSDetail', response.data.MIRSDetail);
-        Vue.set(vm.$data, 'MCTNumber', response.data.MCTNumber);
-        Vue.set(vm.$data, 'unclaimed', response.data.unclaimed);
-      });
-    },
-    SignatureMIRS: function SignatureMIRS() {
-      var vm = this;
-      __WEBPACK_IMPORTED_MODULE_0_axios___default.a.put('/MIRS-Signature/' + this.mirsno.MIRSNo).then(function (response) {
-        console.log(response);
-      });
-      this.fetchMIRSData();
-    },
-    DeclineMIRS: function DeclineMIRS() {
-      var vm = this;
-      __WEBPACK_IMPORTED_MODULE_0_axios___default.a.put('/deniedmirs/' + this.mirsno.MIRSNo).then(function (response) {
-        console.log(response);
-      });
-      this.fetchMIRSData();
-    },
-    ApproveinBehalf: function ApproveinBehalf() {
-      var vm = this;
-      __WEBPACK_IMPORTED_MODULE_0_axios___default.a.put('/mirs-signature-if-gm-isabsent/' + this.mirsno.MIRSNo).then(function (response) {
-        console.log(response);
-      });
-      this.fetchMIRSData();
-    },
-    CancelApproveinBehalf: function CancelApproveinBehalf() {
-      var vm = this;
-      __WEBPACK_IMPORTED_MODULE_0_axios___default.a.put('/cancel-request-toadmin/' + this.mirsno.MIRSNo).then(function (response) {
-        console.log(response);
-      });
-      this.fetchMIRSData();
-    },
-    fetchAllManager: function fetchAllManager() {
-      var vm = this;
-      __WEBPACK_IMPORTED_MODULE_0_axios___default.a.get('/fetch-all-managers').then(function (response) {
-        console.log(response);
-        Vue.set(vm.$data, 'allManager', response.data);
-      });
-    },
-    sendrequestReplacer: function sendrequestReplacer() {
-      var vm = this;
-      __WEBPACK_IMPORTED_MODULE_0_axios___default.a.put('/send-request-manager-replacer/' + this.mirsno.MIRSNo, {
-        ManagerReplacerID: this.ManagerReplacerID
-      }).then(function (response) {
-        if (response.data.error != null) {
-          Vue.set(vm.$data, 'error', response.data.error);
+    // Handle low level network errors
+    request.onerror = function handleError() {
+      // Real errors are hidden from us by the browser
+      // onerror should only fire if it's a network error
+      reject(createError('Network Error', config));
+
+      // Clean up request
+      request = null;
+    };
+
+    // Handle timeout
+    request.ontimeout = function handleTimeout() {
+      reject(createError('timeout of ' + config.timeout + 'ms exceeded', config, 'ECONNABORTED'));
+
+      // Clean up request
+      request = null;
+    };
+
+    // Add xsrf header
+    // This is only done if running in a standard browser environment.
+    // Specifically not if we're in a web worker, or react-native.
+    if (utils.isStandardBrowserEnv()) {
+      var cookies = __webpack_require__(22);
+
+      // Add xsrf header
+      var xsrfValue = (config.withCredentials || isURLSameOrigin(config.url)) && config.xsrfCookieName ?
+          cookies.read(config.xsrfCookieName) :
+          undefined;
+
+      if (xsrfValue) {
+        requestHeaders[config.xsrfHeaderName] = xsrfValue;
+      }
+    }
+
+    // Add headers to the request
+    if ('setRequestHeader' in request) {
+      utils.forEach(requestHeaders, function setRequestHeader(val, key) {
+        if (typeof requestData === 'undefined' && key.toLowerCase() === 'content-type') {
+          // Remove Content-Type if data is undefined
+          delete requestHeaders[key];
+        } else {
+          // Otherwise add header to the request
+          request.setRequestHeader(key, val);
         }
       });
-      this.fetchMIRSData();
-    },
-    cancelrequestReplacer: function cancelrequestReplacer() {
-      var vm = this;
-      __WEBPACK_IMPORTED_MODULE_0_axios___default.a.put('/cancel-request-manager-replacer/' + this.mirsno.MIRSNo).then(function (response) {
-        Vue.set(vm.$data, 'ManagerBehalfActive', false);
-        console.log(response);
-      });
-      this.fetchMIRSData();
-    },
-    AcceptrequestReplacer: function AcceptrequestReplacer() {
-      var vm = this;
-      __WEBPACK_IMPORTED_MODULE_0_axios___default.a.put('/signature-replacer-accepted/' + this.mirsno.MIRSNo).then(function (response) {
-        console.log(response);
-      });
-      this.fetchMIRSData();
-    },
-    cancelRequestApprovalReplacer: function cancelRequestApprovalReplacer() {
-      var vm = this;
-      __WEBPACK_IMPORTED_MODULE_0_axios___default.a.put('/cancel-request-approval/' + this.mirsno.MIRSNo).then(function (response) {
-        console.log(response);
-      });
-      this.fetchMIRSData();
-    },
-    AcceptApprovalReplacerequest: function AcceptApprovalReplacerequest() {
-      var vm = this;
-      __WEBPACK_IMPORTED_MODULE_0_axios___default.a.put('/confirm-manager-toreplace-gm-signature/' + this.mirsno.MIRSNo).then(function (response) {
-        console.log(response);
-      });
-      this.fetchMIRSData();
     }
-  },
-  mounted: function mounted() {
-    this.fetchMIRSData();
-  }
-});
 
-/***/ }),
-/* 55 */,
-/* 56 */,
-/* 57 */,
-/* 58 */,
-/* 59 */,
-/* 60 */,
-/* 61 */,
-/* 62 */,
-/* 63 */,
-/* 64 */,
-/* 65 */,
-/* 66 */,
-/* 67 */,
-/* 68 */,
-/* 69 */,
-/* 70 */,
-/* 71 */,
-/* 72 */,
-/* 73 */,
-/* 74 */,
-/* 75 */,
-/* 76 */,
-/* 77 */,
-/* 78 */,
-/* 79 */,
-/* 80 */,
-/* 81 */,
-/* 82 */,
-/* 83 */,
-/* 84 */
-/***/ (function(module, exports, __webpack_require__) {
+    // Add withCredentials to request if needed
+    if (config.withCredentials) {
+      request.withCredentials = true;
+    }
 
-var Component = __webpack_require__(3)(
-  /* script */
-  __webpack_require__(53),
-  /* template */
-  __webpack_require__(107),
-  /* scopeId */
-  null,
-  /* cssModules */
-  null
-)
-Component.options.__file = "c:\\xampp\\htdocs\\warehouse\\resources\\assets\\js\\components\\MIRSCreate.vue"
-if (Component.esModule && Object.keys(Component.esModule).some(function (key) {return key !== "default" && key !== "__esModule"})) {console.error("named exports are not supported in *.vue files.")}
-if (Component.options.functional) {console.error("[vue-loader] MIRSCreate.vue: functional components are not supported with templates, they should use render functions.")}
+    // Add responseType to request if needed
+    if (config.responseType) {
+      try {
+        request.responseType = config.responseType;
+      } catch (e) {
+        if (request.responseType !== 'json') {
+          throw e;
+        }
+      }
+    }
 
-/* hot reload */
-if (false) {(function () {
-  var hotAPI = require("vue-hot-reload-api")
-  hotAPI.install(require("vue"), false)
-  if (!hotAPI.compatible) return
-  module.hot.accept()
-  if (!module.hot.data) {
-    hotAPI.createRecord("data-v-31b7b644", Component.options)
-  } else {
-    hotAPI.reload("data-v-31b7b644", Component.options)
-  }
-})()}
+    // Handle progress if needed
+    if (typeof config.onDownloadProgress === 'function') {
+      request.addEventListener('progress', config.onDownloadProgress);
+    }
 
-module.exports = Component.exports
+    // Not all browsers support upload events
+    if (typeof config.onUploadProgress === 'function' && request.upload) {
+      request.upload.addEventListener('progress', config.onUploadProgress);
+    }
+
+    if (config.cancelToken) {
+      // Handle cancellation
+      config.cancelToken.promise.then(function onCanceled(cancel) {
+        if (!request) {
+          return;
+        }
+
+        request.abort();
+        reject(cancel);
+        // Clean up request
+        request = null;
+      });
+    }
+
+    if (requestData === undefined) {
+      requestData = null;
+    }
+
+    // Send the request
+    request.send(requestData);
+  });
+};
 
 
 /***/ }),
-/* 85 */
+
+/***/ 6:
 /***/ (function(module, exports, __webpack_require__) {
 
-var Component = __webpack_require__(3)(
-  /* script */
-  __webpack_require__(54),
-  /* template */
-  __webpack_require__(113),
-  /* scopeId */
-  null,
-  /* cssModules */
-  null
-)
-Component.options.__file = "c:\\xampp\\htdocs\\warehouse\\resources\\assets\\js\\components\\MIRSPreview.vue"
-if (Component.esModule && Object.keys(Component.esModule).some(function (key) {return key !== "default" && key !== "__esModule"})) {console.error("named exports are not supported in *.vue files.")}
-if (Component.options.functional) {console.error("[vue-loader] MIRSPreview.vue: functional components are not supported with templates, they should use render functions.")}
-
-/* hot reload */
-if (false) {(function () {
-  var hotAPI = require("vue-hot-reload-api")
-  hotAPI.install(require("vue"), false)
-  if (!hotAPI.compatible) return
-  module.hot.accept()
-  if (!module.hot.data) {
-    hotAPI.createRecord("data-v-4f5770a0", Component.options)
-  } else {
-    hotAPI.reload("data-v-4f5770a0", Component.options)
-  }
-})()}
-
-module.exports = Component.exports
+"use strict";
 
 
-/***/ }),
-/* 86 */,
-/* 87 */,
-/* 88 */,
-/* 89 */,
-/* 90 */,
-/* 91 */,
-/* 92 */,
-/* 93 */,
-/* 94 */,
-/* 95 */,
-/* 96 */,
-/* 97 */,
-/* 98 */,
-/* 99 */,
-/* 100 */,
-/* 101 */,
-/* 102 */,
-/* 103 */,
-/* 104 */,
-/* 105 */,
-/* 106 */,
-/* 107 */
-/***/ (function(module, exports, __webpack_require__) {
-
-module.exports={render:function (){var _vm=this;var _h=_vm.$createElement;var _c=_vm._self._c||_h;
-  return _c('div', {
-    staticClass: "MIRS-create-wrap"
-  }, [_c('div', {
-    staticClass: "Search-item-container"
-  }, [_c('div', {
-    staticClass: "Added-Items"
-  }, [_c('div', {
-    staticClass: "modal-find-button"
-  }, [_c('button', {
-    attrs: {
-      "type": "button",
-      "name": "button"
-    },
-    on: {
-      "click": function($event) {
-        _vm.isActive = !_vm.isActive
-      }
-    }
-  }, [_c('i', {
-    staticClass: "fa fa-plus-circle"
-  }), _vm._v(" Add item")])]), _vm._v(" "), _c('div', {
-    staticClass: "added-table-wrapper"
-  }, [(_vm.laravelerrors != '') ? _c('ul', {
-    staticClass: "error-tab",
-    on: {
-      "click": function($event) {
-        _vm.laravelerrors = ''
-      }
-    }
-  }, _vm._l((_vm.laravelerrors), function(errors) {
-    return _c('span', _vm._l((errors), function(error) {
-      return _c('li', [_vm._v(_vm._s(error))])
-    }))
-  })) : _vm._e(), _vm._v(" "), (_vm.ownerrors != '') ? _c('ul', {
-    staticClass: "error-tab",
-    on: {
-      "click": function($event) {
-        _vm.ownerrors = ''
-      }
-    }
-  }, [_c('li', [_vm._v(_vm._s(_vm.ownerrors))])]) : _vm._e(), _vm._v(" "), (_vm.successAlerts != '') ? _c('div', {
-    staticClass: "successAlertRRsession",
-    on: {
-      "click": function($event) {
-        _vm.successAlerts = ''
-      }
-    }
-  }, [_c('p', [_vm._v(_vm._s(_vm.successAlerts))])]) : _vm._e(), _vm._v(" "), _c('table', [_vm._m(0), _vm._v(" "), _vm._l((_vm.SessionItems), function(sessionitem) {
-    return _c('tr', [_c('td', [_vm._v(_vm._s(sessionitem.ItemCode_id))]), _vm._v(" "), _c('td', [_vm._v(_vm._s(sessionitem.Particulars))]), _vm._v(" "), _c('td', [_vm._v(_vm._s(sessionitem.Quantity))]), _vm._v(" "), _c('td', [_vm._v(_vm._s(sessionitem.Unit))]), _vm._v(" "), _c('td', [_vm._v(_vm._s(sessionitem.Remarks))]), _vm._v(" "), _c('td', {
-      staticClass: "delete-trash"
-    }, [_c('i', {
-      staticClass: "fa fa-trash",
-      on: {
-        "click": function($event) {
-          _vm.deleteSession(sessionitem.ItemCode_id)
-        }
-      }
-    })])])
-  })], 2)])])]), _vm._v(" "), _c('div', {
-    staticClass: "MIRSform-container"
-  }, [_c('div', {
-    staticClass: "form-wrap-mirs"
-  }, [_c('ul', [_c('li', [_c('input', {
-    directives: [{
-      name: "model",
-      rawName: "v-model",
-      value: (_vm.purpose),
-      expression: "purpose"
-    }],
-    attrs: {
-      "type": "text",
-      "autocomplete": "off",
-      "name": "Purpose",
-      "placeholder": "Purpose"
-    },
-    domProps: {
-      "value": (_vm.purpose)
-    },
-    on: {
-      "input": function($event) {
-        if ($event.target.composing) { return; }
-        _vm.purpose = $event.target.value
-      }
-    }
-  })]), _vm._v(" "), (_vm.manager[0] != null) ? _c('li', [_c('h3', {
-    staticClass: "mymanagerName"
-  }, [_vm._v(_vm._s(_vm.manager[0].Fname) + " " + _vm._s(_vm.manager[0].Lname))]), _vm._v(" "), _c('p', [_vm._v("Recommended by")])]) : _vm._e(), _vm._v(" "), (_vm.gm[0] != null) ? _c('li', [_c('h3', {
-    staticClass: "gm-name"
-  }, [_vm._v(_vm._s(_vm.gm[0].Fname) + " " + _vm._s(_vm.gm[0].Lname))]), _vm._v(" "), _c('p', [_vm._v("General Manager")])]) : _vm._e(), _vm._v(" "), _c('longpress', {
-    staticClass: "submitMCT-btn",
-    attrs: {
-      "id": "go-btn",
-      "duration": "3",
-      "on-confirm": _vm.submitWholePage,
-      "pressing-text": "Keep pressing for {$rcounter} seconds to submit",
-      "action-text": "Submitting, please wait..."
-    }
-  }, [_vm._v("\r\n        Submit\r\n      ")])], 1)])]), _vm._v(" "), _c('div', {
-    staticClass: "modal-search-item",
-    class: {
-      'active animated fadeIn': _vm.isActive
-    },
-    on: {
-      "click": function($event) {
-        _vm.isActive = !_vm.isActive
-      }
-    }
-  }, [_c('div', {
-    staticClass: "middle-modal-search",
-    on: {
-      "click": function($event) {
-        _vm.isActive = !_vm.isActive
-      }
-    }
-  }, [_c('h1', [_vm._v("MIRS")]), _vm._v(" "), _c('div', {
-    staticClass: "table-mirs-modalcontain"
-  }, [_c('div', {
-    staticClass: "search-item-bar"
-  }, [_c('div', {
-    staticClass: "search-mirs-modal"
-  }, [_c('input', {
-    directives: [{
-      name: "model",
-      rawName: "v-model",
-      value: (_vm.SearchDescription),
-      expression: "SearchDescription"
-    }],
-    attrs: {
-      "type": "text",
-      "autocomplete": "off",
-      "name": "Description",
-      "placeholder": "Search by description"
-    },
-    domProps: {
-      "value": (_vm.SearchDescription)
-    },
-    on: {
-      "keyup": function($event) {
-        _vm.searchbyDescriptionMIRS()
-      },
-      "input": function($event) {
-        if ($event.target.composing) { return; }
-        _vm.SearchDescription = $event.target.value
-      }
-    }
-  })]), _vm._v(" "), _c('div', {
-    staticClass: "search-mirs-modal"
-  }, [_c('input', {
-    directives: [{
-      name: "model",
-      rawName: "v-model",
-      value: (_vm.ItemCodeSearch),
-      expression: "ItemCodeSearch"
-    }],
-    attrs: {
-      "type": "text",
-      "autocomplete": "off",
-      "name": "ItemCode",
-      "placeholder": "Search by item code"
-    },
-    domProps: {
-      "value": (_vm.ItemCodeSearch)
-    },
-    on: {
-      "keyup": function($event) {
-        _vm.searchbyItemCode()
-      },
-      "input": function($event) {
-        if ($event.target.composing) { return; }
-        _vm.ItemCodeSearch = $event.target.value
-      }
-    }
-  })])]), _vm._v(" "), _c('div', {
-    staticClass: "modal-search-results"
-  }, [_c('table', [_vm._m(1), _vm._v(" "), _vm._l((_vm.SearchResults), function(itemcoderesult) {
-    return _c('tr', [_c('td', [_vm._v(_vm._s(itemcoderesult.ItemCode_id))]), _vm._v(" "), _c('td', [_vm._v(_vm._s(itemcoderesult.Description))]), _vm._v(" "), _c('td', [_c('input', {
-      directives: [{
-        name: "model",
-        rawName: "v-model",
-        value: (_vm.Quantity[itemcoderesult.id]),
-        expression: "Quantity[itemcoderesult.id]"
-      }],
-      attrs: {
-        "type": "number",
-        "min": "1",
-        "name": "Quantity[]"
-      },
-      domProps: {
-        "value": (_vm.Quantity[itemcoderesult.id])
-      },
-      on: {
-        "input": function($event) {
-          if ($event.target.composing) { return; }
-          _vm.$set(_vm.Quantity, itemcoderesult.id, $event.target.value)
-        }
-      }
-    })]), _vm._v(" "), _c('td', [_vm._v(_vm._s(itemcoderesult.Unit))]), _vm._v(" "), _c('td', [_c('input', {
-      directives: [{
-        name: "model",
-        rawName: "v-model",
-        value: (_vm.Remarks[itemcoderesult.id]),
-        expression: "Remarks[itemcoderesult.id]"
-      }],
-      attrs: {
-        "type": "text",
-        "autocomplete": "off",
-        "min": "1",
-        "name": "Remarks[]"
-      },
-      domProps: {
-        "value": (_vm.Remarks[itemcoderesult.id])
-      },
-      on: {
-        "input": function($event) {
-          if ($event.target.composing) { return; }
-          _vm.$set(_vm.Remarks, itemcoderesult.id, $event.target.value)
-        }
-      }
-    })]), _vm._v(" "), _c('td', [_c('button', {
-      staticClass: "bttn-unite bttn-xs bttn-primary",
-      attrs: {
-        "type": "button"
-      },
-      on: {
-        "click": function($event) {
-          _vm.submitTosession(itemcoderesult), _vm.isActive = !_vm.isActive
-        }
-      }
-    }, [_c('i', {
-      staticClass: "fa fa-plus"
-    })])])])
-  })], 2), _vm._v(" "), _c('div', {
-    staticClass: "pagination-container"
-  }, [(_vm.ItemCodeSearch != '') ? _c('ul', {
-    staticClass: "pagination"
-  }, [(_vm.Pagination.current_page > 1) ? _c('li', [_c('a', {
-    attrs: {
-      "href": "#"
-    },
-    on: {
-      "click": function($event) {
-        $event.preventDefault();
-        _vm.changePageCode(_vm.Pagination.current_page - 1)
-      }
-    }
-  }, [_c('i', {
-    staticClass: "fa fa-angle-left"
-  })])]) : _vm._e(), _vm._v(" "), _vm._l((_vm.pagesNumber), function(page) {
-    return _c('li', {
-      class: [page == _vm.PageActive ? 'active' : '']
-    }, [_c('a', {
-      attrs: {
-        "href": "#"
-      },
-      on: {
-        "click": function($event) {
-          $event.preventDefault();
-          _vm.changePageCode(page)
-        }
-      }
-    }, [_vm._v(_vm._s(page))])])
-  }), _vm._v(" "), (_vm.Pagination.current_page < _vm.Pagination.last_page) ? _c('li', [_c('a', {
-    attrs: {
-      "href": "#"
-    },
-    on: {
-      "click": function($event) {
-        $event.preventDefault();
-        _vm.changePageCode(_vm.Pagination.current_page + 1)
-      }
-    }
-  }, [_c('i', {
-    staticClass: "fa fa-angle-right"
-  })])]) : _vm._e()], 2) : _c('ul', {
-    staticClass: "pagination"
-  }, [(_vm.Pagination.current_page > 1) ? _c('li', [_c('a', {
-    attrs: {
-      "href": "#"
-    },
-    on: {
-      "click": function($event) {
-        $event.preventDefault();
-        _vm.changePage(_vm.Pagination.current_page - 1)
-      }
-    }
-  }, [_c('i', {
-    staticClass: "fa fa-angle-left"
-  })])]) : _vm._e(), _vm._v(" "), _vm._l((_vm.pagesNumber), function(page) {
-    return _c('li', {
-      class: [page == _vm.PageActive ? 'active' : '']
-    }, [_c('a', {
-      attrs: {
-        "href": "#"
-      },
-      on: {
-        "click": function($event) {
-          $event.preventDefault();
-          _vm.changePage(page)
-        }
-      }
-    }, [_vm._v(_vm._s(page))])])
-  }), _vm._v(" "), (_vm.Pagination.current_page < _vm.Pagination.last_page) ? _c('li', [_c('a', {
-    attrs: {
-      "href": "#"
-    },
-    on: {
-      "click": function($event) {
-        $event.preventDefault();
-        _vm.changePage(_vm.Pagination.current_page + 1)
-      }
-    }
-  }, [_c('i', {
-    staticClass: "fa fa-angle-right"
-  })])]) : _vm._e()], 2)])])])])])])
-},staticRenderFns: [function (){var _vm=this;var _h=_vm.$createElement;var _c=_vm._self._c||_h;
-  return _c('tr', [_c('th', [_vm._v("Item Code")]), _vm._v(" "), _c('th', [_vm._v("Particular")]), _vm._v(" "), _c('th', [_vm._v("Quantity")]), _vm._v(" "), _c('th', [_vm._v("Unit")]), _vm._v(" "), _c('th', [_vm._v("Remarks")]), _vm._v(" "), _c('th', [_vm._v("Cancel")])])
-},function (){var _vm=this;var _h=_vm.$createElement;var _c=_vm._self._c||_h;
-  return _c('tr', [_c('th', [_vm._v("Item code")]), _vm._v(" "), _c('th', [_vm._v("Particular")]), _vm._v(" "), _c('th', [_vm._v("Quantity")]), _vm._v(" "), _c('th', [_vm._v("Unit")]), _vm._v(" "), _c('th', [_vm._v("Remarks")]), _vm._v(" "), _c('th', [_vm._v("Action")])])
-}]}
-module.exports.render._withStripped = true
-if (false) {
-  module.hot.accept()
-  if (module.hot.data) {
-     require("vue-hot-reload-api").rerender("data-v-31b7b644", module.exports)
-  }
+/**
+ * A `Cancel` is an object that is thrown when an operation is canceled.
+ *
+ * @class
+ * @param {string=} message The message.
+ */
+function Cancel(message) {
+  this.message = message;
 }
 
-/***/ }),
-/* 108 */,
-/* 109 */,
-/* 110 */,
-/* 111 */,
-/* 112 */,
-/* 113 */
-/***/ (function(module, exports, __webpack_require__) {
+Cancel.prototype.toString = function toString() {
+  return 'Cancel' + (this.message ? ': ' + this.message : '');
+};
 
-module.exports={render:function (){var _vm=this;var _h=_vm.$createElement;var _c=_vm._self._c||_h;
-  return _c('span', [_c('div', {
-    staticClass: "printable-paper"
-  }, [_c('div', {
-    staticClass: "print-btn-container"
-  }, [((_vm.MIRSMaster.PreparedSignature != null) && ((_vm.MIRSMaster.RecommendSignature != null) || (_vm.MIRSMaster.ManagerReplacerSignature != null)) && ((_vm.MIRSMaster.ApproveSignature != null) || (_vm.MIRSMaster.ApprovalReplacerSignature != null))) ? _c('div', {
-    staticClass: "download-form"
-  }, [_c('a', {
-    attrs: {
-      "href": '/download-pdf/' + _vm.mirsno.MIRSNo
-    }
-  }, [_vm._m(0)]), _vm._v("\r\n        unclaimed:"), _c('span', {
-    staticClass: "color-blue"
-  }, [_vm._v(_vm._s(_vm.unclaimed))])]) : ((_vm.MIRSMaster.Recommendedby != _vm.user.Fname + ' ' + _vm.user.Lname)) ? _c('div', {
-    staticClass: "empty-left-mirs"
-  }) : _c('div', {
-    staticClass: "empty-left"
-  }), _vm._v(" "), (((_vm.MIRSMaster.ManagerReplacer == _vm.user.Fname + ' ' + _vm.user.Lname) && (_vm.MIRSMaster.ManagerReplacerSignature == null))) ? _c('div', {
-    staticClass: "Request-manager-replace"
-  }, [_c('h6', {
-    staticClass: "mirs-managerreplace-info"
-  }, [_c('i', {
-    staticClass: "fa fa-info-circle color-blue"
-  }), _vm._v(" "), _c('span', {
-    staticClass: "color-blue"
-  }, [_vm._v(_vm._s(_vm.MIRSMaster.Preparedby))]), _vm._v(" is asking for your signature b/c the " + _vm._s(_vm.MIRSMaster.RecommendPosition) + " is not available\r\n          ")]), _vm._v(" "), _c('span', {
-    staticClass: "manager-replacer-accept-cant"
-  }, [_c('button', {
-    attrs: {
-      "type": "button",
-      "disabled": _vm.btndisable
-    },
-    on: {
-      "click": function($event) {
-        _vm.AcceptrequestReplacer(), _vm.btndisable = true
-      }
-    }
-  }, [_c('i', {
-    staticClass: "fa fa-pencil"
-  }), _vm._v(" Signature")]), _vm._v(" "), _c('button', {
-    attrs: {
-      "type": "button",
-      "disabled": _vm.btndisable
-    },
-    on: {
-      "click": function($event) {
-        _vm.cancelrequestReplacer(), _vm.btndisable = true
-      }
-    }
-  }, [_c('i', {
-    staticClass: "fa fa-times"
-  }), _vm._v(" I can't")])])]) : _vm._e(), _vm._v(" "), (((_vm.MIRSMaster.ApprovalReplacer == _vm.user.Fname + ' ' + _vm.user.Lname) && (_vm.MIRSMaster.ApprovalReplacerSignature == null) && (_vm.MIRSMaster.ApproveSignature == null) && ((_vm.MIRSMaster.ManagerReplacerSignature != null) || (_vm.MIRSMaster.RecommendSignature != null)))) ? _c('div', {
-    staticClass: "Request-manager-replace"
-  }, [_c('h6', {
-    staticClass: "mirs-managerreplace-info"
-  }, [_c('i', {
-    staticClass: "fa fa-info-circle color-blue"
-  }), _vm._v(" "), _c('span', {
-    staticClass: "color-blue"
-  }, [_vm._v(_vm._s(_vm.MIRSMaster.Preparedby))]), _vm._v(" is asking for your signature b/c the General Manager is not available\r\n            ")]), _vm._v(" "), _c('span', {
-    staticClass: "manager-replacer-accept-cant"
-  }, [_c('button', {
-    attrs: {
-      "type": "button"
-    },
-    on: {
-      "click": function($event) {
-        _vm.AcceptApprovalReplacerequest()
-      }
-    }
-  }, [_c('i', {
-    staticClass: "fa fa-pencil"
-  }), _vm._v(" Signature")]), _vm._v(" "), _c('button', {
-    attrs: {
-      "type": "button"
-    },
-    on: {
-      "click": function($event) {
-        _vm.cancelRequestApprovalReplacer()
-      }
-    }
-  }, [_c('i', {
-    staticClass: "fa fa-times"
-  }), _vm._v(" I can't")])])]) : _vm._e(), _vm._v(" "), (((_vm.MIRSMaster.Recommendedby == _vm.user.Fname + ' ' + _vm.user.Lname) && (_vm.MIRSMaster.RecommendSignature == null) && (_vm.MIRSMaster.IfDeclined == null) && (_vm.MIRSMaster.ManagerReplacerSignature == null)) || ((_vm.MIRSMaster.Approvedby == _vm.user.Fname + ' ' + _vm.user.Lname) && (_vm.MIRSMaster.ApproveSignature == null) && (_vm.MIRSMaster.IfDeclined == null))) ? _c('span', [(((_vm.user.Role == 2) && ((_vm.MIRSMaster.PreparedSignature == null) || ((_vm.MIRSMaster.RecommendSignature == null) && (_vm.MIRSMaster.ManagerReplacerSignature == null))))) ? _c('span') : _c('div', {
-    staticClass: "middle-status"
-  }, [_c('div', {
-    staticClass: "Accept"
-  }, [_c('button', {
-    attrs: {
-      "type": "button",
-      "id": "accepted",
-      "disabled": _vm.btndisable
-    },
-    on: {
-      "click": function($event) {
-        _vm.SignatureMIRS(), _vm.btndisable = true
-      }
-    }
-  }, [_c('i', {
-    staticClass: "fa fa-pencil"
-  }), _vm._v(" Signature")])]), _vm._v(" "), _c('div', {
-    staticClass: "Deny"
-  }, [_c('button', {
-    attrs: {
-      "type": "submit",
-      "id": "not-accepted",
-      "disabled": _vm.btndisable
-    },
-    on: {
-      "click": function($event) {
-        _vm.DeclineMIRS(), _vm.btndisable = true
-      }
-    }
-  }, [_c('i', {
-    staticClass: "fa fa-times"
-  }), _vm._v(" Decline")])])])]) : _vm._e(), _vm._v(" "), ((((_vm.MIRSMaster.RecommendSignature != null) || (_vm.MIRSMaster.ManagerReplacerSignature != null)) && ((_vm.MIRSMaster.ApproveSignature != null) || (_vm.MIRSMaster.ApprovalReplacerSignature != null)))) ? _c('div', {
-    staticClass: "mct-create-mct-list"
-  }, [(((_vm.user.Role == 4) || (_vm.user.Role == 3))) ? _c('a', {
-    attrs: {
-      "href": '/create-mct/' + _vm.mirsno.MIRSNo
-    }
-  }, [_vm._m(1)]) : _vm._e(), _vm._v(" "), (((_vm.user.Role != 3) && (_vm.user.Role != 4) && (_vm.MCTNumber == null))) ? _c('h1', [_vm._v("Empty MCT")]) : (_vm.MCTNumber != null) ? _c('a', {
-    attrs: {
-      "href": '/MCTofMIRS/' + _vm.mirsno.MIRSNo
-    }
-  }, [_vm._m(2)]) : _vm._e()]) : _vm._e()])]), _vm._v(" "), _c('div', {
-    staticClass: "bondpaper-size"
-  }, [_c('div', {
-    staticClass: "top-part-box1"
-  }, [_c('h1', [_vm._v("BOHOL 1 ELECTRIC COOPERATIVE, INC.")]), _vm._v(" "), _c('h4', [_vm._v("Cabulijan, Tubigon, Bohol")]), _vm._v(" "), _c('h2', [_vm._v("MATERIALS ISSUANCE REQUISITION SLIP")]), _vm._v(" "), (_vm.MIRSMaster.IfDeclined != null) ? _c('div', {
-    staticClass: "status-mirs declined"
-  }, [_vm._m(3)]) : ((((_vm.MIRSMaster.ApprovalReplacerSignature != null) || (_vm.MIRSMaster.ApproveSignature != null)) && ((_vm.MIRSMaster.RecommendSignature != null) || (_vm.MIRSMaster.ManagerReplacerSignature != null)) && _vm.MIRSMaster.PreparedSignature != null)) ? _c('div', {
-    staticClass: "status-mirs approved"
-  }, [_vm._m(4)]) : _c('div', {
-    staticClass: "status-mirs"
-  }, [_vm._m(5)])]), _vm._v(" "), _c('div', {
-    staticClass: "top-part-box2"
-  }, [_c('div', {
-    staticClass: "top-box2-left"
-  }), _vm._v(" "), _c('div', {
-    staticClass: "top-box2-right"
-  }, [_c('div', {
-    staticClass: "top-box2-right-data"
-  }, [_c('label', [_vm._v("MIRS #:")]), _c('h1', [_vm._v(_vm._s(_vm.MIRSMaster.MIRSNo))])]), _vm._v(" "), _c('div', {
-    staticClass: "top-box2-right-data"
-  }, [_c('label', [_vm._v("Date:")]), _c('h1', [_vm._v(_vm._s(_vm.MIRSMaster.MIRSDate))])])])]), _vm._v(" "), _c('div', {
-    staticClass: "top-part-box3"
-  }, [_vm._m(6), _vm._v(" "), _c('div', {
-    staticClass: "purpose-container"
-  }, [_c('h2', [_vm._v(_vm._s(_vm.MIRSMaster.Purpose))])])]), _vm._v(" "), _c('div', {
-    staticClass: "mirs-details-container"
-  }, [_c('div', {
-    staticClass: "table-mirs-container"
-  }, [_c('table', [_vm._m(7), _vm._v(" "), _vm._l((_vm.MIRSDetail), function(mirsdata) {
-    return _c('tr', [_c('td', {
-      staticClass: "noborder-left"
-    }, [_vm._v(_vm._s(mirsdata.ItemCode))]), _vm._v(" "), _c('td', {
-      staticClass: "particular"
-    }, [_vm._v(_vm._s(mirsdata.Particulars))]), _vm._v(" "), _c('td', [_vm._v(_vm._s(mirsdata.Unit))]), _vm._v(" "), _c('td', [_vm._v(_vm._s(mirsdata.Quantity))]), _vm._v(" "), _c('td', [_vm._v(_vm._s(mirsdata.Remarks))])])
-  })], 2)]), _vm._v(" "), _vm._m(8), _vm._v(" "), _c('div', {
-    staticClass: "bottom-mirs-part"
-  }, [_c('div', {
-    staticClass: "request-recommend-sig"
-  }, [_c('div', {
-    staticClass: "request-sig"
-  }, [_c('h4', [_vm._v("Prepared by:")]), _vm._v(" "), _c('h3', [((_vm.MIRSMaster.PreparedSignature != null)) ? _c('img', {
-    attrs: {
-      "src": '/storage/signatures/' + _vm.MIRSMaster.PreparedSignature
-    }
-  }) : _vm._e()]), _vm._v(" "), _c('h2', [_vm._v("\r\n                " + _vm._s(_vm.MIRSMaster.Preparedby) + "\r\n                  "), ((_vm.MIRSMaster.IfDeclined == _vm.MIRSMaster.Preparedby)) ? _c('i', {
-    staticClass: "fa fa-times decliner"
-  }) : _vm._e(), _vm._v(" "), _c('br'), _vm._v("\r\n                " + _vm._s(_vm.MIRSMaster.PreparedPosition) + "\r\n              ")])]), _vm._v(" "), _c('div', {
-    staticClass: "recommend-sig"
-  }, [_c('h4', [_vm._v("Recommended by:")]), _vm._v(" "), (_vm.MIRSMaster.RecommendSignature != null) ? _c('h3', [_c('img', {
-    attrs: {
-      "src": '/storage/signatures/' + _vm.MIRSMaster.RecommendSignature
-    }
-  })]) : (_vm.MIRSMaster.ManagerReplacerSignature != null) ? _c('h3', [_c('h2', [_vm._v("For :")]), _vm._v(" "), _c('img', {
-    attrs: {
-      "src": '/storage/signatures/' + _vm.MIRSMaster.ManagerReplacerSignature
-    }
-  })]) : _vm._e(), _vm._v(" "), _c('h2', [_c('span', {
-    staticClass: "bold"
-  }, [_vm._v(_vm._s(_vm.MIRSMaster.Recommendedby) + "\r\n             "), _c('span', {
-    staticClass: "opener-manager-replace"
-  }, [(_vm.user.Fname + ' ' + _vm.user.Lname == _vm.MIRSMaster.Preparedby && this.ManagerBehalfActive == true) ? _c('div', {
-    staticClass: "mini-menu-managers"
-  }, [(_vm.MIRSMaster.ManagerReplacer == null) ? _c('h1', [_vm._v("Request signature to")]) : _c('h1', [_vm._v("Request pending "), _c('i', {
-    staticClass: "fa fa-clock-o color-white"
-  })]), _vm._v(" "), (_vm.MIRSMaster.ManagerReplacer == null) ? _c('div', {
-    staticClass: "manager-list-menu"
-  }, [_c('select', {
-    directives: [{
-      name: "model",
-      rawName: "v-model",
-      value: (_vm.ManagerReplacerID),
-      expression: "ManagerReplacerID"
-    }],
-    on: {
-      "change": function($event) {
-        var $$selectedVal = Array.prototype.filter.call($event.target.options, function(o) {
-          return o.selected
-        }).map(function(o) {
-          var val = "_value" in o ? o._value : o.value;
-          return val
-        });
-        _vm.ManagerReplacerID = $event.target.multiple ? $$selectedVal : $$selectedVal[0]
-      }
-    }
-  }, [_c('option', {
-    domProps: {
-      "value": null
-    }
-  }, [_vm._v("Choose a manager")]), _vm._v(" "), _vm._l((_vm.allManager), function(manager) {
-    return (manager.Fname + ' ' + manager.Lname != _vm.MIRSMaster.Recommendedby) ? _c('option', {
-      domProps: {
-        "value": manager.id
-      }
-    }, [_vm._v(_vm._s(manager.Fname) + " " + _vm._s(manager.Lname))]) : _vm._e()
-  })], 2), _vm._v(" "), (_vm.error != null) ? _c('p', {
-    staticClass: "color-red"
-  }, [_vm._v("*" + _vm._s(_vm.error))]) : _vm._e(), _vm._v(" "), _c('span', {
-    staticClass: "send-cancel-btns"
-  }, [_c('button', {
-    attrs: {
-      "type": "button"
-    },
-    on: {
-      "click": function($event) {
-        _vm.ManagerBehalfActive = false
-      }
-    }
-  }, [_vm._v("Cancel")]), _vm._v(" "), _c('button', {
-    attrs: {
-      "type": "button"
-    },
-    on: {
-      "click": function($event) {
-        _vm.sendrequestReplacer()
-      }
-    }
-  }, [_vm._v("Send")])])]) : _c('div', {
-    staticClass: "manager-replacer-sent"
-  }, [_c('p', [_vm._v("Your request has been sent to"), _c('br'), _vm._v(" "), _c('span', {
-    staticClass: "underline"
-  }, [_vm._v(_vm._s(_vm.MIRSMaster.ManagerReplacer))])]), _vm._v(" "), _c('span', {
-    staticClass: "cancel-manager-replace",
-    on: {
-      "click": function($event) {
-        _vm.cancelrequestReplacer()
-      }
-    }
-  }, [_c('i', {
-    staticClass: "fa fa-times color-red"
-  }), _vm._v("cancel")])])]) : _vm._e(), _vm._v(" "), ((_vm.MIRSMaster.RecommendSignature == null) && (_vm.MIRSMaster.Preparedby == _vm.user.Fname + ' ' + _vm.user.Lname) && (_vm.MIRSMaster.ManagerReplacerSignature == null)) ? _c('i', {
-    staticClass: "color-blue",
-    class: [_vm.MIRSMaster.ManagerReplacer == null ? 'fa fa-users' : 'fa fa-clock-o'],
-    on: {
-      "click": function($event) {
-        _vm.ManagerBehalfActive = !_vm.ManagerBehalfActive, [_vm.allManager[0] == null ? _vm.fetchAllManager() : '']
-      }
-    }
-  }) : _vm._e()]), _vm._v(" "), ((_vm.MIRSMaster.IfDeclined == _vm.MIRSMaster.Recommendedby)) ? _c('i', {
-    staticClass: "fa fa-times decliner"
-  }) : _vm._e()]), _c('br'), _vm._v("\r\n               " + _vm._s(_vm.MIRSMaster.RecommendPosition) + "\r\n            ")])])]), _vm._v(" "), _c('div', {
-    staticClass: "gm-sig"
-  }, [_c('h4', [_vm._v("APPROVED:")]), _vm._v(" "), ((_vm.MIRSMaster.ApproveSignature != null)) ? _c('h3', [_c('img', {
-    attrs: {
-      "src": '/storage/signatures/' + _vm.MIRSMaster.ApproveSignature
-    }
-  })]) : ((_vm.MIRSMaster.ApprovalReplacerSignature != null)) ? _c('h3', [_c('p', [_vm._v("For :")]), _c('img', {
-    attrs: {
-      "src": '/storage/signatures/' + _vm.MIRSMaster.ApprovalReplacerSignature
-    }
-  })]) : _vm._e(), _vm._v(" "), _c('h2', [_c('span', {
-    staticClass: "gm-info-box bold"
-  }, [_vm._v("\r\n              " + _vm._s(_vm.MIRSMaster.Approvedby) + "\r\n              "), ((_vm.MIRSMaster.IfDeclined == _vm.MIRSMaster.Approvedby)) ? _c('i', {
-    staticClass: "fa fa-times decliner"
-  }) : _vm._e()]), _c('br'), _vm._v("\r\n              " + _vm._s(_vm.MIRSMaster.ApprovePosition) + "\r\n            ")])])])])])])
-},staticRenderFns: [function (){var _vm=this;var _h=_vm.$createElement;var _c=_vm._self._c||_h;
-  return _c('button', {
-    attrs: {
-      "type": "submit"
-    }
-  }, [_vm._v("PDF "), _c('i', {
-    staticClass: "fa fa-file-pdf-o"
-  })])
-},function (){var _vm=this;var _h=_vm.$createElement;var _c=_vm._self._c||_h;
-  return _c('button', {
-    attrs: {
-      "type": "button",
-      "id": "mct-modal-btn",
-      "name": "button"
-    }
-  }, [_c('i', {
-    staticClass: "fa fa-plus"
-  }), _vm._v(" Record MCT")])
-},function (){var _vm=this;var _h=_vm.$createElement;var _c=_vm._self._c||_h;
-  return _c('button', {
-    attrs: {
-      "type": "button",
-      "name": "button"
-    }
-  }, [_c('i', {
-    staticClass: "fa fa-table"
-  }), _vm._v(" M.C.T. list")])
-},function (){var _vm=this;var _h=_vm.$createElement;var _c=_vm._self._c||_h;
-  return _c('h1', {
-    staticClass: "deny-sign"
-  }, [_c('i', {
-    staticClass: "fa fa-times"
-  }), _c('br'), _vm._v("Declined")])
-},function (){var _vm=this;var _h=_vm.$createElement;var _c=_vm._self._c||_h;
-  return _c('h1', {
-    staticClass: "approved-sign"
-  }, [_c('i', {
-    staticClass: "fa fa-thumbs-up"
-  }), _vm._v(" "), _c('br'), _vm._v("Approved")])
-},function (){var _vm=this;var _h=_vm.$createElement;var _c=_vm._self._c||_h;
-  return _c('h1', [_c('i', {
-    staticClass: "fa fa-clock-o"
-  }), _c('br'), _vm._v("Pending")])
-},function (){var _vm=this;var _h=_vm.$createElement;var _c=_vm._self._c||_h;
-  return _c('p', [_vm._v("\r\n          TO: The General Manager "), _c('br'), _vm._v("\r\n          Please furnish the following materials for :\r\n        ")])
-},function (){var _vm=this;var _h=_vm.$createElement;var _c=_vm._self._c||_h;
-  return _c('tr', [_c('th', {
-    staticClass: "noborder-left"
-  }, [_vm._v("CODE")]), _vm._v(" "), _c('th', [_vm._v("PARTICULARS")]), _vm._v(" "), _c('th', [_vm._v("UNIT")]), _vm._v(" "), _c('th', [_vm._v("QUANTITY")]), _vm._v(" "), _c('th', {
-    staticClass: "noborder-right"
-  }, [_vm._v("REMARKS")])])
-},function (){var _vm=this;var _h=_vm.$createElement;var _c=_vm._self._c||_h;
-  return _c('div', {
-    staticClass: "statement-container"
-  }, [_c('p', [_vm._v("I hereby certify that the materials/supplies requested above are "), _c('br'), _vm._v("necessary and with purpose stated above")])])
-}]}
-module.exports.render._withStripped = true
-if (false) {
-  module.hot.accept()
-  if (module.hot.data) {
-     require("vue-hot-reload-api").rerender("data-v-4f5770a0", module.exports)
-  }
-}
+Cancel.prototype.__CANCEL__ = true;
+
+module.exports = Cancel;
+
 
 /***/ }),
-/* 114 */,
-/* 115 */,
-/* 116 */,
-/* 117 */,
-/* 118 */,
-/* 119 */,
-/* 120 */,
-/* 121 */,
-/* 122 */,
-/* 123 */,
-/* 124 */,
-/* 125 */,
-/* 126 */,
-/* 127 */,
-/* 128 */,
-/* 129 */,
-/* 130 */
+
+/***/ 7:
 /***/ (function(module, exports, __webpack_require__) {
 
-module.exports = __webpack_require__(36);
+"use strict";
+
+
+module.exports = function isCancel(value) {
+  return !!(value && value.__CANCEL__);
+};
+
+
+/***/ }),
+
+/***/ 8:
+/***/ (function(module, exports, __webpack_require__) {
+
+"use strict";
+
+
+var enhanceError = __webpack_require__(16);
+
+/**
+ * Create an Error with the specified message, config, error code, and response.
+ *
+ * @param {string} message The error message.
+ * @param {Object} config The config.
+ * @param {string} [code] The error code (for example, 'ECONNABORTED').
+ @ @param {Object} [response] The response.
+ * @returns {Error} The created error.
+ */
+module.exports = function createError(message, config, code, response) {
+  var error = new Error(message);
+  return enhanceError(error, config, code, response);
+};
+
+
+/***/ }),
+
+/***/ 9:
+/***/ (function(module, exports, __webpack_require__) {
+
+"use strict";
+
+
+module.exports = function bind(fn, thisArg) {
+  return function wrap() {
+    var args = new Array(arguments.length);
+    for (var i = 0; i < args.length; i++) {
+      args[i] = arguments[i];
+    }
+    return fn.apply(thisArg, args);
+  };
+};
 
 
 /***/ })
-/******/ ]);
+
+/******/ });

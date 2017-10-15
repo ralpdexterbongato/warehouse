@@ -64,8 +64,8 @@
                 <input type="text"  v-model="ItemCode">
               </div>
               <div class="updateinput-label">
-                <h3 :class="[CurrentQuantity!=''?'active color-white':'']">Current Qty</h3>
-                  <input type="text"  v-model="CurrentQuantity">
+                <h3 :class="[Description!=''?'active color-white':'']">Name & Description</h3>
+                  <input type="text"  v-model="Description">
               </div>
               <div class="updateinput-label">
                 <h3 :class="[Unit!=''?'active color-white':'']">Unit</h3>
@@ -93,13 +93,13 @@
                     <option v-for="ulist in UnitList">{{ulist.UnitName}}</option>
                   </select>
               </div>
+              <div class="updateinput-label">
+                <h3 :class="[CurrentQuantity!=''?'active color-white':'']">Current Qty</h3>
+                  <input type="text"  v-model="CurrentQuantity">
+              </div>
             <div class="updateinput-label">
               <h3 :class="[CurrentCost!=''?'active color-white':'center-input']">Current cost</h3>
                 <vue-numeric  v-bind:minus="false" v-bind:precision="2" min="0" currency="₱" v-model="CurrentCost"></vue-numeric>
-            </div>
-            <div class="updateinput-label">
-              <h3 :class="[Description!=''?'active color-white':'']">Name & Description</h3>
-                <input type="text"  v-model="Description">
             </div>
             <div class="updateinput-label">
               <h3 :class="[AlertBelow!=''?'active color-white':'']">Alert if qty. is below</h3>
@@ -165,16 +165,17 @@ Vue.use(VueNumeric)
             if (response.data.error!=null)
             {
               Vue.set(vm.$data,'ownerrors',response.data.error);
-            }else{
-            Vue.set(vm.$data,'successAlerts','Created Successfully');
-            Vue.set(vm.$data,'AccountCode','');
-            Vue.set(vm.$data,'ItemCode','');
-            Vue.set(vm.$data,'CurrentQuantity','');
-            Vue.set(vm.$data,'Unit','');
-            Vue.set(vm.$data,'CurrentCost','');
-            Vue.set(vm.$data,'Description','');
-            Vue.set(vm.$data,'AlertBelow','');
-          }
+            }else
+            {
+              Vue.set(vm.$data,'successAlerts','Created Successfully');
+              Vue.set(vm.$data,'AccountCode','');
+              Vue.set(vm.$data,'ItemCode','');
+              Vue.set(vm.$data,'CurrentQuantity','');
+              Vue.set(vm.$data,'Unit','');
+              Vue.set(vm.$data,'CurrentCost','');
+              Vue.set(vm.$data,'Description','');
+              Vue.set(vm.$data,'AlertBelow','');
+            }
           },function(error)
           {
             console.log(error);
@@ -244,7 +245,7 @@ Vue.use(VueNumeric)
              Vue.set(vm.$data,'AccountCode','');
              Vue.set(vm.$data,'ItemCode','');
              Vue.set(vm.$data,'CurrentQuantity','');
-             Vue.set(vm.$data,'CurrentCost','');
+             Vue.set(vm.$data,'CurrentCost',0);
              Vue.set(vm.$data,'Unit','');
              Vue.set(vm.$data,'Description','');
              Vue.set(vm.$data,'AlertBelow','');

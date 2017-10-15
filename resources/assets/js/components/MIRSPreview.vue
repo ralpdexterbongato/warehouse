@@ -15,29 +15,40 @@
             <span class="color-blue">{{MIRSMaster.Preparedby}}</span> is asking for your signature b/c the {{MIRSMaster.RecommendPosition}} is not available
           </h6>
           <span class="manager-replacer-accept-cant">
-            <button type="button" v-on:click="AcceptrequestReplacer(),btndisable=true" :disabled="btndisable"> <i class="fa fa-pencil"></i> Signature</button>
-            <button type="button" v-on:click="cancelrequestReplacer(),btndisable=true" :disabled="btndisable"> <i class="fa fa-times"></i> I can't</button>
+            <longpress  duration="3" id="manager-replacer-accept" :on-confirm="AcceptrequestReplacer" :disabled="btndisable" pressing-text="confirm in {$rcounter}" action-text="Loading . . .">
+            <i class="fa fa-pencil"></i> Signature
+            </longpress>
+            <longpress  duration="3" id="manager-replacer-cant" :on-confirm="cancelrequestReplacer" :disabled="btndisable" pressing-text="confirm in {$rcounter}" action-text="Loading . . .">
+            <i class="fa fa-pencil"></i> I can't
+            </longpress>
           </span>
         </div>
           <div class="Request-manager-replace"  v-if="((MIRSMaster.ApprovalReplacer==user.Fname+' '+user.Lname)&&(MIRSMaster.ApprovalReplacerSignature==null)&&(MIRSMaster.ApproveSignature==null)&&((MIRSMaster.ManagerReplacerSignature!=null)||(MIRSMaster.RecommendSignature!=null)))">
             <h6 class="mirs-managerreplace-info"><i class="fa fa-info-circle color-blue"></i>
               <span class="color-blue">{{MIRSMaster.Preparedby}}</span> is asking for your signature b/c the General Manager is not available
             </h6>
-            <span class="manager-replacer-accept-cant">
-              <button type="button" v-on:click="AcceptApprovalReplacerequest()"> <i class="fa fa-pencil"></i> Signature</button>
-              <button type="button" v-on:click="cancelRequestApprovalReplacer()"> <i class="fa fa-times"></i> I can't</button>
+            <span class="Approve-replacer-accept-cant">
+              <longpress  duration="3" id="manager-replacer-accept" :on-confirm="AcceptApprovalReplacerequest" :disabled="btndisable" pressing-text="confirm in {$rcounter}" action-text="Loading . . .">
+              <i class="fa fa-pencil"></i> Signature
+              </longpress>
+              <longpress  duration="3" id="manager-replacer-cant" :on-confirm="cancelRequestApprovalReplacer" :disabled="btndisable" pressing-text="confirm in {$rcounter}" action-text="Loading . . .">
+              <i class="fa fa-pencil"></i> I can't
+              </longpress>
+              <!-- <button type="button" v-on:click="AcceptApprovalReplacerequest()"> <i class="fa fa-pencil"></i> Signature</button>
+              <button type="button" v-on:click="cancelRequestApprovalReplacer()"> <i class="fa fa-times"></i> I can't</button> -->
             </span>
           </div>
         <span v-if="((MIRSMaster.Recommendedby==user.Fname+' '+user.Lname)&&(MIRSMaster.RecommendSignature==null)&&(MIRSMaster.IfDeclined==null)&&(MIRSMaster.ManagerReplacerSignature==null))||((MIRSMaster.Approvedby==user.Fname+' '+user.Lname)&&(MIRSMaster.ApproveSignature==null)&&(MIRSMaster.IfDeclined==null))">
           <span v-if="((user.Role==2)&&((MIRSMaster.PreparedSignature==null)||((MIRSMaster.RecommendSignature==null)&&(MIRSMaster.ManagerReplacerSignature==null))))">
           </span>
           <div class="middle-status" v-else>
-            <div class="Accept">
-              <button type="button" id="accepted" v-on:click="SignatureMIRS(),btndisable=true" :disabled="btndisable"><i class="fa fa-pencil"></i> Signature</button>
-            </div>
-            <div class="Deny">
-              <button type="submit" id="not-accepted" v-on:click="DeclineMIRS(),btndisable=true" :disabled="btndisable"><i class="fa fa-times"></i> Decline</button>
-            </div>
+            <longpress id="accepted" duration="3" :on-confirm="SignatureMIRS" :disabled="btndisable" pressing-text="confirm in {$rcounter}" action-text="Loading . . .">
+            <i class="fa fa-pencil"></i> Signature
+            </longpress>
+            <longpress id="not-accepted" duration="3" :on-confirm="DeclineMIRS" :disabled="btndisable" pressing-text="confirm in {$rcounter}" action-text="Loading . . .">
+            <i class="fa fa-times"></i> Decline
+            </longpress>
+
           </div>
         </span>
       <div class="mct-create-mct-list" v-if="(((MIRSMaster.RecommendSignature!=null)||(MIRSMaster.ManagerReplacerSignature!=null))&&((MIRSMaster.ApproveSignature!=null)||(MIRSMaster.ApprovalReplacerSignature!=null)))">
@@ -185,6 +196,7 @@
 
 <script>
 import axios from 'axios';
+import Longpress from 'vue-longpress';
   export default {
      data () {
         return {
@@ -314,5 +326,8 @@ import axios from 'axios';
      mounted () {
        this.fetchMIRSData();
      },
+     components: {
+        Longpress
+      },
   }
 </script>

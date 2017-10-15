@@ -23,7 +23,7 @@ class RRController extends Controller
   public function __construct()
   {
     $this->middleware('auth');
-    $this->middleware('IsWarehouse',['except'=>['RRofRVlist','refreshRRSignatureCount','RRindex','previewRR','signatureRR','declineRR','RRindexSearchbyRRNo','RRsignatureRequest','displayRRcurrentSession']]);
+    $this->middleware('IsWarehouse',['except'=>['RRofRVlist','previewRRfetchdata','RRindexSearchAndFetch','refreshRRSignatureCount','RRindex','previewRR','signatureRR','declineRR','RRsignatureRequest','displayRRcurrentSession']]);
   }
   public function storeRRSessionValidatorNoPO($request)
   {
@@ -79,17 +79,6 @@ class RRController extends Controller
       'model'=> $itemMasters
     ];
     return response()->json($response);
-  }
-  public function ItemMasterbyDescription(Request $request)
-  {
-    Session::forget('itemMastersRR');
-     $itemMasters=MasterItem::where('Description','LIKE','%'.$request->Description.'%')->paginate(5);
-     if (!empty($itemMasters[0]))
-     {
-      Session::put('itemMastersRR',$itemMasters);
-      return redirect()->back();
-    }
-     return redirect()->back()->with('message','No results found');
   }
   public function StoreSessionRRNoPO(Request $request)
   {
@@ -350,10 +339,19 @@ class RRController extends Controller
   }
   public function RRindex()
   {
-    $RRmasters=RRMaster::orderBy('RRNo','DESC')->paginate(10,['RRNo','Supplier','Address','RVNo','Receivedby','ReceivedbySignature','ReceivedOriginalby','ReceivedOriginalbySignature','Verifiedby','VerifiedbySignature','PostedtoBINby','PostedtoBINbySignature','IfDeclined']);
-    return view('Warehouse.RR.RRindex',compact('RRmasters'));
+    return view('Warehouse.RR.RRindex');
+  }
+  public function RRindexSearchAndFetch(Request $request)
+  {
+    return RRMaster::where('RRNo','LIKE','%'.$request->RRNo.'%')->orderBy('RRNo','DESC')->paginate(10,['RRNo','Supplier','RVNo','Receivedby','ReceivedbySignature','ReceivedOriginalby','ReceivedOriginalbySignature','Verifiedby','VerifiedbySignature','PostedtoBINby','PostedtoBINbySignature','IfDeclined']);
   }
   public function previewRR($id)
+  {
+    $RRNumber= array('RRNo' =>$id);
+    $RRNumber=json_encode($RRNumber);
+    return view('Warehouse.RR.RRfullpreview',compact('RRNumber'));
+  }
+  public function previewRRfetchdata($id)
   {
     $RRconfirmationDetails=RRconfirmationDetails::where('RRNo',$id)->get(['ItemCode','Unit','Description','RRQuantityDelivered','QuantityAccepted','UnitCost','Amount']);
     $Netsales=$RRconfirmationDetails->sum('Amount');
@@ -361,29 +359,30 @@ class RRController extends Controller
     $TOTALamt=$Netsales+$VAT;
     $RRMaster=RRMaster::where('RRNo',$id)->get();
     $checkMR=MRMaster::orderBy('RRNo','DESC')->where('RRNo',$id)->take(1)->get(['MRNo']);
-    return view('Warehouse.RR.RRfullpreview',compact('allmanager','TOTALamt','VAT','checkMR','Netsales','RRMaster','RRconfirmationDetails'));
+    $response = array('RRconfirmationDetails' =>$RRconfirmationDetails ,'Netsales'=>$Netsales,'VAT'=>$VAT,'TOTALamt'=>$TOTALamt,'RRMaster'=>$RRMaster,'checkMR'=>$checkMR);
+    return response()->json($response);
   }
-  public function signatureRR(Request $request)
+  public function signatureRR($id)
   {
-    $RRMaster=RRMaster::where('RRNo',$request->RRNo)->get(['ReceivedOriginalby','Verifiedby','PostedtoBINby','PONo','RVNo']);
+    $RRMaster=RRMaster::where('RRNo',$id)->get(['ReceivedOriginalby','Verifiedby','PostedtoBINby','PONo','RVNo']);
     if ($RRMaster[0]->ReceivedOriginalby==Auth::user()->Fname.' '.Auth::user()->Lname)
     {
-        RRMaster::where('RRNo',$request->RRNo)->update(['ReceivedOriginalbySignature'=>Auth::user()->Signature]);
+        RRMaster::where('RRNo',$id)->update(['ReceivedOriginalbySignature'=>Auth::user()->Signature]);
     }
     if ($RRMaster[0]->Verifiedby==Auth::user()->Fname.' '.Auth::user()->Lname)
     {
-      RRMaster::where('RRNo',$request->RRNo)->update(['VerifiedbySignature'=>Auth::user()->Signature]);
+      RRMaster::where('RRNo',$id)->update(['VerifiedbySignature'=>Auth::user()->Signature]);
     }
     if ($RRMaster[0]->PostedtoBINby==Auth::user()->Fname.' '.Auth::user()->Lname)
     {
-        RRMaster::where('RRNo',$request->RRNo)->update(['PostedtoBINbySignature'=>Auth::user()->Signature]);
+        RRMaster::where('RRNo',$id)->update(['PostedtoBINbySignature'=>Auth::user()->Signature]);
     }
-    $RRMasterUpdated=RRMaster::where('RRNo',$request->RRNo)->get(['ReceivedbySignature','ReceivedOriginalbySignature','VerifiedbySignature','PostedtoBINbySignature']);
+    $RRMasterUpdated=RRMaster::where('RRNo',$id)->get(['ReceivedbySignature','ReceivedOriginalbySignature','VerifiedbySignature','PostedtoBINbySignature']);
     if (($RRMasterUpdated[0]->ReceivedOriginalbySignature)&&($RRMasterUpdated[0]->VerifiedbySignature)&&($RRMasterUpdated[0]->PostedtoBINbySignature)&&($RRMasterUpdated[0]->ReceivedbySignature))
     {
-      $RRconfirmDetails=RRconfirmationDetails::where('RRNo',$request->RRNo)->get();
+      $RRconfirmDetails=RRconfirmationDetails::where('RRNo',$id)->get();
       $forMTDtable = array();
-      $date=RRMaster::where('RRNo', $request->RRNo)->get(['RRDate']);
+      $date=RRMaster::where('RRNo', $id)->get(['RRDate']);
       foreach ($RRconfirmDetails as $fromconfirmDetail)
       {
         if ($fromconfirmDetail->ItemCode)
@@ -425,15 +424,7 @@ class RRController extends Controller
         }
       }
     }
-
-    return redirect()->back();
   }
-  public function RRindexSearchbyRRNo(Request $request)
-  {
-    $RRMasterResults=RRMaster::where('RRNo',$request->RRNo)->paginate(10,['RRNo','Supplier','Address','RVNo','Receivedby','ReceivedbySignature','ReceivedOriginalby','ReceivedbySignature','Verifiedby','VerifiedbySignature','PostedtoBINby','PostedtoBINbySignature','IfDeclined']);
-    return view('Warehouse.RR.RRindex',compact('RRMasterResults'));
-  }
-
   public function RRsignatureRequest()
   {
     $requestRR=RRMaster::orderBy('RRNo','DESC')->where('ReceivedOriginalby',Auth::user()->Fname.' '.Auth::user()->Lname)
@@ -448,13 +439,13 @@ class RRController extends Controller
     ->paginate(10,['RRNo','Supplier','Address','RVNo','Receivedby','ReceivedbySignature','ReceivedOriginalby','ReceivedOriginalbySignature','Verifiedby','VerifiedbySignature','PostedtoBINby','PostedtoBINbySignature']);
     return view('Warehouse.RR.myRRrequest',compact('requestRR'));
   }
-  public function declineRR(Request $request)
+  public function declineRR($id)
   {
-    RRMaster::where('RRNo',$request->RRNo)->update(['IfDeclined'=>Auth::user()->Fname.' '.Auth::user()->Lname]);
-    $RRMaster=RRMaster::where('RRNo',$request->RRNo)->get(['PONo','RVNo']);
+    RRMaster::where('RRNo',$id)->update(['IfDeclined'=>Auth::user()->Fname.' '.Auth::user()->Lname]);
+    $RRMaster=RRMaster::where('RRNo',$id)->get(['PONo','RVNo']);
     if ($RRMaster[0]->PONo!=null)
     {
-      $Detailscanceled=RRconfirmationDetails::where('RRNo',$request->RRNo)->get(['Description','QuantityAccepted']);
+      $Detailscanceled=RRconfirmationDetails::where('RRNo',$id)->get(['Description','QuantityAccepted']);
       $RRValidatorWithPO=RRValidatorWithPO::where('PONo', $RRMaster[0]->PONo)->get(['Description','Qty']);
       foreach ($Detailscanceled as $canceldata)
       {
@@ -469,7 +460,7 @@ class RRController extends Controller
       }
     }else
     {
-      $Detailscanceled=RRconfirmationDetails::where('RRNo',$request->RRNo)->get(['Description','QuantityAccepted']);
+      $Detailscanceled=RRconfirmationDetails::where('RRNo',$id)->get(['Description','QuantityAccepted']);
       $RRValidatorNoPO=RRValidatorNoPO::where('RVNo', $RRMaster[0]->RVNo)->get(['Particulars','Quantity']);
       foreach ($Detailscanceled as $canceldata)
       {
@@ -483,7 +474,6 @@ class RRController extends Controller
         }
       }
     }
-    return redirect()->back();
   }
   public function displayRRcurrentSession()
   {

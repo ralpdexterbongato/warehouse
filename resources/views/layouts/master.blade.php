@@ -20,6 +20,12 @@
     </script>
   </head>
   <body>
+    @php
+      function current_page($uri)
+      {
+        return strstr(request()->path(),$uri);
+      }
+    @endphp
     <header>
       <div class="top-nav-container">
         <div class="left-nav-content">
@@ -57,8 +63,8 @@
             <h1>
               <span><i class="fa fa-plus"></i></span></i>
               <ul class="dropping">
-                <a href="{{route('mirs.add')}}"><li><i class="fa fa-leaf"></i> MIRS </li></a>
-                <a href="{{route('Creating.RV')}}"><li><i class="fa fa-leaf"></i> RV</li></a>
+                <a href="{{route('mirs.add')}}"><li class="{{current_page('MIRS-add')?'active':''}}"><i class="fa fa-leaf"></i> MIRS </li></a>
+                <a href="{{route('Creating.RV')}}"><li class="{{current_page('RV-create')?'active':''}}"><i class="fa fa-leaf"></i> RV</li></a>
               </ul>
             </h1>
           </li>
@@ -67,13 +73,13 @@
             <h1>
               <span><i class="fa fa-search"></i></span>
               <ul class="dropping">
-                <a href="{{route('MIRSgridview')}}"><li><i class="fa fa-fire"></i> MIRS</li></a>
-                <a href="{{route('indexMCT')}}"><li><i class="fa fa-fire"></i> MCT</li></a>
-                <a href="{{route('MRTindexPageonly')}}"><li><i class="fa fa-fire"></i> MRT</li></a>
-                <a href="{{route('RVindexView')}}"><li><i class="fa fa-fire"></i> RV</li></a>
-                <a href="{{route('RRindexview')}}"><li><i class="fa fa-fire"></i> RR</li></a>
-                <a href="{{route('POIndexPage')}}"><li><i class="fa fa-fire"></i> PO</li></a>
-                <a href="{{route('MRIndexPage')}}"><li><i class="fa fa-fire"></i> MR</li></a>
+                <a href="{{route('MIRSgridview')}}"><li class="{{current_page('mirs-index-page')?'active':''}}"><i class="fa fa-th-large"></i> MIRS</li></a>
+                <a href="{{route('indexMCT')}}"><li class="{{current_page('mct-index-page')?'active':''}}"><i class="fa fa-th-large"></i> MCT</li></a>
+                <a href="{{route('MRTindexPageonly')}}"><li class="{{current_page('mrt-index-page')?'active':''}}"><i class="fa fa-th-large"></i> MRT</li></a>
+                <a href="{{route('RVindexView')}}"><li class="{{current_page('RVindex')?'active':''}}"><i class="fa fa-th-large"></i> RV</li></a>
+                <a href="{{route('RRindexview')}}"><li class="{{current_page('RR-index')?'active':''}}"><i class="fa fa-th-large"></i> RR</li></a>
+                <a href="{{route('POIndexPage')}}"><li class="{{current_page('po-index-page')?'active':''}}"><i class="fa fa-th-large"></i> PO</li></a>
+                <a href="{{route('MRIndexPage')}}"><li class="{{current_page('mr-index-page')?'active':''}}"><i class="fa fa-th-large"></i> MR</li></a>
               </ul>
             </h1>
           </li>
@@ -82,8 +88,8 @@
               <h1>
                 <i class="fa fa-bar-chart"></i>
                 <ul class="dropping">
-                  <a href="{{route('summary.mrt')}}"><li><i class="fa fa-bar-chart"></i> MRT</li></a>
-                  <a href="{{route('mct-summary')}}"><li><i class="fa fa-bar-chart"></i> MCT</li></a>
+                  <a href="{{route('summary.mrt')}}"><li class="{{current_page('summary-mrt')?'active':''}}"><i class="fa fa-bar-chart"></i> MRT</li></a>
+                  <a href="{{route('mct-summary')}}"><li class="{{current_page('mct-summary')?'active':''}}"><i class="fa fa-bar-chart"></i> MCT</li></a>
                 </ul>
               </h1>
             </li>

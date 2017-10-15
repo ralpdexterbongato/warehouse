@@ -8,15 +8,17 @@
     <div class="search-mrt-summary">
       <h1><i class="fa fa-calendar"></i> Summary of materials returned</h1>
       <form class="searchbox-summary-mrt" action="{{route('mrt.summary.find')}}" method="get">
-        <input type="text" autocomplete="off" name="monthInput" placeholder="Year-Month (yyyy-mm)"><button type="submit"><i class="fa fa-search"></i></button>
+        <input type="text" autocomplete="off" name="monthInput"  placeholder="Year-Month (yyyy-mm)"><button type="submit"><i class="fa fa-search"></i></button>
       </form>
     </div>
     <div class="results-summary-mrt">
       @if (!empty($mrtmaster[0]))
+      <div class="print-summary-mrt-container">
+        <form class="print-mrt-summary" action="{{route('mrt-summary-print')}}" method="get">
+          <button type="submit" name="monthInput" value="{{$mrtmaster[0]->ReturnDate->format('Y-m')}}"><i class="fa fa-file-pdf-o"></i> Print</button>
+        </form>
+      </div>
       <div class="bondpaper-sample-mrt">
-          <form class="print-mrt-summary" action="{{route('mrt-summary-print')}}" method="get">
-            <button type="submit" name="monthInput" value="{{$mrtmaster[0]->ReturnDate->format('Y-m')}}"><i class="fa fa-file-pdf-o"></i> Print</button>
-          </form>
         <div class="header-summary">
           <div class="header-summary-content">
             <img src="DesignIMG/logo.png" alt="logo">

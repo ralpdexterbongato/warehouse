@@ -1,6 +1,6 @@
 <template lang="html">
   <div class="table-container-mrt-request">
-    <table>
+    <table v-if="MRTrequests[0]!=null">
       <tr>
         <th>MRTNo</th>
         <th>Return date</th>
@@ -22,6 +22,7 @@
         <td><a :href="'/mrt-preview-page/'+mrt.MRTNo"><i class="fa fa-eye"></i></a></td>
       </tr>
     </table>
+    <h1 v-else class="No-MRT"> No MRT signature request</h1>
     <div class="paginate-container">
       <ul class="pagination">
         <li v-if="pagination.current_page > 1">

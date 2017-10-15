@@ -10,4 +10,5 @@ class RRMaster extends Model
   public $timestamps =false;
   public $dates=['RRDate'];
   public $fillable=['RVNo'];
+  protected $dateFormat='M d, Y';
 }

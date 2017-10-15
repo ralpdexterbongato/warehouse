@@ -60,10 +60,10 @@ class PDFController extends Controller
         return redirect('/summary-mrt');
       }
   }
-  public function rrdownload(Request $request)
+  public function rrdownload($id)
   {
-    $RRconfirmMasterResult=RRMaster::where('RRNo',$request->RRNo)->get();
-    $RRconfirmDetails=RRconfirmationDetails::where('RRNo',$request->RRNo)->get(['ItemCode','Unit','RRQuantityDelivered','Description','QuantityAccepted','UnitCost','Amount']);
+    $RRconfirmMasterResult=RRMaster::where('RRNo',$id)->get();
+    $RRconfirmDetails=RRconfirmationDetails::where('RRNo',$id)->get(['ItemCode','Unit','RRQuantityDelivered','Description','QuantityAccepted','UnitCost','Amount']);
     $netsales=$RRconfirmDetails->sum('Amount');
     $VAT=$netsales*.12;
     $totalAmmount=$VAT+$netsales;

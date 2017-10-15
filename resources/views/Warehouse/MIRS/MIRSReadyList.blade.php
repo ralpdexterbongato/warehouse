@@ -5,6 +5,9 @@ MIRS Ready for MCT
 @section('body')
   <div class="MIRS-Ready-Container">
     <div class="ready-mirs-container">
+      <div class="ready-mirs-title">
+        <h1><i class="fa fa-thumbs-up"></i> Newly approved M.I.R.S.</h1>
+      </div>
       @if (!empty($readyformct[0]))
       <table>
         <tr>
