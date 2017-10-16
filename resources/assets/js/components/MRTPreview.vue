@@ -11,9 +11,7 @@
       </span>
       <span v-else>
       </span>
-      <span class="signature-decline-mrt" v-if="user.Fname+' '+user.Lname==MRTMaster.Returnedby&&MRTMaster.ReturnedbySignature==null&&MRTMaster.IfDeclined==null">
-        <!-- <button type="button" id="signature-mrt" name="button" v-on:click="signatureMRT(),DisableBtn=true" :disabled="DisableBtn"><i class="fa fa-pencil"></i> Signature</button>
-        <button type="button" id="decline-mrt" name="button" v-on:click="declineMRT(),DisableBtn=true":disabled="DisableBtn"><i class="fa fa-times"></i> Decline</button> -->
+      <span class="signature-decline-mrt" :class="{'hide':SignatureBtnHide}" v-if="user.Fname+' '+user.Lname==MRTMaster.Returnedby&&MRTMaster.ReturnedbySignature==null&&MRTMaster.IfDeclined==null">
         <longpress id="signature-mrt" duration="3" :on-confirm="signatureMRT" pressing-text="confirm in {$rcounter}" action-text="Loading . . .">
         <i class="fa fa-pencil"></i> Signature
         </longpress>
@@ -105,6 +103,7 @@ import Longpress from 'vue-longpress'
           Editbtn:false,
           EditedQty:[],
           DisableBtn:false,
+          SignatureBtnHide:false,
         }
       },
      props: ['mrtno','user'],
@@ -126,6 +125,7 @@ import Longpress from 'vue-longpress'
       },
       signatureMRT()
       {
+        this.SignatureBtnHide=true;
         var vm=this;
         axios.put(`/signatureMRT/`+this.mrtno[0].MRTNo).then(function(response)
         {
@@ -135,6 +135,7 @@ import Longpress from 'vue-longpress'
       },
       declineMRT()
       {
+        this.SignatureBtnHide=true;
         var vm=this;
         axios.put(`/declineMRT/`+this.mrtno[0].MRTNo).then(function(response)
         {

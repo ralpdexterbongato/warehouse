@@ -24,11 +24,10 @@
             <th>Article</th>
             <th>Unit</th>
             <th>Qty</th>
-
-              <th v-for="supplier in Suppliers">{{supplier.Supplier}}<br><br>
-                  <button type="button" @click.prevent="IsActive=!IsActive" v-on:click="Update=true,fetchSupplierUpdate(supplier.id)"><i class="fa fa-refresh"></i></button>
-                  <button type="button" name="button" v-on:click="deleteCanvass(supplier.id)"><i class="fa fa-trash"></i></button>
-              </th>
+            <th v-for="supplier in Suppliers">{{supplier.Supplier}}<br><br>
+                <button type="button" @click.prevent="IsActive=!IsActive" v-on:click="Update=true,fetchSupplierUpdate(supplier.id)"><i class="fa fa-refresh"></i></button>
+                <button type="button" name="button" v-on:click="deleteCanvass(supplier.id)"><i class="fa fa-trash"></i></button>
+            </th>
           </tr>
             <tr v-for="(rvdata, index) in RVdata">
               <td>{{rvdata.Particulars}}</td>
@@ -41,11 +40,12 @@
               </td>
             </tr>
         </table>
-        <div class="GeneratePO-btn">
-          <longpress duration="3" class="generate-po-btn" :on-confirm="generatePO" pressing-text="Submitting in {$rcounter}" action-text="Loading . . .">
+      </div>
+      <div class="GeneratePO-btn">
+        <longpress duration="3" class="generate-po-btn" :class="{'hide':HideSubmitBtn}" :on-confirm="generatePO" pressing-text="Submitting in {$rcounter}" action-text="Loading . . .">
           Submit <i class="fa fa-check-circle"></i>
         </longpress>
-        </div>
+        <i class="fa fa-spinner fa-spin fa-pulse" :class="[HideSubmitBtn==true?'show':'hide']" id="generating-po-loading"></i>
       </div>
     </div>
     <div class="modal-canvass" :class="{'active':IsActive}">
@@ -134,7 +134,7 @@ Vue.use(VueNumeric);
         successAlerts:'',
         selectedValue:'',
         fetchUpdatedata:[],
-        btndisabled:false
+        HideSubmitBtn:false,
       }
     },
     props:['rvno'],
@@ -197,6 +197,7 @@ Vue.use(VueNumeric);
       },
       generatePO()
       {
+        this.HideSubmitBtn=true;
         var vm=this;
         axios.post(`/generate-po`,{
           RVNo:this.RVdata[0].RVNo,
@@ -207,10 +208,14 @@ Vue.use(VueNumeric);
            if (response.data.error==null)
            {
              window.location=response.data.redirect;
+           }else
+           {
+             Vue.set(vm.$data,'HideSubmitBtn',false);
            }
         },function(error)
         {
           Vue.set(vm.$data,'laravelerrors',error.response.data);
+          Vue.set(vm.$data,'HideSubmitBtn',false);
         });
       },
       changeValue(count,newValue) {

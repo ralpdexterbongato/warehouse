@@ -949,6 +949,13 @@ margin:auto;
 {
 background-color:#002C4E;
 }
+#loading-submit
+{
+  text-align: center;
+  font-size: 25px;
+  color: #fff;
+  height: 40px
+}
 .submitMCT-btn
 {
   border-radius: 3px;
@@ -1186,8 +1193,8 @@ width:98%;
 .modal-search-results td > button
 {
   border-radius: 50%;
-  height: 30px;
-  width: 30px;
+  height: 34px;
+  width: 34px;
 }
 .modal-search-results td input
 {
@@ -1674,6 +1681,14 @@ filter: drop-shadow(0 0 3px #969696);
   -o-filter: drop-shadow(0 1px 2px #888);
   filter: drop-shadow(0 1px 2px #888);
 }
+.print-btn-container button:hover
+{
+  -ms-filter: drop-shadow(0 1px 1px #888);
+  -webkit-filter: drop-shadow(0 1px 1px #888);
+  -moz-filter: drop-shadow(0 1px 1px #888);
+  -o-filter: drop-shadow(0 1px 1px #888);
+  filter: drop-shadow(0 1px 1px #888);
+}
 .download-form
 {
   font-family:'Comfortaa',sans-serif;
@@ -1782,6 +1797,7 @@ filter: drop-shadow(0 0 3px #969696);
   font-size: 15px;
   padding:7px 14px;
   width: 100px;
+  text-align: center;
 }
 #not-accepted:active
 {
@@ -4204,6 +4220,10 @@ overflow-y:auto;
   margin-top: 100px;
   color: #fff;
 }
+.space-bottom
+{
+  margin-bottom: 150px;
+}
 .autoselectedRV p
 {
   padding-top: 10px;
@@ -4308,40 +4328,32 @@ overflow-y:auto;
 }
 #closemodalRV:hover
 {
-  color: #0063B1;
-}
-#closemodalRV:active
-{
-  border-style: inset;
+  background: #CCC;
 }
 #closemodalRV
 {
   border-color: gray
-  border-style:outset;
   outline: none;
+  border-style: none;
   color: #00508F;
+  padding:7px 14px;
 }
 #addtolistRV
 {
+  padding:7px 14px;
   color: #fff;
   background: #0063B1;
-  border-style:outset;
   border-color:#0063B1;
+  border-style: none;
 }
 #addtolistRV:hover
 {
   background:#00508F;
-  border-color:#0063B1;
-}
-#addtolistRV:active
-{
-  border-style: inset;
 }
 .submit-button-RV
 {
 text-align: center;
  width: 100%;
- margin-top: 150px;
  height: 40px;
  border-radius: 5px;
  background: #002C4E;
@@ -4416,6 +4428,7 @@ text-align: center;
   text-align: center;
   padding-left: 5px;
   font-size: 15px;
+  font-family: 'Comfortaa',sans-serif;
 }
 /*Full RV view CSS*/
 .fullRV-container
@@ -5051,12 +5064,11 @@ transition:all .5s;
   text-align: center;
   font-family:'Comfortaa',sans-serif;
   border:1px solid #337AB7;
-  font-size: 15px;
+  font-size: 14px;
 }
 .table-rv-container th
 {
   background: #337AB7;
-  font-weight: 600;
   color: #fff;
   padding:10px;
 }
@@ -5115,7 +5127,7 @@ transition:all .5s;
 .items-from-rv-table
 {
   margin-top: 20px;
-  overflow-y: auto;
+  overflow-x: auto;
 }
 .items-from-rv-table tr:nth-child(odd)
 {
@@ -5294,6 +5306,11 @@ button.done-canvass:hover
   margin-top: 50px;
   display: flex;
   justify-content:center;
+}
+#generating-po-loading
+{
+  font-size: 30px;
+  color: #00213A;
 }
 .generate-po-btn:hover,.generate-po-btn:focus
 {
@@ -5794,7 +5811,10 @@ filter: drop-shadow(1px 1px 8px #0D4DFF);
   color: #fff;
   margin-right:5px;
   border-style: none;
-
+  padding:7px 14px;
+  width: 100px;
+  text-align: center;
+  font-family:'Comfortaa',sans-serif;
 }
 #signatureMRbtn:hover
 {
@@ -5805,6 +5825,10 @@ filter: drop-shadow(1px 1px 8px #0D4DFF);
   background: #860000;
   color: #fff;
   border-style: none;
+  padding:7px 14px;
+  width: 100px;
+  text-align: center;
+  font-family:'Comfortaa',sans-serif;
 }
 #declineMRbtn:hover
 {
@@ -6837,6 +6861,7 @@ filter: drop-shadow(-2px 1px 5px #1D1A33);
   padding:3px 6px;
   width: 110px;
   border-style: none;
+  background: transparent;
   border-bottom: 1px solid #0063B1;
 }
 .middle-rr-withpo td button
@@ -7634,6 +7659,7 @@ filter: drop-shadow(0px 0px 8px #4A4A4A);
 {
   width: 100%;
   text-align: center;
+  font-size: 15px;
   font-family:'Comfortaa',sans-serif;
 }
 .table-container-mrt-request th
@@ -7649,7 +7675,8 @@ filter: drop-shadow(0px 0px 8px #4A4A4A);
 }
 .table-container-mrt-request td
 {
-  padding:20px;
+  padding:15px;
+  color: #00213A;
 }
 .table-container-mrt-request tr:nth-child(odd)
 {

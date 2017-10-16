@@ -14,11 +14,11 @@
           <h6 class="mirs-managerreplace-info"><i class="fa fa-info-circle color-blue"></i>
             <span class="color-blue">{{MIRSMaster.Preparedby}}</span> is asking for your signature b/c the {{MIRSMaster.RecommendPosition}} is not available
           </h6>
-          <span class="manager-replacer-accept-cant">
-            <longpress  duration="3" id="manager-replacer-accept" :on-confirm="AcceptrequestReplacer" :disabled="btndisable" pressing-text="confirm in {$rcounter}" action-text="Loading . . .">
+          <span class="manager-replacer-accept-cant" :class="{'hide':SignatureManagerRelacerBtnHide}">
+            <longpress  duration="3" id="manager-replacer-accept" :on-confirm="AcceptrequestReplacer"  pressing-text="confirm in {$rcounter}" action-text="Loading . . .">
             <i class="fa fa-pencil"></i> Signature
             </longpress>
-            <longpress  duration="3" id="manager-replacer-cant" :on-confirm="cancelrequestReplacer" :disabled="btndisable" pressing-text="confirm in {$rcounter}" action-text="Loading . . .">
+            <longpress  duration="3" id="manager-replacer-cant" :on-confirm="cancelrequestReplacer"  pressing-text="confirm in {$rcounter}" action-text="Loading . . .">
             <i class="fa fa-pencil"></i> I can't
             </longpress>
           </span>
@@ -27,35 +27,31 @@
             <h6 class="mirs-managerreplace-info"><i class="fa fa-info-circle color-blue"></i>
               <span class="color-blue">{{MIRSMaster.Preparedby}}</span> is asking for your signature b/c the General Manager is not available
             </h6>
-            <span class="Approve-replacer-accept-cant">
-              <longpress  duration="3" id="manager-replacer-accept" :on-confirm="AcceptApprovalReplacerequest" :disabled="btndisable" pressing-text="confirm in {$rcounter}" action-text="Loading . . .">
+            <span class="Approve-replacer-accept-cant" :class="{'hide':SignatureApproveBtnHide}">
+              <longpress  duration="3" id="manager-replacer-accept" :on-confirm="AcceptApprovalReplacerequest"  pressing-text="confirm in {$rcounter}" action-text="Loading . . .">
               <i class="fa fa-pencil"></i> Signature
               </longpress>
-              <longpress  duration="3" id="manager-replacer-cant" :on-confirm="cancelRequestApprovalReplacer" :disabled="btndisable" pressing-text="confirm in {$rcounter}" action-text="Loading . . .">
+              <longpress  duration="3" id="manager-replacer-cant" :on-confirm="cancelRequestApprovalReplacer"  pressing-text="confirm in {$rcounter}" action-text="Loading . . .">
               <i class="fa fa-pencil"></i> I can't
               </longpress>
-              <!-- <button type="button" v-on:click="AcceptApprovalReplacerequest()"> <i class="fa fa-pencil"></i> Signature</button>
-              <button type="button" v-on:click="cancelRequestApprovalReplacer()"> <i class="fa fa-times"></i> I can't</button> -->
             </span>
           </div>
         <span v-if="((MIRSMaster.Recommendedby==user.Fname+' '+user.Lname)&&(MIRSMaster.RecommendSignature==null)&&(MIRSMaster.IfDeclined==null)&&(MIRSMaster.ManagerReplacerSignature==null))||((MIRSMaster.Approvedby==user.Fname+' '+user.Lname)&&(MIRSMaster.ApproveSignature==null)&&(MIRSMaster.IfDeclined==null))">
           <span v-if="((user.Role==2)&&((MIRSMaster.PreparedSignature==null)||((MIRSMaster.RecommendSignature==null)&&(MIRSMaster.ManagerReplacerSignature==null))))">
           </span>
-          <div class="middle-status" v-else>
-            <longpress id="accepted" duration="3" :on-confirm="SignatureMIRS" :disabled="btndisable" pressing-text="confirm in {$rcounter}" action-text="Loading . . .">
-            <i class="fa fa-pencil"></i> Signature
+          <div class="middle-status" :class="{'hide':SignatureBtnHide}" v-else>
+            <longpress id="accepted" duration="3" :on-confirm="SignatureMIRS"  pressing-text="confirm in {$rcounter}" action-text="Loading . . .">
+              <i class="fa fa-pencil"></i> Signature
             </longpress>
-            <longpress id="not-accepted" duration="3" :on-confirm="DeclineMIRS" :disabled="btndisable" pressing-text="confirm in {$rcounter}" action-text="Loading . . .">
-            <i class="fa fa-times"></i> Decline
+            <longpress id="not-accepted" duration="3" :on-confirm="DeclineMIRS"  pressing-text="confirm in {$rcounter}" action-text="Loading . . .">
+              <i class="fa fa-times"></i> Decline
             </longpress>
-
           </div>
         </span>
       <div class="mct-create-mct-list" v-if="(((MIRSMaster.RecommendSignature!=null)||(MIRSMaster.ManagerReplacerSignature!=null))&&((MIRSMaster.ApproveSignature!=null)||(MIRSMaster.ApprovalReplacerSignature!=null)))">
         <a :href="'/create-mct/'+mirsno.MIRSNo" v-if="((user.Role==4)||(user.Role==3))"><button type="button" id="mct-modal-btn" name="button"><i class="fa fa-plus"></i> Record MCT</button></a>
-
-          <h1 v-if="((user.Role!=3)&&(user.Role!=4)&&(MCTNumber==null))">Empty MCT</h1>
-          <a :href="'/MCTofMIRS/'+mirsno.MIRSNo" v-else-if="MCTNumber!=null"><button type="button" name="button"><i class="fa fa-table"></i> M.C.T. list</button></a>
+        <h1 v-if="((user.Role!=3)&&(user.Role!=4)&&(MCTNumber==null))">Empty MCT</h1>
+        <a :href="'/MCTofMIRS/'+mirsno.MIRSNo" v-else-if="MCTNumber!=null"><button type="button" name="button"><i class="fa fa-table"></i> M.C.T. list</button></a>
       </div>
   </div>
   </div>
@@ -204,12 +200,14 @@ import Longpress from 'vue-longpress';
           MCTNumber:null,
           MIRSDetail:[],
           unclaimed:0,
-          btndisable:false,
           ManagerBehalfActive:false,
           allManager:[],
           ManagerReplacerID:null,
           error:null,
           ApproveReplacerName:'',
+          SignatureBtnHide:false,
+          SignatureApproveBtnHide:false,
+          SignatureManagerRelacerBtnHide:false,
         }
       },
      props: ['mirsno','user'],
@@ -228,6 +226,7 @@ import Longpress from 'vue-longpress';
        },
        SignatureMIRS()
        {
+         this.SignatureBtnHide=true;
          var vm=this;
          axios.put(`/MIRS-Signature/`+this.mirsno.MIRSNo).then(function(response)
         {
@@ -237,6 +236,7 @@ import Longpress from 'vue-longpress';
       },
       DeclineMIRS()
       {
+        this.SignatureBtnHide=true;
         var vm=this;
         axios.put(`/deniedmirs/`+this.mirsno.MIRSNo).then(function(response)
         {
@@ -287,6 +287,7 @@ import Longpress from 'vue-longpress';
       },
       cancelrequestReplacer()
       {
+        this.SignatureManagerRelacerBtnHide=true;
         var vm=this;
         axios.put(`/cancel-request-manager-replacer/`+this.mirsno.MIRSNo).then(function(response)
         {
@@ -297,6 +298,7 @@ import Longpress from 'vue-longpress';
       },
       AcceptrequestReplacer()
       {
+        this.SignatureManagerRelacerBtnHide=true;
         var vm=this;
         axios.put(`/signature-replacer-accepted/`+this.mirsno.MIRSNo).then(function(response)
         {
@@ -306,6 +308,7 @@ import Longpress from 'vue-longpress';
       },
       cancelRequestApprovalReplacer()
       {
+        this.SignatureApproveBtnHide=true;
         var vm=this;
         axios.put(`/cancel-request-approval/`+this.mirsno.MIRSNo).then(function(response)
         {
@@ -315,6 +318,7 @@ import Longpress from 'vue-longpress';
       },
       AcceptApprovalReplacerequest()
       {
+        this.SignatureApproveBtnHide=true;
         var vm=this;
         axios.put(`/confirm-manager-toreplace-gm-signature/`+this.mirsno.MIRSNo).then(function(response)
         {

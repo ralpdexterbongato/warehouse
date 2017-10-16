@@ -50,9 +50,12 @@
           <h3 class="gm-name">{{gm[0].Fname}} {{gm[0].Lname}}</h3>
           <p>General Manager</p>
         </li>
-        <longpress id="go-btn"  class="submitMCT-btn" duration="3" :on-confirm="submitWholePage" pressing-text="Keep pressing for {$rcounter} seconds to submit" action-text="Submitting, please wait...">
-        Submit
-      </longpress>
+        <longpress id="go-btn"  class="submitMCT-btn" :class="{'hide':HideButton}" duration="3" :on-confirm="submitWholePage" pressing-text="Submit confirmed in {$rcounter}" action-text="Please wait...">
+          Submit
+        </longpress>
+        <li :class="[HideButton==true?'show':'hide']">
+          <h3 id="loading-submit"><i class="fa fa-spinner fa-spin fa-pulse"></i></h3>
+        </li>
       </ul>
     </div>
   </div>
@@ -139,7 +142,7 @@ import axios from 'axios';
          ownerrors:[],
          SessionItems:[],
          offset:4,
-         DisabledButton:false,
+         HideButton:false,
        }
      },
      props: ['manager','gm'],
@@ -223,6 +226,7 @@ import axios from 'axios';
         },
          submitWholePage()
         {
+          this.HideButton=true;
           var vm=this;
           axios.post(`/mirs-storedata`,{
             Purpose:this.purpose,
@@ -234,7 +238,7 @@ import axios from 'axios';
           },function(error)
           {
             console.log(error);
-            Vue.set(vm.$data,'DisabledButton',false);
+            Vue.set(vm.$data,'HideButton',false);
             Vue.set(vm.$data,'laravelerrors',error.response.data);
           });
         },

@@ -28,9 +28,7 @@
       <h6 class="approve-managerreplace-note"><i class="fa fa-info-circle color-blue"></i>
         <span class="color-blue">{{RVMaster.Requisitioner}}</span> is asking for your signature b/c the {{RVMaster.RecommendedbyPosition}} is not available
       </h6>
-      <span>
-        <!-- <button type="button" name="button" v-on:click="signatureRequestManagerReplacer(),btndisabled=true" :disabled="btndisabled"><i class="fa fa-pencil"></i> Signature</button>
-        <button type="button" name="button" v-on:click="cancelRequestManagerReplacer(),btndisabled=true" :disabled="btndisabled"> <i class="fa fa-times"></i> I Can't</button> -->
+      <span :class="{'hide':SignatureManagerReplacerHide}">
         <longpress class="rvapprovebtn" duration="3" :on-confirm="signatureRequestManagerReplacer" :disabled="btndisabled" pressing-text="confirm in {$rcounter}" action-text="Loading . . .">
         <i class="fa fa-pencil"></i> Signature
         </longpress>
@@ -43,7 +41,7 @@
       <h6 class="approve-managerreplace-note"><i class="fa fa-info-circle color-blue"></i>
         <span class="color-blue">{{RVMaster.Requisitioner}}</span> is asking for your signature b/c the General Manager is not available
       </h6>
-      <span>
+      <span :class="{'hide':SignatureApprovalReplacerHide}">
         <longpress class="rvapprovebtn" duration="3" :on-confirm="acceptApproveRequest" :disabled="approveBtnReplacer" pressing-text="confirm in {$rcounter}" action-text="Loading . . .">
         <i class="fa fa-pencil"></i> Signature
         </longpress>
@@ -53,7 +51,7 @@
       </span>
     </div>
     <div class="declineOrSignatureBtn">
-          <span v-if="(((RVMaster.BudgetOfficer==user.Fname+' '+user.Lname)&&(RVMaster.BudgetOfficerSignature==null)&&((RVMaster.RecommendedbySignature!=null)||(RVMaster.ManagerReplacerSignature!=null))&&(RVMaster.IfDeclined==null))||((RVMaster.IfDeclined==null)&&(RVMaster.Recommendedby==user.Fname+' '+user.Lname)&&(RVMaster.RecommendedbySignature==null)&&(RVMaster.ManagerReplacerSignature==null))||((RVMaster.IfDeclined==null)&&(RVMaster.GeneralManager==user.Fname+' '+user.Lname)&&(RVMaster.GeneralManagerSignature==null)&&(RVMaster.ApprovalReplacerSignature==null)&&(RVMaster.BudgetOfficerSignature!=null)&&((RVMaster.RecommendedbySignature!=null)||(RVMaster.ManagerReplacerSignature!=null))))">
+          <span :class="{'hide':SignatureRVBtnHide}" v-if="(((RVMaster.BudgetOfficer==user.Fname+' '+user.Lname)&&(RVMaster.BudgetOfficerSignature==null)&&((RVMaster.RecommendedbySignature!=null)||(RVMaster.ManagerReplacerSignature!=null))&&(RVMaster.IfDeclined==null))||((RVMaster.IfDeclined==null)&&(RVMaster.Recommendedby==user.Fname+' '+user.Lname)&&(RVMaster.RecommendedbySignature==null)&&(RVMaster.ManagerReplacerSignature==null))||((RVMaster.IfDeclined==null)&&(RVMaster.GeneralManager==user.Fname+' '+user.Lname)&&(RVMaster.GeneralManagerSignature==null)&&(RVMaster.ApprovalReplacerSignature==null)&&(RVMaster.BudgetOfficerSignature!=null)&&((RVMaster.RecommendedbySignature!=null)||(RVMaster.ManagerReplacerSignature!=null))))">
             <div class="RVapprove">
               <longpress class="rvapprovebtn" duration="3" :on-confirm="Signature" pressing-text="confirm in {$rcounter}" action-text="Loading . . .">
               <i class="fa fa-pencil"></i> Signature
@@ -281,7 +279,10 @@ Vue.use(VueNumeric);
           pendingRemarksShow:'',
           drop:false,
           approveBtnReplacer:false,
-          BudgetUpdate:''
+          BudgetUpdate:'',
+          SignatureRVBtnHide:false,
+          SignatureManagerReplacerHide:false,
+          SignatureApprovalReplacerHide:false,
         }
       },
      props: ['rvno','user'],
@@ -301,6 +302,7 @@ Vue.use(VueNumeric);
       },
       Signature()
       {
+        this.SignatureRVBtnHide=true;
         var vm=this;
         axios.put(`/RVsignature/`+this.rvno.RVNo,{
           BudgetAvailable:this.BudgetAvail,
@@ -314,18 +316,19 @@ Vue.use(VueNumeric);
         });
         this.fetchData();
       },
-      formatPrice(value) {
-            let val = (value/1).toFixed(2).replace('.', '.')
-            return val.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ",")
-        },
       declineRV()
       {
+        this.SignatureRVBtnHide=true;
         var vm=this;
         axios.put(`/declineRV/`+this.rvno.RVNo).then(function(response)
         {
           console.log(response);
         });
         this.fetchData();
+      },
+      formatPrice(value) {
+            let val = (value/1).toFixed(2).replace('.', '.')
+            return val.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ",")
       },
       UpdateBudget()
       {
@@ -378,6 +381,7 @@ Vue.use(VueNumeric);
       },
       cancelRequestManagerReplacer()
       {
+        this.SignatureManagerReplacerHide=true;
         var vm=this;
         axios.put(`/cancelrequestsentReplacer/`+this.rvno.RVNo).then(function(response)
         {
@@ -387,6 +391,7 @@ Vue.use(VueNumeric);
       },
       signatureRequestManagerReplacer()
       {
+        this.SignatureManagerReplacerHide=true;
         var vm=this;
         axios.put(`/AcceptManagerReplacer/`+this.rvno.RVNo);
         this.fetchData();
@@ -412,6 +417,7 @@ Vue.use(VueNumeric);
       },
       cancelApprovalRequest()
       {
+        this.SignatureApprovalReplacerHide=true;
         var vm=this;
         axios.put(`/rv-signature-in-behalf-cancel/`+this.rvno.RVNo).then(function(response)
         {
@@ -421,6 +427,7 @@ Vue.use(VueNumeric);
       },
       acceptApproveRequest()
       {
+        this.SignatureApprovalReplacerHide=true;
         var vm=this;
         axios.put(`/rv-approve-behalf-accept/`+this.rvno.RVNo).then(function(response)
         {

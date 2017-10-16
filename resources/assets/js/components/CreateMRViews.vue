@@ -54,9 +54,12 @@
               <option v-for="manager in allmanager" v-bind:value="manager.id">{{manager.Fname}} {{manager.Lname}}</option>
             </select>
             <textarea name="Note" v-model="Note" placeholder="Note" autocomplete="none"></textarea>
-            <longpress id="submitMRbtn" duration="3" :on-confirm="submitMR"  pressing-text="Submitting in {$rcounter}" action-text="Loading . . .">
+            <longpress id="submitMRbtn" :class="{'hide':HideSubmitBtn}" duration="3" :on-confirm="submitMR"  pressing-text="Submitting in {$rcounter}" action-text="Loading . . .">
               <i class="fa fa-check-square"></i> Submit
             </longpress>
+            <div id="loading-submit" :class="HideSubmitBtn==true?'show':'hide'">
+              <i class="fa fa-spinner fa-spin fa-pulse"></i>
+            </div>
           </div>
         </div>
       </div>
@@ -107,6 +110,7 @@ export default {
       Receivedby:null,
       ManagerID:null,
       Note:'',
+      HideSubmitBtn:false,
     }
   },
 
@@ -173,6 +177,7 @@ export default {
     },
   submitMR()
   {
+    this.HideSubmitBtn=true;
     var vm=this
     axios.post(`/save-mr`,{
       Note:this.Note,
@@ -187,6 +192,7 @@ export default {
       Vue.set(vm.$data,'ownerrors','')
       Vue.set(vm.$data,'successAlerts','');
       Vue.set(vm.$data,'laravelerrors',error.response.data);
+      Vue.set(vm.$data,'HideSubmitBtn',false);
     });
   }
 },

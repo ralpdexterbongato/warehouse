@@ -67,9 +67,12 @@
           <option value="null" class="gray">Posted to B.I.N. by</option>
           <option class="black" v-for="clerk in clerks" v-bind:value="clerk.id">{{clerk.Fname}} {{clerk.Lname}}</option>
         </select>
-        <longpress  duration="3" id="submitNoPO" :on-confirm="submitToDB" pressing-text="submitting in {$rcounter}" action-text="Loading . . .">
+        <longpress  duration="3" id="submitNoPO" :class="{'hide':HideBtn}" :on-confirm="submitToDB" pressing-text="submitting in {$rcounter}" action-text="Loading . . .">
          Submit
         </longpress>
+        <div id="loading-submit" :class="[HideBtn==true?'show':'hide']">
+          <i class="fa fa-spinner fa-spin fa-pulse"></i>
+        </div>
       </div>
     </div>
     <div @click.prevent="ModalIsActive=!ModalIsActive" class="modal-rr-no-po" :class="{'active' : ModalIsActive}">
@@ -132,7 +135,7 @@ import Longpress from 'vue-longpress'
         Carrier:'',
         DeliveryReceiptNo:'',
         Note:'',
-
+        HideBtn:false,
       }
     },
      props: ['fromrrvalidator','managers','auditors','clerks'],
@@ -199,6 +202,7 @@ import Longpress from 'vue-longpress'
        },
        submitToDB()
        {
+         this.HideBtn=true;
          var vm=this;
          axios.post(`/save-rr-no-po-to-db`,{
            Verifiedby:this.Verifiedby,
@@ -220,11 +224,13 @@ import Longpress from 'vue-longpress'
            }else
            {
              Vue.set(vm.$data,'ownerrors',response.data.error);
+             Vue.set(vm.$data,'HideBtn',false);
            }
          },function(error)
          {
            console.log(error)
            Vue.set(vm.$data,'laravelerrors',error.response.data);
+           Vue.set(vm.$data,'HideBtn',false);
          });
        }
      },

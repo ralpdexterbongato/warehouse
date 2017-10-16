@@ -61,9 +61,12 @@
       <option :value="null" class="gray">Posted to BIN by</option>
       <option v-for="clerk in clerks" class="black" :value="clerk.id">{{clerk.Fname}} {{clerk.Lname}}</option>
     </select>
-    <longpress id="withposubmit" duration="3" :on-confirm="SubmitRRwithPO" pressing-text="Submitting in {$rcounter}" action-text="Loading . . .">
-    Submit
+    <longpress id="withposubmit" :class="{'hide':HideSubmitBtn}" duration="3" :on-confirm="SubmitRRwithPO" pressing-text="Submitting in {$rcounter}" action-text="Loading . . .">
+      Submit
     </longpress>
+    <div id="loading-submit" :class="[HideSubmitBtn==true?'show':'hide']">
+      <i class="fa fa-spinner fa-spin fa-pulse"></i>
+    </div>
   </div>
   <div class="rr-with-po-modal animated" :class="{'fadeIn active':IsModalActive}" v-on:click="IsModalActive=!IsModalActive">
     <div class="middle-rr-withpo" v-on:click="IsModalActive=!IsModalActive">
@@ -116,6 +119,7 @@ import Longpress from 'vue-longpress'
        Verifiedby:null,
        ReceivedOriginalby:null,
        PostedtoBINby:null,
+       HideSubmitBtn:false,
        }
      },
      props: ['pomasters','rrvalidatorwpo','auditors','managers','clerks'],
@@ -131,7 +135,7 @@ import Longpress from 'vue-longpress'
             QuantityAccepted:this.QuantityAccepted[count],
             UnitCost:data.Price,
             Unit:data.Unit,
-            MaxQty:data.Qty,
+            PONo:this.rrvalidatorwpo[0].PONo,
           }).then(function(response)
           {
             if (response.data.error!=null)
@@ -184,6 +188,7 @@ import Longpress from 'vue-longpress'
         },
         SubmitRRwithPO()
         {
+          this.HideSubmitBtn=true;
           var vm=this;
           axios.post(`/save-rr-with-po-to-db`,{
             Verifiedby:this.Verifiedby,
@@ -200,6 +205,7 @@ import Longpress from 'vue-longpress'
             if (response.data.error!=null)
             {
               Vue.set(vm.$data,'ownerrors',response.data.error);
+              Vue.set(vm.$data,'HideSubmitBtn',false);
             }else
             {
                window.location=response.data.redirect;
@@ -207,7 +213,8 @@ import Longpress from 'vue-longpress'
           },function(error)
           {
             console.log(error);
-            Vue.set(vm.$data,'laravelerrors',error.response.data)
+            Vue.set(vm.$data,'laravelerrors',error.response.data);
+            Vue.set(vm.$data,'HideSubmitBtn',false);
           });
         }
       },

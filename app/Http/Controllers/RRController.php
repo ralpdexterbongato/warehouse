@@ -39,14 +39,12 @@ class RRController extends Controller
   }
   public function storeRRSessionValidatorWithPO($request)
   {
-    $maxdelivered=$request->MaxQty;
-    $maximumaccept=$request->QuantityDelivered;
     $this->validate($request,[
       'UnitCost'=>'required|min:0.1',
       'Description'=>'required',
       'Unit'=>'required',
-      'QuantityDelivered'=>'required|numeric|min:1|max:'.$maxdelivered,
-      'QuantityAccepted'=>'required|numeric|min:0|max:'.$maximumaccept,
+      'QuantityDelivered'=>'required|numeric|min:1',
+      'QuantityAccepted'=>'required|numeric|min:0',
     ]);
   }
   public function deleteSessionStored($id)
@@ -115,25 +113,30 @@ class RRController extends Controller
   public function StoreSessionRRWithPO(Request $request)
   {
     $this->storeRRSessionValidatorWithPO($request);
-      if ($request->UnitCost<=0)
+    if ($request->UnitCost<=0)
+    {
+      return response()->json(['error'=>'UnitCost must be atleast 0.1']);
+    }
+    $QtyOfValidator=RRValidatorWithPO::where('PONo',$request->PONo)->where('Description',$request->Description)->get(['Qty']);
+    if ($request->QuantityAccepted > $QtyOfValidator[0]->Qty)
+    {
+      return response()->json(['error'=>'Sorry, You cannot accept more than '.$QtyOfValidator[0]->Qty]);
+    }
+    if (Session::has('RR-Items-Added'))
+    {
+      foreach (Session::get('RR-Items-Added') as $items)
       {
-        return response()->json(['error'=>'UnitCost must be atleast 0.1']);
-      }
-      if (Session::has('RR-Items-Added'))
-      {
-        foreach (Session::get('RR-Items-Added') as $items)
+        if (($items->ItemCode==$request->ItemCode)||($items->Description==$request->Description))
         {
-          if (($items->ItemCode==$request->ItemCode)||($items->Description==$request->Description))
-          {
-            return response()->json(['error'=>'Oops! cannot duplicate items']);
-          }
+          return response()->json(['error'=>'Oops! cannot duplicate items']);
         }
       }
-      $nocommaUCost=str_replace(',','',$request->UnitCost);
-      $AMT=$nocommaUCost*$request->QuantityAccepted;
-        $DataFromUserToArray = array('ItemCode'=>$request->ItemCode,'AccountCode'=>$request->AccountCode,'Description'=>$request->Description,'UnitCost'=>$nocommaUCost,'Unit'=>$request->Unit,'QuantityDelivered'=>$request->QuantityDelivered,'QuantityAccepted'=>$request->QuantityAccepted,'Amount'=>$AMT);
-        $DataFromUserToArray=(object)$DataFromUserToArray;
-        Session::push('RR-Items-Added',$DataFromUserToArray);
+    }
+    $nocommaUCost=str_replace(',','',$request->UnitCost);
+    $AMT=$nocommaUCost*$request->QuantityAccepted;
+    $DataFromUserToArray = array('ItemCode'=>$request->ItemCode,'AccountCode'=>$request->AccountCode,'Description'=>$request->Description,'UnitCost'=>$nocommaUCost,'Unit'=>$request->Unit,'QuantityDelivered'=>$request->QuantityDelivered,'QuantityAccepted'=>$request->QuantityAccepted,'Amount'=>$AMT);
+    $DataFromUserToArray=(object)$DataFromUserToArray;
+    Session::push('RR-Items-Added',$DataFromUserToArray);
   }
   public function showSessionRRData()
   {
@@ -497,7 +500,7 @@ class RRController extends Controller
     $Managers=User::where('Role','0')->whereNotNull('IsActive')->get(['id','Lname','Fname']);
     $Clerks=User::where('Role','6')->whereNotNull('IsActive')->get(['id','Lname','Fname']);
     $POMaster=POMaster::where('PONo',$id)->get(['Supplier','Address','RVNo','PONo']);
-    $RRValidatorWithPO=RRValidatorWithPO::where('PONo',$id)->get();
+    $RRValidatorWithPO=RRValidatorWithPO::where('PONo',$id)->get(['Price','Unit','Description','Amount','PONo','ItemCode','AccountCode']);
     return view('Warehouse.RR.CreateRRWithPO',compact('POMaster','RRValidatorWithPO','Auditors','Managers','Clerks'));
   }
   public function RRofRVlist($id)

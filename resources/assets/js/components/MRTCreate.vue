@@ -45,9 +45,12 @@
           <p>{{mctdata[0].ReceivedbyPosition}}</p>
         </div>
         <input autocomplete="off" type="text" v-model="remarks" placeholder="Remarks">
-        <longpress duration="3" class="mrt-gobtn"  :on-confirm="SubmitMRT" pressing-text="Confirm in {$rcounter}" action-text="Please wait">
+        <longpress duration="3" class="mrt-gobtn" :class="{'hide':HideSubmitBtn}"  :on-confirm="SubmitMRT" pressing-text="Confirm in {$rcounter}" action-text="Please wait">
         Submit
         </longpress>
+        <div id="loading-submit" :class="[HideSubmitBtn==true?'show':'hide']">
+          <i class="fa fa-spinner fa-spin fa-pulse"></i>
+        </div>
       </div>
     </div>
   </div>
@@ -103,6 +106,7 @@ import Longpress from 'vue-longpress';
         ownerrors:'',
         successAlerts:'',
         laravelerrors:'',
+        HideSubmitBtn:false,
       }
     },
     props: ['mctdata','mctno'],
@@ -175,6 +179,7 @@ import Longpress from 'vue-longpress';
       },
       SubmitMRT()
       {
+        this.HideSubmitBtn=true;
         var vm=this;
         axios.post(`/MRT-store/`+this.mctno.MCTNo,{
           Particulars:this.mctdata[0].Particulars,
@@ -188,6 +193,7 @@ import Longpress from 'vue-longpress';
             Vue.set(vm.$data,'ownerrors',response.data.error);
             Vue.set(vm.$data,'successAlerts','');
             Vue.set(vm.$data,'laravelerrors','');
+            Vue.set(vm.$data,'HideSubmitBtn',false);
           }else
           {
             window.location=response.data.redirect;
@@ -198,6 +204,7 @@ import Longpress from 'vue-longpress';
           Vue.set(vm.$data,'laravelerrors',error.response.data);
           Vue.set(vm.$data,'ownerrors','');
           Vue.set(vm.$data,'successAlerts','');
+          Vue.set(vm.$data,'HideSubmitBtn',false);
         });
       }
     },

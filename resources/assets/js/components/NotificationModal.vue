@@ -1,7 +1,7 @@
 <template lang="html">
   <span>
-    <div class="Account-modal" :class="[modalOpen==true?'active':'']" v-on:click="modalOpen=false">
-      <div class="middle-account-modal">
+    <div class="Account-modal" :class="[modalOpen==true?'active':'']" v-on:click="modalOpen=!modalOpen">
+      <div class="middle-account-modal" v-on:click="modalOpen=!modalOpen">
         <li class="userinfo">
           <h3 class="account-image"><img src="/DesignIMG/logo.png" alt="pic"></h3>
           <p class="name-of-user">{{user.Fname}} {{user.Lname}}</p>

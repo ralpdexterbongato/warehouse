@@ -248,7 +248,7 @@ class MIRSController extends Controller
                     ->whereNull('RecommendSignature')->whereNull('IfDeclined')->whereNull('ManagerReplacerSignature')
                     ->orWhere('ManagerReplacer',Auth::user()->Fname.' '.Auth::user()->Lname)->whereNull('ManagerReplacerSignature')->whereNull('RecommendSignature')
                     ->orWhere('ApprovalReplacer',Auth::user()->Fname.' '.Auth::user()->Lname)
-                    ->whereNotNull('ManagerReplacerSignature')->whereNull('ApprovalReplacerSignature')
+                    ->whereNotNull('ManagerReplacerSignature')->whereNull('ApprovalReplacerSignature')->whereNull('ApproveSignature')
                     ->orWhere('ApprovalReplacer',Auth::user()->Fname.' '.Auth::user()->Lname)->whereNull('ApprovalReplacerSignature')->whereNull('ApproveSignature')
                     ->whereNotNull('RecommendSignature')
                     ->paginate(10,['MIRSNo','Purpose','Preparedby','Approvedby','Recommendedby','MIRSDate','RecommendSignature','PreparedSignature','ApproveSignature','ManagerReplacerSignature']);
@@ -340,7 +340,7 @@ class MIRSController extends Controller
                     ->whereNull('RecommendSignature')->whereNull('IfDeclined')->whereNull('ManagerReplacerSignature')
                     ->orWhere('ManagerReplacer',Auth::user()->Fname.' '.Auth::user()->Lname)->whereNull('ManagerReplacerSignature')->whereNull('RecommendSignature')
                     ->orWhere('ApprovalReplacer',Auth::user()->Fname.' '.Auth::user()->Lname)
-                    ->whereNotNull('ManagerReplacerSignature')->whereNull('ApprovalReplacerSignature')
+                    ->whereNotNull('ManagerReplacerSignature')->whereNull('ApprovalReplacerSignature')->whereNull('ApproveSignature')
                     ->orWhere('ApprovalReplacer',Auth::user()->Fname.' '.Auth::user()->Lname)->whereNull('ApprovalReplacerSignature')->whereNull('ApproveSignature')
                     ->whereNotNull('RecommendSignature')
                     ->count();

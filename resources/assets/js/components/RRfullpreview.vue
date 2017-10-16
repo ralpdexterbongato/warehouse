@@ -1,17 +1,11 @@
 <template lang="html">
 <div class="rr-preview-vue">
-  <div class="signature-btn" v-if="(((RRMaster.Verifiedby==user.Fname+' '+user.Lname)&&(RRMaster.VerifiedbySignature==null)&&(RRMaster.IfDeclined==null))||((RRMaster.ReceivedOriginalby==user.Fname+' '+user.Lname)&&(RRMaster.ReceivedOriginalbySignature==null)&&(RRMaster.IfDeclined==null))||((RRMaster.PostedtoBINby==user.Fname+' '+user.Lname)&&(RRMaster.PostedtoBINbySignature==null)&&(RRMaster.IfDeclined==null)))">
-    <!-- <div class="RRsignatureForm">
-      <button type="submit" v-on:click="signature()"><i class="fa fa-pencil"></i> Signature</button>
-    </div>
-    <div class="Declined">
-      <button type="submit" v-on:click="declinesignature()"><i class="fa fa-times"></i> Decline</button>
-    </div> -->
+  <div class="signature-btn" :class="{'hide':SignatureBtnHide}" v-if="(((RRMaster.Verifiedby==user.Fname+' '+user.Lname)&&(RRMaster.VerifiedbySignature==null)&&(RRMaster.IfDeclined==null))||((RRMaster.ReceivedOriginalby==user.Fname+' '+user.Lname)&&(RRMaster.ReceivedOriginalbySignature==null)&&(RRMaster.IfDeclined==null))||((RRMaster.PostedtoBINby==user.Fname+' '+user.Lname)&&(RRMaster.PostedtoBINbySignature==null)&&(RRMaster.IfDeclined==null)))">
     <longpress id="RRsignature" duration="3" :on-confirm="signature"  pressing-text="confirm in {$rcounter}" action-text="Loading . . .">
-    <i class="fa fa-pencil"></i> Signature
+      <i class="fa fa-pencil"></i> Signature
     </longpress>
     <longpress id="RRdecline" duration="3" :on-confirm="declinesignature"  pressing-text="confirm in {$rcounter}" action-text="Loading . . .">
-    <i class="fa fa-times"></i> I can't
+      <i class="fa fa-times"></i> Decline
     </longpress>
   </div>
   <div class="print-RR-btn" v-else-if="((RRMaster.ReceivedOriginalbySignature!=null)&&(RRMaster.VerifiedbySignature!=null)&&(RRMaster.PostedtoBINbySignature!=null))">
@@ -154,7 +148,8 @@ import Longpress from 'vue-longpress'
       Netsales:0,
       VAT:0,
       TOTALamt:0,
-      }
+      SignatureBtnHide:false,
+     }
     },
     props: ['user','rrno'],
     methods: {
@@ -174,6 +169,7 @@ import Longpress from 'vue-longpress'
       },
       signature()
       {
+        this.SignatureBtnHide=true;
         var vm=this;
         axios.put(`/RR-signature/`+this.rrno.RRNo).then(function(response)
         {
@@ -183,6 +179,7 @@ import Longpress from 'vue-longpress'
       },
       declinesignature()
       {
+        this.SignatureBtnHide=true;
         var vm=this;
         axios.put(`/decline-this-RR/`+this.rrno.RRNo).then(function(response)
         {

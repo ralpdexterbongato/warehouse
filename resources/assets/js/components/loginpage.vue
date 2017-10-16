@@ -9,7 +9,7 @@
         <h1 class="login-loading" v-if="loadingMsg!=''"><i class="fa fa-spinner fa-spin fa-pulse"></i></h1>
         <div class="login-form" v-if="loadingMsg==''">
           <div class="login-input-container">
-            <p><i class="fa fa-user"></i></p><input type="text" v-model="Username" @change="failmsg=''" autocomplete="off" name="Username" placeholder="Username">
+            <p><i class="fa fa-user"></i></p><input type="text" autofocus v-model="Username" @change="failmsg=''" autocomplete="off" name="Username" placeholder="Username">
           </div>
           <div class="login-input-container">
             <p><i class="fa fa-key"></i></p><input type="password" @change="failmsg=''" v-model="Password" v-on:keyup.enter="submitCredentials()" name="Password" placeholder="Password">

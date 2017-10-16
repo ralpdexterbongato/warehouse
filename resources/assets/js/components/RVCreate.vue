@@ -52,14 +52,17 @@
               <h4 v-else>No Account yet</h4>
             <p>Budget Officer</p>
           </div>
-          <div class="autoselectedRV">
+          <div class="autoselectedRV space-bottom">
               <h4 v-if="gm!=null">{{gm[0].Fname}} {{gm[0].Lname}}</h4>
               <h4 v-else>No Account yet</h4>
             <p>General Manager</p>
           </div>
-          <longpress class="submit-button-RV" duration="3" :on-confirm="SubmitWholeRV" pressing-text="Submitting in {$rcounter}" action-text="Loading . . .">
+          <longpress class="submit-button-RV" duration="3" :class="{'hide':HideBtn}" :on-confirm="SubmitWholeRV" pressing-text="Submitting in {$rcounter}" action-text="Loading . . .">
             Submit
           </longpress>
+          <div id="loading-submit" :class="[HideBtn==true?'show':'hide']">
+            <i class="fa fa-spinner fa-spin fa-pulse"></i>
+          </div>
         </div>
       </div>
     </div>
@@ -131,7 +134,6 @@
         </div>
       </div>
     </span>
-    <!-- @endif -->
   </span>
 </template>
 
@@ -161,7 +163,7 @@ import Longpress from 'vue-longpress';
           RemarksForWHouse:[],
           lowqtyactive:false,
           UnitsFromDB:[],
-          DisabledButton:false,
+          HideBtn:false,
         }
       },
     props: ['budgetofficer','gm','user','mymanager'],
@@ -286,6 +288,7 @@ import Longpress from 'vue-longpress';
       },
       SubmitWholeRV()
       {
+        this.HideBtn=true;
         var vm=this;
         axios.post(`/SavetoDBRV`,{
           Purpose:this.purpose,
@@ -297,7 +300,7 @@ import Longpress from 'vue-longpress';
             Vue.set(vm.$data,'ownerrors',response.data.error);
             Vue.set(vm.$data,'laravelerrors','');
             Vue.set(vm.$data,'successAlerts','');
-            Vue.set(vm.$data,'DisabledButton',false);
+            Vue.set(vm.$data,'HideBtn',false);
           }else
           {
             window.location=response.data.redirect;
@@ -306,7 +309,7 @@ import Longpress from 'vue-longpress';
           Vue.set(vm.$data,'laravelerrors',error.response.data);
           Vue.set(vm.$data,'successAlerts','');
           Vue.set(vm.$data,'ownerrors','');
-          Vue.set(vm.$data,'DisabledButton',false);
+          Vue.set(vm.$data,'HideBtn',false);
         });
       },
      },

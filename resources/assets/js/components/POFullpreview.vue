@@ -5,7 +5,7 @@
         <h6 class="approve-managerreplace-note"><i class="fa fa-info-circle color-blue"></i>
           The <span class="color-blue">Warehouse section</span> is asking for your signature b/c the General Manager is not available
         </h6>
-        <span class="approval-po-replacer-btn">
+        <span class="approval-po-replacer-btn" :class="{'hide':SignatureApproveReplacerHide}">
           <longpress duration="3" class="signaturePObtn" :on-confirm="ApproveAuthorizeInBehalf"  pressing-text="confirmed in {$rcounter}" action-text="please wait . .">
           <i class="fa fa-pencil"></i> Signature
           </longpress>
@@ -25,7 +25,7 @@
       </span>
       <div v-else class="empty-left">
       </div>
-      <div class="signature-btns-wrap-po" v-if="((user.Role==2)&&(OrderMaster.GeneralManager==user.Fname+' '+user.Lname)&&(OrderMaster.GeneralManagerSignature==null)&&(OrderMaster.IfDeclined==null)&&(OrderMaster.ApprovalReplacerSignature==null))">
+      <div class="signature-btns-wrap-po" :class="{'hide':SignatureBtnHide}" v-if="((user.Role==2)&&(OrderMaster.GeneralManager==user.Fname+' '+user.Lname)&&(OrderMaster.GeneralManagerSignature==null)&&(OrderMaster.IfDeclined==null)&&(OrderMaster.ApprovalReplacerSignature==null))">
         <longpress duration="3" class="signaturePObtn" :on-confirm="GMsignaturePO"  pressing-text="confirmed in {$rcounter}" action-text="please wait . .">
         <i class="fa fa-pencil"></i> Signature
         </longpress>
@@ -125,6 +125,8 @@
          OrderMaster:[],
          totalAmt:0,
          remaining:0,
+         SignatureBtnHide:false,
+         SignatureApproveReplacerHide:false,
      }
    },
    components: {
@@ -145,6 +147,7 @@
        },
        GMsignaturePO()
        {
+         this.SignatureBtnHide=true;
          var vm=this;
          axios.put(`/gm-signature-po/`+this.pono.PONo).then(function(response)
         {
@@ -154,6 +157,7 @@
       },
       GMDeclinedPO()
       {
+        this.SignatureBtnHide=true;
         var vm=this;
         axios.put(`/gm-decline-po/`+this.pono.PONo).then(function(response)
         {
@@ -167,6 +171,7 @@
         },
       RefuseToAuthorizeInBehalf()
       {
+        this.SignatureApproveReplacerHide=true;
         var vm=this;
         axios.put(`/declined-Authorize-inbehalf/`+this.pono.PONo).then(function(response)
         {
@@ -176,6 +181,7 @@
       },
       ApproveAuthorizeInBehalf()
       {
+        this.SignatureApproveReplacerHide=true;
         var vm=this;
         axios.put(`/authorize-in-behalf-confirmed/`+this.pono.PONo).then(function(response)
         {

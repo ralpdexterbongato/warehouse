@@ -43,9 +43,12 @@
       <div class="smallform-mct-container">
         <div class="address-where-form">
           <input type="text" placeholder="Address to where?" v-model="AddressTo" autocomplete="off" required>
-          <longpress duration="3" class="SubmitMCTButton" :on-confirm="SavingMCT" pressing-text="Submitting in {$rcounter} seconds" action-text="Please wait">
-          Submit
-        </longpress>
+          <longpress :class="{'hide':HideBtn}" duration="3" class="SubmitMCTButton" :on-confirm="SavingMCT" pressing-text="Submitting in {$rcounter} seconds" action-text="Please wait">
+            Submit
+          </longpress>
+          <div id="loading-submit" :class="[HideBtn==true?'show':'hide']">
+            <i class="fa fa-spinner fa-spin fa-pulse"></i>
+          </div>
         </div>
       </div>
     </div>
@@ -110,6 +113,7 @@ import Longpress from 'vue-longpress';
         successAlerts:'',
         laravelerrors:'',
         ownerrors:'',
+        HideBtn:false,
     }
   },
     props: ['mirsno','purpose'],
@@ -183,6 +187,7 @@ import Longpress from 'vue-longpress';
       },
       SavingMCT()
       {
+        this.HideBtn=true;
         var vm=this;
         axios.post(`/MCTstore`,{
           MIRSNo:this.mirsno.MIRSNo,
@@ -196,6 +201,7 @@ import Longpress from 'vue-longpress';
             Vue.set(vm.$data,'ownerrors',response.data.error);
             Vue.set(vm.$data,'successAlerts','');
             Vue.set(vm.$data,'laravelerrors','');
+            Vue.set(vm.$data,'HideBtn',false);
           }else
           {
             window.location=response.data.redirect;
@@ -205,6 +211,7 @@ import Longpress from 'vue-longpress';
           Vue.set(vm.$data,'ownerrors','');
           Vue.set(vm.$data,'successAlerts','');
           Vue.set(vm.$data,'laravelerrors',error.response.data);
+          Vue.set(vm.$data,'HideBtn',false);
         });
       }
     },

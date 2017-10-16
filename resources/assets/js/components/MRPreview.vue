@@ -8,20 +8,20 @@
       </h6>
     </div>
     <div class="signature-MR-btns">
-      <span class="Approve-MR-inBehalf-btn" v-if="MRMaster.ApprovalReplacer==user.Fname+' '+user.Lname&&MRMaster.GeneralManagerSignature==null&&MRMaster.ApprovalReplacerSignature==null&&MRMaster.RecommendedbySignature!=null">
+      <span class="Approve-MR-inBehalf-btn" :class="{'hide':SignatureApproveReplacer}" v-if="MRMaster.ApprovalReplacer==user.Fname+' '+user.Lname&&MRMaster.GeneralManagerSignature==null&&MRMaster.ApprovalReplacerSignature==null&&MRMaster.RecommendedbySignature!=null">
         <longpress class="rvapprovebtn" duration="3" :on-confirm="SignatureApproveInBehalf" pressing-text="confirm in {$rcounter}" action-text="Loading . . .">
-        <i class="fa fa-pencil"></i> Signature
+          <i class="fa fa-pencil"></i> Signature
         </longpress>
         <longpress class="RVdeclineBtn" duration="3" :on-confirm="refuseApproveInBehalf" pressing-text="confirm in {$rcounter}" action-text="Loading . . .">
-        <i class="fa fa-times"></i> I can't
+          <i class="fa fa-times"></i> I can't
         </longpress>
       </span>
-      <span v-if="(((MRMaster.RecommendedbySignature==null)&&(MRMaster.Recommendedby==user.Fname+' '+user.Lname)&&(MRMaster.IfDeclined==null))||((MRMaster.GeneralManagerSignature==null)&&(MRMaster.GeneralManager==user.Fname+' '+user.Lname)&&(MRMaster.RecommendedbySignature!=null)&&(MRMaster.IfDeclined==null))||((MRMaster.ReceivedbySignature==null)&&(MRMaster.ReceivedbySignature==null)&&(MRMaster.Receivedby==user.Fname+' '+user.Lname)&&(MRMaster.IfDeclined==null)&&((MRMaster.GeneralManagerSignature!=null)||(MRMaster.ApprovalReplacerSignature!=null))))">
-        <longpress class="rvapprovebtn" id="signatureMRbtn" duration="3" :on-confirm="signatureMR" pressing-text="confirm in {$rcounter}" action-text="Loading . . .">
-        <i class="fa fa-pencil"></i> Signature
+      <span :class="{'hide':SignatureBtnHide}" v-if="(((MRMaster.RecommendedbySignature==null)&&(MRMaster.Recommendedby==user.Fname+' '+user.Lname)&&(MRMaster.IfDeclined==null))||((MRMaster.GeneralManagerSignature==null)&&(MRMaster.GeneralManager==user.Fname+' '+user.Lname)&&(MRMaster.RecommendedbySignature!=null)&&(MRMaster.IfDeclined==null))||((MRMaster.ReceivedbySignature==null)&&(MRMaster.ReceivedbySignature==null)&&(MRMaster.Receivedby==user.Fname+' '+user.Lname)&&(MRMaster.IfDeclined==null)&&((MRMaster.GeneralManagerSignature!=null)||(MRMaster.ApprovalReplacerSignature!=null))))">
+        <longpress  id="signatureMRbtn" duration="3" :on-confirm="signatureMR" pressing-text="confirm in {$rcounter}" action-text="Loading . . .">
+          <i class="fa fa-pencil"></i> Signature
         </longpress>
-        <longpress class="RVdeclineBtn" id="declineMRbtn" duration="3" :on-confirm="declineMR" pressing-text="confirm in {$rcounter}" action-text="Loading . . .">
-        <i class="fa fa-times"></i> Decline
+        <longpress  id="declineMRbtn" duration="3" :on-confirm="declineMR" pressing-text="confirm in {$rcounter}" action-text="Loading . . .">
+          <i class="fa fa-times"></i> Decline
         </longpress>
       </span>
     </div>
@@ -152,6 +152,8 @@ import Longpress from 'vue-longpress'
         return {
           MRMaster:[],
           MRDetail:[],
+          SignatureBtnHide:false,
+          SignatureApproveReplacer:false,
         }
       },
      methods: {
@@ -171,6 +173,7 @@ import Longpress from 'vue-longpress'
         },
       signatureMR()
       {
+        this.SignatureBtnHide=true;
         var vm=this;
         axios.put(`/signature-MR/`+this.mrno.MRNo).then(function(response)
       {
@@ -180,6 +183,7 @@ import Longpress from 'vue-longpress'
       },
       declineMR()
       {
+        this.SignatureBtnHide=true;
         var vm=this;
         axios.put(`/Decline-MR/`+this.mrno.MRNo).then(function(response)
         {
@@ -197,6 +201,7 @@ import Longpress from 'vue-longpress'
       },
       SignatureApproveInBehalf()
       {
+        this.SignatureApproveReplacer=true;
         var vm=this;
         axios.put(`/confirmApproveinBehalf/`+this.mrno.MRNo).then(function(response)
         {

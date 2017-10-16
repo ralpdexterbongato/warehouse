@@ -21,7 +21,7 @@ class AlreadyHaveMRT
           return $next($request);
         }else
         {
-          return redirect('/');
+          return response()->json(['redirect'=>route('WelcomePage')]);
         }
     }
 }
