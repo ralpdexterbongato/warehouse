@@ -1061,7 +1061,7 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
 
   props: ['fromrrvalidator', 'managers', 'auditors', 'clerks'],
   methods: {
-    submitTosession: function submitTosession(particular, unit, count, maxqty) {
+    submitTosession: function submitTosession(particular, unit, count) {
       var vm = this;
       __WEBPACK_IMPORTED_MODULE_0_axios___default.a.post('/rr-storing-session-no-po', {
         AccountCode: this.AccountCode[count],
@@ -1071,7 +1071,7 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
         Unit: unit,
         QuantityDelivered: this.QuantityDelivered[count],
         QuantityAccepted: this.QuantityAccepted[count],
-        MaxQty: maxqty
+        RVNo: this.fromrrvalidator[0].RVNo
       }).then(function (response) {
         console.log(response);
         if (response.data.error != null) {
@@ -2648,7 +2648,6 @@ module.exports={render:function (){var _vm=this;var _h=_vm.$createElement;var _c
         "autocomplete": "off",
         "min": "1",
         "type": "number",
-        "max": rrvalidationdata.Quantity,
         "name": "delivered"
       },
       domProps: {
@@ -2694,7 +2693,7 @@ module.exports={render:function (){var _vm=this;var _h=_vm.$createElement;var _c
       },
       on: {
         "click": function($event) {
-          _vm.submitTosession(rrvalidationdata.Particulars, rrvalidationdata.Unit, count, rrvalidationdata.Quantity), _vm.ModalIsActive = !_vm.ModalIsActive
+          _vm.submitTosession(rrvalidationdata.Particulars, rrvalidationdata.Unit, count), _vm.ModalIsActive = !_vm.ModalIsActive
         }
       }
     }, [_c('i', {

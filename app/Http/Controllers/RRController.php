@@ -27,24 +27,24 @@ class RRController extends Controller
   }
   public function storeRRSessionValidatorNoPO($request)
   {
-    $maxdelivered=$request->MaxQty;
-    $maximumaccept=$request->QuantityDelivered;
+    $QuantityAccepted=$request->QuantityAccepted;
     $this->validate($request,[
       'UnitCost'=>'required|min:0.1|regex:/^[0-9]{1,3}(,[0-9]{3})*(\.[0-9]+)*$/',
       'Description'=>'required',
       'Unit'=>'required',
-      'QuantityDelivered'=>'required|numeric|min:1|max:'.$maxdelivered,
-      'QuantityAccepted'=>'required|numeric|min:0|max:'.$maximumaccept,
+      'QuantityDelivered'=>'required|numeric|min:'.$QuantityAccepted,
+      'QuantityAccepted'=>'required|numeric|min:1',
     ]);
   }
   public function storeRRSessionValidatorWithPO($request)
   {
+    $QuantityAccepted=$request->QuantityAccepted;
     $this->validate($request,[
       'UnitCost'=>'required|min:0.1',
       'Description'=>'required',
       'Unit'=>'required',
-      'QuantityDelivered'=>'required|numeric|min:1',
-      'QuantityAccepted'=>'required|numeric|min:0',
+      'QuantityDelivered'=>'required|numeric|min:'.$QuantityAccepted,
+      'QuantityAccepted'=>'required|numeric|min:1',
     ]);
   }
   public function deleteSessionStored($id)
@@ -80,7 +80,12 @@ class RRController extends Controller
   }
   public function StoreSessionRRNoPO(Request $request)
   {
-    $this->storeRRSessionValidatorNoPO($request);
+      $QuantityMax=RRValidatorNoPO::where('RVNo',$request->RVNo)->where('Particulars', $request->Description)->value('Quantity');
+      if ($request->QuantityAccepted>$QuantityMax)
+      {
+        return response()->json(['error'=>'Sorry , you cannot accept more than '.$QuantityMax]);
+      }
+      $this->storeRRSessionValidatorNoPO($request);
       if ($request->UnitCost<=0)
       {
         return response()->json(['error'=>'UnitCost must be atleast 0.1']);
@@ -112,16 +117,12 @@ class RRController extends Controller
   }
   public function StoreSessionRRWithPO(Request $request)
   {
-    $this->storeRRSessionValidatorWithPO($request);
-    if ($request->UnitCost<=0)
-    {
-      return response()->json(['error'=>'UnitCost must be atleast 0.1']);
-    }
     $QtyOfValidator=RRValidatorWithPO::where('PONo',$request->PONo)->where('Description',$request->Description)->get(['Qty']);
     if ($request->QuantityAccepted > $QtyOfValidator[0]->Qty)
     {
       return response()->json(['error'=>'Sorry, You cannot accept more than '.$QtyOfValidator[0]->Qty]);
     }
+    $this->storeRRSessionValidatorWithPO($request);
     if (Session::has('RR-Items-Added'))
     {
       foreach (Session::get('RR-Items-Added') as $items)
@@ -491,7 +492,7 @@ class RRController extends Controller
     $Auditors=User::where('Role', '5')->whereNotNull('IsActive')->get(['id','Lname','Fname']);
     $Managers=User::where('Role','0')->whereNotNull('IsActive')->get(['id','Lname','Fname']);
     $Clerks=User::where('Role','6')->whereNotNull('IsActive')->get(['id','Lname','Fname']);
-    $fromRRValidatorNoPO=RRValidatorNoPO::where('RVNo',$id)->get();
+    $fromRRValidatorNoPO=RRValidatorNoPO::where('RVNo',$id)->get(['RVNo','Particulars','Unit','Remarks','ItemCode','AccountCode']);
     return view('Warehouse.RR.CreateRRNoPO',compact('fromRRValidatorNoPO','Auditors','Managers','Clerks'));
   }
   public function CreateRRWithPO($id)

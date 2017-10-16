@@ -96,10 +96,10 @@
               <td v-else><i class="fa fa-ban decliner"></i> For Warehouse</td>
               <td>{{rrvalidationdata.Particulars}}</td>
               <td><input autocomplete="off" type="text" name="UnitCost" v-model="UnitCost[count]"></td>
-              <td><input autocomplete="off" min="1" type="number" :max="rrvalidationdata.Quantity" name="delivered" v-model="QuantityDelivered[count]" v-on:change="isDisabled=false" ></td>
+              <td><input autocomplete="off" min="1" type="number" name="delivered" v-model="QuantityDelivered[count]" v-on:change="isDisabled=false" ></td>
               <td><input autocomplete="off" min="0" type="number" :max="QuantityDelivered[count]" name="accepted" v-model="QuantityAccepted[count]" :disabled="isDisabled"></td>
               <td>{{rrvalidationdata.Unit}}</td>
-              <td><button class="bttn-unite bttn-xs bttn-primary" type="submit" v-on:click="submitTosession(rrvalidationdata.Particulars,rrvalidationdata.Unit,count,rrvalidationdata.Quantity),ModalIsActive=!ModalIsActive"><i class="fa fa-plus"></i></button></td>
+              <td><button class="bttn-unite bttn-xs bttn-primary" type="submit" v-on:click="submitTosession(rrvalidationdata.Particulars,rrvalidationdata.Unit,count),ModalIsActive=!ModalIsActive"><i class="fa fa-plus"></i></button></td>
             </tr>
           </table>
         </div>
@@ -140,7 +140,7 @@ import Longpress from 'vue-longpress'
     },
      props: ['fromrrvalidator','managers','auditors','clerks'],
      methods: {
-       submitTosession(particular,unit,count,maxqty)
+       submitTosession(particular,unit,count)
        {
          var vm=this;
          axios.post(`/rr-storing-session-no-po`,{
@@ -151,7 +151,7 @@ import Longpress from 'vue-longpress'
            Unit:unit,
            QuantityDelivered:this.QuantityDelivered[count],
            QuantityAccepted:this.QuantityAccepted[count],
-           MaxQty:maxqty,
+           RVNo:this.fromrrvalidator[0].RVNo,
          }).then(function(response)
          {
            console.log(response);
