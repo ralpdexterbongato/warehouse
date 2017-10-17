@@ -10,7 +10,6 @@
 | contains the "web" middleware group. Now create something great!
 |
 */
-Route::get('/textme','AccountController@TextMe');
 Route::get('/settings-accounts-list','AccountController@GMAccountsList')->name('AccountsListGM');
 Route::get('/settings-admin-list','AccountController@AdminAccountslist')->name('Admin-list');
 Route::get('/settings-other-acc','AccountController@otheraccountslist')->name('otherAccounts');

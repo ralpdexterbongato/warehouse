@@ -17,16 +17,7 @@ class AccountController extends Controller
 {
     public function __construct()
     {
-      $this->middleware('IsAdmin',['except'=>['loginpage','TextMe','getCurrentAssigned','UpdateManagerTakePlace','getActiveManager','toManagerTakePlacePage','fetchDataofSelectedUser','MyRVHistoryandSearch','MyMRHistoryandSearch','MyMRTHistoryandSearch','MyMCTHistoryandSearch','MyMIRSHistoryandSearch','ShowMyHistoryPage','loginSubmit','logoutAccount']]);
-    }
-    public function TextMe()
-    {
-      $nexmo = app('Nexmo\Client');
-      $nexmo->message()->send([
-          'to'   => '639105717885',
-          'from' => '639105717885',
-          'text' => 'GOOD MORNING MADLANG PEOPLE'
-      ]);
+      $this->middleware('IsAdmin',['except'=>['loginpage','getCurrentAssigned','UpdateManagerTakePlace','getActiveManager','toManagerTakePlacePage','fetchDataofSelectedUser','MyRVHistoryandSearch','MyMRHistoryandSearch','MyMRTHistoryandSearch','MyMCTHistoryandSearch','MyMIRSHistoryandSearch','ShowMyHistoryPage','loginSubmit','logoutAccount']]);
     }
     public function loginpage()
     {
