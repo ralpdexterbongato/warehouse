@@ -97,7 +97,7 @@ class MRController extends Controller
     }
     public function createMR($id)
     {
-      $RRItemsdetail=RRconfirmationDetails::where('RRNo',$id)->get(['QuantityAccepted','Unit','Description','UnitCost','Amount','ItemCode','RRNo']);
+      $RRItemsdetail=RRconfirmationDetails::where('RRNo',$id)->get(['Unit','Description','UnitCost','Amount','ItemCode','RRNo']);
       $allmanager=User::where('Role', '0')->whereNotNull('IsActive')->get(['Fname','Lname','id']);
       $AllActiveUsers=User::whereNotNull('IsActive')->orderBy('Role')->get(['Fname','Lname','id']);
       return view('Warehouse.MR.CreateMRViews',compact('allmanager','RRItemsdetail','AllActiveUsers'));
@@ -105,8 +105,13 @@ class MRController extends Controller
     public function addSessionForMR(Request $request)
     {
       $this->validate($request,[
-        'Quantity'=>'required|regex:/^[0-9]+$/|numeric|min:1|max:'.$request->QuantityValidator,
+        'Quantity'=>'required|regex:/^[0-9]+$/|numeric|min:1',
       ]);
+      $ItemsRemaining=RRconfirmationDetails::where('RRNo', $request->RRNo)->where('Description',$request->Description)->value('QuantityAccepted');
+      if ($request->Quantity > $ItemsRemaining)
+      {
+        return response()->json(['error'=>'The maximum qty is '.$ItemsRemaining]);
+      }
       if (Session::has('MRSession')) {
         foreach (Session::get('MRSession') as $key => $items)
         {

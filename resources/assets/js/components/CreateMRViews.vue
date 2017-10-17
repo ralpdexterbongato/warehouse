@@ -129,9 +129,10 @@ export default {
        Unit:datas.Unit,
        Description:datas.Description,
        UnitCost:datas.UnitCost,
-       QuantityValidator:datas.QuantityAccepted,
        Remarks:this.Remarks[datas.ItemCode],
+       RRNo:this.rritems[0].RRNo,
      }).then(function(response){
+       console.log(response);
        Vue.set(vm.$data,'laravelerrors','');
        Vue.set(vm.$data,'successAlerts','');
        if (response.data.error) {
