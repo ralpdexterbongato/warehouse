@@ -83,7 +83,13 @@ class MCTController extends Controller
         $minusAmount=$mcttoMTD->Amount;
         $newQTY= $latestdetail[0]->CurrentQuantity - $mcttoMTD->Quantity;
         $differenceof2AMT=$latestdetail[0]->CurrentAmount - $minusAmount;
-        $newcurrentcost=$differenceof2AMT/$newQTY;
+        if ($newQTY>0)
+        {
+         $newcurrentcost=$differenceof2AMT/$newQTY;
+        }else
+        {
+         $newcurrentcost=0;
+        }
         $newAmount= $newQTY * $newcurrentcost;
         MasterItem::where('ItemCode_id',$mcttoMTD->ItemCode)->update(['CurrentQuantity'=>$newQTY]);
         $forMTDetailstable[]=array('ItemCode' =>$mcttoMTD->ItemCode,'MTType'=>'MCT','MTNo' =>$MCTIncremented,'AccountCode' =>$mcttoMTD->AccountCode ,'UnitCost' =>$mcttoMTD->UnitCost,'Quantity' =>$mcttoMTD->Quantity,'Amount' =>$minusAmount
@@ -204,7 +210,7 @@ class MCTController extends Controller
     $StockinWarehouse=MaterialsTicketDetail::where('ItemCode',$request->ItemCode)->orderBy('id','DESC')->get(['CurrentQuantity']);
     if ($StockinWarehouse[0]->CurrentQuantity<$request->Quantity)
     {
-      return redirect()->back()->with('message','Sorry , our '.$request->ItemCode.' stock is not enough');
+      return response()->json(['error'=>'Not enough warehouse stock for this item']);
     }
     $ItemRemaining=MCTValidator::where('MIRSNo', $request->MIRSNo)->where('ItemCode',$request->ItemCode)->get(['Quantity']);
     if ($ItemRemaining[0]->Quantity < $request->Quantity)
