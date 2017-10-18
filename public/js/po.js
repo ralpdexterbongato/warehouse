@@ -2036,7 +2036,7 @@ module.exports={render:function (){var _vm=this;var _h=_vm.$createElement;var _c
     staticClass: "left-detail-po"
   }, [_c('a', {
     attrs: {
-      "href": '/po-download-print/' + _vm.pono.PONo
+      "href": '/PO.pdf/' + _vm.pono.PONo
     }
   }, [_vm._m(1)]), _vm._v(" "), _c('li', {
     staticClass: "pending-delivery-number"

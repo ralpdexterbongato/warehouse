@@ -7,10 +7,8 @@
     <meta name="Developer" content="Ralp Dexter Bongato & Zeshrou Añuber">
     <link rel="icon" type="image/png" href="/DesignIMG/logo.png">
     <link rel="stylesheet" href="/css/mystyle.min.css">
-    <link rel="stylesheet" href="/css/reset.css">
-    <link rel="stylesheet" href="/css/animate.css">
-    <link rel="stylesheet" href="/css/bootstrap.css">
-    <link rel="stylesheet" href="/css/bttn.css">
+    <link rel="stylesheet" href="/css/animate.min.css">
+    <link rel="stylesheet" href="/css/bttn.min.css">
     <script type="text/javascript"> (function() { var css = document.createElement('link'); css.href = '/icons/css/font-awesome.min.css'; css.rel = 'stylesheet'; css.type = 'text/css'; document.getElementsByTagName('head')[0].appendChild(css); })(); </script>
     <title>@yield('title')</title>
     <script>

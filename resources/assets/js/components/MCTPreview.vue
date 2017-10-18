@@ -2,7 +2,7 @@
 <div class="print-MCT-wrap">
   <div class="MCT-title">
     <span v-if="MCTMaster.IssuedbySignature!=null&&MCTMaster.ReceivedbySignature!=null">
-      <form action="/mct-download" method="get">
+      <form action="/MCT.pdf" method="get">
         <button type="submit" :value="this.mctno[0].MCTNo" name="MCTNo"><i class="fa fa-file-pdf-o"></i>.pdf</button>
       </form>
     </span>

@@ -2,7 +2,7 @@
 <div class="">
   <div class="RV-signature-print-container">
     <div class="print-and-unreceved" v-if="(((RVMaster.RequisitionerSignature!=null)&&((RVMaster.RecommendedbySignature!=null)||(RVMaster.ManagerReplacerSignature!=null))&&(RVMaster.BudgetOfficerSignature!=null)&&(RVMaster.GeneralManagerSignature!=null))||((RVMaster.RequisitionerSignature!=null)&&((RVMaster.RecommendedbySignature!=null)||(RVMaster.ManagerReplacerSignature!=null))&&(RVMaster.BudgetOfficerSignature!=null)&&(RVMaster.ApprovalReplacerSignature!=null)))">
-      <a :href="'/RVdownload/'+rvno.RVNo"><button type="submit" class="bttn-unite bttn-sm bttn-primary" name="RVNo" value="RVNohere"><i class="fa fa-print"></i> Print</button></a>
+      <a :href="'/RV.pdf/'+rvno.RVNo"><button type="submit" class="bttn-unite bttn-sm bttn-primary" name="RVNo" value="RVNohere"><i class="fa fa-print"></i> Print</button></a>
       <li class="pending-delivery-number" v-if="((RVMaster.IfPurchased==null)&&(checkPO==null)&&(checkRR!=null))"><h1>pending item: <span class="color-blue">{{undeliveredTotal}}</span></h1></li>
     </div>
     <div v-else-if="user.Fname+' '+user.Lname!=RVMaster.BudgetOfficer" class="empty-left">

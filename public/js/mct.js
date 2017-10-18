@@ -1471,6 +1471,7 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
     };
   },
 
+
   methods: {
     fetchdatatable: function fetchdatatable(page) {
       var vm = this;
@@ -2413,7 +2414,7 @@ module.exports={render:function (){var _vm=this;var _h=_vm.$createElement;var _c
     staticClass: "MCT-title"
   }, [(_vm.MCTMaster.IssuedbySignature != null && _vm.MCTMaster.ReceivedbySignature != null) ? _c('span', [_c('form', {
     attrs: {
-      "action": "/mct-download",
+      "action": "/MCT.pdf",
       "method": "get"
     }
   }, [_c('button', {

@@ -2760,7 +2760,7 @@ module.exports={render:function (){var _vm=this;var _h=_vm.$createElement;var _c
     staticClass: "print-RR-btn"
   }, [_c('a', {
     attrs: {
-      "href": '/printRRpdf/' + _vm.RRMaster.RRNo
+      "href": '/RR.pdf/' + _vm.RRMaster.RRNo
     }
   }, [_vm._m(0)]), _vm._v(" "), _c('div', [(_vm.checkMR != 0) ? _c('a', {
     attrs: {

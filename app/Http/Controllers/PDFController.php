@@ -104,6 +104,6 @@ class PDFController extends Controller
     }
     $pdf=PDF::loadView('Warehouse.MCT.MCTsummaryPrintable',compact('ForDisplay'));
     $pdf->setPaper('A4','landscape');
-    return $pdf->stream('MCTsummary_.pdf');
+    return $pdf->stream('MCTsummary.pdf');
   }
 }

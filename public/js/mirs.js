@@ -2642,7 +2642,7 @@ module.exports={render:function (){var _vm=this;var _h=_vm.$createElement;var _c
     staticClass: "download-form"
   }, [_c('a', {
     attrs: {
-      "href": '/download-pdf/' + _vm.mirsno.MIRSNo
+      "href": '/MIRS.pdf/' + _vm.mirsno.MIRSNo
     }
   }, [_vm._m(0)]), _vm._v("\r\n        unclaimed:"), _c('span', {
     staticClass: "color-blue"

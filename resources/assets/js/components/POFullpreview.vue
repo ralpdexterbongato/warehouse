@@ -16,7 +16,7 @@
       </div>
       <span class="make-rr-and-print" v-if="((OrderMaster.GeneralManagerSignature!=null)||(OrderMaster.ApprovalReplacerSignature!=null))">
         <div class="left-detail-po">
-          <a :href="'/po-download-print/'+pono.PONo"><button type="submit" class="bttn-unite bttn-xs bttn-primary" name="PONo" value="ponohere"><i class="fa fa-print"></i> Print</button></a>
+          <a :href="'/PO.pdf/'+pono.PONo"><button type="submit" class="bttn-unite bttn-xs bttn-primary" name="PONo" value="ponohere"><i class="fa fa-print"></i> Print</button></a>
           <li class="pending-delivery-number"><h1>Unreceived items: <span class="color-blue">{{remaining}}</span></h1></li>
         </div>
          <div class="rr-with-po-btn" v-if="user.Role==4||user.Role==3">

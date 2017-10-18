@@ -2124,7 +2124,7 @@ module.exports={render:function (){var _vm=this;var _h=_vm.$createElement;var _c
     staticClass: "btns-mr-full"
   }, [_c('div', [((((_vm.MRMaster.RecommendedbySignature != null) && (_vm.MRMaster.GeneralManagerSignature != null) && (_vm.MRMaster.ReceivedbySignature != null)) || ((_vm.MRMaster.RecommendedbySignature != null) && (_vm.MRMaster.ApprovalReplacerSignature != null) && (_vm.MRMaster.ReceivedbySignature != null)))) ? _c('a', {
     attrs: {
-      "href": '/mr-print/' + this.mrno.MRNo
+      "href": '/MR.pdf/' + this.mrno.MRNo
     }
   }, [_vm._m(0)]) : _vm._e(), _vm._v(" "), ((_vm.user.Fname + ' ' + _vm.user.Lname == _vm.MRMaster.ApprovalReplacer) && (_vm.MRMaster.ApprovalReplacerSignature == null) && (_vm.MRMaster.RecommendedbySignature != null) && (_vm.MRMaster.GeneralManagerSignature == null)) ? _c('h6', {
     staticClass: "approve-managerreplace-note"

@@ -26,7 +26,7 @@ return [
     'skip' => [
         '*.xml',
         '*.less',
-        '*.pdf',
+        '*.pdf*',
         '*.doc',
         '*.txt',
         '*.ico',

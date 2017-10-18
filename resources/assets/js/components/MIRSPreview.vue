@@ -3,7 +3,7 @@
   <div class="printable-paper">
     <div class="print-btn-container">
       <div class="download-form" v-if="(MIRSMaster.PreparedSignature!=null)&&((MIRSMaster.RecommendSignature!=null)||(MIRSMaster.ManagerReplacerSignature!=null))&&((MIRSMaster.ApproveSignature!=null)||(MIRSMaster.ApprovalReplacerSignature!=null))">
-        <a :href="'/download-pdf/'+mirsno.MIRSNo"><button type="submit">PDF <i class="fa fa-file-pdf-o"></i></button></a>
+        <a :href="'/MIRS.pdf/'+mirsno.MIRSNo"><button type="submit">PDF <i class="fa fa-file-pdf-o"></i></button></a>
         unclaimed:<span class="color-blue">{{unclaimed}}</span>
       </div>
       <div class="empty-left-mirs" v-else-if="(MIRSMaster.Recommendedby!=user.Fname+' '+user.Lname)">

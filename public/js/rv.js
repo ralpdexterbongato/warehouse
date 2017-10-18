@@ -6559,7 +6559,7 @@ module.exports={render:function (){var _vm=this;var _h=_vm.$createElement;var _c
     staticClass: "print-and-unreceved"
   }, [_c('a', {
     attrs: {
-      "href": '/RVdownload/' + _vm.rvno.RVNo
+      "href": '/RV.pdf/' + _vm.rvno.RVNo
     }
   }, [_vm._m(0)]), _vm._v(" "), (((_vm.RVMaster.IfPurchased == null) && (_vm.checkPO == null) && (_vm.checkRR != null))) ? _c('li', {
     staticClass: "pending-delivery-number"
