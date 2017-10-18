@@ -6,7 +6,7 @@
     <meta name="csrf-token" content="{{ csrf_token() }}">
     <meta name="Developer" content="Ralp Dexter Bongato & Zeshrou Añuber">
     <link rel="icon" type="image/png" href="/DesignIMG/logo.png">
-    <link rel="stylesheet" href="/css/mystyle.css">
+    <link rel="stylesheet" href="/css/mystyle.min.css">
     <link rel="stylesheet" href="/css/reset.css">
     <link rel="stylesheet" href="/css/animate.css">
     <link rel="stylesheet" href="/css/bootstrap.css">
