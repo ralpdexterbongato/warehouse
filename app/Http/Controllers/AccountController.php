@@ -13,11 +13,20 @@ use App\MRMaster;
 use App\RVMaster;
 use \Carbon\Carbon;
 use Image;
+use Mail;
 class AccountController extends Controller
 {
     public function __construct()
     {
-      $this->middleware('IsAdmin',['except'=>['loginpage','getCurrentAssigned','UpdateManagerTakePlace','getActiveManager','toManagerTakePlacePage','fetchDataofSelectedUser','MyRVHistoryandSearch','MyMRHistoryandSearch','MyMRTHistoryandSearch','MyMCTHistoryandSearch','MyMIRSHistoryandSearch','ShowMyHistoryPage','loginSubmit','logoutAccount']]);
+      $this->middleware('IsAdmin',['except'=>['loginpage','sendsms','getCurrentAssigned','UpdateManagerTakePlace','getActiveManager','toManagerTakePlacePage','fetchDataofSelectedUser','MyRVHistoryandSearch','MyMRHistoryandSearch','MyMRTHistoryandSearch','MyMCTHistoryandSearch','MyMIRSHistoryandSearch','ShowMyHistoryPage','loginSubmit','logoutAccount']]);
+    }
+    public function sendsms()
+    {
+      Mail::send(['text'=>'mail'],['name','sarthak'],function($message)
+      {
+        $message->to('09105717885@vtext.com','To RD')->subject('Test Email');
+        $message->from('rdc2898@gmail.com','Bitfumes');
+      });
     }
     public function loginpage()
     {
