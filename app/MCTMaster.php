@@ -10,4 +10,5 @@ class MCTMaster extends Model
   public $timestamps=false;
   public $dates=['MCTDate'];
   protected $dateFormat = 'M d, Y';
+  public $increments=false;
 }

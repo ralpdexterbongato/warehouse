@@ -29,17 +29,15 @@
         No MRT generated yet
       </span>
   </span>
-  <span v-else-if="MCTMaster.Issuedby==user.Fname+' '+user.Lname||MCTMaster.Receivedby==user.Fname+' '+user.Lname">
-    <span v-if="MCTMaster.IssuedbySignature!=user.Signature&&MCTMaster.ReceivedbySignature!=user.Signature&&MCTMaster.IfDeclined==null">
-      <div class="signature-mct-btn" :class="{'hide':SignatureMCTBtnHide}">
-        <longpress id="signatureMCT" duration="3" :on-confirm="signatureMCT" :disabled="IsDisabled" pressing-text="confirm in {$rcounter}" action-text="Loading . . .">
-        <i class="fa fa-pencil"></i> Signature
-        </longpress>
-        <longpress id="declineMCT" duration="3" :on-confirm="declineMCT" :disabled="IsDisabled" pressing-text="confirm in {$rcounter}" action-text="Loading . . .">
-        <i class="fa fa-times"></i> Decline
-        </longpress>
-      </div>
-    </span>
+  <span v-else-if="((MCTMaster.Receivedby==user.Fname+' '+user.Lname)&&(MCTMaster.Receivedby!=null)&&(MCTMaster.IfDeclined==null))">
+    <div class="signature-mct-btn" :class="{'hide':SignatureMCTBtnHide}">
+      <longpress id="signatureMCT" duration="3" :on-confirm="signatureMCT" :disabled="IsDisabled" pressing-text="confirm in {$rcounter}" action-text="Loading . . .">
+      <i class="fa fa-pencil"></i> Signature
+      </longpress>
+      <longpress id="declineMCT" duration="3" :on-confirm="declineMCT" :disabled="IsDisabled" pressing-text="confirm in {$rcounter}" action-text="Loading . . .">
+      <i class="fa fa-times"></i> Decline
+      </longpress>
+    </div>
   </span>
   </div>
     <div class="bondpaper-preview">

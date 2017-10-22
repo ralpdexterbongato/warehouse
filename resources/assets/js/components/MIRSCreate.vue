@@ -27,12 +27,12 @@
             <th>Cancel</th>
           </tr>
             <tr v-for="sessionitem in SessionItems">
-              <td>{{sessionitem.ItemCode_id}}</td>
+              <td>{{sessionitem.ItemCode}}</td>
               <td>{{sessionitem.Particulars}}</td>
               <td>{{sessionitem.Quantity}}</td>
               <td>{{sessionitem.Unit}}</td>
               <td>{{sessionitem.Remarks}}</td>
-              <td class="delete-trash"><i class="fa fa-trash" v-on:click="deleteSession(sessionitem.ItemCode_id)"></i></td>
+              <td class="delete-trash"><i class="fa fa-trash" v-on:click="deleteSession(sessionitem.ItemCode)"></i></td>
           </tr>
         </table>
       </div>
@@ -82,13 +82,13 @@
                   <th>Action</th>
                 </tr>
 
-                <tr v-for="itemcoderesult in SearchResults">
-                  <td>{{itemcoderesult.ItemCode_id}}</td>
+                <tr v-for="(itemcoderesult,count) in SearchResults">
+                  <td>{{itemcoderesult.ItemCode}}</td>
                   <td>{{itemcoderesult.Description}}</td>
-                  <td><input type="number" min="1" name="Quantity[]" v-model="Quantity[itemcoderesult.id]"></td>
+                  <td><input type="number" min="1" v-model="Quantity[count]"></td>
                   <td>{{itemcoderesult.Unit}}</td>
-                  <td><input type="text" autocomplete="off" min="1"  name="Remarks[]" v-model="Remarks[itemcoderesult.id]"></td>
-                  <td><button type="button" class="bttn-unite bttn-xs bttn-primary" v-on:click="submitTosession(itemcoderesult),isActive=!isActive"><i class="fa fa-plus"></i></button></td>
+                  <td><input type="text" autocomplete="off" min="1"  name="Remarks[]" v-model="Remarks[count]"></td>
+                  <td><button type="button" class="bttn-unite bttn-xs bttn-primary" v-on:click="submitTosession(itemcoderesult,count),isActive=!isActive"><i class="fa fa-plus"></i></button></td>
                 </tr>
               </table>
               <div class="pagination-container">
@@ -170,15 +170,15 @@ import axios from 'axios';
           Vue.set(vm.$data,'Pagination',response.data);
         });
       },
-      submitTosession(datas)
+      submitTosession(datas,count)
       {
         var vm=this;
         axios.post(`/sessionMIRSitem`,{
-        ItemCode_id:datas.ItemCode_id,
+        ItemCode:datas.ItemCode,
         Particulars:datas.Description,
         Unit:datas.Unit,
-        Remarks:this.Remarks[datas.id],
-        Quantity:this.Quantity[datas.id],
+        Remarks:this.Remarks[count],
+        Quantity:this.Quantity[count],
         }).then(function(response)
       {
           console.log(response);

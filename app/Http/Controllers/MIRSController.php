@@ -35,17 +35,17 @@ class MIRSController extends Controller
   public function addingSessionItem(Request $request)
   {
     $this->SessionValidator($request);
-    $MTDetails=MaterialsTicketDetail::orderBy('id','DESC')->where('ItemCode',$request->ItemCode_id)->value('CurrentQuantity');
+    $MTDetails=MaterialsTicketDetail::orderBy('id','DESC')->where('ItemCode',$request->ItemCode)->value('CurrentQuantity');
     if($MTDetails >=$request->Quantity)
     {
       $itemselected =[
-      'ItemCode_id' => $request->ItemCode_id,'Particulars' => $request->Particulars,'Unit' => $request->Unit,'Remarks'=>$request->Remarks,'Quantity' => $request->Quantity,
+      'ItemCode' => $request->ItemCode,'Particulars' => $request->Particulars,'Unit' => $request->Unit,'Remarks'=>$request->Remarks,'Quantity' => $request->Quantity,
       ];
       if (Session::has('ItemSelected'))
       {
         foreach (Session::get('ItemSelected') as $selected)
         {
-          if ($selected->ItemCode_id == $request->ItemCode_id) {
+          if ($selected->ItemCode == $request->ItemCode) {
             return response()->json(['error'=>'This Item has been added already']);
           }
         }
@@ -64,7 +64,7 @@ class MIRSController extends Controller
       $items=(array)Session::get('ItemSelected');
       foreach ($items as $key=>$item)
       {
-        if ($item->ItemCode_id == $id)
+        if ($item->ItemCode == $id)
         {
           unset($items[$key]);
         }
@@ -129,7 +129,7 @@ class MIRSController extends Controller
       $forMIRSDetailtbl = array();
       foreach ($selectedITEMS as $items)
       {
-        $forMIRSDetailtbl[] = array('MIRSNo' => $incremented ,'ItemCode'=>$items->ItemCode_id,'Particulars'=>$items->Particulars,'Remarks'=>$items->Remarks,'Quantity'=>$items->Quantity,'Unit'=>$items->Unit);
+        $forMIRSDetailtbl[] = array('MIRSNo' => $incremented ,'ItemCode'=>$items->ItemCode,'Particulars'=>$items->Particulars,'Remarks'=>$items->Remarks,'Quantity'=>$items->Quantity,'Unit'=>$items->Unit);
       }
       MIRSDetail::insert($forMIRSDetailtbl);
       Session::forget('ItemSelected');

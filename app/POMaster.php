@@ -6,7 +6,7 @@ use Illuminate\Database\Eloquent\Model;
 
 class POMaster extends Model
 {
-  protected $table='PurchaseOrderMasters';
+  protected $table='POMasters';
   public $timestamps=false;
   public $incrementing=false;
   public $dates=['PODate','RVDate'];

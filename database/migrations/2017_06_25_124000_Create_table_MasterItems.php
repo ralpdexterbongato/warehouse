@@ -14,11 +14,10 @@ class CreateTableMasterItems extends Migration
     public function up()
     {
         Schema::create('MasterItems', function (Blueprint $table) {
-          $table->increments('id');
           $table->string('AccountCode',20);
           $table->string('Description',100)->nullable();
           $table->string('Unit',20)->nullable();
-          $table->string('ItemCode_id',20);
+          $table->string('ItemCode',20)->primary();
           $table->decimal('CurrentQuantity',18,0);
           $table->decimal('AlertIfBelow',18,0)->nullable();
         });

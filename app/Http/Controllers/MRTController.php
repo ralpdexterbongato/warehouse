@@ -183,7 +183,7 @@ class MRTController extends Controller
         $totalofamt=$MTdetails[0]->CurrentAmount+ $MRTammount;
         $newcurrentcost=$totalofamt/$currentQty;
         $currentAmnt= $currentQty * $newcurrentcost;
-        MasterItem::where('ItemCode_id',$fromConfirm->ItemCode)->update(['CurrentQuantity'=>$currentQty]);
+        MasterItem::where('ItemCode',$fromConfirm->ItemCode)->update(['CurrentQuantity'=>$currentQty]);
         $forMRTtbl[] = array('ItemCode' =>$fromConfirm->ItemCode,'MTType'=>'MRT','MTNo' =>$fromConfirm->MRTNo ,'AccountCode' =>$fromConfirm->AccountCode,'UnitCost' =>$fromConfirm->UnitCost ,'Quantity' =>$fromConfirm->Quantity
         ,'Amount' =>$MRTammount ,'CurrentCost' =>$newcurrentcost ,'CurrentQuantity' =>$currentQty ,'CurrentAmount' =>$currentAmnt ,'MTDate' =>$datenow[0]->ReturnDate );
       }

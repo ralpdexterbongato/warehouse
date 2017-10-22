@@ -21,7 +21,7 @@ class MaterialsTicketDetail extends Model
     // }
     public function MasterItems()
     {
-      return $this->belongsTo('App\MasterItem','ItemCode','ItemCode_id');
+      return $this->belongsTo('App\MasterItem','ItemCode','ItemCode');
     }
     // public function getMTDateAttribute($value)
     // {

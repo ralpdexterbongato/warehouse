@@ -1109,14 +1109,14 @@ function _defineProperty(obj, key, value) { if (key in obj) { Object.definePrope
         Vue.set(vm.$data, 'Pagination', response.data);
       });
     },
-    submitTosession: function submitTosession(datas) {
+    submitTosession: function submitTosession(datas, count) {
       var vm = this;
       __WEBPACK_IMPORTED_MODULE_1_axios___default.a.post('/sessionMIRSitem', {
-        ItemCode_id: datas.ItemCode_id,
+        ItemCode: datas.ItemCode,
         Particulars: datas.Description,
         Unit: datas.Unit,
-        Remarks: this.Remarks[datas.id],
-        Quantity: this.Quantity[datas.id]
+        Remarks: this.Remarks[count],
+        Quantity: this.Quantity[count]
       }).then(function (response) {
         console.log(response);
         if (response.data.error == null) {
@@ -1889,7 +1889,7 @@ var Component = __webpack_require__(4)(
   /* cssModules */
   null
 )
-Component.options.__file = "C:\\xampp\\htdocs\\warehouse\\resources\\assets\\js\\components\\MIRSCreate.vue"
+Component.options.__file = "c:\\xampp\\htdocs\\warehouse\\resources\\assets\\js\\components\\MIRSCreate.vue"
 if (Component.esModule && Object.keys(Component.esModule).some(function (key) {return key !== "default" && key !== "__esModule"})) {console.error("named exports are not supported in *.vue files.")}
 if (Component.options.functional) {console.error("[vue-loader] MIRSCreate.vue: functional components are not supported with templates, they should use render functions.")}
 
@@ -2000,7 +2000,7 @@ var Component = __webpack_require__(4)(
   /* cssModules */
   null
 )
-Component.options.__file = "C:\\xampp\\htdocs\\warehouse\\resources\\assets\\js\\components\\MIRSPreview.vue"
+Component.options.__file = "c:\\xampp\\htdocs\\warehouse\\resources\\assets\\js\\components\\MIRSPreview.vue"
 if (Component.esModule && Object.keys(Component.esModule).some(function (key) {return key !== "default" && key !== "__esModule"})) {console.error("named exports are not supported in *.vue files.")}
 if (Component.options.functional) {console.error("[vue-loader] MIRSPreview.vue: functional components are not supported with templates, they should use render functions.")}
 
@@ -2035,7 +2035,7 @@ var Component = __webpack_require__(4)(
   /* cssModules */
   null
 )
-Component.options.__file = "C:\\xampp\\htdocs\\warehouse\\resources\\assets\\js\\components\\MIRSindex.vue"
+Component.options.__file = "c:\\xampp\\htdocs\\warehouse\\resources\\assets\\js\\components\\MIRSindex.vue"
 if (Component.esModule && Object.keys(Component.esModule).some(function (key) {return key !== "default" && key !== "__esModule"})) {console.error("named exports are not supported in *.vue files.")}
 if (Component.options.functional) {console.error("[vue-loader] MIRSindex.vue: functional components are not supported with templates, they should use render functions.")}
 
@@ -2190,13 +2190,13 @@ module.exports={render:function (){var _vm=this;var _h=_vm.$createElement;var _c
       }
     }
   }, [_c('p', [_vm._v(_vm._s(_vm.successAlerts))])]) : _vm._e(), _vm._v(" "), _c('table', [_vm._m(0), _vm._v(" "), _vm._l((_vm.SessionItems), function(sessionitem) {
-    return _c('tr', [_c('td', [_vm._v(_vm._s(sessionitem.ItemCode_id))]), _vm._v(" "), _c('td', [_vm._v(_vm._s(sessionitem.Particulars))]), _vm._v(" "), _c('td', [_vm._v(_vm._s(sessionitem.Quantity))]), _vm._v(" "), _c('td', [_vm._v(_vm._s(sessionitem.Unit))]), _vm._v(" "), _c('td', [_vm._v(_vm._s(sessionitem.Remarks))]), _vm._v(" "), _c('td', {
+    return _c('tr', [_c('td', [_vm._v(_vm._s(sessionitem.ItemCode))]), _vm._v(" "), _c('td', [_vm._v(_vm._s(sessionitem.Particulars))]), _vm._v(" "), _c('td', [_vm._v(_vm._s(sessionitem.Quantity))]), _vm._v(" "), _c('td', [_vm._v(_vm._s(sessionitem.Unit))]), _vm._v(" "), _c('td', [_vm._v(_vm._s(sessionitem.Remarks))]), _vm._v(" "), _c('td', {
       staticClass: "delete-trash"
     }, [_c('i', {
       staticClass: "fa fa-trash",
       on: {
         "click": function($event) {
-          _vm.deleteSession(sessionitem.ItemCode_id)
+          _vm.deleteSession(sessionitem.ItemCode)
         }
       }
     })])])
@@ -2321,34 +2321,33 @@ module.exports={render:function (){var _vm=this;var _h=_vm.$createElement;var _c
     }
   })])]), _vm._v(" "), _c('div', {
     staticClass: "modal-search-results"
-  }, [_c('table', [_vm._m(2), _vm._v(" "), _vm._l((_vm.SearchResults), function(itemcoderesult) {
-    return _c('tr', [_c('td', [_vm._v(_vm._s(itemcoderesult.ItemCode_id))]), _vm._v(" "), _c('td', [_vm._v(_vm._s(itemcoderesult.Description))]), _vm._v(" "), _c('td', [_c('input', {
+  }, [_c('table', [_vm._m(2), _vm._v(" "), _vm._l((_vm.SearchResults), function(itemcoderesult, count) {
+    return _c('tr', [_c('td', [_vm._v(_vm._s(itemcoderesult.ItemCode))]), _vm._v(" "), _c('td', [_vm._v(_vm._s(itemcoderesult.Description))]), _vm._v(" "), _c('td', [_c('input', {
       directives: [{
         name: "model",
         rawName: "v-model",
-        value: (_vm.Quantity[itemcoderesult.id]),
-        expression: "Quantity[itemcoderesult.id]"
+        value: (_vm.Quantity[count]),
+        expression: "Quantity[count]"
       }],
       attrs: {
         "type": "number",
-        "min": "1",
-        "name": "Quantity[]"
+        "min": "1"
       },
       domProps: {
-        "value": (_vm.Quantity[itemcoderesult.id])
+        "value": (_vm.Quantity[count])
       },
       on: {
         "input": function($event) {
           if ($event.target.composing) { return; }
-          _vm.$set(_vm.Quantity, itemcoderesult.id, $event.target.value)
+          _vm.$set(_vm.Quantity, count, $event.target.value)
         }
       }
     })]), _vm._v(" "), _c('td', [_vm._v(_vm._s(itemcoderesult.Unit))]), _vm._v(" "), _c('td', [_c('input', {
       directives: [{
         name: "model",
         rawName: "v-model",
-        value: (_vm.Remarks[itemcoderesult.id]),
-        expression: "Remarks[itemcoderesult.id]"
+        value: (_vm.Remarks[count]),
+        expression: "Remarks[count]"
       }],
       attrs: {
         "type": "text",
@@ -2357,12 +2356,12 @@ module.exports={render:function (){var _vm=this;var _h=_vm.$createElement;var _c
         "name": "Remarks[]"
       },
       domProps: {
-        "value": (_vm.Remarks[itemcoderesult.id])
+        "value": (_vm.Remarks[count])
       },
       on: {
         "input": function($event) {
           if ($event.target.composing) { return; }
-          _vm.$set(_vm.Remarks, itemcoderesult.id, $event.target.value)
+          _vm.$set(_vm.Remarks, count, $event.target.value)
         }
       }
     })]), _vm._v(" "), _c('td', [_c('button', {
@@ -2372,7 +2371,7 @@ module.exports={render:function (){var _vm=this;var _h=_vm.$createElement;var _c
       },
       on: {
         "click": function($event) {
-          _vm.submitTosession(itemcoderesult), _vm.isActive = !_vm.isActive
+          _vm.submitTosession(itemcoderesult, count), _vm.isActive = !_vm.isActive
         }
       }
     }, [_c('i', {

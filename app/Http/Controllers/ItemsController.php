@@ -40,7 +40,7 @@ class ItemsController extends Controller
 
     public function searchItemMaster(Request $request)
     {
-       return $itemMasters=MasterItem::where('ItemCode_id','LIKE','%'.$request->ItemCode.'%')->paginate(5);
+       return $itemMasters=MasterItem::where('ItemCode','LIKE','%'.$request->ItemCode.'%')->paginate(5);
     }
     public function ItemMasterbyDescription(Request $request)
     {
@@ -86,6 +86,14 @@ class ItemsController extends Controller
       {
         return ['error'=>'The currentcost must be 0 if the quantity is 0'];
       }
+      $ItemMasterTable=new MasterItem;
+      $ItemMasterTable->AccountCode=$request->AccountCode;
+      $ItemMasterTable->ItemCode=$request->ItemCode;
+      $ItemMasterTable->Description=$request->Description;
+      $ItemMasterTable->Unit=$request->Unit;
+      $ItemMasterTable->AlertIfBelow=$request->AlertIfBelow;
+      $ItemMasterTable->CurrentQuantity=$request->CurrentQuantity;
+      $ItemMasterTable->save();
       $nocommaCost=str_replace(',','',$request->CurrentCost);
       $AMT=$nocommaCost*$request->CurrentQuantity;
       $MTDtable=new MaterialsTicketDetail;
@@ -101,14 +109,6 @@ class ItemsController extends Controller
       $MTDtable->CurrentAmount=$AMT;
       $MTDtable->MTDate=Carbon::now();
       $MTDtable->save();
-      $ItemMasterTable=new MasterItem;
-      $ItemMasterTable->AccountCode=$request->AccountCode;
-      $ItemMasterTable->ItemCode_id=$request->ItemCode;
-      $ItemMasterTable->Description=$request->Description;
-      $ItemMasterTable->Unit=$request->Unit;
-      $ItemMasterTable->AlertIfBelow=$request->AlertIfBelow;
-      $ItemMasterTable->CurrentQuantity=$request->CurrentQuantity;
-      $ItemMasterTable->save();
     }
     public function SearchDescriptionAndRecentAdded(Request $request)
     {
@@ -144,14 +144,14 @@ class ItemsController extends Controller
       $OldItemCode=MaterialsTicketDetail::where('id', $id)->get(['ItemCode']);
        $nocommaCost=str_replace(',','',$request->CurrentCost);
        $AMT=$nocommaCost*$request->CurrentQuantity;
-      $MTdetailsTBL=MaterialsTicketDetail::where('id',$id)->update(['AccountCode'=>$request->AccountCode,'ItemCode'=>$request->ItemCode,'Quantity'=>$request->CurrentQuantity,'UnitCost'=>$nocommaCost,'Amount'=>$AMT,'CurrentQuantity'=>$request->CurrentQuantity,'CurrentCost'=>$nocommaCost]);
       $checkifnew=MaterialsTicketDetail::where('ItemCode', $OldItemCode[0]->ItemCode)->take(2)->get(['ItemCode']);
       if (count($checkifnew)>1)
       {
-        MasterItem::where('ItemCode_id', $OldItemCode[0]->ItemCode)->update(['AccountCode'=>$request->AccountCode,'ItemCode_id'=>$request->ItemCode,'Description'=>$request->Description,'Unit'=>$request->Unit,'AlertIfBelow'=>$request->AlertIfBelow]);
+        MasterItem::where('ItemCode', $OldItemCode[0]->ItemCode)->update(['AccountCode'=>$request->AccountCode,'ItemCode'=>$request->ItemCode,'Description'=>$request->Description,'Unit'=>$request->Unit,'AlertIfBelow'=>$request->AlertIfBelow]);
       }else
       {
-        MasterItem::where('ItemCode_id', $OldItemCode[0]->ItemCode)->update(['AccountCode'=>$request->AccountCode,'ItemCode_id'=>$request->ItemCode,'CurrentQuantity'=>$request->CurrentQuantity,'Description'=>$request->Description,'Unit'=>$request->Unit,'AlertIfBelow'=>$request->AlertIfBelow]);
+        MasterItem::where('ItemCode', $OldItemCode[0]->ItemCode)->update(['AccountCode'=>$request->AccountCode,'ItemCode'=>$request->ItemCode,'CurrentQuantity'=>$request->CurrentQuantity,'Description'=>$request->Description,'Unit'=>$request->Unit,'AlertIfBelow'=>$request->AlertIfBelow]);
       }
+      $MTdetailsTBL=MaterialsTicketDetail::where('id',$id)->update(['AccountCode'=>$request->AccountCode,'ItemCode'=>$request->ItemCode,'Quantity'=>$request->CurrentQuantity,'UnitCost'=>$nocommaCost,'Amount'=>$AMT,'CurrentQuantity'=>$request->CurrentQuantity,'CurrentCost'=>$nocommaCost]);
     }
 }

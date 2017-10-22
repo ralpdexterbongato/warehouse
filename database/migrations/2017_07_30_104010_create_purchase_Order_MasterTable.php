@@ -13,7 +13,7 @@ class CreatePurchaseOrderMasterTable extends Migration
      */
     public function up()
     {
-        Schema::create('PurchaseOrderMasters', function (Blueprint $table) {
+        Schema::create('POMasters', function (Blueprint $table) {
           $table->char('PONo',7)->primary();
           $table->char('RVNo',7);
           $table->string('Supplier',50);
@@ -37,6 +37,6 @@ class CreatePurchaseOrderMasterTable extends Migration
      */
     public function down()
     {
-        Schema::dropIfExists('PurchaseOrderMasters');
+        Schema::dropIfExists('POMasters');
     }
 }

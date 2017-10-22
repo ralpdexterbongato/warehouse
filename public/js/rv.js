@@ -1649,7 +1649,7 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
       var vm = this;
       __WEBPACK_IMPORTED_MODULE_0_axios___default.a.post('/addtoStockSession', {
         AccountCode: data.AccountCode,
-        ItemCode: data.ItemCode_id,
+        ItemCode: data.ItemCode,
         Description: data.Description,
         Unit: data.Unit,
         Quantity: this.QuantityForWHouse[count],
@@ -5723,7 +5723,7 @@ var Component = __webpack_require__(4)(
   /* cssModules */
   null
 )
-Component.options.__file = "C:\\xampp\\htdocs\\warehouse\\resources\\assets\\js\\components\\FullRVpreview.vue"
+Component.options.__file = "c:\\xampp\\htdocs\\warehouse\\resources\\assets\\js\\components\\FullRVpreview.vue"
 if (Component.esModule && Object.keys(Component.esModule).some(function (key) {return key !== "default" && key !== "__esModule"})) {console.error("named exports are not supported in *.vue files.")}
 if (Component.options.functional) {console.error("[vue-loader] FullRVpreview.vue: functional components are not supported with templates, they should use render functions.")}
 
@@ -5854,7 +5854,7 @@ var Component = __webpack_require__(4)(
   /* cssModules */
   null
 )
-Component.options.__file = "C:\\xampp\\htdocs\\warehouse\\resources\\assets\\js\\components\\RVCreate.vue"
+Component.options.__file = "c:\\xampp\\htdocs\\warehouse\\resources\\assets\\js\\components\\RVCreate.vue"
 if (Component.esModule && Object.keys(Component.esModule).some(function (key) {return key !== "default" && key !== "__esModule"})) {console.error("named exports are not supported in *.vue files.")}
 if (Component.options.functional) {console.error("[vue-loader] RVCreate.vue: functional components are not supported with templates, they should use render functions.")}
 
@@ -5889,7 +5889,7 @@ var Component = __webpack_require__(4)(
   /* cssModules */
   null
 )
-Component.options.__file = "C:\\xampp\\htdocs\\warehouse\\resources\\assets\\js\\components\\RVindex.vue"
+Component.options.__file = "c:\\xampp\\htdocs\\warehouse\\resources\\assets\\js\\components\\RVindex.vue"
 if (Component.esModule && Object.keys(Component.esModule).some(function (key) {return key !== "default" && key !== "__esModule"})) {console.error("named exports are not supported in *.vue files.")}
 if (Component.options.functional) {console.error("[vue-loader] RVindex.vue: functional components are not supported with templates, they should use render functions.")}
 
@@ -6324,7 +6324,7 @@ module.exports={render:function (){var _vm=this;var _h=_vm.$createElement;var _c
   })])])]), _vm._v(" "), _c('div', {
     staticClass: "searchResults-forstock"
   }, [_c('table', [_vm._m(2), _vm._v(" "), _vm._l((_vm.findResults), function(result, count) {
-    return _c('tr', [_c('td', [_vm._v(_vm._s(result.ItemCode_id))]), _vm._v(" "), _c('td', [_vm._v(_vm._s(result.Description))]), _vm._v(" "), _c('td', [_vm._v(_vm._s(result.Unit))]), _vm._v(" "), _c('td', [_c('input', {
+    return _c('tr', [_c('td', [_vm._v(_vm._s(result.ItemCode))]), _vm._v(" "), _c('td', [_vm._v(_vm._s(result.Description))]), _vm._v(" "), _c('td', [_vm._v(_vm._s(result.Unit))]), _vm._v(" "), _c('td', [_c('input', {
       directives: [{
         name: "model",
         rawName: "v-model",

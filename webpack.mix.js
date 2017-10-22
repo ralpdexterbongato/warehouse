@@ -11,15 +11,15 @@ const { mix } = require('laravel-mix');
  |
  */
 
-mix.js('resources/assets/js/rv.js', 'public/js')
-   .js('resources/assets/js/mr.js', 'public/js')
-   .js('resources/assets/js/rr.js', 'public/js')
-   .js('resources/assets/js/canvass.js', 'public/js')
-   .js('resources/assets/js/AccountManagement.js', 'public/js')
-   .js('resources/assets/js/mirs.js', 'public/js')
-   .js('resources/assets/js/mct.js', 'public/js')
-   .js('resources/assets/js/item.js', 'public/js')
-   .js('resources/assets/js/mrt.js', 'public/js')
-   .js('resources/assets/js/po.js', 'public/js')
-   .js('resources/assets/js/master.js', 'public/js')
-   .sass('resources/assets/sass/app.scss', 'public/css');
+ mix.js('resources/assets/js/rv.js', 'public/js')
+    .js('resources/assets/js/mr.js', 'public/js')
+    .js('resources/assets/js/rr.js', 'public/js')
+    .js('resources/assets/js/canvass.js', 'public/js')
+    .js('resources/assets/js/AccountManagement.js', 'public/js')
+    .js('resources/assets/js/mirs.js', 'public/js')
+    .js('resources/assets/js/mct.js', 'public/js')
+    .js('resources/assets/js/item.js', 'public/js')
+    .js('resources/assets/js/mrt.js', 'public/js')
+    .js('resources/assets/js/po.js', 'public/js')
+    .js('resources/assets/js/master.js', 'public/js')
+    .sass('resources/assets/sass/app.scss', 'public/css');

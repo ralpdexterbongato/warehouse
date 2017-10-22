@@ -1290,8 +1290,6 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
 //
 //
 //
-//
-//
 
 
 
@@ -1739,7 +1737,7 @@ var Component = __webpack_require__(4)(
   /* cssModules */
   null
 )
-Component.options.__file = "C:\\xampp\\htdocs\\warehouse\\resources\\assets\\js\\components\\CreateMCT.vue"
+Component.options.__file = "c:\\xampp\\htdocs\\warehouse\\resources\\assets\\js\\components\\CreateMCT.vue"
 if (Component.esModule && Object.keys(Component.esModule).some(function (key) {return key !== "default" && key !== "__esModule"})) {console.error("named exports are not supported in *.vue files.")}
 if (Component.options.functional) {console.error("[vue-loader] CreateMCT.vue: functional components are not supported with templates, they should use render functions.")}
 
@@ -1774,7 +1772,7 @@ var Component = __webpack_require__(4)(
   /* cssModules */
   null
 )
-Component.options.__file = "C:\\xampp\\htdocs\\warehouse\\resources\\assets\\js\\components\\MCTPreview.vue"
+Component.options.__file = "c:\\xampp\\htdocs\\warehouse\\resources\\assets\\js\\components\\MCTPreview.vue"
 if (Component.esModule && Object.keys(Component.esModule).some(function (key) {return key !== "default" && key !== "__esModule"})) {console.error("named exports are not supported in *.vue files.")}
 if (Component.options.functional) {console.error("[vue-loader] MCTPreview.vue: functional components are not supported with templates, they should use render functions.")}
 
@@ -1809,7 +1807,7 @@ var Component = __webpack_require__(4)(
   /* cssModules */
   null
 )
-Component.options.__file = "C:\\xampp\\htdocs\\warehouse\\resources\\assets\\js\\components\\MCTindex.vue"
+Component.options.__file = "c:\\xampp\\htdocs\\warehouse\\resources\\assets\\js\\components\\MCTindex.vue"
 if (Component.esModule && Object.keys(Component.esModule).some(function (key) {return key !== "default" && key !== "__esModule"})) {console.error("named exports are not supported in *.vue files.")}
 if (Component.options.functional) {console.error("[vue-loader] MCTindex.vue: functional components are not supported with templates, they should use render functions.")}
 
@@ -2475,7 +2473,7 @@ module.exports={render:function (){var _vm=this;var _h=_vm.$createElement;var _c
     attrs: {
       "href": '/mrt-preview-page/' + _vm.MRTCheck
     }
-  }, [_vm._m(1)])])])]) : _c('span', [_vm._v("\n        No MRT generated yet\n      ")])]) : (_vm.MCTMaster.Issuedby == _vm.user.Fname + ' ' + _vm.user.Lname || _vm.MCTMaster.Receivedby == _vm.user.Fname + ' ' + _vm.user.Lname) ? _c('span', [(_vm.MCTMaster.IssuedbySignature != _vm.user.Signature && _vm.MCTMaster.ReceivedbySignature != _vm.user.Signature && _vm.MCTMaster.IfDeclined == null) ? _c('span', [_c('div', {
+  }, [_vm._m(1)])])])]) : _c('span', [_vm._v("\n        No MRT generated yet\n      ")])]) : (((_vm.MCTMaster.Receivedby == _vm.user.Fname + ' ' + _vm.user.Lname) && (_vm.MCTMaster.Receivedby != null) && (_vm.MCTMaster.IfDeclined == null))) ? _c('span', [_c('div', {
     staticClass: "signature-mct-btn",
     class: {
       'hide': _vm.SignatureMCTBtnHide
@@ -2491,7 +2489,7 @@ module.exports={render:function (){var _vm=this;var _h=_vm.$createElement;var _c
     }
   }, [_c('i', {
     staticClass: "fa fa-pencil"
-  }), _vm._v(" Signature\r\n        ")]), _vm._v(" "), _c('longpress', {
+  }), _vm._v(" Signature\r\n      ")]), _vm._v(" "), _c('longpress', {
     attrs: {
       "id": "declineMCT",
       "duration": "3",
@@ -2502,7 +2500,7 @@ module.exports={render:function (){var _vm=this;var _h=_vm.$createElement;var _c
     }
   }, [_c('i', {
     staticClass: "fa fa-times"
-  }), _vm._v(" Decline\r\n        ")])], 1)]) : _vm._e()]) : _vm._e()]), _vm._v(" "), _c('div', {
+  }), _vm._v(" Decline\r\n      ")])], 1)]) : _vm._e()]), _vm._v(" "), _c('div', {
     staticClass: "bondpaper-preview"
   }, [_vm._m(2), _vm._v(" "), _c('div', {
     staticClass: "MCTMaster-details"

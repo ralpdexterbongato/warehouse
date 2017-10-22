@@ -33,7 +33,7 @@ class DatabaseSeeder extends Seeder
         //     'AccountCode'=>$ACode,
         //     'Description'=>'Description'.str_random(20),
         //     'Unit'=>'PC',
-        //     'ItemCode_id'=>$ICode,
+        //     'ItemCode'=>$ICode,
         //   ]);
 
                            //

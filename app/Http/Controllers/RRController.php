@@ -64,7 +64,7 @@ class RRController extends Controller
   }
   public function searchbyItemMasterCode(Request $request)
   {
-    $itemMasters=MasterItem::where('ItemCode_id','LIKE','%'.$request->searchcode.'%')->paginate(5,['AccountCode','ItemCode_id','Description','Unit']);
+    $itemMasters=MasterItem::where('ItemCode','LIKE','%'.$request->searchcode.'%')->paginate(5,['AccountCode','ItemCode','Description','Unit']);
     $response=[
       'pagination'=>[
         'total'=> $itemMasters->total(),
@@ -397,7 +397,7 @@ class RRController extends Controller
           $addedAMT=$MTLatestDetail[0]->CurrentAmount + $Amount;
           $newCost=$addedAMT/$newQuantity;
           $currentAMT=$newQuantity*$newCost;
-          MasterItem::where('ItemCode_id',$fromconfirmDetail->ItemCode)->update(['CurrentQuantity'=>$newQuantity]);
+          MasterItem::where('ItemCode',$fromconfirmDetail->ItemCode)->update(['CurrentQuantity'=>$newQuantity]);
           $forMTDtable[] = array('ItemCode' =>$fromconfirmDetail->ItemCode ,'MTType' =>'RR' ,'MTNo' =>$fromconfirmDetail->RRNo ,
           'AccountCode' =>$MTLatestDetail[0]->AccountCode ,
           'UnitCost' =>$fromconfirmDetail->UnitCost,'RRQuantityDelivered' =>$fromconfirmDetail->QuantityDelivered ,'Quantity' =>$fromconfirmDetail->QuantityAccepted,

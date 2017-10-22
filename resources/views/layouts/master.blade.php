@@ -96,8 +96,8 @@
       </div>
     @endif
     </header>
-      @section('body')
-      @show
+        @section('body')
+        @show
     <footer>
       <div class="footer-container">
         <div class="simple-footer">
@@ -121,9 +121,9 @@
         @endif
       });
     </script>
-    @if (Auth::check())
-      <script type="text/javascript" src="/js/master.js">
-      </script>
-    @endif
+      @if (Auth::check())
+        <script type="text/javascript" src="/js/master.js">
+        </script>
+      @endif
   </body>
 </html>

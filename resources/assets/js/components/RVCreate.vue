@@ -107,7 +107,7 @@
                 <th>Action</th>
               </tr>
               <tr v-for="(result,count) in findResults">
-                  <td>{{result.ItemCode_id}}</td>
+                  <td>{{result.ItemCode}}</td>
                   <td>{{result.Description}}</td>
                   <td>{{result.Unit}}</td>
                   <td><input type="number" autocomplete="off" v-model="QuantityForWHouse[count]" name="Quantity" min="1" required></td>
@@ -219,7 +219,7 @@ import Longpress from 'vue-longpress';
         var vm=this;
         axios.post(`/addtoStockSession`,{
           AccountCode:data.AccountCode,
-          ItemCode:data.ItemCode_id,
+          ItemCode:data.ItemCode,
           Description:data.Description,
           Unit:data.Unit,
           Quantity:this.QuantityForWHouse[count],
