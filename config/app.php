@@ -166,6 +166,7 @@ return [
         Intervention\Image\ImageServiceProvider::class,
         Nexmo\Laravel\NexmoServiceProvider::class,
         RenatoMarinho\LaravelPageSpeed\ServiceProvider::class,
+        Collective\Remote\RemoteServiceProvider::class,
 
         /*
          * Package Service Providers...
@@ -232,6 +233,7 @@ return [
         'PDF' => Barryvdh\DomPDF\Facade::class,
         'Image' => Intervention\Image\Facades\Image::class,
         'Nexmo' => Nexmo\Laravel\Facade\Nexmo::class,
+        'SSH' => Collective\Remote\RemoteFacade::class,
     ],
 
 ];

@@ -22,11 +22,14 @@ class AccountController extends Controller
     }
     public function sendsms()
     {
-      Mail::send(['text'=>'mail'],['name','sarthak'],function($message)
-      {
-        $message->to('09105717885@vtext.com','To RD')->subject('Test Email');
-        $message->from('rdc2898@gmail.com','Bitfumes');
-      });
+      $text = 'testing 456 yeeeesss men';
+      $number = '09105717885';
+      chdir('c:/xampp/htdocs/gnokii');
+      exec('echo '.$text.' | gnokii --sendsms '.$number);
+      // SSH::run([
+      //   'cd c:/xampp/htdocs/gnokii',
+      //   'echo '.$text.' | gnokii --sendsms '.$number,
+      // ]);
     }
     public function loginpage()
     {
