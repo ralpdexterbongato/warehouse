@@ -13,8 +13,8 @@ class EventServiceProvider extends ServiceProvider
      * @var array
      */
     protected $listen = [
-        'App\Events\TaskEvent' => [
-            'App\Listeners\TaskEventListener',
+        'App\Events\NewMIRSEvent' => [
+            'App\Listeners\NewMIRSEventListener',
         ],
         'App\Events\NewApprovedMIRSEvent' => [
             'App\Listeners\NewApprovedMIRSEventListener',
@@ -40,6 +40,7 @@ class EventServiceProvider extends ServiceProvider
         'App\Events\NewMREvent' => [
             'App\Listeners\NewMREventListener',
         ],
+
     ];
 
     /**

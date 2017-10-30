@@ -176,7 +176,7 @@ import axios from 'axios'
      created()
      {
        Echo.private('MIRSChannel.'+this.myFname+this.myLname)
-       .listen('TaskEvent', (e) => {
+       .listen('NewMIRSEvent', (e) => {
            console.log(e);
            this.refreshNotifationMIRS();
            this.modalOpen=true;

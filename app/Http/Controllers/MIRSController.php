@@ -191,7 +191,7 @@ class MIRSController extends Controller
 
   public function MIRSSignature($id)
   {
-    $signableNames=MIRSMaster::where('MIRSNo',$id)->get(['Recommendedby','Approvedby','ApprovalReplacer']);
+    $signableNames=MIRSMaster::where('MIRSNo',$id)->get(['Preparedby','Recommendedby','Approvedby','ApprovalReplacer']);
     if($signableNames[0]->Recommendedby==Auth::user()->Fname .' '.Auth::user()->Lname)
     {
       MIRSMaster::where('MIRSNo',$id)->update(['RecommendSignature'=>Auth::user()->Signature,'ManagerReplacerSignature'=>null,'ManagerReplacer'=>null]);
@@ -216,8 +216,10 @@ class MIRSController extends Controller
     if ($signableNames[0]->Approvedby==Auth::user()->Fname .' '.Auth::user()->Lname)
     {
       MIRSMaster::where('MIRSNo',$id)->update(['ApproveSignature'=>Auth::user()->Signature,'ApprovalReplacerSignature'=>null]);
-      $role=['role'=>'3and4'];
-      $job=(new NewApprovedMIRSJob($role))->delay(Carbon::now()->addSeconds(5));
+      $requisitioner=str_replace(' ','',$signableNames[0]->Preparedby);
+      $tobenotify = array('Requisitioner' =>$requisitioner);
+      $tobenotify=(object)$tobenotify;
+      $job=(new NewApprovedMIRSJob($tobenotify))->delay(Carbon::now()->addSeconds(5));
       dispatch($job);
     }
     $signaturesCheck=MIRSMaster::where('MIRSNo',$id)->get(['RecommendSignature','ApproveSignature','ManagerReplacerSignature']);
@@ -279,9 +281,11 @@ class MIRSController extends Controller
       }
       MCTValidator::insert($forValidatortbl);
       MIRSMaster::where('MIRSNo',$id)->update(['ApprovalReplacerSignature'=>Auth::user()->Signature,'ApproveSignature'=>null]);
-
-      $role=['role'=>'3and4'];
-      $job=(new NewApprovedMIRSJob($role))->delay(Carbon::now()->addSeconds(5));
+      $Preparedby=MIRSMaster::where('MIRSNo',$id)->value('Preparedby');
+      $requisitioner=str_replace(' ','',$Preparedby);
+      $tobenotify = array('Requisitioner' =>$requisitioner);
+      $tobenotify=(object)$tobenotify;
+      $job=(new NewApprovedMIRSJob($tobenotify))->delay(Carbon::now()->addSeconds(5));
       dispatch($job);
   }
   public function fetchAllManager()

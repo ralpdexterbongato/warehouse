@@ -8,6 +8,7 @@ use Illuminate\Contracts\Queue\ShouldQueue;
 
 class NewApprovedMIRSEventListener
 {
+
     /**
      * Create the event listener.
      *
@@ -15,7 +16,7 @@ class NewApprovedMIRSEventListener
      */
     public function __construct()
     {
-        //
+
     }
 
     /**
@@ -26,6 +27,5 @@ class NewApprovedMIRSEventListener
      */
     public function handle(NewApprovedMIRSEvent $event)
     {
-        //
     }
 }

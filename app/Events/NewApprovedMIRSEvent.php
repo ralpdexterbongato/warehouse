@@ -12,16 +12,16 @@ use Illuminate\Contracts\Broadcasting\ShouldBroadcast;
 
 class NewApprovedMIRSEvent implements ShouldBroadcast
 {
-  public $role;
+    public $tobenotify;
     use Dispatchable, InteractsWithSockets, SerializesModels;
     /**
      * Create a new event instance.
      *
      * @return void
      */
-    public function __construct($role)
+    public function __construct($tobenotify)
     {
-      $this->role=$role;
+      $this->requisitioner=$tobenotify->Requisitioner;
     }
 
     /**
@@ -31,6 +31,6 @@ class NewApprovedMIRSEvent implements ShouldBroadcast
      */
     public function broadcastOn()
     {
-        return new PrivateChannel('WarehouseRole');
+      return new PrivateChannel('WarehouseRole');
     }
 }

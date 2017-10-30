@@ -22,14 +22,10 @@ class AccountController extends Controller
     }
     public function sendsms()
     {
-      $text = 'testing 456 yeeeesss men';
+      $text = 'ok its working now confirmed';
       $number = '09105717885';
       chdir('c:/xampp/htdocs/gnokii');
       exec('echo '.$text.' | gnokii --sendsms '.$number);
-      // SSH::run([
-      //   'cd c:/xampp/htdocs/gnokii',
-      //   'echo '.$text.' | gnokii --sendsms '.$number,
-      // ]);
     }
     public function loginpage()
     {
@@ -40,7 +36,7 @@ class AccountController extends Controller
       $this->validate($request,[
         'Username'=>'required',
         'Password'=>'required',
-    ]);
+      ]);
       $credentials = array('Username' =>$request->Username,'password'=>$request->Password );
       if (Auth::attempt($credentials)) {
         if (Auth::user()->IsActive==null)
@@ -48,7 +44,7 @@ class AccountController extends Controller
           Auth::logout();
           return ['message'=>'Sorry this account has been deactivated by the admin.'];
         }
-      return ['redirect'=>'/'];
+        return ['redirect'=>'/'];
       }else
       {
         return ['message'=>'Incorrect username/password.'];

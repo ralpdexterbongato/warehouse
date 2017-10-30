@@ -2,11 +2,11 @@
 
 namespace App\Listeners;
 
-use App\Events\TaskEvent;
+use App\Events\NewMIRSEvent;
 use Illuminate\Queue\InteractsWithQueue;
 use Illuminate\Contracts\Queue\ShouldQueue;
 
-class TaskEventListener
+class NewMIRSEventListener
 {
     /**
      * Create the event listener.
@@ -21,11 +21,11 @@ class TaskEventListener
     /**
      * Handle the event.
      *
-     * @param  TaskEvent  $event
+     * @param  NewMIRSEvent  $event
      * @return void
      */
-    public function handle(TaskEvent $event)
+    public function handle(NewMIRSEvent $event)
     {
-      
+        //
     }
 }

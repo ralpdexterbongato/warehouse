@@ -7,7 +7,7 @@ use Illuminate\Queue\SerializesModels;
 use Illuminate\Queue\InteractsWithQueue;
 use Illuminate\Contracts\Queue\ShouldQueue;
 use Illuminate\Foundation\Bus\Dispatchable;
-use App\Events\TaskEvent;
+use App\Events\NewMIRSEvent;
 class SendMIRSNotification implements ShouldQueue
 {
     use Dispatchable, InteractsWithQueue, Queueable, SerializesModels;
@@ -29,6 +29,6 @@ class SendMIRSNotification implements ShouldQueue
      */
     public function handle()
     {
-        event(new TaskEvent($this->newmirs));
+        event(new NewMIRSEvent($this->newmirs));
     }
 }
