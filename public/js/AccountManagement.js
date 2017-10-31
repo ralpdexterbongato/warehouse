@@ -998,6 +998,15 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
 //
 //
 //
+//
+//
+//
+//
+//
+//
+//
+//
+//
 
 
 /* harmony default export */ __webpack_exports__["default"] = ({
@@ -1019,6 +1028,7 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
       activeUser: null,
       mymanager: null,
       username: '',
+      MobileUpdate: '',
       Password: '',
       Password_confirmation: '',
       image: '',
@@ -1034,6 +1044,7 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
       ManagerRegisterPosition: '',
       ManagerRegisterPassword: null,
       ManagerPwordConfirm: null,
+      ManagerRegisterMobile: null,
       image2: '',
       //NewUserCreate
       ManagerChoices: [],
@@ -1045,7 +1056,8 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
       RegisterRole: '',
       ChoosenManager: null,
       RegisterPassword: null,
-      RegisterPwordConfirm: null
+      RegisterPwordConfirm: null,
+      RegisterMobile: null
     };
   },
 
@@ -1137,6 +1149,7 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
         Position: this.position,
         Manager: this.mymanager,
         Username: this.username,
+        Mobile: this.MobileUpdate,
         Password: this.Password,
         Password_confirmation: this.Password_confirmation,
         Signature: this.image,
@@ -1176,6 +1189,7 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
         Fname: this.ManagerRegisterFname,
         Lname: this.ManagerRegisterLname,
         Username: this.ManagerRegisterUsername,
+        Mobile: this.ManagerRegisterMobile,
         Position: this.ManagerRegisterPosition,
         Password: this.ManagerRegisterPassword,
         Password_confirmation: this.ManagerPwordConfirm,
@@ -1190,6 +1204,7 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
         Vue.set(vm.$data, 'ManagerRegisterPosition', '');
         Vue.set(vm.$data, 'ManagerRegisterPassword', null);
         Vue.set(vm.$data, 'ManagerPwordConfirm', null);
+        Vue.set(vm.$data, 'ManagerRegisterMobile', null);
         Vue.set(vm.$data, 'image2', null);
       }, function (error) {
         Vue.set(vm.$data, 'laravelerrors', error.response.data);
@@ -1205,6 +1220,7 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
         Fname: this.RegisterFname,
         Lname: this.RegisterLname,
         Username: this.RegisterUsername,
+        Mobile: this.RegisterMobile,
         Role: this.RegisterRole,
         Manager: this.ChoosenManager,
         Password: this.RegisterPassword,
@@ -1215,17 +1231,18 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
         if (response.data.error != null) {
           Vue.set(vm.$data, 'ownerrors', response.data.error);
         } else {
-          Vue.set(vm.$data, 'successAlerts', 'Success');
-          Vue.set(vm.$data, 'ownerrors', '');
-          Vue.set(vm.$data, 'laravelerrors', '');
-          Vue.set(vm.$data, 'RegisterFname', '');
-          Vue.set(vm.$data, 'RegisterLname', '');
-          Vue.set(vm.$data, 'RegisterUsername', '');
-          Vue.set(vm.$data, 'RegisterRole', '');
-          Vue.set(vm.$data, 'ChoosenManager', null);
-          Vue.set(vm.$data, 'RegisterPassword', null);
-          Vue.set(vm.$data, 'RegisterPwordConfirm', null);
-          Vue.set(vm.$data, 'image3', null);
+          vm.successAlerts = 'Success';
+          vm.ownerrors = '';
+          vm.laravelerrors = '';
+          vm.RegisterFname = '';
+          vm.RegisterLname = '';
+          vm.RegisterUsername = '';
+          vm.RegisterRole = '';
+          vm.ChoosenManager = null;
+          vm.RegisterPassword = null;
+          vm.RegisterPwordConfirm = null;
+          vm.image3 = null;
+          vm.RegisterMobile = null;
         }
       }, function (error) {
         Vue.set(vm.$data, 'laravelerrors', error.response.data);
@@ -2928,7 +2945,7 @@ module.exports={render:function (){var _vm=this;var _h=_vm.$createElement;var _c
   }, [_c('h5', [_vm._v(_vm._s(_vm.ownerrors))])]) : _vm._e(), _vm._v(" "), (_vm.successAlerts != '') ? _c('div', {
     staticClass: "successAlertRRsession"
   }, [_c('p', [_vm._v(_vm._s(_vm.successAlerts))])]) : _vm._e(), _vm._v(" "), _c('table', [_vm._m(1), _vm._v(" "), _vm._l((_vm.AccountResults), function(account) {
-    return _c('tr', [_c('td', [_c('h2', [_c('p', [_vm._v(_vm._s(account.Fname))])])]), _vm._v(" "), _c('td', [_vm._v(_vm._s(account.Lname))]), _vm._v(" "), _c('td', [_vm._v(_vm._s(account.Username))]), _vm._v(" "), _c('td', [_c('h1', [_c('img', {
+    return _c('tr', [_c('td', [_c('h2', [_c('p', [_vm._v(_vm._s(account.Fname))])])]), _vm._v(" "), _c('td', [_vm._v(_vm._s(account.Lname))]), _vm._v(" "), _c('td', [_vm._v(_vm._s(account.Username))]), _vm._v(" "), (account.Mobile != null) ? _c('td', [_vm._v(_vm._s(account.Mobile))]) : _c('td', [_vm._v("N/A")]), _vm._v(" "), _c('td', [_c('h1', [_c('img', {
       attrs: {
         "src": '/storage/signatures/' + account.Signature,
         "alt": "signature"
@@ -3238,6 +3255,31 @@ module.exports={render:function (){var _vm=this;var _h=_vm.$createElement;var _c
   })]), _vm._v(" "), _c('div', {
     staticClass: "updateinput-label short-width"
   }, [_c('h3', {
+    class: [_vm.username != '' ? 'active' : '']
+  }, [_vm._v("Mobile #")]), _vm._v(" "), _c('input', {
+    directives: [{
+      name: "model",
+      rawName: "v-model",
+      value: (_vm.MobileUpdate = _vm.userFetched.Mobile),
+      expression: "MobileUpdate=userFetched.Mobile"
+    }],
+    attrs: {
+      "type": "text",
+      "name": "Username",
+      "autocomplete": "off"
+    },
+    domProps: {
+      "value": (_vm.MobileUpdate = _vm.userFetched.Mobile)
+    },
+    on: {
+      "input": function($event) {
+        if ($event.target.composing) { return; }
+        _vm.MobileUpdate = _vm.userFetched.Mobile = $event.target.value
+      }
+    }
+  })]), _vm._v(" "), _c('div', {
+    staticClass: "updateinput-label short-width"
+  }, [_c('h3', {
     class: [_vm.Password != '' ? 'active' : '']
   }, [_vm._v("Change password")]), _vm._v(" "), _c('input', {
     directives: [{
@@ -3349,7 +3391,8 @@ module.exports={render:function (){var _vm=this;var _h=_vm.$createElement;var _c
     }],
     attrs: {
       "type": "text",
-      "placeholder": "Firstname"
+      "placeholder": "Firstname",
+      "autocomplete": "off"
     },
     domProps: {
       "value": (_vm.ManagerRegisterFname)
@@ -3369,7 +3412,8 @@ module.exports={render:function (){var _vm=this;var _h=_vm.$createElement;var _c
     }],
     attrs: {
       "type": "text",
-      "placeholder": "Lastname"
+      "placeholder": "Lastname",
+      "autocomplete": "off"
     },
     domProps: {
       "value": (_vm.ManagerRegisterLname)
@@ -3391,7 +3435,8 @@ module.exports={render:function (){var _vm=this;var _h=_vm.$createElement;var _c
     }],
     attrs: {
       "type": "text",
-      "placeholder": "Username"
+      "placeholder": "Username",
+      "autocomplete": "off"
     },
     domProps: {
       "value": (_vm.ManagerRegisterUsername)
@@ -3411,7 +3456,8 @@ module.exports={render:function (){var _vm=this;var _h=_vm.$createElement;var _c
     }],
     attrs: {
       "type": "text",
-      "placeholder": "Position"
+      "placeholder": "Position",
+      "autocomplete": "off"
     },
     domProps: {
       "value": (_vm.ManagerRegisterPosition)
@@ -3433,7 +3479,8 @@ module.exports={render:function (){var _vm=this;var _h=_vm.$createElement;var _c
     }],
     attrs: {
       "type": "password",
-      "placeholder": "Password"
+      "placeholder": "Password",
+      "autocomplete": "off"
     },
     domProps: {
       "value": (_vm.ManagerRegisterPassword)
@@ -3453,7 +3500,8 @@ module.exports={render:function (){var _vm=this;var _h=_vm.$createElement;var _c
     }],
     attrs: {
       "type": "password",
-      "placeholder": "Confirm-password"
+      "placeholder": "Confirm-password",
+      "autocomplete": "off"
     },
     domProps: {
       "value": (_vm.ManagerPwordConfirm)
@@ -3465,6 +3513,27 @@ module.exports={render:function (){var _vm=this;var _h=_vm.$createElement;var _c
       }
     }
   })]), _vm._v(" "), _c('input', {
+    directives: [{
+      name: "model",
+      rawName: "v-model",
+      value: (_vm.ManagerRegisterMobile),
+      expression: "ManagerRegisterMobile"
+    }],
+    attrs: {
+      "type": "text",
+      "placeholder": "Mobile #",
+      "autocomplete": "off"
+    },
+    domProps: {
+      "value": (_vm.ManagerRegisterMobile)
+    },
+    on: {
+      "input": function($event) {
+        if ($event.target.composing) { return; }
+        _vm.ManagerRegisterMobile = $event.target.value
+      }
+    }
+  }), _vm._v(" "), _c('input', {
     attrs: {
       "type": "file",
       "accept": "image/PNG"
@@ -3521,7 +3590,8 @@ module.exports={render:function (){var _vm=this;var _h=_vm.$createElement;var _c
     }],
     attrs: {
       "type": "text",
-      "placeholder": "Firstname"
+      "placeholder": "Firstname",
+      "autocomplete": "off"
     },
     domProps: {
       "value": (_vm.RegisterFname)
@@ -3541,7 +3611,8 @@ module.exports={render:function (){var _vm=this;var _h=_vm.$createElement;var _c
     }],
     attrs: {
       "type": "text",
-      "placeholder": "Lastname"
+      "placeholder": "Lastname",
+      "autocomplete": "off"
     },
     domProps: {
       "value": (_vm.RegisterLname)
@@ -3563,7 +3634,8 @@ module.exports={render:function (){var _vm=this;var _h=_vm.$createElement;var _c
     }],
     attrs: {
       "type": "text",
-      "placeholder": "Username"
+      "placeholder": "Username",
+      "autocomplete": "off"
     },
     domProps: {
       "value": (_vm.RegisterUsername)
@@ -3578,12 +3650,34 @@ module.exports={render:function (){var _vm=this;var _h=_vm.$createElement;var _c
     directives: [{
       name: "model",
       rawName: "v-model",
+      value: (_vm.RegisterMobile),
+      expression: "RegisterMobile"
+    }],
+    attrs: {
+      "type": "text",
+      "placeholder": "Mobile #",
+      "autocomplete": "off"
+    },
+    domProps: {
+      "value": (_vm.RegisterMobile)
+    },
+    on: {
+      "input": function($event) {
+        if ($event.target.composing) { return; }
+        _vm.RegisterMobile = $event.target.value
+      }
+    }
+  })]), _vm._v(" "), _c('input', {
+    directives: [{
+      name: "model",
+      rawName: "v-model",
       value: (_vm.RegisterPassword),
       expression: "RegisterPassword"
     }],
     attrs: {
       "type": "password",
-      "placeholder": "Password"
+      "placeholder": "Password",
+      "autocomplete": "off"
     },
     domProps: {
       "value": (_vm.RegisterPassword)
@@ -3594,7 +3688,7 @@ module.exports={render:function (){var _vm=this;var _h=_vm.$createElement;var _c
         _vm.RegisterPassword = $event.target.value
       }
     }
-  })]), _vm._v(" "), _c('input', {
+  }), _vm._v(" "), _c('input', {
     directives: [{
       name: "model",
       rawName: "v-model",
@@ -3603,7 +3697,8 @@ module.exports={render:function (){var _vm=this;var _h=_vm.$createElement;var _c
     }],
     attrs: {
       "type": "password",
-      "placeholder": "Password-confirmation"
+      "placeholder": "Password-confirmation",
+      "autocomplete": "off"
     },
     domProps: {
       "value": (_vm.RegisterPwordConfirm)
@@ -3732,7 +3827,7 @@ module.exports={render:function (){var _vm=this;var _h=_vm.$createElement;var _c
     staticClass: "fa fa-user-plus"
   }), _vm._v(" Create Account")])
 },function (){var _vm=this;var _h=_vm.$createElement;var _c=_vm._self._c||_h;
-  return _c('tr', [_c('th', [_vm._v("First Name")]), _vm._v(" "), _c('th', [_vm._v("Last Name")]), _vm._v(" "), _c('th', [_vm._v("Username")]), _vm._v(" "), _c('th', [_vm._v("Signature")]), _vm._v(" "), _c('th', [_vm._v("Active")]), _vm._v(" "), _c('th', [_vm._v("Action")])])
+  return _c('tr', [_c('th', [_vm._v("First Name")]), _vm._v(" "), _c('th', [_vm._v("Last Name")]), _vm._v(" "), _c('th', [_vm._v("Username")]), _vm._v(" "), _c('th', [_vm._v("Mobile #")]), _vm._v(" "), _c('th', [_vm._v("Signature")]), _vm._v(" "), _c('th', [_vm._v("Active")]), _vm._v(" "), _c('th', [_vm._v("Action")])])
 },function (){var _vm=this;var _h=_vm.$createElement;var _c=_vm._self._c||_h;
   return _c('h1', [_c('i', {
     staticClass: "fa fa-user-plus"

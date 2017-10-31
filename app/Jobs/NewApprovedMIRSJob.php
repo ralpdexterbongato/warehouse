@@ -29,11 +29,9 @@ class NewApprovedMIRSJob implements ShouldQueue
      */
     public function handle()
     {
-      // $text = 'this is a message';
-      // $number = '09105717885';
-      // chdir('c:/xampp/htdocs/gnokii');
-      // shell_exec('echo finally workssss 150 | gnokii --sendsms 09105717885');
-      //still searching how to make this work inside queue ps:this is already working in controllers
+      chdir('c:/xampp/htdocs/gnokii');
+      $output=shell_exec('echo '.$this->tobenotify->Requisitioner.' | gnokii --sendsms 09105717885');
+      //fixed
       Event(new NewApprovedMIRSEvent($this->tobenotify));
     }
 }

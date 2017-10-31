@@ -6,7 +6,7 @@
     <meta name="csrf-token" content="{{ csrf_token() }}">
     <meta name="Developer" content="Ralp Dexter Bongato & Zeshrou Añuber">
     <link rel="icon" type="image/png" href="/DesignIMG/logo.png">
-    <link rel="stylesheet" href="/css/mystyle.min.css">
+    <link rel="stylesheet" href="/css/mystyle.css">
     <link rel="stylesheet" href="/css/animate.min.css">
     <link rel="stylesheet" href="/css/bttn.min.css">
     <script type="text/javascript"> (function() { var css = document.createElement('link'); css.href = '/icons/css/font-awesome.min.css'; css.rel = 'stylesheet'; css.type = 'text/css'; document.getElementsByTagName('head')[0].appendChild(css); })(); </script>
@@ -109,17 +109,17 @@
     <script type="text/javascript" src="/js/jquery.js"></script>
     <script type="text/javascript" src="/js/myjquery.js"></script>
     <script type="text/javascript">
-      $(document).ready(function() {
-        @if ((count($errors)>0)||(Session::has('message')))
-          $('.modal-for-all-notice').addClass('active');
-        @endif
-        @if (Session::has('itemMasters'))
-          $('.modal-search-item').addClass('active');
-        @endif
-        @if (Session::has('SessionForStock'))
-          $('.for-stock-Modal').addClass('active');
-        @endif
-      });
+      // $(document).ready(function() {
+      //   @if ((count($errors)>0)||(Session::has('message')))
+      //     $('.modal-for-all-notice').addClass('active');
+      //   @endif
+      //   @if (Session::has('itemMasters'))
+      //     $('.modal-search-item').addClass('active');
+      //   @endif
+      //   @if (Session::has('SessionForStock'))
+      //     $('.for-stock-Modal').addClass('active');
+      //   @endif
+      // });
     </script>
       @if (Auth::check())
         <script type="text/javascript" src="/js/master.js">

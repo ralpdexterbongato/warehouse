@@ -196,11 +196,10 @@ class MIRSController extends Controller
     {
       MIRSMaster::where('MIRSNo',$id)->update(['RecommendSignature'=>Auth::user()->Signature,'ManagerReplacerSignature'=>null,'ManagerReplacer'=>null]);
       $NospaceName=str_replace(' ','',$signableNames[0]->Approvedby);
-      $tobeNotifycontainer  = array('tobeNotifyName' =>$NospaceName);
+      $tobeNotifycontainer= array('tobeNotifyName' =>$NospaceName);
       $tobeNotifycontainer=(object)$tobeNotifycontainer;
       $job = (new SendMIRSNotification($tobeNotifycontainer))
                   ->delay(Carbon::now()->addSeconds(5));
-
       dispatch($job);
       if ($signableNames[0]->ApprovalReplacer!=null)
       {
@@ -213,6 +212,7 @@ class MIRSController extends Controller
         dispatch($job);
       }
     }
+
     if ($signableNames[0]->Approvedby==Auth::user()->Fname .' '.Auth::user()->Lname)
     {
       MIRSMaster::where('MIRSNo',$id)->update(['ApproveSignature'=>Auth::user()->Signature,'ApprovalReplacerSignature'=>null]);

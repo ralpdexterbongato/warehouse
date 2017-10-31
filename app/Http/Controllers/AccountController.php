@@ -13,7 +13,7 @@ use App\MRMaster;
 use App\RVMaster;
 use \Carbon\Carbon;
 use Image;
-use Mail;
+use App\jobs\NewApprovedMIRSJob;
 class AccountController extends Controller
 {
     public function __construct()
@@ -22,10 +22,14 @@ class AccountController extends Controller
     }
     public function sendsms()
     {
-      $text = 'ok its working now confirmed';
-      $number = '09105717885';
-      chdir('c:/xampp/htdocs/gnokii');
-      exec('echo '.$text.' | gnokii --sendsms '.$number);
+      // $text = 'ok its working now confirmed';
+      // $number = '09105717885';
+      // chdir('c:/xampp/htdocs/gnokii');
+      // exec('echo '.$text.' | gnokii --sendsms '.$number);
+      $tobenotify = array('Requisitioner' =>'ggaaaaaaa');
+      $tobenotify=(object)$tobenotify;
+      $job=(new NewApprovedMIRSJob($tobenotify))->delay(Carbon::now()->addSeconds(5));
+      dispatch($job);
     }
     public function loginpage()
     {
@@ -75,19 +79,19 @@ class AccountController extends Controller
     //vue js
     public function getallGMAccounts()
     {
-      return User::orderBy('id','DESC')->where('Role','2')->paginate(5,['id','Fname','Lname','Signature','IsActive','Username']);
+      return User::orderBy('id','DESC')->where('Role','2')->paginate(5,['id','Fname','Lname','Signature','IsActive','Username','Mobile']);
     }
     public function getallManagers()
     {
-      return User::orderBy('id','DESC')->where('Role','0')->paginate(5,['id','Fname','Lname','Signature','IsActive','Username']);
+      return User::orderBy('id','DESC')->where('Role','0')->paginate(5,['id','Fname','Lname','Signature','IsActive','Username','Mobile']);
     }
     public function getallAdmin()
     {
-      return User::orderBy('id','DESC')->where('Role','1')->paginate(5,['id','Fname','Lname','Signature','IsActive','Username']);
+      return User::orderBy('id','DESC')->where('Role','1')->paginate(5,['id','Fname','Lname','Signature','IsActive','Username','Mobile']);
     }
     public function getOtherAccounts()
     {
-      return User::orderBy('id','DESC')->where('Role','3')->orWhere('Role', '4')->orWhere('Role','5')->orWhere('Role','6')->orWhere('Role','7')->orWhere('Role','8')->paginate(5,['id','Fname','Lname','Signature','IsActive','Username']);
+      return User::orderBy('id','DESC')->where('Role','3')->orWhere('Role', '4')->orWhere('Role','5')->orWhere('Role','6')->orWhere('Role','7')->orWhere('Role','8')->paginate(5,['id','Fname','Lname','Signature','IsActive','Username','Mobile']);
     }
     public function ShowMyHistoryPage(Request $request)
     {
@@ -118,7 +122,7 @@ class AccountController extends Controller
     }
     public function fetchDataofSelectedUser($id)
     {
-      return User::where('id',$id)->get(['id','Fname','Lname','Signature','Position','Role','Username','IsActive','Manager']);
+      return User::where('id',$id)->get(['id','Fname','Lname','Signature','Position','Role','Username','IsActive','Manager','Mobile']);
     }
     public function updateUser(Request $request,$id)
     {
@@ -127,6 +131,7 @@ class AccountController extends Controller
         'Lname'=>'required|max:30',
         'Role'=>'required',
         'Username'=>'required|max:30',
+        'Mobile'=>'max:11',
         'Password'=>'confirmed',
         'Manager'=>'numeric',
         'IsActive'=>'max:1',
@@ -152,6 +157,7 @@ class AccountController extends Controller
         $userDB->Lname=$request->Lname;
         $userDB->Role=$request->Role;
         $userDB->Manager=$request->Manager;
+        $userDB->Mobile=$request->Mobile;
         if ($request->Position)
         {
           $userDB->Position=$request->Position;
@@ -235,6 +241,7 @@ class AccountController extends Controller
         'Fname'=>'required|max:25',
         'Lname'=>'required|max:25',
         'Username'=>'required',
+        'Mobile'=>'max:11',
         'Position'=>'required|max:50',
         'Password'=>'required|confirmed',
         'Signature'=>'required',
@@ -249,6 +256,7 @@ class AccountController extends Controller
       $userDB->Fname=$request->Fname;
       $userDB->Lname=$request->Lname;
       $userDB->Username=$request->Username;
+      $userDB->Mobile=$request->Mobile;
       $userDB->Role='0';
       $userDB->Position=$request->Position;
       $userDB->Password=bcrypt($request->Password);
@@ -261,6 +269,7 @@ class AccountController extends Controller
         'Fname'=>'required|max:25',
         'Lname'=>'required|max:25',
         'Username'=>'required',
+        'Mobile'=>'max:11',
         'Role'=>'required',
         'Manager'=>'max:50',
         'Password'=>'required|confirmed',
@@ -281,6 +290,7 @@ class AccountController extends Controller
       $userDB->Fname=$request->Fname;
       $userDB->Lname=$request->Lname;
       $userDB->Username=$request->Username;
+      $userDB->Mobile=$request->Mobile;
       $userDB->Role=$request->Role;
       if($request->Role==1)
       {

@@ -47,6 +47,7 @@
         <th>First Name</th>
         <th>Last Name</th>
         <th>Username</th>
+        <th>Mobile #</th>
         <th>Signature</th>
         <th>Active</th>
         <th>Action</th>
@@ -55,6 +56,8 @@
         <td><h2><p>{{account.Fname}}</p></h2></td>
         <td>{{account.Lname}}</td>
         <td>{{account.Username}}</td>
+        <td v-if="account.Mobile!=null">{{account.Mobile}}</td>
+        <td v-else>N/A</td>
         <td><h1><img :src="'/storage/signatures/'+account.Signature" alt="signature"></h1></td>
         <td class="userstatus">
           <i v-if="account.IsActive!=null" class="fa fa-circle active"></i>
@@ -129,14 +132,18 @@
             <h3 :class="[username!=''?'active':'']">Username</h3>
             <input type="text" name="Username" autocomplete="off" v-model="username=userFetched.Username">
           </div>
-            <div class="updateinput-label short-width" >
-              <h3 :class="[Password!=''?'active':'']">Change password</h3>
-              <input type="password" name="Password" autocomplete="off" v-model="Password">
-            </div>
-            <div class="updateinput-label short-width">
-              <h3 :class="[Password_confirmation!=''?'active':'']">Confirm new password</h3>
-              <input type="password" name="PasswordConfirmation" v-model="Password_confirmation" autocomplete="off" >
-            </div>
+          <div class="updateinput-label short-width">
+            <h3 :class="[username!=''?'active':'']">Mobile #</h3>
+            <input type="text" name="Username" autocomplete="off" v-model="MobileUpdate=userFetched.Mobile">
+          </div>
+          <div class="updateinput-label short-width" >
+            <h3 :class="[Password!=''?'active':'']">Change password</h3>
+            <input type="password" name="Password" autocomplete="off" v-model="Password">
+          </div>
+          <div class="updateinput-label short-width">
+            <h3 :class="[Password_confirmation!=''?'active':'']">Confirm new password</h3>
+            <input type="password" name="PasswordConfirmation" v-model="Password_confirmation" autocomplete="off" >
+          </div>
           <input type="file"  name="Signature" @change="onFileChange" autocomplete="off" id="inputSignature" accept="image/PNG">
           <div class="image-signature-wrap">
             <img id="signatureUpdate" v-if="image==''&&userFetched!=''" :src="'/storage/signatures/'+userFetched.Signature" alt="your signature" />
@@ -153,17 +160,18 @@
         </h1>
         <div class="manager-form-inputs">
           <div class="doubleform">
-            <input type="text" v-model="ManagerRegisterFname" placeholder="Firstname">
-            <input type="text" v-model="ManagerRegisterLname" placeholder="Lastname">
+            <input type="text" v-model="ManagerRegisterFname" placeholder="Firstname" autocomplete="off">
+            <input type="text" v-model="ManagerRegisterLname" placeholder="Lastname" autocomplete="off">
           </div>
           <div class="doubleform">
-            <input type="text" v-model="ManagerRegisterUsername" placeholder="Username">
-            <input type="text" v-model="ManagerRegisterPosition" placeholder="Position">
+            <input type="text" v-model="ManagerRegisterUsername" placeholder="Username" autocomplete="off">
+            <input type="text" v-model="ManagerRegisterPosition" placeholder="Position" autocomplete="off">
           </div>
           <div class="doubleform">
-            <input type="password" v-model="ManagerRegisterPassword" placeholder="Password">
-            <input type="password" v-model="ManagerPwordConfirm" placeholder="Confirm-password">
+            <input type="password" v-model="ManagerRegisterPassword" placeholder="Password" autocomplete="off">
+            <input type="password" v-model="ManagerPwordConfirm" placeholder="Confirm-password" autocomplete="off">
           </div>
+          <input type="text" v-model="ManagerRegisterMobile" placeholder="Mobile #" autocomplete="off">
           <input type="file" @change="onFileChange2" accept="image/PNG">
           <h3 class="signature-preview"><img :src="image2" alt="your signature"></h3>
           <button type="button" class="save-btn-manager" v-on:click="saveManagerAccount()"><i class="fa fa-user"></i> Save Account</button>
@@ -175,14 +183,15 @@
         <h1><i class="fa fa-user-plus"></i> New account</h1>
         <div class="newuserinputs">
           <div class="doubleform">
-            <input type="text" placeholder="Firstname" v-model="RegisterFname">
-            <input type="text" placeholder="Lastname" v-model="RegisterLname">
+            <input type="text" placeholder="Firstname" v-model="RegisterFname" autocomplete="off">
+            <input type="text" placeholder="Lastname" v-model="RegisterLname" autocomplete="off">
           </div>
           <div class="doubleform">
-            <input type="text" placeholder="Username" v-model="RegisterUsername">
-            <input type="password" placeholder="Password" v-model="RegisterPassword">
+            <input type="text" placeholder="Username" v-model="RegisterUsername" autocomplete="off">
+            <input type="text" placeholder="Mobile #" v-model="RegisterMobile" autocomplete="off">
           </div>
-          <input type="password" v-model="RegisterPwordConfirm" placeholder="Password-confirmation">
+          <input type="password" placeholder="Password" v-model="RegisterPassword" autocomplete="off">
+          <input type="password" v-model="RegisterPwordConfirm" placeholder="Password-confirmation" autocomplete="off">
           <select name="Role" v-model="RegisterRole">
             <option value="">Choose role</option>
             <option value="1">Admin</option>
@@ -228,6 +237,7 @@ import axios from 'axios';
        activeUser:null,
        mymanager:null,
        username:'',
+       MobileUpdate:'',
        Password:'',
        Password_confirmation:'',
        image:'',
@@ -243,6 +253,7 @@ import axios from 'axios';
        ManagerRegisterPosition:'',
        ManagerRegisterPassword:null,
        ManagerPwordConfirm:null,
+       ManagerRegisterMobile:null,
        image2:'',
        //NewUserCreate
        ManagerChoices:[],
@@ -255,6 +266,7 @@ import axios from 'axios';
        ChoosenManager:null,
        RegisterPassword:null,
        RegisterPwordConfirm:null,
+       RegisterMobile:null,
        }
      },
       methods: {
@@ -360,6 +372,7 @@ import axios from 'axios';
             Position:this.position,
             Manager:this.mymanager,
             Username:this.username,
+            Mobile:this.MobileUpdate,
             Password:this.Password,
             Password_confirmation:this.Password_confirmation,
             Signature:this.image,
@@ -407,6 +420,7 @@ import axios from 'axios';
             Fname:this.ManagerRegisterFname,
             Lname:this.ManagerRegisterLname,
             Username:this.ManagerRegisterUsername,
+            Mobile:this.ManagerRegisterMobile,
             Position:this.ManagerRegisterPosition,
             Password:this.ManagerRegisterPassword,
             Password_confirmation:this.ManagerPwordConfirm,
@@ -422,6 +436,7 @@ import axios from 'axios';
             Vue.set(vm.$data,'ManagerRegisterPosition','');
             Vue.set(vm.$data,'ManagerRegisterPassword',null);
             Vue.set(vm.$data,'ManagerPwordConfirm',null);
+            Vue.set(vm.$data,'ManagerRegisterMobile',null);
             Vue.set(vm.$data,'image2',null);
           },function(error)
           {
@@ -440,6 +455,7 @@ import axios from 'axios';
             Fname:this.RegisterFname,
             Lname:this.RegisterLname,
             Username:this.RegisterUsername,
+            Mobile:this.RegisterMobile,
             Role:this.RegisterRole,
             Manager:this.ChoosenManager,
             Password:this.RegisterPassword,
@@ -453,17 +469,18 @@ import axios from 'axios';
               Vue.set(vm.$data,'ownerrors',response.data.error);
             }else
             {
-              Vue.set(vm.$data,'successAlerts','Success');
-              Vue.set(vm.$data,'ownerrors','');
-              Vue.set(vm.$data,'laravelerrors','');
-              Vue.set(vm.$data,'RegisterFname','');
-              Vue.set(vm.$data,'RegisterLname','');
-              Vue.set(vm.$data,'RegisterUsername','');
-              Vue.set(vm.$data,'RegisterRole','');
-              Vue.set(vm.$data,'ChoosenManager',null);
-              Vue.set(vm.$data,'RegisterPassword',null);
-              Vue.set(vm.$data,'RegisterPwordConfirm',null);
-              Vue.set(vm.$data,'image3',null);
+              vm.successAlerts='Success';
+              vm.ownerrors='';
+              vm.laravelerrors='';
+              vm.RegisterFname='';
+              vm.RegisterLname='';
+              vm.RegisterUsername='';
+              vm.RegisterRole='';
+              vm.ChoosenManager=null;
+              vm.RegisterPassword=null;
+              vm.RegisterPwordConfirm=null;
+              vm.image3=null;
+              vm.RegisterMobile=null;
             }
           },function(error)
           {
