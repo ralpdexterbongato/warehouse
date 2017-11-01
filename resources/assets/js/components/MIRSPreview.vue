@@ -179,7 +179,7 @@
               {{MIRSMaster.Approvedby}}
               <i class="fa fa-times decliner" v-if="(MIRSMaster.IfDeclined==MIRSMaster.Approvedby)"></i>
             </span><br>
-              {{MIRSMaster.ApprovePosition}}
+              General Manager
             </h2>
           </div>
         </div>

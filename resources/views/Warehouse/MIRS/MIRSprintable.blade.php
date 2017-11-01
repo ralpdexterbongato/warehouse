@@ -445,7 +445,7 @@
                   @endif
                 </h2>
                 <h4>{{$master[0]->Approvedby}}</h4>
-                <h5>{{$master[0]->ApprovePosition}}</h5>
+                <h5>General Manager</h5>
             </div>
           </div>
         </div>

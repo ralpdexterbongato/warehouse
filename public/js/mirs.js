@@ -1608,8 +1608,6 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
 //
 //
 //
-//
-//
 
 
 /* harmony default export */ __webpack_exports__["default"] = ({
@@ -2903,7 +2901,7 @@ module.exports={render:function (){var _vm=this;var _h=_vm.$createElement;var _c
     staticClass: "gm-info-box bold"
   }, [_vm._v("\r\n              " + _vm._s(_vm.MIRSMaster.Approvedby) + "\r\n              "), ((_vm.MIRSMaster.IfDeclined == _vm.MIRSMaster.Approvedby)) ? _c('i', {
     staticClass: "fa fa-times decliner"
-  }) : _vm._e()]), _c('br'), _vm._v("\r\n              " + _vm._s(_vm.MIRSMaster.ApprovePosition) + "\r\n            ")])])])])])])
+  }) : _vm._e()]), _c('br'), _vm._v("\r\n              General Manager\r\n            ")])])])])])])
 },staticRenderFns: [function (){var _vm=this;var _h=_vm.$createElement;var _c=_vm._self._c||_h;
   return _c('button', {
     attrs: {

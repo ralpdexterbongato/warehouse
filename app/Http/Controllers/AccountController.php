@@ -22,10 +22,6 @@ class AccountController extends Controller
     }
     public function sendsms()
     {
-      // $text = 'ok its working now confirmed';
-      // $number = '09105717885';
-      // chdir('c:/xampp/htdocs/gnokii');
-      // exec('echo '.$text.' | gnokii --sendsms '.$number);
       $tobenotify = array('Requisitioner' =>'ggaaaaaaa');
       $tobenotify=(object)$tobenotify;
       $job=(new NewApprovedMIRSJob($tobenotify))->delay(Carbon::now()->addSeconds(5));

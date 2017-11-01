@@ -5,9 +5,7 @@
     <i class="fa fa-th-large"></i>  Materials Issuance Requisition Slip index
     </div>
     <div class="search-mirs-container">
-      <!-- <form action="{{route('finding.mirs')}}" method="get"> -->
-        <input type="text" autocomplete="off" v-on:keyup="SearchAndFetch()" v-model="SearchInput"  placeholder="Enter MIRS #">
-      <!-- </form> -->
+      <input type="text" autocomplete="off" v-on:keyup="SearchAndFetch()" v-model="SearchInput"  placeholder="Enter MIRS #">
     </div>
   </div>
   <div class="table-mirs-list">

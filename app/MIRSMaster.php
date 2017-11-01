@@ -10,4 +10,5 @@ class MIRSMaster extends Model
   public $timestamps=false;
   protected $table='MIRSMaster';
   protected $dateFormat = 'M d, Y';
+
 }
