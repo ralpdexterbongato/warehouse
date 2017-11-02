@@ -44,8 +44,7 @@
     </div>
     <table>
       <tr>
-        <th>First Name</th>
-        <th>Last Name</th>
+        <th>FullName</th>
         <th>Username</th>
         <th>Mobile #</th>
         <th>Signature</th>
@@ -53,8 +52,7 @@
         <th>Action</th>
       </tr>
       <tr v-for="account in AccountResults">
-        <td><h2><p>{{account.Fname}}</p></h2></td>
-        <td>{{account.Lname}}</td>
+        <td><h2><p>{{account.FullName}}</p></h2></td>
         <td>{{account.Username}}</td>
         <td v-if="account.Mobile!=null">{{account.Mobile}}</td>
         <td v-else>N/A</td>
@@ -87,15 +85,9 @@
         <div class="update-inputs">
           <span class="doubleform">
             <div class="updateinput-label">
-              <h3 :class="[fname!=''?'active':'']">Firstname</h3>
-              <input type="text" name="Fname" v-model="fname=userFetched.Fname">
+              <h3 :class="[fullname!=''?'active':'']">Full Name</h3>
+              <input type="text" name="FullName" v-model="fullname=userFetched.FullName">
             </div>
-            <div class="updateinput-label">
-              <h3 :class="[lname!=''?'active':'']">Lastname</h3>
-              <input type="text" name="Lname" v-model="lname=userFetched.Lname">
-            </div>
-          </span>
-          <span class="doubleform">
             <div class="updateinput-label" v-if="userFetched.Role==0">
               <h3 class="active">Position</h3>
               <input type="text" v-model="position=userFetched.Position">
@@ -125,7 +117,7 @@
           <div class="updateinput-label short-width" v-if="((userFetched.Role!=0)&&(userFetched.Role!=2))">
             <h3 :class="[mymanager!=null?'active':'']">Manager</h3>
             <select v-model="mymanager=userFetched.Manager">
-            <option :value="manager.id" v-for="manager in ManagerChoices">{{manager.Fname}} {{manager.Lname}}</option>
+            <option :value="manager.id" v-for="manager in ManagerChoices">{{manager.FullName}}</option>
             </select>
           </div>
           <div class="updateinput-label short-width">
@@ -160,8 +152,7 @@
         </h1>
         <div class="manager-form-inputs">
           <div class="doubleform">
-            <input type="text" v-model="ManagerRegisterFname" placeholder="Firstname" autocomplete="off">
-            <input type="text" v-model="ManagerRegisterLname" placeholder="Lastname" autocomplete="off">
+            <input type="text" v-model="ManagerRegisterFullName" placeholder="Full Name" autocomplete="off">
           </div>
           <div class="doubleform">
             <input type="text" v-model="ManagerRegisterUsername" placeholder="Username" autocomplete="off">
@@ -182,10 +173,7 @@
       <div class="center-form-newuser" v-on:click="newusermodal=!newusermodal">
         <h1><i class="fa fa-user-plus"></i> New account</h1>
         <div class="newuserinputs">
-          <div class="doubleform">
-            <input type="text" placeholder="Firstname" v-model="RegisterFname" autocomplete="off">
-            <input type="text" placeholder="Lastname" v-model="RegisterLname" autocomplete="off">
-          </div>
+          <input type="text" placeholder="FullName" v-model="RegisterFullName" autocomplete="off">
           <div class="doubleform">
             <input type="text" placeholder="Username" v-model="RegisterUsername" autocomplete="off">
             <input type="text" placeholder="Mobile #" v-model="RegisterMobile" autocomplete="off">
@@ -205,7 +193,7 @@
           </select>
           <select  v-model="ChoosenManager">
             <option :value="null">His/Her manager</option>
-            <option :value="manager.id" v-for="manager in ManagerChoices">{{manager.Fname}} {{manager.Lname}}</option>
+            <option :value="manager.id" v-for="manager in ManagerChoices">{{manager.FullName}}</option>
           </select>
           <input type="file" @change="onFileChange3" accept="image/PNG">
           <h3 class="signature-preview"><img :src="image3" alt="your signature"></h3>
@@ -230,8 +218,7 @@ import axios from 'axios';
        otherbtn:false,
        modalUpdate:false,
        userFetched:[],
-       fname:'',
-       lname:'',
+       fullname:'',
        position:'',
        role:null,
        activeUser:null,
@@ -247,8 +234,7 @@ import axios from 'axios';
        createAccMenu:false,
        ManagerCreateModal:false,
        //managerregistration
-       ManagerRegisterFname:'',
-       ManagerRegisterLname:'',
+       ManagerRegisterFullName:'',
        ManagerRegisterUsername:'',
        ManagerRegisterPosition:'',
        ManagerRegisterPassword:null,
@@ -259,8 +245,7 @@ import axios from 'axios';
        ManagerChoices:[],
        newusermodal:false,
        image3:'',
-       RegisterFname:'',
-       RegisterLname:'',
+       RegisterFullName:'',
        RegisterUsername:'',
        RegisterRole:'',
        ChoosenManager:null,
@@ -366,8 +351,7 @@ import axios from 'axios';
           axios.put(`/update-user-data/`+id,
           {
             emulateJSON: true,
-            Fname:this.fname,
-            Lname:this.lname,
+            FullName:this.fullname,
             Role:this.role,
             Position:this.position,
             Manager:this.mymanager,
@@ -417,8 +401,7 @@ import axios from 'axios';
         {
           var vm=this;
           axios.post(`/saving-account-manager`,{
-            Fname:this.ManagerRegisterFname,
-            Lname:this.ManagerRegisterLname,
+            FullName:this.ManagerRegisterFullName,
             Username:this.ManagerRegisterUsername,
             Mobile:this.ManagerRegisterMobile,
             Position:this.ManagerRegisterPosition,
@@ -430,8 +413,7 @@ import axios from 'axios';
             console.log(response);
             Vue.set(vm.$data,'successAlerts','Success');
             Vue.set(vm.$data,'laravelerrors','');
-            Vue.set(vm.$data,'ManagerRegisterFname','');
-            Vue.set(vm.$data,'ManagerRegisterLname','');
+            Vue.set(vm.$data,'ManagerRegisterFullName','');
             Vue.set(vm.$data,'ManagerRegisterUsername','');
             Vue.set(vm.$data,'ManagerRegisterPosition','');
             Vue.set(vm.$data,'ManagerRegisterPassword',null);
@@ -452,8 +434,7 @@ import axios from 'axios';
         {
           var vm=this;
           axios.post(`/save-account-user`,{
-            Fname:this.RegisterFname,
-            Lname:this.RegisterLname,
+            FullName:this.RegisterFullName,
             Username:this.RegisterUsername,
             Mobile:this.RegisterMobile,
             Role:this.RegisterRole,
@@ -472,8 +453,7 @@ import axios from 'axios';
               vm.successAlerts='Success';
               vm.ownerrors='';
               vm.laravelerrors='';
-              vm.RegisterFname='';
-              vm.RegisterLname='';
+              vm.RegisterFullName='';
               vm.RegisterUsername='';
               vm.RegisterRole='';
               vm.ChoosenManager=null;

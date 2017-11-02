@@ -43,17 +43,17 @@
           <input type="text" autocomplete="off" name="Purpose" v-model="purpose" placeholder="Purpose"  required>
           <input type="text" v-if="user.Role==7" v-model="budgetavailable" placeholder="Budget Available Remarks">
           <div class="autoselectedRV">
-              <h4 v-if="mymanager!=null">{{mymanager.Fname}} {{mymanager.Lname}}</h4>
+              <h4 v-if="mymanager!=null">{{mymanager.FullName}}</h4>
               <h4 v-else>No Manager found, please ask the administrator</h4>
             <p>Recommended by</p>
           </div>
           <div class="autoselectedRV">
-              <h4 v-if="budgetofficer[0]!=null">{{budgetofficer[0].Fname}} {{budgetofficer[0].Lname}}</h4>
+              <h4 v-if="budgetofficer[0]!=null">{{budgetofficer[0].FullName}}</h4>
               <h4 v-else>No Account yet</h4>
             <p>Budget Officer</p>
           </div>
           <div class="autoselectedRV space-bottom">
-              <h4 v-if="gm!=null">{{gm[0].Fname}} {{gm[0].Lname}}</h4>
+              <h4 v-if="gm!=null">{{gm[0].FullName}}</h4>
               <h4 v-else>No Account yet</h4>
             <p>General Manager</p>
           </div>

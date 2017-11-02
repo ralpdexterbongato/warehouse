@@ -11,15 +11,15 @@ use App\Events\NewApprovedMIRSEvent;
 class NewApprovedMIRSJob implements ShouldQueue
 {
     use Dispatchable, InteractsWithQueue, Queueable, SerializesModels;
-    public $tobenotify;
+    public $NotifData;
     /**
      * Create a new job instance.
      *
      * @return void
      */
-    public function __construct($tobenotify)
+    public function __construct($NotifData)
     {
-        $this->tobenotify=$tobenotify;
+        $this->NotifData=$NotifData;
     }
 
     /**
@@ -30,8 +30,7 @@ class NewApprovedMIRSJob implements ShouldQueue
     public function handle()
     {
       chdir('c:/xampp/htdocs/gnokii');
-      $output=shell_exec('echo '.$this->tobenotify->Requisitioner.' | gnokii --sendsms 09105717885');
-      //fixed
-      Event(new NewApprovedMIRSEvent($this->tobenotify));
+      shell_exec('echo Your MIRS '.$this->NotifData->MIRSNo.' is now approved | gnokii --sendsms '.$this->NotifData->RequisitionerMobile);
+      Event(new NewApprovedMIRSEvent($this->NotifData));
     }
 }

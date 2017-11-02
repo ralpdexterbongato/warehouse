@@ -1025,7 +1025,7 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
   created: function created() {
     var _this = this;
 
-    Echo.private('MIRSChannel.' + this.myFname + this.myLname).listen('NewMIRSEvent', function (e) {
+    Echo.private('MIRSChannel.' + this.myFullName).listen('NewMIRSEvent', function (e) {
       console.log(e);
       _this.refreshNotifationMIRS();
       _this.modalOpen = true;
@@ -1051,7 +1051,7 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
         _this.playsound();
       });
     }
-    Echo.private('MCTchannel.' + this.myFname + this.myLname).listen('NewMCTEvent', function (e) {
+    Echo.private('MCTchannel.' + this.myFullName).listen('NewMCTEvent', function (e) {
       console.log(e);
       _this.refreshnewlyCreatedMCT();
       _this.modalOpen = true;
@@ -1061,14 +1061,14 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
     this.refreshnewlyCreatedMCT();
     this.refreshNewlyCreatedMRT();
     this.refreshNewlyCreatedRV();
-    Echo.private('MRTchannel.' + this.myFname + this.myLname).listen('NewMRTEvent', function (e) {
+    Echo.private('MRTchannel.' + this.myFullName).listen('NewMRTEvent', function (e) {
       console.log(e);
       _this.refreshNewlyCreatedMRT();
       _this.modalOpen = true;
       _this.MRTNew = true;
       _this.playsound();
     });
-    Echo.private('RVchannel.' + this.myFname + this.myLname).listen('NewRVEvent', function (e) {
+    Echo.private('RVchannel.' + this.myFullName).listen('NewRVEvent', function (e) {
       console.log(e);
       _this.refreshNewlyCreatedRV();
       _this.modalOpen = true;
@@ -1078,7 +1078,7 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
     this.refresCountRRnewCreated();
     this.refreshCountMRNewlyCreated();
     if (this.user.Role == 2 || this.user.Role == 0) {
-      Echo.private('POchannel.' + this.myFname + this.myLname).listen('NewPOEvent', function (e) {
+      Echo.private('POchannel.' + this.myFullName).listen('NewPOEvent', function (e) {
         console.log(e);
         _this.refreshCountNewlyCreatedPO();
         _this.modalOpen = true;
@@ -1087,14 +1087,14 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
       });
       this.refreshCountNewlyCreatedPO();
     }
-    Echo.private('RRchannel.' + this.myFname + this.myLname).listen('NewRREvent', function (e) {
+    Echo.private('RRchannel.' + this.myFullName).listen('NewRREvent', function (e) {
       console.log(e);
       _this.refresCountRRnewCreated();
       _this.modalOpen = true;
       _this.RRNew = true;
       _this.playsound();
     });
-    Echo.private('MRchannel.' + this.myFname + this.myLname).listen('NewMREvent', function (e) {
+    Echo.private('MRchannel.' + this.myFullName).listen('NewMREvent', function (e) {
       console.log(e);
       _this.refreshCountMRNewlyCreated();
       _this.modalOpen = true;
@@ -1179,11 +1179,8 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
     }
   },
   computed: {
-    myFname: function myFname() {
-      return this.user.Fname.split(' ').join('');
-    },
-    myLname: function myLname() {
-      return this.user.Lname.split(' ').join('');
+    myFullName: function myFullName() {
+      return this.user.FullName.split(' ').join('');
     }
   }
 
@@ -32102,7 +32099,7 @@ module.exports={render:function (){var _vm=this;var _h=_vm.$createElement;var _c
     staticClass: "userinfo"
   }, [_vm._m(0), _vm._v(" "), _c('p', {
     staticClass: "name-of-user"
-  }, [_vm._v(_vm._s(_vm.user.Fname) + " " + _vm._s(_vm.user.Lname))]), _vm._v(" "), _c('p', {
+  }, [_vm._v(_vm._s(_vm.user.FullName))]), _vm._v(" "), _c('p', {
     staticClass: "position"
   }, [_vm._v(_vm._s(_vm.user.Position))]), _vm._v(" "), _vm._m(1)]), _vm._v(" "), _c('ul', [_c('a', {
     attrs: {

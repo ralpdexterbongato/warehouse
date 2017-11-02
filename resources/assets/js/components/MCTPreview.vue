@@ -6,7 +6,7 @@
         <button type="submit" :value="this.mctno[0].MCTNo" name="MCTNo"><i class="fa fa-file-pdf-o"></i>.pdf</button>
       </form>
     </span>
-    <div class="empty-div-left mct-edit-container" v-else-if="user.Fname+' '+user.Lname==MCTMaster.Issuedby">
+    <div class="empty-div-left mct-edit-container" v-else-if="user.FullName==MCTMaster.Issuedby">
       <span class="edit-mct" :class="ShowEdit==true?'hide':'show'"><i class="fa fa-edit" v-on:click="ShowEdit=true"></i>Edit</span>
       <span class="edit-mct" :class="ShowEdit==false?'hide':'show'"><span class="color-blue">Save?</span> <button type="button" v-on:click="ShowEdit=false,fetchData();">cancel</button> <button v-on:click="ShowEdit=false,editMCTSave()" type="button" name="button">Save</button></span>
     </div>
@@ -29,7 +29,7 @@
         No MRT generated yet
       </span>
   </span>
-  <span v-else-if="((MCTMaster.Receivedby==user.Fname+' '+user.Lname)&&(MCTMaster.Receivedby!=null)&&(MCTMaster.IfDeclined==null))">
+  <span v-else-if="((MCTMaster.Receivedby==user.FullName)&&(MCTMaster.Receivedby!=null)&&(MCTMaster.IfDeclined==null))">
     <div class="signature-mct-btn" :class="{'hide':SignatureMCTBtnHide}">
       <longpress id="signatureMCT" duration="3" :on-confirm="signatureMCT" :disabled="IsDisabled" pressing-text="confirm in {$rcounter}" action-text="Loading . . .">
       <i class="fa fa-pencil"></i> Signature

@@ -47,11 +47,11 @@
           <div class="form-left-box-mr">
             <select v-model="Receivedby">
               <option value="null">Received by</option>
-              <option v-bind:value="activeuser.id" v-for="activeuser in allactive">{{activeuser.Fname}} {{activeuser.Lname}}</option>
+              <option v-bind:value="activeuser.id" v-for="activeuser in allactive">{{activeuser.FullName}}</option>
             </select>
             <select name="ManagerID" v-model="ManagerID" autocomplete="off">
               <option :value="null">Recommended by</option>
-              <option v-for="manager in allmanager" v-bind:value="manager.id">{{manager.Fname}} {{manager.Lname}}</option>
+              <option v-for="manager in allmanager" v-bind:value="manager.id">{{manager.FullName}}</option>
             </select>
             <textarea name="Note" v-model="Note" placeholder="Note" autocomplete="none"></textarea>
             <longpress id="submitMRbtn" :class="{'hide':HideSubmitBtn}" duration="3" :on-confirm="submitMR"  pressing-text="Submitting in {$rcounter}" action-text="Loading . . .">
@@ -135,11 +135,12 @@ export default {
        console.log(response);
        Vue.set(vm.$data,'laravelerrors','');
        Vue.set(vm.$data,'successAlerts','');
+       Vue.set(vm.$data,'ownerrors','');
        if (response.data.error) {
          Vue.set(vm.$data,'ownerrors',response.data.error);
        }else
        {
-       Vue.set(vm.$data,'successAlerts','Successfully added !');
+         Vue.set(vm.$data,'successAlerts','Successfully added !');
        }
      },function(error){
        Vue.set(vm.$data,'successAlerts','');
@@ -188,7 +189,15 @@ export default {
     }).then(function(response)
     {
       console.log(response);
-      window.location= response.data.redirect;
+      if (response.data.error!=null){
+        Vue.set(vm.$data,'ownerrors',response.data.error)
+        Vue.set(vm.$data,'successAlerts','');
+        Vue.set(vm.$data,'laravelerrors','');
+        Vue.set(vm.$data,'HideSubmitBtn',false);
+      }else
+      {
+        window.location= response.data.redirect;
+      }
     },function(error){
       Vue.set(vm.$data,'ownerrors','')
       Vue.set(vm.$data,'successAlerts','');

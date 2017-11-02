@@ -2003,7 +2003,7 @@ module.exports={render:function (){var _vm=this;var _h=_vm.$createElement;var _c
     staticClass: "po-full-buttons"
   }, [_c('div', {
     staticClass: "print-po-btn"
-  }, [((_vm.user.Fname + ' ' + _vm.user.Lname == _vm.OrderMaster.ApprovalReplacer) && (_vm.OrderMaster.GeneralManagerSignature == null) && (_vm.OrderMaster.ApprovalReplacerSignature == null)) ? _c('div', {
+  }, [((_vm.user.FullName == _vm.OrderMaster.ApprovalReplacer) && (_vm.OrderMaster.GeneralManagerSignature == null) && (_vm.OrderMaster.ApprovalReplacerSignature == null)) ? _c('div', {
     staticClass: "Approve-replacer-accept-cant Request-manager-replace"
   }, [_vm._m(0), _vm._v(" "), _c('span', {
     staticClass: "approval-po-replacer-btn",
@@ -2050,7 +2050,7 @@ module.exports={render:function (){var _vm=this;var _h=_vm.$createElement;var _c
     }
   }, [_vm._m(2)])]) : _vm._e()]) : _c('div', {
     staticClass: "empty-left"
-  }), _vm._v(" "), (((_vm.user.Role == 2) && (_vm.OrderMaster.GeneralManager == _vm.user.Fname + ' ' + _vm.user.Lname) && (_vm.OrderMaster.GeneralManagerSignature == null) && (_vm.OrderMaster.IfDeclined == null) && (_vm.OrderMaster.ApprovalReplacerSignature == null))) ? _c('div', {
+  }), _vm._v(" "), (((_vm.user.Role == 2) && (_vm.OrderMaster.GeneralManager == _vm.user.FullName) && (_vm.OrderMaster.GeneralManagerSignature == null) && (_vm.OrderMaster.IfDeclined == null) && (_vm.OrderMaster.ApprovalReplacerSignature == null))) ? _c('div', {
     staticClass: "signature-btns-wrap-po",
     class: {
       'hide': _vm.SignatureBtnHide

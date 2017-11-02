@@ -1,7 +1,7 @@
 <template lang="html">
   <div class="po-full-buttons">
     <div class="print-po-btn">
-      <div class="Approve-replacer-accept-cant Request-manager-replace" v-if="(user.Fname+' '+user.Lname==OrderMaster.ApprovalReplacer)&&(OrderMaster.GeneralManagerSignature==null)&&(OrderMaster.ApprovalReplacerSignature==null)">
+      <div class="Approve-replacer-accept-cant Request-manager-replace" v-if="(user.FullName==OrderMaster.ApprovalReplacer)&&(OrderMaster.GeneralManagerSignature==null)&&(OrderMaster.ApprovalReplacerSignature==null)">
         <h6 class="approve-managerreplace-note"><i class="fa fa-info-circle color-blue"></i>
           The <span class="color-blue">Warehouse section</span> is asking for your signature b/c the General Manager is not available
         </h6>
@@ -25,7 +25,7 @@
       </span>
       <div v-else class="empty-left">
       </div>
-      <div class="signature-btns-wrap-po" :class="{'hide':SignatureBtnHide}" v-if="((user.Role==2)&&(OrderMaster.GeneralManager==user.Fname+' '+user.Lname)&&(OrderMaster.GeneralManagerSignature==null)&&(OrderMaster.IfDeclined==null)&&(OrderMaster.ApprovalReplacerSignature==null))">
+      <div class="signature-btns-wrap-po" :class="{'hide':SignatureBtnHide}" v-if="((user.Role==2)&&(OrderMaster.GeneralManager==user.FullName)&&(OrderMaster.GeneralManagerSignature==null)&&(OrderMaster.IfDeclined==null)&&(OrderMaster.ApprovalReplacerSignature==null))">
         <longpress duration="3" class="signaturePObtn" :on-confirm="GMsignaturePO"  pressing-text="confirmed in {$rcounter}" action-text="please wait . .">
         <i class="fa fa-pencil"></i> Signature
         </longpress>

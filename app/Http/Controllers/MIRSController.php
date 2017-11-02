@@ -22,8 +22,8 @@ class MIRSController extends Controller
   }
   public function MIRScreate()
   {
-    $GenMan=User::orderBy('id','DESC')->where('Role','2')->whereNotNull('IsActive')->take(1)->get(['Fname','Lname','id']);
-    $mymanager=User::where('id',Auth::user()->Manager)->get(['Fname','Lname']);
+    $GenMan=User::orderBy('id','DESC')->where('Role','2')->whereNotNull('IsActive')->take(1)->get(['FullName','id']);
+    $mymanager=User::where('id',Auth::user()->Manager)->get(['FullName']);
     return view('Warehouse.MIRS.MIRSCreate',compact('mymanager','GenMan'));
   }
   public function fetchSessionMIRS()
@@ -95,28 +95,28 @@ class MIRSController extends Controller
         {
             $incremented = $year . '-' . sprintf("%04d",'1');
         }
-      $ApproveReplacer=User::whereNotNull('IfApproveReplacer')->take(1)->get(['Fname','Lname']);
-      $recommend=User::whereNotNull('IsActive')->where('id',Auth::user()->Manager)->get(['Position','Fname','Lname']);
-      $approve=User::whereNotNull('IsActive')->where('id',$request->Approvedby)->get(['Fname','Lname']);
+      $ApproveReplacer=User::whereNotNull('IfApproveReplacer')->take(1)->get(['FullName']);
+      $recommend=User::whereNotNull('IsActive')->where('id',Auth::user()->Manager)->get(['Position','FullName']);
+      $approve=User::whereNotNull('IsActive')->where('id',$request->Approvedby)->get(['FullName']);
       $master=new MIRSMaster;
       $master->MIRSNo = $incremented;
       $master->Purpose =$request->Purpose;
-      $master->Preparedby =Auth::user()->Fname . ' ' .Auth::user()->Lname;
+      $master->Preparedby =Auth::user()->FullName ;
       $master->PreparedSignature=Auth::user()->Signature;
       $master->PreparedPosition=Auth::user()->Position;
-      $master->Recommendedby =$recommend[0]->Fname .' '. $recommend[0]->Lname;
+      $master->Recommendedby =$recommend[0]->FullName;
       $master->RecommendPosition=$recommend[0]->Position;
-      $master->Approvedby = $approve[0]->Fname .' '. $approve[0]->Lname;
+      $master->Approvedby = $approve[0]->FullName;
       $master->MIRSDate = $date;
       if (!empty($ApproveReplacer[0]))
       {
-      $master->ApprovalReplacer=$ApproveReplacer[0]->Fname.' '.$ApproveReplacer[0]->Lname;
+      $master->ApprovalReplacer=$ApproveReplacer[0]->FullName;
       }
-      if ($recommend[0]->Fname.' '.$recommend[0]->Lname == Auth::user()->Fname.' '.Auth::user()->Lname)
+      if ($recommend[0]->FullName.' ' == Auth::user()->FullName)
       {
         $master->RecommendSignature=Auth::user()->Signature;
       }
-      if ($approve[0]->Fname.' '.$approve[0]->Lname == Auth::user()->Fname.' '.Auth::user()->Lname)
+      if ($approve[0]->FullName== Auth::user()->FullName)
       {
         $master->ApproveSignature=Auth::user()->Signature;
       }
@@ -130,7 +130,7 @@ class MIRSController extends Controller
       }
       MIRSDetail::insert($forMIRSDetailtbl);
       Session::forget('ItemSelected');
-      $Recommended=str_replace(' ','',$recommend[0]->Fname.$recommend[0]->Lname);
+      $Recommended=str_replace(' ','',$recommend[0]->FullName);
         $newmirs = array('tobeNotifyName'=>$Recommended);
         $newmirs=(object)$newmirs;
         $job = (new SendMIRSNotification($newmirs))
@@ -180,13 +180,12 @@ class MIRSController extends Controller
   }
   public function DeniedMIRS($id)
   {
-    MIRSMaster::where('MIRSNo',$id)->update(['IfDeclined'=>Auth::user()->Fname.' '.Auth::user()->Lname,'ApprovalReplacerSignature'=>null]);
-    return redirect()->route('MIRSgridview');
+    MIRSMaster::where('MIRSNo',$id)->update(['IfDeclined'=>Auth::user()->FullName,'ApprovalReplacerSignature'=>null,'ApprovalReplacer'=>null]);
   }
   public function MIRSSignature($id)
   {
     $signableNames=MIRSMaster::where('MIRSNo',$id)->get(['Preparedby','Recommendedby','Approvedby','ApprovalReplacer']);
-    if($signableNames[0]->Recommendedby==Auth::user()->Fname .' '.Auth::user()->Lname)
+    if($signableNames[0]->Recommendedby==Auth::user()->FullName )
     {
       MIRSMaster::where('MIRSNo',$id)->update(['RecommendSignature'=>Auth::user()->Signature,'ManagerReplacerSignature'=>null,'ManagerReplacer'=>null]);
       $NospaceName=str_replace(' ','',$signableNames[0]->Approvedby);
@@ -205,13 +204,13 @@ class MIRSController extends Controller
         dispatch($job);
       }
     }
-    if ($signableNames[0]->Approvedby==Auth::user()->Fname .' '.Auth::user()->Lname)
+    if ($signableNames[0]->Approvedby==Auth::user()->FullName )
     {
       MIRSMaster::where('MIRSNo',$id)->update(['ApproveSignature'=>Auth::user()->Signature,'ApprovalReplacerSignature'=>null]);
-      $requisitioner=str_replace(' ','',$signableNames[0]->Preparedby);
-      $tobenotify = array('Requisitioner' =>$requisitioner);
-      $tobenotify=(object)$tobenotify;
-      $job=(new NewApprovedMIRSJob($tobenotify))->delay(Carbon::now()->addSeconds(5));
+      $RequisitionerMobile=User::where('FullName',$signableNames[0]->Preparedby)->get(['Mobile']);
+      $NotifData = array('RequisitionerMobile' =>$RequisitionerMobile[0]->Mobile ,'MIRSNo'=>$id);
+      $NotifData=(object)$NotifData;
+      $job=(new NewApprovedMIRSJob($NotifData))->delay(Carbon::now()->addSeconds(5));
       dispatch($job);
     }
     $signaturesCheck=MIRSMaster::where('MIRSNo',$id)->get(['RecommendSignature','ApproveSignature','ManagerReplacerSignature']);
@@ -231,19 +230,19 @@ class MIRSController extends Controller
     if (Auth::user()->Role==2)
     {
       $myrequestMIRS=MIRSMaster::orderBy('MIRSNo','DESC')
-                      ->whereNull('IfDeclined')->where('Approvedby',Auth::user()->Fname." ".Auth::user()->Lname)
+                      ->whereNull('IfDeclined')->where('Approvedby',Auth::user()->FullName)
                       ->whereNull('ApproveSignature')->whereNull('ApprovalReplacerSignature')->whereNotNull('PreparedSignature')->whereNotNull('RecommendSignature')
-                      ->orWhereNull('IfDeclined')->where('Approvedby',Auth::user()->Fname." ".Auth::user()->Lname)
+                      ->orWhereNull('IfDeclined')->where('Approvedby',Auth::user()->FullName)
                       ->whereNull('ApproveSignature')->whereNull('ApprovalReplacerSignature')->whereNotNull('PreparedSignature')->whereNotNull('ManagerReplacerSignature')
                       ->paginate(10,['MIRSNo','Purpose','Preparedby','Approvedby','Recommendedby','MIRSDate','RecommendSignature','PreparedSignature','ApproveSignature','ManagerReplacerSignature']);
     }elseif(Auth::user()->Role==0)
     {
-    $myrequestMIRS=MIRSMaster::orderBy('MIRSNo','DESC')->where('Recommendedby',Auth::user()->Fname." ".Auth::user()->Lname)
+    $myrequestMIRS=MIRSMaster::orderBy('MIRSNo','DESC')->where('Recommendedby',Auth::user()->FullName)
                     ->whereNull('RecommendSignature')->whereNull('IfDeclined')->whereNull('ManagerReplacerSignature')
-                    ->orWhere('ManagerReplacer',Auth::user()->Fname.' '.Auth::user()->Lname)->whereNull('ManagerReplacerSignature')->whereNull('RecommendSignature')
-                    ->orWhere('ApprovalReplacer',Auth::user()->Fname.' '.Auth::user()->Lname)
+                    ->orWhere('ManagerReplacer',Auth::user()->FullName)->whereNull('ManagerReplacerSignature')->whereNull('RecommendSignature')
+                    ->orWhere('ApprovalReplacer',Auth::user()->FullName)
                     ->whereNotNull('ManagerReplacerSignature')->whereNull('ApprovalReplacerSignature')->whereNull('ApproveSignature')
-                    ->orWhere('ApprovalReplacer',Auth::user()->Fname.' '.Auth::user()->Lname)->whereNull('ApprovalReplacerSignature')->whereNull('ApproveSignature')
+                    ->orWhere('ApprovalReplacer',Auth::user()->FullName)->whereNull('ApprovalReplacerSignature')->whereNull('ApproveSignature')
                     ->whereNotNull('RecommendSignature')
                     ->paginate(10,['MIRSNo','Purpose','Preparedby','Approvedby','Recommendedby','MIRSDate','RecommendSignature','PreparedSignature','ApproveSignature','ManagerReplacerSignature']);
     }
@@ -272,16 +271,17 @@ class MIRSController extends Controller
       }
       MCTValidator::insert($forValidatortbl);
       MIRSMaster::where('MIRSNo',$id)->update(['ApprovalReplacerSignature'=>Auth::user()->Signature,'ApproveSignature'=>null]);
-      $Preparedby=MIRSMaster::where('MIRSNo',$id)->value('Preparedby');
-      $requisitioner=str_replace(' ','',$Preparedby);
-      $tobenotify = array('Requisitioner' =>$requisitioner);
-      $tobenotify=(object)$tobenotify;
-      $job=(new NewApprovedMIRSJob($tobenotify))->delay(Carbon::now()->addSeconds(5));
-      dispatch($job);
+      // $Names=MIRSMaster::where('MIRSNo',$id)->get(['Preparedby','Approvedby']);
+      // $RequisitionerMobile=User::where('FullName',$Names[0]->Preparedby)->get(['Mobile']);
+      // $GMMobile=User::where('FullName',$Names[0]->Approvedby)->get(['Mobile']);
+      // $NotifData = array('RequisitionerMobile' =>$RequisitionerMobile[0]->Mobile ,'MIRSNo'=>$id,'GMMobile'=>$GMMobile[0]->Mobile,'ApprovalReplacer'=>Auth::user()->FullName);
+      // $NotifData=(object)$NotifData;
+      // $job=(new NewApprovedMIRSJob($NotifData))->delay(Carbon::now()->addSeconds(5));
+      // dispatch($job);
   }
   public function fetchAllManager()
   {
-    return User::whereNotNull('IsActive')->where('Role',0)->get(['Fname','Lname','id']);
+    return User::whereNotNull('IsActive')->where('Role',0)->get(['FullName','id']);
   }
   public function SendRequestManagerReplacer($id,Request $request)
   {
@@ -289,9 +289,9 @@ class MIRSController extends Controller
     {
       return ['error'=>'Required'];
     }
-    $managerReplacer=User::where('id',$request->ManagerReplacerID)->get(['Fname','Lname']);
-    MIRSMaster::where('MIRSNo',$id)->update(['ManagerReplacer'=>$managerReplacer[0]->Fname.' '.$managerReplacer[0]->Lname]);
-    $Nospacename=str_replace(' ','',$managerReplacer[0]->Fname.$managerReplacer[0]->Lname);
+    $managerReplacer=User::where('id',$request->ManagerReplacerID)->get(['FullName']);
+    MIRSMaster::where('MIRSNo',$id)->update(['ManagerReplacer'=>$managerReplacer[0]->FullName]);
+    $Nospacename=str_replace(' ','',$managerReplacer[0]->FullName);
     $notify = array('tobeNotifyName' =>$Nospacename);
     $notify=(object)$notify;
     $job = (new SendMIRSNotification($notify))->delay(Carbon::now()->addSeconds(5));
@@ -324,19 +324,19 @@ class MIRSController extends Controller
     if (Auth::user()->Role==2)
     {
       $myrequestMIRS=MIRSMaster::orderBy('MIRSNo','DESC')
-                      ->whereNull('IfDeclined')->where('Approvedby',Auth::user()->Fname." ".Auth::user()->Lname)
+                      ->whereNull('IfDeclined')->where('Approvedby',Auth::user()->FullName)
                       ->whereNull('ApproveSignature')->whereNull('ApprovalReplacerSignature')->whereNotNull('PreparedSignature')->whereNotNull('RecommendSignature')
-                      ->orWhereNull('IfDeclined')->where('Approvedby',Auth::user()->Fname." ".Auth::user()->Lname)
+                      ->orWhereNull('IfDeclined')->where('Approvedby',Auth::user()->FullName)
                       ->whereNull('ApproveSignature')->whereNull('ApprovalReplacerSignature')->whereNotNull('PreparedSignature')->whereNotNull('ManagerReplacerSignature')
                       ->count();
     }elseif(Auth::user()->Role==0)
     {
-    $myrequestMIRS=MIRSMaster::orderBy('MIRSNo','DESC')->where('Recommendedby',Auth::user()->Fname." ".Auth::user()->Lname)
+    $myrequestMIRS=MIRSMaster::orderBy('MIRSNo','DESC')->where('Recommendedby',Auth::user()->FullName)
                     ->whereNull('RecommendSignature')->whereNull('IfDeclined')->whereNull('ManagerReplacerSignature')
-                    ->orWhere('ManagerReplacer',Auth::user()->Fname.' '.Auth::user()->Lname)->whereNull('ManagerReplacerSignature')->whereNull('RecommendSignature')
-                    ->orWhere('ApprovalReplacer',Auth::user()->Fname.' '.Auth::user()->Lname)
+                    ->orWhere('ManagerReplacer',Auth::user()->FullName)->whereNull('ManagerReplacerSignature')->whereNull('RecommendSignature')
+                    ->orWhere('ApprovalReplacer',Auth::user()->FullName)
                     ->whereNotNull('ManagerReplacerSignature')->whereNull('ApprovalReplacerSignature')->whereNull('ApproveSignature')
-                    ->orWhere('ApprovalReplacer',Auth::user()->Fname.' '.Auth::user()->Lname)->whereNull('ApprovalReplacerSignature')->whereNull('ApproveSignature')
+                    ->orWhere('ApprovalReplacer',Auth::user()->FullName)->whereNull('ApprovalReplacerSignature')->whereNull('ApproveSignature')
                     ->whereNotNull('RecommendSignature')
                     ->count();
     }

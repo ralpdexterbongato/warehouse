@@ -5,11 +5,11 @@
       <a :href="'/RV.pdf/'+rvno.RVNo"><button type="submit" class="bttn-unite bttn-sm bttn-primary" name="RVNo" value="RVNohere"><i class="fa fa-print"></i> Print</button></a>
       <li class="pending-delivery-number" v-if="((RVMaster.IfPurchased==null)&&(checkPO==null)&&(checkRR!=null))"><h1>pending item: <span class="color-blue">{{undeliveredTotal}}</span></h1></li>
     </div>
-    <div v-else-if="user.Fname+' '+user.Lname!=RVMaster.BudgetOfficer" class="empty-left">
+    <div v-else-if="user.FullName!=RVMaster.BudgetOfficer" class="empty-left">
     </div>
     <div v-if="((RVMaster.BudgetOfficerSignature==null)&&((RVMaster.RecommendedbySignature!=null)||(RVMaster.ManagerReplacerSignature!=null)))" class="empty-left relative">
-      <button v-on:click="RemarksIsActive=true" class="bttn-unite bttn-sm bttn-primary pending-remarks" type="button" v-if="((RVMaster.BudgetOfficer==user.Fname+' '+user.Lname)&&(pendingRemarksShow==null))"><i class="fa fa-clock-o"></i> remarks</button>
-      <div v-if="(pendingRemarksShow!=null)&&(RVMaster.BudgetOfficerSignature==null)&&((user.Fname+' '+user.Lname==RVMaster.Requisitioner)||(user.Fname+' '+user.Lname==RVMaster.BudgetOfficer))" class="BudgetRemarkShow">
+      <button v-on:click="RemarksIsActive=true" class="bttn-unite bttn-sm bttn-primary pending-remarks" type="button" v-if="((RVMaster.BudgetOfficer==user.FullName)&&(pendingRemarksShow==null))"><i class="fa fa-clock-o"></i> remarks</button>
+      <div v-if="(pendingRemarksShow!=null)&&(RVMaster.BudgetOfficerSignature==null)&&((user.FullName==RVMaster.Requisitioner)||(user.FullName==RVMaster.BudgetOfficer))" class="BudgetRemarkShow">
         <div class="remarks-box animated" :class="{'hinge':drop}">
           <h1> budget officer: <i class="fa fa-thumb-tack animated" v-on:click="drop=true"></i></h1>
           <p>{{pendingRemarksShow}}</p>
@@ -24,7 +24,7 @@
         </span>
       </div>
     </div>
-    <div class="manager-replacer-accept-cant Request-manager-replace" v-if="((user.Fname+' '+user.Lname==RVMaster.ManagerReplacer)&&(RVMaster.ManagerReplacerSignature==null))">
+    <div class="manager-replacer-accept-cant Request-manager-replace" v-if="((user.FullName==RVMaster.ManagerReplacer)&&(RVMaster.ManagerReplacerSignature==null))">
       <h6 class="approve-managerreplace-note"><i class="fa fa-info-circle color-blue"></i>
         <span class="color-blue">{{RVMaster.Requisitioner}}</span> is asking for your signature b/c the {{RVMaster.RecommendedbyPosition}} is not available
       </h6>
@@ -37,7 +37,7 @@
         </longpress>
       </span>
     </div>
-    <div class="Approve-replacer-accept-cant Request-manager-replace" v-if="((RVMaster.BudgetOfficerSignature!=null)&&(user.Fname+' '+user.Lname==RVMaster.ApprovalReplacer)&&(RVMaster.ApprovalReplacerSignature==null)&&((RVMaster.GeneralManagerSignature==null)&&((RVMaster.ManagerReplacerSignature!=null)||(RVMaster.RecommendedbySignature!=null))))">
+    <div class="Approve-replacer-accept-cant Request-manager-replace" v-if="((RVMaster.BudgetOfficerSignature!=null)&&(user.FullName==RVMaster.ApprovalReplacer)&&(RVMaster.ApprovalReplacerSignature==null)&&((RVMaster.GeneralManagerSignature==null)&&((RVMaster.ManagerReplacerSignature!=null)||(RVMaster.RecommendedbySignature!=null))))">
       <h6 class="approve-managerreplace-note"><i class="fa fa-info-circle color-blue"></i>
         <span class="color-blue">{{RVMaster.Requisitioner}}</span> is asking for your signature b/c the General Manager is not available
       </h6>
@@ -51,7 +51,7 @@
       </span>
     </div>
     <div class="declineOrSignatureBtn">
-          <span :class="{'hide':SignatureRVBtnHide}" v-if="(((RVMaster.BudgetOfficer==user.Fname+' '+user.Lname)&&(RVMaster.BudgetOfficerSignature==null)&&((RVMaster.RecommendedbySignature!=null)||(RVMaster.ManagerReplacerSignature!=null))&&(RVMaster.IfDeclined==null))||((RVMaster.IfDeclined==null)&&(RVMaster.Recommendedby==user.Fname+' '+user.Lname)&&(RVMaster.RecommendedbySignature==null)&&(RVMaster.ManagerReplacerSignature==null))||((RVMaster.IfDeclined==null)&&(RVMaster.GeneralManager==user.Fname+' '+user.Lname)&&(RVMaster.GeneralManagerSignature==null)&&(RVMaster.ApprovalReplacerSignature==null)&&(RVMaster.BudgetOfficerSignature!=null)&&((RVMaster.RecommendedbySignature!=null)||(RVMaster.ManagerReplacerSignature!=null))))">
+          <span :class="{'hide':SignatureRVBtnHide}" v-if="(((RVMaster.BudgetOfficer==user.FullName)&&(RVMaster.BudgetOfficerSignature==null)&&((RVMaster.RecommendedbySignature!=null)||(RVMaster.ManagerReplacerSignature!=null))&&(RVMaster.IfDeclined==null))||((RVMaster.IfDeclined==null)&&(RVMaster.Recommendedby==user.FullName)&&(RVMaster.RecommendedbySignature==null)&&(RVMaster.ManagerReplacerSignature==null))||((RVMaster.IfDeclined==null)&&(RVMaster.GeneralManager==user.FullName)&&(RVMaster.GeneralManagerSignature==null)&&(RVMaster.ApprovalReplacerSignature==null)&&(RVMaster.BudgetOfficerSignature!=null)&&((RVMaster.RecommendedbySignature!=null)||(RVMaster.ManagerReplacerSignature!=null))))">
             <div class="RVapprove">
               <longpress class="rvapprovebtn" duration="3" :on-confirm="Signature" pressing-text="confirm in {$rcounter}" action-text="Loading . . .">
               <i class="fa fa-pencil"></i> Signature
@@ -181,13 +181,13 @@
                 <p>
                   {{RVMaster.Recommendedby}}
                 <span class="opener-manager-replace opener-icon">
-                  <div class="mini-menu-managers" v-if="(user.Fname+' '+user.Lname)==(RVMaster.Requisitioner)&&(this.ManagerBehalfActive==true)&&(RVMaster.ManagerReplacerSignature==null)&&(RVMaster.RecommendedbySignature==null)">
+                  <div class="mini-menu-managers" v-if="(user.FullName)==(RVMaster.Requisitioner)&&(this.ManagerBehalfActive==true)&&(RVMaster.ManagerReplacerSignature==null)&&(RVMaster.RecommendedbySignature==null)">
                     <h1 v-if="RVMaster.ManagerReplacer==null">Request signature to</h1>
                     <h1 v-else>Request pending <i class="fa fa-clock-o color-white"></i></h1>
                     <div class="manager-list-menu"v-if="RVMaster.ManagerReplacer==null">
                       <select v-model="ManagerID">
                         <option :value="null">Choose a manager</option>
-                        <option v-for="manager in activemanager"  v-if="manager.Fname+' '+manager.Lname!=RVMaster.Recommendedby" :value="manager.id">{{manager.Fname}} {{manager.Lname}}</option>
+                        <option v-for="manager in activemanager"  v-if="manager.FullName!=RVMaster.Recommendedby" :value="manager.id">{{manager.FullName}}</option>
                       </select>
                       <p v-if="error!=null" class="color-red">*{{error}}</p>
                       <span class="send-cancel-btns">
@@ -200,7 +200,7 @@
                       <span class="cancel-manager-replace" v-on:click="cancelRequestManagerReplacer()"><i class="fa fa-times color-red"></i>cancel</span>
                     </div>
                   </div>
-                  <i v-on:click="ManagerBehalfActive=!ManagerBehalfActive,[activemanager[0]!=null?'':fetchAllManager()]" class="fa fa-users color-blue" v-if="(user.Fname+' '+user.Lname==RVMaster.Requisitioner)&&(RVMaster.ManagerReplacerSignature==null)&&(RVMaster.RecommendedbySignature==null)"></i>
+                  <i v-on:click="ManagerBehalfActive=!ManagerBehalfActive,[activemanager[0]!=null?'':fetchAllManager()]" class="fa fa-users color-blue" v-if="(user.FullName==RVMaster.Requisitioner)&&(RVMaster.ManagerReplacerSignature==null)&&(RVMaster.RecommendedbySignature==null)"></i>
                 </span>
                    <i v-if="RVMaster.Recommendedby==RVMaster.IfDeclined" class="fa fa-times decliner"></i>
                 </p>
@@ -214,10 +214,10 @@
               <h3>BUDGET AVAILABLE ON THIS REQUEST</h3>
               <h4>
                 <span class="rv-signature-form">
-                  <input type="text"  v-model="BudgetAvail" v-if="(user.Role==7)&&(RVMaster.BudgetAvailable==null)&&(RVMaster.BudgetOfficer==user.Fname+' '+user.Lname)&&(RVMaster.BudgetOfficerSignature==null)&&((RVMaster.RecommendedbySignature!=null)||(RVMaster.ManagerReplacerSignature!=null))" class="forBudgetOfficerOnly">
+                  <input type="text"  v-model="BudgetAvail" v-if="(user.Role==7)&&(RVMaster.BudgetAvailable==null)&&(RVMaster.BudgetOfficer==user.FullName)&&(RVMaster.BudgetOfficerSignature==null)&&((RVMaster.RecommendedbySignature!=null)||(RVMaster.ManagerReplacerSignature!=null))" class="forBudgetOfficerOnly">
                 </span>
                   <span class="budget-from" v-if="(editbudgetActive==false)">{{RVMaster.BudgetAvailable}}</span>
-                    <span class="form-edit-budget" v-if="((user.Role==7)&&(RVMaster.BudgetOfficer==user.Fname+' '+user.Lname)&&(RVMaster.BudgetOfficerSignature!=null)&&((RVMaster.RecommendedbySignature==null)||(RVMaster.GeneralManagerSignature==null)))">
+                    <span class="form-edit-budget" v-if="((user.Role==7)&&(RVMaster.BudgetOfficer==user.FullName)&&(RVMaster.BudgetOfficerSignature!=null)&&((RVMaster.RecommendedbySignature==null)||(RVMaster.GeneralManagerSignature==null)))">
                       <span v-if="editbudgetActive==true" class="flex">
                         <input type="text" class="editbudget-input" v-model="BudgetUpdate=RVMaster.BudgetAvailable">
                         <span class="update-budget-btn">

@@ -163,9 +163,9 @@ class RRController extends Controller
     {
       $incremented=$year.'-'.sprintf("%04d",'1');
     }
-    $verifiedUser=User::whereNotNull('IsActive')->where('id',$request->Verifiedby)->get(['Fname','Lname','Position']);
-    $originalReceiver=User::whereNotNull('IsActive')->where('id',$request->ReceivedOriginalby)->get(['Fname','Lname','Position']);
-    $BINPoster=User::whereNotNull('IsActive')->where('id', $request->PostedtoBINby)->get(['Fname','Lname','Position']);
+    $verifiedUser=User::whereNotNull('IsActive')->where('id',$request->Verifiedby)->get(['FullName','Position']);
+    $originalReceiver=User::whereNotNull('IsActive')->where('id',$request->ReceivedOriginalby)->get(['FullName','Position']);
+    $BINPoster=User::whereNotNull('IsActive')->where('id', $request->PostedtoBINby)->get(['FullName','Position']);
     $RRMasterDB=new RRMaster;
     $RRMasterDB->RRNo =$incremented;
     $RRMasterDB->RRDate=$date;
@@ -176,26 +176,26 @@ class RRController extends Controller
     $RRMasterDB->Carrier=$request->Carrier;
     $RRMasterDB->DeliveryReceiptNo=$request->DeliveryReceiptNo;
     $RRMasterDB->Note=$request->Note;
-    $RRMasterDB->Receivedby=Auth::user()->Fname.' '.Auth::user()->Lname;
+    $RRMasterDB->Receivedby=Auth::user()->FullName;
     $RRMasterDB->ReceivedbyPosition=Auth::user()->Position;
     $RRMasterDB->ReceivedbySignature=Auth::user()->Signature;
-    if ($verifiedUser[0]->Fname.' '.$verifiedUser[0]->Lname== Auth::user()->Fname.' '.Auth::user()->Lname)
+    if ($verifiedUser[0]->FullName== Auth::user()->FullName)
     {
       $RRMasterDB->VerifiedbySignature=Auth::user()->Signature;
     }
-    if ($originalReceiver[0]->Fname.' '.$originalReceiver[0]->Lname== Auth::user()->Fname.' '.Auth::user()->Lname)
+    if ($originalReceiver[0]->FullName== Auth::user()->FullName)
     {
       $RRMasterDB->ReceivedOriginalbySignature=Auth::user()->Signature;
     }
-    if ($BINPoster[0]->Fname.' '.$BINPoster[0]->Lname == Auth::user()->Fname.' '.Auth::user()->Lname)
+    if ($BINPoster[0]->FullName == Auth::user()->FullName)
     {
       $RRMasterDB->PostedtoBINbySignature=Auth::user()->Signature;
     }
-    $RRMasterDB->Verifiedby=$verifiedUser[0]->Fname.' '.$verifiedUser[0]->Lname;
+    $RRMasterDB->Verifiedby=$verifiedUser[0]->FullName;
     $RRMasterDB->VerifiedbyPosition=$verifiedUser[0]->Position;
-    $RRMasterDB->ReceivedOriginalby=$originalReceiver[0]->Fname.' '.$originalReceiver[0]->Lname;
+    $RRMasterDB->ReceivedOriginalby=$originalReceiver[0]->FullName;
     $RRMasterDB->ReceivedOriginalbyPosition=$originalReceiver[0]->Position;
-    $RRMasterDB->PostedToBINby=$BINPoster[0]->Fname.' '.$BINPoster[0]->Lname;
+    $RRMasterDB->PostedToBINby=$BINPoster[0]->FullName;
     $RRMasterDB->PostedToBINbyPosition=$BINPoster[0]->Position;
     $RRMasterDB->save();
     $ForRRconfirmItemsDB = array();
@@ -217,9 +217,9 @@ class RRController extends Controller
       RRconfirmationDetails::insert($ForRRconfirmItemsDB);
       Session::forget('RR-Items-Added');
 
-    $VerifiedName=str_replace(' ','',$verifiedUser[0]->Fname.$verifiedUser[0]->Lname);
-    $ReceivedOriginalName=str_replace(' ','',$originalReceiver[0]->Fname.$originalReceiver[0]->Lname);
-    $BINPosterName=str_replace(' ','',$BINPoster[0]->Fname.$BINPoster[0]->Lname);
+    $VerifiedName=str_replace(' ','',$verifiedUser[0]->FullName);
+    $ReceivedOriginalName=str_replace(' ','',$originalReceiver[0]->FullName);
+    $BINPosterName=str_replace(' ','',$BINPoster[0]->FullName);
 
     $NotifableName = array('first' =>$VerifiedName,'second'=>$ReceivedOriginalName,'third'=>$BINPosterName);
     $NotifableName=(object)$NotifableName;
@@ -248,9 +248,9 @@ class RRController extends Controller
     {
       $incremented=$year.'-'.sprintf("%04d",'1');
     }
-    $verifiedUser=User::whereNotNull('IsActive')->where('id',$request->Verifiedby)->get(['Fname','Lname','Position']);
-    $originalReceiver=User::whereNotNull('IsActive')->where('id',$request->ReceivedOriginalby)->get(['Fname','Lname','Position']);
-    $BINPoster=User::whereNotNull('IsActive')->where('id', $request->PostedtoBINby)->get(['Fname','Lname','Position']);
+    $verifiedUser=User::whereNotNull('IsActive')->where('id',$request->Verifiedby)->get(['FullName','Position']);
+    $originalReceiver=User::whereNotNull('IsActive')->where('id',$request->ReceivedOriginalby)->get(['FullName','Position']);
+    $BINPoster=User::whereNotNull('IsActive')->where('id', $request->PostedtoBINby)->get(['FullName','Position']);
     $POMaster=POMaster::where('PONo',$request->PONo)->get(['Supplier','Address','RVNo']);
     $RRMasterDB=new RRMaster;
     $RRMasterDB->RRNo =$incremented;
@@ -263,26 +263,26 @@ class RRController extends Controller
     $RRMasterDB->Carrier=$request->Carrier;
     $RRMasterDB->DeliveryReceiptNo=$request->DeliveryReceiptNo;
     $RRMasterDB->Note=$request->Note;
-    $RRMasterDB->Receivedby=Auth::user()->Fname.' '.Auth::user()->Lname;
+    $RRMasterDB->Receivedby=Auth::user()->FullName;
     $RRMasterDB->ReceivedbyPosition=Auth::user()->Position;
     $RRMasterDB->ReceivedbySignature=Auth::user()->Signature;
-    if ($verifiedUser[0]->Fname.' '.$verifiedUser[0]->Lname== Auth::user()->Fname.' '.Auth::user()->Lname)
+    if ($verifiedUser[0]->FullName==Auth::user()->FullName)
     {
       $RRMasterDB->VerifiedbySignature=Auth::user()->Signature;
     }
-    if ($originalReceiver[0]->Fname.' '.$originalReceiver[0]->Lname== Auth::user()->Fname.' '.Auth::user()->Lname)
+    if ($originalReceiver[0]->FullName== Auth::user()->FullName)
     {
       $RRMasterDB->ReceivedOriginalbySignature=Auth::user()->Signature;
     }
-    if ($BINPoster[0]->Fname.' '.$BINPoster[0]->Lname == Auth::user()->Fname.' '.Auth::user()->Lname)
+    if ($BINPoster[0]->FullName == Auth::user()->FullName)
     {
       $RRMasterDB->PostedtoBINbySignature=Auth::user()->Signature;
     }
-    $RRMasterDB->Verifiedby=$verifiedUser[0]->Fname.' '.$verifiedUser[0]->Lname;
+    $RRMasterDB->Verifiedby=$verifiedUser[0]->FullName;
     $RRMasterDB->VerifiedbyPosition=$verifiedUser[0]->Position;
-    $RRMasterDB->ReceivedOriginalby=$originalReceiver[0]->Fname.' '.$originalReceiver[0]->Lname;
+    $RRMasterDB->ReceivedOriginalby=$originalReceiver[0]->FullName;
     $RRMasterDB->ReceivedOriginalbyPosition=$originalReceiver[0]->Position;
-    $RRMasterDB->PostedToBINby=$BINPoster[0]->Fname.' '.$BINPoster[0]->Lname;
+    $RRMasterDB->PostedToBINby=$BINPoster[0]->FullName;
     $RRMasterDB->PostedToBINbyPosition=$BINPoster[0]->Position;
     $RRMasterDB->save();
     $ForRRconfirmItemsDB = array();
@@ -304,9 +304,9 @@ class RRController extends Controller
     RRconfirmationDetails::insert($ForRRconfirmItemsDB);
     Session::forget('RR-Items-Added');
 
-    $VerifiedName=str_replace(' ','',$verifiedUser[0]->Fname.$verifiedUser[0]->Lname);
-    $ReceivedOriginalName=str_replace(' ','',$originalReceiver[0]->Fname.$originalReceiver[0]->Lname);
-    $BINPosterName=str_replace(' ','',$BINPoster[0]->Fname.$BINPoster[0]->Lname);
+    $VerifiedName=str_replace(' ','',$verifiedUser[0]->FullName);
+    $ReceivedOriginalName=str_replace(' ','',$originalReceiver[0]->FullName);
+    $BINPosterName=str_replace(' ','',$BINPoster[0]->FullName);
 
     $NotifableName = array('first' =>$VerifiedName,'second'=>$ReceivedOriginalName,'third'=>$BINPosterName);
     $NotifableName=(object)$NotifableName;
@@ -369,15 +369,15 @@ class RRController extends Controller
   public function signatureRR($id)
   {
     $RRMaster=RRMaster::where('RRNo',$id)->get(['ReceivedOriginalby','Verifiedby','PostedtoBINby','PONo','RVNo']);
-    if ($RRMaster[0]->ReceivedOriginalby==Auth::user()->Fname.' '.Auth::user()->Lname)
+    if ($RRMaster[0]->ReceivedOriginalby==Auth::user()->FullName)
     {
         RRMaster::where('RRNo',$id)->update(['ReceivedOriginalbySignature'=>Auth::user()->Signature]);
     }
-    if ($RRMaster[0]->Verifiedby==Auth::user()->Fname.' '.Auth::user()->Lname)
+    if ($RRMaster[0]->Verifiedby==Auth::user()->FullName)
     {
       RRMaster::where('RRNo',$id)->update(['VerifiedbySignature'=>Auth::user()->Signature]);
     }
-    if ($RRMaster[0]->PostedtoBINby==Auth::user()->Fname.' '.Auth::user()->Lname)
+    if ($RRMaster[0]->PostedtoBINby==Auth::user()->FullName)
     {
         RRMaster::where('RRNo',$id)->update(['PostedtoBINbySignature'=>Auth::user()->Signature]);
     }
@@ -431,13 +431,13 @@ class RRController extends Controller
   }
   public function RRsignatureRequest()
   {
-    $requestRR=RRMaster::orderBy('RRNo','DESC')->where('ReceivedOriginalby',Auth::user()->Fname.' '.Auth::user()->Lname)
+    $requestRR=RRMaster::orderBy('RRNo','DESC')->where('ReceivedOriginalby',Auth::user()->FullName)
     ->whereNull('ReceivedOriginalbySignature')
     ->whereNull('IfDeclined')
-    ->orWhere('Verifiedby',Auth::user()->Fname.' '.Auth::user()->Lname)
+    ->orWhere('Verifiedby',Auth::user()->FullName)
     ->whereNull('VerifiedbySignature')
     ->whereNull('IfDeclined')
-    ->orWhere('PostedtoBINby',Auth::user()->Fname.' '.Auth::user()->Lname)
+    ->orWhere('PostedtoBINby',Auth::user()->FullName)
     ->whereNull('PostedtoBINbySignature')
     ->whereNull('IfDeclined')
     ->paginate(10,['RRNo','Supplier','Address','RVNo','Receivedby','ReceivedbySignature','ReceivedOriginalby','ReceivedOriginalbySignature','Verifiedby','VerifiedbySignature','PostedtoBINby','PostedtoBINbySignature']);
@@ -445,7 +445,7 @@ class RRController extends Controller
   }
   public function declineRR($id)
   {
-    RRMaster::where('RRNo',$id)->update(['IfDeclined'=>Auth::user()->Fname.' '.Auth::user()->Lname]);
+    RRMaster::where('RRNo',$id)->update(['IfDeclined'=>Auth::user()->FullName]);
     $RRMaster=RRMaster::where('RRNo',$id)->get(['PONo','RVNo']);
     if ($RRMaster[0]->PONo!=null)
     {
@@ -489,17 +489,17 @@ class RRController extends Controller
   }
   public function CreateRRNoPO($id)
   {
-    $Auditors=User::where('Role', '5')->whereNotNull('IsActive')->get(['id','Lname','Fname']);
-    $Managers=User::where('Role','0')->whereNotNull('IsActive')->get(['id','Lname','Fname']);
-    $Clerks=User::where('Role','6')->whereNotNull('IsActive')->get(['id','Lname','Fname']);
+    $Auditors=User::where('Role', '5')->whereNotNull('IsActive')->get(['id','FullName']);
+    $Managers=User::where('Role','0')->whereNotNull('IsActive')->get(['id','FullName']);
+    $Clerks=User::where('Role','6')->whereNotNull('IsActive')->get(['id','FullName']);
     $fromRRValidatorNoPO=RRValidatorNoPO::where('RVNo',$id)->get(['RVNo','Particulars','Unit','Remarks','ItemCode','AccountCode']);
     return view('Warehouse.RR.CreateRRNoPO',compact('fromRRValidatorNoPO','Auditors','Managers','Clerks'));
   }
   public function CreateRRWithPO($id)
   {
-    $Auditors=User::where('Role', '5')->whereNotNull('IsActive')->get(['id','Lname','Fname']);
-    $Managers=User::where('Role','0')->whereNotNull('IsActive')->get(['id','Lname','Fname']);
-    $Clerks=User::where('Role','6')->whereNotNull('IsActive')->get(['id','Lname','Fname']);
+    $Auditors=User::where('Role', '5')->whereNotNull('IsActive')->get(['id','FullName']);
+    $Managers=User::where('Role','0')->whereNotNull('IsActive')->get(['id','FullName']);
+    $Clerks=User::where('Role','6')->whereNotNull('IsActive')->get(['id','FullName']);
     $POMaster=POMaster::where('PONo',$id)->get(['Supplier','Address','RVNo','PONo']);
     $RRValidatorWithPO=RRValidatorWithPO::where('PONo',$id)->get(['Price','Unit','Description','Amount','PONo','ItemCode','AccountCode']);
     return view('Warehouse.RR.CreateRRWithPO',compact('POMaster','RRValidatorWithPO','Auditors','Managers','Clerks'));
@@ -511,13 +511,13 @@ class RRController extends Controller
   }
   public function refreshRRSignatureCount()
   {
-    $requestRR=RRMaster::orderBy('RRNo','DESC')->where('ReceivedOriginalby',Auth::user()->Fname.' '.Auth::user()->Lname)
+    $requestRR=RRMaster::orderBy('RRNo','DESC')->where('ReceivedOriginalby',Auth::user()->FullName)
     ->whereNull('ReceivedOriginalbySignature')
     ->whereNull('IfDeclined')
-    ->orWhere('Verifiedby',Auth::user()->Fname.' '.Auth::user()->Lname)
+    ->orWhere('Verifiedby',Auth::user()->FullName)
     ->whereNull('VerifiedbySignature')
     ->whereNull('IfDeclined')
-    ->orWhere('PostedtoBINby',Auth::user()->Fname.' '.Auth::user()->Lname)
+    ->orWhere('PostedtoBINby',Auth::user()->FullName)
     ->whereNull('PostedtoBINbySignature')
     ->whereNull('IfDeclined')->count();
     $response = [

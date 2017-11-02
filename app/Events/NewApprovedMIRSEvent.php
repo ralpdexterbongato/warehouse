@@ -12,16 +12,15 @@ use Illuminate\Contracts\Broadcasting\ShouldBroadcast;
 
 class NewApprovedMIRSEvent implements ShouldBroadcast
 {
-    public $tobenotify;
     use Dispatchable, InteractsWithSockets, SerializesModels;
     /**
      * Create a new event instance.
      *
      * @return void
      */
-    public function __construct($tobenotify)
+    public function __construct()
     {
-      $this->requisitioner=$tobenotify->Requisitioner;
+
     }
 
     /**

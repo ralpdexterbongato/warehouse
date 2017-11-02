@@ -75,23 +75,23 @@ class AccountController extends Controller
     //vue js
     public function getallGMAccounts()
     {
-      return User::orderBy('id','DESC')->where('Role','2')->paginate(5,['id','Fname','Lname','Signature','IsActive','Username','Mobile']);
+      return User::orderBy('id','DESC')->where('Role','2')->paginate(5,['id','FullName','Signature','IsActive','Username','Mobile']);
     }
     public function getallManagers()
     {
-      return User::orderBy('id','DESC')->where('Role','0')->paginate(5,['id','Fname','Lname','Signature','IsActive','Username','Mobile']);
+      return User::orderBy('id','DESC')->where('Role','0')->paginate(5,['id','FullName','Signature','IsActive','Username','Mobile']);
     }
     public function getallAdmin()
     {
-      return User::orderBy('id','DESC')->where('Role','1')->paginate(5,['id','Fname','Lname','Signature','IsActive','Username','Mobile']);
+      return User::orderBy('id','DESC')->where('Role','1')->paginate(5,['id','FullName','Signature','IsActive','Username','Mobile']);
     }
     public function getOtherAccounts()
     {
-      return User::orderBy('id','DESC')->where('Role','3')->orWhere('Role', '4')->orWhere('Role','5')->orWhere('Role','6')->orWhere('Role','7')->orWhere('Role','8')->paginate(5,['id','Fname','Lname','Signature','IsActive','Username','Mobile']);
+      return User::orderBy('id','DESC')->where('Role','3')->orWhere('Role', '4')->orWhere('Role','5')->orWhere('Role','6')->orWhere('Role','7')->orWhere('Role','8')->paginate(5,['id','FullName','Signature','IsActive','Username','Mobile']);
     }
     public function ShowMyHistoryPage(Request $request)
     {
-      $ActiveNames=User::whereNotNull('IsActive')->get(['Fname','Lname']);
+      $ActiveNames=User::whereNotNull('IsActive')->get(['FullName']);
       return view('Warehouse.Account.MyHistory',compact('ActiveNames'));
     }
     public function MyMIRSHistoryandSearch(Request $request)
@@ -118,13 +118,12 @@ class AccountController extends Controller
     }
     public function fetchDataofSelectedUser($id)
     {
-      return User::where('id',$id)->get(['id','Fname','Lname','Signature','Position','Role','Username','IsActive','Manager','Mobile']);
+      return User::where('id',$id)->get(['id','FullName','Signature','Position','Role','Username','IsActive','Manager','Mobile']);
     }
     public function updateUser(Request $request,$id)
     {
       $this->validate($request,[
-        'Fname'=>'required|max:30',
-        'Lname'=>'required|max:30',
+        'FullName'=>'required|max:30',
         'Role'=>'required',
         'Username'=>'required|max:30',
         'Mobile'=>'max:11',
@@ -138,10 +137,10 @@ class AccountController extends Controller
         $fileName = Carbon::now()->timestamp . '_' . uniqid() . '.' . explode('/', explode(':', substr($imageData, 0, strpos($imageData, ';')))[1])[1];
         Image::make($request->get('Signature'))->save(public_path('/storage/signatures/').$fileName);
       }
-      $validateUniqueName=User::where('Fname',$request->Fname)->where('Lname', $request->Lname)->where('id','!=',$id)->get(['id']);
+      $validateUniqueName=User::where('FullName',$request->FullName)->where('id','!=',$id)->get(['id']);
       if (!empty($validateUniqueName[0]))
       {
-        return response()->json(['error'=>$request->Fname.' '.$request->Lname.' has already been taken']);
+        return response()->json(['error'=>$request->FullName.' has already been taken']);
       }
       $validateUniqueUN=User::where('Username', $request->Username)->where('id','!=',$id)->get(['id']);
         if (!empty($validateUN[0]))
@@ -149,8 +148,7 @@ class AccountController extends Controller
           return response()->json(['error'=>'Username has already been taken']);
         }
         $userDB= User::find($id);
-        $userDB->Fname=$request->Fname;
-        $userDB->Lname=$request->Lname;
+        $userDB->FullName=$request->FullName;
         $userDB->Role=$request->Role;
         $userDB->Manager=$request->Manager;
         $userDB->Mobile=$request->Mobile;
@@ -222,11 +220,11 @@ class AccountController extends Controller
     }
     public function getActiveManager()
     {
-        return User::where('Role',0)->whereNotNull('IsActive')->get(['id','Fname','Lname']);
+        return User::where('Role',0)->whereNotNull('IsActive')->get(['id','FullName']);
     }
     public function getCurrentAssigned()
     {
-      return User::whereNotNull('IfApproveReplacer')->take(1)->get(['Fname','Lname']);
+      return User::whereNotNull('IfApproveReplacer')->take(1)->get(['FullName']);
     }
 
 
@@ -234,8 +232,7 @@ class AccountController extends Controller
     public function SaveManagerAcc(Request $request)
     {
       $this->validate($request,[
-        'Fname'=>'required|max:25',
-        'Lname'=>'required|max:25',
+        'FullName'=>'required|max:25',
         'Username'=>'required',
         'Mobile'=>'max:11',
         'Position'=>'required|max:50',
@@ -249,8 +246,7 @@ class AccountController extends Controller
         Image::make($request->get('Signature'))->save(public_path('/storage/signatures/').$fileName);
       }
       $userDB=new User;
-      $userDB->Fname=$request->Fname;
-      $userDB->Lname=$request->Lname;
+      $userDB->FullName=$request->FullName;
       $userDB->Username=$request->Username;
       $userDB->Mobile=$request->Mobile;
       $userDB->Role='0';
@@ -262,8 +258,7 @@ class AccountController extends Controller
     public function SaveNewUser(Request $request)
     {
       $this->validate($request,[
-        'Fname'=>'required|max:25',
-        'Lname'=>'required|max:25',
+        'FullName'=>'required|max:25',
         'Username'=>'required',
         'Mobile'=>'max:11',
         'Role'=>'required',
@@ -283,8 +278,7 @@ class AccountController extends Controller
         Image::make($request->get('Signature'))->save(public_path('/storage/signatures/').$fileName);
       }
       $userDB=new User;
-      $userDB->Fname=$request->Fname;
-      $userDB->Lname=$request->Lname;
+      $userDB->FullName=$request->FullName;
       $userDB->Username=$request->Username;
       $userDB->Mobile=$request->Mobile;
       $userDB->Role=$request->Role;

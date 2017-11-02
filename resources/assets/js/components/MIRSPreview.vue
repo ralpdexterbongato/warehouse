@@ -6,11 +6,11 @@
         <a :href="'/MIRS.pdf/'+mirsno.MIRSNo"><button type="submit">PDF <i class="fa fa-file-pdf-o"></i></button></a>
         unclaimed:<span class="color-blue">{{unclaimed}}</span>
       </div>
-      <div class="empty-left-mirs" v-else-if="(MIRSMaster.Recommendedby!=user.Fname+' '+user.Lname)">
+      <div class="empty-left-mirs" v-else-if="(MIRSMaster.Recommendedby!=user.FullName)">
       </div>
       <div class="empty-left" v-else>
       </div>
-        <div class="Request-manager-replace" v-if="((MIRSMaster.ManagerReplacer==user.Fname+' '+user.Lname)&&(MIRSMaster.ManagerReplacerSignature==null))">
+        <div class="Request-manager-replace" v-if="((MIRSMaster.ManagerReplacer==user.FullName)&&(MIRSMaster.ManagerReplacerSignature==null))">
           <h6 class="mirs-managerreplace-info"><i class="fa fa-info-circle color-blue"></i>
             <span class="color-blue">{{MIRSMaster.Preparedby}}</span> is asking for your signature b/c the {{MIRSMaster.RecommendPosition}} is not available
           </h6>
@@ -23,7 +23,7 @@
             </longpress>
           </span>
         </div>
-          <div class="Request-manager-replace"  v-if="((MIRSMaster.ApprovalReplacer==user.Fname+' '+user.Lname)&&(MIRSMaster.ApprovalReplacerSignature==null)&&(MIRSMaster.ApproveSignature==null)&&((MIRSMaster.ManagerReplacerSignature!=null)||(MIRSMaster.RecommendSignature!=null)))">
+          <div class="Request-manager-replace"  v-if="((MIRSMaster.ApprovalReplacer==user.FullName)&&(MIRSMaster.ApprovalReplacerSignature==null)&&(MIRSMaster.ApproveSignature==null)&&((MIRSMaster.ManagerReplacerSignature!=null)||(MIRSMaster.RecommendSignature!=null)))">
             <h6 class="mirs-managerreplace-info"><i class="fa fa-info-circle color-blue"></i>
               <span class="color-blue">{{MIRSMaster.Preparedby}}</span> is asking for your signature b/c the General Manager is not available
             </h6>
@@ -36,7 +36,7 @@
               </longpress>
             </span>
           </div>
-        <span v-if="((MIRSMaster.Recommendedby==user.Fname+' '+user.Lname)&&(MIRSMaster.RecommendSignature==null)&&(MIRSMaster.IfDeclined==null)&&(MIRSMaster.ManagerReplacerSignature==null))||((MIRSMaster.Approvedby==user.Fname+' '+user.Lname)&&(MIRSMaster.ApproveSignature==null)&&(MIRSMaster.IfDeclined==null))">
+        <span v-if="((MIRSMaster.Recommendedby==user.FullName)&&(MIRSMaster.RecommendSignature==null)&&(MIRSMaster.IfDeclined==null)&&(MIRSMaster.ManagerReplacerSignature==null))||((MIRSMaster.Approvedby==user.FullName)&&(MIRSMaster.ApproveSignature==null)&&(MIRSMaster.IfDeclined==null))">
           <span v-if="((user.Role==2)&&((MIRSMaster.PreparedSignature==null)||((MIRSMaster.RecommendSignature==null)&&(MIRSMaster.ManagerReplacerSignature==null))))">
           </span>
           <div class="middle-status" :class="{'hide':SignatureBtnHide}" v-else>
@@ -139,13 +139,13 @@
             <h2>
              <span class="bold">{{MIRSMaster.Recommendedby}}
              <span class="opener-manager-replace">
-               <div class="mini-menu-managers" v-if="user.Fname+' '+user.Lname==MIRSMaster.Preparedby&&this.ManagerBehalfActive==true">
+               <div class="mini-menu-managers" v-if="user.FullName==MIRSMaster.Preparedby&&this.ManagerBehalfActive==true">
                  <h1 v-if="MIRSMaster.ManagerReplacer==null">Request signature to</h1>
                  <h1 v-else>Request pending <i class="fa fa-clock-o color-white"></i></h1>
                  <div class="manager-list-menu"v-if="MIRSMaster.ManagerReplacer==null">
                    <select v-model="ManagerReplacerID">
                      <option :value="null">Choose a manager</option>
-                     <option v-for="manager in allManager" :value="manager.id" v-if="manager.Fname+' '+manager.Lname!=MIRSMaster.Recommendedby">{{manager.Fname}} {{manager.Lname}}</option>
+                     <option v-for="manager in allManager" :value="manager.id" v-if="manager.FullName!=MIRSMaster.Recommendedby">{{manager.FullName}}</option>
                    </select>
                    <p v-if="error!=null" class="color-red">*{{error}}</p>
                    <span class="send-cancel-btns">
@@ -158,7 +158,7 @@
                    <span class="cancel-manager-replace" v-on:click="cancelrequestReplacer()"><i class="fa fa-times color-red"></i>cancel</span>
                  </div>
                </div>
-               <i class="color-blue" :class="[MIRSMaster.ManagerReplacer==null?'fa fa-users':'fa fa-clock-o']" v-on:click="ManagerBehalfActive=!ManagerBehalfActive,[allManager[0]==null?fetchAllManager():'']" v-if="(MIRSMaster.RecommendSignature==null)&&(MIRSMaster.Preparedby==user.Fname+' '+user.Lname)&&(MIRSMaster.ManagerReplacerSignature==null)"></i>
+               <i class="color-blue" :class="[MIRSMaster.ManagerReplacer==null?'fa fa-users':'fa fa-clock-o']" v-on:click="ManagerBehalfActive=!ManagerBehalfActive,[allManager[0]==null?fetchAllManager():'']" v-if="(MIRSMaster.RecommendSignature==null)&&(MIRSMaster.Preparedby==user.FullName)&&(MIRSMaster.ManagerReplacerSignature==null)"></i>
              </span>
              <i class="fa fa-times decliner" v-if="(MIRSMaster.IfDeclined==MIRSMaster.Recommendedby)"></i>
              </span><br>

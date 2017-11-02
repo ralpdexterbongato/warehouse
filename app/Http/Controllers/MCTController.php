@@ -51,14 +51,10 @@ class MCTController extends Controller
     $MCTMasterDB->Particulars = $request->Particulars;
     $MCTMasterDB->AddressTo = $request->AddressTo;
     $MCTMasterDB->IssuedbySignature=Auth::user()->Signature;
-    $MCTMasterDB->Issuedby =Auth::user()->Fname.' '.Auth::user()->Lname;
+    $MCTMasterDB->Issuedby =Auth::user()->FullName;
     $MCTMasterDB->IssuedbyPosition=Auth::user()->Position;
     $MCTMasterDB->Receivedby=$Receivedby[0]->Preparedby;
     $MCTMasterDB->ReceivedbyPosition=$Receivedby[0]->PreparedPosition;
-    // if ($Receivedby[0]->Preparedby==Auth::user()->Fname.' '.Auth::user()->Lname)
-    // {
-    //   $MCTMasterDB->ReceivedbySignature=Auth::user()->Signature;
-    // }
     $MCTMasterDB->save();
     MIRSMaster::where('MIRSNo',$request->MIRSNo)->update(['WithMCT'=>'0']);
     $ForMCTConfirmation = array();
@@ -80,30 +76,6 @@ class MCTController extends Controller
      $jobs=(new NewCreatedMCTJob($ReceiverName))->delay(Carbon::now()->addSeconds(5));
      dispatch($jobs);
      return ['redirect'=>route('MCTpageOnly',[$MCTIncremented])];
-    // if ($Receivedby[0]->Preparedby==Auth::user()->Fname.' '.Auth::user()->Lname)
-    // {
-    //   $forMTDetailstable = array();
-    //   foreach ($ForMCTConfirmation as $mcttoMTD)
-    //   {
-    //     $mcttoMTD=(object)$mcttoMTD;
-    //     $latestdetail=MaterialsTicketDetail::where('ItemCode',$mcttoMTD->ItemCode)->orderBy('id','DESC')->take(1)->get(['CurrentQuantity','CurrentAmount']);
-    //     $minusAmount=$mcttoMTD->Amount;
-    //     $newQTY= $latestdetail[0]->CurrentQuantity - $mcttoMTD->Quantity;
-    //     $differenceof2AMT=$latestdetail[0]->CurrentAmount - $minusAmount;
-    //     if ($newQTY>0)
-    //     {
-    //      $newcurrentcost=$differenceof2AMT/$newQTY;
-    //     }else
-    //     {
-    //      $newcurrentcost=0;
-    //     }
-    //     $newAmount= $newQTY * $newcurrentcost;
-    //     MasterItem::where('ItemCode',$mcttoMTD->ItemCode)->update(['CurrentQuantity'=>$newQTY]);
-    //     $forMTDetailstable[]=array('ItemCode' =>$mcttoMTD->ItemCode,'MTType'=>'MCT','MTNo' =>$MCTIncremented,'AccountCode' =>$mcttoMTD->AccountCode ,'UnitCost' =>$mcttoMTD->UnitCost,'Quantity' =>$mcttoMTD->Quantity,'Amount' =>$minusAmount
-    //    ,'CurrentCost' =>$newcurrentcost,'CurrentQuantity' =>$newQTY ,'CurrentAmount' =>$newAmount ,'MTDate' =>$date);
-    //   }
-    //   MaterialsTicketDetail::insert($forMTDetailstable);
-    // }
   }
   public function previewMCTPage($id)
   {
@@ -169,17 +141,17 @@ class MCTController extends Controller
      }
      MaterialsTicketDetail::insert($forMTDetailstable);
      $mctmaster=MCTMaster::where('MCTNo',$id)->get(['Receivedby']);
-     if ($mctmaster[0]->Receivedby==Auth::user()->Fname.' '.Auth::user()->Lname)
+     if ($mctmaster[0]->Receivedby==Auth::user()->FullName)
      {
        MCTMaster::where('MCTNo',$id)->update(['ReceivedbySignature'=>Auth::user()->Signature]);
      }
   }
   public function mctRequestcheck()
   {
-    $myrequestMCT=MCTMaster::orderBy('MCTNo','DESC')->where('Issuedby',Auth::user()->Fname." ".Auth::user()->Lname)
+    $myrequestMCT=MCTMaster::orderBy('MCTNo','DESC')->where('Issuedby',Auth::user()->FullName)
                     ->whereNull('IssuedbySignature')
                     ->whereNull('IfDeclined')
-                    ->orWhere('Receivedby',Auth::user()->Fname." ".Auth::user()->Lname)
+                    ->orWhere('Receivedby',Auth::user()->FullName)
                     ->whereNull('ReceivedbySignature')
                     ->whereNull('IfDeclined')
                     ->paginate(10,['MIRSNo','MCTNo','Issuedby','Receivedby','Particulars','MCTDate','AddressTo','IssuedbySignature','ReceivedbySignature']);
@@ -318,14 +290,14 @@ class MCTController extends Controller
       $newMCTValidatorQty=$currentMCTValidatorQty[0]->Quantity+$confirmation->Quantity;
       MCTValidator::where('MIRSNo',$MIRSNo)->where('ItemCode', $confirmation->ItemCode)->update(['Quantity'=>$newMCTValidatorQty]);
     }
-    MCTMaster::where('MCTNo',$id)->update(['IfDeclined'=>Auth::user()->Fname.' '.Auth::user()->Lname]);
+    MCTMaster::where('MCTNo',$id)->update(['IfDeclined'=>Auth::user()->FullName]);
   }
   public function MCTRequestSignatureCount()
   {
-      $myrequestMCT=MCTMaster::orderBy('MCTNo','DESC')->where('Issuedby',Auth::user()->Fname." ".Auth::user()->Lname)
+      $myrequestMCT=MCTMaster::orderBy('MCTNo','DESC')->where('Issuedby',Auth::user()->FullName)
                     ->whereNull('IssuedbySignature')
                     ->whereNull('IfDeclined')
-                    ->orWhere('Receivedby',Auth::user()->Fname." ".Auth::user()->Lname)
+                    ->orWhere('Receivedby',Auth::user()->FullName)
                     ->whereNull('ReceivedbySignature')
                     ->whereNull('IfDeclined')->count();
                     $response = array('MCTRequestCount' => $myrequestMCT);

@@ -4,7 +4,7 @@
       <div class="middle-account-modal" v-on:click="modalOpen=!modalOpen">
         <li class="userinfo">
           <h3 class="account-image"><img src="/DesignIMG/logo.png" alt="pic"></h3>
-          <p class="name-of-user">{{user.Fname}} {{user.Lname}}</p>
+          <p class="name-of-user">{{user.FullName}}</p>
           <p class="position">{{user.Position}}</p>
           <h1><a href="/show-my-history"><i class="fa fa-history"></i> Histories</a></h1>
         </li>
@@ -175,7 +175,7 @@ import axios from 'axios'
      },
      created()
      {
-       Echo.private('MIRSChannel.'+this.myFname+this.myLname)
+       Echo.private('MIRSChannel.'+this.myFullName)
        .listen('NewMIRSEvent', (e) => {
            console.log(e);
            this.refreshNotifationMIRS();
@@ -205,7 +205,7 @@ import axios from 'axios'
              this.playsound();
          });
        }
-       Echo.private('MCTchannel.'+this.myFname+this.myLname)
+       Echo.private('MCTchannel.'+this.myFullName)
        .listen('NewMCTEvent', (e) => {
            console.log(e);
            this.refreshnewlyCreatedMCT();
@@ -216,7 +216,7 @@ import axios from 'axios'
        this.refreshnewlyCreatedMCT();
        this.refreshNewlyCreatedMRT();
        this.refreshNewlyCreatedRV();
-       Echo.private('MRTchannel.'+this.myFname+this.myLname)
+       Echo.private('MRTchannel.'+this.myFullName)
        .listen('NewMRTEvent', (e) => {
            console.log(e);
            this.refreshNewlyCreatedMRT();
@@ -224,7 +224,7 @@ import axios from 'axios'
            this.MRTNew=true;
            this.playsound();
        });
-       Echo.private('RVchannel.'+this.myFname+this.myLname)
+       Echo.private('RVchannel.'+this.myFullName)
        .listen('NewRVEvent', (e) => {
            console.log(e);
            this.refreshNewlyCreatedRV();
@@ -236,7 +236,7 @@ import axios from 'axios'
        this.refreshCountMRNewlyCreated();
        if (this.user.Role==2||this.user.Role==0)
        {
-         Echo.private('POchannel.'+this.myFname+this.myLname)
+         Echo.private('POchannel.'+this.myFullName)
          .listen('NewPOEvent', (e) => {
              console.log(e);
              this.refreshCountNewlyCreatedPO();
@@ -246,7 +246,7 @@ import axios from 'axios'
          });
          this.refreshCountNewlyCreatedPO();
        }
-       Echo.private('RRchannel.'+this.myFname+this.myLname)
+       Echo.private('RRchannel.'+this.myFullName)
        .listen('NewRREvent', (e) => {
            console.log(e);
            this.refresCountRRnewCreated();
@@ -254,7 +254,7 @@ import axios from 'axios'
            this.RRNew=true;
            this.playsound();
        });
-       Echo.private('MRchannel.'+this.myFname+this.myLname)
+       Echo.private('MRchannel.'+this.myFullName)
        .listen('NewMREvent', (e) => {
            console.log(e);
            this.refreshCountMRNewlyCreated();
@@ -360,12 +360,9 @@ import axios from 'axios'
       }
      },
       computed: {
-        myFname: function () {
-          return this.user.Fname.split(' ').join('');
+        myFullName: function () {
+          return this.user.FullName.split(' ').join('');
         },
-        myLname: function () {
-          return this.user.Lname.split(' ').join('');
-        }
       },
 
   }

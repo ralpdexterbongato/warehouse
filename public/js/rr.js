@@ -2487,7 +2487,7 @@ module.exports={render:function (){var _vm=this;var _h=_vm.$createElement;var _c
       domProps: {
         "value": manager.id
       }
-    }, [_vm._v(_vm._s(manager.Fname) + " " + _vm._s(manager.Lname))])
+    }, [_vm._v(_vm._s(manager.FullName))])
   })], 2), _vm._v(" "), _c('select', {
     directives: [{
       name: "model",
@@ -2521,7 +2521,7 @@ module.exports={render:function (){var _vm=this;var _h=_vm.$createElement;var _c
       domProps: {
         "value": auditor.id
       }
-    }, [_vm._v(_vm._s(auditor.Fname) + " " + _vm._s(auditor.Lname))])
+    }, [_vm._v(_vm._s(auditor.FullName))])
   })], 2), _vm._v(" "), _c('select', {
     directives: [{
       name: "model",
@@ -2555,7 +2555,7 @@ module.exports={render:function (){var _vm=this;var _h=_vm.$createElement;var _c
       domProps: {
         "value": clerk.id
       }
-    }, [_vm._v(_vm._s(clerk.Fname) + " " + _vm._s(clerk.Lname))])
+    }, [_vm._v(_vm._s(clerk.FullName))])
   })], 2), _vm._v(" "), _c('longpress', {
     class: {
       'hide': _vm.HideBtn
@@ -2731,7 +2731,7 @@ if (false) {
 module.exports={render:function (){var _vm=this;var _h=_vm.$createElement;var _c=_vm._self._c||_h;
   return _c('div', {
     staticClass: "rr-preview-vue"
-  }, [((((_vm.RRMaster.Verifiedby == _vm.user.Fname + ' ' + _vm.user.Lname) && (_vm.RRMaster.VerifiedbySignature == null) && (_vm.RRMaster.IfDeclined == null)) || ((_vm.RRMaster.ReceivedOriginalby == _vm.user.Fname + ' ' + _vm.user.Lname) && (_vm.RRMaster.ReceivedOriginalbySignature == null) && (_vm.RRMaster.IfDeclined == null)) || ((_vm.RRMaster.PostedtoBINby == _vm.user.Fname + ' ' + _vm.user.Lname) && (_vm.RRMaster.PostedtoBINbySignature == null) && (_vm.RRMaster.IfDeclined == null)))) ? _c('div', {
+  }, [((((_vm.RRMaster.Verifiedby == _vm.user.FullName) && (_vm.RRMaster.VerifiedbySignature == null) && (_vm.RRMaster.IfDeclined == null)) || ((_vm.RRMaster.ReceivedOriginalby == _vm.user.FullName) && (_vm.RRMaster.ReceivedOriginalbySignature == null) && (_vm.RRMaster.IfDeclined == null)) || ((_vm.RRMaster.PostedtoBINby == _vm.user.FullName) && (_vm.RRMaster.PostedtoBINbySignature == null) && (_vm.RRMaster.IfDeclined == null)))) ? _c('div', {
     staticClass: "signature-btn",
     class: {
       'hide': _vm.SignatureBtnHide
@@ -3083,7 +3083,7 @@ module.exports={render:function (){var _vm=this;var _h=_vm.$createElement;var _c
       domProps: {
         "value": manager.id
       }
-    }, [_vm._v(_vm._s(manager.Fname) + " " + _vm._s(manager.Lname))])
+    }, [_vm._v(_vm._s(manager.FullName))])
   })], 2), _vm._v(" "), _c('select', {
     directives: [{
       name: "model",
@@ -3117,7 +3117,7 @@ module.exports={render:function (){var _vm=this;var _h=_vm.$createElement;var _c
       domProps: {
         "value": auditor.id
       }
-    }, [_vm._v(_vm._s(auditor.Fname) + " " + _vm._s(auditor.Lname))])
+    }, [_vm._v(_vm._s(auditor.FullName))])
   })], 2), _vm._v(" "), _c('select', {
     directives: [{
       name: "model",
@@ -3151,7 +3151,7 @@ module.exports={render:function (){var _vm=this;var _h=_vm.$createElement;var _c
       domProps: {
         "value": clerk.id
       }
-    }, [_vm._v(_vm._s(clerk.Fname) + " " + _vm._s(clerk.Lname))])
+    }, [_vm._v(_vm._s(clerk.FullName))])
   })], 2), _vm._v(" "), _c('longpress', {
     class: {
       'hide': _vm.HideSubmitBtn

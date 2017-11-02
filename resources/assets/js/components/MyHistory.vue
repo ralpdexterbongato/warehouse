@@ -16,8 +16,8 @@
     <div class="searchbox-for-admin-warehouse" v-if="user.Role==4||user.Role==3||user.Role==1">
       Histories of
       <select v-model="searchname">
-        <option :value="null">{{user.Fname}} {{user.Lname}}</option>
-        <option :value="name.Fname+' '+name.Lname" v-for="name in activenames">{{name.Fname}} {{name.Lname}}</option>
+        <option :value="null">{{user.FullName}}</option>
+        <option :value="name.FullName" v-for="name in activenames">{{name.FullName}}</option>
       </select>
     </div>
     <div v-else>
@@ -140,7 +140,7 @@
           <i v-else-if="mr.IfDeclined==mr.Recommendedby" class="fa fa-times decliner"></i>
         </td>
         <td v-if="mr.ApprovalReplacerSignature!=null">
-          {{mr.ApprovalReplacerFname}} {{mr.ApprovalReplacerLname}}
+          {{mr.ApprovalReplacerFullName}}
           <i class="fa fa-check"></i>
         </td>
         <td v-else>
@@ -188,7 +188,7 @@
           <i class="fa fa-times decliner" v-else-if="rv.BudgetOfficer==rv.IfDeclined"></i>
         </td>
         <td v-if="rv.ApprovalReplacerSignature!=null">
-          {{rv.ApprovalReplacerFname}} {{rv.ApprovalReplacerLname}}
+          {{rv.ApprovalReplacerFullName}}
           <i class="fa fa-check"></i>
         </td>
         <td v-else>
@@ -248,7 +248,7 @@
        {
          if (this.searchname==null)
          {
-           var fullname=this.user.Fname+'%20'+this.user.Lname;
+           var fullname=this.user.FullName;
          }else
          {
            var fullname=this.searchname;
@@ -267,7 +267,7 @@
        {
          if (this.searchname==null)
          {
-           var fullname=this.user.Fname+'%20'+this.user.Lname;
+           var fullname=this.user.FullName;
          }else
          {
            var fullname=this.searchname;
@@ -285,7 +285,7 @@
        {
          if (this.searchname==null)
          {
-           var fullname=this.user.Fname+'%20'+this.user.Lname;
+           var fullname=this.user.FullName;
          }else
          {
            var fullname=this.searchname;
@@ -303,7 +303,7 @@
        {
          if (this.searchname==null)
          {
-           var fullname=this.user.Fname+'%20'+this.user.Lname;
+           var fullname=this.user.FullName;
          }else
          {
            var fullname=this.searchname;
@@ -321,7 +321,7 @@
        {
          if (this.searchname==null)
          {
-           var fullname=this.user.Fname+'%20'+this.user.Lname;
+           var fullname=this.user.FullName;
          }else
          {
            var fullname=this.searchname;

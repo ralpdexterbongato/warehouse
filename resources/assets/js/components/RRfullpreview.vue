@@ -1,6 +1,6 @@
 <template lang="html">
 <div class="rr-preview-vue">
-  <div class="signature-btn" :class="{'hide':SignatureBtnHide}" v-if="(((RRMaster.Verifiedby==user.Fname+' '+user.Lname)&&(RRMaster.VerifiedbySignature==null)&&(RRMaster.IfDeclined==null))||((RRMaster.ReceivedOriginalby==user.Fname+' '+user.Lname)&&(RRMaster.ReceivedOriginalbySignature==null)&&(RRMaster.IfDeclined==null))||((RRMaster.PostedtoBINby==user.Fname+' '+user.Lname)&&(RRMaster.PostedtoBINbySignature==null)&&(RRMaster.IfDeclined==null)))">
+  <div class="signature-btn" :class="{'hide':SignatureBtnHide}" v-if="(((RRMaster.Verifiedby==user.FullName)&&(RRMaster.VerifiedbySignature==null)&&(RRMaster.IfDeclined==null))||((RRMaster.ReceivedOriginalby==user.FullName)&&(RRMaster.ReceivedOriginalbySignature==null)&&(RRMaster.IfDeclined==null))||((RRMaster.PostedtoBINby==user.FullName)&&(RRMaster.PostedtoBINbySignature==null)&&(RRMaster.IfDeclined==null)))">
     <longpress id="RRsignature" duration="3" :on-confirm="signature"  pressing-text="confirm in {$rcounter}" action-text="Loading . . .">
       <i class="fa fa-pencil"></i> Signature
     </longpress>

@@ -20,13 +20,13 @@ class POController extends Controller
 
     $date=Carbon::now();
     $year=Carbon::now()->format('y');
-    $GM=User::orderBy('id','DESC')->whereNotNull('IsActive')->where('Role','2')->take(1)->get(['Fname','Lname']);
+    $GM=User::orderBy('id','DESC')->whereNotNull('IsActive')->where('Role','2')->take(1)->get(['FullName']);
     $RVMasterDB=RVMaster::where('RVNo',$request->RVNo)->get(['RVDate','Purpose']);
     $collected=collect($request->SupplierChoice);
     $SupplierGrouped=$collected->unique();
     $POid=POMaster::orderBy('PONo','DESC')->take(1)->value('PONo');
     $incremented='';
-    $ApprovalReplacer=User::whereNotNull('IfApproveReplacer')->get(['Fname','Lname']);
+    $ApprovalReplacer=User::whereNotNull('IfApproveReplacer')->get(['FullName']);
     $toDBMaster = array();
     $toDBDetails = array();
     foreach ($SupplierGrouped as $key => $SupplierG)
@@ -55,13 +55,13 @@ class POController extends Controller
       {
         $toDBMaster[]=array('PONo'=>$incremented,'RVNo' => $CanvasMaster[0]->RVNo,
         'Supplier' =>$CanvasMaster[0]->Supplier ,'Address'=>$CanvasMaster[0]->Address,
-        'Telephone'=>$CanvasMaster[0]->Telephone,'Purpose'=>$RVMasterDB[0]->Purpose,'GeneralManager'=>$GM[0]->Fname.' '.$GM[0]->Lname,
-        'RVDate'=>$RVMasterDB[0]->RVDate,'PODate'=>$date,'ApprovalReplacer'=>$ApprovalReplacer[0]->Fname.' '.$ApprovalReplacer[0]->Lname);
+        'Telephone'=>$CanvasMaster[0]->Telephone,'Purpose'=>$RVMasterDB[0]->Purpose,'GeneralManager'=>$GM[0]->FullName,
+        'RVDate'=>$RVMasterDB[0]->RVDate,'PODate'=>$date,'ApprovalReplacer'=>$ApprovalReplacer[0]->FullName);
       }else
       {
         $toDBMaster[]=array('PONo'=>$incremented,'RVNo' => $CanvasMaster[0]->RVNo,
         'Supplier' =>$CanvasMaster[0]->Supplier ,'Address'=>$CanvasMaster[0]->Address,
-        'Telephone'=>$CanvasMaster[0]->Telephone,'Purpose'=>$RVMasterDB[0]->Purpose,'GeneralManager'=>$GM[0]->Fname.' '.$GM[0]->Lname,
+        'Telephone'=>$CanvasMaster[0]->Telephone,'Purpose'=>$RVMasterDB[0]->Purpose,'GeneralManager'=>$GM[0]->FullName,
         'RVDate'=>$RVMasterDB[0]->RVDate,'PODate'=>$date);
       }
 
@@ -91,14 +91,14 @@ class POController extends Controller
   {
     POMaster::insert($toDBMaster);
     PODetail::insert($toDBDetails);
-    $GMName=str_replace(' ','',$GM[0]->Fname.$GM[0]->Lname);
+    $GMName=str_replace(' ','',$GM[0]->FullName);
     $NotifyName = array('NotifyName' =>$GMName);
     $NotifyName=(object)$NotifyName;
     $job=(new NewCreatedPOJob($NotifyName))->delay(Carbon::now()->addSeconds(5));
     dispatch($job);
     if (!empty($ApprovalReplacer[0]))
     {
-      $ApproveReplacerName=str_replace(' ','',$ApprovalReplacer[0]->Fname.$ApprovalReplacer[0]->Lname);
+      $ApproveReplacerName=str_replace(' ','',$ApprovalReplacer[0]->FullName);
       $NotifyName = array('NotifyName' =>$ApproveReplacerName);
       $NotifyName=(object)$NotifyName;
       $job=(new NewCreatedPOJob($NotifyName))->delay(Carbon::now()->addSeconds(5));
@@ -142,7 +142,7 @@ class POController extends Controller
   }
   public function GMDeclined($id)
   {
-    POMaster::where('PONo',$id)->update(['IfDeclined'=>Auth::user()->Fname.' '.Auth::user()->Lname,'ApprovalReplacer'=>null,'ApprovalReplacerSignature'=>null]);
+    POMaster::where('PONo',$id)->update(['IfDeclined'=>Auth::user()->FullName,'ApprovalReplacer'=>null,'ApprovalReplacerSignature'=>null]);
     $PODetails=PODetail::where('PONo',$id)->get(['Qty','Description']);
     $RVNo=POMaster::where('PONo',$id)->value('RVNo');
     $RRValidatorNoPO=RRValidatorNoPO::where('RVNo',$RVNo)->get(['Particulars']);
@@ -156,16 +156,15 @@ class POController extends Controller
         }
       }
     }
-    return redirect()->back();
   }
   public function MyPOrequestlist()
   {
     if (Auth::user()->Role==2)
     {
-      $myPOlist=POMaster::orderBy('PONo','DESC')->where('GeneralManager',Auth::user()->Fname.' '.Auth::user()->Lname)->whereNull('GeneralManagerSignature')->whereNull('ApprovalReplacerSignature')->where('IfDeclined',null)->paginate(10,['PONo','RVNo','Supplier','Address','Telephone','Purpose','PODate']);
+      $myPOlist=POMaster::orderBy('PONo','DESC')->where('GeneralManager',Auth::user()->FullName)->whereNull('GeneralManagerSignature')->whereNull('ApprovalReplacerSignature')->where('IfDeclined',null)->paginate(10,['PONo','RVNo','Supplier','Address','Telephone','Purpose','PODate']);
     }elseif(Auth::user()->Role==0)
     {
-      $myPOlist=POMaster::orderBy('PONo','DESC')->where('ApprovalReplacer',Auth::user()->Fname.' '.Auth::user()->Lname)->whereNull('GeneralManagerSignature')->whereNull('ApprovalReplacerSignature')->where('IfDeclined',null)->paginate(10,['PONo','RVNo','Supplier','Address','Telephone','Purpose','PODate']);
+      $myPOlist=POMaster::orderBy('PONo','DESC')->where('ApprovalReplacer',Auth::user()->FullName)->whereNull('GeneralManagerSignature')->whereNull('ApprovalReplacerSignature')->where('IfDeclined',null)->paginate(10,['PONo','RVNo','Supplier','Address','Telephone','Purpose','PODate']);
     }
     return view('Warehouse.PO.myPOrequest',compact('myPOlist'));
   }
@@ -189,10 +188,10 @@ class POController extends Controller
     $myPOcount=0;
     if (Auth::user()->Role==2)
     {
-      $myPOcount=POMaster::orderBy('PONo','DESC')->where('GeneralManager',Auth::user()->Fname.' '.Auth::user()->Lname)->whereNull('GeneralManagerSignature')->whereNull('ApprovalReplacerSignature')->where('IfDeclined',null)->count();
+      $myPOcount=POMaster::orderBy('PONo','DESC')->where('GeneralManager',Auth::user()->FullName)->whereNull('GeneralManagerSignature')->whereNull('ApprovalReplacerSignature')->where('IfDeclined',null)->count();
     }elseif(Auth::user()->Role==0)
     {
-      $myPOcount=POMaster::orderBy('PONo','DESC')->where('ApprovalReplacer',Auth::user()->Fname.' '.Auth::user()->Lname)->whereNull('GeneralManagerSignature')->whereNull('ApprovalReplacerSignature')->where('IfDeclined',null)->count();
+      $myPOcount=POMaster::orderBy('PONo','DESC')->where('ApprovalReplacer',Auth::user()->FullName)->whereNull('GeneralManagerSignature')->whereNull('ApprovalReplacerSignature')->where('IfDeclined',null)->count();
     }
     $response = array('PONotifCount' =>$myPOcount);
     return response()->json($response);

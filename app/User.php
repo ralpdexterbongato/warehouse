@@ -13,7 +13,7 @@ class User extends Authenticatable
      * @var array
      */
     protected $fillable = [
-        'Fname', 'Lname', 'Password',
+        'FullName', 'Password',
     ];
 
     public $timestamps=false;

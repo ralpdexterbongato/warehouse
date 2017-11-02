@@ -72,7 +72,7 @@ class MRTController extends Controller
         $mrtDB->AddressTo= $request->AddressTo;
         $mrtDB->Returnedby = $MCTMaster[0]->Receivedby ;
         $mrtDB->ReturnedbyPosition =$MCTMaster[0]->ReceivedbyPosition ;
-        $mrtDB->Receivedby = Auth::user()->Fname.' '.Auth::user()->Lname;
+        $mrtDB->Receivedby = Auth::user()->FullName;
         $mrtDB->ReceivedbySignature=Auth::user()->Signature;
         $mrtDB->ReceivedbyPosition=Auth::user()->Position;
         $mrtDB->Remarks = $request->Remarks;
@@ -192,7 +192,7 @@ class MRTController extends Controller
     }
     public function DeclineMRT($id)
     {
-      MRTMaster::where('MRTNo',$id)->update(['IfDeclined'=>Auth::user()->Fname.' '.Auth::user()->Lname]);
+      MRTMaster::where('MRTNo',$id)->update(['IfDeclined'=>Auth::user()->FullName]);
     }
     public function updateQuantityMRT($id,Request $request)
     {
@@ -219,14 +219,14 @@ class MRTController extends Controller
     public function myMRTSignatureFetchData()
     {
       return MRTMaster::orderBy('id','DESC')
-      ->where('Returnedby',Auth::user()->Fname.' '.Auth::user()->Lname)
+      ->where('Returnedby',Auth::user()->FullName)
       ->whereNull('IfDeclined')
       ->whereNull('ReturnedbySignature')
       ->paginate(10,['MRTNo','ReturnDate','Particulars','AddressTo','Returnedby','Receivedby','Remarks']);
     }
     public function MRTSignatureRequestCount()
     {
-      $NumberofRequest= MRTMaster::orderBy('id','DESC')->where('Returnedby',Auth::user()->Fname.' '.Auth::user()->Lname)->whereNull('IfDeclined')->whereNull('ReturnedbySignature')->count();
+      $NumberofRequest= MRTMaster::orderBy('id','DESC')->where('Returnedby',Auth::user()->FullName)->whereNull('IfDeclined')->whereNull('ReturnedbySignature')->count();
       $response = array('MRTRequestCount' => $NumberofRequest);
       return response()->json($response);
     }

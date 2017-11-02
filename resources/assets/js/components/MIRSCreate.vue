@@ -43,11 +43,11 @@
       <ul>
         <li><input type="text" autocomplete="off" name="Purpose" v-model="purpose" placeholder="Purpose"></li>
         <li v-if="manager[0]!=null">
-          <h3 class="mymanagerName">{{manager[0].Fname}} {{manager[0].Lname}}</h3>
+          <h3 class="mymanagerName">{{manager[0].FullName}}</h3>
           <p>Recommended by</p>
         </li>
         <li v-if="gm[0]!=null">
-          <h3 class="gm-name">{{gm[0].Fname}} {{gm[0].Lname}}</h3>
+          <h3 class="gm-name">{{gm[0].FullName}}</h3>
           <p>General Manager</p>
         </li>
         <longpress id="go-btn"  class="submitMCT-btn" :class="{'hide':HideButton}" duration="3" :on-confirm="submitWholePage" pressing-text="Submit confirmed in {$rcounter}" action-text="Please wait...">

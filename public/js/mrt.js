@@ -2593,7 +2593,7 @@ if (false) {
 module.exports={render:function (){var _vm=this;var _h=_vm.$createElement;var _c=_vm._self._c||_h;
   return _c('span', [_c('div', {
     staticClass: "top-MRT-buttons"
-  }, [(_vm.user.Fname + ' ' + _vm.user.Lname == _vm.MRTMaster.Receivedby && _vm.MRTMaster.ReturnedbySignature == null && _vm.MRTMaster.IfDeclined == null) ? _c('span', {
+  }, [(_vm.user.FullName == _vm.MRTMaster.Receivedby && _vm.MRTMaster.ReturnedbySignature == null && _vm.MRTMaster.IfDeclined == null) ? _c('span', {
     staticClass: "edit-mrt-container"
   }, [_c('button', {
     class: {
@@ -2633,7 +2633,7 @@ module.exports={render:function (){var _vm=this;var _h=_vm.$createElement;var _c
         _vm.Editbtn = false, _vm.updateQty()
       }
     }
-  }, [_vm._v("Save")])])]) : _c('span'), _vm._v(" "), (_vm.user.Fname + ' ' + _vm.user.Lname == _vm.MRTMaster.Returnedby && _vm.MRTMaster.ReturnedbySignature == null && _vm.MRTMaster.IfDeclined == null) ? _c('span', {
+  }, [_vm._v("Save")])])]) : _c('span'), _vm._v(" "), (_vm.user.FullName == _vm.MRTMaster.Returnedby && _vm.MRTMaster.ReturnedbySignature == null && _vm.MRTMaster.IfDeclined == null) ? _c('span', {
     staticClass: "signature-decline-mrt",
     class: {
       'hide': _vm.SignatureBtnHide
@@ -2683,7 +2683,7 @@ module.exports={render:function (){var _vm=this;var _h=_vm.$createElement;var _c
       staticClass: "align-right"
     }, [_c('span', {
       class: [_vm.Editbtn == true ? 'hide' : 'show']
-    }, [_vm._v(_vm._s(mrtconfirm.Quantity))]), (_vm.user.Fname + ' ' + _vm.user.Lname == _vm.MRTMaster.Receivedby) ? _c('span', {
+    }, [_vm._v(_vm._s(mrtconfirm.Quantity))]), (_vm.user.FullName == _vm.MRTMaster.Receivedby) ? _c('span', {
       class: [_vm.Editbtn == true ? 'show' : 'hide']
     }, [_c('input', {
       directives: [{

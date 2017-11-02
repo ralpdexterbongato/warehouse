@@ -51,15 +51,15 @@
     <input type="text" autocomplete="off" name="Note" v-model="Note" placeholder="Note">
     <select name="Verifiedby" v-model="Verifiedby" :class="[Verifiedby!=null ?'black':'']">
       <option :value="null" class="gray">Verified by</option>
-      <option v-for="manager in managers" class="black" :value="manager.id">{{manager.Fname}} {{manager.Lname}}</option>
+      <option v-for="manager in managers" class="black" :value="manager.id">{{manager.FullName}}</option>
     </select>
     <select name="ReceivedOriginalby" v-model="ReceivedOriginalby" :class="[ReceivedOriginalby!=null ?'black':'']">
       <option :value="null" class="gray">Received Originaly by</option>
-      <option v-for="auditor in auditors" class="black" :value="auditor.id">{{auditor.Fname}} {{auditor.Lname}}</option>
+      <option v-for="auditor in auditors" class="black" :value="auditor.id">{{auditor.FullName}}</option>
     </select>
     <select name="PostedtoBINby" v-model="PostedtoBINby" :class="[PostedtoBINby!=null ?'black':'']" >
       <option :value="null" class="gray">Posted to BIN by</option>
-      <option v-for="clerk in clerks" class="black" :value="clerk.id">{{clerk.Fname}} {{clerk.Lname}}</option>
+      <option v-for="clerk in clerks" class="black" :value="clerk.id">{{clerk.FullName}}</option>
     </select>
     <longpress id="withposubmit" :class="{'hide':HideSubmitBtn}" duration="3" :on-confirm="SubmitRRwithPO" pressing-text="Submitting in {$rcounter}" action-text="Loading . . .">
       Submit

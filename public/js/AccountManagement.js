@@ -995,18 +995,6 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
 //
 //
 //
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
 
 
 /* harmony default export */ __webpack_exports__["default"] = ({
@@ -1021,8 +1009,7 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
       otherbtn: false,
       modalUpdate: false,
       userFetched: [],
-      fname: '',
-      lname: '',
+      fullname: '',
       position: '',
       role: null,
       activeUser: null,
@@ -1038,8 +1025,7 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
       createAccMenu: false,
       ManagerCreateModal: false,
       //managerregistration
-      ManagerRegisterFname: '',
-      ManagerRegisterLname: '',
+      ManagerRegisterFullName: '',
       ManagerRegisterUsername: '',
       ManagerRegisterPosition: '',
       ManagerRegisterPassword: null,
@@ -1050,8 +1036,7 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
       ManagerChoices: [],
       newusermodal: false,
       image3: '',
-      RegisterFname: '',
-      RegisterLname: '',
+      RegisterFullName: '',
       RegisterUsername: '',
       RegisterRole: '',
       ChoosenManager: null,
@@ -1143,8 +1128,7 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
       var vm = this;
       __WEBPACK_IMPORTED_MODULE_0_axios___default.a.put('/update-user-data/' + id, {
         emulateJSON: true,
-        Fname: this.fname,
-        Lname: this.lname,
+        FullName: this.fullname,
         Role: this.role,
         Position: this.position,
         Manager: this.mymanager,
@@ -1186,8 +1170,7 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
     saveManagerAccount: function saveManagerAccount() {
       var vm = this;
       __WEBPACK_IMPORTED_MODULE_0_axios___default.a.post('/saving-account-manager', {
-        Fname: this.ManagerRegisterFname,
-        Lname: this.ManagerRegisterLname,
+        FullName: this.ManagerRegisterFullName,
         Username: this.ManagerRegisterUsername,
         Mobile: this.ManagerRegisterMobile,
         Position: this.ManagerRegisterPosition,
@@ -1198,8 +1181,7 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
         console.log(response);
         Vue.set(vm.$data, 'successAlerts', 'Success');
         Vue.set(vm.$data, 'laravelerrors', '');
-        Vue.set(vm.$data, 'ManagerRegisterFname', '');
-        Vue.set(vm.$data, 'ManagerRegisterLname', '');
+        Vue.set(vm.$data, 'ManagerRegisterFullName', '');
         Vue.set(vm.$data, 'ManagerRegisterUsername', '');
         Vue.set(vm.$data, 'ManagerRegisterPosition', '');
         Vue.set(vm.$data, 'ManagerRegisterPassword', null);
@@ -1217,8 +1199,7 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
     SubmitNewUser: function SubmitNewUser() {
       var vm = this;
       __WEBPACK_IMPORTED_MODULE_0_axios___default.a.post('/save-account-user', {
-        Fname: this.RegisterFname,
-        Lname: this.RegisterLname,
+        FullName: this.RegisterFullName,
         Username: this.RegisterUsername,
         Mobile: this.RegisterMobile,
         Role: this.RegisterRole,
@@ -1234,8 +1215,7 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
           vm.successAlerts = 'Success';
           vm.ownerrors = '';
           vm.laravelerrors = '';
-          vm.RegisterFname = '';
-          vm.RegisterLname = '';
+          vm.RegisterFullName = '';
           vm.RegisterUsername = '';
           vm.RegisterRole = '';
           vm.ChoosenManager = null;
@@ -1684,7 +1664,7 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
   methods: {
     searchMIRS: function searchMIRS(page) {
       if (this.searchname == null) {
-        var fullname = this.user.Fname + '%20' + this.user.Lname;
+        var fullname = this.user.FullName;
       } else {
         var fullname = this.searchname;
       }
@@ -1699,7 +1679,7 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
     },
     searchMCT: function searchMCT(page) {
       if (this.searchname == null) {
-        var fullname = this.user.Fname + '%20' + this.user.Lname;
+        var fullname = this.user.FullName;
       } else {
         var fullname = this.searchname;
       }
@@ -1712,7 +1692,7 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
     },
     searchMRT: function searchMRT(page) {
       if (this.searchname == null) {
-        var fullname = this.user.Fname + '%20' + this.user.Lname;
+        var fullname = this.user.FullName;
       } else {
         var fullname = this.searchname;
       }
@@ -1725,7 +1705,7 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
     },
     searchMR: function searchMR(page) {
       if (this.searchname == null) {
-        var fullname = this.user.Fname + '%20' + this.user.Lname;
+        var fullname = this.user.FullName;
       } else {
         var fullname = this.searchname;
       }
@@ -1738,7 +1718,7 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
     },
     searchRV: function searchRV(page) {
       if (this.searchname == null) {
-        var fullname = this.user.Fname + '%20' + this.user.Lname;
+        var fullname = this.user.FullName;
       } else {
         var fullname = this.searchname;
       }
@@ -2346,7 +2326,7 @@ module.exports={render:function (){var _vm=this;var _h=_vm.$createElement;var _c
     staticClass: "manager-box"
   }, [_vm._m(0), _vm._v(" "), _c('div', {
     staticClass: "manager-assigned-name"
-  }, [(_vm.currentAssigned != null) ? _c('h1', [_vm._v(_vm._s(_vm.currentAssigned.Fname) + " " + _vm._s(_vm.currentAssigned.Lname))]) : _c('h1', [_vm._v("No one was assigned")])]), _vm._v(" "), _c('div', {
+  }, [(_vm.currentAssigned != null) ? _c('h1', [_vm._v(_vm._s(_vm.currentAssigned.FullName))]) : _c('h1', [_vm._v("No one was assigned")])]), _vm._v(" "), _c('div', {
     staticClass: "Manager-List"
   }, [_c('p', [_vm._v("Allow\r\n      "), (_vm.editActive == true) ? _c('select', {
     directives: [{
@@ -2375,10 +2355,10 @@ module.exports={render:function (){var _vm=this;var _h=_vm.$createElement;var _c
       domProps: {
         "value": manager.id
       }
-    }, [_vm._v(_vm._s(manager.Fname) + " " + _vm._s(manager.Lname))])
+    }, [_vm._v(_vm._s(manager.FullName))])
   })], 2) : _vm._e(), _vm._v(" "), (_vm.editActive == false && _vm.currentAssigned != null) ? _c('span', {
     staticClass: "underline"
-  }, [_vm._v(_vm._s(_vm.currentAssigned.Fname) + " " + _vm._s(_vm.currentAssigned.Lname))]) : (_vm.editActive == false && _vm.currentAssigned == null) ? _c('span', {
+  }, [_vm._v(_vm._s(_vm.currentAssigned.FullName))]) : (_vm.editActive == false && _vm.currentAssigned == null) ? _c('span', {
     staticClass: "underline"
   }, [_vm._v("no one")]) : _vm._e(), _vm._v("\r\n       to take place whenever im not available")]), _vm._v(" "), (_vm.editActive == false) ? _c('i', {
     staticClass: "fa fa-edit darker-blue",
@@ -2609,12 +2589,12 @@ module.exports={render:function (){var _vm=this;var _h=_vm.$createElement;var _c
     domProps: {
       "value": null
     }
-  }, [_vm._v(_vm._s(_vm.user.Fname) + " " + _vm._s(_vm.user.Lname))]), _vm._v(" "), _vm._l((_vm.activenames), function(name) {
+  }, [_vm._v(_vm._s(_vm.user.FullName))]), _vm._v(" "), _vm._l((_vm.activenames), function(name) {
     return _c('option', {
       domProps: {
-        "value": name.Fname + ' ' + name.Lname
+        "value": name.FullName
       }
-    }, [_vm._v(_vm._s(name.Fname) + " " + _vm._s(name.Lname))])
+    }, [_vm._v(_vm._s(name.FullName))])
   })], 2)]) : _c('div'), _vm._v(" "), _c('span', {
     staticClass: "monthsearch-history"
   }, [_c('h1', [_vm._v("Sort by date")]), _c('input', {
@@ -2725,7 +2705,7 @@ module.exports={render:function (){var _vm=this;var _h=_vm.$createElement;var _c
       staticClass: "fa fa-check"
     }) : (mr.IfDeclined == mr.Recommendedby) ? _c('i', {
       staticClass: "fa fa-times decliner"
-    }) : _vm._e()]), _vm._v(" "), (mr.ApprovalReplacerSignature != null) ? _c('td', [_vm._v("\r\n          " + _vm._s(mr.ApprovalReplacerFname) + " " + _vm._s(mr.ApprovalReplacerLname) + "\r\n          "), _c('i', {
+    }) : _vm._e()]), _vm._v(" "), (mr.ApprovalReplacerSignature != null) ? _c('td', [_vm._v("\r\n          " + _vm._s(mr.ApprovalReplacerFullName) + "\r\n          "), _c('i', {
       staticClass: "fa fa-check"
     })]) : _c('td', [_vm._v("\r\n          " + _vm._s(mr.GeneralManager) + "\r\n          "), (mr.GeneralManagerSignature != null) ? _c('i', {
       staticClass: "fa fa-check"
@@ -2757,7 +2737,7 @@ module.exports={render:function (){var _vm=this;var _h=_vm.$createElement;var _c
       staticClass: "fa fa-check"
     }) : (rv.BudgetOfficer == rv.IfDeclined) ? _c('i', {
       staticClass: "fa fa-times decliner"
-    }) : _vm._e()]), _vm._v(" "), (rv.ApprovalReplacerSignature != null) ? _c('td', [_vm._v("\r\n          " + _vm._s(rv.ApprovalReplacerFname) + " " + _vm._s(rv.ApprovalReplacerLname) + "\r\n          "), _c('i', {
+    }) : _vm._e()]), _vm._v(" "), (rv.ApprovalReplacerSignature != null) ? _c('td', [_vm._v("\r\n          " + _vm._s(rv.ApprovalReplacerFullName) + "\r\n          "), _c('i', {
       staticClass: "fa fa-check"
     })]) : _c('td', [_vm._v("\r\n          " + _vm._s(rv.GeneralManager)), _c('br'), _vm._v(" "), (rv.GeneralManagerSignature != null) ? _c('i', {
       staticClass: "fa fa-check"
@@ -2945,7 +2925,7 @@ module.exports={render:function (){var _vm=this;var _h=_vm.$createElement;var _c
   }, [_c('h5', [_vm._v(_vm._s(_vm.ownerrors))])]) : _vm._e(), _vm._v(" "), (_vm.successAlerts != '') ? _c('div', {
     staticClass: "successAlertRRsession"
   }, [_c('p', [_vm._v(_vm._s(_vm.successAlerts))])]) : _vm._e(), _vm._v(" "), _c('table', [_vm._m(1), _vm._v(" "), _vm._l((_vm.AccountResults), function(account) {
-    return _c('tr', [_c('td', [_c('h2', [_c('p', [_vm._v(_vm._s(account.Fname))])])]), _vm._v(" "), _c('td', [_vm._v(_vm._s(account.Lname))]), _vm._v(" "), _c('td', [_vm._v(_vm._s(account.Username))]), _vm._v(" "), (account.Mobile != null) ? _c('td', [_vm._v(_vm._s(account.Mobile))]) : _c('td', [_vm._v("N/A")]), _vm._v(" "), _c('td', [_c('h1', [_c('img', {
+    return _c('tr', [_c('td', [_c('h2', [_c('p', [_vm._v(_vm._s(account.FullName))])])]), _vm._v(" "), _c('td', [_vm._v(_vm._s(account.Username))]), _vm._v(" "), (account.Mobile != null) ? _c('td', [_vm._v(_vm._s(account.Mobile))]) : _c('td', [_vm._v("N/A")]), _vm._v(" "), _c('td', [_c('h1', [_c('img', {
       attrs: {
         "src": '/storage/signatures/' + account.Signature,
         "alt": "signature"
@@ -3041,54 +3021,28 @@ module.exports={render:function (){var _vm=this;var _h=_vm.$createElement;var _c
   }, [_c('div', {
     staticClass: "updateinput-label"
   }, [_c('h3', {
-    class: [_vm.fname != '' ? 'active' : '']
-  }, [_vm._v("Firstname")]), _vm._v(" "), _c('input', {
+    class: [_vm.fullname != '' ? 'active' : '']
+  }, [_vm._v("Full Name")]), _vm._v(" "), _c('input', {
     directives: [{
       name: "model",
       rawName: "v-model",
-      value: (_vm.fname = _vm.userFetched.Fname),
-      expression: "fname=userFetched.Fname"
+      value: (_vm.fullname = _vm.userFetched.FullName),
+      expression: "fullname=userFetched.FullName"
     }],
     attrs: {
       "type": "text",
-      "name": "Fname"
+      "name": "FullName"
     },
     domProps: {
-      "value": (_vm.fname = _vm.userFetched.Fname)
+      "value": (_vm.fullname = _vm.userFetched.FullName)
     },
     on: {
       "input": function($event) {
         if ($event.target.composing) { return; }
-        _vm.fname = _vm.userFetched.Fname = $event.target.value
+        _vm.fullname = _vm.userFetched.FullName = $event.target.value
       }
     }
-  })]), _vm._v(" "), _c('div', {
-    staticClass: "updateinput-label"
-  }, [_c('h3', {
-    class: [_vm.lname != '' ? 'active' : '']
-  }, [_vm._v("Lastname")]), _vm._v(" "), _c('input', {
-    directives: [{
-      name: "model",
-      rawName: "v-model",
-      value: (_vm.lname = _vm.userFetched.Lname),
-      expression: "lname=userFetched.Lname"
-    }],
-    attrs: {
-      "type": "text",
-      "name": "Lname"
-    },
-    domProps: {
-      "value": (_vm.lname = _vm.userFetched.Lname)
-    },
-    on: {
-      "input": function($event) {
-        if ($event.target.composing) { return; }
-        _vm.lname = _vm.userFetched.Lname = $event.target.value
-      }
-    }
-  })])]), _vm._v(" "), _c('span', {
-    staticClass: "doubleform"
-  }, [(_vm.userFetched.Role == 0) ? _c('div', {
+  })]), _vm._v(" "), (_vm.userFetched.Role == 0) ? _c('div', {
     staticClass: "updateinput-label"
   }, [_c('h3', {
     staticClass: "active"
@@ -3226,7 +3180,7 @@ module.exports={render:function (){var _vm=this;var _h=_vm.$createElement;var _c
       domProps: {
         "value": manager.id
       }
-    }, [_vm._v(_vm._s(manager.Fname) + " " + _vm._s(manager.Lname))])
+    }, [_vm._v(_vm._s(manager.FullName))])
   }))]) : _vm._e(), _vm._v(" "), _c('div', {
     staticClass: "updateinput-label short-width"
   }, [_c('h3', {
@@ -3386,42 +3340,21 @@ module.exports={render:function (){var _vm=this;var _h=_vm.$createElement;var _c
     directives: [{
       name: "model",
       rawName: "v-model",
-      value: (_vm.ManagerRegisterFname),
-      expression: "ManagerRegisterFname"
+      value: (_vm.ManagerRegisterFullName),
+      expression: "ManagerRegisterFullName"
     }],
     attrs: {
       "type": "text",
-      "placeholder": "Firstname",
+      "placeholder": "Full Name",
       "autocomplete": "off"
     },
     domProps: {
-      "value": (_vm.ManagerRegisterFname)
+      "value": (_vm.ManagerRegisterFullName)
     },
     on: {
       "input": function($event) {
         if ($event.target.composing) { return; }
-        _vm.ManagerRegisterFname = $event.target.value
-      }
-    }
-  }), _vm._v(" "), _c('input', {
-    directives: [{
-      name: "model",
-      rawName: "v-model",
-      value: (_vm.ManagerRegisterLname),
-      expression: "ManagerRegisterLname"
-    }],
-    attrs: {
-      "type": "text",
-      "placeholder": "Lastname",
-      "autocomplete": "off"
-    },
-    domProps: {
-      "value": (_vm.ManagerRegisterLname)
-    },
-    on: {
-      "input": function($event) {
-        if ($event.target.composing) { return; }
-        _vm.ManagerRegisterLname = $event.target.value
+        _vm.ManagerRegisterFullName = $event.target.value
       }
     }
   })]), _vm._v(" "), _c('div', {
@@ -3579,51 +3512,28 @@ module.exports={render:function (){var _vm=this;var _h=_vm.$createElement;var _c
     }
   }, [_vm._m(3), _vm._v(" "), _c('div', {
     staticClass: "newuserinputs"
-  }, [_c('div', {
-    staticClass: "doubleform"
   }, [_c('input', {
     directives: [{
       name: "model",
       rawName: "v-model",
-      value: (_vm.RegisterFname),
-      expression: "RegisterFname"
+      value: (_vm.RegisterFullName),
+      expression: "RegisterFullName"
     }],
     attrs: {
       "type": "text",
-      "placeholder": "Firstname",
+      "placeholder": "FullName",
       "autocomplete": "off"
     },
     domProps: {
-      "value": (_vm.RegisterFname)
+      "value": (_vm.RegisterFullName)
     },
     on: {
       "input": function($event) {
         if ($event.target.composing) { return; }
-        _vm.RegisterFname = $event.target.value
+        _vm.RegisterFullName = $event.target.value
       }
     }
-  }), _vm._v(" "), _c('input', {
-    directives: [{
-      name: "model",
-      rawName: "v-model",
-      value: (_vm.RegisterLname),
-      expression: "RegisterLname"
-    }],
-    attrs: {
-      "type": "text",
-      "placeholder": "Lastname",
-      "autocomplete": "off"
-    },
-    domProps: {
-      "value": (_vm.RegisterLname)
-    },
-    on: {
-      "input": function($event) {
-        if ($event.target.composing) { return; }
-        _vm.RegisterLname = $event.target.value
-      }
-    }
-  })]), _vm._v(" "), _c('div', {
+  }), _vm._v(" "), _c('div', {
     staticClass: "doubleform"
   }, [_c('input', {
     directives: [{
@@ -3793,7 +3703,7 @@ module.exports={render:function (){var _vm=this;var _h=_vm.$createElement;var _c
       domProps: {
         "value": manager.id
       }
-    }, [_vm._v(_vm._s(manager.Fname) + " " + _vm._s(manager.Lname))])
+    }, [_vm._v(_vm._s(manager.FullName))])
   })], 2), _vm._v(" "), _c('input', {
     attrs: {
       "type": "file",
@@ -3827,7 +3737,7 @@ module.exports={render:function (){var _vm=this;var _h=_vm.$createElement;var _c
     staticClass: "fa fa-user-plus"
   }), _vm._v(" Create Account")])
 },function (){var _vm=this;var _h=_vm.$createElement;var _c=_vm._self._c||_h;
-  return _c('tr', [_c('th', [_vm._v("First Name")]), _vm._v(" "), _c('th', [_vm._v("Last Name")]), _vm._v(" "), _c('th', [_vm._v("Username")]), _vm._v(" "), _c('th', [_vm._v("Mobile #")]), _vm._v(" "), _c('th', [_vm._v("Signature")]), _vm._v(" "), _c('th', [_vm._v("Active")]), _vm._v(" "), _c('th', [_vm._v("Action")])])
+  return _c('tr', [_c('th', [_vm._v("FullName")]), _vm._v(" "), _c('th', [_vm._v("Username")]), _vm._v(" "), _c('th', [_vm._v("Mobile #")]), _vm._v(" "), _c('th', [_vm._v("Signature")]), _vm._v(" "), _c('th', [_vm._v("Active")]), _vm._v(" "), _c('th', [_vm._v("Action")])])
 },function (){var _vm=this;var _h=_vm.$createElement;var _c=_vm._self._c||_h;
   return _c('h1', [_c('i', {
     staticClass: "fa fa-user-plus"

@@ -57,15 +57,15 @@
         <input autocomplete="off" type="text" name="Note" v-model="Note" placeholder="Note (optional)">
         <select name="Verifiedby" v-model="Verifiedby" :class="[Verifiedby!=null ?'black':'']">
           <option value="null" class="gray">Verified by</option>
-          <option class="black" v-for="manager in managers" v-bind:value="manager.id">{{manager.Fname}} {{manager.Lname}}</option>
+          <option class="black" v-for="manager in managers" v-bind:value="manager.id">{{manager.FullName}}</option>
         </select>
         <select name="ReceivedOriginalby" v-model="ReceivedOriginalby" :class="[ReceivedOriginalby!=null ?'black':'']">
           <option value="null" class="gray">Received originaly by</option>
-          <option class="black" v-for="auditor in auditors" v-bind:value="auditor.id" >{{auditor.Fname}} {{auditor.Lname}}</option>
+          <option class="black" v-for="auditor in auditors" v-bind:value="auditor.id" >{{auditor.FullName}}</option>
         </select>
         <select name="PostedtoBINby" v-model="PostedtoBINby" :class="[PostedtoBINby!=null ?'black':'']">
           <option value="null" class="gray">Posted to B.I.N. by</option>
-          <option class="black" v-for="clerk in clerks" v-bind:value="clerk.id">{{clerk.Fname}} {{clerk.Lname}}</option>
+          <option class="black" v-for="clerk in clerks" v-bind:value="clerk.id">{{clerk.FullName}}</option>
         </select>
         <longpress  duration="3" id="submitNoPO" :class="{'hide':HideBtn}" :on-confirm="submitToDB" pressing-text="submitting in {$rcounter}" action-text="Loading . . .">
          Submit

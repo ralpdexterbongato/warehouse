@@ -1,7 +1,7 @@
 <template lang="html">
   <span>
     <div class="top-MRT-buttons">
-      <span class="edit-mrt-container" v-if="user.Fname+' '+user.Lname==MRTMaster.Receivedby&&MRTMaster.ReturnedbySignature==null&&MRTMaster.IfDeclined==null">
+      <span class="edit-mrt-container" v-if="user.FullName==MRTMaster.Receivedby&&MRTMaster.ReturnedbySignature==null&&MRTMaster.IfDeclined==null">
         <button v-on:click="Editbtn=true" :class="{'hide':Editbtn}"><i class="fa fa-edit"></i> Edit</button>
         <span class="edit-mrt-btns" :class="{'active':Editbtn}">
           <p class="color-blue">Save?</p>
@@ -11,7 +11,7 @@
       </span>
       <span v-else>
       </span>
-      <span class="signature-decline-mrt" :class="{'hide':SignatureBtnHide}" v-if="user.Fname+' '+user.Lname==MRTMaster.Returnedby&&MRTMaster.ReturnedbySignature==null&&MRTMaster.IfDeclined==null">
+      <span class="signature-decline-mrt" :class="{'hide':SignatureBtnHide}" v-if="user.FullName==MRTMaster.Returnedby&&MRTMaster.ReturnedbySignature==null&&MRTMaster.IfDeclined==null">
         <longpress id="signature-mrt" duration="3" :on-confirm="signatureMRT" pressing-text="confirm in {$rcounter}" action-text="Loading . . .">
         <i class="fa fa-pencil"></i> Signature
         </longpress>
@@ -55,7 +55,7 @@
             <td>{{formatPrice(mrtconfirm.UnitCost)}}</td>
             <td>{{formatPrice(mrtconfirm.Amount)}}</td>
             <td>{{mrtconfirm.Unit}}</td>
-            <td class="align-right"><span :class="[Editbtn==true?'hide':'show']">{{mrtconfirm.Quantity}}</span><span :class="[Editbtn==true?'show':'hide']" v-if="user.Fname+' '+user.Lname==MRTMaster.Receivedby"><input type="text" v-model="EditedQty[count]=mrtconfirm.Quantity"></span></td>
+            <td class="align-right"><span :class="[Editbtn==true?'hide':'show']">{{mrtconfirm.Quantity}}</span><span :class="[Editbtn==true?'show':'hide']" v-if="user.FullName==MRTMaster.Receivedby"><input type="text" v-model="EditedQty[count]=mrtconfirm.Quantity"></span></td>
           </tr>
         </table>
       </div>

@@ -3,12 +3,12 @@
   <div class="btns-mr-full">
     <div>
       <a :href="'/MR.pdf/'+this.mrno.MRNo" v-if="(((MRMaster.RecommendedbySignature!=null)&&(MRMaster.GeneralManagerSignature!=null)&&(MRMaster.ReceivedbySignature!=null))||((MRMaster.RecommendedbySignature!=null)&&(MRMaster.ApprovalReplacerSignature!=null)&&(MRMaster.ReceivedbySignature!=null)))"><button type="submit" name="MRNo" value="mrnohere"><i class="fa fa-print"></i> Print</button></a>
-      <h6 class="approve-managerreplace-note" v-if="(user.Fname+' '+user.Lname==MRMaster.ApprovalReplacer)&&(MRMaster.ApprovalReplacerSignature==null)&&(MRMaster.RecommendedbySignature!=null)&&(MRMaster.GeneralManagerSignature==null)"><i class="fa fa-info-circle color-blue"></i>
+      <h6 class="approve-managerreplace-note" v-if="(user.FullName==MRMaster.ApprovalReplacer)&&(MRMaster.ApprovalReplacerSignature==null)&&(MRMaster.RecommendedbySignature!=null)&&(MRMaster.GeneralManagerSignature==null)"><i class="fa fa-info-circle color-blue"></i>
         The <span class="color-blue">{{MRMaster.WarehouseMan}}</span> is asking for your signature b/c the General Manager is not available
       </h6>
     </div>
     <div class="signature-MR-btns">
-      <span class="Approve-MR-inBehalf-btn" :class="{'hide':SignatureApproveReplacer}" v-if="MRMaster.ApprovalReplacer==user.Fname+' '+user.Lname&&MRMaster.GeneralManagerSignature==null&&MRMaster.ApprovalReplacerSignature==null&&MRMaster.RecommendedbySignature!=null">
+      <span class="Approve-MR-inBehalf-btn" :class="{'hide':SignatureApproveReplacer}" v-if="MRMaster.ApprovalReplacer==user.FullName&&MRMaster.GeneralManagerSignature==null&&MRMaster.ApprovalReplacerSignature==null&&MRMaster.RecommendedbySignature!=null">
         <longpress class="rvapprovebtn" duration="3" :on-confirm="SignatureApproveInBehalf" pressing-text="confirm in {$rcounter}" action-text="Loading . . .">
           <i class="fa fa-pencil"></i> Signature
         </longpress>
@@ -16,7 +16,7 @@
           <i class="fa fa-times"></i> I can't
         </longpress>
       </span>
-      <span :class="{'hide':SignatureBtnHide}" v-if="(((MRMaster.RecommendedbySignature==null)&&(MRMaster.Recommendedby==user.Fname+' '+user.Lname)&&(MRMaster.IfDeclined==null))||((MRMaster.GeneralManagerSignature==null)&&(MRMaster.GeneralManager==user.Fname+' '+user.Lname)&&(MRMaster.RecommendedbySignature!=null)&&(MRMaster.IfDeclined==null))||((MRMaster.ReceivedbySignature==null)&&(MRMaster.ReceivedbySignature==null)&&(MRMaster.Receivedby==user.Fname+' '+user.Lname)&&(MRMaster.IfDeclined==null)&&((MRMaster.GeneralManagerSignature!=null)||(MRMaster.ApprovalReplacerSignature!=null))))">
+      <span :class="{'hide':SignatureBtnHide}" v-if="(((MRMaster.RecommendedbySignature==null)&&(MRMaster.Recommendedby==user.FullName)&&(MRMaster.IfDeclined==null))||((MRMaster.GeneralManagerSignature==null)&&(MRMaster.GeneralManager==user.FullName)&&(MRMaster.RecommendedbySignature!=null)&&(MRMaster.IfDeclined==null))||((MRMaster.ReceivedbySignature==null)&&(MRMaster.ReceivedbySignature==null)&&(MRMaster.Receivedby==user.FullName)&&(MRMaster.IfDeclined==null)&&((MRMaster.GeneralManagerSignature!=null)||(MRMaster.ApprovalReplacerSignature!=null))))">
         <longpress  id="signatureMRbtn" duration="3" :on-confirm="signatureMR" pressing-text="confirm in {$rcounter}" action-text="Loading . . .">
           <i class="fa fa-pencil"></i> Signature
         </longpress>

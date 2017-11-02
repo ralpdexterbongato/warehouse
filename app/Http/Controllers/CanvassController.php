@@ -17,12 +17,14 @@ class CanvassController extends Controller
   }
   public function TocanvassPage($id)
   {
-    $checkifpurchased=RVMaster::where('RVNo',$id)->get(['IfPurchased','RVNo']);
+    $checkifpurchased=RVMaster::where('RVNo',$id)->get(['IfPurchased']);
     if ($checkifpurchased[0]->IfPurchased!=null)
     {
-      return redirect()->back();
+      return redirect('/');
     }
-    return view('Warehouse.CanvasCreate',compact('checkifpurchased'));
+    $RVNumber = array('RVNo' =>$id);
+    $RVNumber=json_encode($RVNumber);
+    return view('Warehouse.CanvasCreate',compact('RVNumber'));
   }
 
   public function saveCanvass(Request $request)

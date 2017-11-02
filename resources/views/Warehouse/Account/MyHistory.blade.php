@@ -1,6 +1,6 @@
 @extends('layouts.master')
 @section('title')
-History|{{Auth::user()->Fname}}
+History|{{Auth::user()->FullName}}
 @endsection
 @section('body')
   <div class="histories-container" id="accounts">

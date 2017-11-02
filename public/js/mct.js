@@ -2423,7 +2423,7 @@ module.exports={render:function (){var _vm=this;var _h=_vm.$createElement;var _c
     }
   }, [_c('i', {
     staticClass: "fa fa-file-pdf-o"
-  }), _vm._v(".pdf")])])]) : (_vm.user.Fname + ' ' + _vm.user.Lname == _vm.MCTMaster.Issuedby) ? _c('div', {
+  }), _vm._v(".pdf")])])]) : (_vm.user.FullName == _vm.MCTMaster.Issuedby) ? _c('div', {
     staticClass: "empty-div-left mct-edit-container"
   }, [_c('span', {
     staticClass: "edit-mct",
@@ -2473,7 +2473,7 @@ module.exports={render:function (){var _vm=this;var _h=_vm.$createElement;var _c
     attrs: {
       "href": '/mrt-preview-page/' + _vm.MRTCheck
     }
-  }, [_vm._m(1)])])])]) : _c('span', [_vm._v("\n        No MRT generated yet\n      ")])]) : (((_vm.MCTMaster.Receivedby == _vm.user.Fname + ' ' + _vm.user.Lname) && (_vm.MCTMaster.Receivedby != null) && (_vm.MCTMaster.IfDeclined == null))) ? _c('span', [_c('div', {
+  }, [_vm._m(1)])])])]) : _c('span', [_vm._v("\n        No MRT generated yet\n      ")])]) : (((_vm.MCTMaster.Receivedby == _vm.user.FullName) && (_vm.MCTMaster.Receivedby != null) && (_vm.MCTMaster.IfDeclined == null))) ? _c('span', [_c('div', {
     staticClass: "signature-mct-btn",
     class: {
       'hide': _vm.SignatureMCTBtnHide

@@ -1053,6 +1053,7 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
         console.log(response);
         Vue.set(vm.$data, 'laravelerrors', '');
         Vue.set(vm.$data, 'successAlerts', '');
+        Vue.set(vm.$data, 'ownerrors', '');
         if (response.data.error) {
           Vue.set(vm.$data, 'ownerrors', response.data.error);
         } else {
@@ -1097,7 +1098,14 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
         RRNo: this.rritems[0].RRNo
       }).then(function (response) {
         console.log(response);
-        window.location = response.data.redirect;
+        if (response.data.error != null) {
+          Vue.set(vm.$data, 'ownerrors', response.data.error);
+          Vue.set(vm.$data, 'successAlerts', '');
+          Vue.set(vm.$data, 'laravelerrors', '');
+          Vue.set(vm.$data, 'HideSubmitBtn', false);
+        } else {
+          window.location = response.data.redirect;
+        }
       }, function (error) {
         Vue.set(vm.$data, 'ownerrors', '');
         Vue.set(vm.$data, 'successAlerts', '');
@@ -2126,7 +2134,7 @@ module.exports={render:function (){var _vm=this;var _h=_vm.$createElement;var _c
     attrs: {
       "href": '/MR.pdf/' + this.mrno.MRNo
     }
-  }, [_vm._m(0)]) : _vm._e(), _vm._v(" "), ((_vm.user.Fname + ' ' + _vm.user.Lname == _vm.MRMaster.ApprovalReplacer) && (_vm.MRMaster.ApprovalReplacerSignature == null) && (_vm.MRMaster.RecommendedbySignature != null) && (_vm.MRMaster.GeneralManagerSignature == null)) ? _c('h6', {
+  }, [_vm._m(0)]) : _vm._e(), _vm._v(" "), ((_vm.user.FullName == _vm.MRMaster.ApprovalReplacer) && (_vm.MRMaster.ApprovalReplacerSignature == null) && (_vm.MRMaster.RecommendedbySignature != null) && (_vm.MRMaster.GeneralManagerSignature == null)) ? _c('h6', {
     staticClass: "approve-managerreplace-note"
   }, [_c('i', {
     staticClass: "fa fa-info-circle color-blue"
@@ -2134,7 +2142,7 @@ module.exports={render:function (){var _vm=this;var _h=_vm.$createElement;var _c
     staticClass: "color-blue"
   }, [_vm._v(_vm._s(_vm.MRMaster.WarehouseMan))]), _vm._v(" is asking for your signature b/c the General Manager is not available\r\n      ")]) : _vm._e()]), _vm._v(" "), _c('div', {
     staticClass: "signature-MR-btns"
-  }, [(_vm.MRMaster.ApprovalReplacer == _vm.user.Fname + ' ' + _vm.user.Lname && _vm.MRMaster.GeneralManagerSignature == null && _vm.MRMaster.ApprovalReplacerSignature == null && _vm.MRMaster.RecommendedbySignature != null) ? _c('span', {
+  }, [(_vm.MRMaster.ApprovalReplacer == _vm.user.FullName && _vm.MRMaster.GeneralManagerSignature == null && _vm.MRMaster.ApprovalReplacerSignature == null && _vm.MRMaster.RecommendedbySignature != null) ? _c('span', {
     staticClass: "Approve-MR-inBehalf-btn",
     class: {
       'hide': _vm.SignatureApproveReplacer
@@ -2159,7 +2167,7 @@ module.exports={render:function (){var _vm=this;var _h=_vm.$createElement;var _c
     }
   }, [_c('i', {
     staticClass: "fa fa-times"
-  }), _vm._v(" I can't\r\n        ")])], 1) : _vm._e(), _vm._v(" "), ((((_vm.MRMaster.RecommendedbySignature == null) && (_vm.MRMaster.Recommendedby == _vm.user.Fname + ' ' + _vm.user.Lname) && (_vm.MRMaster.IfDeclined == null)) || ((_vm.MRMaster.GeneralManagerSignature == null) && (_vm.MRMaster.GeneralManager == _vm.user.Fname + ' ' + _vm.user.Lname) && (_vm.MRMaster.RecommendedbySignature != null) && (_vm.MRMaster.IfDeclined == null)) || ((_vm.MRMaster.ReceivedbySignature == null) && (_vm.MRMaster.ReceivedbySignature == null) && (_vm.MRMaster.Receivedby == _vm.user.Fname + ' ' + _vm.user.Lname) && (_vm.MRMaster.IfDeclined == null) && ((_vm.MRMaster.GeneralManagerSignature != null) || (_vm.MRMaster.ApprovalReplacerSignature != null))))) ? _c('span', {
+  }), _vm._v(" I can't\r\n        ")])], 1) : _vm._e(), _vm._v(" "), ((((_vm.MRMaster.RecommendedbySignature == null) && (_vm.MRMaster.Recommendedby == _vm.user.FullName) && (_vm.MRMaster.IfDeclined == null)) || ((_vm.MRMaster.GeneralManagerSignature == null) && (_vm.MRMaster.GeneralManager == _vm.user.FullName) && (_vm.MRMaster.RecommendedbySignature != null) && (_vm.MRMaster.IfDeclined == null)) || ((_vm.MRMaster.ReceivedbySignature == null) && (_vm.MRMaster.ReceivedbySignature == null) && (_vm.MRMaster.Receivedby == _vm.user.FullName) && (_vm.MRMaster.IfDeclined == null) && ((_vm.MRMaster.GeneralManagerSignature != null) || (_vm.MRMaster.ApprovalReplacerSignature != null))))) ? _c('span', {
     class: {
       'hide': _vm.SignatureBtnHide
     }
@@ -2352,7 +2360,7 @@ module.exports={render:function (){var _vm=this;var _h=_vm.$createElement;var _c
       domProps: {
         "value": activeuser.id
       }
-    }, [_vm._v(_vm._s(activeuser.Fname) + " " + _vm._s(activeuser.Lname))])
+    }, [_vm._v(_vm._s(activeuser.FullName))])
   })], 2), _vm._v(" "), _c('select', {
     directives: [{
       name: "model",
@@ -2384,7 +2392,7 @@ module.exports={render:function (){var _vm=this;var _h=_vm.$createElement;var _c
       domProps: {
         "value": manager.id
       }
-    }, [_vm._v(_vm._s(manager.Fname) + " " + _vm._s(manager.Lname))])
+    }, [_vm._v(_vm._s(manager.FullName))])
   })], 2), _vm._v(" "), _c('textarea', {
     directives: [{
       name: "model",

@@ -28,11 +28,11 @@ class MRController extends Controller
        'RRNo'=>'required'
      ]);
      if (Session::get('MRSession')==null) {
-       return redirect()->back();
+       return response()->json(['error'=>'Item is required']);
      }
      $year=Carbon::now()->format('y');
      $MRNum=MRMaster::orderBy('MRNo','DESC')->take(1)->value('MRNo');
-     $ApprovalReplacer=User::whereNotNull('IfApproveReplacer')->get(['Fname','Lname']);
+     $ApprovalReplacer=User::whereNotNull('IfApproveReplacer')->get(['FullName']);
      if (count($MRNum)>0)
      {
        $numOnly=substr($MRNum,'3');
@@ -45,9 +45,9 @@ class MRController extends Controller
      }
      $RRMasterData=RRMaster::where('RRNo',$request->RRNo)->get();
      $RVDate=RVMaster::where('RVNo',$RRMasterData[0]->RVNo)->value('RVDate');
-     $Recommended=User::where('id', $request->ManagerID)->whereNotNull('IsActive')->get(['Fname','Lname','Position']);
-     $GM=User::orderBy('id','DESC')->where('Role', '2')->whereNotNull('IsActive')->take(1)->get(['Fname','Lname']);
-     $Receiver=User::where('id',$request->Receivedby)->get(['Fname','Lname','Position']);
+     $Recommended=User::where('id', $request->ManagerID)->whereNotNull('IsActive')->get(['FullName','Position']);
+     $GM=User::orderBy('id','DESC')->where('Role', '2')->whereNotNull('IsActive')->take(1)->get(['FullName']);
+     $Receiver=User::where('id',$request->Receivedby)->get(['FullName','Position']);
      $MRMasterDB= new MRMaster;
      $MRMasterDB->MRNo=$incremented;
      $MRMasterDB->MRDate=Carbon::now();
@@ -59,16 +59,16 @@ class MRController extends Controller
      $MRMasterDB->Note=$request->Note;
      $MRMasterDB->Supplier=$RRMasterData[0]->Supplier;
      $MRMasterDB->InvoiceNo=$RRMasterData[0]->InvoiceNo;
-     $MRMasterDB->Recommendedby=$Recommended[0]->Fname.' '.$Recommended[0]->Lname;
+     $MRMasterDB->Recommendedby=$Recommended[0]->FullName;
      $MRMasterDB->RecommendedbyPosition=$Recommended[0]->Position;
      if (!empty($ApprovalReplacer[0]))
      {
-     $MRMasterDB->ApprovalReplacer=$ApprovalReplacer[0]->Fname.' '.$ApprovalReplacer[0]->Lname;
+     $MRMasterDB->ApprovalReplacer=$ApprovalReplacer[0]->FullName;
      }
-     $MRMasterDB->GeneralManager=$GM[0]->Fname.' '.$GM[0]->Lname;
-     $MRMasterDB->Receivedby=$Receiver[0]->Fname.' '.$Receiver[0]->Lname;
+     $MRMasterDB->GeneralManager=$GM[0]->FullName;
+     $MRMasterDB->Receivedby=$Receiver[0]->FullName;
      $MRMasterDB->ReceivedbyPosition=$Receiver[0]->Position;
-     $MRMasterDB->WarehouseMan=Auth::user()->Fname.' '.Auth::user()->Lname;
+     $MRMasterDB->WarehouseMan=Auth::user()->FullName;
      $MRMasterDB->save();
      $ForMRDetailDB = array();
      foreach (Session::get('MRSession') as $items)
@@ -77,7 +77,7 @@ class MRController extends Controller
      }
      MRDetail::insert($ForMRDetailDB);
      Session::forget('MRSession');
-     $notifythis=str_replace(' ','',$Recommended[0]->Fname.$Recommended[0]->Lname);
+     $notifythis=str_replace(' ','',$Recommended[0]->FullName);
      $job=(new NewMRCreatedJob($notifythis))->delay(Carbon::now()->addSeconds(5));
      dispatch($job);
      return ['redirect'=>route('fullMR',[$incremented])];
@@ -98,8 +98,8 @@ class MRController extends Controller
     public function createMR($id)
     {
       $RRItemsdetail=RRconfirmationDetails::where('RRNo',$id)->get(['Unit','Description','UnitCost','Amount','ItemCode','RRNo']);
-      $allmanager=User::where('Role', '0')->whereNotNull('IsActive')->get(['Fname','Lname','id']);
-      $AllActiveUsers=User::whereNotNull('IsActive')->orderBy('Role')->get(['Fname','Lname','id']);
+      $allmanager=User::where('Role', '0')->whereNotNull('IsActive')->get(['FullName','id']);
+      $AllActiveUsers=User::whereNotNull('IsActive')->orderBy('Role')->get(['FullName','id']);
       return view('Warehouse.MR.CreateMRViews',compact('allmanager','RRItemsdetail','AllActiveUsers'));
     }
     public function addSessionForMR(Request $request)
@@ -152,21 +152,21 @@ class MRController extends Controller
     public function SignatureMR($id)
     {
       $MRMaster=MRMaster::where('MRNo',$id)->get(['Recommendedby','GeneralManager','Receivedby']);
-      if (Auth::user()->Fname.' '.Auth::user()->Lname==$MRMaster[0]->Recommendedby)
+      if (Auth::user()->FullName==$MRMaster[0]->Recommendedby)
       {
         MRMaster::where('MRNo',$id)->update(['RecommendedbySignature'=>Auth::user()->Signature]);
         $notifythis=str_replace(' ','',$MRMaster[0]->GeneralManager);
         $job=(new NewMRCreatedJob($notifythis))->delay(Carbon::now()->addSeconds(5));
         dispatch($job);
       }
-      if (Auth::user()->Fname.' '.Auth::user()->Lname==$MRMaster[0]->GeneralManager)
+      if (Auth::user()->FullName==$MRMaster[0]->GeneralManager)
       {
         MRMaster::where('MRNo',$id)->update(['GeneralManagerSignature'=>Auth::user()->Signature,'ApprovalReplacer'=>null,'ApprovalReplacerSignature'=>null]);
         $notifythis=str_replace(' ','',$MRMaster[0]->Receivedby);
         $job=(new NewMRCreatedJob($notifythis))->delay(Carbon::now()->addSeconds(5));
         dispatch($job);
       }
-      if (Auth::user()->Fname.' '.Auth::user()->Lname==$MRMaster[0]->Receivedby)
+      if (Auth::user()->FullName==$MRMaster[0]->Receivedby)
       {
         MRMaster::where('MRNo',$id)->update(['ReceivedbySignature'=>Auth::user()->Signature]);
       }
@@ -176,19 +176,19 @@ class MRController extends Controller
       $MRMaster=MRMaster::where('MRNo',$id)->get(['Recommendedby','GeneralManager']);
       if (Auth::user()->Role==2)
       {
-        MRMaster::where('MRNo',$id)->update(['IfDeclined'=>Auth::user()->Fname.' '.Auth::user()->Lname,'ApprovalReplacer'=>null,'ApprovalReplacerSignature'=>null]);
+        MRMaster::where('MRNo',$id)->update(['IfDeclined'=>Auth::user()->FullName,'ApprovalReplacer'=>null,'ApprovalReplacerSignature'=>null]);
       }else
       {
-        MRMaster::where('MRNo',$id)->update(['IfDeclined'=>Auth::user()->Fname.' '.Auth::user()->Lname]);
+        MRMaster::where('MRNo',$id)->update(['IfDeclined'=>Auth::user()->FullName]);
       }
     }
     public function myMRrequest()
     {
-      $MRRequest=MRMaster::orderBy('MRNo','DESC')->where('Recommendedby', Auth::user()->Fname.' '.Auth::user()->Lname)->whereNull('RecommendedbySignature')->whereNull('IfDeclined')
-      ->orWhere('GeneralManager', Auth::user()->Fname.' '.Auth::user()->Lname)->whereNull('GeneralManagerSignature')->whereNotNull('RecommendedbySignature')->whereNull('IfDeclined')->whereNull('ApprovalReplacerSignature')
-      ->orWhere('Receivedby', Auth::user()->Fname.' '.Auth::user()->Lname)->whereNull('ReceivedbySignature')->whereNotNull('GeneralManagerSignature')->whereNotNull('RecommendedbySignature')->whereNull('IfDeclined')->whereNull('ApprovalReplacerSignature')
-      ->orWhere('Receivedby', Auth::user()->Fname.' '.Auth::user()->Lname)->whereNull('ReceivedbySignature')->whereNull('GeneralManagerSignature')->whereNotNull('RecommendedbySignature')->whereNull('IfDeclined')->whereNotNull('ApprovalReplacerSignature')
-      ->orWhere('ApprovalReplacer',Auth::user()->Fname.' '.Auth::user()->Lname)->whereNull('ApprovalReplacerSignature')->whereNull('GeneralManagerSignature')->whereNotNull('RecommendedbySignature')->paginate(10,['MRNo','Note','Recommendedby','RecommendedbySignature','Receivedby','ReceivedbySignature','GeneralManager','GeneralManagerSignature','ApprovalReplacerSignature','MRDate']);
+      $MRRequest=MRMaster::orderBy('MRNo','DESC')->where('Recommendedby', Auth::user()->FullName)->whereNull('RecommendedbySignature')->whereNull('IfDeclined')
+      ->orWhere('GeneralManager', Auth::user()->FullName)->whereNull('GeneralManagerSignature')->whereNotNull('RecommendedbySignature')->whereNull('IfDeclined')->whereNull('ApprovalReplacerSignature')
+      ->orWhere('Receivedby', Auth::user()->FullName)->whereNull('ReceivedbySignature')->whereNotNull('GeneralManagerSignature')->whereNotNull('RecommendedbySignature')->whereNull('IfDeclined')->whereNull('ApprovalReplacerSignature')
+      ->orWhere('Receivedby', Auth::user()->FullName)->whereNull('ReceivedbySignature')->whereNull('GeneralManagerSignature')->whereNotNull('RecommendedbySignature')->whereNull('IfDeclined')->whereNotNull('ApprovalReplacerSignature')
+      ->orWhere('ApprovalReplacer',Auth::user()->FullName)->whereNull('ApprovalReplacerSignature')->whereNull('GeneralManagerSignature')->whereNotNull('RecommendedbySignature')->paginate(10,['MRNo','Note','Recommendedby','RecommendedbySignature','Receivedby','ReceivedbySignature','GeneralManager','GeneralManagerSignature','ApprovalReplacerSignature','MRDate']);
       return view('Warehouse.MR.MyMRRequest',compact('MRRequest'));
     }
     public function refuseMRApproveInBehalf($id)
@@ -205,11 +205,11 @@ class MRController extends Controller
     }
     public function MyMRrequestCount()
     {
-      $MRRequestCount=MRMaster::orderBy('MRNo','DESC')->where('Recommendedby', Auth::user()->Fname.' '.Auth::user()->Lname)->whereNull('RecommendedbySignature')->whereNull('IfDeclined')
-      ->orWhere('GeneralManager', Auth::user()->Fname.' '.Auth::user()->Lname)->whereNull('GeneralManagerSignature')->whereNotNull('RecommendedbySignature')->whereNull('IfDeclined')->whereNull('ApprovalReplacerSignature')
-      ->orWhere('Receivedby', Auth::user()->Fname.' '.Auth::user()->Lname)->whereNull('ReceivedbySignature')->whereNotNull('GeneralManagerSignature')->whereNotNull('RecommendedbySignature')->whereNull('IfDeclined')->whereNull('ApprovalReplacerSignature')
-      ->orWhere('Receivedby', Auth::user()->Fname.' '.Auth::user()->Lname)->whereNull('ReceivedbySignature')->whereNull('GeneralManagerSignature')->whereNotNull('RecommendedbySignature')->whereNull('IfDeclined')->whereNotNull('ApprovalReplacerSignature')
-      ->orWhere('ApprovalReplacer',Auth::user()->Fname.' '.Auth::user()->Lname)->whereNull('ApprovalReplacerSignature')->whereNull('GeneralManagerSignature')->whereNotNull('RecommendedbySignature')->count();
+      $MRRequestCount=MRMaster::orderBy('MRNo','DESC')->where('Recommendedby', Auth::user()->FullName)->whereNull('RecommendedbySignature')->whereNull('IfDeclined')
+      ->orWhere('GeneralManager', Auth::user()->FullName)->whereNull('GeneralManagerSignature')->whereNotNull('RecommendedbySignature')->whereNull('IfDeclined')->whereNull('ApprovalReplacerSignature')
+      ->orWhere('Receivedby', Auth::user()->FullName)->whereNull('ReceivedbySignature')->whereNotNull('GeneralManagerSignature')->whereNotNull('RecommendedbySignature')->whereNull('IfDeclined')->whereNull('ApprovalReplacerSignature')
+      ->orWhere('Receivedby', Auth::user()->FullName)->whereNull('ReceivedbySignature')->whereNull('GeneralManagerSignature')->whereNotNull('RecommendedbySignature')->whereNull('IfDeclined')->whereNotNull('ApprovalReplacerSignature')
+      ->orWhere('ApprovalReplacer',Auth::user()->FullName)->whereNull('ApprovalReplacerSignature')->whereNull('GeneralManagerSignature')->whereNotNull('RecommendedbySignature')->count();
       $response=[
         'CountMRRequest'=>$MRRequestCount,
       ];

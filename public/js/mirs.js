@@ -2226,9 +2226,9 @@ module.exports={render:function (){var _vm=this;var _h=_vm.$createElement;var _c
     }
   })]), _vm._v(" "), (_vm.manager[0] != null) ? _c('li', [_c('h3', {
     staticClass: "mymanagerName"
-  }, [_vm._v(_vm._s(_vm.manager[0].Fname) + " " + _vm._s(_vm.manager[0].Lname))]), _vm._v(" "), _c('p', [_vm._v("Recommended by")])]) : _vm._e(), _vm._v(" "), (_vm.gm[0] != null) ? _c('li', [_c('h3', {
+  }, [_vm._v(_vm._s(_vm.manager[0].FullName))]), _vm._v(" "), _c('p', [_vm._v("Recommended by")])]) : _vm._e(), _vm._v(" "), (_vm.gm[0] != null) ? _c('li', [_c('h3', {
     staticClass: "gm-name"
-  }, [_vm._v(_vm._s(_vm.gm[0].Fname) + " " + _vm._s(_vm.gm[0].Lname))]), _vm._v(" "), _c('p', [_vm._v("General Manager")])]) : _vm._e(), _vm._v(" "), _c('longpress', {
+  }, [_vm._v(_vm._s(_vm.gm[0].FullName))]), _vm._v(" "), _c('p', [_vm._v("General Manager")])]) : _vm._e(), _vm._v(" "), _c('longpress', {
     staticClass: "submitMCT-btn",
     class: {
       'hide': _vm.HideButton
@@ -2643,11 +2643,11 @@ module.exports={render:function (){var _vm=this;var _h=_vm.$createElement;var _c
     }
   }, [_vm._m(0)]), _vm._v("\r\n        unclaimed:"), _c('span', {
     staticClass: "color-blue"
-  }, [_vm._v(_vm._s(_vm.unclaimed))])]) : ((_vm.MIRSMaster.Recommendedby != _vm.user.Fname + ' ' + _vm.user.Lname)) ? _c('div', {
+  }, [_vm._v(_vm._s(_vm.unclaimed))])]) : ((_vm.MIRSMaster.Recommendedby != _vm.user.FullName)) ? _c('div', {
     staticClass: "empty-left-mirs"
   }) : _c('div', {
     staticClass: "empty-left"
-  }), _vm._v(" "), (((_vm.MIRSMaster.ManagerReplacer == _vm.user.Fname + ' ' + _vm.user.Lname) && (_vm.MIRSMaster.ManagerReplacerSignature == null))) ? _c('div', {
+  }), _vm._v(" "), (((_vm.MIRSMaster.ManagerReplacer == _vm.user.FullName) && (_vm.MIRSMaster.ManagerReplacerSignature == null))) ? _c('div', {
     staticClass: "Request-manager-replace"
   }, [_c('h6', {
     staticClass: "mirs-managerreplace-info"
@@ -2680,7 +2680,7 @@ module.exports={render:function (){var _vm=this;var _h=_vm.$createElement;var _c
     }
   }, [_c('i', {
     staticClass: "fa fa-pencil"
-  }), _vm._v(" I can't\r\n            ")])], 1)]) : _vm._e(), _vm._v(" "), (((_vm.MIRSMaster.ApprovalReplacer == _vm.user.Fname + ' ' + _vm.user.Lname) && (_vm.MIRSMaster.ApprovalReplacerSignature == null) && (_vm.MIRSMaster.ApproveSignature == null) && ((_vm.MIRSMaster.ManagerReplacerSignature != null) || (_vm.MIRSMaster.RecommendSignature != null)))) ? _c('div', {
+  }), _vm._v(" I can't\r\n            ")])], 1)]) : _vm._e(), _vm._v(" "), (((_vm.MIRSMaster.ApprovalReplacer == _vm.user.FullName) && (_vm.MIRSMaster.ApprovalReplacerSignature == null) && (_vm.MIRSMaster.ApproveSignature == null) && ((_vm.MIRSMaster.ManagerReplacerSignature != null) || (_vm.MIRSMaster.RecommendSignature != null)))) ? _c('div', {
     staticClass: "Request-manager-replace"
   }, [_c('h6', {
     staticClass: "mirs-managerreplace-info"
@@ -2713,7 +2713,7 @@ module.exports={render:function (){var _vm=this;var _h=_vm.$createElement;var _c
     }
   }, [_c('i', {
     staticClass: "fa fa-pencil"
-  }), _vm._v(" I can't\r\n              ")])], 1)]) : _vm._e(), _vm._v(" "), (((_vm.MIRSMaster.Recommendedby == _vm.user.Fname + ' ' + _vm.user.Lname) && (_vm.MIRSMaster.RecommendSignature == null) && (_vm.MIRSMaster.IfDeclined == null) && (_vm.MIRSMaster.ManagerReplacerSignature == null)) || ((_vm.MIRSMaster.Approvedby == _vm.user.Fname + ' ' + _vm.user.Lname) && (_vm.MIRSMaster.ApproveSignature == null) && (_vm.MIRSMaster.IfDeclined == null))) ? _c('span', [(((_vm.user.Role == 2) && ((_vm.MIRSMaster.PreparedSignature == null) || ((_vm.MIRSMaster.RecommendSignature == null) && (_vm.MIRSMaster.ManagerReplacerSignature == null))))) ? _c('span') : _c('div', {
+  }), _vm._v(" I can't\r\n              ")])], 1)]) : _vm._e(), _vm._v(" "), (((_vm.MIRSMaster.Recommendedby == _vm.user.FullName) && (_vm.MIRSMaster.RecommendSignature == null) && (_vm.MIRSMaster.IfDeclined == null) && (_vm.MIRSMaster.ManagerReplacerSignature == null)) || ((_vm.MIRSMaster.Approvedby == _vm.user.FullName) && (_vm.MIRSMaster.ApproveSignature == null) && (_vm.MIRSMaster.IfDeclined == null))) ? _c('span', [(((_vm.user.Role == 2) && ((_vm.MIRSMaster.PreparedSignature == null) || ((_vm.MIRSMaster.RecommendSignature == null) && (_vm.MIRSMaster.ManagerReplacerSignature == null))))) ? _c('span') : _c('div', {
     staticClass: "middle-status",
     class: {
       'hide': _vm.SignatureBtnHide
@@ -2808,7 +2808,7 @@ module.exports={render:function (){var _vm=this;var _h=_vm.$createElement;var _c
     staticClass: "bold"
   }, [_vm._v(_vm._s(_vm.MIRSMaster.Recommendedby) + "\r\n             "), _c('span', {
     staticClass: "opener-manager-replace"
-  }, [(_vm.user.Fname + ' ' + _vm.user.Lname == _vm.MIRSMaster.Preparedby && this.ManagerBehalfActive == true) ? _c('div', {
+  }, [(_vm.user.FullName == _vm.MIRSMaster.Preparedby && this.ManagerBehalfActive == true) ? _c('div', {
     staticClass: "mini-menu-managers"
   }, [(_vm.MIRSMaster.ManagerReplacer == null) ? _c('h1', [_vm._v("Request signature to")]) : _c('h1', [_vm._v("Request pending "), _c('i', {
     staticClass: "fa fa-clock-o color-white"
@@ -2837,11 +2837,11 @@ module.exports={render:function (){var _vm=this;var _h=_vm.$createElement;var _c
       "value": null
     }
   }, [_vm._v("Choose a manager")]), _vm._v(" "), _vm._l((_vm.allManager), function(manager) {
-    return (manager.Fname + ' ' + manager.Lname != _vm.MIRSMaster.Recommendedby) ? _c('option', {
+    return (manager.FullName != _vm.MIRSMaster.Recommendedby) ? _c('option', {
       domProps: {
         "value": manager.id
       }
-    }, [_vm._v(_vm._s(manager.Fname) + " " + _vm._s(manager.Lname))]) : _vm._e()
+    }, [_vm._v(_vm._s(manager.FullName))]) : _vm._e()
   })], 2), _vm._v(" "), (_vm.error != null) ? _c('p', {
     staticClass: "color-red"
   }, [_vm._v("*" + _vm._s(_vm.error))]) : _vm._e(), _vm._v(" "), _c('span', {
@@ -2877,7 +2877,7 @@ module.exports={render:function (){var _vm=this;var _h=_vm.$createElement;var _c
     }
   }, [_c('i', {
     staticClass: "fa fa-times color-red"
-  }), _vm._v("cancel")])])]) : _vm._e(), _vm._v(" "), ((_vm.MIRSMaster.RecommendSignature == null) && (_vm.MIRSMaster.Preparedby == _vm.user.Fname + ' ' + _vm.user.Lname) && (_vm.MIRSMaster.ManagerReplacerSignature == null)) ? _c('i', {
+  }), _vm._v("cancel")])])]) : _vm._e(), _vm._v(" "), ((_vm.MIRSMaster.RecommendSignature == null) && (_vm.MIRSMaster.Preparedby == _vm.user.FullName) && (_vm.MIRSMaster.ManagerReplacerSignature == null)) ? _c('i', {
     staticClass: "color-blue",
     class: [_vm.MIRSMaster.ManagerReplacer == null ? 'fa fa-users' : 'fa fa-clock-o'],
     on: {
