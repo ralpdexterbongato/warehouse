@@ -11,15 +11,15 @@ use App\Events\NewRVApprovedEvent;
 class NewRVApprovedJob implements ShouldQueue
 {
     use Dispatchable, InteractsWithQueue, Queueable, SerializesModels;
-    public $notifyWarehouse;
+    public $notifyData;
     /**
      * Create a new job instance.
      *
      * @return void
      */
-    public function __construct($notifyWarehouse)
+    public function __construct($notifyData)
     {
-      $this->notifyWarehouse=$notifyWarehouse;
+      $this->notifyData=$notifyData;
     }
 
     /**
@@ -29,6 +29,8 @@ class NewRVApprovedJob implements ShouldQueue
      */
     public function handle()
     {
-        Event(new NewRVApprovedEvent($this->notifyWarehouse));
+      chdir('c:/xampp/htdocs/gnokii');
+      shell_exec('echo Your RV '.$this->notifyData->RVNo.' is now approved! | gnokii --sendsms '.$this->notifyData->RequisitionerMobile);
+      Event(new NewRVApprovedEvent($this->notifyData));
     }
 }

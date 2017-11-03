@@ -14,6 +14,7 @@ use App\MCTValidator;
 use Redis;
 use App\Jobs\SendMIRSNotification;
 use App\Jobs\NewApprovedMIRSJob;
+use App\Jobs\MIRSApprovalReplacer;
 class MIRSController extends Controller
 {
   public function __construct()
@@ -271,13 +272,13 @@ class MIRSController extends Controller
       }
       MCTValidator::insert($forValidatortbl);
       MIRSMaster::where('MIRSNo',$id)->update(['ApprovalReplacerSignature'=>Auth::user()->Signature,'ApproveSignature'=>null]);
-      // $Names=MIRSMaster::where('MIRSNo',$id)->get(['Preparedby','Approvedby']);
-      // $RequisitionerMobile=User::where('FullName',$Names[0]->Preparedby)->get(['Mobile']);
-      // $GMMobile=User::where('FullName',$Names[0]->Approvedby)->get(['Mobile']);
-      // $NotifData = array('RequisitionerMobile' =>$RequisitionerMobile[0]->Mobile ,'MIRSNo'=>$id,'GMMobile'=>$GMMobile[0]->Mobile,'ApprovalReplacer'=>Auth::user()->FullName);
-      // $NotifData=(object)$NotifData;
-      // $job=(new NewApprovedMIRSJob($NotifData))->delay(Carbon::now()->addSeconds(5));
-      // dispatch($job);
+      $Names=MIRSMaster::where('MIRSNo',$id)->get(['Preparedby','Approvedby']);
+      $RequisitionerMobile=User::where('FullName',$Names[0]->Preparedby)->get(['Mobile']);
+      $GMMobile=User::where('FullName',$Names[0]->Approvedby)->get(['Mobile']);
+      $NotifData = array('RequisitionerMobile' =>$RequisitionerMobile[0]->Mobile ,'MIRSNo'=>$id,'GMMobile'=>$GMMobile[0]->Mobile,'ApprovalReplacer'=>Auth::user()->FullName);
+      $NotifData=(object)$NotifData;
+      $job=(new MIRSApprovalReplacer($NotifData))->delay(Carbon::now()->addSeconds(5));
+      dispatch($job);
   }
   public function fetchAllManager()
   {

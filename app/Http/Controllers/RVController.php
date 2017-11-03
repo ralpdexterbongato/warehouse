@@ -16,6 +16,7 @@ use App\RRMaster;
 use App\MaterialsTicketDetail;
 use App\Jobs\NewRVCreatedJob;
 use App\Jobs\NewRVApprovedJob;
+use App\Jobs\RVApprovalReplacer;
 class RVController extends Controller
 {
     public function __construct()
@@ -177,9 +178,10 @@ class RVController extends Controller
       if ($RVMasterNames[0]->GeneralManager == Auth::user()->FullName)
       {
         RVMaster::where('RVNo',$id)->update(['GeneralManagerSignature'=>Auth::user()->Signature,'ApprovalReplacer'=>null,'ApprovalReplacerSignature'=>null]);
-        $notifyWarehouse = array('dummy' =>'dummy');
-        $notifyWarehouse=(object)$notifyWarehouse;
-        $job = (new NewRVApprovedJob($notifyWarehouse))->delay(Carbon::now()->addSeconds(5));
+        $requisitionerMobile=User::where('FullName',$RVMasterNames[0]->Requisitioner)->get(['Mobile']);
+        $notifyData = array('RequisitionerMobile' =>$requisitionerMobile[0]->Mobile,'RVNo'=>$id);
+        $notifyData=(object)$notifyData;
+        $job = (new NewRVApprovedJob($notifyData))->delay(Carbon::now()->addSeconds(5));
         dispatch($job);
       }
       $RVSignatures=RVMaster::where('RVNo',$id)->get(['RequisitionerSignature','BudgetOfficerSignature','RecommendedbySignature','GeneralManagerSignature','ApprovalReplacerSignature','ManagerReplacerSignature']);
@@ -329,8 +331,8 @@ class RVController extends Controller
     public function AcceptSignatureBehalf($id)
     {
       RVMaster::where('RVNo', $id)->update(['ApprovalReplacerSignature'=>Auth::user()->Signature]);
-      $RVSignatures=RVMaster::where('RVNo',$id)->get(['RequisitionerSignature','BudgetOfficerSignature','ManagerReplacerSignature','RecommendedbySignature','GeneralManagerSignature','ApprovalReplacerSignature']);
-      if(($RVSignatures[0]->BudgetOfficerSignature!=null)&&(($RVSignatures[0]->RecommendedbySignature!=null)||($RVSignatures[0]->ManagerReplacerSignature!=null))&&(($RVSignatures[0]->GeneralManagerSignature!=null)||($RVSignatures[0]->ApprovalReplacerSignature!=null)))
+      $RVMaster=RVMaster::where('RVNo',$id)->get(['Requisitioner','GeneralManager','RequisitionerSignature','BudgetOfficerSignature','ManagerReplacerSignature','RecommendedbySignature','GeneralManagerSignature','ApprovalReplacerSignature']);
+      if(($RVMaster[0]->BudgetOfficerSignature!=null)&&(($RVMaster[0]->RecommendedbySignature!=null)||($RVMaster[0]->ManagerReplacerSignature!=null))&&(($RVMaster[0]->GeneralManagerSignature!=null)||($RVMaster[0]->ApprovalReplacerSignature!=null)))
       {
         $RVitems=RVDetail::where('RVNo', $id)->get();
         $forRRNoPOValidator = array();
@@ -339,9 +341,11 @@ class RVController extends Controller
           $forRRNoPOValidator[] = array('RVNo' =>$rvitem->RVNo ,'Particulars'=>$rvitem->Particulars,'Unit'=>$rvitem->Unit ,'Quantity'=>$rvitem->Quantity ,'Remarks'=>$rvitem->Remarks,'AccountCode'=>$rvitem->AccountCode,'ItemCode'=>$rvitem->ItemCode);
         }
         RRValidatorNoPO::insert($forRRNoPOValidator);
-        $notifyWarehouse = array('dummy' =>'dummy');
-        $notifyWarehouse=(object)$notifyWarehouse;
-        $job = (new NewRVApprovedJob($notifyWarehouse))->delay(Carbon::now()->addSeconds(5));
+        $RequisitionerMobile=User::where('FullName',$RVMaster[0]->Requisitioner)->get(['Mobile']);
+        $GMMoble=User::where('FullName',$RVMaster[0]->GeneralManager)->get(['Mobile']);
+        $NotifData = array('RequisitionerMobile' =>$RequisitionerMobile[0]->Mobile,'RVNo'=>$id,'ApprovalReplacer'=>Auth::user()->FullName,'GMMobile'=>$GMMoble[0]->Mobile);
+        $NotifData=(object)$NotifData;
+        $job = (new RVApprovalReplacer($NotifData))->delay(Carbon::now()->addSeconds(5));
         dispatch($job);
       }
     }

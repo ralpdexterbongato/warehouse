@@ -13,15 +13,14 @@ use Illuminate\Contracts\Broadcasting\ShouldBroadcast;
 class NewRVApprovedEvent implements ShouldBroadcast
 {
     use Dispatchable, InteractsWithSockets, SerializesModels;
-    public $notifyWarehouse;
     /**
      * Create a new event instance.
      *
      * @return void
      */
-    public function __construct($notifyWarehouse)
+    public function __construct()
     {
-        $this->WarehouseNotify=$notifyWarehouse;
+
     }
 
     /**
