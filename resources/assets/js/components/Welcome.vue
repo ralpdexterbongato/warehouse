@@ -11,12 +11,12 @@
         </h1>
       </div>
       <div class="Search-item-box">
-        <input id="search-code-input" autocomplete="off" type="text" v-on:keyup.enter="SearchItemHistory(1)" v-model="ItemCodeSearch" placeholder="Item code" required>
-        <button id="search-go" type="submit" v-on:click="SearchItemHistory(1)"><i class="fa fa-search"></i></button>
+        <input id="search-code-input" autocomplete="off" type="text" v-on:keyup.enter="SearchItemHistory(1),Searching=true" v-model="ItemCodeSearch" placeholder="Item code" required>
+        <button id="search-go" type="submit" v-on:click="SearchItemHistory(1),Searching=true"><i class="fa fa-search"></i></button>
       </div>
     </div>
   </div>
-  <div class="data-results-container">
+  <div class="data-results-container" :class="[Searching==true?'hide':'show']" v-if="NotFoundSearch==''">
     <div v-if="latestFound.MTNo!=null" class="animated bounceInUp">
       <div class="search-welcome-title">
         <div class="Current-title">
@@ -40,23 +40,22 @@
             <th>Current amount</th>
             <th>Month</th>
           </tr>
-            <tr>
-              <td>{{latestFound.MTType}}</td>
-              <td>{{latestFound.MTNo}}</td>
-              <td>{{latestFound.AccountCode}}</td>
-              <td>{{latestFound.ItemCode}}</td>
-              <td>{{latestFound.master_items.Description}}</td>
-              <td>{{formatPrice(latestFound.UnitCost)}}</td>
-              <td>{{latestFound.Quantity}}</td>
-              <td>{{latestFound.master_items.Unit}}</td>
-              <td>{{formatPrice(latestFound.Amount)}}</td>
-              <td>{{formatPrice(latestFound.CurrentCost)}}</td>
-              <td>{{latestFound.CurrentQuantity}}</td>
-              <td>{{formatPrice(latestFound.CurrentAmount)}}</td>
-              <td>{{FormatMonth(latestFound.MTDate)}}</td>
-            </tr>
+          <tr>
+            <td>{{latestFound.MTType}}</td>
+            <td>{{latestFound.MTNo}}</td>
+            <td>{{latestFound.AccountCode}}</td>
+            <td>{{latestFound.ItemCode}}</td>
+            <td>{{latestFound.master_items.Description}}</td>
+            <td>{{formatPrice(latestFound.UnitCost)}}</td>
+            <td>{{latestFound.Quantity}}</td>
+            <td>{{latestFound.master_items.Unit}}</td>
+            <td>{{formatPrice(latestFound.Amount)}}</td>
+            <td>{{formatPrice(latestFound.CurrentCost)}}</td>
+            <td>{{latestFound.CurrentQuantity}}</td>
+            <td>{{formatPrice(latestFound.CurrentAmount)}}</td>
+            <td>{{FormatMonth(latestFound.MTDate)}}</td>
+          </tr>
         </table>
-
       </div>
       <div class="history-found">
         <h1><i class="fa fa-history"></i> History</h1>
@@ -76,23 +75,21 @@
             <th>Current amount</th>
             <th>Month</th>
           </tr>
-            <!-- @foreach ($historiesfound as $history) -->
-            <tr v-for="history in historiesfound" v-if="history.id!=latestFound.id">
-              <td>{{history.MTType}}</td>
-              <td>{{history.MTNo}}</td>
-              <td>{{history.AccountCode}}</td>
-              <td>{{history.ItemCode}}</td>
-              <td>{{latestFound.master_items.Description}}</td>
-              <td>{{formatPrice(history.UnitCost)}}</td>
-              <td>{{history.Quantity}}</td>
-              <td>{{latestFound.master_items.Unit}}</td>
-              <td>{{formatPrice(history.Amount)}}</td>
-              <td>{{formatPrice(history.CurrentCost)}}</td>
-              <td>{{history.CurrentQuantity}}</td>
-              <td>{{formatPrice(history.CurrentAmount)}}</td>
-              <td>{{FormatMonth(history.MTDate)}}</td>
-            </tr>
-            <!-- @endforeach -->
+          <tr v-for="history in historiesfound" v-if="history.id!=latestFound.id">
+            <td>{{history.MTType}}</td>
+            <td>{{history.MTNo}}</td>
+            <td>{{history.AccountCode}}</td>
+            <td>{{history.ItemCode}}</td>
+            <td>{{latestFound.master_items.Description}}</td>
+            <td>{{formatPrice(history.UnitCost)}}</td>
+            <td>{{history.Quantity}}</td>
+            <td>{{latestFound.master_items.Unit}}</td>
+            <td>{{formatPrice(history.Amount)}}</td>
+            <td>{{formatPrice(history.CurrentCost)}}</td>
+            <td>{{history.CurrentQuantity}}</td>
+            <td>{{formatPrice(history.CurrentAmount)}}</td>
+            <td>{{FormatMonth(history.MTDate)}}</td>
+          </tr>
         </table>
         <div class="paginate-container">
           <ul class="pagination">
@@ -107,10 +104,16 @@
             </li>
           </ul>
         </div>
-      </div><!--  end of v-if result is not empty -->
-    </div>
+      </div>
+    </div><!--  end of v-if result is not empty -->
     <div class="background-pic" v-else>
     </div>
+  </div>
+  <div class="not-found-msg" v-else :class="Searching==true?'hide':'flex'">
+    <h2><i class="fa fa-search"></i> {{NotFoundSearch}}</h2>
+  </div>
+  <div :class="Searching==true?'flex':'hide'" class="loading-spin">
+    <i class="fa fa-spinner fa-spin fa-pulse"></i>
   </div>
 </div>
 </template>
@@ -121,11 +124,13 @@ import moment from 'moment'
   export default {
     data () {
       return {
-        ItemCodeSearch:'',
-        pagination:[],
-        offset:4,
-        latestFound:[],
-        historiesfound:[],
+        ItemCodeSearch: '',
+        pagination: [],
+        offset: 4,
+        latestFound: [],
+        historiesfound: [],
+        Searching: false,
+        NotFoundSearch: ''
       }
     },
     props: [],
@@ -136,9 +141,18 @@ import moment from 'moment'
         axios.get(`/search-item-code?ItemCode=`+this.ItemCodeSearch+`&page=`+page).then(function(response)
         {
           console.log(response);
-          Vue.set(vm.$data,'latestFound',response.data.latestFound[0]);
-          Vue.set(vm.$data,'historiesfound',response.data.historiesfound.data);
-          Vue.set(vm.$data,'pagination',response.data.historiesfound);
+          if (response.data.latestFound[0]==null) {
+            Vue.set(vm.$data,'NotFoundSearch','No results found.');
+            Vue.set(vm.$data,'Searching',false);
+          }else
+          {
+            Vue.set(vm.$data,'latestFound',response.data.latestFound[0]);
+            Vue.set(vm.$data,'historiesfound',response.data.historiesfound.data);
+            Vue.set(vm.$data,'pagination',response.data.historiesfound);
+            Vue.set(vm.$data,'Searching',false);
+            Vue.set(vm.$data,'NotFoundSearch','');
+          }
+
         });
       },
       formatPrice(value) {

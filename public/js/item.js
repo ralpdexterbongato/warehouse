@@ -28030,6 +28030,9 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
 //
 //
 //
+//
+//
+//
 
 
 
@@ -28040,7 +28043,9 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
       pagination: [],
       offset: 4,
       latestFound: [],
-      historiesfound: []
+      historiesfound: [],
+      Searching: false,
+      NotFoundSearch: ''
     };
   },
 
@@ -28050,9 +28055,16 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
       var vm = this;
       __WEBPACK_IMPORTED_MODULE_0_axios___default.a.get('/search-item-code?ItemCode=' + this.ItemCodeSearch + '&page=' + page).then(function (response) {
         console.log(response);
-        Vue.set(vm.$data, 'latestFound', response.data.latestFound[0]);
-        Vue.set(vm.$data, 'historiesfound', response.data.historiesfound.data);
-        Vue.set(vm.$data, 'pagination', response.data.historiesfound);
+        if (response.data.latestFound[0] == null) {
+          Vue.set(vm.$data, 'NotFoundSearch', 'No results found.');
+          Vue.set(vm.$data, 'Searching', false);
+        } else {
+          Vue.set(vm.$data, 'latestFound', response.data.latestFound[0]);
+          Vue.set(vm.$data, 'historiesfound', response.data.historiesfound.data);
+          Vue.set(vm.$data, 'pagination', response.data.historiesfound);
+          Vue.set(vm.$data, 'Searching', false);
+          Vue.set(vm.$data, 'NotFoundSearch', '');
+        }
       });
     },
     formatPrice: function formatPrice(value) {
@@ -28979,7 +28991,7 @@ module.exports={render:function (){var _vm=this;var _h=_vm.$createElement;var _c
     on: {
       "keyup": function($event) {
         if (!('button' in $event) && _vm._k($event.keyCode, "enter", 13)) { return null; }
-        _vm.SearchItemHistory(1)
+        _vm.SearchItemHistory(1), _vm.Searching = true
       },
       "input": function($event) {
         if ($event.target.composing) { return; }
@@ -28993,13 +29005,14 @@ module.exports={render:function (){var _vm=this;var _h=_vm.$createElement;var _c
     },
     on: {
       "click": function($event) {
-        _vm.SearchItemHistory(1)
+        _vm.SearchItemHistory(1), _vm.Searching = true
       }
     }
   }, [_c('i', {
     staticClass: "fa fa-search"
-  })])])])]), _vm._v(" "), _c('div', {
-    staticClass: "data-results-container"
+  })])])])]), _vm._v(" "), (_vm.NotFoundSearch == '') ? _c('div', {
+    staticClass: "data-results-container",
+    class: [_vm.Searching == true ? 'hide' : 'show']
   }, [(_vm.latestFound.MTNo != null) ? _c('div', {
     staticClass: "animated bounceInUp"
   }, [_vm._m(1), _vm._v(" "), _c('div', {
@@ -29052,6 +29065,16 @@ module.exports={render:function (){var _vm=this;var _h=_vm.$createElement;var _c
     staticClass: "fa fa-angle-right"
   })])]) : _vm._e()], 2)])])]) : _c('div', {
     staticClass: "background-pic"
+  })]) : _c('div', {
+    staticClass: "not-found-msg",
+    class: _vm.Searching == true ? 'hide' : 'flex'
+  }, [_c('h2', [_c('i', {
+    staticClass: "fa fa-search"
+  }), _vm._v(" " + _vm._s(_vm.NotFoundSearch))])]), _vm._v(" "), _c('div', {
+    staticClass: "loading-spin",
+    class: _vm.Searching == true ? 'flex' : 'hide'
+  }, [_c('i', {
+    staticClass: "fa fa-spinner fa-spin fa-pulse"
   })])])
 },staticRenderFns: [function (){var _vm=this;var _h=_vm.$createElement;var _c=_vm._self._c||_h;
   return _c('span', {

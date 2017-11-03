@@ -594,9 +594,22 @@ filter: drop-shadow(0px 7px 3px rgba(61, 61, 61, 0.4));
   background-repeat: no-repeat;
   z-index:4!important;
 }
+.not-found-msg
+{
+	padding: 0px 40px 10px 40px;
+	min-height: 70vh;
+  margin-top: 50px;
+}
+.not-found-msg h2
+{
+	margin:auto;
+	font-size: 20px;
+	color: #8D8D8D;
+}
 .data-results-container
 {
-  padding: 0px 40px 60px 40px;
+  padding: 0px 40px 10px 40px;
+	min-height: 70vh;
   margin-top: 50px;
 }
 @media (max-width:1300px)
@@ -697,7 +710,20 @@ filter: drop-shadow(0 6px 3px #C3C3C3);
 {
 margin:auto;
 }
-
+/*welcome searching load icon*/
+.loading-spin
+{
+	padding: 0px 40px 10px 40px;
+	min-height: 70vh;
+  margin-top: 50px;
+	display: flex;
+}
+.loading-spin i
+{
+	margin:auto;
+	font-size: 30px;
+	color: #102B55;
+}
 /*add-new-item modal*/
 .add-new-modal
 {
