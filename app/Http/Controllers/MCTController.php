@@ -13,7 +13,6 @@ use DB;
 use Auth;
 use Session;
 use App\User;
-use App\MCTValidator;
 use App\MCTConfirmationDetail;
 use App\MasterItem;
 use App\Jobs\NewCreatedMCTJob;
@@ -60,9 +59,9 @@ class MCTController extends Controller
     $ForMCTConfirmation = array();
     foreach (Session::get('MCTSessionItems') as $detail)
     {
-      $validatorItemQTY=MCTValidator::where('MIRSNo',$request->MIRSNo)->where('ItemCode',$detail->ItemCode)->get(['Quantity']);
-      $qtyValidatorleft=$validatorItemQTY[0]->Quantity - $detail->Quantity;
-      MCTValidator::where('MIRSNo',$request->MIRSNo)->where('ItemCode',$detail->ItemCode)->Update(['Quantity'=>$qtyValidatorleft]);
+      $validatorItemQTY=MIRSDetail::where('MIRSNo',$request->MIRSNo)->where('ItemCode',$detail->ItemCode)->get(['QuantityValidator']);
+      $qtyValidatorleft=$validatorItemQTY[0]->QuantityValidator - $detail->Quantity;
+      MIRSDetail::where('MIRSNo',$request->MIRSNo)->where('ItemCode',$detail->ItemCode)->Update(['QuantityValidator'=>$qtyValidatorleft]);
       $latestRR=MaterialsTicketDetail::where('ItemCode',$detail->ItemCode)->where('MTType', 'RR')->orderBy('id','DESC')->take(1)->get(['AccountCode','UnitCost']);
       $AMT=$latestRR[0]->UnitCost*$detail->Quantity;
       $ForMCTConfirmation[]=array('AccountCode'=>$latestRR[0]->AccountCode,'ItemCode' =>$detail->ItemCode,'Description'=>$detail->Particulars,'MCTNo' =>$MCTIncremented,'UnitCost' =>$latestRR[0]->UnitCost ,'Quantity' =>$detail->Quantity,'Unit' =>$detail->Unit ,'Amount' =>$AMT);
@@ -171,8 +170,8 @@ class MCTController extends Controller
   }
   public function FetchMCTvalidator($id)
   {
-     $FromValidator=MCTValidator::where('MIRSNo',$id)->paginate(5);
-     return response()->json(['FromValidator'=>$FromValidator]);
+     $FromMIRSDetail=MIRSDetail::where('MIRSNo',$id)->paginate(5);
+     return response()->json(['FromMIRSDetail'=>$FromMIRSDetail]);
   }
   public function MCTSessionSaving(Request $request)
   {
@@ -184,10 +183,10 @@ class MCTController extends Controller
     {
       return response()->json(['error'=>'Not enough warehouse stock for this item']);
     }
-    $ItemRemaining=MCTValidator::where('MIRSNo', $request->MIRSNo)->where('ItemCode',$request->ItemCode)->get(['Quantity']);
-    if ($ItemRemaining[0]->Quantity < $request->Quantity)
+    $ItemRemaining=MIRSDetail::where('MIRSNo', $request->MIRSNo)->where('ItemCode',$request->ItemCode)->get(['QuantityValidator']);
+    if ($ItemRemaining[0]->QuantityValidator < $request->Quantity)
     {
-      return response()->json(['error'=>'Sorry only '.$ItemRemaining[0]->Quantity.' left']);
+      return response()->json(['error'=>'Sorry only '.$ItemRemaining[0]->QuantityValidator.' left']);
     }
     if (Session::has('MCTSessionItems'))
     {
@@ -250,11 +249,11 @@ class MCTController extends Controller
     //each item validaton
     foreach ($DetailsToBeUpdated as $key=> $confirmationMCT)
     {
-      $currentValidatorQuantity=MCTValidator::where('MIRSNo',$MCTMaster[0]->MIRSNo)->where('ItemCode',$confirmationMCT->ItemCode)->get(['Quantity']);
+      $currentValidatorQuantity=MIRSDetail::where('MIRSNo',$MCTMaster[0]->MIRSNo)->where('ItemCode',$confirmationMCT->ItemCode)->get(['QuantityValidator']);
       if($confirmationMCT->Quantity<$request->NewQuantity[$key])
       {
         $tobeused=$request->NewQuantity[$key]-$confirmationMCT->Quantity;
-        $NewValidatorQty=$currentValidatorQuantity[0]->Quantity-$tobeused;
+        $NewValidatorQty=$currentValidatorQuantity[0]->QuantityValidator-$tobeused;
         if ($NewValidatorQty<0)
         {
           return ['error'=>'Sorry,you have reached the maximum quantity left in your MIRS'];
@@ -264,17 +263,17 @@ class MCTController extends Controller
 
     foreach ($DetailsToBeUpdated as $key=> $confirmationMCT)
     {
-      $currentValidatorQuantity=MCTValidator::where('MIRSNo',$MCTMaster[0]->MIRSNo)->where('ItemCode',$confirmationMCT->ItemCode)->get(['Quantity']);
+      $currentValidatorQuantity=MIRSDetail::where('MIRSNo',$MCTMaster[0]->MIRSNo)->where('ItemCode',$confirmationMCT->ItemCode)->get(['QuantityValidator']);
       if ($confirmationMCT->Quantity>$request->NewQuantity[$key])
       {
         $tobeused=$confirmationMCT->Quantity-$request->NewQuantity[$key];
-        $NewValidatorQty=$currentValidatorQuantity[0]->Quantity+$tobeused;
-        MCTValidator::where('MIRSNo',$MCTMaster[0]->MIRSNo)->where('ItemCode',$confirmationMCT->ItemCode)->update(['Quantity'=>$NewValidatorQty]);
+        $NewValidatorQty=$currentValidatorQuantity[0]->QuantityValidator+$tobeused;
+        MIRSDetail::where('MIRSNo',$MCTMaster[0]->MIRSNo)->where('ItemCode',$confirmationMCT->ItemCode)->update(['QuantityValidator'=>$NewValidatorQty]);
       }elseif($confirmationMCT->Quantity<$request->NewQuantity[$key])
       {
         $tobeused=$request->NewQuantity[$key]-$confirmationMCT->Quantity;
-        $NewValidatorQty=$currentValidatorQuantity[0]->Quantity-$tobeused;
-        MCTValidator::where('MIRSNo',$MCTMaster[0]->MIRSNo)->where('ItemCode',$confirmationMCT->ItemCode)->update(['Quantity'=>$NewValidatorQty]);
+        $NewValidatorQty=$currentValidatorQuantity[0]->QuantityValidator-$tobeused;
+        MIRSDetail::where('MIRSNo',$MCTMaster[0]->MIRSNo)->where('ItemCode',$confirmationMCT->ItemCode)->update(['QuantityValidator'=>$NewValidatorQty]);
       }
       $newAMT=$confirmationMCT->UnitCost*$request->NewQuantity[$key];
       MCTConfirmationDetail::where('MCTNo',$id)->where('ItemCode',$confirmationMCT->ItemCode)->update(['Quantity'=>$request->NewQuantity[$key],'Amount'=>$newAMT]);
@@ -286,9 +285,9 @@ class MCTController extends Controller
     $MCTconfirmation=MCTConfirmationDetail::where('MCTNo',$id)->get(['ItemCode','Quantity']);
     foreach ($MCTconfirmation as $confirmation)
     {
-      $currentMCTValidatorQty=MCTValidator::where('MIRSNo',$MIRSNo)->where('ItemCode', $confirmation->ItemCode)->get(['Quantity']);
-      $newMCTValidatorQty=$currentMCTValidatorQty[0]->Quantity+$confirmation->Quantity;
-      MCTValidator::where('MIRSNo',$MIRSNo)->where('ItemCode', $confirmation->ItemCode)->update(['Quantity'=>$newMCTValidatorQty]);
+      $currentMCTValidatorQty=MIRSDetail::where('MIRSNo',$MIRSNo)->where('ItemCode', $confirmation->ItemCode)->get(['QuantityValidator']);
+      $newMCTValidatorQty=$currentMCTValidatorQty[0]->QuantityValidator+$confirmation->Quantity;
+      MIRSDetail::where('MIRSNo',$MIRSNo)->where('ItemCode', $confirmation->ItemCode)->update(['QuantityValidator'=>$newMCTValidatorQty]);
     }
     MCTMaster::where('MCTNo',$id)->update(['IfDeclined'=>Auth::user()->FullName]);
   }

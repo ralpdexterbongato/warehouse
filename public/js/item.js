@@ -28969,7 +28969,7 @@ module.exports={render:function (){var _vm=this;var _h=_vm.$createElement;var _c
     staticClass: "big"
   }, [_vm._v("check")]), _vm._v(" item's latest data & history.\r\n        ")]) : _c('h1', [_c('i', {
     staticClass: "fa fa-th-large"
-  }), _vm._v(" Item # " + _vm._s(_vm.latestFound.ItemCode) + " data\r\n        ")])]), _vm._v(" "), _c('div', {
+  }), _vm._v(" Item # " + _vm._s(_vm.ItemCodeSearch) + " data\r\n        ")])]), _vm._v(" "), _c('div', {
     staticClass: "Search-item-box"
   }, [_c('input', {
     directives: [{

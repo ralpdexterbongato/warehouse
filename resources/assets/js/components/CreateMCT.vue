@@ -68,12 +68,12 @@
             <th>Select</th>
           </tr>
 
-          <tr v-for="(validator,count) in FromMCTValidator">
+          <tr v-for="(validator,count) in FromMIRSDetail">
               <td>{{validator.ItemCode}}</td>
               <td>{{validator.Particulars}}</td>
               <td>{{validator.Unit}}</td>
               <td><input type="number" v-model="InputQty[count]" name="Quantity" min="1" autocomplete="off"></td>
-              <td>{{validator.Quantity}}</td>
+              <td>{{validator.QuantityValidator}}</td>
               <td>{{validator.Remarks}}</td>
               <td><button v-on:click="SaveToSession(validator,count),ModalActive=false"><i class="fa fa-plus-circle"></i></button></td>
           </tr>
@@ -103,7 +103,7 @@ import Longpress from 'vue-longpress';
   export default {
     data () {
       return {
-        FromMCTValidator:[],
+        FromMIRSDetail:[],
         pagination:[],
         offset:4,
         InputQty:[],
@@ -124,8 +124,8 @@ import Longpress from 'vue-longpress';
         axios.get(`/fetch-mct-validator/`+this.mirsno.MIRSNo+`?page=`+page).then(function(response)
         {
           console.log(response);
-          Vue.set(vm.$data,'FromMCTValidator',response.data.FromValidator.data);
-          Vue.set(vm.$data,'pagination',response.data.FromValidator);
+          Vue.set(vm.$data,'FromMIRSDetail',response.data.FromMIRSDetail.data);
+          Vue.set(vm.$data,'pagination',response.data.FromMIRSDetail);
         });
       },
       changepage(next){

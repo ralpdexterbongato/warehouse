@@ -10,7 +10,6 @@ use App\MaterialsTicketDetail;
 use Session;
 use DB;
 use Auth;
-use App\MCTValidator;
 use App\MRTConfirmationDetail;
 use App\MCTConfirmationDetail;
 use App\MasterItem;

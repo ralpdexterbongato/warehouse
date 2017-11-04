@@ -7,7 +7,7 @@
           <span class="big"><i class="fa fa-search"></i> Search</span> & <span class="big">check</span> item's latest data & history.
         </p>
         <h1 v-else>
-          <i class="fa fa-th-large"></i> Item # {{latestFound.ItemCode}} data
+          <i class="fa fa-th-large"></i> Item # {{ItemCodeSearch}} data
         </h1>
       </div>
       <div class="Search-item-box">

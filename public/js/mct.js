@@ -1023,7 +1023,7 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
 /* harmony default export */ __webpack_exports__["default"] = ({
   data: function data() {
     return {
-      FromMCTValidator: [],
+      FromMIRSDetail: [],
       pagination: [],
       offset: 4,
       InputQty: [],
@@ -1043,8 +1043,8 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
       var vm = this;
       __WEBPACK_IMPORTED_MODULE_0_axios___default.a.get('/fetch-mct-validator/' + this.mirsno.MIRSNo + '?page=' + page).then(function (response) {
         console.log(response);
-        Vue.set(vm.$data, 'FromMCTValidator', response.data.FromValidator.data);
-        Vue.set(vm.$data, 'pagination', response.data.FromValidator);
+        Vue.set(vm.$data, 'FromMIRSDetail', response.data.FromMIRSDetail.data);
+        Vue.set(vm.$data, 'pagination', response.data.FromMIRSDetail);
       });
     },
     changepage: function changepage(next) {
@@ -1349,6 +1349,9 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
         NewAddressTo: this.AddressToEdit
       }).then(function (response) {
         console.log(response);
+        if (response.data.error != null) {
+          window.alert(response.data.error);
+        }
       });
       this.fetchData();
     }
@@ -2236,7 +2239,7 @@ module.exports={render:function (){var _vm=this;var _h=_vm.$createElement;var _c
     }
   }, [_c('h1', [_vm._v("Pick Items from MIRS No. " + _vm._s(_vm.mirsno.MIRSNo))]), _vm._v(" "), _c('div', {
     staticClass: "table-mct-itemchoices"
-  }, [_c('table', [_vm._m(1), _vm._v(" "), _vm._l((_vm.FromMCTValidator), function(validator, count) {
+  }, [_c('table', [_vm._m(1), _vm._v(" "), _vm._l((_vm.FromMIRSDetail), function(validator, count) {
     return _c('tr', [_c('td', [_vm._v(_vm._s(validator.ItemCode))]), _vm._v(" "), _c('td', [_vm._v(_vm._s(validator.Particulars))]), _vm._v(" "), _c('td', [_vm._v(_vm._s(validator.Unit))]), _vm._v(" "), _c('td', [_c('input', {
       directives: [{
         name: "model",
@@ -2259,7 +2262,7 @@ module.exports={render:function (){var _vm=this;var _h=_vm.$createElement;var _c
           _vm.$set(_vm.InputQty, count, $event.target.value)
         }
       }
-    })]), _vm._v(" "), _c('td', [_vm._v(_vm._s(validator.Quantity))]), _vm._v(" "), _c('td', [_vm._v(_vm._s(validator.Remarks))]), _vm._v(" "), _c('td', [_c('button', {
+    })]), _vm._v(" "), _c('td', [_vm._v(_vm._s(validator.QuantityValidator))]), _vm._v(" "), _c('td', [_vm._v(_vm._s(validator.Remarks))]), _vm._v(" "), _c('td', [_c('button', {
       on: {
         "click": function($event) {
           _vm.SaveToSession(validator, count), _vm.ModalActive = false
@@ -2423,7 +2426,7 @@ module.exports={render:function (){var _vm=this;var _h=_vm.$createElement;var _c
     }
   }, [_c('i', {
     staticClass: "fa fa-file-pdf-o"
-  }), _vm._v(".pdf")])])]) : (_vm.user.FullName == _vm.MCTMaster.Issuedby) ? _c('div', {
+  }), _vm._v(".pdf")])])]) : (((_vm.user.FullName == _vm.MCTMaster.Issuedby) && (_vm.MCTMaster.ReceivedbySignature == null) && (_vm.MCTMaster.IfDeclined == null))) ? _c('div', {
     staticClass: "empty-div-left mct-edit-container"
   }, [_c('span', {
     staticClass: "edit-mct",

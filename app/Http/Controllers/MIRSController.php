@@ -10,7 +10,6 @@ use DB;
 use App\User;
 use App\MCTMaster;
 use Auth;
-use App\MCTValidator;
 use Redis;
 use App\Jobs\SendMIRSNotification;
 use App\Jobs\NewApprovedMIRSJob;
@@ -127,7 +126,7 @@ class MIRSController extends Controller
       $forMIRSDetailtbl = array();
       foreach ($selectedITEMS as $items)
       {
-        $forMIRSDetailtbl[] = array('MIRSNo' => $incremented ,'ItemCode'=>$items->ItemCode,'Particulars'=>$items->Particulars,'Remarks'=>$items->Remarks,'Quantity'=>$items->Quantity,'Unit'=>$items->Unit);
+        $forMIRSDetailtbl[] = array('MIRSNo' => $incremented ,'ItemCode'=>$items->ItemCode,'Particulars'=>$items->Particulars,'Remarks'=>$items->Remarks,'Quantity'=>$items->Quantity,'QuantityValidator'=>$items->Quantity,'Unit'=>$items->Unit);
       }
       MIRSDetail::insert($forMIRSDetailtbl);
       Session::forget('ItemSelected');
@@ -158,8 +157,8 @@ class MIRSController extends Controller
   }
   public function fetchFullMIRSData($id)
   {
-    $MCTValidatorQty=MCTValidator::where('MIRSNo',$id)->get(['Quantity']);
-    $unclaimed=$MCTValidatorQty->sum('Quantity');
+    $QuantityValidator=MIRSDetail::where('MIRSNo',$id)->get(['QuantityValidator']);
+    $unclaimed=$QuantityValidator->sum('QuantityValidator');
     $MIRSDetail=MIRSDetail::where('MIRSNo', $id)->get();
     $MIRSMaster=MIRSMaster::where('MIRSNo', $id)->get();
     $MCTNumber=MCTMaster::where('MIRSNo', $id)->value('MCTNo');
@@ -214,17 +213,6 @@ class MIRSController extends Controller
       $job=(new NewApprovedMIRSJob($NotifData))->delay(Carbon::now()->addSeconds(5));
       dispatch($job);
     }
-    $signaturesCheck=MIRSMaster::where('MIRSNo',$id)->get(['RecommendSignature','ApproveSignature','ManagerReplacerSignature']);
-    if ((($signaturesCheck[0]->RecommendSignature!=null)||($signaturesCheck[0]->ManagerReplacerSignature!=null))&&($signaturesCheck[0]->ApproveSignature!=null))
-    {
-      $MIRSitems=MIRSDetail::where('MIRSNo',$id)->get(['MIRSNo','ItemCode','Particulars','Unit','Quantity','Remarks']);
-      $forValidatortbl = array();
-      foreach ($MIRSitems as $item)
-      {
-        $forValidatortbl[] = array('MIRSNo' =>$item->MIRSNo ,'ItemCode'=> $item->ItemCode,'Particulars'=>$item->Particulars,'Unit'=>$item->Unit,'Quantity'=>$item->Quantity,'Remarks'=>$item->Remarks);
-      }
-      MCTValidator::insert($forValidatortbl);
-    }
   }
   public function mirsRequestcheck()
   {
@@ -265,12 +253,6 @@ class MIRSController extends Controller
   public function AcceptApprovalRequest($id)
   {
       $MIRSitems=MIRSDetail::where('MIRSNo',$id)->get(['MIRSNo','ItemCode','Particulars','Unit','Quantity','Remarks']);
-      $forValidatortbl = array();
-      foreach ($MIRSitems as $item)
-      {
-        $forValidatortbl[] = array('MIRSNo' =>$item->MIRSNo ,'ItemCode'=> $item->ItemCode,'Particulars'=>$item->Particulars,'Unit'=>$item->Unit,'Quantity'=>$item->Quantity,'Remarks'=>$item->Remarks);
-      }
-      MCTValidator::insert($forValidatortbl);
       MIRSMaster::where('MIRSNo',$id)->update(['ApprovalReplacerSignature'=>Auth::user()->Signature,'ApproveSignature'=>null]);
       $Names=MIRSMaster::where('MIRSNo',$id)->get(['Preparedby','Approvedby']);
       $RequisitionerMobile=User::where('FullName',$Names[0]->Preparedby)->get(['Mobile']);

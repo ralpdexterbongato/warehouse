@@ -6,7 +6,7 @@
         <button type="submit" :value="this.mctno[0].MCTNo" name="MCTNo"><i class="fa fa-file-pdf-o"></i>.pdf</button>
       </form>
     </span>
-    <div class="empty-div-left mct-edit-container" v-else-if="user.FullName==MCTMaster.Issuedby">
+    <div class="empty-div-left mct-edit-container" v-else-if="((user.FullName==MCTMaster.Issuedby)&&(MCTMaster.ReceivedbySignature==null)&&(MCTMaster.IfDeclined==null))">
       <span class="edit-mct" :class="ShowEdit==true?'hide':'show'"><i class="fa fa-edit" v-on:click="ShowEdit=true"></i>Edit</span>
       <span class="edit-mct" :class="ShowEdit==false?'hide':'show'"><span class="color-blue">Save?</span> <button type="button" v-on:click="ShowEdit=false,fetchData();">cancel</button> <button v-on:click="ShowEdit=false,editMCTSave()" type="button" name="button">Save</button></span>
     </div>
@@ -189,6 +189,10 @@ import Longpress from 'vue-longpress'
         }).then(function(response)
         {
           console.log(response);
+          if (response.data.error!=null)
+          {
+            window.alert(response.data.error);
+          }
         });
         this.fetchData();
       },
