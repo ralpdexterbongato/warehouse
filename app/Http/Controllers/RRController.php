@@ -13,7 +13,6 @@ use Illuminate\Http\Request;
 use App\MRMaster;
 use App\POMaster;
 use App\RVDetail;
-use App\RRValidatorNoPO;
 use App\RRValidatorWithPO;
 use App\RRDetailsNotForStock;
 use App\RVMaster;
@@ -80,7 +79,7 @@ class RRController extends Controller
   }
   public function StoreSessionRRNoPO(Request $request)
   {
-      $QuantityMax=RRValidatorNoPO::where('RVNo',$request->RVNo)->where('Particulars', $request->Description)->value('Quantity');
+      $QuantityMax=RVDetail::where('RVNo',$request->RVNo)->where('Particulars', $request->Description)->value('QuantityValidator');
       if ($request->QuantityAccepted>$QuantityMax)
       {
         return response()->json(['error'=>'Sorry , you cannot accept more than '.$QuantityMax]);
@@ -109,8 +108,8 @@ class RRController extends Controller
           }
         }
       }
-      $nocommaUCost=str_replace(',','',$request->UnitCost);
-      $AMT=$nocommaUCost*$request->QuantityAccepted;
+        $nocommaUCost=str_replace(',','',$request->UnitCost);
+        $AMT=$nocommaUCost*$request->QuantityAccepted;
         $DataFromUserToArray = array('ItemCode'=>$request->ItemCode,'AccountCode'=>$request->AccountCode,'Description'=>$request->Description,'UnitCost'=>$nocommaUCost,'Unit'=>$request->Unit,'QuantityDelivered'=>$request->QuantityDelivered,'QuantityAccepted'=>$request->QuantityAccepted,'Amount'=>$AMT);
         $DataFromUserToArray=(object)$DataFromUserToArray;
         Session::push('RR-Items-Added',$DataFromUserToArray);
@@ -148,7 +147,7 @@ class RRController extends Controller
     $this->StoringRRTableNoPOValidator($request);
     if (empty(Session::get('RR-Items-Added')))
     {
-     return response()->json(['error'=>'Selecting items is required']);
+     return response()->json(['error'=>'Selecting item is required']);
     }
     $year=Carbon::now()->format('y');
     $date=Carbon::now();
@@ -199,18 +198,18 @@ class RRController extends Controller
     $RRMasterDB->PostedToBINbyPosition=$BINPoster[0]->Position;
     $RRMasterDB->save();
     $ForRRconfirmItemsDB = array();
-    $RRValidatorNoPO=RRValidatorNoPO::where('RVNo',$request->RVNo)->get(['Particulars','Quantity']);
+    $RVDetail=RVDetail::where('RVNo',$request->RVNo)->get(['Particulars','QuantityValidator']);
     foreach (Session::get('RR-Items-Added') as $forconfirmDetail)
     {
       $ForRRconfirmItemsDB[] = array('ItemCode' =>$forconfirmDetail->ItemCode ,'RRNo' =>$incremented ,
       'AccountCode' =>$forconfirmDetail->AccountCode ,'Description' =>$forconfirmDetail->Description ,'UnitCost' =>$forconfirmDetail->UnitCost ,'RRQuantityDelivered' =>$forconfirmDetail->QuantityDelivered,
-      'QuantityAccepted' =>$forconfirmDetail->QuantityAccepted ,'Unit' =>$forconfirmDetail->Unit ,'Amount' =>$forconfirmDetail->Amount);
-      foreach ($RRValidatorNoPO as $validatornopo)
+      'QuantityAccepted' =>$forconfirmDetail->QuantityAccepted ,'Unit' =>$forconfirmDetail->Unit ,'Amount'=>$forconfirmDetail->Amount);
+      foreach ($RVDetail as $rvdetail)
       {
-        if ($validatornopo->Particulars==$forconfirmDetail->Description)
+        if ($rvdetail->Particulars==$forconfirmDetail->Description)
         {
-          $newValidatorQty=$validatornopo->Quantity-$forconfirmDetail->QuantityAccepted;
-          RRValidatorNoPO::where('RVNo',$request->RVNo)->where('Particulars',$validatornopo->Particulars)->update(['Quantity'=>$newValidatorQty]);
+          $newValidatorQty=$rvdetail->QuantityValidator-$forconfirmDetail->QuantityAccepted;
+          RVDetail::where('RVNo',$request->RVNo)->where('Particulars',$rvdetail->Particulars)->update(['QuantityValidator'=>$newValidatorQty]);
         }
       }
     }
@@ -421,7 +420,7 @@ class RRController extends Controller
         }
       }else
       {
-        $remainingQuantity=RRValidatorNoPO::where('RVNo',$RRMaster[0]->RVNo)->sum('Quantity');
+        $remainingQuantity=RVDetail::where('RVNo',$RRMaster[0]->RVNo)->sum('QuantityValidator');
         if ($remainingQuantity==0)
         {
           RVMaster::where('RVNo',$RRMaster[0]->RVNo)->update(['IfPurchased'=>'0']);
@@ -465,15 +464,15 @@ class RRController extends Controller
     }else
     {
       $Detailscanceled=RRconfirmationDetails::where('RRNo',$id)->get(['Description','QuantityAccepted']);
-      $RRValidatorNoPO=RRValidatorNoPO::where('RVNo', $RRMaster[0]->RVNo)->get(['Particulars','Quantity']);
+      $RVDetail=RVDetail::where('RVNo', $RRMaster[0]->RVNo)->get(['Particulars','QuantityValidator']);
       foreach ($Detailscanceled as $canceldata)
       {
-        foreach ($RRValidatorNoPO as $rrvalidatorNopo)
+        foreach ($RVDetail as $rvdetail)
         {
-          if ($rrvalidatorNopo->Particulars==$canceldata->Description)
+          if ($rvdetail->Particulars==$canceldata->Description)
           {
-            $NewQty=$rrvalidatorNopo->Quantity + $canceldata->QuantityAccepted;
-            RRValidatorNoPO::where('RVNo',$RRMaster[0]->RVNo)->where('Particulars', $rrvalidatorNopo->Particulars)->update(['Quantity'=>$NewQty]);
+            $NewQty=$rvdetail->QuantityValidator + $canceldata->QuantityAccepted;
+            RVDetail::where('RVNo',$RRMaster[0]->RVNo)->where('Particulars', $rvdetail->Particulars)->update(['QuantityValidator'=>$NewQty]);
           }
         }
       }
@@ -492,8 +491,8 @@ class RRController extends Controller
     $Auditors=User::where('Role', '5')->whereNotNull('IsActive')->get(['id','FullName']);
     $Managers=User::where('Role','0')->whereNotNull('IsActive')->get(['id','FullName']);
     $Clerks=User::where('Role','6')->whereNotNull('IsActive')->get(['id','FullName']);
-    $fromRRValidatorNoPO=RRValidatorNoPO::where('RVNo',$id)->get(['RVNo','Particulars','Unit','Remarks','ItemCode','AccountCode']);
-    return view('Warehouse.RR.CreateRRNoPO',compact('fromRRValidatorNoPO','Auditors','Managers','Clerks'));
+    $fromRVDetail=RVDetail::where('RVNo',$id)->get(['RVNo','Particulars','Unit','Remarks','ItemCode','AccountCode']);
+    return view('Warehouse.RR.CreateRRNoPO',compact('fromRVDetail','Auditors','Managers','Clerks'));
   }
   public function CreateRRWithPO($id)
   {

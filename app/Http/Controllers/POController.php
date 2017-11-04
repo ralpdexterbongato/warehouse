@@ -10,14 +10,12 @@ use App\PODetail;
 use App\RVMaster;
 use App\User;
 use Auth;
-use App\RRValidatorNoPO;
 use App\RRValidatorWithPO;
 use App\Jobs\NewCreatedPOJob;
 class POController extends Controller
 {
     public function GeneratePOfromCanvass(Request $request)
     {
-
     $date=Carbon::now();
     $year=Carbon::now()->format('y');
     $GM=User::orderBy('id','DESC')->whereNotNull('IsActive')->where('Role','2')->take(1)->get(['FullName']);

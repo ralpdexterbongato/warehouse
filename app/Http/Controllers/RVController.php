@@ -11,7 +11,6 @@ use Carbon\Carbon;
 use App\MasterItem;
 use App\POMaster;
 use Auth;
-use App\RRValidatorNoPO;
 use App\RRMaster;
 use App\MaterialsTicketDetail;
 use App\Jobs\NewRVCreatedJob;
@@ -106,7 +105,7 @@ class RVController extends Controller
       $forRVdetailDB = array();
       foreach (Session::get('ItemSessionList') as $SessionItem)
       {
-        $forRVdetailDB[] = array('RVNo' =>$incremented ,'Particulars'=>$SessionItem->Description,'Unit'=>$SessionItem->Unit,'Quantity'=>$SessionItem->Quantity,'Remarks'=>$SessionItem->Remarks,'AccountCode'=>$SessionItem->AccountCode,'ItemCode'=>$SessionItem->ItemCode);
+        $forRVdetailDB[] = array('RVNo' =>$incremented ,'Particulars'=>$SessionItem->Description,'Unit'=>$SessionItem->Unit,'Quantity'=>$SessionItem->Quantity,'QuantityValidator'=>$SessionItem->Quantity,'Remarks'=>$SessionItem->Remarks,'AccountCode'=>$SessionItem->AccountCode,'ItemCode'=>$SessionItem->ItemCode);
       }
       RVDetail::insert($forRVdetailDB);
       Session::forget('ItemSessionList');
@@ -138,7 +137,7 @@ class RVController extends Controller
       $undeliveredTotal=null;
       if (($checkPO==null)&&($checkRR!=null))
       {
-       $undeliveredTotal=RRValidatorNoPO::where('RVNo',$id)->sum('Quantity');
+       $undeliveredTotal=RVDetail::where('RVNo',$id)->sum('QuantityValidator');
       }
       $response = array('RVMaster'=>$RVMaster ,'RVDetails'=>$RVDetails,'checkPO'=>$checkPO,'checkRR'=>$checkRR,'undeliveredTotal'=>$undeliveredTotal);
       return response()->json($response);
@@ -184,18 +183,6 @@ class RVController extends Controller
         $job = (new NewRVApprovedJob($notifyData))->delay(Carbon::now()->addSeconds(5));
         dispatch($job);
       }
-      $RVSignatures=RVMaster::where('RVNo',$id)->get(['RequisitionerSignature','BudgetOfficerSignature','RecommendedbySignature','GeneralManagerSignature','ApprovalReplacerSignature','ManagerReplacerSignature']);
-      if ((($RVSignatures[0]->RequisitionerSignature!=null)&&($RVSignatures[0]->BudgetOfficerSignature!=null)&&(($RVSignatures[0]->RecommendedbySignature!=null)||($RVSignatures[0]->ManagerReplacerSignature!=null))&&($RVSignatures[0]->GeneralManagerSignature!=null))||(($RVSignatures[0]->RequisitionerSignature!=null)&&($RVSignatures[0]->BudgetOfficerSignature!=null)&&($RVSignatures[0]->RecommendedbySignature!=null)&&($RVSignatures[0]->ApprovalReplacerSignature!=null)))
-      {
-        $RVitems=RVDetail::where('RVNo', $id)->get();
-        $forRRNoPOValidator = array();
-        foreach ($RVitems as $rvitem)
-        {
-          $forRRNoPOValidator[] = array('RVNo' =>$rvitem->RVNo ,'Particulars'=>$rvitem->Particulars,'Unit'=>$rvitem->Unit ,'Quantity'=>$rvitem->Quantity ,'Remarks'=>$rvitem->Remarks,'ItemCode'=>$rvitem->ItemCode,'AccountCode'=>$rvitem->AccountCode);
-        }
-        RRValidatorNoPO::insert($forRRNoPOValidator);
-      }
-
     }
     public function RVrequest()
     {
@@ -254,7 +241,7 @@ class RVController extends Controller
     }
     public function searchRVforStock(Request $request)
     {
-       $MasterResults=MasterItem::orderBy('id','DESC')->where('Description','LIKE','%'.$request->Description.'%')->paginate(8,['AccountCode','ItemCode','Description','Unit','CurrentQuantity','AlertIfBelow']);
+       $MasterResults=MasterItem::orderBy('ItemCode','DESC')->where('Description','LIKE','%'.$request->Description.'%')->paginate(8,['AccountCode','ItemCode','Description','Unit','CurrentQuantity','AlertIfBelow']);
        return response()->json(['MasterResults'=>$MasterResults]);
     }
     public function addtoStockSession(Request $request)
@@ -331,23 +318,13 @@ class RVController extends Controller
     public function AcceptSignatureBehalf($id)
     {
       RVMaster::where('RVNo', $id)->update(['ApprovalReplacerSignature'=>Auth::user()->Signature]);
-      $RVMaster=RVMaster::where('RVNo',$id)->get(['Requisitioner','GeneralManager','RequisitionerSignature','BudgetOfficerSignature','ManagerReplacerSignature','RecommendedbySignature','GeneralManagerSignature','ApprovalReplacerSignature']);
-      if(($RVMaster[0]->BudgetOfficerSignature!=null)&&(($RVMaster[0]->RecommendedbySignature!=null)||($RVMaster[0]->ManagerReplacerSignature!=null))&&(($RVMaster[0]->GeneralManagerSignature!=null)||($RVMaster[0]->ApprovalReplacerSignature!=null)))
-      {
-        $RVitems=RVDetail::where('RVNo', $id)->get();
-        $forRRNoPOValidator = array();
-        foreach ($RVitems as $rvitem)
-        {
-          $forRRNoPOValidator[] = array('RVNo' =>$rvitem->RVNo ,'Particulars'=>$rvitem->Particulars,'Unit'=>$rvitem->Unit ,'Quantity'=>$rvitem->Quantity ,'Remarks'=>$rvitem->Remarks,'AccountCode'=>$rvitem->AccountCode,'ItemCode'=>$rvitem->ItemCode);
-        }
-        RRValidatorNoPO::insert($forRRNoPOValidator);
+        $RVMaster=RVMaster::where('RVNo',$id)->get(['Requisitioner','GeneralManager']);
         $RequisitionerMobile=User::where('FullName',$RVMaster[0]->Requisitioner)->get(['Mobile']);
         $GMMoble=User::where('FullName',$RVMaster[0]->GeneralManager)->get(['Mobile']);
         $NotifData = array('RequisitionerMobile' =>$RequisitionerMobile[0]->Mobile,'RVNo'=>$id,'ApprovalReplacer'=>Auth::user()->FullName,'GMMobile'=>$GMMoble[0]->Mobile);
         $NotifData=(object)$NotifData;
         $job = (new RVApprovalReplacer($NotifData))->delay(Carbon::now()->addSeconds(5));
         dispatch($job);
-      }
     }
     public function fetchSessionRV()
     {

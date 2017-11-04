@@ -1059,7 +1059,7 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
     };
   },
 
-  props: ['fromrrvalidator', 'managers', 'auditors', 'clerks'],
+  props: ['fromrvdetail', 'managers', 'auditors', 'clerks'],
   methods: {
     submitTosession: function submitTosession(particular, unit, count) {
       var vm = this;
@@ -1071,7 +1071,7 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
         Unit: unit,
         QuantityDelivered: this.QuantityDelivered[count],
         QuantityAccepted: this.QuantityAccepted[count],
-        RVNo: this.fromrrvalidator[0].RVNo
+        RVNo: this.fromrvdetail[0].RVNo
       }).then(function (response) {
         console.log(response);
         if (response.data.error != null) {
@@ -1122,7 +1122,7 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
         Supplier: this.Supplier,
         Address: this.Address,
         InvoiceNo: this.InvoiceNo,
-        RVNo: this.fromrrvalidator[0].RVNo,
+        RVNo: this.fromrvdetail[0].RVNo,
         Carrier: this.Carrier,
         DeliveryReceiptNo: this.DeliveryReceiptNo,
         Note: this.Note
@@ -2595,28 +2595,28 @@ module.exports={render:function (){var _vm=this;var _h=_vm.$createElement;var _c
     }
   }, [_c('div', {
     staticClass: "items-from-rv-nopo-table"
-  }, [_c('table', [_vm._m(2), _vm._v(" "), _vm._l((_vm.fromrrvalidator), function(rrvalidationdata, count) {
-    return _c('tr', [(rrvalidationdata.AccountCode != null) ? _c('td', {
+  }, [_c('table', [_vm._m(2), _vm._v(" "), _vm._l((_vm.fromrvdetail), function(rvdetail, count) {
+    return _c('tr', [(rvdetail.AccountCode != null) ? _c('td', {
       model: {
-        value: (_vm.AccountCode[count] = rrvalidationdata.AccountCode),
+        value: (_vm.AccountCode[count] = rvdetail.AccountCode),
         callback: function($$v) {
-          _vm.AccountCode[count] = rrvalidationdata.AccountCode = $$v
+          _vm.AccountCode[count] = rvdetail.AccountCode = $$v
         },
-        expression: "AccountCode[count]=rrvalidationdata.AccountCode"
+        expression: "AccountCode[count]=rvdetail.AccountCode"
       }
-    }, [_vm._v(_vm._s(rrvalidationdata.AccountCode))]) : _c('td', [_c('i', {
+    }, [_vm._v(_vm._s(rvdetail.AccountCode))]) : _c('td', [_c('i', {
       staticClass: "fa fa-ban decliner"
-    }), _vm._v(" For Warehouse")]), _vm._v(" "), (rrvalidationdata.ItemCode != null) ? _c('td', {
+    }), _vm._v(" For Warehouse")]), _vm._v(" "), (rvdetail.ItemCode != null) ? _c('td', {
       model: {
-        value: (_vm.ItemCode[count] = rrvalidationdata.ItemCode),
+        value: (_vm.ItemCode[count] = rvdetail.ItemCode),
         callback: function($$v) {
-          _vm.ItemCode[count] = rrvalidationdata.ItemCode = $$v
+          _vm.ItemCode[count] = rvdetail.ItemCode = $$v
         },
-        expression: "ItemCode[count]=rrvalidationdata.ItemCode"
+        expression: "ItemCode[count]=rvdetail.ItemCode"
       }
-    }, [_vm._v(_vm._s(rrvalidationdata.ItemCode))]) : _c('td', [_c('i', {
+    }, [_vm._v(_vm._s(rvdetail.ItemCode))]) : _c('td', [_c('i', {
       staticClass: "fa fa-ban decliner"
-    }), _vm._v(" For Warehouse")]), _vm._v(" "), _c('td', [_vm._v(_vm._s(rrvalidationdata.Particulars))]), _vm._v(" "), _c('td', [_c('input', {
+    }), _vm._v(" For Warehouse")]), _vm._v(" "), _c('td', [_vm._v(_vm._s(rvdetail.Particulars))]), _vm._v(" "), _c('td', [_c('input', {
       directives: [{
         name: "model",
         rawName: "v-model",
@@ -2686,14 +2686,14 @@ module.exports={render:function (){var _vm=this;var _h=_vm.$createElement;var _c
           _vm.$set(_vm.QuantityAccepted, count, $event.target.value)
         }
       }
-    })]), _vm._v(" "), _c('td', [_vm._v(_vm._s(rrvalidationdata.Unit))]), _vm._v(" "), _c('td', [_c('button', {
+    })]), _vm._v(" "), _c('td', [_vm._v(_vm._s(rvdetail.Unit))]), _vm._v(" "), _c('td', [_c('button', {
       staticClass: "bttn-unite bttn-xs bttn-primary",
       attrs: {
         "type": "submit"
       },
       on: {
         "click": function($event) {
-          _vm.submitTosession(rrvalidationdata.Particulars, rrvalidationdata.Unit, count), _vm.ModalIsActive = !_vm.ModalIsActive
+          _vm.submitTosession(rvdetail.Particulars, rvdetail.Unit, count), _vm.ModalIsActive = !_vm.ModalIsActive
         }
       }
     }, [_c('i', {

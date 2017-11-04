@@ -112,7 +112,7 @@ Route::put('/RR-signature/{id}','RRController@signatureRR')->name('RRsigning');
 Route::get('/checkout-rr-request','RRController@RRsignatureRequest')->name('checkmyRRrequest');
 Route::get('/RR.pdf/{id}','PDFController@rrdownload')->name('RR-printing');
 Route::put('/decline-this-RR/{id}','RRController@declineRR')->name('RRdecline');
-Route::get('create-rr-wo-po/{id}','RRController@CreateRRNoPO')->name('CreatingRR.without.po')->middleware('IfAlreadyHavePO');
+Route::get('/create-rr-wo-po/{id}','RRController@CreateRRNoPO')->name('CreatingRR.without.po')->middleware('IfAlreadyHavePO');
 Route::get('/create-rr-w-po/{id}','RRController@CreateRRWithPO')->name('CreateingRR.with.po');
 Route::get('/rr-of-rv-list/{id}','RRController@RRofRVlist')->name('showRR-ofRV');
 Route::get('RV-create','RVController@RVcreate')->name('Creating.RV')->middleware('MustNotGMorManager');

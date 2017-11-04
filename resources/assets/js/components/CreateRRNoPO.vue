@@ -89,17 +89,17 @@
               <th>Unit</th>
               <th class="right-part"></th>
             </tr>
-            <tr v-for="(rrvalidationdata, count) in fromrrvalidator">
-              <td v-if="rrvalidationdata.AccountCode!=null" v-model="AccountCode[count]=rrvalidationdata.AccountCode">{{rrvalidationdata.AccountCode}}</td>
+            <tr v-for="(rvdetail, count) in fromrvdetail">
+              <td v-if="rvdetail.AccountCode!=null" v-model="AccountCode[count]=rvdetail.AccountCode">{{rvdetail.AccountCode}}</td>
               <td v-else><i class="fa fa-ban decliner"></i> For Warehouse</td>
-              <td v-if="rrvalidationdata.ItemCode!=null" v-model="ItemCode[count]=rrvalidationdata.ItemCode">{{rrvalidationdata.ItemCode}}</td>
+              <td v-if="rvdetail.ItemCode!=null" v-model="ItemCode[count]=rvdetail.ItemCode">{{rvdetail.ItemCode}}</td>
               <td v-else><i class="fa fa-ban decliner"></i> For Warehouse</td>
-              <td>{{rrvalidationdata.Particulars}}</td>
+              <td>{{rvdetail.Particulars}}</td>
               <td><input autocomplete="off" type="text" name="UnitCost" v-model="UnitCost[count]"></td>
               <td><input autocomplete="off" min="1" type="number" name="delivered" v-model="QuantityDelivered[count]" v-on:change="isDisabled=false" ></td>
               <td><input autocomplete="off" min="0" type="number" :max="QuantityDelivered[count]" name="accepted" v-model="QuantityAccepted[count]" :disabled="isDisabled"></td>
-              <td>{{rrvalidationdata.Unit}}</td>
-              <td><button class="bttn-unite bttn-xs bttn-primary" type="submit" v-on:click="submitTosession(rrvalidationdata.Particulars,rrvalidationdata.Unit,count),ModalIsActive=!ModalIsActive"><i class="fa fa-plus"></i></button></td>
+              <td>{{rvdetail.Unit}}</td>
+              <td><button class="bttn-unite bttn-xs bttn-primary" type="submit" v-on:click="submitTosession(rvdetail.Particulars,rvdetail.Unit,count),ModalIsActive=!ModalIsActive"><i class="fa fa-plus"></i></button></td>
             </tr>
           </table>
         </div>
@@ -138,7 +138,7 @@ import Longpress from 'vue-longpress'
         HideBtn:false,
       }
     },
-     props: ['fromrrvalidator','managers','auditors','clerks'],
+     props: ['fromrvdetail','managers','auditors','clerks'],
      methods: {
        submitTosession(particular,unit,count)
        {
@@ -151,7 +151,7 @@ import Longpress from 'vue-longpress'
            Unit:unit,
            QuantityDelivered:this.QuantityDelivered[count],
            QuantityAccepted:this.QuantityAccepted[count],
-           RVNo:this.fromrrvalidator[0].RVNo,
+           RVNo:this.fromrvdetail[0].RVNo,
          }).then(function(response)
          {
            console.log(response);
@@ -211,7 +211,7 @@ import Longpress from 'vue-longpress'
            Supplier:this.Supplier,
            Address:this.Address,
            InvoiceNo:this.InvoiceNo,
-           RVNo:this.fromrrvalidator[0].RVNo,
+           RVNo:this.fromrvdetail[0].RVNo,
            Carrier:this.Carrier,
            DeliveryReceiptNo:this.DeliveryReceiptNo,
            Note:this.Note,

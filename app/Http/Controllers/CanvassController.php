@@ -8,7 +8,6 @@ use App\CanvassDetail;
 use App\RVDetail;
 use App\POMaster;
 use App\RVMaster;
-use App\RRValidatorNoPO;
 class CanvassController extends Controller
 {
   public function __construct()
