@@ -10,8 +10,8 @@ use App\PODetail;
 use App\RVMaster;
 use App\User;
 use Auth;
-use App\RRValidatorWithPO;
 use App\Jobs\NewCreatedPOJob;
+use App\RVDetail;
 class POController extends Controller
 {
     public function GeneratePOfromCanvass(Request $request)
@@ -63,7 +63,7 @@ class POController extends Controller
         'RVDate'=>$RVMasterDB[0]->RVDate,'PODate'=>$date);
       }
 
-      $RRValidNoPO=RRValidatorNoPO::where('RVNo',$request->RVNo)->get(['Particulars','Quantity']);//use to minus qty for every po generation,so we can validate po items cant be overOrder.
+      $FromRVDetail=RVDetail::where('RVNo',$request->RVNo)->get(['Particulars','QuantityValidator']);//use to minus qty for every po generation,so we can validate po items cant be overOrder.
       foreach ($request->SupplierChoice as $key => $supplierpick)
       {
         if (($SupplierG==$supplierpick)&&($supplierpick!=null))
@@ -72,12 +72,16 @@ class POController extends Controller
           $quantity=$CanvasMaster[0]->CanvassDetail[$key]->Qty;
           $Amt=$price*$quantity;
           $toDBDetails[] = array('AccountCode'=>$CanvasMaster[0]->CanvassDetail[$key]->AccountCode,'ItemCode'=>$CanvasMaster[0]->CanvassDetail[$key]->ItemCode,'Price' =>$price ,'Unit'=>$CanvasMaster[0]->CanvassDetail[$key]->Unit,'Description'=>$CanvasMaster[0]->CanvassDetail[$key]->Article
-          ,'Qty'=>$quantity,'Amount'=>$Amt,'PONo'=>$incremented);
-           foreach ($RRValidNoPO as $overorderpreventor)
+          ,'Qty'=>$quantity,'QtyValidator'=>$quantity,'Amount'=>$Amt,'PONo'=>$incremented);
+           foreach ($FromRVDetail as $overorderpreventor)
            {
-             if ($overorderpreventor->Particulars==$CanvasMaster[0]->CanvassDetail[$key]->Article)
+             if (($overorderpreventor->Particulars==$CanvasMaster[0]->CanvassDetail[$key]->Article))
              {
-               RRValidatorNoPO::where('RVNo',$request->RVNo)->where('Particulars', $overorderpreventor->Particulars)->update(['Quantity'=>0]);
+               if ($overorderpreventor->QuantityValidator==0)
+               {
+                 return response()->json(['error'=>$overorderpreventor->Particulars.' already have purchase order.']);
+               }
+               RVDetail::where('RVNo',$request->RVNo)->where('Particulars', $overorderpreventor->Particulars)->update(['QuantityValidator'=>0]);
              }
            }
         }
@@ -119,8 +123,8 @@ class POController extends Controller
   }
   public function POFullPreviewFetch($id)
   {
-    $RRValidatorWithPO=RRValidatorWithPO::where('PONo',$id)->get(['Qty']);
-    $remainingUnreceived=$RRValidatorWithPO->sum('Qty');
+    $FromPODetail=PODetail::where('PONo',$id)->get(['QtyValidator']);
+    $remainingUnreceived=$FromPODetail->sum('QtyValidator');
     $OrderMaster=POMaster::where('PONo', $id)->get();
     $OrderMaster->load('PODetails');
     $totalAmt=PODetail::where('PONo', $id)->get(['Amount'])->sum('Amount');
@@ -130,27 +134,20 @@ class POController extends Controller
   public function GMSignaturePO($id)
   {
     POMaster::where('PONo',$id)->update(['GeneralManagerSignature'=>Auth::user()->Signature,'ApprovalReplacer'=>null,'ApprovalReplacerSignature'=>null]);
-     $PODetails=PODetail::where('PONo',$id)->get();
-     $forRRValidatorWithPO = array();
-     foreach ($PODetails as $podata)
-     {
-       $forRRValidatorWithPO[] = array('Price' =>$podata->Price ,'Unit'=>$podata->Unit,'Description'=>$podata->Description,'Qty'=>$podata->Qty,'Amount'=>$podata->Amount,'PONo'=>$podata->PONo,'ItemCode'=>$podata->ItemCode,'AccountCode'=>$podata->AccountCode);
-     }
-     RRValidatorWithPO::insert($forRRValidatorWithPO);
   }
   public function GMDeclined($id)
   {
     POMaster::where('PONo',$id)->update(['IfDeclined'=>Auth::user()->FullName,'ApprovalReplacer'=>null,'ApprovalReplacerSignature'=>null]);
     $PODetails=PODetail::where('PONo',$id)->get(['Qty','Description']);
     $RVNo=POMaster::where('PONo',$id)->value('RVNo');
-    $RRValidatorNoPO=RRValidatorNoPO::where('RVNo',$RVNo)->get(['Particulars']);
+    $FROMRVdetail=RVDetail::where('RVNo',$RVNo)->get(['Particulars']);
     foreach ($PODetails as $podetail)
     {
-      foreach ($RRValidatorNoPO as $canvassvalidator)
+      foreach ($FROMRVdetail as $canvassvalidator)
       {
         if ($canvassvalidator->Particulars==$podetail->Description)
         {
-          RRValidatorNoPO::where('RVNo',$RVNo)->where('Particulars',$canvassvalidator->Particulars)->update(['Quantity'=>$podetail->Qty]);
+          RVDetail::where('RVNo',$RVNo)->where('Particulars',$canvassvalidator->Particulars)->update(['QuantityValidator'=>$podetail->Qty]);
         }
       }
     }
@@ -173,13 +170,6 @@ class POController extends Controller
   public function AuthorizeInBehalfconfirmed($id)
   {
     POMaster::where('PONo',$id)->update(['ApprovalReplacerSignature'=>Auth::user()->Signature]);
-    $PODetails=PODetail::where('PONo',$id)->get();
-    $forRRValidatorWithPO = array();
-    foreach ($PODetails as $podata)
-    {
-      $forRRValidatorWithPO[] = array('Price' =>$podata->Price ,'Unit'=>$podata->Unit,'Description'=>$podata->Description,'Qty'=>$podata->Qty,'Amount'=>$podata->Amount,'PONo'=>$podata->PONo,'ItemCode'=>$podata->ItemCode,'AccountCode'=>$podata->AccountCode);
-    }
-    RRValidatorWithPO::insert($forRRValidatorWithPO);
   }
   public function MyPORequestCount()
   {

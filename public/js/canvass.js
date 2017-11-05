@@ -1100,13 +1100,13 @@ Vue.use(__WEBPACK_IMPORTED_MODULE_2_vue_numeric___default.a);
         Vue.set(vm.$data, 'formAddress', '');
         Vue.set(vm.$data, 'PriceNew', []);
         Vue.set(vm.$data, 'formTelephone', '');
+        vm.getSuppliers();
       }, function (error) {
         console.log(error);
         Vue.set(vm.$data, 'ownerrors', '');
         Vue.set(vm.$data, 'successAlerts', '');
         Vue.set(vm.$data, 'laravelerrors', error.response.data);
       });
-      this.getSuppliers();
     },
     generatePO: function generatePO() {
       this.HideSubmitBtn = true;
@@ -1119,10 +1119,15 @@ Vue.use(__WEBPACK_IMPORTED_MODULE_2_vue_numeric___default.a);
         if (response.data.error == null) {
           window.location = response.data.redirect;
         } else {
+          Vue.set(vm.$data, 'ownerrors', response.data.error);
+          Vue.set(vm.$data, 'laravelerrors', '');
+          Vue.set(vm.$data, 'successAlerts', '');
           Vue.set(vm.$data, 'HideSubmitBtn', false);
         }
       }, function (error) {
         Vue.set(vm.$data, 'laravelerrors', error.response.data);
+        Vue.set(vm.$data, 'successAlerts', '');
+        Vue.set(vm.$data, 'ownerrors', '');
         Vue.set(vm.$data, 'HideSubmitBtn', false);
       });
     },
@@ -1698,10 +1703,10 @@ module.exports={render:function (){var _vm=this;var _h=_vm.$createElement;var _c
       staticClass: "fa fa-trash"
     })])])
   })], 2), _vm._v(" "), _vm._l((_vm.RVdata), function(rvdata, index) {
-    return _c('tr', [_c('td', [_vm._v(_vm._s(rvdata.Particulars))]), _vm._v(" "), _c('td', [_vm._v(_vm._s(rvdata.Unit))]), _vm._v(" "), (rvdata.Quantity != 0) ? _c('td', [_vm._v(_vm._s(rvdata.Quantity))]) : _c('td', [_c('i', {
+    return _c('tr', [_c('td', [_vm._v(_vm._s(rvdata.Particulars))]), _vm._v(" "), _c('td', [_vm._v(_vm._s(rvdata.Unit))]), _vm._v(" "), (rvdata.QuantityValidator != 0) ? _c('td', [_vm._v(_vm._s(rvdata.QuantityValidator))]) : _c('td', [_c('i', {
       staticClass: "fa fa-check color-blue"
     })]), _vm._v(" "), _vm._l((_vm.Suppliers), function(supplier) {
-      return _c('td', [_vm._v("\n              " + _vm._s(_vm.formatPrice(supplier.canvass_detail[index].Price)) + "\n              "), (supplier.canvass_detail[index].Price > 0 && rvdata.Quantity != 0) ? _c('input', {
+      return _c('td', [(supplier.canvass_detail[index].Price > 0 && rvdata.QuantityValidator != 0) ? _c('input', {
         attrs: {
           "type": "radio",
           "name": 'SupplierChoice[' + [index] + ']'
@@ -1712,7 +1717,7 @@ module.exports={render:function (){var _vm=this;var _h=_vm.$createElement;var _c
             _vm.changeValue([index], supplier.Supplier)
           }
         }
-      }) : _vm._e()])
+      }) : _vm._e(), _vm._v("\n              " + _vm._s(_vm.formatPrice(supplier.canvass_detail[index].Price)) + "\n            ")])
     })], 2)
   })], 2)]), _vm._v(" "), _c('div', {
     staticClass: "GeneratePO-btn"
@@ -1927,8 +1932,8 @@ module.exports={render:function (){var _vm=this;var _h=_vm.$createElement;var _c
       directives: [{
         name: "model",
         rawName: "v-model",
-        value: (_vm.Qty[count] = rvdata.Quantity),
-        expression: "Qty[count]=rvdata.Quantity"
+        value: (_vm.Qty[count] = rvdata.QuantityValidator),
+        expression: "Qty[count]=rvdata.QuantityValidator"
       }],
       staticStyle: {
         "display": "none"
@@ -1938,12 +1943,12 @@ module.exports={render:function (){var _vm=this;var _h=_vm.$createElement;var _c
         "name": "Qty[]"
       },
       domProps: {
-        "value": (_vm.Qty[count] = rvdata.Quantity)
+        "value": (_vm.Qty[count] = rvdata.QuantityValidator)
       },
       on: {
         "input": function($event) {
           if ($event.target.composing) { return; }
-          _vm.Qty[count] = rvdata.Quantity = $event.target.value
+          _vm.Qty[count] = rvdata.QuantityValidator = $event.target.value
         }
       }
     }), _vm._v(" "), _c('input', {

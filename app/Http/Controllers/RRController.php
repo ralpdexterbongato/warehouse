@@ -13,10 +13,10 @@ use Illuminate\Http\Request;
 use App\MRMaster;
 use App\POMaster;
 use App\RVDetail;
-use App\RRValidatorWithPO;
 use App\RRDetailsNotForStock;
 use App\RVMaster;
 use App\Jobs\NewCreatedRRJob;
+use App\PODetail;
 class RRController extends Controller
 {
   public function __construct()
@@ -28,7 +28,7 @@ class RRController extends Controller
   {
     $QuantityAccepted=$request->QuantityAccepted;
     $this->validate($request,[
-      'UnitCost'=>'required|min:0.1|regex:/^[0-9]{1,3}(,[0-9]{3})*(\.[0-9]+)*$/',
+      'UnitCost'=>'required|regex:/^[0-9]{1,3}(,[0-9]{3})*(\.[0-9]+)*$/',
       'Description'=>'required',
       'Unit'=>'required',
       'QuantityDelivered'=>'required|numeric|min:'.$QuantityAccepted,
@@ -109,17 +109,18 @@ class RRController extends Controller
         }
       }
         $nocommaUCost=str_replace(',','',$request->UnitCost);
-        $AMT=$nocommaUCost*$request->QuantityAccepted;
-        $DataFromUserToArray = array('ItemCode'=>$request->ItemCode,'AccountCode'=>$request->AccountCode,'Description'=>$request->Description,'UnitCost'=>$nocommaUCost,'Unit'=>$request->Unit,'QuantityDelivered'=>$request->QuantityDelivered,'QuantityAccepted'=>$request->QuantityAccepted,'Amount'=>$AMT);
+        $Ucost=number_format($nocommaUCost, 2, '.', '');
+        $AMT=$Ucost*$request->QuantityAccepted;
+        $DataFromUserToArray = array('ItemCode'=>$request->ItemCode,'AccountCode'=>$request->AccountCode,'Description'=>$request->Description,'UnitCost'=>$Ucost,'Unit'=>$request->Unit,'QuantityDelivered'=>$request->QuantityDelivered,'QuantityAccepted'=>$request->QuantityAccepted,'Amount'=>$AMT);
         $DataFromUserToArray=(object)$DataFromUserToArray;
         Session::push('RR-Items-Added',$DataFromUserToArray);
   }
   public function StoreSessionRRWithPO(Request $request)
   {
-    $QtyOfValidator=RRValidatorWithPO::where('PONo',$request->PONo)->where('Description',$request->Description)->get(['Qty']);
-    if ($request->QuantityAccepted > $QtyOfValidator[0]->Qty)
+    $QtyOfValidator=PODetail::where('PONo',$request->PONo)->where('Description',$request->Description)->get(['QtyValidator']);
+    if ($request->QuantityAccepted > $QtyOfValidator[0]->QtyValidator)
     {
-      return response()->json(['error'=>'Sorry, You cannot accept more than '.$QtyOfValidator[0]->Qty]);
+      return response()->json(['error'=>'Sorry, You cannot accept more than '.$QtyOfValidator[0]->QtyValidator]);
     }
     $this->storeRRSessionValidatorWithPO($request);
     if (Session::has('RR-Items-Added'))
@@ -285,18 +286,18 @@ class RRController extends Controller
     $RRMasterDB->PostedToBINbyPosition=$BINPoster[0]->Position;
     $RRMasterDB->save();
     $ForRRconfirmItemsDB = array();
-    $RRValidatorWithPO=RRValidatorWithPO::where('PONo',$request->PONo)->get(['Qty','Description']);
+    $FromPODetail=PODetail::where('PONo',$request->PONo)->get(['QtyValidator','Description']);
     foreach (Session::get('RR-Items-Added') as $forconfirmDetail)
     {
       $ForRRconfirmItemsDB[] = array('ItemCode' =>$forconfirmDetail->ItemCode ,'RRNo' =>$incremented ,
       'AccountCode' =>$forconfirmDetail->AccountCode ,'Description' =>$forconfirmDetail->Description ,'UnitCost' =>$forconfirmDetail->UnitCost ,'RRQuantityDelivered' =>$forconfirmDetail->QuantityDelivered,
       'QuantityAccepted' =>$forconfirmDetail->QuantityAccepted ,'Unit' =>$forconfirmDetail->Unit ,'Amount' =>$forconfirmDetail->Amount);
-      foreach ($RRValidatorWithPO as $validatorwithpo)
+      foreach ($FromPODetail as $frompodetail)
       {
-        if ($validatorwithpo->Description==$forconfirmDetail->Description)
+        if ($frompodetail->Description==$forconfirmDetail->Description)
         {
-          $newValidatorQty=$validatorwithpo->Qty-$forconfirmDetail->QuantityAccepted;
-          RRValidatorWithPO::where('PONo',$request->PONo)->where('Description',$validatorwithpo->Description)->update(['Qty'=>$newValidatorQty]);
+          $newValidatorQty=$frompodetail->QtyValidator - $forconfirmDetail->QuantityAccepted;
+          PODetail::where('PONo',$request->PONo)->where('Description',$frompodetail->Description)->update(['QtyValidator'=>$newValidatorQty]);
         }
       }
     }
@@ -411,8 +412,8 @@ class RRController extends Controller
         $unpurchasedtotal=0;
         foreach ($POofRV as $POofrv)
         {
-          $Qtyleft=RRValidatorWithPO::where('PONo', $POofrv->PONo)->get(['Qty']);
-          $unpurchasedtotal=$unpurchasedtotal + $Qtyleft[0]->Qty;
+          $Qtyleft=PODetail::where('PONo', $POofrv->PONo)->get(['QtyValidator']);
+          $unpurchasedtotal=$unpurchasedtotal + $Qtyleft[0]->QtyValidator;
         }
         if ($unpurchasedtotal==0)
         {
@@ -449,15 +450,15 @@ class RRController extends Controller
     if ($RRMaster[0]->PONo!=null)
     {
       $Detailscanceled=RRconfirmationDetails::where('RRNo',$id)->get(['Description','QuantityAccepted']);
-      $RRValidatorWithPO=RRValidatorWithPO::where('PONo', $RRMaster[0]->PONo)->get(['Description','Qty']);
+      $FromPODetail=PODetail::where('PONo', $RRMaster[0]->PONo)->get(['Description','QtyValidator']);
       foreach ($Detailscanceled as $canceldata)
       {
-        foreach ($RRValidatorWithPO as $rrvalidatorwithpo)
+        foreach ($FromPODetail as $frompodetail)
         {
-          if ($rrvalidatorwithpo->Description==$canceldata->Description)
+          if ($frompodetail->Description==$canceldata->Description)
           {
-            $NewQty=$rrvalidatorwithpo->Qty + $canceldata->QuantityAccepted;
-            RRValidatorWithPO::where('PONo', $RRMaster[0]->PONo)->where('Description', $rrvalidatorwithpo->Description)->update(['Qty'=>$NewQty]);
+            $NewQty=$frompodetail->QtyValidator + $canceldata->QuantityAccepted;
+            PODetail::where('PONo', $RRMaster[0]->PONo)->where('Description', $frompodetail->Description)->update(['QtyValidator'=>$NewQty]);
           }
         }
       }
@@ -500,8 +501,8 @@ class RRController extends Controller
     $Managers=User::where('Role','0')->whereNotNull('IsActive')->get(['id','FullName']);
     $Clerks=User::where('Role','6')->whereNotNull('IsActive')->get(['id','FullName']);
     $POMaster=POMaster::where('PONo',$id)->get(['Supplier','Address','RVNo','PONo']);
-    $RRValidatorWithPO=RRValidatorWithPO::where('PONo',$id)->get(['Price','Unit','Description','Amount','PONo','ItemCode','AccountCode']);
-    return view('Warehouse.RR.CreateRRWithPO',compact('POMaster','RRValidatorWithPO','Auditors','Managers','Clerks'));
+    $fromPODetail=PODetail::where('PONo',$id)->get(['Price','Unit','Description','Amount','PONo','ItemCode','AccountCode']);
+    return view('Warehouse.RR.CreateRRWithPO',compact('POMaster','fromPODetail','Auditors','Managers','Clerks'));
   }
   public function RRofRVlist($id)
   {

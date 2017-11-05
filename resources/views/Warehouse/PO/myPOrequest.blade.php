@@ -33,7 +33,9 @@
           </tr>
         @endforeach
       </table>
-      {{$myPOlist->links()}}
+      <div class="paginate-container">
+        {{$myPOlist->links()}}
+      </div>
     @else
       <h1 class="empty-po">P.O. Request is empty</h1>
     @endif

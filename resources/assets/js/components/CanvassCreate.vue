@@ -32,11 +32,11 @@
             <tr v-for="(rvdata, index) in RVdata">
               <td>{{rvdata.Particulars}}</td>
               <td>{{rvdata.Unit}}</td>
-              <td v-if="rvdata.Quantity!=0">{{rvdata.Quantity}}</td>
+              <td v-if="rvdata.QuantityValidator!=0">{{rvdata.QuantityValidator}}</td>
               <td v-else><i class="fa fa-check color-blue"></i></td>
               <td v-for="supplier in Suppliers">
+                <input type="radio" @click.prevents="changeValue([index],supplier.Supplier)" v-bind:name="'SupplierChoice['+[index]+']'" v-if="supplier.canvass_detail[index].Price>0&&rvdata.QuantityValidator!=0">
                 {{formatPrice(supplier.canvass_detail[index].Price)}}
-                <input type="radio" @click.prevents="changeValue([index],supplier.Supplier)" v-bind:name="'SupplierChoice['+[index]+']'" v-if="supplier.canvass_detail[index].Price>0&&rvdata.Quantity!=0">
               </td>
             </tr>
         </table>
@@ -74,7 +74,7 @@
                   <td>{{rvdata.Unit}}</td>
                   <input type="text" name="Particulars[]" v-model="Particulars[count]=rvdata.Particulars" style="display:none">
                   <input type="text" name="Unit[]" v-model="Unit[count]=rvdata.Unit" style="display:none">
-                  <input type="text" name="Qty[]" v-model="Qty[count]=rvdata.Quantity" style="display:none">
+                  <input type="text" name="Qty[]" v-model="Qty[count]=rvdata.QuantityValidator" style="display:none">
                   <input type="text" name="AccountCode[]" v-model="AccountCode[count]=rvdata.AccountCode" style="display:none">
                   <input type="text" name="ItemCode[]" v-model="ItemCode[count]=rvdata.ItemCode" style="display:none">
                   <td>
@@ -185,7 +185,7 @@ Vue.use(VueNumeric);
           Vue.set(vm.$data,'formAddress','');
           Vue.set(vm.$data,'PriceNew',[]);
           Vue.set(vm.$data,'formTelephone','');
-
+          vm.getSuppliers();
         },function(error)
         {
           console.log(error);
@@ -193,7 +193,6 @@ Vue.use(VueNumeric);
           Vue.set(vm.$data,'successAlerts','');
           Vue.set(vm.$data,'laravelerrors',error.response.data);
         });
-        this.getSuppliers();
       },
       generatePO()
       {
@@ -210,11 +209,16 @@ Vue.use(VueNumeric);
              window.location=response.data.redirect;
            }else
            {
+             Vue.set(vm.$data,'ownerrors',response.data.error);
+             Vue.set(vm.$data,'laravelerrors','');
+             Vue.set(vm.$data,'successAlerts','');
              Vue.set(vm.$data,'HideSubmitBtn',false);
            }
         },function(error)
         {
           Vue.set(vm.$data,'laravelerrors',error.response.data);
+          Vue.set(vm.$data,'successAlerts','');
+          Vue.set(vm.$data,'ownerrors','');
           Vue.set(vm.$data,'HideSubmitBtn',false);
         });
       },

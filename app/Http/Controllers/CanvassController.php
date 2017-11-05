@@ -56,16 +56,16 @@ class CanvassController extends Controller
 
   public function getSupplierRecords($id)
   {
-    $detailsRRValidator=RRValidatorNoPO::where('RVNo', $id)->get(); //i am using rrvalidatorNoPO for this so we can use it validate if the item already have PO.
+    $FromRVDetail=RVDetail::where('RVNo', $id)->get(); //i am using RVDetail QuantityValidator for this so i can use it validate if the item already have PO.
     $integ =[];
-    foreach ($detailsRRValidator as $key => $rvdetail) {
-      $integ[] = array('price' =>0);
+    foreach ($FromRVDetail as $key => $rvdetail) {
+      $integ[] = array('price' =>0); //passed 0 every item to be the default value of arrays in vue price.
     }
      $SupplierRecords=CanvassMaster::where('RVNo',$id)->get(['Supplier','id']);
      $supplier= $SupplierRecords->load('CanvassDetail');
      $response=[
        'supplierdata'=>$supplier,
-       'rvdata'=>$detailsRRValidator,
+       'rvdata'=>$FromRVDetail,
        'integ'=>$integ,
      ];
      return response()->json($response);

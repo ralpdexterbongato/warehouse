@@ -20,9 +20,9 @@ class CreateTableRRConfirmationsDetails extends Migration
             $table->string('AccountCode',20)->nullable();
             $table->string('Description',100)->nullable();
             $table->decimal('UnitCost',18,2)->nullable();
-            $table->integer('RRQuantityDelivered')->nullable();
+            $table->decimal('RRQuantityDelivered',18,0)->nullable();
             $table->decimal('QuantityAccepted',18,0)->nullable();
-            $table->string('Unit')->nullable();
+            $table->string('Unit',20)->nullable();
             $table->decimal('Amount',18,2)->nullable();
         });
     }
