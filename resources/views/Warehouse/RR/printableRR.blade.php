@@ -213,6 +213,7 @@
   {
     page-break-inside:avoid;
     margin-bottom: 25px;
+    font-size: 14px;
   }
   .note-container label
   {
@@ -232,21 +233,23 @@
   {
     list-style: none;
   }
-  .left-name-sign li,.right-name-sign li
+  .right-name-sign li,.left-name-sign li
   {
-    margin-left: 100px;
     margin-top: 50px;
     position: relative;
+    text-align: center;
   }
   .left-name-sign
   {
     width: 45%;
     float:left;
+    text-align: left;
   }
   .right-name-sign
   {
     float:right;
     width: 45%;
+    text-align: left;
   }
 .signature-top-wrap
 {
@@ -274,8 +277,8 @@
   width: 150px;
   height: 50px;
   position: absolute;
-  top: -50px;
-  left:50px;
+  top: -60px;
+  left:100px;
 }
   </style>
   <body>
