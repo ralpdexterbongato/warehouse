@@ -5229,10 +5229,10 @@ transition:all .5s;
 .items-from-rv-table th
 {
   text-transform: uppercase;
-  text-align: center;
+  text-align: left;
   background: #337AB7;
   color: #fff;
-  padding:5px;
+  padding:10px 15px;
   font-weight: 600;
 }
 .update-delete-supplier
@@ -5258,7 +5258,6 @@ transition:all .5s;
 .items-from-rv-table td
 {
   padding:20px;
-  text-align: center;
 }
 .items-from-rv-table td input[type="radio"]
 {
@@ -5792,9 +5791,9 @@ filter: drop-shadow(1px 1px 8px #0D4DFF);
 .po-request-table table
 {
   width: 100%;
-  border:1px solid #337AB7;
   font-family:'Comfortaa',sans-serif;
   text-align: center;
+	font-size: 15px;
 }
 .po-request-table th
 {
