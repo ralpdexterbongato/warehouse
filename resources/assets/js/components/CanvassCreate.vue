@@ -143,148 +143,157 @@ Vue.use(VueNumeric);
       this.getSuppliers();
     },
      methods: {
-       getSuppliers()
-       {
-         var vm=this;
-         axios.get(`/canvass-suppliers/`+this.rvno.RVNo).then(function(response)
+         getSuppliers()
          {
-           console.log(response)
-           Vue.set(vm.$data,'Suppliers',response.data.supplierdata);
-           Vue.set(vm.$data,'RVdata',response.data.rvdata);
-           Vue.set(vm.$data,'Integ',response.data.integ);
-         },function(error)
-         {
-          console.log(error);
-         });
-       },
-        formatPrice(value) {
-              let val = (value/1).toFixed(2).replace('.', '.')
-              return val.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ",")
-        },
-       saveSupplier()
-       {
-         var vm=this;
-         axios.post(`/supplier-save-canvass`,{
-           RVNo:this.RVdata[0].RVNo,
-           AccountCode:this.AccountCode,
-           ItemCode:this.ItemCode,
-           Supplier:this.formSupplier,
-           Address:this.formAddress,
-           Telephone:this.formTelephone,
-           Particulars:this.Particulars,
-           Price:this.PriceNew,
-           Qty:this.Qty,
-           Unit:this.Unit,
-         }).then(function(response)
-         {
-          console.log(response);
-          Vue.set(vm.$data,'successAlerts','Saved successfully');
-          Vue.set(vm.$data,'ownerrors','');
-          Vue.set(vm.$data,'laravelerrors','');
-          Vue.set(vm.$data,'formSupplier','');
-          Vue.set(vm.$data,'formAddress','');
-          Vue.set(vm.$data,'PriceNew',[]);
-          Vue.set(vm.$data,'formTelephone','');
-          vm.getSuppliers();
-        },function(error)
-        {
-          console.log(error);
-          Vue.set(vm.$data,'ownerrors','');
-          Vue.set(vm.$data,'successAlerts','');
-          Vue.set(vm.$data,'laravelerrors',error.response.data);
-        });
-      },
-      generatePO()
-      {
-        this.HideSubmitBtn=true;
-        var vm=this;
-        axios.post(`/generate-po`,{
-          RVNo:this.RVdata[0].RVNo,
-          SupplierChoice:this.SupplierChoice,
-        }).then(function(response)
-        {
-          console.log(response);
-           if (response.data.error==null)
+           var vm=this;
+           axios.get(`/canvass-suppliers/`+this.rvno.RVNo).then(function(response)
            {
-             window.location=response.data.redirect;
-           }else
+             console.log(response)
+             Vue.set(vm.$data,'Suppliers',response.data.supplierdata);
+             Vue.set(vm.$data,'RVdata',response.data.rvdata);
+             Vue.set(vm.$data,'Integ',response.data.integ);
+           },function(error)
            {
-             Vue.set(vm.$data,'ownerrors',response.data.error);
-             Vue.set(vm.$data,'laravelerrors','');
-             Vue.set(vm.$data,'successAlerts','');
-             Vue.set(vm.$data,'HideSubmitBtn',false);
+            console.log(error);
+           });
+          },
+          formatPrice(value) {
+                let val = (value/1).toFixed(2).replace('.', '.')
+                return val.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ",")
+          },
+         saveSupplier()
+         {
+           var vm=this;
+           if (confirm("Confirm this new supplier data?"))
+           {
+             axios.post(`/supplier-save-canvass`,{
+               RVNo:this.RVdata[0].RVNo,
+               AccountCode:this.AccountCode,
+               ItemCode:this.ItemCode,
+               Supplier:this.formSupplier,
+               Address:this.formAddress,
+               Telephone:this.formTelephone,
+               Particulars:this.Particulars,
+               Price:this.PriceNew,
+               Qty:this.Qty,
+               Unit:this.Unit,
+             }).then(function(response)
+             {
+              console.log(response);
+              Vue.set(vm.$data,'successAlerts','Saved successfully');
+              Vue.set(vm.$data,'ownerrors','');
+              Vue.set(vm.$data,'laravelerrors','');
+              Vue.set(vm.$data,'formSupplier','');
+              Vue.set(vm.$data,'formAddress','');
+              Vue.set(vm.$data,'PriceNew',[]);
+              Vue.set(vm.$data,'formTelephone','');
+              vm.getSuppliers();
+            },function(error)
+            {
+              console.log(error);
+              Vue.set(vm.$data,'ownerrors','');
+              Vue.set(vm.$data,'successAlerts','');
+              Vue.set(vm.$data,'laravelerrors',error.response.data);
+            });
            }
-        },function(error)
+         },
+        generatePO()
         {
-          Vue.set(vm.$data,'laravelerrors',error.response.data);
-          Vue.set(vm.$data,'successAlerts','');
-          Vue.set(vm.$data,'ownerrors','');
-          Vue.set(vm.$data,'HideSubmitBtn',false);
-        });
-      },
-      changeValue(count,newValue) {
-            this.SupplierChoice[count] = newValue;
-        },
-      fetchSupplierUpdate(id)
-      {
-        var url = window.location.href;
-        var RVid= url.split('/')[4];
-        var vm=this;
-        axios.get(`/search-supplier/`+RVid,{
-          params:
+          this.HideSubmitBtn=true;
+          var vm=this;
+          axios.post(`/generate-po`,{
+            RVNo:this.RVdata[0].RVNo,
+            SupplierChoice:this.SupplierChoice,
+          }).then(function(response)
           {
-            canvassID:id,
+            console.log(response);
+             if (response.data.error==null)
+             {
+               window.location=response.data.redirect;
+             }else
+             {
+               Vue.set(vm.$data,'ownerrors',response.data.error);
+               Vue.set(vm.$data,'laravelerrors','');
+               Vue.set(vm.$data,'successAlerts','');
+               Vue.set(vm.$data,'HideSubmitBtn',false);
+             }
+          },function(error)
+          {
+            Vue.set(vm.$data,'laravelerrors',error.response.data);
+            Vue.set(vm.$data,'successAlerts','');
+            Vue.set(vm.$data,'ownerrors','');
+            Vue.set(vm.$data,'HideSubmitBtn',false);
+          });
+        },
+        changeValue(count,newValue) {
+              this.SupplierChoice[count] = newValue;
+          },
+        fetchSupplierUpdate(id)
+        {
+          var url = window.location.href;
+          var RVid= url.split('/')[4];
+          var vm=this;
+          axios.get(`/search-supplier/`+RVid,{
+            params:
+            {
+              canvassID:id,
+            }
+          }).then(function(response)
+          {
+            console.log(response);
+            Vue.set(vm.$data,'fetchUpdatedata',response.data[0]);
+            Vue.set(vm.$data,'UpdateformSupplier',response.data[0].Supplier);
+            Vue.set(vm.$data,'UpdateformAddress',response.data[0].Address);
+            Vue.set(vm.$data,'UpdateformTelephone',response.data[0].Telephone);
+          },function(error)
+          {
+            Vue.set(vm.$data,'laravelerrors',error.response.data)
+          });
+        },
+
+        saveUpdate()
+        {
+          var vm=this;
+          if (confirm("Confirm save changes?")==true)
+          {
+            var id=this.fetchUpdatedata.id;
+            axios.put(`/update-canvass/`+id,{
+                Prices:this.UpdatePrice,
+                Supplier:this.UpdateformSupplier,
+                Address:this.UpdateformAddress,
+                Telephone:this.UpdateformTelephone,
+            }).then(function(response)
+            {
+              console.log(response);
+              Vue.set(vm.$data,'laravelerrors','');
+              Vue.set(vm.$data,'successAlerts','Successfully updated !');
+
+            },function(error){
+              console.log(error);
+              Vue.set(vm.$data,'laravelerrors',error.response.data);
+              Vue.set(vm.$data,'successAlerts','');
+            });
+            this.getSuppliers();
           }
-        }).then(function(response)
+        },
+        deleteCanvass(id)
         {
-          console.log(response);
-          Vue.set(vm.$data,'fetchUpdatedata',response.data[0]);
-          Vue.set(vm.$data,'UpdateformSupplier',response.data[0].Supplier);
-          Vue.set(vm.$data,'UpdateformAddress',response.data[0].Address);
-          Vue.set(vm.$data,'UpdateformTelephone',response.data[0].Telephone);
-        },function(error)
-        {
-          Vue.set(vm.$data,'laravelerrors',error.response.data)
-        });
-      },
-
-      saveUpdate()
-      {
-        var vm=this;
-        var id=this.fetchUpdatedata.id;
-        axios.put(`/update-canvass/`+id,{
-            Prices:this.UpdatePrice,
-            Supplier:this.UpdateformSupplier,
-            Address:this.UpdateformAddress,
-            Telephone:this.UpdateformTelephone,
-        }).then(function(response)
-        {
-          console.log(response);
-          Vue.set(vm.$data,'laravelerrors','');
-          Vue.set(vm.$data,'successAlerts','Successfully updated !');
-
-        },function(error){
-          console.log(error);
-          Vue.set(vm.$data,'laravelerrors',error.response.data);
-          Vue.set(vm.$data,'successAlerts','');
-        });
-        this.getSuppliers();
-      },
-      deleteCanvass(id)
-      {
-        var vm=this;
-        axios.delete(`/deleteCanvassRecord/`+id,{}).then(function(response){
-          console.log(response);
-        },function(error)
-        {
-          console.log(error);
-        });
-        this.getSuppliers();
-      },
-     },
-     components: {
-        Longpress
-      },
+          var vm=this;
+          if (confirm("Are you sure to delete this permanently?")==true)
+          {
+            axios.delete(`/deleteCanvassRecord/`+id,{}).then(function(response){
+              console.log(response);
+              vm.getSuppliers()
+            },function(error)
+            {
+              console.log(error);
+            });
+          }
+        },
+       },
+       components: {
+          Longpress
+        },
 
   }
 </script>

@@ -15,7 +15,7 @@
   <div class="searchbar-month-history">
     <div class="searchbox-for-admin-warehouse" v-if="user.Role==4||user.Role==3||user.Role==1">
       Histories of
-      <select v-model="searchname">
+      <select v-model="searchname" v-on:change="NewNameSelected()">
         <option :value="null">{{user.FullName}}</option>
         <option :value="name.FullName" v-for="name in activenames">{{name.FullName}}</option>
       </select>
@@ -355,6 +355,25 @@
            this.searchRV(next);
          }
        },
+       NewNameSelected()
+       {
+         if (this.mirsbtn==true)
+         {
+           this.searchMIRS(1);
+         }else if (this.mctbtn==true)
+         {
+           this.searchMCT(1);
+         }else if (this.mrtbtn==true)
+         {
+           this.searchMRT(1)
+         }else if (this.mrbtn==true)
+         {
+           this.searchMR(1);
+         }else if (this.rvbtn==true)
+         {
+           this.searchRV(1);
+         }
+       }
 
      },
      created ()

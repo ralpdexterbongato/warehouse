@@ -1126,110 +1126,120 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
     },
     submitUpdate: function submitUpdate(id) {
       var vm = this;
-      __WEBPACK_IMPORTED_MODULE_0_axios___default.a.put('/update-user-data/' + id, {
-        emulateJSON: true,
-        FullName: this.fullname,
-        Role: this.role,
-        Position: this.position,
-        Manager: this.mymanager,
-        Username: this.username,
-        Mobile: this.MobileUpdate,
-        Password: this.Password,
-        Password_confirmation: this.Password_confirmation,
-        Signature: this.image,
-        IsActive: this.activeUser
-      }).then(function (response) {
-        console.log(response);
-        if (response.data.error != null) {
-          Vue.set(vm.$data, 'ownerrors', response.data.error);
+      if (confirm("Save Changes?") == true) {
+        __WEBPACK_IMPORTED_MODULE_0_axios___default.a.put('/update-user-data/' + id, {
+          emulateJSON: true,
+          FullName: this.fullname,
+          Role: this.role,
+          Position: this.position,
+          Manager: this.mymanager,
+          Username: this.username,
+          Mobile: this.MobileUpdate,
+          Password: this.Password,
+          Password_confirmation: this.Password_confirmation,
+          Signature: this.image,
+          IsActive: this.activeUser
+        }).then(function (response) {
+          console.log(response);
+          if (response.data.error != null) {
+            Vue.set(vm.$data, 'ownerrors', response.data.error);
+            Vue.set(vm.$data, 'successAlerts', '');
+            Vue.set(vm.$data, 'laravelerrors', '');
+          } else {
+            Vue.set(vm.$data, 'successAlerts', 'Updated Successfully');
+            Vue.set(vm.$data, 'laravelerrors', '');
+            Vue.set(vm.$data, 'ownerrors', '');
+            vm.getSelected();
+            vm.image = '';
+          }
+        }, function (error) {
+          Vue.set(vm.$data, 'laravelerrors', error.response.data);
           Vue.set(vm.$data, 'successAlerts', '');
-          Vue.set(vm.$data, 'laravelerrors', '');
-        } else {
-          Vue.set(vm.$data, 'successAlerts', 'Updated Successfully');
-          Vue.set(vm.$data, 'laravelerrors', '');
           Vue.set(vm.$data, 'ownerrors', '');
-        }
-      }, function (error) {
-        Vue.set(vm.$data, 'laravelerrors', error.response.data);
-        Vue.set(vm.$data, 'successAlerts', '');
-        Vue.set(vm.$data, 'ownerrors', '');
-      });
-      this.getSelected();
-      this.image = '';
+        });
+      }
     },
     deleteAccount: function deleteAccount(id) {
       var vm = this;
-      __WEBPACK_IMPORTED_MODULE_0_axios___default.a.delete('/deleteAccount/' + id).then(function (response) {
-        console.log(response);
-        Vue.set(vm.$data, 'successAlerts', 'Account removed successfully');
-      }, function (error) {
-        console.log(error);
-      });
-      this.getSelected();
+      if (confirm("Are you sure to delete this account?") == true) {
+        __WEBPACK_IMPORTED_MODULE_0_axios___default.a.delete('/deleteAccount/' + id).then(function (response) {
+          console.log(response);
+          Vue.set(vm.$data, 'successAlerts', 'Account removed successfully');
+        }, function (error) {
+          console.log(error);
+        });
+        this.getSelected();
+      }
     },
     saveManagerAccount: function saveManagerAccount() {
       var vm = this;
-      __WEBPACK_IMPORTED_MODULE_0_axios___default.a.post('/saving-account-manager', {
-        FullName: this.ManagerRegisterFullName,
-        Username: this.ManagerRegisterUsername,
-        Mobile: this.ManagerRegisterMobile,
-        Position: this.ManagerRegisterPosition,
-        Password: this.ManagerRegisterPassword,
-        Password_confirmation: this.ManagerPwordConfirm,
-        Signature: this.image2
-      }).then(function (response) {
-        console.log(response);
-        Vue.set(vm.$data, 'successAlerts', 'Success');
-        Vue.set(vm.$data, 'laravelerrors', '');
-        Vue.set(vm.$data, 'ManagerRegisterFullName', '');
-        Vue.set(vm.$data, 'ManagerRegisterUsername', '');
-        Vue.set(vm.$data, 'ManagerRegisterPosition', '');
-        Vue.set(vm.$data, 'ManagerRegisterPassword', null);
-        Vue.set(vm.$data, 'ManagerPwordConfirm', null);
-        Vue.set(vm.$data, 'ManagerRegisterMobile', null);
-        Vue.set(vm.$data, 'image2', null);
-      }, function (error) {
-        Vue.set(vm.$data, 'laravelerrors', error.response.data);
-        Vue.set(vm.$data, 'successAlerts', '');
-      });
-      if (this.managerbtn) {
-        this.getSelected();
+      if (confirm("Save this manager account?") == true) {
+        __WEBPACK_IMPORTED_MODULE_0_axios___default.a.post('/saving-account-manager', {
+          FullName: this.ManagerRegisterFullName,
+          Username: this.ManagerRegisterUsername,
+          Mobile: this.ManagerRegisterMobile,
+          Position: this.ManagerRegisterPosition,
+          Password: this.ManagerRegisterPassword,
+          Password_confirmation: this.ManagerPwordConfirm,
+          Signature: this.image2
+        }).then(function (response) {
+          console.log(response);
+          Vue.set(vm.$data, 'successAlerts', 'Success');
+          Vue.set(vm.$data, 'laravelerrors', '');
+          Vue.set(vm.$data, 'ManagerRegisterFullName', '');
+          Vue.set(vm.$data, 'ManagerRegisterUsername', '');
+          Vue.set(vm.$data, 'ManagerRegisterPosition', '');
+          Vue.set(vm.$data, 'ManagerRegisterPassword', null);
+          Vue.set(vm.$data, 'ManagerPwordConfirm', null);
+          Vue.set(vm.$data, 'ManagerRegisterMobile', null);
+          Vue.set(vm.$data, 'image2', null);
+        }, function (error) {
+          Vue.set(vm.$data, 'laravelerrors', error.response.data);
+          Vue.set(vm.$data, 'successAlerts', '');
+        });
+        if (this.managerbtn) {
+          this.getSelected();
+        }
       }
     },
     SubmitNewUser: function SubmitNewUser() {
       var vm = this;
-      __WEBPACK_IMPORTED_MODULE_0_axios___default.a.post('/save-account-user', {
-        FullName: this.RegisterFullName,
-        Username: this.RegisterUsername,
-        Mobile: this.RegisterMobile,
-        Role: this.RegisterRole,
-        Manager: this.ChoosenManager,
-        Password: this.RegisterPassword,
-        Password_confirmation: this.RegisterPwordConfirm,
-        Signature: this.image3
-      }).then(function (response) {
-        console.log(response);
-        if (response.data.error != null) {
-          Vue.set(vm.$data, 'ownerrors', response.data.error);
-        } else {
-          vm.successAlerts = 'Success';
-          vm.ownerrors = '';
-          vm.laravelerrors = '';
-          vm.RegisterFullName = '';
-          vm.RegisterUsername = '';
-          vm.RegisterRole = '';
-          vm.ChoosenManager = null;
-          vm.RegisterPassword = null;
-          vm.RegisterPwordConfirm = null;
-          vm.image3 = null;
-          vm.RegisterMobile = null;
-        }
-      }, function (error) {
-        Vue.set(vm.$data, 'laravelerrors', error.response.data);
-        Vue.set(vm.$data, 'successAlerts', '');
-        Vue.set(vm.$data, 'ownerrors', '');
-      });
-      this.getSelected();
+      if (confirm("Save this new account?") == true) {
+        __WEBPACK_IMPORTED_MODULE_0_axios___default.a.post('/save-account-user', {
+          FullName: this.RegisterFullName,
+          Username: this.RegisterUsername,
+          Mobile: this.RegisterMobile,
+          Role: this.RegisterRole,
+          Manager: this.ChoosenManager,
+          Password: this.RegisterPassword,
+          Password_confirmation: this.RegisterPwordConfirm,
+          Signature: this.image3
+        }).then(function (response) {
+          console.log(response);
+          if (response.data.error != null) {
+            Vue.set(vm.$data, 'ownerrors', response.data.error);
+            Vue.set(vm.$data, 'laravelerrors', '');
+            Vue.set(vm.$data, 'successAlerts', '');
+          } else {
+            vm.successAlerts = 'Success';
+            vm.ownerrors = '';
+            vm.laravelerrors = '';
+            vm.RegisterFullName = '';
+            vm.RegisterUsername = '';
+            vm.RegisterRole = '';
+            vm.ChoosenManager = null;
+            vm.RegisterPassword = null;
+            vm.RegisterPwordConfirm = null;
+            vm.image3 = null;
+            vm.RegisterMobile = null;
+            vm.getSelected();
+          }
+        }, function (error) {
+          Vue.set(vm.$data, 'laravelerrors', error.response.data);
+          Vue.set(vm.$data, 'successAlerts', '');
+          Vue.set(vm.$data, 'ownerrors', '');
+        });
+      }
     },
     fetchManagerChoices: function fetchManagerChoices() {
       var vm = this;
@@ -1741,6 +1751,19 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
         this.searchMR(next);
       } else if (this.rvbtn == true) {
         this.searchRV(next);
+      }
+    },
+    NewNameSelected: function NewNameSelected() {
+      if (this.mirsbtn == true) {
+        this.searchMIRS(1);
+      } else if (this.mctbtn == true) {
+        this.searchMCT(1);
+      } else if (this.mrtbtn == true) {
+        this.searchMRT(1);
+      } else if (this.mrbtn == true) {
+        this.searchMR(1);
+      } else if (this.rvbtn == true) {
+        this.searchRV(1);
       }
     }
   },
@@ -2575,7 +2598,7 @@ module.exports={render:function (){var _vm=this;var _h=_vm.$createElement;var _c
       expression: "searchname"
     }],
     on: {
-      "change": function($event) {
+      "change": [function($event) {
         var $$selectedVal = Array.prototype.filter.call($event.target.options, function(o) {
           return o.selected
         }).map(function(o) {
@@ -2583,7 +2606,9 @@ module.exports={render:function (){var _vm=this;var _h=_vm.$createElement;var _c
           return val
         });
         _vm.searchname = $event.target.multiple ? $$selectedVal : $$selectedVal[0]
-      }
+      }, function($event) {
+        _vm.NewNameSelected()
+      }]
     }
   }, [_c('option', {
     domProps: {
@@ -3016,8 +3041,6 @@ module.exports={render:function (){var _vm=this;var _h=_vm.$createElement;var _c
     staticClass: "triangle-top-right-update"
   }), _vm._v(" "), _c('div', {
     staticClass: "update-inputs"
-  }, [_c('span', {
-    staticClass: "doubleform"
   }, [_c('div', {
     staticClass: "updateinput-label"
   }, [_c('h3', {
@@ -3042,7 +3065,9 @@ module.exports={render:function (){var _vm=this;var _h=_vm.$createElement;var _c
         _vm.fullname = _vm.userFetched.FullName = $event.target.value
       }
     }
-  })]), _vm._v(" "), (_vm.userFetched.Role == 0) ? _c('div', {
+  })]), _vm._v(" "), _c('span', {
+    staticClass: "doubleform"
+  }, [(_vm.userFetched.Role == 0) ? _c('div', {
     staticClass: "updateinput-label"
   }, [_c('h3', {
     staticClass: "active"
@@ -3209,7 +3234,7 @@ module.exports={render:function (){var _vm=this;var _h=_vm.$createElement;var _c
   })]), _vm._v(" "), _c('div', {
     staticClass: "updateinput-label short-width"
   }, [_c('h3', {
-    class: [_vm.username != '' ? 'active' : '']
+    class: [_vm.MobileUpdate != '' ? 'active' : '']
   }, [_vm._v("Mobile #")]), _vm._v(" "), _c('input', {
     directives: [{
       name: "model",

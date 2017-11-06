@@ -1080,33 +1080,35 @@ Vue.use(__WEBPACK_IMPORTED_MODULE_2_vue_numeric___default.a);
     },
     saveSupplier: function saveSupplier() {
       var vm = this;
-      __WEBPACK_IMPORTED_MODULE_0_axios___default.a.post('/supplier-save-canvass', {
-        RVNo: this.RVdata[0].RVNo,
-        AccountCode: this.AccountCode,
-        ItemCode: this.ItemCode,
-        Supplier: this.formSupplier,
-        Address: this.formAddress,
-        Telephone: this.formTelephone,
-        Particulars: this.Particulars,
-        Price: this.PriceNew,
-        Qty: this.Qty,
-        Unit: this.Unit
-      }).then(function (response) {
-        console.log(response);
-        Vue.set(vm.$data, 'successAlerts', 'Saved successfully');
-        Vue.set(vm.$data, 'ownerrors', '');
-        Vue.set(vm.$data, 'laravelerrors', '');
-        Vue.set(vm.$data, 'formSupplier', '');
-        Vue.set(vm.$data, 'formAddress', '');
-        Vue.set(vm.$data, 'PriceNew', []);
-        Vue.set(vm.$data, 'formTelephone', '');
-        vm.getSuppliers();
-      }, function (error) {
-        console.log(error);
-        Vue.set(vm.$data, 'ownerrors', '');
-        Vue.set(vm.$data, 'successAlerts', '');
-        Vue.set(vm.$data, 'laravelerrors', error.response.data);
-      });
+      if (confirm("Confirm this new supplier data?")) {
+        __WEBPACK_IMPORTED_MODULE_0_axios___default.a.post('/supplier-save-canvass', {
+          RVNo: this.RVdata[0].RVNo,
+          AccountCode: this.AccountCode,
+          ItemCode: this.ItemCode,
+          Supplier: this.formSupplier,
+          Address: this.formAddress,
+          Telephone: this.formTelephone,
+          Particulars: this.Particulars,
+          Price: this.PriceNew,
+          Qty: this.Qty,
+          Unit: this.Unit
+        }).then(function (response) {
+          console.log(response);
+          Vue.set(vm.$data, 'successAlerts', 'Saved successfully');
+          Vue.set(vm.$data, 'ownerrors', '');
+          Vue.set(vm.$data, 'laravelerrors', '');
+          Vue.set(vm.$data, 'formSupplier', '');
+          Vue.set(vm.$data, 'formAddress', '');
+          Vue.set(vm.$data, 'PriceNew', []);
+          Vue.set(vm.$data, 'formTelephone', '');
+          vm.getSuppliers();
+        }, function (error) {
+          console.log(error);
+          Vue.set(vm.$data, 'ownerrors', '');
+          Vue.set(vm.$data, 'successAlerts', '');
+          Vue.set(vm.$data, 'laravelerrors', error.response.data);
+        });
+      }
     },
     generatePO: function generatePO() {
       this.HideSubmitBtn = true;
@@ -1154,31 +1156,35 @@ Vue.use(__WEBPACK_IMPORTED_MODULE_2_vue_numeric___default.a);
     },
     saveUpdate: function saveUpdate() {
       var vm = this;
-      var id = this.fetchUpdatedata.id;
-      __WEBPACK_IMPORTED_MODULE_0_axios___default.a.put('/update-canvass/' + id, {
-        Prices: this.UpdatePrice,
-        Supplier: this.UpdateformSupplier,
-        Address: this.UpdateformAddress,
-        Telephone: this.UpdateformTelephone
-      }).then(function (response) {
-        console.log(response);
-        Vue.set(vm.$data, 'laravelerrors', '');
-        Vue.set(vm.$data, 'successAlerts', 'Successfully updated !');
-      }, function (error) {
-        console.log(error);
-        Vue.set(vm.$data, 'laravelerrors', error.response.data);
-        Vue.set(vm.$data, 'successAlerts', '');
-      });
-      this.getSuppliers();
+      if (confirm("Confirm save changes?") == true) {
+        var id = this.fetchUpdatedata.id;
+        __WEBPACK_IMPORTED_MODULE_0_axios___default.a.put('/update-canvass/' + id, {
+          Prices: this.UpdatePrice,
+          Supplier: this.UpdateformSupplier,
+          Address: this.UpdateformAddress,
+          Telephone: this.UpdateformTelephone
+        }).then(function (response) {
+          console.log(response);
+          Vue.set(vm.$data, 'laravelerrors', '');
+          Vue.set(vm.$data, 'successAlerts', 'Successfully updated !');
+        }, function (error) {
+          console.log(error);
+          Vue.set(vm.$data, 'laravelerrors', error.response.data);
+          Vue.set(vm.$data, 'successAlerts', '');
+        });
+        this.getSuppliers();
+      }
     },
     deleteCanvass: function deleteCanvass(id) {
       var vm = this;
-      __WEBPACK_IMPORTED_MODULE_0_axios___default.a.delete('/deleteCanvassRecord/' + id, {}).then(function (response) {
-        console.log(response);
-      }, function (error) {
-        console.log(error);
-      });
-      this.getSuppliers();
+      if (confirm("Are you sure to delete this permanently?") == true) {
+        __WEBPACK_IMPORTED_MODULE_0_axios___default.a.delete('/deleteCanvassRecord/' + id, {}).then(function (response) {
+          console.log(response);
+          vm.getSuppliers();
+        }, function (error) {
+          console.log(error);
+        });
+      }
     }
   },
   components: {
