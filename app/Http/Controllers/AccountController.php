@@ -22,10 +22,8 @@ class AccountController extends Controller
     }
     public function sendsms()
     {
-      $tobenotify = array('Requisitioner' =>'ggaaaaaaa');
-      $tobenotify=(object)$tobenotify;
-      $job=(new NewApprovedMIRSJob($tobenotify))->delay(Carbon::now()->addSeconds(5));
-      dispatch($job);
+       return $mirs=MIRSMaster::with('users')->paginate(4);
+      // return $mirs=MIRSMaster::with('users')->where('MIRSNo', '17-0001')->get();
     }
     public function loginpage()
     {

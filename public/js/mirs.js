@@ -1608,6 +1608,9 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
 //
 //
 //
+//
+//
+//
 
 
 /* harmony default export */ __webpack_exports__["default"] = ({
@@ -2540,19 +2543,19 @@ module.exports={render:function (){var _vm=this;var _h=_vm.$createElement;var _c
   })])]), _vm._v(" "), _c('div', {
     staticClass: "table-mirs-list"
   }, [_c('table', [_vm._m(1), _vm._v(" "), _vm._l((_vm.SearchResult), function(result) {
-    return _c('tr', [_c('td', [_vm._v(_vm._s(result.MIRSNo))]), _vm._v(" "), _c('td', [_vm._v(_vm._s(result.Purpose))]), _vm._v(" "), _c('td', [_vm._v(_vm._s(result.Preparedby) + "\r\n             "), _c('i', {
+    return (result.users[0] != null) ? _c('tr', [_c('td', [_vm._v(_vm._s(result.MIRSNo))]), _vm._v(" "), _c('td', [_vm._v(_vm._s(result.Purpose))]), _vm._v(" "), _c('td', [_vm._v(_vm._s(result.users[0].FullName) + "\r\n             "), _c('i', {
       staticClass: "fa fa-check"
-    })]), _vm._v(" "), _c('td', [_vm._v(_vm._s(result.Recommendedby) + "\r\n             "), (result.RecommendSignature != null || result.ManagerReplacerSignature != null) ? _c('i', {
+    })]), _vm._v(" "), _c('td', [_vm._v(_vm._s(result.users[1].FullName) + "\r\n             "), (((result.users[1].pivot.Signature == '0') || ((result.users[3] != null) && (result.users[3].pivot.Signature == '0') && (result.users[3].pivot.SignatureType == 'ManagerReplacer')) || ((result.users[4] != null) && (result.users[4].pivot.Signature == '0') && (result.users[4].pivot.SignatureType == 'ManagerReplacer')))) ? _c('i', {
       staticClass: "fa fa-check"
-    }) : (result.Recommendedby == result.IfDeclined) ? _c('i', {
+    }) : (result.users[1].pivot.Signature == '1') ? _c('i', {
       staticClass: "fa fa-times decliner"
-    }) : _vm._e()]), _vm._v(" "), _c('td', [_vm._v(_vm._s(result.Approvedby) + "\r\n             "), (result.ApproveSignature != null || result.ApprovalReplacerSignature != null) ? _c('i', {
+    }) : _vm._e()]), _vm._v(" "), _c('td', [_vm._v(_vm._s(result.users[2].FullName) + "\r\n            "), (((result.users[2].pivot.Signature == '0') || ((result.users[3] != null) && (result.users[3].pivot.Signature == '0') && (result.users[3].pivot.SignatureType == 'ApprovalReplacer')) || ((result.users[4] != null) && (result.users[4].pivot.Signature == '0') && (result.users[4].pivot.SignatureType == 'ApprovalReplacer')))) ? _c('i', {
       staticClass: "fa fa-check"
-    }) : _vm._e(), _vm._v(" "), (result.IfDeclined == result.Approvedby) ? _c('i', {
+    }) : (result.users[2].pivot.Signature == '1') ? _c('i', {
       staticClass: "fa fa-times decliner"
-    }) : _vm._e()]), _vm._v(" "), _c('td', [_vm._v(_vm._s(result.MIRSDate))]), _vm._v(" "), _c('td', [((((result.RecommendSignature != null) || (result.ManagerReplacerSignature != null)) && ((result.ApproveSignature != null) || (result.ApprovalReplacerSignature != null)))) ? _c('i', {
+    }) : _vm._e()]), _vm._v(" "), _c('td', [_vm._v(_vm._s(result.MIRSDate))]), _vm._v(" "), _c('td', [(((result.users[0].pivot.Signature == '0') && ((result.users[1].pivot.Signature == '0') || (result.users[3] != null) && (result.users[3].pivot.Signature == '0') && (result.users[3].pivot.SignatureType == 'ManagerReplacer') || (result.users[4] != null) && (result.users[4].pivot.Signature == '0') && (result.users[4].pivot.SignatureType == 'ManagerReplacer')) && ((result.users[2].pivot.Signature == '0') || (result.users[3] != null) && (result.users[3].pivot.Signature == '0') && (result.users[3].pivot.SignatureType == 'ApprovalReplacer') || (result.users[4] != null) && (result.users[4].pivot.Signature == '0') && (result.users[4].pivot.SignatureType == 'ApprovalReplacer')))) ? _c('i', {
       staticClass: "fa fa-thumbs-up"
-    }) : (result.IfDeclined != null) ? _c('i', {
+    }) : (((result.users[0].pivot.Signature == '1') || (result.users[1].pivot.Signature == '1') || (result.users[2].pivot.Signature == '1'))) ? _c('i', {
       staticClass: "fa fa-times decliner"
     }) : _c('i', {
       staticClass: "fa fa-clock-o"
@@ -2564,7 +2567,7 @@ module.exports={render:function (){var _vm=this;var _h=_vm.$createElement;var _c
       }
     }, [_c('i', {
       staticClass: "fa fa-eye"
-    })])])])
+    })])])]) : _vm._e()
   })], 2), _vm._v(" "), _c('div', {
     staticClass: "paginate-container"
   }, [_c('ul', {
@@ -2782,7 +2785,7 @@ module.exports={render:function (){var _vm=this;var _h=_vm.$createElement;var _c
     }, [_vm._v(_vm._s(mirsdata.ItemCode))]), _vm._v(" "), _c('td', {
       staticClass: "particular"
     }, [_vm._v(_vm._s(mirsdata.Particulars))]), _vm._v(" "), _c('td', [_vm._v(_vm._s(mirsdata.Unit))]), _vm._v(" "), _c('td', [_vm._v(_vm._s(mirsdata.Quantity))]), _vm._v(" "), _c('td', [_vm._v(_vm._s(mirsdata.Remarks))])])
-  })], 2)]), _vm._v(" "), _vm._m(8), _vm._v(" "), _c('div', {
+  })], 2)]), _vm._v(" "), _vm._m(8), _vm._v(" "), (_vm.MIRSMaster.users != null) ? _c('div', {
     staticClass: "bottom-mirs-part"
   }, [_c('div', {
     staticClass: "request-recommend-sig"
@@ -2792,9 +2795,9 @@ module.exports={render:function (){var _vm=this;var _h=_vm.$createElement;var _c
     attrs: {
       "src": '/storage/signatures/' + _vm.MIRSMaster.PreparedSignature
     }
-  }) : _vm._e()]), _vm._v(" "), _c('h2', [_vm._v("\r\n                " + _vm._s(_vm.MIRSMaster.Preparedby) + "\r\n                  "), ((_vm.MIRSMaster.IfDeclined == _vm.MIRSMaster.Preparedby)) ? _c('i', {
+  }) : _vm._e()]), _vm._v(" "), _c('h2', [_vm._v("\r\n                " + _vm._s(_vm.MIRSMaster.users[0].FullName) + "\r\n                  "), ((_vm.MIRSMaster.IfDeclined == _vm.MIRSMaster.Preparedby)) ? _c('i', {
     staticClass: "fa fa-times decliner"
-  }) : _vm._e(), _vm._v(" "), _c('br'), _vm._v("\r\n                " + _vm._s(_vm.MIRSMaster.PreparedPosition) + "\r\n              ")])]), _vm._v(" "), _c('div', {
+  }) : _vm._e(), _vm._v(" "), _c('br'), _vm._v("\r\n                " + _vm._s(_vm.MIRSMaster.users[0].Position) + "\r\n              ")])]), _vm._v(" "), _c('div', {
     staticClass: "recommend-sig"
   }, [_c('h4', [_vm._v("Recommended by:")]), _vm._v(" "), (_vm.MIRSMaster.RecommendSignature != null) ? _c('h3', [_c('img', {
     attrs: {
@@ -2806,7 +2809,7 @@ module.exports={render:function (){var _vm=this;var _h=_vm.$createElement;var _c
     }
   })]) : _vm._e(), _vm._v(" "), _c('h2', [_c('span', {
     staticClass: "bold"
-  }, [_vm._v(_vm._s(_vm.MIRSMaster.Recommendedby) + "\r\n             "), _c('span', {
+  }, [_vm._v(_vm._s(_vm.MIRSMaster.users[1].FullName) + "\r\n             "), _c('span', {
     staticClass: "opener-manager-replace"
   }, [(_vm.user.FullName == _vm.MIRSMaster.Preparedby && this.ManagerBehalfActive == true) ? _c('div', {
     staticClass: "mini-menu-managers"
@@ -2887,7 +2890,7 @@ module.exports={render:function (){var _vm=this;var _h=_vm.$createElement;var _c
     }
   }) : _vm._e()]), _vm._v(" "), ((_vm.MIRSMaster.IfDeclined == _vm.MIRSMaster.Recommendedby)) ? _c('i', {
     staticClass: "fa fa-times decliner"
-  }) : _vm._e()]), _c('br'), _vm._v("\r\n               " + _vm._s(_vm.MIRSMaster.RecommendPosition) + "\r\n            ")])])]), _vm._v(" "), _c('div', {
+  }) : _vm._e()]), _c('br'), _vm._v("\r\n              " + _vm._s(_vm.MIRSMaster.users[1].Position) + "\r\n            ")])])]), _vm._v(" "), _c('div', {
     staticClass: "gm-sig"
   }, [_c('h4', [_vm._v("APPROVED:")]), _vm._v(" "), ((_vm.MIRSMaster.ApproveSignature != null)) ? _c('h3', [_c('img', {
     attrs: {
@@ -2899,9 +2902,9 @@ module.exports={render:function (){var _vm=this;var _h=_vm.$createElement;var _c
     }
   })]) : _vm._e(), _vm._v(" "), _c('h2', [_c('span', {
     staticClass: "gm-info-box bold"
-  }, [_vm._v("\r\n              " + _vm._s(_vm.MIRSMaster.Approvedby) + "\r\n              "), ((_vm.MIRSMaster.IfDeclined == _vm.MIRSMaster.Approvedby)) ? _c('i', {
+  }, [_vm._v("\r\n              " + _vm._s(_vm.MIRSMaster.users[2].FullName) + "\r\n              "), ((_vm.MIRSMaster.IfDeclined == _vm.MIRSMaster.Approvedby)) ? _c('i', {
     staticClass: "fa fa-times decliner"
-  }) : _vm._e()]), _c('br'), _vm._v("\r\n              General Manager\r\n            ")])])])])])])
+  }) : _vm._e()]), _c('br'), _vm._v("\r\n              " + _vm._s(_vm.MIRSMaster.users[2].Position) + "\r\n            ")])])]) : _vm._e()])])])
 },staticRenderFns: [function (){var _vm=this;var _h=_vm.$createElement;var _c=_vm._self._c||_h;
   return _c('button', {
     attrs: {

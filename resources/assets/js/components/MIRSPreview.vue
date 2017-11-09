@@ -113,7 +113,7 @@
         <div class="statement-container">
           <p>I hereby certify that the materials/supplies requested above are <br>necessary and with purpose stated above</p>
         </div>
-        <div class="bottom-mirs-part">
+        <div class="bottom-mirs-part" v-if="MIRSMaster.users!=null">
           <div class="request-recommend-sig">
             <div class="request-sig">
               <h4>Prepared by:</h4>
@@ -121,10 +121,10 @@
                   <img v-if="(MIRSMaster.PreparedSignature!=null)" :src="'/storage/signatures/'+MIRSMaster.PreparedSignature">
                 </h3>
               <h2>
-                {{MIRSMaster.Preparedby}}
+                {{MIRSMaster.users[0].FullName}}
                   <i v-if="(MIRSMaster.IfDeclined==MIRSMaster.Preparedby)"class="fa fa-times decliner"></i>
                   <br>
-                {{MIRSMaster.PreparedPosition}}
+                {{MIRSMaster.users[0].Position}}
               </h2>
             </div>
             <div class="recommend-sig">
@@ -137,7 +137,7 @@
               <img :src="'/storage/signatures/'+MIRSMaster.ManagerReplacerSignature">
             </h3>
             <h2>
-             <span class="bold">{{MIRSMaster.Recommendedby}}
+             <span class="bold">{{MIRSMaster.users[1].FullName}}
              <span class="opener-manager-replace">
                <div class="mini-menu-managers" v-if="user.FullName==MIRSMaster.Preparedby&&this.ManagerBehalfActive==true">
                  <h1 v-if="MIRSMaster.ManagerReplacer==null">Request signature to</h1>
@@ -162,7 +162,7 @@
              </span>
              <i class="fa fa-times decliner" v-if="(MIRSMaster.IfDeclined==MIRSMaster.Recommendedby)"></i>
              </span><br>
-               {{MIRSMaster.RecommendPosition}}
+              {{MIRSMaster.users[1].Position}}
             </h2>
             </div>
           </div>
@@ -176,10 +176,10 @@
             </h3>
             <h2>
             <span class="gm-info-box bold">
-              {{MIRSMaster.Approvedby}}
+              {{MIRSMaster.users[2].FullName}}
               <i class="fa fa-times decliner" v-if="(MIRSMaster.IfDeclined==MIRSMaster.Approvedby)"></i>
             </span><br>
-              General Manager
+              {{MIRSMaster.users[2].Position}}
             </h2>
           </div>
         </div>

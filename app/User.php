@@ -21,6 +21,8 @@ class User extends Authenticatable
         'password', 'remember_token',
     ];
 
-
-
+    public function MIRS()
+    {
+        return $this->morphedByMany('App\MIRSMaster', 'userable');
+    }
 }

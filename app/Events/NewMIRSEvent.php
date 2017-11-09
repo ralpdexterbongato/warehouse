@@ -30,6 +30,6 @@ class NewMIRSEvent implements ShouldBroadcast
      */
     public function broadcastOn()
     {
-        return new PrivateChannel('MIRSChannel.'.$this->newmirs->tobeNotifyName);
+        return new PrivateChannel('MIRSChannel.'.$this->newmirs->tobeNotify);
     }
 }

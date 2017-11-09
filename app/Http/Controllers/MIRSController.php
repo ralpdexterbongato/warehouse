@@ -14,6 +14,7 @@ use Redis;
 use App\Jobs\SendMIRSNotification;
 use App\Jobs\NewApprovedMIRSJob;
 use App\Jobs\MIRSApprovalReplacer;
+use App\Signatureable;
 class MIRSController extends Controller
 {
   public function __construct()
@@ -95,32 +96,31 @@ class MIRSController extends Controller
         {
             $incremented = $year . '-' . sprintf("%04d",'1');
         }
-      $ApproveReplacer=User::whereNotNull('IfApproveReplacer')->take(1)->get(['FullName']);
-      $recommend=User::whereNotNull('IsActive')->where('id',Auth::user()->Manager)->get(['Position','FullName']);
-      $approve=User::whereNotNull('IsActive')->where('id',$request->Approvedby)->get(['FullName']);
       $master=new MIRSMaster;
       $master->MIRSNo = $incremented;
       $master->Purpose =$request->Purpose;
-      $master->Preparedby =Auth::user()->FullName ;
-      $master->PreparedSignature=Auth::user()->Signature;
-      $master->PreparedPosition=Auth::user()->Position;
-      $master->Recommendedby =$recommend[0]->FullName;
-      $master->RecommendPosition=$recommend[0]->Position;
-      $master->Approvedby = $approve[0]->FullName;
       $master->MIRSDate = $date;
+      $master->save();
+
+      $ApproveReplacer=User::whereNotNull('IfApproveReplacer')->take(1)->get(['id']);
       if (!empty($ApproveReplacer[0]))
       {
-      $master->ApprovalReplacer=$ApproveReplacer[0]->FullName;
-      }
-      if ($recommend[0]->FullName.' ' == Auth::user()->FullName)
+        $forSignatureDB = array(
+          array('user_id'=>Auth::user()->id,'signatureable_id'=>$incremented,'signatureable_type'=>'App\MIRSMaster','Signature'=>'0','SignatureType'=>'PreparedBy'),
+          array('user_id'=>Auth::user()->Manager,'signatureable_id'=>$incremented,'signatureable_type'=>'App\MIRSMaster','Signature'=>Null,'SignatureType'=>'RecommendedBy'),
+          array('user_id'=>$request->Approvedby,'signatureable_id'=>$incremented,'signatureable_type'=>'App\MIRSMaster','Signature'=>Null,'SignatureType'=>'ApprovedBy'),
+          array('user_id'=>$ApproveReplacer[0]->id,'signatureable_id'=>$incremented,'signatureable_type'=>'App\MIRSMaster','Signature'=>Null,'SignatureType'=>'ApprovalReplacer')
+        );
+      }else
       {
-        $master->RecommendSignature=Auth::user()->Signature;
+        $forSignatureDB = array(
+          array('user_id'=>Auth::user()->id,'signatureable_id'=>$incremented,'signatureable_type'=>'App\MIRSMaster','Signature'=>'0','SignatureType'=>'PreparedBy'),
+          array('user_id'=>Auth::user()->Manager,'signatureable_id'=>$incremented,'signatureable_type'=>'App\MIRSMaster','Signature'=>Null,'SignatureType'=>'RecommendedBy'),
+          array('user_id'=>$request->Approvedby,'signatureable_id'=>$incremented,'signatureable_type'=>'App\MIRSMaster','Signature'=>Null,'SignatureType'=>'ApprovedBy')
+        );
       }
-      if ($approve[0]->FullName== Auth::user()->FullName)
-      {
-        $master->ApproveSignature=Auth::user()->Signature;
-      }
-      $master->save();
+      Signatureable::insert($forSignatureDB);
+
       $selectedITEMS=Session::get('ItemSelected');
       $selectedITEMS = (array)$selectedITEMS;
       $forMIRSDetailtbl = array();
@@ -129,9 +129,9 @@ class MIRSController extends Controller
         $forMIRSDetailtbl[] = array('MIRSNo' => $incremented ,'ItemCode'=>$items->ItemCode,'Particulars'=>$items->Particulars,'Remarks'=>$items->Remarks,'Quantity'=>$items->Quantity,'QuantityValidator'=>$items->Quantity,'Unit'=>$items->Unit);
       }
       MIRSDetail::insert($forMIRSDetailtbl);
+
       Session::forget('ItemSelected');
-      $Recommended=str_replace(' ','',$recommend[0]->FullName);
-        $newmirs = array('tobeNotifyName'=>$Recommended);
+        $newmirs = array('tobeNotify'=>Auth::user()->Manager);
         $newmirs=(object)$newmirs;
         $job = (new SendMIRSNotification($newmirs))
                     ->delay(Carbon::now()->addSeconds(5));
@@ -160,7 +160,7 @@ class MIRSController extends Controller
     $QuantityValidator=MIRSDetail::where('MIRSNo',$id)->get(['QuantityValidator']);
     $unclaimed=$QuantityValidator->sum('QuantityValidator');
     $MIRSDetail=MIRSDetail::where('MIRSNo', $id)->get();
-    $MIRSMaster=MIRSMaster::where('MIRSNo', $id)->get();
+    $MIRSMaster=MIRSMaster::with('users')->where('MIRSNo', $id)->get();
     $MCTNumber=MCTMaster::where('MIRSNo', $id)->value('MCTNo');
     $response = array(
       'unclaimed' => $unclaimed,
@@ -172,7 +172,7 @@ class MIRSController extends Controller
   }
   public function searchMIRSNoAndFetch(Request $request)
   {
-    return MIRSMaster::where('MIRSNo','LIKE','%'.$request->MIRSNo.'%')->orderBy('MIRSNo','DESC')->paginate(10,['MIRSNo','Purpose','Preparedby','PreparedSignature','Recommendedby','RecommendSignature','Approvedby','ApproveSignature','MIRSDate','IfDeclined','ApprovalReplacerSignature','ManagerReplacerSignature']);
+    return MIRSMaster::with('users')->where('MIRSNo','LIKE','%'.$request->MIRSNo.'%')->orderBy('MIRSNo','DESC')->paginate(10,['MIRSNo','Purpose','MIRSDate']);
   }
   public function MIRSIndexPage()
   {

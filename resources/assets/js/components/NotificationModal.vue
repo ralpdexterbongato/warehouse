@@ -175,7 +175,7 @@ import axios from 'axios'
      },
      created()
      {
-       Echo.private('MIRSChannel.'+this.myFullName)
+       Echo.private('MIRSChannel.'+this.user.id)
        .listen('NewMIRSEvent', (e) => {
            console.log(e);
            this.refreshNotifationMIRS();
@@ -205,7 +205,7 @@ import axios from 'axios'
              this.playsound();
          });
        }
-       Echo.private('MCTchannel.'+this.myFullName)
+       Echo.private('MCTchannel.'+this.user.id)
        .listen('NewMCTEvent', (e) => {
            console.log(e);
            this.refreshnewlyCreatedMCT();
@@ -216,7 +216,7 @@ import axios from 'axios'
        this.refreshnewlyCreatedMCT();
        this.refreshNewlyCreatedMRT();
        this.refreshNewlyCreatedRV();
-       Echo.private('MRTchannel.'+this.myFullName)
+       Echo.private('MRTchannel.'+this.user.id)
        .listen('NewMRTEvent', (e) => {
            console.log(e);
            this.refreshNewlyCreatedMRT();
@@ -224,7 +224,7 @@ import axios from 'axios'
            this.MRTNew=true;
            this.playsound();
        });
-       Echo.private('RVchannel.'+this.myFullName)
+       Echo.private('RVchannel.'+this.user.id)
        .listen('NewRVEvent', (e) => {
            console.log(e);
            this.refreshNewlyCreatedRV();
@@ -236,7 +236,7 @@ import axios from 'axios'
        this.refreshCountMRNewlyCreated();
        if (this.user.Role==2||this.user.Role==0)
        {
-         Echo.private('POchannel.'+this.myFullName)
+         Echo.private('POchannel.'+this.user.id)
          .listen('NewPOEvent', (e) => {
              console.log(e);
              this.refreshCountNewlyCreatedPO();
@@ -246,7 +246,7 @@ import axios from 'axios'
          });
          this.refreshCountNewlyCreatedPO();
        }
-       Echo.private('RRchannel.'+this.myFullName)
+       Echo.private('RRchannel.'+this.user.id)
        .listen('NewRREvent', (e) => {
            console.log(e);
            this.refresCountRRnewCreated();
@@ -254,7 +254,7 @@ import axios from 'axios'
            this.RRNew=true;
            this.playsound();
        });
-       Echo.private('MRchannel.'+this.myFullName)
+       Echo.private('MRchannel.'+this.user.id)
        .listen('NewMREvent', (e) => {
            console.log(e);
            this.refreshCountMRNewlyCreated();
@@ -358,12 +358,7 @@ import axios from 'axios'
           Vue.set(vm.$data,'CountPOrequest',response.data.PONotifCount);
         });
       }
-     },
-      computed: {
-        myFullName: function () {
-          return this.user.FullName.split(' ').join('');
-        },
-      },
+     }
 
   }
 </script>

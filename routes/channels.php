@@ -15,7 +15,7 @@ Broadcast::channel('App.User.{id}', function ($user, $id) {
     return (int) $user->id === (int) $id;
 });
 
-Broadcast::channel('MIRSChannel.{NotifyName}', function ($newmirs) {
+Broadcast::channel('MIRSChannel.{tobeNotify}', function ($newmirs) {
  return Auth::check();
 });
 
