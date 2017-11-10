@@ -1486,7 +1486,7 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
     },
     sendrequestReplacer: function sendrequestReplacer() {
       var vm = this;
-      __WEBPACK_IMPORTED_MODULE_0_axios___default.a.put('/send-request-manager-replacer/' + this.mirsno.MIRSNo, {
+      __WEBPACK_IMPORTED_MODULE_0_axios___default.a.post('/send-request-manager-replacer/' + this.mirsno.MIRSNo, {
         ManagerReplacerID: this.ManagerReplacerID
       }).then(function (response) {
         if (response.data.error != null) {
@@ -1498,7 +1498,7 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
     cancelrequestReplacer: function cancelrequestReplacer() {
       this.SignatureManagerRelacerBtnHide = true;
       var vm = this;
-      __WEBPACK_IMPORTED_MODULE_0_axios___default.a.put('/cancel-request-manager-replacer/' + this.mirsno.MIRSNo).then(function (response) {
+      __WEBPACK_IMPORTED_MODULE_0_axios___default.a.delete('/cancel-request-manager-replacer/' + this.mirsno.MIRSNo).then(function (response) {
         Vue.set(vm.$data, 'ManagerBehalfActive', false);
         console.log(response);
       });
@@ -1535,6 +1535,90 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
 
   components: {
     Longpress: __WEBPACK_IMPORTED_MODULE_1_vue_longpress___default.a
+  },
+  computed: {
+    approved: function approved() {
+      if (this.MIRSMaster.users[0].pivot.Signature == '0' && (this.MIRSMaster.users[1].pivot.Signature == '0' || this.MIRSMaster.users[3] != null && this.MIRSMaster.users[3].pivot.Signature == '0' && this.MIRSMaster.users[3].pivot.SignatureType == 'ManagerReplacer' || this.MIRSMaster.users[4] != null && this.MIRSMaster.users[4].pivot.Signature == '0' && this.MIRSMaster.users[4].pivot.SignatureType == 'ManagerReplacer') && this.MIRSMaster.users[2].pivot.Signature == '0' || this.MIRSMaster.users[3] != null && this.MIRSMaster.users[3].pivot.Signature == '0' && this.MIRSMaster.users[3].pivot.SignatureType == 'ApprovalReplacer' || this.MIRSMaster.users[4] != null && this.MIRSMaster.users[4].pivot.Signature == '0' && this.MIRSMaster.users[4].pivot.SignatureType == 'ApprovalReplacer') {
+        return true;
+      } else {
+        return false;
+      }
+    },
+    declinedistrue: function declinedistrue() {
+      if (this.MIRSMaster.users[0].pivot.Signature == '1' || this.MIRSMaster.users[1].pivot.Signature == '1' || this.MIRSMaster.users[2].pivot.Signature == '1') {
+        return true;
+      } else {
+        return false;
+      }
+    },
+    ManagerReplacerData: function ManagerReplacerData() {
+      if (this.MIRSMaster.users[3] != null && this.MIRSMaster.users[3].pivot.SignatureType == 'ManagerReplacer') {
+        return this.MIRSMaster.users[3];
+      } else if (this.MIRSMaster.users[4] != null && this.MIRSMaster.users[4].pivot.SignatureType == 'ManagerReplacer') {
+        return this.MIRSMaster.users[4];
+      } else {
+        return null;
+      }
+    },
+    managerReplaceistrue: function managerReplaceistrue() {
+      if (this.MIRSMaster.users[3] != null && this.MIRSMaster.users[3].id == this.user.id && this.MIRSMaster.users[3].pivot.SignatureType == 'ManagerReplacer' && this.MIRSMaster.users[3].pivot.Signature == null || this.MIRSMaster.users[4] != null && this.MIRSMaster.users[4].id == this.user.id && this.MIRSMaster.users[4].pivot.SignatureType == 'ManagerReplacer' && this.MIRSMaster.users[3].pivot.Signature == null) {
+        return true;
+      } else {
+        return false;
+      }
+    },
+    ManagerCansignature: function ManagerCansignature() {
+      if (this.MIRSMaster.users[1].id == this.user.id && this.MIRSMaster.users[1].pivot.Signature == null) {
+        return true;
+      } else {
+        return false;
+      }
+    },
+    GMCanSignature: function GMCanSignature() {
+      if (this.MIRSMaster.users[2].id == this.user.id && this.MIRSMaster.users[2].pivot.Signature == null && (this.MIRSMaster.users[1].pivot.Signature == '0' || this.ManagerReplacerData != null && this.MIRSMaster.users[1].pivot.Signature == '0')) {
+        return true;
+      } else {
+        return false;
+      }
+    },
+    NoManagerReplacerSignature: function NoManagerReplacerSignature() {
+      if (this.MIRSMaster.users[3] != null && this.MIRSMaster.users[3].pivot.Signature == '0' && this.MIRSMaster.users[3].pivot.SignatureType == 'ManagerReplacer' || this.MIRSMaster.users[4] != null && this.MIRSMaster.users[4].pivot.Signature == '0' && this.MIRSMaster.users[4].pivot.SignatureType == 'ManagerReplacer') {
+        return false;
+      } else {
+        return true;
+      }
+    },
+    ApprovalReplacerData: function ApprovalReplacerData() {
+      if (this.MIRSMaster.users[3] != null && this.MIRSMaster.users[3].pivot.SignatureType == 'ApprovalReplacer') {
+        return this.MIRSMaster.users[3];
+      } else if (this.MIRSMaster.users[4] != null && this.MIRSMaster.users[4].pivot.SignatureType == 'ApprovalReplacer') {
+        return this.MIRSMaster.users[4];
+      } else {
+        return null;
+      }
+    },
+
+    NoApprovalReplacerSignature: function NoApprovalReplacerSignature() {
+      if (this.ApprovalReplacerData != null && this.ApprovalReplacerData.pivot.Signature != null) {
+        return false;
+      } else {
+        return true;
+      }
+    },
+    UserIsApprovalReplacer: function UserIsApprovalReplacer() {
+      if (this.MIRSMaster.users[1].pivot.Signature == '0' && this.MIRSMaster.users[3] != null && this.user.id == this.MIRSMaster.users[3].id && this.MIRSMaster.users[3].pivot.Signature == null && this.MIRSMaster.users[3].pivot.SignatureType == 'ApprovalReplacer' && this.MIRSMaster.users[2].pivot.Signature == null || this.MIRSMaster.users[1].pivot.Signature == '0' && this.MIRSMaster.users[4] != null && this.user.id == this.MIRSMaster.users[4].id && this.MIRSMaster.users[4].pivot.Signature == null && this.MIRSMaster.users[4].pivot.SignatureType == 'ApprovalReplacer' && this.MIRSMaster.users[2].pivot.Signature == null) {
+        return true;
+      } else {
+        return false;
+      }
+    },
+    RecommendedBySignatureNull: function RecommendedBySignatureNull() {
+      if (this.user.id == this.MIRSMaster.users[0].id && this.MIRSMaster.users[1].pivot.Signature == null && this.MIRSMaster.users[3] != null && this.MIRSMaster.users[3].pivot.Signature == null && this.MIRSMaster.users[3].pivot.SignatureType == 'ManagerReplacer' || this.user.id == this.MIRSMaster.users[0].id && this.MIRSMaster.users[1].pivot.Signature == null && this.MIRSMaster.users[4] != null && this.MIRSMaster.users[4].pivot.Signature == null && this.MIRSMaster.users[4].pivot.SignatureType == 'ManagerReplacer' || this.user.id == this.MIRSMaster.users[0].id && this.MIRSMaster.users[1].pivot.Signature == null && this.MIRSMaster.users[3] == null || this.user.id == this.MIRSMaster.users[0].id && this.MIRSMaster.users[1].pivot.Signature == null && this.MIRSMaster.users[4] == null) {
+        return true;
+      } else {
+        return false;
+      }
+    }
   }
 });
 
@@ -1890,7 +1974,7 @@ var Component = __webpack_require__(4)(
   /* cssModules */
   null
 )
-Component.options.__file = "C:\\xampp\\htdocs\\warehouse\\resources\\assets\\js\\components\\MIRSCreate.vue"
+Component.options.__file = "c:\\xampp\\htdocs\\warehouse\\resources\\assets\\js\\components\\MIRSCreate.vue"
 if (Component.esModule && Object.keys(Component.esModule).some(function (key) {return key !== "default" && key !== "__esModule"})) {console.error("named exports are not supported in *.vue files.")}
 if (Component.options.functional) {console.error("[vue-loader] MIRSCreate.vue: functional components are not supported with templates, they should use render functions.")}
 
@@ -2001,7 +2085,7 @@ var Component = __webpack_require__(4)(
   /* cssModules */
   null
 )
-Component.options.__file = "C:\\xampp\\htdocs\\warehouse\\resources\\assets\\js\\components\\MIRSPreview.vue"
+Component.options.__file = "c:\\xampp\\htdocs\\warehouse\\resources\\assets\\js\\components\\MIRSPreview.vue"
 if (Component.esModule && Object.keys(Component.esModule).some(function (key) {return key !== "default" && key !== "__esModule"})) {console.error("named exports are not supported in *.vue files.")}
 if (Component.options.functional) {console.error("[vue-loader] MIRSPreview.vue: functional components are not supported with templates, they should use render functions.")}
 
@@ -2036,7 +2120,7 @@ var Component = __webpack_require__(4)(
   /* cssModules */
   null
 )
-Component.options.__file = "C:\\xampp\\htdocs\\warehouse\\resources\\assets\\js\\components\\MIRSindex.vue"
+Component.options.__file = "c:\\xampp\\htdocs\\warehouse\\resources\\assets\\js\\components\\MIRSindex.vue"
 if (Component.esModule && Object.keys(Component.esModule).some(function (key) {return key !== "default" && key !== "__esModule"})) {console.error("named exports are not supported in *.vue files.")}
 if (Component.options.functional) {console.error("[vue-loader] MIRSindex.vue: functional components are not supported with templates, they should use render functions.")}
 
@@ -2634,11 +2718,11 @@ if (false) {
 /***/ (function(module, exports, __webpack_require__) {
 
 module.exports={render:function (){var _vm=this;var _h=_vm.$createElement;var _c=_vm._self._c||_h;
-  return _c('span', [_c('div', {
+  return (_vm.MIRSMaster.users != null) ? _c('span', [_c('div', {
     staticClass: "printable-paper"
   }, [_c('div', {
     staticClass: "print-btn-container"
-  }, [((_vm.MIRSMaster.PreparedSignature != null) && ((_vm.MIRSMaster.RecommendSignature != null) || (_vm.MIRSMaster.ManagerReplacerSignature != null)) && ((_vm.MIRSMaster.ApproveSignature != null) || (_vm.MIRSMaster.ApprovalReplacerSignature != null))) ? _c('div', {
+  }, [(_vm.approved) ? _c('div', {
     staticClass: "download-form"
   }, [_c('a', {
     attrs: {
@@ -2646,11 +2730,9 @@ module.exports={render:function (){var _vm=this;var _h=_vm.$createElement;var _c
     }
   }, [_vm._m(0)]), _vm._v("\r\n        unclaimed:"), _c('span', {
     staticClass: "color-blue"
-  }, [_vm._v(_vm._s(_vm.unclaimed))])]) : ((_vm.MIRSMaster.Recommendedby != _vm.user.FullName)) ? _c('div', {
-    staticClass: "empty-left-mirs"
-  }) : _c('div', {
+  }, [_vm._v(_vm._s(_vm.unclaimed))])]) : _c('div', {
     staticClass: "empty-left"
-  }), _vm._v(" "), (((_vm.MIRSMaster.ManagerReplacer == _vm.user.FullName) && (_vm.MIRSMaster.ManagerReplacerSignature == null))) ? _c('div', {
+  }), _vm._v(" "), (_vm.managerReplaceistrue) ? _c('div', {
     staticClass: "Request-manager-replace"
   }, [_c('h6', {
     staticClass: "mirs-managerreplace-info"
@@ -2658,7 +2740,7 @@ module.exports={render:function (){var _vm=this;var _h=_vm.$createElement;var _c
     staticClass: "fa fa-info-circle color-blue"
   }), _vm._v(" "), _c('span', {
     staticClass: "color-blue"
-  }, [_vm._v(_vm._s(_vm.MIRSMaster.Preparedby))]), _vm._v(" is asking for your signature b/c the " + _vm._s(_vm.MIRSMaster.RecommendPosition) + " is not available\r\n          ")]), _vm._v(" "), _c('span', {
+  }, [_vm._v(_vm._s(_vm.MIRSMaster.users[0].FullName))]), _vm._v(" is asking for your signature b/c the " + _vm._s(_vm.MIRSMaster.users[1].Position) + " is not available\r\n        ")]), _vm._v(" "), _c('span', {
     staticClass: "manager-replacer-accept-cant",
     class: {
       'hide': _vm.SignatureManagerRelacerBtnHide
@@ -2673,7 +2755,7 @@ module.exports={render:function (){var _vm=this;var _h=_vm.$createElement;var _c
     }
   }, [_c('i', {
     staticClass: "fa fa-pencil"
-  }), _vm._v(" Signature\r\n            ")]), _vm._v(" "), _c('longpress', {
+  }), _vm._v(" Signature\r\n          ")]), _vm._v(" "), _c('longpress', {
     attrs: {
       "duration": "3",
       "id": "manager-replacer-cant",
@@ -2683,7 +2765,7 @@ module.exports={render:function (){var _vm=this;var _h=_vm.$createElement;var _c
     }
   }, [_c('i', {
     staticClass: "fa fa-pencil"
-  }), _vm._v(" I can't\r\n            ")])], 1)]) : _vm._e(), _vm._v(" "), (((_vm.MIRSMaster.ApprovalReplacer == _vm.user.FullName) && (_vm.MIRSMaster.ApprovalReplacerSignature == null) && (_vm.MIRSMaster.ApproveSignature == null) && ((_vm.MIRSMaster.ManagerReplacerSignature != null) || (_vm.MIRSMaster.RecommendSignature != null)))) ? _c('div', {
+  }), _vm._v(" I can't\r\n          ")])], 1)]) : _vm._e(), _vm._v(" "), (_vm.UserIsApprovalReplacer) ? _c('div', {
     staticClass: "Request-manager-replace"
   }, [_c('h6', {
     staticClass: "mirs-managerreplace-info"
@@ -2691,7 +2773,7 @@ module.exports={render:function (){var _vm=this;var _h=_vm.$createElement;var _c
     staticClass: "fa fa-info-circle color-blue"
   }), _vm._v(" "), _c('span', {
     staticClass: "color-blue"
-  }, [_vm._v(_vm._s(_vm.MIRSMaster.Preparedby))]), _vm._v(" is asking for your signature b/c the General Manager is not available\r\n            ")]), _vm._v(" "), _c('span', {
+  }, [_vm._v(_vm._s(_vm.MIRSMaster.users[0].FullName))]), _vm._v(" is asking for your signature b/c the General Manager is not available\r\n        ")]), _vm._v(" "), _c('span', {
     staticClass: "Approve-replacer-accept-cant",
     class: {
       'hide': _vm.SignatureApproveBtnHide
@@ -2706,7 +2788,7 @@ module.exports={render:function (){var _vm=this;var _h=_vm.$createElement;var _c
     }
   }, [_c('i', {
     staticClass: "fa fa-pencil"
-  }), _vm._v(" Signature\r\n              ")]), _vm._v(" "), _c('longpress', {
+  }), _vm._v(" Signature\r\n          ")]), _vm._v(" "), _c('longpress', {
     attrs: {
       "duration": "3",
       "id": "manager-replacer-cant",
@@ -2716,7 +2798,7 @@ module.exports={render:function (){var _vm=this;var _h=_vm.$createElement;var _c
     }
   }, [_c('i', {
     staticClass: "fa fa-pencil"
-  }), _vm._v(" I can't\r\n              ")])], 1)]) : _vm._e(), _vm._v(" "), (((_vm.MIRSMaster.Recommendedby == _vm.user.FullName) && (_vm.MIRSMaster.RecommendSignature == null) && (_vm.MIRSMaster.IfDeclined == null) && (_vm.MIRSMaster.ManagerReplacerSignature == null)) || ((_vm.MIRSMaster.Approvedby == _vm.user.FullName) && (_vm.MIRSMaster.ApproveSignature == null) && (_vm.MIRSMaster.IfDeclined == null))) ? _c('span', [(((_vm.user.Role == 2) && ((_vm.MIRSMaster.PreparedSignature == null) || ((_vm.MIRSMaster.RecommendSignature == null) && (_vm.MIRSMaster.ManagerReplacerSignature == null))))) ? _c('span') : _c('div', {
+  }), _vm._v(" I can't\r\n          ")])], 1)]) : _vm._e(), _vm._v(" "), (((_vm.ManagerCansignature) && (_vm.NoManagerReplacerSignature) || ((_vm.GMCanSignature) && (_vm.NoApprovalReplacerSignature)))) ? _c('span', [_c('div', {
     staticClass: "middle-status",
     class: {
       'hide': _vm.SignatureBtnHide
@@ -2731,7 +2813,7 @@ module.exports={render:function (){var _vm=this;var _h=_vm.$createElement;var _c
     }
   }, [_c('i', {
     staticClass: "fa fa-pencil"
-  }), _vm._v(" Signature\r\n            ")]), _vm._v(" "), _c('longpress', {
+  }), _vm._v(" Signature\r\n          ")]), _vm._v(" "), _c('longpress', {
     attrs: {
       "id": "not-accepted",
       "duration": "3",
@@ -2741,7 +2823,7 @@ module.exports={render:function (){var _vm=this;var _h=_vm.$createElement;var _c
     }
   }, [_c('i', {
     staticClass: "fa fa-times"
-  }), _vm._v(" Decline\r\n            ")])], 1)]) : _vm._e(), _vm._v(" "), ((((_vm.MIRSMaster.RecommendSignature != null) || (_vm.MIRSMaster.ManagerReplacerSignature != null)) && ((_vm.MIRSMaster.ApproveSignature != null) || (_vm.MIRSMaster.ApprovalReplacerSignature != null)))) ? _c('div', {
+  }), _vm._v(" Decline\r\n          ")])], 1)]) : _vm._e(), _vm._v(" "), (_vm.approved) ? _c('div', {
     staticClass: "mct-create-mct-list"
   }, [(((_vm.user.Role == 4) || (_vm.user.Role == 3))) ? _c('a', {
     attrs: {
@@ -2755,9 +2837,9 @@ module.exports={render:function (){var _vm=this;var _h=_vm.$createElement;var _c
     staticClass: "bondpaper-size"
   }, [_c('div', {
     staticClass: "top-part-box1"
-  }, [_c('h1', [_vm._v("BOHOL 1 ELECTRIC COOPERATIVE, INC.")]), _vm._v(" "), _c('h4', [_vm._v("Cabulijan, Tubigon, Bohol")]), _vm._v(" "), _c('h2', [_vm._v("MATERIALS ISSUANCE REQUISITION SLIP")]), _vm._v(" "), (_vm.MIRSMaster.IfDeclined != null) ? _c('div', {
+  }, [_c('h1', [_vm._v("BOHOL 1 ELECTRIC COOPERATIVE, INC.")]), _vm._v(" "), _c('h4', [_vm._v("Cabulijan, Tubigon, Bohol")]), _vm._v(" "), _c('h2', [_vm._v("MATERIALS ISSUANCE REQUISITION SLIP")]), _vm._v(" "), (_vm.declinedistrue) ? _c('div', {
     staticClass: "status-mirs declined"
-  }, [_vm._m(3)]) : ((((_vm.MIRSMaster.ApprovalReplacerSignature != null) || (_vm.MIRSMaster.ApproveSignature != null)) && ((_vm.MIRSMaster.RecommendSignature != null) || (_vm.MIRSMaster.ManagerReplacerSignature != null)) && _vm.MIRSMaster.PreparedSignature != null)) ? _c('div', {
+  }, [_vm._m(3)]) : (_vm.approved) ? _c('div', {
     staticClass: "status-mirs approved"
   }, [_vm._m(4)]) : _c('div', {
     staticClass: "status-mirs"
@@ -2785,37 +2867,41 @@ module.exports={render:function (){var _vm=this;var _h=_vm.$createElement;var _c
     }, [_vm._v(_vm._s(mirsdata.ItemCode))]), _vm._v(" "), _c('td', {
       staticClass: "particular"
     }, [_vm._v(_vm._s(mirsdata.Particulars))]), _vm._v(" "), _c('td', [_vm._v(_vm._s(mirsdata.Unit))]), _vm._v(" "), _c('td', [_vm._v(_vm._s(mirsdata.Quantity))]), _vm._v(" "), _c('td', [_vm._v(_vm._s(mirsdata.Remarks))])])
-  })], 2)]), _vm._v(" "), _vm._m(8), _vm._v(" "), (_vm.MIRSMaster.users != null) ? _c('div', {
+  })], 2)]), _vm._v(" "), _vm._m(8), _vm._v(" "), _c('div', {
     staticClass: "bottom-mirs-part"
   }, [_c('div', {
     staticClass: "request-recommend-sig"
   }, [_c('div', {
     staticClass: "request-sig"
-  }, [_c('h4', [_vm._v("Prepared by:")]), _vm._v(" "), _c('h3', [((_vm.MIRSMaster.PreparedSignature != null)) ? _c('img', {
+  }, [_c('h4', [_vm._v("Prepared by:")]), _vm._v(" "), _c('h3', [((_vm.MIRSMaster.users[0].pivot.Signature == '0')) ? _c('img', {
     attrs: {
-      "src": '/storage/signatures/' + _vm.MIRSMaster.PreparedSignature
+      "src": '/storage/signatures/' + _vm.MIRSMaster.users[0].Signature
     }
-  }) : _vm._e()]), _vm._v(" "), _c('h2', [_vm._v("\r\n                " + _vm._s(_vm.MIRSMaster.users[0].FullName) + "\r\n                  "), ((_vm.MIRSMaster.IfDeclined == _vm.MIRSMaster.Preparedby)) ? _c('i', {
+  }) : _vm._e()]), _vm._v(" "), _c('h2', [_vm._v("\r\n                " + _vm._s(_vm.MIRSMaster.users[0].FullName) + "\r\n                  "), ((_vm.MIRSMaster.users[0].pivot.Signature == '1')) ? _c('i', {
     staticClass: "fa fa-times decliner"
   }) : _vm._e(), _vm._v(" "), _c('br'), _vm._v("\r\n                " + _vm._s(_vm.MIRSMaster.users[0].Position) + "\r\n              ")])]), _vm._v(" "), _c('div', {
     staticClass: "recommend-sig"
-  }, [_c('h4', [_vm._v("Recommended by:")]), _vm._v(" "), (_vm.MIRSMaster.RecommendSignature != null) ? _c('h3', [_c('img', {
+  }, [_c('h4', [_vm._v("Recommended by:")]), _vm._v(" "), (_vm.MIRSMaster.users[1].pivot.Signature == '0') ? _c('h3', [_c('img', {
     attrs: {
-      "src": '/storage/signatures/' + _vm.MIRSMaster.RecommendSignature
+      "src": '/storage/signatures/' + _vm.MIRSMaster.users[1].Signature
     }
-  })]) : (_vm.MIRSMaster.ManagerReplacerSignature != null) ? _c('h3', [_c('h2', [_vm._v("For :")]), _vm._v(" "), _c('img', {
+  })]) : (((_vm.MIRSMaster.users[3] != null) && (_vm.MIRSMaster.users[3].pivot.Signature == '0') && (_vm.MIRSMaster.users[3].pivot.SignatureType == 'ManagerReplacer'))) ? _c('h3', [_c('h2', [_vm._v("For :")]), _vm._v(" "), _c('img', {
     attrs: {
-      "src": '/storage/signatures/' + _vm.MIRSMaster.ManagerReplacerSignature
+      "src": '/storage/signatures/' + _vm.MIRSMaster.users[3].Signature
+    }
+  })]) : (((_vm.MIRSMaster.users[4] != null) && (_vm.MIRSMaster.users[4].pivot.Signature == '0') && (_vm.MIRSMaster.users[4].pivot.SignatureType = 'ManagerReplacer'))) ? _c('h3', [_c('h2', [_vm._v("For :")]), _vm._v(" "), _c('img', {
+    attrs: {
+      "src": '/storage/signatures/' + _vm.MIRSMaster.users[4].Signature
     }
   })]) : _vm._e(), _vm._v(" "), _c('h2', [_c('span', {
     staticClass: "bold"
   }, [_vm._v(_vm._s(_vm.MIRSMaster.users[1].FullName) + "\r\n             "), _c('span', {
     staticClass: "opener-manager-replace"
-  }, [(_vm.user.FullName == _vm.MIRSMaster.Preparedby && this.ManagerBehalfActive == true) ? _c('div', {
+  }, [(_vm.user.id == _vm.MIRSMaster.users[0].id && this.ManagerBehalfActive == true) ? _c('div', {
     staticClass: "mini-menu-managers"
-  }, [(_vm.MIRSMaster.ManagerReplacer == null) ? _c('h1', [_vm._v("Request signature to")]) : _c('h1', [_vm._v("Request pending "), _c('i', {
+  }, [(_vm.ManagerReplacerData == null) ? _c('h1', [_vm._v("Request signature to")]) : _c('h1', [_vm._v("Request pending "), _c('i', {
     staticClass: "fa fa-clock-o color-white"
-  })]), _vm._v(" "), (_vm.MIRSMaster.ManagerReplacer == null) ? _c('div', {
+  })]), _vm._v(" "), (_vm.ManagerReplacerData == null) ? _c('div', {
     staticClass: "manager-list-menu"
   }, [_c('select', {
     directives: [{
@@ -2840,7 +2926,7 @@ module.exports={render:function (){var _vm=this;var _h=_vm.$createElement;var _c
       "value": null
     }
   }, [_vm._v("Choose a manager")]), _vm._v(" "), _vm._l((_vm.allManager), function(manager) {
-    return (manager.FullName != _vm.MIRSMaster.Recommendedby) ? _c('option', {
+    return (manager.id != _vm.MIRSMaster.users[1].id) ? _c('option', {
       domProps: {
         "value": manager.id
       }
@@ -2871,7 +2957,7 @@ module.exports={render:function (){var _vm=this;var _h=_vm.$createElement;var _c
     staticClass: "manager-replacer-sent"
   }, [_c('p', [_vm._v("Your request has been sent to"), _c('br'), _vm._v(" "), _c('span', {
     staticClass: "underline"
-  }, [_vm._v(_vm._s(_vm.MIRSMaster.ManagerReplacer))])]), _vm._v(" "), _c('span', {
+  }, [_vm._v(_vm._s(_vm.ManagerReplacerData.FullName))])]), _vm._v(" "), _c('span', {
     staticClass: "cancel-manager-replace",
     on: {
       "click": function($event) {
@@ -2880,7 +2966,7 @@ module.exports={render:function (){var _vm=this;var _h=_vm.$createElement;var _c
     }
   }, [_c('i', {
     staticClass: "fa fa-times color-red"
-  }), _vm._v("cancel")])])]) : _vm._e(), _vm._v(" "), ((_vm.MIRSMaster.RecommendSignature == null) && (_vm.MIRSMaster.Preparedby == _vm.user.FullName) && (_vm.MIRSMaster.ManagerReplacerSignature == null)) ? _c('i', {
+  }), _vm._v("cancel")])])]) : _vm._e(), _vm._v(" "), (_vm.RecommendedBySignatureNull) ? _c('i', {
     staticClass: "color-blue",
     class: [_vm.MIRSMaster.ManagerReplacer == null ? 'fa fa-users' : 'fa fa-clock-o'],
     on: {
@@ -2888,23 +2974,23 @@ module.exports={render:function (){var _vm=this;var _h=_vm.$createElement;var _c
         _vm.ManagerBehalfActive = !_vm.ManagerBehalfActive, [_vm.allManager[0] == null ? _vm.fetchAllManager() : '']
       }
     }
-  }) : _vm._e()]), _vm._v(" "), ((_vm.MIRSMaster.IfDeclined == _vm.MIRSMaster.Recommendedby)) ? _c('i', {
+  }) : _vm._e()]), _vm._v(" "), ((_vm.MIRSMaster.users[1].pivot.Signature == '1')) ? _c('i', {
     staticClass: "fa fa-times decliner"
   }) : _vm._e()]), _c('br'), _vm._v("\r\n              " + _vm._s(_vm.MIRSMaster.users[1].Position) + "\r\n            ")])])]), _vm._v(" "), _c('div', {
     staticClass: "gm-sig"
-  }, [_c('h4', [_vm._v("APPROVED:")]), _vm._v(" "), ((_vm.MIRSMaster.ApproveSignature != null)) ? _c('h3', [_c('img', {
+  }, [_c('h4', [_vm._v("APPROVED:")]), _vm._v(" "), ((_vm.MIRSMaster.users[2].pivot.Signature == '0')) ? _c('h3', [_c('img', {
     attrs: {
-      "src": '/storage/signatures/' + _vm.MIRSMaster.ApproveSignature
+      "src": '/storage/signatures/' + _vm.MIRSMaster.users[2].Signature
     }
-  })]) : ((_vm.MIRSMaster.ApprovalReplacerSignature != null)) ? _c('h3', [_c('p', [_vm._v("For :")]), _c('img', {
+  })]) : (((_vm.MIRSMaster.users[3] != null) && (_vm.MIRSMaster.users[3].pivot.Signature == '0') && (_vm.MIRSMaster.users[3].pivot.SignatureType == 'ApprovalReplacer'))) ? _c('h3', [_c('p', [_vm._v("For :")]), _c('img', {
     attrs: {
-      "src": '/storage/signatures/' + _vm.MIRSMaster.ApprovalReplacerSignature
+      "src": '/storage/signatures/' + _vm.MIRSMaster.users[3].Signature
     }
   })]) : _vm._e(), _vm._v(" "), _c('h2', [_c('span', {
     staticClass: "gm-info-box bold"
-  }, [_vm._v("\r\n              " + _vm._s(_vm.MIRSMaster.users[2].FullName) + "\r\n              "), ((_vm.MIRSMaster.IfDeclined == _vm.MIRSMaster.Approvedby)) ? _c('i', {
+  }, [_vm._v("\r\n              " + _vm._s(_vm.MIRSMaster.users[2].FullName) + "\r\n              "), ((_vm.MIRSMaster.users[2].pivot.Signature == '1')) ? _c('i', {
     staticClass: "fa fa-times decliner"
-  }) : _vm._e()]), _c('br'), _vm._v("\r\n              " + _vm._s(_vm.MIRSMaster.users[2].Position) + "\r\n            ")])])]) : _vm._e()])])])
+  }) : _vm._e()]), _c('br'), _vm._v("\r\n              " + _vm._s(_vm.MIRSMaster.users[2].Position) + "\r\n            ")])])])])])]) : _vm._e()
 },staticRenderFns: [function (){var _vm=this;var _h=_vm.$createElement;var _c=_vm._self._c||_h;
   return _c('button', {
     attrs: {

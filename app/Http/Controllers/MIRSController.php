@@ -180,34 +180,37 @@ class MIRSController extends Controller
   }
   public function DeniedMIRS($id)
   {
-    MIRSMaster::where('MIRSNo',$id)->update(['IfDeclined'=>Auth::user()->FullName,'ApprovalReplacerSignature'=>null,'ApprovalReplacer'=>null]);
+    Signatureable::where('signatureable_id', $id)->where('signatureable_type', 'App\MIRSMaster')->where('user_id', Auth::user()->id)->update(['Signature'=>'1']);
   }
   public function MIRSSignature($id)
   {
-    $signableNames=MIRSMaster::where('MIRSNo',$id)->get(['Preparedby','Recommendedby','Approvedby','ApprovalReplacer']);
-    if($signableNames[0]->Recommendedby==Auth::user()->FullName )
+    $PreparedId=Signatureable::where('signatureable_id', $id)->where('signatureable_type', 'App\MIRSMaster')->where('SignatureType', 'PreparedBy')->get(['user_id']);
+    $RecommendId=Signatureable::where('signatureable_id', $id)->where('signatureable_type', 'App\MIRSMaster')->where('SignatureType', 'RecommendedBy')->get(['user_id']);
+    $GMId=Signatureable::where('signatureable_id', $id)->where('signatureable_type', 'App\MIRSMaster')->where('SignatureType', 'ApprovedBy')->get(['user_id']);
+    $ApprovalReplacerId=Signatureable::where('signatureable_id', $id)->where('signatureable_type', 'App\MIRSMaster')->where('SignatureType', 'ApprovalReplacer')->get(['user_id']);
+    if ($RecommendId[0]->user_id==Auth::user()->id)
     {
-      MIRSMaster::where('MIRSNo',$id)->update(['RecommendSignature'=>Auth::user()->Signature,'ManagerReplacerSignature'=>null,'ManagerReplacer'=>null]);
-      $NospaceName=str_replace(' ','',$signableNames[0]->Approvedby);
-      $tobeNotifycontainer= array('tobeNotifyName' =>$NospaceName);
+      Signatureable::where('signatureable_id', $id)->where('signatureable_type', 'App\MIRSMaster')->where('SignatureType', 'ManagerReplacer')->delete();
+      Signatureable::where('signatureable_id', $id)->where('signatureable_type', 'App\MIRSMaster')->where('SignatureType', 'RecommendedBy')->update(['Signature'=>'0']);
+      $tobeNotifycontainer= array('tobeNotify' =>$GMId[0]->user_id);
       $tobeNotifycontainer=(object)$tobeNotifycontainer;
       $job = (new SendMIRSNotification($tobeNotifycontainer))
-                  ->delay(Carbon::now()->addSeconds(5));
+                    ->delay(Carbon::now()->addSeconds(5));
       dispatch($job);
-      if ($signableNames[0]->ApprovalReplacer!=null)
+
+      if ($ApprovalReplacerId[0]!=null)
       {
-        $nospaceName=str_replace(' ','',$signableNames[0]->ApprovalReplacer);
-        $tobeNotifycontainer  = array('tobeNotifyName' =>$nospaceName);
+        $tobeNotifycontainer  = array('tobeNotify' =>$ApprovalReplacerId[0]->user_id);
         $tobeNotifycontainer=(object)$tobeNotifycontainer;
         $job = (new SendMIRSNotification($tobeNotifycontainer))
                     ->delay(Carbon::now()->addSeconds(5));
         dispatch($job);
       }
     }
-    if ($signableNames[0]->Approvedby==Auth::user()->FullName )
+    if ($GMId[0]->user_id==Auth::user()->id)
     {
-      MIRSMaster::where('MIRSNo',$id)->update(['ApproveSignature'=>Auth::user()->Signature,'ApprovalReplacerSignature'=>null]);
-      $RequisitionerMobile=User::where('FullName',$signableNames[0]->Preparedby)->get(['Mobile']);
+      Signatureable::where('signatureable_id', $id)->where('signatureable_type', 'App\MIRSMaster')->where('SignatureType', 'ApprovedBy')->update(['Signature'=>'0']);
+      $RequisitionerMobile=User::where('id',$PreparedId[0]->user_id)->get(['Mobile']);
       $NotifData = array('RequisitionerMobile' =>$RequisitionerMobile[0]->Mobile ,'MIRSNo'=>$id);
       $NotifData=(object)$NotifData;
       $job=(new NewApprovedMIRSJob($NotifData))->delay(Carbon::now()->addSeconds(5));
@@ -248,19 +251,21 @@ class MIRSController extends Controller
   }
   public function CancelApproveMIRSinBehalf($id)
   {
-    MIRSMaster::where('MIRSNo', $id)->update(['ApprovalReplacer'=>null]);
+    Signatureable::where('signatureable_id',$id)->where('signatureable_type', 'App\MIRSMaster')->where('SignatureType', 'ApprovalReplacer')->delete();
   }
   public function AcceptApprovalRequest($id)
   {
-      $MIRSitems=MIRSDetail::where('MIRSNo',$id)->get(['MIRSNo','ItemCode','Particulars','Unit','Quantity','Remarks']);
-      MIRSMaster::where('MIRSNo',$id)->update(['ApprovalReplacerSignature'=>Auth::user()->Signature,'ApproveSignature'=>null]);
-      $Names=MIRSMaster::where('MIRSNo',$id)->get(['Preparedby','Approvedby']);
-      $RequisitionerMobile=User::where('FullName',$Names[0]->Preparedby)->get(['Mobile']);
-      $GMMobile=User::where('FullName',$Names[0]->Approvedby)->get(['Mobile']);
-      $NotifData = array('RequisitionerMobile' =>$RequisitionerMobile[0]->Mobile ,'MIRSNo'=>$id,'GMMobile'=>$GMMobile[0]->Mobile,'ApprovalReplacer'=>Auth::user()->FullName);
-      $NotifData=(object)$NotifData;
-      $job=(new MIRSApprovalReplacer($NotifData))->delay(Carbon::now()->addSeconds(5));
-      dispatch($job);
+    Signatureable::where('signatureable_id',$id)->where('signatureable_type', 'App\MIRSMaster')->where('SignatureType', 'ApprovalReplacer')->update(['Signature'=>'0']);
+
+    $PreparedId=Signatureable::where('signatureable_id', $id)->where('signatureable_type', 'App\MIRSMaster')->where('SignatureType', 'PreparedBy')->get(['user_id']);
+    $GMId=Signatureable::where('signatureable_id', $id)->where('signatureable_type', 'App\MIRSMaster')->where('SignatureType', 'ApprovedBy')->get(['user_id']);
+
+    $RequisitionerMobile=User::where('id',$PreparedId[0]->user_id)->get(['Mobile']);
+    $GMMobile=User::where('id',$GMId[0]->user_id)->get(['Mobile']);
+    $NotifData = array('RequisitionerMobile' =>$RequisitionerMobile[0]->Mobile ,'MIRSNo'=>$id,'GMMobile'=>$GMMobile[0]->Mobile,'ApprovalReplacer'=>Auth::user()->FullName);
+    $NotifData=(object)$NotifData;
+    $job=(new MIRSApprovalReplacer($NotifData))->delay(Carbon::now()->addSeconds(5));
+    dispatch($job);
   }
   public function fetchAllManager()
   {
@@ -272,33 +277,35 @@ class MIRSController extends Controller
     {
       return ['error'=>'Required'];
     }
-    $managerReplacer=User::where('id',$request->ManagerReplacerID)->get(['FullName']);
-    MIRSMaster::where('MIRSNo',$id)->update(['ManagerReplacer'=>$managerReplacer[0]->FullName]);
-    $Nospacename=str_replace(' ','',$managerReplacer[0]->FullName);
-    $notify = array('tobeNotifyName' =>$Nospacename);
+    $signatureDB=new Signatureable;
+    $signatureDB->user_id = $request->ManagerReplacerID;
+    $signatureDB->signatureable_id = $id;
+    $signatureDB->signatureable_type = 'App\MIRSMaster';
+    $signatureDB->SignatureType= 'ManagerReplacer';
+    $signatureDB->save();
+    $notify = array('tobeNotify' =>$request->ManagerReplacerID);
     $notify=(object)$notify;
     $job = (new SendMIRSNotification($notify))->delay(Carbon::now()->addSeconds(5));
     dispatch($job);
   }
   public function CancelRequestManagerReplacer($id)
   {
-    MIRSMaster::where('MIRSNo', $id)->update(['ManagerReplacer'=>null]);
+    Signatureable::where('signatureable_id', $id)->where('signatureable_type', 'App\MIRSMaster')->where('SignatureType', 'ManagerReplacer')->delete();
   }
   public function SignatureManagerReplacer($id)
   {
-    MIRSMaster::where('MIRSNo', $id)->update(['ManagerReplacerSignature'=>Auth::user()->Signature,'RecommendSignature'=>null]);
-    $MIRSNotifynext=MIRSMaster::where('MIRSNo', $id)->get(['ApprovalReplacer','Approvedby']);
-    if (!empty($MIRSNotifynext[0]->ApprovalReplacer)) {
-      $GMreplacerName=str_replace(' ','',$MIRSNotifynext[0]->ApprovalReplacer);
-      $notifyname = array('tobeNotifyName' =>$GMreplacerName);
+    Signatureable::where('signatureable_id', $id)->where('signatureable_type', 'App\MIRSMaster')->where('SignatureType', 'ManagerReplacer')->update(['Signature'=>'0']);
+    $GMId=Signatureable::where('signatureable_id', $id)->where('signatureable_type', 'App\MIRSMaster')->where('SignatureType', 'ApprovedBy')->get(['user_id']);
+    $ApprovalReplacerId=Signatureable::where('signatureable_id', $id)->where('signatureable_type', 'App\MIRSMaster')->where('SignatureType', 'ApprovalReplacer')->get(['user_id']);
+    if (!empty($ApprovalReplacerId[0])) {
+      $notifyname = array('tobeNotify' =>$ApprovalReplacerId[0]->user_id);
       $notifyname=(object)$notifyname;
       $job = (new SendMIRSNotification($notifyname))->delay(Carbon::now()->addSeconds(5));
       dispatch($job);
     }
-    $GMNospacename=str_replace(' ','',$MIRSNotifynext[0]->Approvedby);
-    $GMname = array('tobeNotifyName' =>$GMNospacename);
-    $GMname=(object)$GMname;
-    $job = (new SendMIRSNotification($GMname))->delay(Carbon::now()->addSeconds(5));
+    $GMid = array('tobeNotify' =>$GMId[0]->user_id);
+    $GMid=(object)$GMid;
+    $job = (new SendMIRSNotification($GMid))->delay(Carbon::now()->addSeconds(5));
     dispatch($job);
   }
   public function MIRSNotification()

@@ -92,8 +92,8 @@ Route::get('/ready-mirs','MIRSController@readyForMCT')->name('mirs-ready')->midd
 Route::put('/cancel-request-approval/{id}','MIRSController@CancelApproveMIRSinBehalf')->name('cancel-request-to-asigned');
 Route::put('/confirm-manager-toreplace-gm-signature/{id}','MIRSController@AcceptApprovalRequest')->name('letManagerApprove');
 Route::get('/fetch-all-managers','MIRSController@fetchAllManager');
-Route::put('/send-request-manager-replacer/{id}','MIRSController@SendRequestManagerReplacer');
-Route::put('/cancel-request-manager-replacer/{id}','MIRSController@CancelRequestManagerReplacer');
+Route::post('/send-request-manager-replacer/{id}','MIRSController@SendRequestManagerReplacer');
+Route::delete('/cancel-request-manager-replacer/{id}','MIRSController@CancelRequestManagerReplacer');
 Route::put('/signature-replacer-accepted/{id}','MIRSController@SignatureManagerReplacer');
 Route::get('/mct-summary-search','MCTController@searchMCTsummary')->name('mct-search-date')->middleware('IsWarehouseAndAdmin');
 Route::delete('DeleteSession-RR/{id}','RRController@deleteSessionStored')->name('RRDeleteSession');

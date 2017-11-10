@@ -1,74 +1,70 @@
 <template lang="html">
-<span>
+<span v-if="MIRSMaster.users!=null">
   <div class="printable-paper">
     <div class="print-btn-container">
-      <div class="download-form" v-if="(MIRSMaster.PreparedSignature!=null)&&((MIRSMaster.RecommendSignature!=null)||(MIRSMaster.ManagerReplacerSignature!=null))&&((MIRSMaster.ApproveSignature!=null)||(MIRSMaster.ApprovalReplacerSignature!=null))">
+      <div class="download-form" v-if="approved">
         <a :href="'/MIRS.pdf/'+mirsno.MIRSNo"><button type="submit">PDF <i class="fa fa-file-pdf-o"></i></button></a>
         unclaimed:<span class="color-blue">{{unclaimed}}</span>
       </div>
-      <div class="empty-left-mirs" v-else-if="(MIRSMaster.Recommendedby!=user.FullName)">
-      </div>
       <div class="empty-left" v-else>
       </div>
-        <div class="Request-manager-replace" v-if="((MIRSMaster.ManagerReplacer==user.FullName)&&(MIRSMaster.ManagerReplacerSignature==null))">
-          <h6 class="mirs-managerreplace-info"><i class="fa fa-info-circle color-blue"></i>
-            <span class="color-blue">{{MIRSMaster.Preparedby}}</span> is asking for your signature b/c the {{MIRSMaster.RecommendPosition}} is not available
-          </h6>
-          <span class="manager-replacer-accept-cant" :class="{'hide':SignatureManagerRelacerBtnHide}">
-            <longpress  duration="3" id="manager-replacer-accept" :on-confirm="AcceptrequestReplacer"  pressing-text="confirm in {$rcounter}" action-text="Loading . . .">
-            <i class="fa fa-pencil"></i> Signature
-            </longpress>
-            <longpress  duration="3" id="manager-replacer-cant" :on-confirm="cancelrequestReplacer"  pressing-text="confirm in {$rcounter}" action-text="Loading . . .">
-            <i class="fa fa-pencil"></i> I can't
-            </longpress>
-          </span>
-        </div>
-          <div class="Request-manager-replace"  v-if="((MIRSMaster.ApprovalReplacer==user.FullName)&&(MIRSMaster.ApprovalReplacerSignature==null)&&(MIRSMaster.ApproveSignature==null)&&((MIRSMaster.ManagerReplacerSignature!=null)||(MIRSMaster.RecommendSignature!=null)))">
-            <h6 class="mirs-managerreplace-info"><i class="fa fa-info-circle color-blue"></i>
-              <span class="color-blue">{{MIRSMaster.Preparedby}}</span> is asking for your signature b/c the General Manager is not available
-            </h6>
-            <span class="Approve-replacer-accept-cant" :class="{'hide':SignatureApproveBtnHide}">
-              <longpress  duration="3" id="manager-replacer-accept" :on-confirm="AcceptApprovalReplacerequest"  pressing-text="confirm in {$rcounter}" action-text="Loading . . .">
-              <i class="fa fa-pencil"></i> Signature
-              </longpress>
-              <longpress  duration="3" id="manager-replacer-cant" :on-confirm="cancelRequestApprovalReplacer"  pressing-text="confirm in {$rcounter}" action-text="Loading . . .">
-              <i class="fa fa-pencil"></i> I can't
-              </longpress>
-            </span>
-          </div>
-        <span v-if="((MIRSMaster.Recommendedby==user.FullName)&&(MIRSMaster.RecommendSignature==null)&&(MIRSMaster.IfDeclined==null)&&(MIRSMaster.ManagerReplacerSignature==null))||((MIRSMaster.Approvedby==user.FullName)&&(MIRSMaster.ApproveSignature==null)&&(MIRSMaster.IfDeclined==null))">
-          <span v-if="((user.Role==2)&&((MIRSMaster.PreparedSignature==null)||((MIRSMaster.RecommendSignature==null)&&(MIRSMaster.ManagerReplacerSignature==null))))">
-          </span>
-          <div class="middle-status" :class="{'hide':SignatureBtnHide}" v-else>
-            <longpress id="accepted" duration="3" :on-confirm="SignatureMIRS"  pressing-text="confirm in {$rcounter}" action-text="Loading . . .">
-              <i class="fa fa-pencil"></i> Signature
-            </longpress>
-            <longpress id="not-accepted" duration="3" :on-confirm="DeclineMIRS"  pressing-text="confirm in {$rcounter}" action-text="Loading . . .">
-              <i class="fa fa-times"></i> Decline
-            </longpress>
-          </div>
+      <div class="Request-manager-replace" v-if="managerReplaceistrue">
+        <h6 class="mirs-managerreplace-info"><i class="fa fa-info-circle color-blue"></i>
+          <span class="color-blue">{{MIRSMaster.users[0].FullName}}</span> is asking for your signature b/c the {{MIRSMaster.users[1].Position}} is not available
+        </h6>
+        <span class="manager-replacer-accept-cant" :class="{'hide':SignatureManagerRelacerBtnHide}">
+          <longpress  duration="3" id="manager-replacer-accept" :on-confirm="AcceptrequestReplacer"  pressing-text="confirm in {$rcounter}" action-text="Loading . . .">
+          <i class="fa fa-pencil"></i> Signature
+          </longpress>
+          <longpress  duration="3" id="manager-replacer-cant" :on-confirm="cancelrequestReplacer"  pressing-text="confirm in {$rcounter}" action-text="Loading . . .">
+          <i class="fa fa-pencil"></i> I can't
+          </longpress>
         </span>
-      <div class="mct-create-mct-list" v-if="(((MIRSMaster.RecommendSignature!=null)||(MIRSMaster.ManagerReplacerSignature!=null))&&((MIRSMaster.ApproveSignature!=null)||(MIRSMaster.ApprovalReplacerSignature!=null)))">
+      </div>
+      <div class="Request-manager-replace"  v-if="UserIsApprovalReplacer">
+        <h6 class="mirs-managerreplace-info"><i class="fa fa-info-circle color-blue"></i>
+          <span class="color-blue">{{MIRSMaster.users[0].FullName}}</span> is asking for your signature b/c the General Manager is not available
+        </h6>
+        <span class="Approve-replacer-accept-cant" :class="{'hide':SignatureApproveBtnHide}">
+          <longpress  duration="3" id="manager-replacer-accept" :on-confirm="AcceptApprovalReplacerequest"  pressing-text="confirm in {$rcounter}" action-text="Loading . . .">
+          <i class="fa fa-pencil"></i> Signature
+          </longpress>
+          <longpress  duration="3" id="manager-replacer-cant" :on-confirm="cancelRequestApprovalReplacer"  pressing-text="confirm in {$rcounter}" action-text="Loading . . .">
+          <i class="fa fa-pencil"></i> I can't
+          </longpress>
+        </span>
+      </div>
+      <span v-if="((ManagerCansignature)&&(NoManagerReplacerSignature)||((GMCanSignature)&&(NoApprovalReplacerSignature)))">
+        <div class="middle-status" :class="{'hide':SignatureBtnHide}">
+          <longpress id="accepted" duration="3" :on-confirm="SignatureMIRS"  pressing-text="confirm in {$rcounter}" action-text="Loading . . .">
+            <i class="fa fa-pencil"></i> Signature
+          </longpress>
+          <longpress id="not-accepted" duration="3" :on-confirm="DeclineMIRS"  pressing-text="confirm in {$rcounter}" action-text="Loading . . .">
+            <i class="fa fa-times"></i> Decline
+          </longpress>
+        </div>
+      </span>
+      <div class="mct-create-mct-list" v-if="approved">
         <a :href="'/create-mct/'+mirsno.MIRSNo" v-if="((user.Role==4)||(user.Role==3))"><button type="button" id="mct-modal-btn" name="button"><i class="fa fa-plus"></i> Record MCT</button></a>
         <h1 v-if="((user.Role!=3)&&(user.Role!=4)&&(MCTNumber==null))">Empty MCT</h1>
         <a :href="'/MCTofMIRS/'+mirsno.MIRSNo" v-else-if="MCTNumber!=null"><button type="button" name="button"><i class="fa fa-table"></i> M.C.T. list</button></a>
       </div>
-  </div>
+    </div>
   </div>
     <div class="bondpaper-size">
       <div class="top-part-box1">
         <h1>BOHOL 1 ELECTRIC COOPERATIVE, INC.</h1>
-          <h4>Cabulijan, Tubigon, Bohol</h4>
-          <h2>MATERIALS ISSUANCE REQUISITION SLIP</h2>
-              <div class="status-mirs declined" v-if="MIRSMaster.IfDeclined!=null">
-                <h1 class="deny-sign"><i class="fa fa-times"></i><br>Declined</h1>
-              </div>
-              <div class="status-mirs approved" v-else-if="(((MIRSMaster.ApprovalReplacerSignature!=null)||(MIRSMaster.ApproveSignature!=null))&&((MIRSMaster.RecommendSignature!=null)||(MIRSMaster.ManagerReplacerSignature!=null))&&MIRSMaster.PreparedSignature!=null)">
-                <h1 class="approved-sign"><i class="fa fa-thumbs-up"></i> <br>Approved</h1>
-              </div>
-              <div class="status-mirs" v-else>
-                <h1><i class="fa fa-clock-o"></i><br>Pending</h1>
-              </div>
+        <h4>Cabulijan, Tubigon, Bohol</h4>
+        <h2>MATERIALS ISSUANCE REQUISITION SLIP</h2>
+        <div class="status-mirs declined" v-if="declinedistrue">
+          <h1 class="deny-sign"><i class="fa fa-times"></i><br>Declined</h1>
+        </div>
+        <div class="status-mirs approved" v-else-if="approved">
+          <h1 class="approved-sign"><i class="fa fa-thumbs-up"></i> <br>Approved</h1>
+        </div>
+        <div class="status-mirs" v-else>
+          <h1><i class="fa fa-clock-o"></i><br>Pending</h1>
+        </div>
       </div>
       <div class="top-part-box2">
         <div class="top-box2-left">
@@ -113,39 +109,43 @@
         <div class="statement-container">
           <p>I hereby certify that the materials/supplies requested above are <br>necessary and with purpose stated above</p>
         </div>
-        <div class="bottom-mirs-part" v-if="MIRSMaster.users!=null">
+        <div class="bottom-mirs-part">
           <div class="request-recommend-sig">
             <div class="request-sig">
               <h4>Prepared by:</h4>
                 <h3>
-                  <img v-if="(MIRSMaster.PreparedSignature!=null)" :src="'/storage/signatures/'+MIRSMaster.PreparedSignature">
+                  <img v-if="(MIRSMaster.users[0].pivot.Signature=='0')" :src="'/storage/signatures/'+MIRSMaster.users[0].Signature">
                 </h3>
               <h2>
                 {{MIRSMaster.users[0].FullName}}
-                  <i v-if="(MIRSMaster.IfDeclined==MIRSMaster.Preparedby)"class="fa fa-times decliner"></i>
+                  <i v-if="(MIRSMaster.users[0].pivot.Signature=='1')"class="fa fa-times decliner"></i>
                   <br>
                 {{MIRSMaster.users[0].Position}}
               </h2>
             </div>
             <div class="recommend-sig">
             <h4>Recommended by:</h4>
-            <h3 v-if="MIRSMaster.RecommendSignature!=null">
-              <img :src="'/storage/signatures/'+MIRSMaster.RecommendSignature">
+            <h3 v-if="MIRSMaster.users[1].pivot.Signature=='0'">
+              <img :src="'/storage/signatures/'+MIRSMaster.users[1].Signature">
             </h3>
-            <h3 v-else-if="MIRSMaster.ManagerReplacerSignature!=null">
+            <h3 v-else-if="((MIRSMaster.users[3]!=null)&&(MIRSMaster.users[3].pivot.Signature=='0')&&(MIRSMaster.users[3].pivot.SignatureType=='ManagerReplacer'))">
               <h2>For :</h2>
-              <img :src="'/storage/signatures/'+MIRSMaster.ManagerReplacerSignature">
+              <img :src="'/storage/signatures/'+MIRSMaster.users[3].Signature">
+            </h3>
+            <h3 v-else-if="((MIRSMaster.users[4]!=null)&&(MIRSMaster.users[4].pivot.Signature=='0')&&(MIRSMaster.users[4].pivot.SignatureType='ManagerReplacer'))">
+              <h2>For :</h2>
+              <img :src="'/storage/signatures/'+MIRSMaster.users[4].Signature">
             </h3>
             <h2>
              <span class="bold">{{MIRSMaster.users[1].FullName}}
              <span class="opener-manager-replace">
-               <div class="mini-menu-managers" v-if="user.FullName==MIRSMaster.Preparedby&&this.ManagerBehalfActive==true">
-                 <h1 v-if="MIRSMaster.ManagerReplacer==null">Request signature to</h1>
+               <div class="mini-menu-managers" v-if="user.id==MIRSMaster.users[0].id && this.ManagerBehalfActive==true">
+                 <h1 v-if="ManagerReplacerData==null">Request signature to</h1>
                  <h1 v-else>Request pending <i class="fa fa-clock-o color-white"></i></h1>
-                 <div class="manager-list-menu"v-if="MIRSMaster.ManagerReplacer==null">
+                 <div class="manager-list-menu"v-if="ManagerReplacerData==null">
                    <select v-model="ManagerReplacerID">
                      <option :value="null">Choose a manager</option>
-                     <option v-for="manager in allManager" :value="manager.id" v-if="manager.FullName!=MIRSMaster.Recommendedby">{{manager.FullName}}</option>
+                     <option v-for="manager in allManager" :value="manager.id" v-if="manager.id!=MIRSMaster.users[1].id">{{manager.FullName}}</option>
                    </select>
                    <p v-if="error!=null" class="color-red">*{{error}}</p>
                    <span class="send-cancel-btns">
@@ -154,13 +154,13 @@
                    </span>
                  </div>
                  <div class="manager-replacer-sent" v-else>
-                   <p>Your request has been sent to<br> <span class="underline">{{MIRSMaster.ManagerReplacer}}</span></p>
+                   <p>Your request has been sent to<br> <span class="underline">{{ManagerReplacerData.FullName}}</span></p>
                    <span class="cancel-manager-replace" v-on:click="cancelrequestReplacer()"><i class="fa fa-times color-red"></i>cancel</span>
                  </div>
                </div>
-               <i class="color-blue" :class="[MIRSMaster.ManagerReplacer==null?'fa fa-users':'fa fa-clock-o']" v-on:click="ManagerBehalfActive=!ManagerBehalfActive,[allManager[0]==null?fetchAllManager():'']" v-if="(MIRSMaster.RecommendSignature==null)&&(MIRSMaster.Preparedby==user.FullName)&&(MIRSMaster.ManagerReplacerSignature==null)"></i>
+               <i v-if="RecommendedBySignatureNull" class="color-blue" :class="[MIRSMaster.ManagerReplacer==null?'fa fa-users':'fa fa-clock-o']" v-on:click="ManagerBehalfActive=!ManagerBehalfActive,[allManager[0]==null?fetchAllManager():'']" ></i>
              </span>
-             <i class="fa fa-times decliner" v-if="(MIRSMaster.IfDeclined==MIRSMaster.Recommendedby)"></i>
+             <i class="fa fa-times decliner" v-if="(MIRSMaster.users[1].pivot.Signature=='1')"></i>
              </span><br>
               {{MIRSMaster.users[1].Position}}
             </h2>
@@ -168,16 +168,16 @@
           </div>
           <div class="gm-sig">
             <h4>APPROVED:</h4>
-            <h3 v-if="(MIRSMaster.ApproveSignature!=null)">
-              <img :src="'/storage/signatures/'+MIRSMaster.ApproveSignature">
+            <h3 v-if="(MIRSMaster.users[2].pivot.Signature=='0')">
+              <img :src="'/storage/signatures/'+MIRSMaster.users[2].Signature">
             </h3>
-            <h3 v-else-if="(MIRSMaster.ApprovalReplacerSignature!=null)">
-              <p>For :</p><img :src="'/storage/signatures/'+MIRSMaster.ApprovalReplacerSignature">
+            <h3 v-else-if="((MIRSMaster.users[3]!=null)&&(MIRSMaster.users[3].pivot.Signature=='0')&&(MIRSMaster.users[3].pivot.SignatureType=='ApprovalReplacer'))">
+              <p>For :</p><img :src="'/storage/signatures/'+MIRSMaster.users[3].Signature">
             </h3>
             <h2>
             <span class="gm-info-box bold">
               {{MIRSMaster.users[2].FullName}}
-              <i class="fa fa-times decliner" v-if="(MIRSMaster.IfDeclined==MIRSMaster.Approvedby)"></i>
+              <i class="fa fa-times decliner" v-if="(MIRSMaster.users[2].pivot.Signature=='1')"></i>
             </span><br>
               {{MIRSMaster.users[2].Position}}
             </h2>
@@ -207,7 +207,7 @@ import Longpress from 'vue-longpress';
           ApproveReplacerName:'',
           SignatureBtnHide:false,
           SignatureApproveBtnHide:false,
-          SignatureManagerRelacerBtnHide:false,
+          SignatureManagerRelacerBtnHide:false
         }
       },
      props: ['mirsno','user'],
@@ -274,7 +274,7 @@ import Longpress from 'vue-longpress';
       sendrequestReplacer()
       {
         var vm=this;
-        axios.put(`/send-request-manager-replacer/`+this.mirsno.MIRSNo,{
+        axios.post(`/send-request-manager-replacer/`+this.mirsno.MIRSNo,{
           ManagerReplacerID:this.ManagerReplacerID,
         }).then(function(response)
         {
@@ -289,7 +289,7 @@ import Longpress from 'vue-longpress';
       {
         this.SignatureManagerRelacerBtnHide=true;
         var vm=this;
-        axios.put(`/cancel-request-manager-replacer/`+this.mirsno.MIRSNo).then(function(response)
+        axios.delete(`/cancel-request-manager-replacer/` + this.mirsno.MIRSNo).then(function(response)
         {
           Vue.set(vm.$data,'ManagerBehalfActive',false);
           console.log(response);
@@ -332,6 +332,123 @@ import Longpress from 'vue-longpress';
      },
      components: {
         Longpress
-      },
+     },
+     computed: {
+       approved: function()
+       {
+         if(((this.MIRSMaster.users[0].pivot.Signature=='0')&&((this.MIRSMaster.users[1].pivot.Signature=='0')||((this.MIRSMaster.users[3]!=null)&&(this.MIRSMaster.users[3].pivot.Signature=='0')&&(this.MIRSMaster.users[3].pivot.SignatureType=='ManagerReplacer'))||((this.MIRSMaster.users[4]!=null)&&(this.MIRSMaster.users[4].pivot.Signature=='0')&&(this.MIRSMaster.users[4].pivot.SignatureType=='ManagerReplacer')))&&(this.MIRSMaster.users[2].pivot.Signature=='0')||((this.MIRSMaster.users[3]!=null)&&(this.MIRSMaster.users[3].pivot.Signature=='0')&&(this.MIRSMaster.users[3].pivot.SignatureType=='ApprovalReplacer'))||((this.MIRSMaster.users[4]!=null)&&(this.MIRSMaster.users[4].pivot.Signature=='0')&&(this.MIRSMaster.users[4].pivot.SignatureType=='ApprovalReplacer')))) {
+           return true;
+         }else {
+           return false;
+         }
+       },
+       declinedistrue: function()
+       {
+         if ((this.MIRSMaster.users[0].pivot.Signature=='1')||(this.MIRSMaster.users[1].pivot.Signature=='1')||(this.MIRSMaster.users[2].pivot.Signature=='1'))
+         {
+           return true;
+         }else
+         {
+           return false;
+         }
+       },
+       ManagerReplacerData: function()
+       {
+         if (this.MIRSMaster.users[3]!=null && this.MIRSMaster.users[3].pivot.SignatureType=='ManagerReplacer')
+         {
+           return this.MIRSMaster.users[3];
+         }else if(this.MIRSMaster.users[4]!=null && this.MIRSMaster.users[4].pivot.SignatureType=='ManagerReplacer')
+         {
+           return this.MIRSMaster.users[4];
+         }else
+         {
+           return null;
+         }
+       },
+       managerReplaceistrue: function()
+       {
+         if (((this.MIRSMaster.users[3]!=null)&&(this.MIRSMaster.users[3].id==this.user.id)&&(this.MIRSMaster.users[3].pivot.SignatureType=='ManagerReplacer')&&(this.MIRSMaster.users[3].pivot.Signature==null))||(this.MIRSMaster.users[4]!=null)&&(this.MIRSMaster.users[4].id==this.user.id)&&(this.MIRSMaster.users[4].pivot.SignatureType=='ManagerReplacer')&&(this.MIRSMaster.users[3].pivot.Signature==null))
+         {
+           return true;
+         }else
+         {
+           return false;
+         }
+       },
+       ManagerCansignature: function()
+       {
+         if((this.MIRSMaster.users[1].id==this.user.id)&&(this.MIRSMaster.users[1].pivot.Signature==null))
+         {
+           return true;
+         }else
+         {
+           return false;
+         }
+       },
+       GMCanSignature: function()
+       {
+         if ((this.MIRSMaster.users[2].id==this.user.id)&&(this.MIRSMaster.users[2].pivot.Signature==null)&&((this.MIRSMaster.users[1].pivot.Signature=='0')||((this.ManagerReplacerData!=null)&&(this.MIRSMaster.users[1].pivot.Signature=='0'))))
+         {
+           return true;
+         }else
+         {
+           return false;
+         }
+       },
+       NoManagerReplacerSignature: function()
+       {
+         if (((this.MIRSMaster.users[3]!=null)&&(this.MIRSMaster.users[3].pivot.Signature=='0')&&(this.MIRSMaster.users[3].pivot.SignatureType=='ManagerReplacer'))||((this.MIRSMaster.users[4]!=null)&&(this.MIRSMaster.users[4].pivot.Signature=='0')&&(this.MIRSMaster.users[4].pivot.SignatureType=='ManagerReplacer')))
+         {
+           return false;
+         }else
+         {
+           return true;
+         }
+       },
+       ApprovalReplacerData: function()
+       {
+         if ((this.MIRSMaster.users[3]!=null)&&(this.MIRSMaster.users[3].pivot.SignatureType=='ApprovalReplacer'))
+         {
+           return this.MIRSMaster.users[3];
+         }else if((this.MIRSMaster.users[4]!=null)&&(this.MIRSMaster.users[4].pivot.SignatureType=='ApprovalReplacer'))
+         {
+           return this.MIRSMaster.users[4];
+         }else
+         {
+           return null;
+         }
+       },
+
+       NoApprovalReplacerSignature: function()
+       {
+         if (this.ApprovalReplacerData!=null && this.ApprovalReplacerData.pivot.Signature!=null)
+         {
+           return false;
+         }else
+         {
+           return true;
+         }
+       },
+       UserIsApprovalReplacer: function()
+       {
+         if(((this.MIRSMaster.users[1].pivot.Signature=='0')&&(this.MIRSMaster.users[3]!=null)&&(this.user.id==this.MIRSMaster.users[3].id)&&(this.MIRSMaster.users[3].pivot.Signature==null)&&(this.MIRSMaster.users[3].pivot.SignatureType=='ApprovalReplacer')&&(this.MIRSMaster.users[2].pivot.Signature==null))||((this.MIRSMaster.users[1].pivot.Signature=='0')&&(this.MIRSMaster.users[4]!=null)&&(this.user.id==this.MIRSMaster.users[4].id)&&(this.MIRSMaster.users[4].pivot.Signature==null)&&(this.MIRSMaster.users[4].pivot.SignatureType=='ApprovalReplacer')&&(this.MIRSMaster.users[2].pivot.Signature==null)))
+         {
+           return true;
+         }else
+         {
+           return false;
+         }
+       },
+       RecommendedBySignatureNull: function()
+       {
+         if (((this.user.id==this.MIRSMaster.users[0].id)&&(this.MIRSMaster.users[1].pivot.Signature==null)&&(this.MIRSMaster.users[3]!=null)&&(this.MIRSMaster.users[3].pivot.Signature==null)&&(this.MIRSMaster.users[3].pivot.SignatureType=='ManagerReplacer'))||((this.user.id==this.MIRSMaster.users[0].id)&&(this.MIRSMaster.users[1].pivot.Signature==null)&&(this.MIRSMaster.users[4]!=null)&&(this.MIRSMaster.users[4].pivot.Signature==null)&&(this.MIRSMaster.users[4].pivot.SignatureType=='ManagerReplacer'))||((this.user.id==this.MIRSMaster.users[0].id)&&(this.MIRSMaster.users[1].pivot.Signature==null)&&(this.MIRSMaster.users[3]==null))||((this.user.id==this.MIRSMaster.users[0].id)&&(this.MIRSMaster.users[1].pivot.Signature==null)&&(this.MIRSMaster.users[4]==null)))
+         {
+           return true;
+         }else
+         {
+           return false;
+         }
+       },
+     }
   }
 </script>
