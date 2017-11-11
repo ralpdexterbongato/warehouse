@@ -17,4 +17,10 @@ class MIRSMaster extends Model
   {
     return $this->morphToMany('App\User', 'signatureable')->withPivot('Signature','SignatureType');
   }
+  // 
+  // public function myhistory()
+  // {
+  //   return $this->morphToMany('App\User', 'signatureable')->withPivot('Signature','SignatureType')->wherePivot('user_id', 12);
+  // }
+
 }

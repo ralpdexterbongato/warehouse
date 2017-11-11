@@ -94,7 +94,7 @@ class AccountController extends Controller
     }
     public function MyMIRSHistoryandSearch(Request $request)
     {
-      return MIRSMaster::orderBy('MIRSNo','DESC')->where('Preparedby',$request->Preparedby)->where('MIRSDate','LIKE',$request->YearMonth.'%')->paginate(10,['MIRSNo','MIRSDate','Preparedby','Recommendedby','RecommendSignature','Approvedby','ApproveSignature','Purpose','IfDeclined','ApprovalReplacerSignature','ManagerReplacerSignature']);
+      // fix this return MIRSMaster::orderBy('MIRSNo','DESC')->where('MIRSDate','LIKE',$request->YearMonth.'%')->where('user_id', $request->PreparedbyId)->paginate(10);
     }
     public function MyMCTHistoryandSearch(Request $request)
     {

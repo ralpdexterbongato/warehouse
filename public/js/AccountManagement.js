@@ -1655,7 +1655,7 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
   data: function data() {
     return {
       searchmonth: '',
-      searchname: null,
+      searchID: null,
       mirsResults: [],
       mctResults: [],
       mrtResults: [],
@@ -1673,13 +1673,13 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
 
   methods: {
     searchMIRS: function searchMIRS(page) {
-      if (this.searchname == null) {
-        var fullname = this.user.FullName;
+      if (this.searchID == null) {
+        var IDofuser = this.user.id;
       } else {
-        var fullname = this.searchname;
+        var IDofuser = this.searchID;
       }
       var vm = this;
-      __WEBPACK_IMPORTED_MODULE_0_axios___default.a.get('/search-my-mirs-history?Preparedby=' + fullname + '&YearMonth=' + this.searchmonth + '&page=' + page, {
+      __WEBPACK_IMPORTED_MODULE_0_axios___default.a.get('/search-my-mirs-history?PreparedbyId=' + IDofuser + '&YearMonth=' + this.searchmonth + '&page=' + page, {
         YearMonth: this.searchmonth
       }).then(function (response) {
         console.log(response);
@@ -1688,10 +1688,10 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
       });
     },
     searchMCT: function searchMCT(page) {
-      if (this.searchname == null) {
+      if (this.searchID == null) {
         var fullname = this.user.FullName;
       } else {
-        var fullname = this.searchname;
+        var fullname = this.searchID;
       }
       var vm = this;
       __WEBPACK_IMPORTED_MODULE_0_axios___default.a.get('/search-my-mct-history?Receivedby=' + fullname + '&YearMonth=' + this.searchmonth + '&page=' + page, {}).then(function (response) {
@@ -1701,10 +1701,10 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
       });
     },
     searchMRT: function searchMRT(page) {
-      if (this.searchname == null) {
+      if (this.searchID == null) {
         var fullname = this.user.FullName;
       } else {
-        var fullname = this.searchname;
+        var fullname = this.searchID;
       }
       var vm = this;
       __WEBPACK_IMPORTED_MODULE_0_axios___default.a.get('/search-my-mrt-history?Returnedby=' + fullname + '&YearMonth=' + this.searchmonth + '&page=' + page, {}).then(function (response) {
@@ -1714,10 +1714,10 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
       });
     },
     searchMR: function searchMR(page) {
-      if (this.searchname == null) {
+      if (this.searchID == null) {
         var fullname = this.user.FullName;
       } else {
-        var fullname = this.searchname;
+        var fullname = this.searchID;
       }
       var vm = this;
       __WEBPACK_IMPORTED_MODULE_0_axios___default.a.get('/search-my-mr-history?Receivedby=' + fullname + '&YearMonth=' + this.searchmonth + '&page=' + page, {}).then(function (response) {
@@ -1727,10 +1727,10 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
       });
     },
     searchRV: function searchRV(page) {
-      if (this.searchname == null) {
+      if (this.searchID == null) {
         var fullname = this.user.FullName;
       } else {
-        var fullname = this.searchname;
+        var fullname = this.searchID;
       }
       var vm = this;
       __WEBPACK_IMPORTED_MODULE_0_axios___default.a.get('/search-my-rv-history?Receivedby=' + fullname + '&YearMonth=' + this.searchmonth + '&page=' + page, {}).then(function (response) {
@@ -1909,7 +1909,7 @@ var Component = __webpack_require__(4)(
   /* cssModules */
   null
 )
-Component.options.__file = "c:\\xampp\\htdocs\\warehouse\\resources\\assets\\js\\components\\AccountManagementGM.vue"
+Component.options.__file = "C:\\xampp\\htdocs\\warehouse\\resources\\assets\\js\\components\\AccountManagementGM.vue"
 if (Component.esModule && Object.keys(Component.esModule).some(function (key) {return key !== "default" && key !== "__esModule"})) {console.error("named exports are not supported in *.vue files.")}
 if (Component.options.functional) {console.error("[vue-loader] AccountManagementGM.vue: functional components are not supported with templates, they should use render functions.")}
 
@@ -2166,7 +2166,7 @@ var Component = __webpack_require__(4)(
   /* cssModules */
   null
 )
-Component.options.__file = "c:\\xampp\\htdocs\\warehouse\\resources\\assets\\js\\components\\ManagerTakePlacer.vue"
+Component.options.__file = "C:\\xampp\\htdocs\\warehouse\\resources\\assets\\js\\components\\ManagerTakePlacer.vue"
 if (Component.esModule && Object.keys(Component.esModule).some(function (key) {return key !== "default" && key !== "__esModule"})) {console.error("named exports are not supported in *.vue files.")}
 if (Component.options.functional) {console.error("[vue-loader] ManagerTakePlacer.vue: functional components are not supported with templates, they should use render functions.")}
 
@@ -2201,7 +2201,7 @@ var Component = __webpack_require__(4)(
   /* cssModules */
   null
 )
-Component.options.__file = "c:\\xampp\\htdocs\\warehouse\\resources\\assets\\js\\components\\MyHistory.vue"
+Component.options.__file = "C:\\xampp\\htdocs\\warehouse\\resources\\assets\\js\\components\\MyHistory.vue"
 if (Component.esModule && Object.keys(Component.esModule).some(function (key) {return key !== "default" && key !== "__esModule"})) {console.error("named exports are not supported in *.vue files.")}
 if (Component.options.functional) {console.error("[vue-loader] MyHistory.vue: functional components are not supported with templates, they should use render functions.")}
 
@@ -2256,7 +2256,7 @@ var Component = __webpack_require__(4)(
   /* cssModules */
   null
 )
-Component.options.__file = "c:\\xampp\\htdocs\\warehouse\\resources\\assets\\js\\components\\loginpage.vue"
+Component.options.__file = "C:\\xampp\\htdocs\\warehouse\\resources\\assets\\js\\components\\loginpage.vue"
 if (Component.esModule && Object.keys(Component.esModule).some(function (key) {return key !== "default" && key !== "__esModule"})) {console.error("named exports are not supported in *.vue files.")}
 if (Component.options.functional) {console.error("[vue-loader] loginpage.vue: functional components are not supported with templates, they should use render functions.")}
 
@@ -2594,8 +2594,8 @@ module.exports={render:function (){var _vm=this;var _h=_vm.$createElement;var _c
     directives: [{
       name: "model",
       rawName: "v-model",
-      value: (_vm.searchname),
-      expression: "searchname"
+      value: (_vm.searchID),
+      expression: "searchID"
     }],
     on: {
       "change": [function($event) {
@@ -2605,7 +2605,7 @@ module.exports={render:function (){var _vm=this;var _h=_vm.$createElement;var _c
           var val = "_value" in o ? o._value : o.value;
           return val
         });
-        _vm.searchname = $event.target.multiple ? $$selectedVal : $$selectedVal[0]
+        _vm.searchID = $event.target.multiple ? $$selectedVal : $$selectedVal[0]
       }, function($event) {
         _vm.NewNameSelected()
       }]

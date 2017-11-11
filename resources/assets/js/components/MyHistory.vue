@@ -15,7 +15,7 @@
   <div class="searchbar-month-history">
     <div class="searchbox-for-admin-warehouse" v-if="user.Role==4||user.Role==3||user.Role==1">
       Histories of
-      <select v-model="searchname" v-on:change="NewNameSelected()">
+      <select v-model="searchID" v-on:change="NewNameSelected()">
         <option :value="null">{{user.FullName}}</option>
         <option :value="name.FullName" v-for="name in activenames">{{name.FullName}}</option>
       </select>
@@ -228,7 +228,7 @@
      data () {
         return{
           searchmonth:'',
-          searchname:null,
+          searchID:null,
           mirsResults:[],
           mctResults:[],
           mrtResults:[],
@@ -246,15 +246,15 @@
      methods: {
        searchMIRS(page)
        {
-         if (this.searchname==null)
+         if (this.searchID==null)
          {
-           var fullname=this.user.FullName;
+           var IDofuser=this.user.id;
          }else
          {
-           var fullname=this.searchname;
+           var IDofuser=this.searchID;
          }
          var vm=this;
-         axios.get(`/search-my-mirs-history?Preparedby=`+fullname+`&YearMonth=`+this.searchmonth+`&page=`+page,{
+         axios.get(`/search-my-mirs-history?PreparedbyId=`+IDofuser+`&YearMonth=`+this.searchmonth+`&page=`+page,{
            YearMonth:this.searchmonth,
          }).then(function(response)
          {
@@ -265,12 +265,12 @@
        },
        searchMCT(page)
        {
-         if (this.searchname==null)
+         if (this.searchID==null)
          {
            var fullname=this.user.FullName;
          }else
          {
-           var fullname=this.searchname;
+           var fullname=this.searchID;
          }
          var vm=this;
          axios.get(`/search-my-mct-history?Receivedby=`+fullname+`&YearMonth=`+this.searchmonth+`&page=`+page,{
@@ -283,12 +283,12 @@
        },
        searchMRT(page)
        {
-         if (this.searchname==null)
+         if (this.searchID==null)
          {
            var fullname=this.user.FullName;
          }else
          {
-           var fullname=this.searchname;
+           var fullname=this.searchID;
          }
          var vm=this;
          axios.get(`/search-my-mrt-history?Returnedby=`+fullname+`&YearMonth=`+this.searchmonth+`&page=`+page,{
@@ -301,12 +301,12 @@
        },
        searchMR(page)
        {
-         if (this.searchname==null)
+         if (this.searchID==null)
          {
            var fullname=this.user.FullName;
          }else
          {
-           var fullname=this.searchname;
+           var fullname=this.searchID;
          }
          var vm=this;
          axios.get(`/search-my-mr-history?Receivedby=`+fullname+`&YearMonth=`+this.searchmonth+`&page=`+page,{
@@ -319,12 +319,12 @@
        },
        searchRV(page)
        {
-         if (this.searchname==null)
+         if (this.searchID==null)
          {
            var fullname=this.user.FullName;
          }else
          {
-           var fullname=this.searchname;
+           var fullname=this.searchID;
          }
          var vm=this;
          axios.get(`/search-my-rv-history?Receivedby=`+fullname+`&YearMonth=`+this.searchmonth+`&page=`+page,{
