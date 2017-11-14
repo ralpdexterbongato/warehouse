@@ -409,42 +409,55 @@
               <div class="prepared">
                 <h3>Prepared by:</h3>
                 <h2 class="signature">
-                  @if (!empty($master[0]->PreparedSignature))
-                    <img src="c:/xampp/htdocs/Warehouse/public/storage/signatures/{{$master[0]->PreparedSignature}}">
+                  @if ($master[0]->users[0]->pivot->Signature=='0')
+                    <img src="c:/xampp/htdocs/Warehouse/public/storage/signatures/{{$master[0]->users[0]->Signature}}">
                   @endif
                 </h2>
-                <h4>{{$master[0]->Preparedby}}</h4>
-                <h5>{{$master[0]->PreparedPosition}}</h5>
+                <h4>{{$master[0]->users[0]->FullName}}</h4>
+                <h5>{{$master[0]->users[0]->Position}}</h5>
               </div>
               <div class="recommended">
                 <h3>Recommended by:</h3>
-                  @if (!empty($master[0]->RecommendSignature))
+                  @if ($master[0]->users[1]->pivot->Signature=='0')
                   <h2>
-                    <img src="c:/xampp/htdocs/Warehouse/public/storage/signatures/{{$master[0]->RecommendSignature}}">
+                    <img src="c:/xampp/htdocs/Warehouse/public/storage/signatures/{{$master[0]->users[1]->Signature}}">
                   </h2>
                   @endif
-                  @if (!empty($master[0]->ManagerReplacerSignature))
-                    <p>For :</p>
+                  @if (isset($master[0]->users[3])&&($master[0]->users[3]->pivot->SignatureType=='ManagerReplacer')&&($master[0]->users[3]->pivot->Signature=='0'))
+                  <p>For :</p>
                   <h2>
-                    <img src="c:/xampp/htdocs/Warehouse/public/storage/signatures/{{$master[0]->ManagerReplacerSignature}}">
+                    <img src="c:/xampp/htdocs/Warehouse/public/storage/signatures/{{$master[0]->users[3]->Signature}}">
+                  </h2>
+                  @endif
+                  @if (isset($master[0]->users[4])&&($master[0]->users[4]->pivot->SignatureType=='ManagerReplacer')&&($master[0]->users[4]->pivot->Signature=='0'))
+                  <p>For :</p>
+                  <h2>
+                    <img src="c:/xampp/htdocs/Warehouse/public/storage/signatures/{{$master[0]->users[4]->Signature}}">
                   </h2>
                   @endif
 
-                <h4>{{$master[0]->Recommendedby}}</h4>
-                <h5>{{$master[0]->RecommendPosition}}</h5>
+                <h4>{{$master[0]->users[1]->FullName}}</h4>
+                <h5>{{$master[0]->users[1]->Position}}</h5>
               </div>
             </div>
             <div class="approved">
                 <h3>APPROVED:</h3>
+                @if ($master[0]->users[2]->pivot->Signature=='0')
+                <h2 class="signature">
+                  <img src="c:/xampp/htdocs/Warehouse/public/storage/signatures/{{$master[0]->users[2]->Signature}}">
+                </h2>
+              @elseif (isset($master[0]->users[3])&&($master[0]->users[3]->pivot->SignatureType=='ApprovalReplacer')&&($master[0]->users[3]->pivot->Signature=='0'))
                 <p>For :</p>
                 <h2 class="signature">
-                  @if (!empty($master[0]->ApproveSignature))
-                    <img src="c:/xampp/htdocs/Warehouse/public/storage/signatures/{{$master[0]->ApproveSignature}}">
-                  @elseif (!empty($master[0]->ApprovalReplacerSignature))
-                    <img src="c:/xampp/htdocs/Warehouse/public/storage/signatures/{{$master[0]->ApprovalReplacerSignature}}">
-                  @endif
+                  <img src="c:/xampp/htdocs/Warehouse/public/storage/signatures/{{$master[0]->users[3]->Signature}}">
                 </h2>
-                <h4>{{$master[0]->Approvedby}}</h4>
+              @elseif (isset($master[0]->users[4])&&($master[0]->users[4]->pivot->SignatureType=='ApprovalReplacer')&&($master[0]->users[4]->pivot->Signature=='0'))
+                <p>For :</p>
+                <h2 class="signature">
+                  <img src="c:/xampp/htdocs/Warehouse/public/storage/signatures/{{$master[0]->users[4]->Signature}}">
+                </h2>
+                @endif
+                <h4>{{$master[0]->users[2]->FullName}}</h4>
                 <h5>General Manager</h5>
             </div>
           </div>

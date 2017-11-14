@@ -280,7 +280,6 @@ import axios from 'axios'
       },
       logout()
       {
-        var vm=this;
         axios.post(`/logout`).then(function(response)
         {
           window.location=response.data.redirect;
@@ -343,7 +342,7 @@ import axios from 'axios'
       refreshCountMRNewlyCreated()
       {
         var vm=this;
-        axios.get(`/rv-new-created-mrt-notify`).then(function(response)
+        axios.get(`/rv-new-created-mr-notify`).then(function(response)
         {
           console.log(response);
           Vue.set(vm.$data,'CountMRRequest',response.data.CountMRRequest);

@@ -194,7 +194,7 @@ Route::get('/mrt-new-created-notify','MRTController@MRTSignatureRequestCount');
 Route::get('/rv-new-created-notify','RVController@RVRequestCount');
 Route::get('/rv-waiting-for-all-items-receiving-report','RVController@RefreshRVWaitingForRRCount');
 Route::get('/rv-new-created-rr-notify','RRController@refreshRRSignatureCount');
-Route::get('/rv-new-created-mrt-notify','MRController@MyMRrequestCount');
+Route::get('/rv-new-created-mr-notify','MRController@MyMRrequestCount');
 Route::get('/po-count-notification','POController@MyPORequestCount');
 Route::post('/saving-account-manager','AccountController@SaveManagerAcc');
 Route::post('/save-account-user','AccountController@SaveNewUser');

@@ -24,7 +24,8 @@
           <td>{{result.MIRSNo}}</td>
           <td>{{result.Purpose}}</td>
           <td>{{result.users[0].FullName}}
-             <i class="fa fa-check"></i>
+            <i class="fa fa-check" v-if="(result.users[0].pivot.Signature=='0')"></i> <!-- zero means true -->
+            <i class="fa fa-times decliner" v-else-if="result.users[0].pivot.Signature=='1'"></i>  <!--one is false -->
           </td>
           <td>{{result.users[1].FullName}}
              <i class="fa fa-check" v-if="((result.users[1].pivot.Signature=='0')||((result.users[3]!=null)&&(result.users[3].pivot.Signature=='0')&&(result.users[3].pivot.SignatureType=='ManagerReplacer'))||((result.users[4]!=null)&&(result.users[4].pivot.Signature=='0')&&(result.users[4].pivot.SignatureType=='ManagerReplacer')))"></i> <!-- zero means true -->
@@ -33,9 +34,6 @@
           <td>{{result.users[2].FullName}}
             <i class="fa fa-check" v-if="((result.users[2].pivot.Signature=='0')||((result.users[3]!=null)&&(result.users[3].pivot.Signature=='0')&&(result.users[3].pivot.SignatureType=='ApprovalReplacer'))||((result.users[4]!=null)&&(result.users[4].pivot.Signature=='0')&&(result.users[4].pivot.SignatureType=='ApprovalReplacer')))"></i> <!-- zero means true -->
             <i class="fa fa-times decliner" v-else-if="result.users[2].pivot.Signature=='1'"></i>  <!--one is false -->
-
-             <!-- <i class="fa fa-check" v-if="result.ApproveSignature!=null||result.ApprovalReplacerSignature!=null"></i>
-             <i class="fa fa-times decliner" v-if="result.IfDeclined==result.Approvedby"></i> -->
           </td>
           <td>{{result.MIRSDate}}</td>
             <td>

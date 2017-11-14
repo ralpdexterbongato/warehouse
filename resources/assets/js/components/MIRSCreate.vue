@@ -184,6 +184,7 @@ import axios from 'axios';
           console.log(response);
           if (response.data.error==null)
           {
+            vm.fetchAddedSession();
             Vue.set(vm.$data,'successAlerts','Successfully added !');
             Vue.set(vm.$data,'ownerrors','');
             Vue.set(vm.$data,'laravelerrors','');
@@ -198,7 +199,6 @@ import axios from 'axios';
           console.log(error);
           Vue.set(vm.$data,'laravelerrors',error.response.data);
       });
-        this.fetchAddedSession();
       },
       deleteSession(code)
       {
@@ -206,6 +206,7 @@ import axios from 'axios';
         axios.delete(`/removeSessions/`+code,{}).then(function(response)
         {
           console.log(response);
+          vm.fetchAddedSession();
           Vue.set(vm.$data,'ownerrors','');
           Vue.set(vm.$data,'laravelerrors','');
           Vue.set(vm.$data,'successAlerts','Successfully removed.');
@@ -213,7 +214,6 @@ import axios from 'axios';
         {
           console.log(error);
         });
-        this.fetchAddedSession();
       },
         fetchAddedSession()
         {

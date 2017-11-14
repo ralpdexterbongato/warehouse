@@ -11,9 +11,6 @@ MIRS signature request list
         <tr>
           <th>MIRS No.</th>
           <th>Purpose</th>
-          <th>Prepared by</th>
-          <th>recommended by</th>
-          <th>Approved by</th>
           <th>Date</th>
           <th>Action</th>
         </tr>
@@ -21,21 +18,6 @@ MIRS signature request list
           <tr>
             <td>{{$mirsRequest->MIRSNo}}</td>
             <td>{{$mirsRequest->Purpose}}</td>
-            <td>{{$mirsRequest->Preparedby}}
-              @if($mirsRequest->PreparedSignature)
-                <i class="fa fa-check"></i>
-              @endif
-            </td>
-            <td>{{$mirsRequest->Recommendedby}}
-              @if(($mirsRequest->RecommendSignature)||($mirsRequest->ManagerReplacerSignature!=null))
-                <i class="fa fa-check"></i>
-              @endif
-            </td>
-            <td>{{$mirsRequest->Approvedby}}
-              @if($mirsRequest->ApproveSignature)
-                <i class="fa fa-check"></i>
-              @endif
-            </td>
             <td>{{$mirsRequest->MIRSDate->format('M d, Y')}}</td>
             <td><a href="{{route('full-mirs',[$mirsRequest->MIRSNo])}}"><i class="fa fa-eye"></i></a></td>
           </tr>

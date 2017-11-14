@@ -1626,32 +1626,10 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
 //
 //
 //
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
 
 
 /* harmony default export */ __webpack_exports__["default"] = ({
-  props: ['user', 'activenames'],
+  props: ['user', 'activeuser'],
   data: function data() {
     return {
       searchmonth: '',
@@ -1679,7 +1657,7 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
         var IDofuser = this.searchID;
       }
       var vm = this;
-      __WEBPACK_IMPORTED_MODULE_0_axios___default.a.get('/search-my-mirs-history?PreparedbyId=' + IDofuser + '&YearMonth=' + this.searchmonth + '&page=' + page, {
+      __WEBPACK_IMPORTED_MODULE_0_axios___default.a.get('/search-my-mirs-history?PreparedById=' + IDofuser + '&YearMonth=' + this.searchmonth + '&page=' + page, {
         YearMonth: this.searchmonth
       }).then(function (response) {
         console.log(response);
@@ -1689,12 +1667,12 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
     },
     searchMCT: function searchMCT(page) {
       if (this.searchID == null) {
-        var fullname = this.user.FullName;
+        var receiverId = this.user.id;
       } else {
-        var fullname = this.searchID;
+        var receiverId = this.searchID;
       }
       var vm = this;
-      __WEBPACK_IMPORTED_MODULE_0_axios___default.a.get('/search-my-mct-history?Receivedby=' + fullname + '&YearMonth=' + this.searchmonth + '&page=' + page, {}).then(function (response) {
+      __WEBPACK_IMPORTED_MODULE_0_axios___default.a.get('/search-my-mct-history?ReceivedById=' + receiverId + '&YearMonth=' + this.searchmonth + '&page=' + page, {}).then(function (response) {
         console.log(response);
         Vue.set(vm.$data, 'mctResults', response.data.data);
         Vue.set(vm.$data, 'pagination', response.data);
@@ -1909,7 +1887,7 @@ var Component = __webpack_require__(4)(
   /* cssModules */
   null
 )
-Component.options.__file = "C:\\xampp\\htdocs\\warehouse\\resources\\assets\\js\\components\\AccountManagementGM.vue"
+Component.options.__file = "c:\\xampp\\htdocs\\warehouse\\resources\\assets\\js\\components\\AccountManagementGM.vue"
 if (Component.esModule && Object.keys(Component.esModule).some(function (key) {return key !== "default" && key !== "__esModule"})) {console.error("named exports are not supported in *.vue files.")}
 if (Component.options.functional) {console.error("[vue-loader] AccountManagementGM.vue: functional components are not supported with templates, they should use render functions.")}
 
@@ -2166,7 +2144,7 @@ var Component = __webpack_require__(4)(
   /* cssModules */
   null
 )
-Component.options.__file = "C:\\xampp\\htdocs\\warehouse\\resources\\assets\\js\\components\\ManagerTakePlacer.vue"
+Component.options.__file = "c:\\xampp\\htdocs\\warehouse\\resources\\assets\\js\\components\\ManagerTakePlacer.vue"
 if (Component.esModule && Object.keys(Component.esModule).some(function (key) {return key !== "default" && key !== "__esModule"})) {console.error("named exports are not supported in *.vue files.")}
 if (Component.options.functional) {console.error("[vue-loader] ManagerTakePlacer.vue: functional components are not supported with templates, they should use render functions.")}
 
@@ -2201,7 +2179,7 @@ var Component = __webpack_require__(4)(
   /* cssModules */
   null
 )
-Component.options.__file = "C:\\xampp\\htdocs\\warehouse\\resources\\assets\\js\\components\\MyHistory.vue"
+Component.options.__file = "c:\\xampp\\htdocs\\warehouse\\resources\\assets\\js\\components\\MyHistory.vue"
 if (Component.esModule && Object.keys(Component.esModule).some(function (key) {return key !== "default" && key !== "__esModule"})) {console.error("named exports are not supported in *.vue files.")}
 if (Component.options.functional) {console.error("[vue-loader] MyHistory.vue: functional components are not supported with templates, they should use render functions.")}
 
@@ -2256,7 +2234,7 @@ var Component = __webpack_require__(4)(
   /* cssModules */
   null
 )
-Component.options.__file = "C:\\xampp\\htdocs\\warehouse\\resources\\assets\\js\\components\\loginpage.vue"
+Component.options.__file = "c:\\xampp\\htdocs\\warehouse\\resources\\assets\\js\\components\\loginpage.vue"
 if (Component.esModule && Object.keys(Component.esModule).some(function (key) {return key !== "default" && key !== "__esModule"})) {console.error("named exports are not supported in *.vue files.")}
 if (Component.options.functional) {console.error("[vue-loader] loginpage.vue: functional components are not supported with templates, they should use render functions.")}
 
@@ -2614,12 +2592,12 @@ module.exports={render:function (){var _vm=this;var _h=_vm.$createElement;var _c
     domProps: {
       "value": null
     }
-  }, [_vm._v(_vm._s(_vm.user.FullName))]), _vm._v(" "), _vm._l((_vm.activenames), function(name) {
+  }, [_vm._v(_vm._s(_vm.user.FullName))]), _vm._v(" "), _vm._l((_vm.activeuser), function(data) {
     return _c('option', {
       domProps: {
-        "value": name.FullName
+        "value": data.id
       }
-    }, [_vm._v(_vm._s(name.FullName))])
+    }, [_vm._v(_vm._s(data.FullName))])
   })], 2)]) : _c('div'), _vm._v(" "), _c('span', {
     staticClass: "monthsearch-history"
   }, [_c('h1', [_vm._v("Sort by date")]), _c('input', {
@@ -2662,21 +2640,9 @@ module.exports={render:function (){var _vm=this;var _h=_vm.$createElement;var _c
   })])])]), _vm._v(" "), _c('div', {
     staticClass: "table-history-container"
   }, [(_vm.mirsbtn == true) ? _c('table', [_vm._m(0), _vm._v(" "), _vm._l((_vm.mirsResults), function(mirs) {
-    return (_vm.mirsResults != null) ? _c('tr', [_c('td', [_vm._v(_vm._s(mirs.MIRSNo))]), _vm._v(" "), _c('td', [_vm._v(_vm._s(mirs.MIRSDate))]), _vm._v(" "), _c('td', [_vm._v("\r\n          " + _vm._s(mirs.Preparedby)), _c('br'), _vm._v(" "), _c('i', {
-      staticClass: "fa fa-check"
-    }), _vm._v(" "), (mirs.Preparedby == mirs.IfDeclined) ? _c('i', {
-      staticClass: "fa fa-times decliner"
-    }) : _vm._e()]), _vm._v(" "), _c('td', [_vm._v("\r\n          " + _vm._s(mirs.Recommendedby)), _c('br'), _vm._v(" "), (mirs.RecommendSignature != null || mirs.ManagerReplacerSignature != null) ? _c('i', {
-      staticClass: "fa fa-check"
-    }) : _vm._e(), _vm._v(" "), (mirs.Recommendedby == mirs.IfDeclined) ? _c('i', {
-      staticClass: "fa fa-times decliner"
-    }) : _vm._e()]), _vm._v(" "), _c('td', [_vm._v("\r\n          " + _vm._s(mirs.Approvedby)), _c('br'), _vm._v(" "), (mirs.ApproveSignature != null || mirs.ApprovalReplacerSignature != null) ? _c('i', {
-      staticClass: "fa fa-check"
-    }) : _vm._e(), _vm._v(" "), (mirs.Approvedby == mirs.IfDeclined) ? _c('i', {
-      staticClass: "fa fa-times decliner"
-    }) : _vm._e()]), _vm._v(" "), _c('td', [_vm._v(_vm._s(mirs.Purpose))]), _vm._v(" "), _c('td', [((((mirs.RecommendSignature != null) || (mirs.ManagerReplacerSignature != null)) && ((mirs.ApproveSignature != null) || (mirs.ApprovalReplacerSignature != null)))) ? _c('i', {
+    return (_vm.mirsResults != null) ? _c('tr', [_c('td', [_vm._v(_vm._s(mirs.MIRSNo))]), _vm._v(" "), _c('td', [_vm._v(_vm._s(mirs.MIRSDate))]), _vm._v(" "), _c('td', [_vm._v(_vm._s(mirs.Purpose))]), _vm._v(" "), _c('td', [(mirs.Status == 0) ? _c('i', {
       staticClass: "fa fa-thumbs-up"
-    }) : (mirs.IfDeclined != null) ? _c('i', {
+    }) : (mirs.Status == 1) ? _c('i', {
       staticClass: "fa fa-times decliner"
     }) : _c('i', {
       staticClass: "fa fa-clock-o"
@@ -2688,11 +2654,9 @@ module.exports={render:function (){var _vm=this;var _h=_vm.$createElement;var _c
       staticClass: "fa fa-eye"
     })])])]) : _vm._e()
   })], 2) : _vm._e(), _vm._v(" "), (_vm.mctbtn == true) ? _c('table', [_vm._m(1), _vm._v(" "), _vm._l((_vm.mctResults), function(mct) {
-    return (_vm.mctResults != null) ? _c('tr', [_c('td', [_vm._v(_vm._s(mct.MCTNo))]), _vm._v(" "), _c('td', [_vm._v(_vm._s(mct.MCTDate))]), _vm._v(" "), _c('td', [_vm._v(_vm._s(mct.Receivedby) + "\r\n          "), (mct.ReceivedbySignature != null) ? _c('i', {
-      staticClass: "fa fa-check"
-    }) : _vm._e()]), _vm._v(" "), _c('td', [_vm._v(_vm._s(mct.AddressTo))]), _vm._v(" "), _c('td', [_vm._v(_vm._s(mct.Particulars))]), _vm._v(" "), _c('td', [(mct.ReceivedbySignature != null) ? _c('i', {
+    return (_vm.mctResults != null) ? _c('tr', [_c('td', [_vm._v(_vm._s(mct.MCTNo))]), _vm._v(" "), _c('td', [_vm._v(_vm._s(mct.MCTDate))]), _vm._v(" "), _c('td', [_vm._v(_vm._s(mct.AddressTo))]), _vm._v(" "), _c('td', [_vm._v(_vm._s(mct.Particulars))]), _vm._v(" "), _c('td', [(mct.Status == '0') ? _c('i', {
       staticClass: "fa fa-thumbs-up"
-    }) : (mct.IfDeclined != null) ? _c('i', {
+    }) : (mct.Status == '1') ? _c('i', {
       staticClass: "fa fa-times decliner"
     }) : _c('i', {
       staticClass: "fa fa-clock-o"
@@ -2827,13 +2791,13 @@ module.exports={render:function (){var _vm=this;var _h=_vm.$createElement;var _c
 },staticRenderFns: [function (){var _vm=this;var _h=_vm.$createElement;var _c=_vm._self._c||_h;
   return _c('tr', [_c('th', {
     staticClass: "left-part"
-  }, [_vm._v("MIRS No")]), _vm._v(" "), _c('th', [_vm._v("Date")]), _vm._v(" "), _c('th', [_vm._v("Requisitioner")]), _vm._v(" "), _c('th', [_vm._v("Recommended by")]), _vm._v(" "), _c('th', [_vm._v("Approved by")]), _vm._v(" "), _c('th', [_vm._v("Purpose")]), _vm._v(" "), _c('th', [_vm._v("Status")]), _vm._v(" "), _c('th', {
+  }, [_vm._v("MIRS No")]), _vm._v(" "), _c('th', [_vm._v("Date")]), _vm._v(" "), _c('th', [_vm._v("Purpose")]), _vm._v(" "), _c('th', [_vm._v("Status")]), _vm._v(" "), _c('th', {
     staticClass: "right-part"
   }, [_vm._v("Show")])])
 },function (){var _vm=this;var _h=_vm.$createElement;var _c=_vm._self._c||_h;
   return _c('tr', [_c('th', {
     staticClass: "left-part"
-  }, [_vm._v("MCT No.")]), _vm._v(" "), _c('th', [_vm._v("MCTDate")]), _vm._v(" "), _c('th', [_vm._v("Receiver")]), _vm._v(" "), _c('th', [_vm._v("Addressed to")]), _vm._v(" "), _c('th', [_vm._v("Particular")]), _vm._v(" "), _c('th', [_vm._v("Status")]), _vm._v(" "), _c('th', {
+  }, [_vm._v("MCT No.")]), _vm._v(" "), _c('th', [_vm._v("MCTDate")]), _vm._v(" "), _c('th', [_vm._v("Addressed to")]), _vm._v(" "), _c('th', [_vm._v("Particular")]), _vm._v(" "), _c('th', [_vm._v("Status")]), _vm._v(" "), _c('th', {
     staticClass: "right-part"
   }, [_vm._v("Show")])])
 },function (){var _vm=this;var _h=_vm.$createElement;var _c=_vm._self._c||_h;

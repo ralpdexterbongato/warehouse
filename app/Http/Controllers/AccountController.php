@@ -89,16 +89,19 @@ class AccountController extends Controller
     }
     public function ShowMyHistoryPage(Request $request)
     {
-      $ActiveNames=User::whereNotNull('IsActive')->get(['FullName']);
-      return view('Warehouse.Account.MyHistory',compact('ActiveNames'));
+      $ActiveUser=User::whereNotNull('IsActive')->get(['id','FullName']);
+      return view('Warehouse.Account.MyHistory',compact('ActiveUser'));
     }
     public function MyMIRSHistoryandSearch(Request $request)
     {
-      // fix this return MIRSMaster::orderBy('MIRSNo','DESC')->where('MIRSDate','LIKE',$request->YearMonth.'%')->where('user_id', $request->PreparedbyId)->paginate(10);
+       $user = User::find($request->PreparedById);
+       return $mirshistory = $user->MIRSHistory($request->YearMonth)->paginate(5);
+
     }
     public function MyMCTHistoryandSearch(Request $request)
     {
-      return MCTMaster::orderBy('MCTNo','DESC')->where('Receivedby',$request->Receivedby)->where('MCTDate','LIKE',$request->YearMonth.'%')->paginate(10,['MCTNo','MCTDate','Particulars','AddressTo','Receivedby','ReceivedbySignature','IfDeclined']);
+      $user = User::find($request->ReceivedById);
+      return $mcthistory = $user->MCTHistory($request->YearMonth)->paginate(5);
     }
     public function MyMRTHistoryandSearch(Request $request)
     {

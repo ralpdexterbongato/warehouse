@@ -106,7 +106,7 @@ class MIRSController extends Controller
       if (!empty($ApproveReplacer[0]))
       {
         $forSignatureDB = array(
-          array('user_id'=>Auth::user()->id,'signatureable_id'=>$incremented,'signatureable_type'=>'App\MIRSMaster','Signature'=>'0','SignatureType'=>'PreparedBy'),
+          array('user_id'=>Auth::user()->id,'signatureable_id'=>$incremented,'signatureable_type'=>'App\MIRSMaster','Signature'=>Null,'SignatureType'=>'PreparedBy'),
           array('user_id'=>Auth::user()->Manager,'signatureable_id'=>$incremented,'signatureable_type'=>'App\MIRSMaster','Signature'=>Null,'SignatureType'=>'RecommendedBy'),
           array('user_id'=>$request->Approvedby,'signatureable_id'=>$incremented,'signatureable_type'=>'App\MIRSMaster','Signature'=>Null,'SignatureType'=>'ApprovedBy'),
           array('user_id'=>$ApproveReplacer[0]->id,'signatureable_id'=>$incremented,'signatureable_type'=>'App\MIRSMaster','Signature'=>Null,'SignatureType'=>'ApprovalReplacer')
@@ -114,7 +114,7 @@ class MIRSController extends Controller
       }else
       {
         $forSignatureDB = array(
-          array('user_id'=>Auth::user()->id,'signatureable_id'=>$incremented,'signatureable_type'=>'App\MIRSMaster','Signature'=>'0','SignatureType'=>'PreparedBy'),
+          array('user_id'=>Auth::user()->id,'signatureable_id'=>$incremented,'signatureable_type'=>'App\MIRSMaster','Signature'=>Null,'SignatureType'=>'PreparedBy'),
           array('user_id'=>Auth::user()->Manager,'signatureable_id'=>$incremented,'signatureable_type'=>'App\MIRSMaster','Signature'=>Null,'SignatureType'=>'RecommendedBy'),
           array('user_id'=>$request->Approvedby,'signatureable_id'=>$incremented,'signatureable_type'=>'App\MIRSMaster','Signature'=>Null,'SignatureType'=>'ApprovedBy')
         );
@@ -131,12 +131,7 @@ class MIRSController extends Controller
       MIRSDetail::insert($forMIRSDetailtbl);
 
       Session::forget('ItemSelected');
-        $newmirs = array('tobeNotify'=>Auth::user()->Manager);
-        $newmirs=(object)$newmirs;
-        $job = (new SendMIRSNotification($newmirs))
-                    ->delay(Carbon::now()->addSeconds(5));
-        dispatch($job);
-        return ['redirect'=>route('full-mirs',[$incremented])];
+      return ['redirect'=>route('full-mirs',[$incremented])];
     }else
     {
       return ['error'=>'items cannot be empty'];
@@ -181,6 +176,7 @@ class MIRSController extends Controller
   public function DeniedMIRS($id)
   {
     Signatureable::where('signatureable_id', $id)->where('signatureable_type', 'App\MIRSMaster')->where('user_id', Auth::user()->id)->update(['Signature'=>'1']);
+    MIRSMaster::where('MIRSNo', $id)->update(['Status'=>'1']);
   }
   public function MIRSSignature($id)
   {
@@ -188,10 +184,23 @@ class MIRSController extends Controller
     $RecommendId=Signatureable::where('signatureable_id', $id)->where('signatureable_type', 'App\MIRSMaster')->where('SignatureType', 'RecommendedBy')->get(['user_id']);
     $GMId=Signatureable::where('signatureable_id', $id)->where('signatureable_type', 'App\MIRSMaster')->where('SignatureType', 'ApprovedBy')->get(['user_id']);
     $ApprovalReplacerId=Signatureable::where('signatureable_id', $id)->where('signatureable_type', 'App\MIRSMaster')->where('SignatureType', 'ApprovalReplacer')->get(['user_id']);
+
+    if ($PreparedId[0]->user_id==Auth::user()->id)
+    {
+      Signatureable::where('signatureable_id', $id)->where('signatureable_type', 'App\MIRSMaster')->where('SignatureType', 'PreparedBy')->update(['Signature'=>'0']);
+      MIRSMaster::where('MIRSNo', $id)->update(['SignatureTurn'=>'1']);
+      $newmirs = array('tobeNotify'=>Auth::user()->Manager);
+      $newmirs=(object)$newmirs;
+      $job = (new SendMIRSNotification($newmirs))
+                  ->delay(Carbon::now()->addSeconds(5));
+      dispatch($job);
+    }
+
     if ($RecommendId[0]->user_id==Auth::user()->id)
     {
       Signatureable::where('signatureable_id', $id)->where('signatureable_type', 'App\MIRSMaster')->where('SignatureType', 'ManagerReplacer')->delete();
       Signatureable::where('signatureable_id', $id)->where('signatureable_type', 'App\MIRSMaster')->where('SignatureType', 'RecommendedBy')->update(['Signature'=>'0']);
+      MIRSMaster::where('MIRSNo', $id)->update(['SignatureTurn'=>'2']);
       $tobeNotifycontainer= array('tobeNotify' =>$GMId[0]->user_id);
       $tobeNotifycontainer=(object)$tobeNotifycontainer;
       $job = (new SendMIRSNotification($tobeNotifycontainer))
@@ -209,7 +218,9 @@ class MIRSController extends Controller
     }
     if ($GMId[0]->user_id==Auth::user()->id)
     {
+      Signatureable::where('signatureable_id', $id)->where('signatureable_type', 'App\MIRSMaster')->where('SignatureType', 'ApprovalReplacer')->delete();
       Signatureable::where('signatureable_id', $id)->where('signatureable_type', 'App\MIRSMaster')->where('SignatureType', 'ApprovedBy')->update(['Signature'=>'0']);
+      MIRSMaster::where('MIRSNo', $id)->update(['Status'=>'0','SignatureTurn'=>'3']);
       $RequisitionerMobile=User::where('id',$PreparedId[0]->user_id)->get(['Mobile']);
       $NotifData = array('RequisitionerMobile' =>$RequisitionerMobile[0]->Mobile ,'MIRSNo'=>$id);
       $NotifData=(object)$NotifData;
@@ -219,29 +230,14 @@ class MIRSController extends Controller
   }
   public function mirsRequestcheck()
   {
-    if (Auth::user()->Role==2)
-    {
-      $myrequestMIRS=MIRSMaster::orderBy('MIRSNo','DESC')
-                      ->whereNull('IfDeclined')->where('Approvedby',Auth::user()->FullName)
-                      ->whereNull('ApproveSignature')->whereNull('ApprovalReplacerSignature')->whereNotNull('PreparedSignature')->whereNotNull('RecommendSignature')
-                      ->orWhereNull('IfDeclined')->where('Approvedby',Auth::user()->FullName)
-                      ->whereNull('ApproveSignature')->whereNull('ApprovalReplacerSignature')->whereNotNull('PreparedSignature')->whereNotNull('ManagerReplacerSignature')
-                      ->paginate(10,['MIRSNo','Purpose','Preparedby','Approvedby','Recommendedby','MIRSDate','RecommendSignature','PreparedSignature','ApproveSignature','ManagerReplacerSignature']);
-    }elseif(Auth::user()->Role==0)
-    {
-    $myrequestMIRS=Signatureable::where('signatureable_type', 'App\MIRSMaster')->where('user_id',Auth::user()->id)->whereNull('Signature')->where('SignatureType', 'RecommendedBy')
-    ->orWhere('signatureable_type', 'App\MIRSMaster')->where('user_id',Auth::user()->id)->whereNull('Signature')->where('SignatureType', 'ManagerReplacer')->count();
-    }
+    $user=User::find(Auth::user()->id);
+    $myrequestMIRS = $user->MIRSSignatureTurn()->paginate(10);
     return view('Warehouse.MIRS.myMIRSrequest',compact('myrequestMIRS'));
   }
   public function readyForMCT()
   {
-    $readyformct=MIRSMaster::orderBy('MIRSNo','DESC')->whereNotNull('RecommendSignature')->whereNotNull('ApproveSignature')->whereNotNull('PreparedSignature')->whereNull('WithMCT')
-    ->orWhereNotNull('ApprovalReplacerSignature')->whereNotNull('RecommendSignature')->whereNull('WithMCT')
-    ->orWhereNotNull('ManagerReplacerSignature')->whereNotNull('ApprovalReplacerSignature')->whereNull('WithMCT')
-    ->orWhereNotNull('ManagerReplacerSignature')->whereNotNull('ApproveSignature')->whereNull('WithMCT')
-    ->paginate(10,['MIRSNo','Purpose','Preparedby','Recommendedby','Approvedby','MIRSDate']);
-  return view('Warehouse.MIRS.MIRSReadyList',compact('readyformct'));
+    $readyformct=MIRSMaster::orderBy('MIRSNo','DESC')->where('Status', '0')->whereNull('WithMCT')->paginate(10);
+    return view('Warehouse.MIRS.MIRSReadyList',compact('readyformct'));
   }
   public function CancelApproveMIRSinBehalf($id)
   {
@@ -250,7 +246,7 @@ class MIRSController extends Controller
   public function AcceptApprovalRequest($id)
   {
     Signatureable::where('signatureable_id',$id)->where('signatureable_type', 'App\MIRSMaster')->where('SignatureType', 'ApprovalReplacer')->update(['Signature'=>'0']);
-
+    MIRSMaster::where('MIRSNo', $id)->update(['Status'=>'0','SignatureTurn'=>'3']);
     $PreparedId=Signatureable::where('signatureable_id', $id)->where('signatureable_type', 'App\MIRSMaster')->where('SignatureType', 'PreparedBy')->get(['user_id']);
     $GMId=Signatureable::where('signatureable_id', $id)->where('signatureable_type', 'App\MIRSMaster')->where('SignatureType', 'ApprovedBy')->get(['user_id']);
 
@@ -289,6 +285,7 @@ class MIRSController extends Controller
   public function SignatureManagerReplacer($id)
   {
     Signatureable::where('signatureable_id', $id)->where('signatureable_type', 'App\MIRSMaster')->where('SignatureType', 'ManagerReplacer')->update(['Signature'=>'0']);
+    MIRSMaster::where('MIRSNo', $id)->update(['SignatureTurn'=>'2']);
     $GMId=Signatureable::where('signatureable_id', $id)->where('signatureable_type', 'App\MIRSMaster')->where('SignatureType', 'ApprovedBy')->get(['user_id']);
     $ApprovalReplacerId=Signatureable::where('signatureable_id', $id)->where('signatureable_type', 'App\MIRSMaster')->where('SignatureType', 'ApprovalReplacer')->get(['user_id']);
     if (!empty($ApprovalReplacerId[0])) {
@@ -304,25 +301,14 @@ class MIRSController extends Controller
   }
   public function MIRSNotification()
   {
-    $myrequestMIRS=0;
-    if (Auth::user()->Role==2)
-    {
-
-    }elseif(Auth::user()->Role==0)
-    {
-      $myrequestMIRS=Signatureable::where('signatureable_type', 'App\MIRSMaster')->where('user_id',Auth::user()->id)->whereNull('Signature')->where('SignatureType', 'RecommendedBy')
-      ->orWhere('signatureable_type', 'App\MIRSMaster')->where('user_id',Auth::user()->id)->whereNull('Signature')->where('SignatureType', 'ManagerReplacer')->count();
-    }
+    $user=User::find(Auth::user()->id);
+    $myrequestMIRS = $user->MIRSSignatureTurn()->count();
     $response = ['MIRSrequest' =>$myrequestMIRS];
     return response()->json($response);
   }
   public function newlyApprovedMIRSCount()
   {
-    $readyformct=MIRSMaster::orderBy('MIRSNo','DESC')->whereNotNull('RecommendSignature')->whereNotNull('ApproveSignature')->whereNotNull('PreparedSignature')->whereNull('WithMCT')
-    ->orWhereNotNull('ApprovalReplacerSignature')->whereNotNull('RecommendSignature')->whereNull('WithMCT')
-    ->orWhereNotNull('ManagerReplacerSignature')->whereNotNull('ApprovalReplacerSignature')->whereNull('WithMCT')
-    ->orWhereNotNull('ManagerReplacerSignature')->whereNotNull('ApproveSignature')->whereNull('WithMCT')
-    ->count();
+    $readyformct=MIRSMaster::orderBy('MIRSNo','DESC')->where('Status', '0')->whereNull('WithMCT')->count();
     $response=['NewlyApprovedMIRS'=>$readyformct];
     return response()->json($response);
   }

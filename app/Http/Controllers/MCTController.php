@@ -16,6 +16,7 @@ use App\User;
 use App\MCTConfirmationDetail;
 use App\MasterItem;
 use App\Jobs\NewCreatedMCTJob;
+use App\Signatureable;
 class MCTController extends Controller
 {
   public function StoreMCT(Request $request)
@@ -30,7 +31,7 @@ class MCTController extends Controller
     $date=Carbon::now();
     $year=Carbon::today()->format('y');
     $latest=MCTMaster::orderBy('MCTNo','DESC')->take(1)->value('MCTNo');
-    $Receivedby=MIRSMaster::where('MIRSNo',$request->MIRSNo)->get(['Preparedby','PreparedPosition']);
+    $Receivedby=Signatureable::where('signatureable_id',$request->MIRSNo)->where('signatureable_type', 'App\MIRSMaster')->where('SignatureType', 'PreparedBy')->get(['user_id']);
     if (count($latest)>0)
     {
       $numOnly=substr($latest,'3');
@@ -45,16 +46,17 @@ class MCTController extends Controller
     }
     $MCTMasterDB=new MCTMaster;
     $MCTMasterDB->MCTNo = $MCTIncremented;
-    $MCTMasterDB->MIRSNo= $request->MIRSNo;
-    $MCTMasterDB->MCTDate=$date;
+    $MCTMasterDB->MIRSNo = $request->MIRSNo;
+    $MCTMasterDB->MCTDate = $date;
     $MCTMasterDB->Particulars = $request->Particulars;
     $MCTMasterDB->AddressTo = $request->AddressTo;
-    $MCTMasterDB->IssuedbySignature=Auth::user()->Signature;
-    $MCTMasterDB->Issuedby =Auth::user()->FullName;
-    $MCTMasterDB->IssuedbyPosition=Auth::user()->Position;
-    $MCTMasterDB->Receivedby=$Receivedby[0]->Preparedby;
-    $MCTMasterDB->ReceivedbyPosition=$Receivedby[0]->PreparedPosition;
     $MCTMasterDB->save();
+
+    $forSignatureTbl = array(
+       array('user_id' =>Auth::user()->id ,'signatureable_id'=>$MCTIncremented,'signatureable_type'=>'App\MCTMaster','SignatureType'=>'IssuedBy'),
+       array('user_id' =>$Receivedby[0]->user_id ,'signatureable_id'=>$MCTIncremented,'signatureable_type'=>'App\MCTMaster','SignatureType'=>'ReceivedBy')
+    );
+    Signatureable::insert($forSignatureTbl);
     MIRSMaster::where('MIRSNo',$request->MIRSNo)->update(['WithMCT'=>'0']);
     $ForMCTConfirmation = array();
     foreach (Session::get('MCTSessionItems') as $detail)
@@ -68,23 +70,18 @@ class MCTController extends Controller
     }
     MCTConfirmationDetail::insert($ForMCTConfirmation);
      Session::forget('MCTSessionItems');
-     //notify
-     $Receiver=str_replace(' ','',$Receivedby[0]->Preparedby);
-     $ReceiverName = array('Receiver' =>$Receiver);
-     $ReceiverName=(object)$ReceiverName;
-     $jobs=(new NewCreatedMCTJob($ReceiverName))->delay(Carbon::now()->addSeconds(5));
-     dispatch($jobs);
      return ['redirect'=>route('MCTpageOnly',[$MCTIncremented])];
   }
   public function previewMCTPage($id)
   {
-    $MCTNo = MCTMaster::where('MCTNo', $id)->get(['MCTNo']);
+    $MCTNo = array('MCTNo' => $id);
+    $MCTNo=json_encode($MCTNo);
     return view('Warehouse.MCT.MCTpreview',compact('MCTNo'));
   }
   public function previewMCT($id)
   {
     Session::forget('MCTSelected');//to refresh the session that is not submited
-    $MCTMast=MCTMaster::where('MCTNo',$id)->get();
+    $MCTMast=MCTMaster::with('users')->where('MCTNo',$id)->get();
     $MCTConfirmDetails=MCTConfirmationDetail::where('MCTNo',$id)->get();
     $MRTcheck=MRTMaster::where('MCTNo',$id)->value('MRTNo');
     $AccountCodeGroup = DB::table("MCTConfirmationDetails")
@@ -116,49 +113,54 @@ class MCTController extends Controller
   }
   public function SignatureMCT($id)
   {
+    $IssuerID=Signatureable::where('signatureable_id',$id)->where('signatureable_type', 'App\MCTMaster')->where('SignatureType', 'IssuedBy')->get(['user_id','Signature']);
+    $ReceiversId=Signatureable::where('signatureable_id',$id)->where('signatureable_type', 'App\MCTMaster')->where('SignatureType', 'ReceivedBy')->get(['user_id']);
+    if (($IssuerID[0]->user_id==Auth::user()->id)&&($IssuerID[0]->Signature==null))
+    {
+      Signatureable::where('signatureable_id',$id)->where('signatureable_type', 'App\MCTMaster')->where('SignatureType', 'IssuedBy')->update(['Signature'=>'0']);
+      MCTMaster::where('MCTNo',$id)->update(['SignatureTurn'=>1]);
+      $ReceiverID = array('Receiver' =>$ReceiversId[0]->user_id);
+      $ReceiverID=(object)$ReceiverID;
+      $jobs=(new NewCreatedMCTJob($ReceiverID))->delay(Carbon::now()->addSeconds(5));
+      dispatch($jobs);
+    }else
+    {
       $date=MCTMaster::where('MCTNo',$id)->get(['MCTDate']);
-     $ItemsConfirmed= MCTConfirmationDetail::where('MCTNo',$id)->get();
-     $forMTDetailstable = array();
-     foreach ($ItemsConfirmed as $itemconfirmed)
-     {
-       $latestdetail=MaterialsTicketDetail::where('ItemCode',$itemconfirmed->ItemCode)->orderBy('id','DESC')->take(1)->get(['CurrentQuantity','CurrentAmount']);
-       $latestPriceWhenCreated=$itemconfirmed->UnitCost;
-       $minusAmount=$itemconfirmed->Amount;
-       $newQTY= $latestdetail[0]->CurrentQuantity - $itemconfirmed->Quantity;
-       $differenceof2AMT=$latestdetail[0]->CurrentAmount - $minusAmount;
-       if ($newQTY>0)
-       {
-        $newcurrentcost=$differenceof2AMT/$newQTY;
-      }else
+      $ItemsConfirmed= MCTConfirmationDetail::where('MCTNo',$id)->get();
+      $forMTDetailstable = array();
+      foreach ($ItemsConfirmed as $itemconfirmed)
       {
-        $newcurrentcost=0;
-      }
-       $newAmount= $newQTY * $newcurrentcost;
-        MasterItem::where('ItemCode',$itemconfirmed->ItemCode)->update(['CurrentQuantity'=>$newQTY]);
+        $latestdetail=MaterialsTicketDetail::where('ItemCode',$itemconfirmed->ItemCode)->orderBy('id','DESC')->take(1)->get(['CurrentQuantity','CurrentAmount']);
+        $latestPriceWhenCreated=$itemconfirmed->UnitCost;
+        $minusAmount=$itemconfirmed->Amount;
+        $newQTY= $latestdetail[0]->CurrentQuantity - $itemconfirmed->Quantity;
+        $differenceof2AMT=$latestdetail[0]->CurrentAmount - $minusAmount;
+        if ($newQTY>0)
+        {
+         $newcurrentcost=$differenceof2AMT/$newQTY;
+       }else
+       {
+         $newcurrentcost=0;
+       }
+         $newAmount= $newQTY * $newcurrentcost;
+         MasterItem::where('ItemCode',$itemconfirmed->ItemCode)->update(['CurrentQuantity'=>$newQTY]);
          $forMTDetailstable[]=array('ItemCode' =>$itemconfirmed->ItemCode,'MTType'=>'MCT','MTNo' =>$id,'AccountCode' =>$itemconfirmed->AccountCode ,'UnitCost' =>$latestPriceWhenCreated,'Quantity' =>$itemconfirmed->Quantity,'Amount' =>$minusAmount
-        ,'CurrentCost' =>$newcurrentcost,'CurrentQuantity' =>$newQTY ,'CurrentAmount' =>$newAmount ,'MTDate' =>$date[0]->MCTDate);
-     }
-     MaterialsTicketDetail::insert($forMTDetailstable);
-     $mctmaster=MCTMaster::where('MCTNo',$id)->get(['Receivedby']);
-     if ($mctmaster[0]->Receivedby==Auth::user()->FullName)
-     {
-       MCTMaster::where('MCTNo',$id)->update(['ReceivedbySignature'=>Auth::user()->Signature]);
-     }
+         ,'CurrentCost' =>$newcurrentcost,'CurrentQuantity' =>$newQTY ,'CurrentAmount' =>$newAmount ,'MTDate' =>$date[0]->MCTDate);
+      }
+      MaterialsTicketDetail::insert($forMTDetailstable);
+      Signatureable::where('signatureable_id',$id)->where('signatureable_type', 'App\MCTMaster')->where('SignatureType', 'ReceivedBy')->update(['Signature'=>'0']);
+      MCTMaster::where('MCTNo',$id)->update(['Status'=>0]);
+    }
   }
   public function mctRequestcheck()
   {
-    $myrequestMCT=MCTMaster::orderBy('MCTNo','DESC')->where('Issuedby',Auth::user()->FullName)
-                    ->whereNull('IssuedbySignature')
-                    ->whereNull('IfDeclined')
-                    ->orWhere('Receivedby',Auth::user()->FullName)
-                    ->whereNull('ReceivedbySignature')
-                    ->whereNull('IfDeclined')
-                    ->paginate(10,['MIRSNo','MCTNo','Issuedby','Receivedby','Particulars','MCTDate','AddressTo','IssuedbySignature','ReceivedbySignature']);
-                    return view('Warehouse.MCT.myMCTrequest',compact('myrequestMCT'));
+      $curretnUser=User::find(Auth::user()->id);
+      $myrequestMCT=$curretnUser->MCTSignatureTurn()->paginate(10);
+      return view('Warehouse.MCT.myMCTrequest',compact('myrequestMCT'));
   }
   public function MCTofMIRS($id)
   {
-    $MCTMaster=MCTMaster::orderBy('MCTNo','DESC')->where('MIRSNo',$id)->paginate(10,['MIRSNo','MCTNo','MCTDate','Particulars','AddressTo','Receivedby','ReceivedbySignature','IfDeclined']);
+    $MCTMaster=MCTMaster::orderBy('MCTNo','DESC')->where('MIRSNo',$id)->paginate(10,['MIRSNo','MCTNo','MCTDate','Particulars','AddressTo','Status']);
     return view('Warehouse.MCT.MCTofMIRSlist',compact('MCTMaster'));
   }
   public function CreateMCT($id)
@@ -289,16 +291,13 @@ class MCTController extends Controller
       $newMCTValidatorQty=$currentMCTValidatorQty[0]->QuantityValidator+$confirmation->Quantity;
       MIRSDetail::where('MIRSNo',$MIRSNo)->where('ItemCode', $confirmation->ItemCode)->update(['QuantityValidator'=>$newMCTValidatorQty]);
     }
-    MCTMaster::where('MCTNo',$id)->update(['IfDeclined'=>Auth::user()->FullName]);
+    Signatureable::where('signatureable_id',$id)->where('signatureable_type', 'App\MCTMaster')->where('user_id', Auth::user()->id)->update(['Signature'=>'1']);
+    MCTMaster::where('MCTNo',$id)->update(['Status'=>1]);
   }
   public function MCTRequestSignatureCount()
   {
-      $myrequestMCT=MCTMaster::orderBy('MCTNo','DESC')->where('Issuedby',Auth::user()->FullName)
-                    ->whereNull('IssuedbySignature')
-                    ->whereNull('IfDeclined')
-                    ->orWhere('Receivedby',Auth::user()->FullName)
-                    ->whereNull('ReceivedbySignature')
-                    ->whereNull('IfDeclined')->count();
+    $curretnUser=User::find(Auth::user()->id);
+    $myrequestMCT=$curretnUser->MCTSignatureTurn()->count();
                     $response = array('MCTRequestCount' => $myrequestMCT);
                     return response()->json($response);
   }
@@ -308,6 +307,6 @@ class MCTController extends Controller
   }
   public function fetchSearchIndexMCTlist(Request $request)
   {
-    return MCTMaster::orderBy('MCTNo','DESC')->where('MCTNo','LIKE','%'.$request->MCTNo.'%')->paginate(10,['MCTNo','MCTDate','MIRSNo','AddressTo','Particulars','Issuedby','Receivedby','ReceivedbySignature','IfDeclined']);
+    return MCTMaster::with('users')->orderBy('MCTNo','DESC')->where('MCTNo','LIKE','%'.$request->MCTNo.'%')->paginate(10,['MCTNo','MCTDate','MIRSNo','AddressTo','Particulars','Status']);
   }
 }

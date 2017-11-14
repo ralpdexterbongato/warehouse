@@ -200,6 +200,7 @@ import Longpress from 'vue-longpress';
         }).then(function(response)
         {
           console.log(response);
+          vm.FetchSessionStored();
           Vue.set(vm.$data,'laravelerrors','');
           Vue.set(vm.$data,'ownerrors','');
           Vue.set(vm.$data,'successAlerts','Added successfully');
@@ -212,7 +213,6 @@ import Longpress from 'vue-longpress';
           Vue.set(vm.$data,'laravelerrors',error.response.data);
           console.log(error);
         });
-        this.FetchSessionStored();
       },
       AddtoSessionForWarehouse(data,count)
       {
@@ -227,6 +227,7 @@ import Longpress from 'vue-longpress';
         }).then(function(response)
         {
           console.log(response);
+          vm.FetchSessionStored();
           if (response.data.error!=null)
           {
             Vue.set(vm.$data,'ownerrors',response.data.error);
@@ -244,7 +245,6 @@ import Longpress from 'vue-longpress';
           Vue.set(vm.$data,'ownerrors','');
           Vue.set(vm.$data,'successAlerts','');
         });
-        this.FetchSessionStored();
       },
       FetchSessionStored()
       {
@@ -271,11 +271,11 @@ import Longpress from 'vue-longpress';
         axios.delete(`DeleteSession/`+key).then(function(response)
         {
           console.log(response);
+          vm.FetchSessionStored();
           Vue.set(vm.$data,'successAlerts','Removed successfully.');
           Vue.set(vm.$data,'laravelerrors','');
           Vue.set(vm.$data,'ownerrors','');
         });
-        this.FetchSessionStored();
       },
       fetchallUnit()
       {

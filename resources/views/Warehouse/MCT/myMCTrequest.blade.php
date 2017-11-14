@@ -13,8 +13,6 @@
           <th>MIRS No.</th>
           <th>Particulars</th>
           <th>Address to</th>
-          <th>Issued by</th>
-          <th>Received by</th>
           <th>MIRS Date</th>
           <th>Action</th>
         </tr>
@@ -25,16 +23,6 @@
               <td>{{$myMCT->MIRSNo}}</td>
               <td>{{$myMCT->Particulars}}</td>
               <td>{{$myMCT->AddressTo}}</td>
-              <td>{{$myMCT->Issuedby}}
-                @if (!empty($myMCT->IssuedbySignature))
-                  <i class="fa fa-check"></i>
-                @endif
-              </td>
-              <td>{{$myMCT->Receivedby}}
-                @if (!empty($myMCT->ReceivedbySignature))
-                  <i class="fa fa-check"></i>
-                @endif
-              </td>
               <td>{{$myMCT->MCTDate->format('m/d/Y')}}</td>
               <td><a href="{{route('MCTpageOnly',[$myMCT->MCTNo])}}"><i class="fa fa-eye"></i></a></td>
             </tr>

@@ -23,7 +23,7 @@ Broadcast::channel('WarehouseRole', function ($role) {
     return Auth::check();
 });
 
-Broadcast::channel('MCTchannel.{ReceiverName}', function ($ReceiverName) {
+Broadcast::channel('MCTchannel.{ReceiverID}', function ($ReceiverID) {
     return Auth::check();
 });
 Broadcast::channel('MRTchannel.{notifythis}', function ($notifythis) {

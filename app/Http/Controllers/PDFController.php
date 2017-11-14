@@ -21,7 +21,7 @@ class PDFController extends Controller
 {
   public function mirspdf($id)
   {
-    $master=MIRSMaster::where('MIRSNo', $id)->get();
+    $master=MIRSMaster::with('users')->where('MIRSNo', $id)->get();
     $details=MIRSDetail::where('MIRSNo', $id)->get();
     $pdf = PDF::loadView('Warehouse.MIRS.MIRSprintable',compact('master','details'));
     return $pdf->stream('MIRS_id:'.$id.'.pdf');

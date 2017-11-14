@@ -34,7 +34,7 @@
           </longpress>
         </span>
       </div>
-      <span v-if="((ManagerCansignature)&&(NoManagerReplacerSignature)||((GMCanSignature)&&(NoApprovalReplacerSignature)))">
+      <span v-if="((ManagerCansignature)&&(NoManagerReplacerSignature)||((GMCanSignature)&&(NoApprovalReplacerSignature))||(RequisitionerCanSignature))">
         <div class="middle-status" :class="{'hide':SignatureBtnHide}">
           <longpress id="accepted" duration="3" :on-confirm="SignatureMIRS"  pressing-text="confirm in {$rcounter}" action-text="Loading . . .">
             <i class="fa fa-pencil"></i> Signature
@@ -158,7 +158,7 @@
                    <span class="cancel-manager-replace" v-on:click="cancelrequestReplacer()"><i class="fa fa-times color-red"></i>cancel</span>
                  </div>
                </div>
-               <i v-if="RecommendedBySignatureNull" class="color-blue" :class="[MIRSMaster.ManagerReplacer==null?'fa fa-users':'fa fa-clock-o']" v-on:click="ManagerBehalfActive=!ManagerBehalfActive,[allManager[0]==null?fetchAllManager():'']" ></i>
+               <i v-if="((RecommendedBySignatureNull)&&(RequisitionerAlreadySignatured))" class="color-blue" :class="[MIRSMaster.ManagerReplacer==null?'fa fa-users':'fa fa-clock-o']" v-on:click="ManagerBehalfActive=!ManagerBehalfActive,[allManager[0]==null?fetchAllManager():'']" ></i>
              </span>
              <i class="fa fa-times decliner" v-if="(MIRSMaster.users[1].pivot.Signature=='1')"></i>
              </span><br>
@@ -367,7 +367,17 @@ import Longpress from 'vue-longpress';
        },
        managerReplaceistrue: function()
        {
-         if (((this.MIRSMaster.users[3]!=null)&&(this.MIRSMaster.users[3].id==this.user.id)&&(this.MIRSMaster.users[3].pivot.SignatureType=='ManagerReplacer')&&(this.MIRSMaster.users[3].pivot.Signature==null))||(this.MIRSMaster.users[4]!=null)&&(this.MIRSMaster.users[4].id==this.user.id)&&(this.MIRSMaster.users[4].pivot.SignatureType=='ManagerReplacer')&&(this.MIRSMaster.users[3].pivot.Signature==null))
+         if (((this.MIRSMaster.users[3]!=null)&&(this.MIRSMaster.users[3].id==this.user.id)&&(this.MIRSMaster.users[3].pivot.SignatureType=='ManagerReplacer')&&(this.MIRSMaster.users[3].pivot.Signature==null))||(this.MIRSMaster.users[4]!=null)&&(this.MIRSMaster.users[4].id==this.user.id)&&(this.MIRSMaster.users[4].pivot.SignatureType=='ManagerReplacer')&&(this.MIRSMaster.users[4].pivot.Signature==null))
+         {
+           return true;
+         }else
+         {
+           return false;
+         }
+       },
+       RequisitionerCanSignature: function()
+       {
+         if ((this.MIRSMaster.users[0].id==this.user.id)&&(this.MIRSMaster.users[0].pivot.Signature==null)&&(this.MIRSMaster.SignatureTurn=='0'))
          {
            return true;
          }else
@@ -377,7 +387,7 @@ import Longpress from 'vue-longpress';
        },
        ManagerCansignature: function()
        {
-         if((this.MIRSMaster.users[1].id==this.user.id)&&(this.MIRSMaster.users[1].pivot.Signature==null))
+         if((this.MIRSMaster.users[1].id==this.user.id)&&(this.MIRSMaster.users[1].pivot.Signature==null)&&(this.MIRSMaster.users[0].pivot.Signature=='0'))
          {
            return true;
          }else
@@ -387,7 +397,7 @@ import Longpress from 'vue-longpress';
        },
        GMCanSignature: function()
        {
-         if ((this.MIRSMaster.users[2].id==this.user.id)&&(this.MIRSMaster.users[2].pivot.Signature==null)&&((this.MIRSMaster.users[1].pivot.Signature=='0')||((this.ManagerReplacerData!=null)&&(this.MIRSMaster.users[1].pivot.Signature=='0'))))
+         if ((this.MIRSMaster.users[2].id==this.user.id)&&(this.MIRSMaster.users[2].pivot.Signature==null)&&((this.MIRSMaster.users[1].pivot.Signature=='0')||((this.ManagerReplacerData!=null)&&(this.ManagerReplacerData.pivot.Signature=='0'))))
          {
            return true;
          }else
@@ -431,7 +441,7 @@ import Longpress from 'vue-longpress';
        },
        UserIsApprovalReplacer: function()
        {
-         if(((this.MIRSMaster.users[1].pivot.Signature=='0')&&(this.MIRSMaster.users[3]!=null)&&(this.user.id==this.MIRSMaster.users[3].id)&&(this.MIRSMaster.users[3].pivot.Signature==null)&&(this.MIRSMaster.users[3].pivot.SignatureType=='ApprovalReplacer')&&(this.MIRSMaster.users[2].pivot.Signature==null))||((this.MIRSMaster.users[1].pivot.Signature=='0')&&(this.MIRSMaster.users[4]!=null)&&(this.user.id==this.MIRSMaster.users[4].id)&&(this.MIRSMaster.users[4].pivot.Signature==null)&&(this.MIRSMaster.users[4].pivot.SignatureType=='ApprovalReplacer')&&(this.MIRSMaster.users[2].pivot.Signature==null)))
+         if((((this.MIRSMaster.users[1].pivot.Signature=='0')||(this.ManagerReplacerData!=null && this.ManagerReplacerData.pivot.Signature=='0'))&&(this.MIRSMaster.users[3]!=null)&&(this.user.id==this.MIRSMaster.users[3].id)&&(this.MIRSMaster.users[3].pivot.Signature==null)&&(this.MIRSMaster.users[3].pivot.SignatureType=='ApprovalReplacer')&&(this.MIRSMaster.users[2].pivot.Signature==null))||(((this.MIRSMaster.users[1].pivot.Signature=='0')||(this.ManagerReplacerData!=null && this.ManagerReplacerData.pivot.Signature=='0'))&&(this.MIRSMaster.users[4]!=null)&&(this.user.id==this.MIRSMaster.users[4].id)&&(this.MIRSMaster.users[4].pivot.Signature==null)&&(this.MIRSMaster.users[4].pivot.SignatureType=='ApprovalReplacer')&&(this.MIRSMaster.users[2].pivot.Signature==null)))
          {
            return true;
          }else
@@ -441,7 +451,7 @@ import Longpress from 'vue-longpress';
        },
        RecommendedBySignatureNull: function()
        {
-         if (((this.user.id==this.MIRSMaster.users[0].id)&&(this.MIRSMaster.users[1].pivot.Signature==null)&&(this.MIRSMaster.users[3]!=null)&&(this.MIRSMaster.users[3].pivot.Signature==null)&&(this.MIRSMaster.users[3].pivot.SignatureType=='ManagerReplacer'))||((this.user.id==this.MIRSMaster.users[0].id)&&(this.MIRSMaster.users[1].pivot.Signature==null)&&(this.MIRSMaster.users[4]!=null)&&(this.MIRSMaster.users[4].pivot.Signature==null)&&(this.MIRSMaster.users[4].pivot.SignatureType=='ManagerReplacer'))||((this.user.id==this.MIRSMaster.users[0].id)&&(this.MIRSMaster.users[1].pivot.Signature==null)&&(this.MIRSMaster.users[3]==null))||((this.user.id==this.MIRSMaster.users[0].id)&&(this.MIRSMaster.users[1].pivot.Signature==null)&&(this.MIRSMaster.users[4]==null)))
+         if(((this.user.id==this.MIRSMaster.users[0].id)&&(this.MIRSMaster.users[1].pivot.Signature==null)&&(this.MIRSMaster.users[3]!=null)&&(this.MIRSMaster.users[3].pivot.Signature==null)&&(this.MIRSMaster.users[3].pivot.SignatureType=='ManagerReplacer'))||((this.user.id==this.MIRSMaster.users[0].id)&&(this.MIRSMaster.users[1].pivot.Signature==null)&&(this.MIRSMaster.users[4]!=null)&&(this.MIRSMaster.users[4].pivot.Signature==null)&&(this.MIRSMaster.users[4].pivot.SignatureType=='ManagerReplacer'))||((this.user.id==this.MIRSMaster.users[0].id)&&(this.MIRSMaster.users[1].pivot.Signature==null)&&(this.MIRSMaster.users[3]==null))||((this.user.id==this.MIRSMaster.users[0].id)&&(this.MIRSMaster.users[1].pivot.Signature==null)&&(this.MIRSMaster.users[4]==null)))
          {
            return true;
          }else
@@ -449,6 +459,16 @@ import Longpress from 'vue-longpress';
            return false;
          }
        },
+       RequisitionerAlreadySignatured: function()
+       {
+         if ((this.MIRSMaster.users[0].pivot.Signature=='0')&&(this.MIRSMaster.SignatureTurn=='1'))
+         {
+           return true;
+         }else
+         {
+           return false;
+         }
+       }
      }
   }
 </script>

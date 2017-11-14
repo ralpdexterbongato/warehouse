@@ -1,21 +1,21 @@
 <template lang="html">
-<div class="print-MCT-wrap">
+<div class="print-MCT-wrap" v-if="(this.MCTMaster.users!=null)">
   <div class="MCT-title">
-    <span v-if="MCTMaster.IssuedbySignature!=null&&MCTMaster.ReceivedbySignature!=null">
+    <span v-if="AlreadySignatured">
       <form action="/MCT.pdf" method="get">
-        <button type="submit" :value="this.mctno[0].MCTNo" name="MCTNo"><i class="fa fa-file-pdf-o"></i>.pdf</button>
+        <button type="submit" :value="this.mctno.MCTNo" name="MCTNo"><i class="fa fa-file-pdf-o"></i>.pdf</button>
       </form>
     </span>
-    <div class="empty-div-left mct-edit-container" v-else-if="((user.FullName==MCTMaster.Issuedby)&&(MCTMaster.ReceivedbySignature==null)&&(MCTMaster.IfDeclined==null))">
+    <div class="empty-div-left mct-edit-container" v-else-if="((user.id==MCTMaster.users[0].id)&&(MCTMaster.users[1].pivot.Signature==null)&&(MCTMaster.users[0].pivot.Signature!='1'))">
       <span class="edit-mct" :class="ShowEdit==true?'hide':'show'"><i class="fa fa-edit" v-on:click="ShowEdit=true"></i>Edit</span>
       <span class="edit-mct" :class="ShowEdit==false?'hide':'show'"><span class="color-blue">Save?</span> <button type="button" v-on:click="ShowEdit=false,fetchData();">cancel</button> <button v-on:click="ShowEdit=false,editMCTSave()" type="button" name="button">Save</button></span>
     </div>
     <span v-else>
     </span>
-    <span v-if="MCTMaster.IssuedbySignature!=null&&MCTMaster.ReceivedbySignature!=null">
-      <span v-if="MRTCheck==null&&user.Role==4||MRTCheck==null&&user.Role==3">
+    <span v-if="AlreadySignatured">
+      <span v-if="(((MRTCheck==null)&&(user.Role==4))||((MRTCheck==null)&&(user.Role==3)))">
         <div class="Create-MRT-btn">
-          <a :href="'/MRT-create/'+this.mctno[0].MCTNo"><button type="submit" class="bttn-unite bttn-xs bttn-primary"><i class="fa fa-plus"></i> Make MRT</button></a>
+          <a :href="'/MRT-create/'+this.mctno.MCTNo"><button type="submit" class="bttn-unite bttn-xs bttn-primary"><i class="fa fa-plus"></i> Make MRT</button></a>
         </div>
       </span>
       <span v-else-if="MRTCheck!=null">
@@ -28,17 +28,17 @@
       <span v-else>
         No MRT generated yet
       </span>
-  </span>
-  <span v-else-if="((MCTMaster.Receivedby==user.FullName)&&(MCTMaster.Receivedby!=null)&&(MCTMaster.IfDeclined==null))">
-    <div class="signature-mct-btn" :class="{'hide':SignatureMCTBtnHide}">
-      <longpress id="signatureMCT" duration="3" :on-confirm="signatureMCT" :disabled="IsDisabled" pressing-text="confirm in {$rcounter}" action-text="Loading . . .">
-      <i class="fa fa-pencil"></i> Signature
-      </longpress>
-      <longpress id="declineMCT" duration="3" :on-confirm="declineMCT" :disabled="IsDisabled" pressing-text="confirm in {$rcounter}" action-text="Loading . . .">
-      <i class="fa fa-times"></i> Decline
-      </longpress>
-    </div>
-  </span>
+    </span>
+    <span v-else-if="((MCTMaster.users[0].pivot.Signature=='0')&&(MCTMaster.users[1].id==user.id)&&(MCTMaster.users[1].pivot.Signature==null)||(MCTMaster.users[0].id==user.id)&&(MCTMaster.users[0].pivot.Signature==null))">
+      <div class="signature-mct-btn" :class="{'hide':SignatureMCTBtnHide}">
+        <longpress id="signatureMCT" duration="3" :on-confirm="signatureMCT" :disabled="IsDisabled" pressing-text="confirm in {$rcounter}" action-text="Loading . . .">
+        <i class="fa fa-pencil"></i> Signature
+        </longpress>
+        <longpress id="declineMCT" duration="3" :on-confirm="declineMCT" :disabled="IsDisabled" pressing-text="confirm in {$rcounter}" action-text="Loading . . .">
+        <i class="fa fa-times"></i> Decline
+        </longpress>
+      </div>
+    </span>
   </div>
     <div class="bondpaper-preview">
     <div class="bond-center-titles">
@@ -51,7 +51,13 @@
       <div class="MCTmaster-left">
         <ul>
           <li><label>Particulars :</label><h2>{{MCTMaster.Particulars}}</h2></li>
-          <li><label>Address :</label><h2 :class="ShowEdit==true?'hide':'true'">{{MCTMaster.AddressTo}}</h2><h2 :class="ShowEdit==true?'show':'hide'" v-if="MCTMaster.ReceivedbySignature!=null||MCTMaster.IssuedbySignature!=null"><input type="text" v-model="AddressToEdit=MCTMaster.AddressTo"></h2></li>
+          <li>
+            <label>Address :</label>
+            <h2 :class="ShowEdit==true?'hide':'true'">{{MCTMaster.AddressTo}}</h2>
+            <h2 :class="ShowEdit==true?'show':'hide'">
+              <input type="text" v-model="AddressToEdit=MCTMaster.AddressTo">
+            </h2>
+          </li>
         </ul>
       </div>
       <div class="MCTmaster-right">
@@ -99,10 +105,10 @@
         </div>
         <div class="issuedby-data">
           <div class="signature-issuedmct">
-              <img :src="'/storage/signatures/'+MCTMaster.IssuedbySignature" v-if="MCTMaster.IssuedbySignature!=null" alt="signature">
+              <img :src="'/storage/signatures/'+MCTMaster.users[0].Signature" v-if="MCTMaster.users[0].pivot.Signature=='0'" alt="signature">
           </div>
-          <h1>{{MCTMaster.Issuedby}}</h1>
-          <h5>{{MCTMaster.IssuedbyPosition}}</h5>
+          <h1>{{MCTMaster.users[0].FullName}}<i v-if="MCTMaster.users[0].pivot.Signature=='1'" class="fa fa-times decliner"></i></h1>
+          <h5>{{MCTMaster.users[0].Position}}</h5>
         </div>
       </div>
       <div class="mct-signature-right">
@@ -111,10 +117,10 @@
         </div>
         <div class="recievedby-data">
           <div class="signature-recievedmct">
-            <img :src="'/storage/signatures/'+MCTMaster.ReceivedbySignature" v-if="MCTMaster.ReceivedbySignature!=null" alt="signature">
+            <img :src="'/storage/signatures/'+MCTMaster.users[0].Signature" v-if="MCTMaster.users[1].pivot.Signature=='0'" alt="signature">
           </div>
-          <h1>{{MCTMaster.Receivedby}} <i v-if="MCTMaster.IfDeclined==MCTMaster.Receivedby" class="fa fa-times decliner"></i></h1>
-          <h5>{{MCTMaster.ReceivedbyPosition}}</h5>
+          <h1>{{MCTMaster.users[1].FullName}} <i v-if="MCTMaster.users[1].pivot.Signature=='1'" class="fa fa-times decliner"></i></h1>
+          <h5>{{MCTMaster.users[1].Position}}</h5>
         </div>
       </div>
     </div>
@@ -146,7 +152,7 @@ import Longpress from 'vue-longpress'
        fetchData()
        {
          var vm=this;
-         axios.get(`/MCTpreview/`+this.mctno[0].MCTNo).then(function(response)
+         axios.get(`/MCTpreview/`+this.mctno.MCTNo).then(function(response)
         {
           console.log(response);
           Vue.set(vm.$data,'MRTCheck',response.data.MRTcheck);
@@ -160,17 +166,18 @@ import Longpress from 'vue-longpress'
       {
         this.SignatureMCTBtnHide=true;
         var vm=this;
-        axios.put(`/Signature-for-mct/`+this.mctno[0].MCTNo).then(function(response)
+        axios.put(`/Signature-for-mct/`+this.mctno.MCTNo).then(function(response)
         {
           console.log(response);
+          vm.fetchData();
+          vm.SignatureMCTBtnHide=false;
         });
-        this.fetchData();
       },
       declineMCT()
       {
         this.SignatureMCTBtnHide=true;
         var vm=this;
-        axios.put(`/decline-mct/`+this.mctno[0].MCTNo).then(function(response)
+        axios.put(`/decline-mct/`+this.mctno.MCTNo).then(function(response)
         {
           console.log(response);
         });
@@ -183,7 +190,7 @@ import Longpress from 'vue-longpress'
       editMCTSave()
       {
         var vm=this;
-        axios.put(`/update-mct/`+this.mctno[0].MCTNo,{
+        axios.put(`/update-mct/`+this.mctno.MCTNo,{
           NewQuantity:this.QuantityArray,
           NewAddressTo:this.AddressToEdit,
         }).then(function(response)
@@ -202,6 +209,18 @@ import Longpress from 'vue-longpress'
      },
      components: {
         Longpress
-      },
+     },
+     computed: {
+       AlreadySignatured: function()
+       {
+           if ((this.MCTMaster.users[0]!=null)&&(this.MCTMaster.users[0].pivot.Signature=='0')&&(this.MCTMaster.users[1]!=null)&&(this.MCTMaster.users[1].pivot.Signature=='0'))
+           {
+             return true;
+           }else
+           {
+             return false;
+           }
+        }
+     }
   }
 </script>

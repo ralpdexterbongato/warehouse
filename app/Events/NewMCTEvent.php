@@ -13,15 +13,15 @@ use Illuminate\Contracts\Broadcasting\ShouldBroadcast;
 class NewMCTEvent implements ShouldBroadcast
 {
     use Dispatchable, InteractsWithSockets, SerializesModels;
-    public $ReceiverName;
+    public $ReceiverID;
     /**
      * Create a new event instance.
      *
      * @return void
      */
-    public function __construct($ReceiverName)
+    public function __construct($ReceiverID)
     {
-        $this->ReceiverName=$ReceiverName;
+        $this->ReceiverID=$ReceiverID;
     }
 
     /**
@@ -31,6 +31,6 @@ class NewMCTEvent implements ShouldBroadcast
      */
     public function broadcastOn()
     {
-        return new PrivateChannel('MCTchannel.'.$this->ReceiverName->Receiver);
+        return new PrivateChannel('MCTchannel.'.$this->ReceiverID->Receiver);
     }
 }

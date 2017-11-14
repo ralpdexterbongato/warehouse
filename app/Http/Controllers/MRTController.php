@@ -14,6 +14,7 @@ use App\MRTConfirmationDetail;
 use App\MCTConfirmationDetail;
 use App\MasterItem;
 use App\Jobs\NewCreatedMRTJob;
+use App\User;
 class MRTController extends Controller
 {
     public function __construct()
@@ -22,7 +23,7 @@ class MRTController extends Controller
     }
     public function CreateMRT($id)
     {
-      $MCTdata=MCTMaster::where('MCTNo',$id)->get(['Particulars','AddressTo','ReceivedbyPosition','Receivedby']);
+      $MCTdata=MCTMaster::with('ReceiverMCT')->where('MCTNo',$id)->get(['Particulars','AddressTo','MCTNo']);
       $MCTNumber = array('MCTNo' =>$id);
       $MCTNumber=json_encode($MCTNumber);
       return view('Warehouse.MRT.MRTCreate',compact('MCTNumber','MCTdata'));
@@ -225,7 +226,8 @@ class MRTController extends Controller
     }
     public function MRTSignatureRequestCount()
     {
-      $NumberofRequest= MRTMaster::orderBy('id','DESC')->where('Returnedby',Auth::user()->FullName)->whereNull('IfDeclined')->whereNull('ReturnedbySignature')->count();
+      $user=User::find(Auth::user()->id);
+      $NumberofRequest=$user->MRTSignatureTurn()->count();
       $response = array('MRTRequestCount' => $NumberofRequest);
       return response()->json($response);
     }

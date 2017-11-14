@@ -11,4 +11,15 @@ class MCTMaster extends Model
   public $dates=['MCTDate'];
   protected $dateFormat = 'M d, Y';
   public $increments=false;
+  protected $primaryKey='MCTNo';
+  public $incrementing = false;
+
+  public function users()
+  {
+    return $this->morphToMany('App\User', 'signatureable')->withPivot('Signature','SignatureType');
+  }
+  public function ReceiverMCT()
+  {
+    return $this->morphToMany('App\User', 'signatureable')->withPivot('Signature','SignatureType')->wherePivot('SignatureType', 'ReceivedBy');
+  }
 }

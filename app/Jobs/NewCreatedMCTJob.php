@@ -11,15 +11,15 @@ use App\Events\NewMCTEvent;
 class NewCreatedMCTJob implements ShouldQueue
 {
     use Dispatchable, InteractsWithQueue, Queueable, SerializesModels;
-    public $ReceiverName;
+    public $ReceiverID;
     /**
      * Create a new job instance.
      *
      * @return void
      */
-    public function __construct($ReceiverName)
+    public function __construct($ReceiverID)
     {
-      $this->ReceiverName=$ReceiverName;
+      $this->ReceiverID=$ReceiverID;
     }
 
     /**
@@ -29,6 +29,6 @@ class NewCreatedMCTJob implements ShouldQueue
      */
     public function handle()
     {
-      Event(new NewMCTEvent($this->ReceiverName));
+      Event(new NewMCTEvent($this->ReceiverID));
     }
 }

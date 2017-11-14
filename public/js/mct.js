@@ -1062,13 +1062,14 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
         Remarks: validator.Remarks
       }).then(function (response) {
         console.log(response);
-        if (response.data.error != null) {
-          Vue.set(vm.$data, 'ownerrors', response.data.error);
-          Vue.set(vm.$data, 'successAlerts', '');
-          Vue.set(vm.$data, 'laravelerrors', '');
-        } else {
+        if (response.data.error == null) {
+          vm.fetchSessionData();
           Vue.set(vm.$data, 'successAlerts', 'Success');
           Vue.set(vm.$data, 'ownerrors', '');
+          Vue.set(vm.$data, 'laravelerrors', '');
+        } else {
+          Vue.set(vm.$data, 'ownerrors', response.data.error);
+          Vue.set(vm.$data, 'successAlerts', '');
           Vue.set(vm.$data, 'laravelerrors', '');
         }
       }, function (error) {
@@ -1076,7 +1077,6 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
         Vue.set(vm.$data, 'ownerrors', '');
         Vue.set(vm.$data, 'successAlerts', '');
       });
-      this.fetchSessionData();
     },
     fetchSessionData: function fetchSessionData() {
       var vm = this;
@@ -1089,11 +1089,11 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
       var vm = this;
       __WEBPACK_IMPORTED_MODULE_0_axios___default.a.delete('/delete-session-mct/' + ItemCode).then(function (response) {
         console.log(response);
+        vm.fetchSessionData();
         Vue.set(vm.$data, 'ownerrors', '');
         Vue.set(vm.$data, 'successAlerts', 'Deleted successfully');
         Vue.set(vm.$data, 'laravelerrors', '');
       });
-      this.fetchSessionData();
     },
     SavingMCT: function SavingMCT() {
       this.HideBtn = true;
@@ -1290,6 +1290,12 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
 //
 //
 //
+//
+//
+//
+//
+//
+//
 
 
 
@@ -1313,7 +1319,7 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
   methods: {
     fetchData: function fetchData() {
       var vm = this;
-      __WEBPACK_IMPORTED_MODULE_0_axios___default.a.get('/MCTpreview/' + this.mctno[0].MCTNo).then(function (response) {
+      __WEBPACK_IMPORTED_MODULE_0_axios___default.a.get('/MCTpreview/' + this.mctno.MCTNo).then(function (response) {
         console.log(response);
         Vue.set(vm.$data, 'MRTCheck', response.data.MRTcheck);
         Vue.set(vm.$data, 'MCTMaster', response.data.MCTMaster[0]);
@@ -1325,15 +1331,16 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
     signatureMCT: function signatureMCT() {
       this.SignatureMCTBtnHide = true;
       var vm = this;
-      __WEBPACK_IMPORTED_MODULE_0_axios___default.a.put('/Signature-for-mct/' + this.mctno[0].MCTNo).then(function (response) {
+      __WEBPACK_IMPORTED_MODULE_0_axios___default.a.put('/Signature-for-mct/' + this.mctno.MCTNo).then(function (response) {
         console.log(response);
+        vm.fetchData();
+        vm.SignatureMCTBtnHide = false;
       });
-      this.fetchData();
     },
     declineMCT: function declineMCT() {
       this.SignatureMCTBtnHide = true;
       var vm = this;
-      __WEBPACK_IMPORTED_MODULE_0_axios___default.a.put('/decline-mct/' + this.mctno[0].MCTNo).then(function (response) {
+      __WEBPACK_IMPORTED_MODULE_0_axios___default.a.put('/decline-mct/' + this.mctno.MCTNo).then(function (response) {
         console.log(response);
       });
       this.fetchData();
@@ -1344,7 +1351,7 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
     },
     editMCTSave: function editMCTSave() {
       var vm = this;
-      __WEBPACK_IMPORTED_MODULE_0_axios___default.a.put('/update-mct/' + this.mctno[0].MCTNo, {
+      __WEBPACK_IMPORTED_MODULE_0_axios___default.a.put('/update-mct/' + this.mctno.MCTNo, {
         NewQuantity: this.QuantityArray,
         NewAddressTo: this.AddressToEdit
       }).then(function (response) {
@@ -1362,6 +1369,15 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
 
   components: {
     Longpress: __WEBPACK_IMPORTED_MODULE_1_vue_longpress___default.a
+  },
+  computed: {
+    AlreadySignatured: function AlreadySignatured() {
+      if (this.MCTMaster.users[0] != null && this.MCTMaster.users[0].pivot.Signature == '0' && this.MCTMaster.users[1] != null && this.MCTMaster.users[1].pivot.Signature == '0') {
+        return true;
+      } else {
+        return false;
+      }
+    }
   }
 });
 
@@ -1401,6 +1417,7 @@ module.exports = function enhanceError(error, config, code, response) {
 Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_0_axios__ = __webpack_require__(3);
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_0_axios___default = __webpack_require__.n(__WEBPACK_IMPORTED_MODULE_0_axios__);
+//
 //
 //
 //
@@ -1740,7 +1757,7 @@ var Component = __webpack_require__(4)(
   /* cssModules */
   null
 )
-Component.options.__file = "C:\\xampp\\htdocs\\warehouse\\resources\\assets\\js\\components\\CreateMCT.vue"
+Component.options.__file = "c:\\xampp\\htdocs\\warehouse\\resources\\assets\\js\\components\\CreateMCT.vue"
 if (Component.esModule && Object.keys(Component.esModule).some(function (key) {return key !== "default" && key !== "__esModule"})) {console.error("named exports are not supported in *.vue files.")}
 if (Component.options.functional) {console.error("[vue-loader] CreateMCT.vue: functional components are not supported with templates, they should use render functions.")}
 
@@ -1775,7 +1792,7 @@ var Component = __webpack_require__(4)(
   /* cssModules */
   null
 )
-Component.options.__file = "C:\\xampp\\htdocs\\warehouse\\resources\\assets\\js\\components\\MCTPreview.vue"
+Component.options.__file = "c:\\xampp\\htdocs\\warehouse\\resources\\assets\\js\\components\\MCTPreview.vue"
 if (Component.esModule && Object.keys(Component.esModule).some(function (key) {return key !== "default" && key !== "__esModule"})) {console.error("named exports are not supported in *.vue files.")}
 if (Component.options.functional) {console.error("[vue-loader] MCTPreview.vue: functional components are not supported with templates, they should use render functions.")}
 
@@ -1810,7 +1827,7 @@ var Component = __webpack_require__(4)(
   /* cssModules */
   null
 )
-Component.options.__file = "C:\\xampp\\htdocs\\warehouse\\resources\\assets\\js\\components\\MCTindex.vue"
+Component.options.__file = "c:\\xampp\\htdocs\\warehouse\\resources\\assets\\js\\components\\MCTindex.vue"
 if (Component.esModule && Object.keys(Component.esModule).some(function (key) {return key !== "default" && key !== "__esModule"})) {console.error("named exports are not supported in *.vue files.")}
 if (Component.options.functional) {console.error("[vue-loader] MCTindex.vue: functional components are not supported with templates, they should use render functions.")}
 
@@ -2025,15 +2042,17 @@ module.exports={render:function (){var _vm=this;var _h=_vm.$createElement;var _c
   })])]), _vm._v(" "), _c('div', {
     staticClass: "mct-index-table"
   }, [_c('table', [_vm._m(1), _vm._v(" "), _vm._l((_vm.indexData), function(data) {
-    return _c('tr', [_c('td', [_vm._v(_vm._s(data.MCTNo))]), _vm._v(" "), _c('td', [_vm._v(_vm._s(data.MCTDate))]), _vm._v(" "), _c('td', [_vm._v(_vm._s(data.Particulars))]), _vm._v(" "), _c('td', [_vm._v("\r\n          " + _vm._s(data.Issuedby)), _c('br'), _vm._v(" "), _c('i', {
+    return (data.users[0] != null) ? _c('tr', [_c('td', [_vm._v(_vm._s(data.MCTNo))]), _vm._v(" "), _c('td', [_vm._v(_vm._s(data.MCTDate))]), _vm._v(" "), _c('td', [_vm._v(_vm._s(data.Particulars))]), _vm._v(" "), _c('td', [_vm._v("\r\n          " + _vm._s(data.users[0].FullName)), _c('br'), _vm._v(" "), (data.users[0].pivot.Signature == '0') ? _c('i', {
       staticClass: "fa fa-check"
-    })]), _vm._v(" "), _c('td', [_vm._v("\r\n          " + _vm._s(data.Receivedby)), _c('br'), _vm._v(" "), (data.ReceivedbySignature != null) ? _c('i', {
-      staticClass: "fa fa-check"
-    }) : _vm._e(), _vm._v(" "), (data.IfDeclined == data.Receivedby) ? _c('i', {
+    }) : (data.users[0].pivot.Signature == '1') ? _c('i', {
       staticClass: "fa fa-times decliner"
-    }) : _vm._e()]), _vm._v(" "), _c('td', [_vm._v(_vm._s(data.AddressTo))]), _vm._v(" "), _c('td', [(data.ReceivedbySignature != null) ? _c('i', {
+    }) : _vm._e()]), _vm._v(" "), _c('td', [_vm._v("\r\n          " + _vm._s(data.users[1].FullName)), _c('br'), _vm._v(" "), (data.users[1].pivot.Signature == '0') ? _c('i', {
+      staticClass: "fa fa-check"
+    }) : (data.users[1].pivot.Signature == '1') ? _c('i', {
+      staticClass: "fa fa-times decliner"
+    }) : _vm._e()]), _vm._v(" "), _c('td', [_vm._v(_vm._s(data.AddressTo))]), _vm._v(" "), _c('td', [(data.Status == '0') ? _c('i', {
       staticClass: "fa fa-thumbs-up"
-    }) : (data.IfDeclined != null) ? _c('i', {
+    }) : (data.Status == '1') ? _c('i', {
       staticClass: "fa fa-times decliner"
     }) : _c('i', {
       staticClass: "fa fa-clock-o darker-blue"
@@ -2043,7 +2062,7 @@ module.exports={render:function (){var _vm=this;var _h=_vm.$createElement;var _c
       }
     }, [_c('i', {
       staticClass: "fa fa-eye"
-    })])])])
+    })])])]) : _vm._e()
   })], 2)]), _vm._v(" "), _c('div', {
     staticClass: "paginate-container"
   }, [_c('ul', {
@@ -2409,11 +2428,11 @@ module.exports = (
 /***/ (function(module, exports, __webpack_require__) {
 
 module.exports={render:function (){var _vm=this;var _h=_vm.$createElement;var _c=_vm._self._c||_h;
-  return _c('div', {
+  return ((this.MCTMaster.users != null)) ? _c('div', {
     staticClass: "print-MCT-wrap"
   }, [_c('div', {
     staticClass: "MCT-title"
-  }, [(_vm.MCTMaster.IssuedbySignature != null && _vm.MCTMaster.ReceivedbySignature != null) ? _c('span', [_c('form', {
+  }, [(_vm.AlreadySignatured) ? _c('span', [_c('form', {
     attrs: {
       "action": "/MCT.pdf",
       "method": "get"
@@ -2421,12 +2440,12 @@ module.exports={render:function (){var _vm=this;var _h=_vm.$createElement;var _c
   }, [_c('button', {
     attrs: {
       "type": "submit",
-      "value": this.mctno[0].MCTNo,
+      "value": this.mctno.MCTNo,
       "name": "MCTNo"
     }
   }, [_c('i', {
     staticClass: "fa fa-file-pdf-o"
-  }), _vm._v(".pdf")])])]) : (((_vm.user.FullName == _vm.MCTMaster.Issuedby) && (_vm.MCTMaster.ReceivedbySignature == null) && (_vm.MCTMaster.IfDeclined == null))) ? _c('div', {
+  }), _vm._v(".pdf")])])]) : (((_vm.user.id == _vm.MCTMaster.users[0].id) && (_vm.MCTMaster.users[1].pivot.Signature == null) && (_vm.MCTMaster.users[0].pivot.Signature != '1'))) ? _c('div', {
     staticClass: "empty-div-left mct-edit-container"
   }, [_c('span', {
     staticClass: "edit-mct",
@@ -2462,11 +2481,11 @@ module.exports={render:function (){var _vm=this;var _h=_vm.$createElement;var _c
         _vm.ShowEdit = false, _vm.editMCTSave()
       }
     }
-  }, [_vm._v("Save")])])]) : _c('span'), _vm._v(" "), (_vm.MCTMaster.IssuedbySignature != null && _vm.MCTMaster.ReceivedbySignature != null) ? _c('span', [(_vm.MRTCheck == null && _vm.user.Role == 4 || _vm.MRTCheck == null && _vm.user.Role == 3) ? _c('span', [_c('div', {
+  }, [_vm._v("Save")])])]) : _c('span'), _vm._v(" "), (_vm.AlreadySignatured) ? _c('span', [((((_vm.MRTCheck == null) && (_vm.user.Role == 4)) || ((_vm.MRTCheck == null) && (_vm.user.Role == 3)))) ? _c('span', [_c('div', {
     staticClass: "Create-MRT-btn"
   }, [_c('a', {
     attrs: {
-      "href": '/MRT-create/' + this.mctno[0].MCTNo
+      "href": '/MRT-create/' + this.mctno.MCTNo
     }
   }, [_vm._m(0)])])]) : (_vm.MRTCheck != null) ? _c('span', [_c('div', {
     staticClass: "View-MRT-btn"
@@ -2476,7 +2495,7 @@ module.exports={render:function (){var _vm=this;var _h=_vm.$createElement;var _c
     attrs: {
       "href": '/mrt-preview-page/' + _vm.MRTCheck
     }
-  }, [_vm._m(1)])])])]) : _c('span', [_vm._v("\n        No MRT generated yet\n      ")])]) : (((_vm.MCTMaster.Receivedby == _vm.user.FullName) && (_vm.MCTMaster.Receivedby != null) && (_vm.MCTMaster.IfDeclined == null))) ? _c('span', [_c('div', {
+  }, [_vm._m(1)])])])]) : _c('span', [_vm._v("\n        No MRT generated yet\n      ")])]) : (((_vm.MCTMaster.users[0].pivot.Signature == '0') && (_vm.MCTMaster.users[1].id == _vm.user.id) && (_vm.MCTMaster.users[1].pivot.Signature == null) || (_vm.MCTMaster.users[0].id == _vm.user.id) && (_vm.MCTMaster.users[0].pivot.Signature == null))) ? _c('span', [_c('div', {
     staticClass: "signature-mct-btn",
     class: {
       'hide': _vm.SignatureMCTBtnHide
@@ -2492,7 +2511,7 @@ module.exports={render:function (){var _vm=this;var _h=_vm.$createElement;var _c
     }
   }, [_c('i', {
     staticClass: "fa fa-pencil"
-  }), _vm._v(" Signature\r\n      ")]), _vm._v(" "), _c('longpress', {
+  }), _vm._v(" Signature\r\n        ")]), _vm._v(" "), _c('longpress', {
     attrs: {
       "id": "declineMCT",
       "duration": "3",
@@ -2503,15 +2522,15 @@ module.exports={render:function (){var _vm=this;var _h=_vm.$createElement;var _c
     }
   }, [_c('i', {
     staticClass: "fa fa-times"
-  }), _vm._v(" Decline\r\n      ")])], 1)]) : _vm._e()]), _vm._v(" "), _c('div', {
+  }), _vm._v(" Decline\r\n        ")])], 1)]) : _vm._e()]), _vm._v(" "), _c('div', {
     staticClass: "bondpaper-preview"
   }, [_vm._m(2), _vm._v(" "), _c('div', {
     staticClass: "MCTMaster-details"
   }, [_c('div', {
     staticClass: "MCTmaster-left"
-  }, [_c('ul', [_c('li', [_c('label', [_vm._v("Particulars :")]), _c('h2', [_vm._v(_vm._s(_vm.MCTMaster.Particulars))])]), _vm._v(" "), _c('li', [_c('label', [_vm._v("Address :")]), _c('h2', {
+  }, [_c('ul', [_c('li', [_c('label', [_vm._v("Particulars :")]), _c('h2', [_vm._v(_vm._s(_vm.MCTMaster.Particulars))])]), _vm._v(" "), _c('li', [_c('label', [_vm._v("Address :")]), _vm._v(" "), _c('h2', {
     class: _vm.ShowEdit == true ? 'hide' : 'true'
-  }, [_vm._v(_vm._s(_vm.MCTMaster.AddressTo))]), (_vm.MCTMaster.ReceivedbySignature != null || _vm.MCTMaster.IssuedbySignature != null) ? _c('h2', {
+  }, [_vm._v(_vm._s(_vm.MCTMaster.AddressTo))]), _vm._v(" "), _c('h2', {
     class: _vm.ShowEdit == true ? 'show' : 'hide'
   }, [_c('input', {
     directives: [{
@@ -2532,7 +2551,7 @@ module.exports={render:function (){var _vm=this;var _h=_vm.$createElement;var _c
         _vm.AddressToEdit = _vm.MCTMaster.AddressTo = $event.target.value
       }
     }
-  })]) : _vm._e()])])]), _vm._v(" "), _c('div', {
+  })])])])]), _vm._v(" "), _c('div', {
     staticClass: "MCTmaster-right"
   }, [_c('ul', [_c('li', [_c('label', [_vm._v("MIRS No :")]), _c('h2', [_vm._v(_vm._s(_vm.MCTMaster.MIRSNo))])]), _vm._v(" "), _c('li', [_c('label', [_vm._v("MCT Date : ")]), _c('h2', [_vm._v(_vm._s(_vm.MCTMaster.MCTDate))])]), _vm._v(" "), _c('li', [_c('label', [_vm._v("MCT No.:")]), _c('h2', [_vm._v(_vm._s(_vm.MCTMaster.MCTNo))])])])])]), _vm._v(" "), _c('div', {
     staticClass: "MCTpreview"
@@ -2578,12 +2597,14 @@ module.exports={render:function (){var _vm=this;var _h=_vm.$createElement;var _c
     staticClass: "issuedby-data"
   }, [_c('div', {
     staticClass: "signature-issuedmct"
-  }, [(_vm.MCTMaster.IssuedbySignature != null) ? _c('img', {
+  }, [(_vm.MCTMaster.users[0].pivot.Signature == '0') ? _c('img', {
     attrs: {
-      "src": '/storage/signatures/' + _vm.MCTMaster.IssuedbySignature,
+      "src": '/storage/signatures/' + _vm.MCTMaster.users[0].Signature,
       "alt": "signature"
     }
-  }) : _vm._e()]), _vm._v(" "), _c('h1', [_vm._v(_vm._s(_vm.MCTMaster.Issuedby))]), _vm._v(" "), _c('h5', [_vm._v(_vm._s(_vm.MCTMaster.IssuedbyPosition))])])]), _vm._v(" "), _c('div', {
+  }) : _vm._e()]), _vm._v(" "), _c('h1', [_vm._v(_vm._s(_vm.MCTMaster.users[0].FullName)), (_vm.MCTMaster.users[0].pivot.Signature == '1') ? _c('i', {
+    staticClass: "fa fa-times decliner"
+  }) : _vm._e()]), _vm._v(" "), _c('h5', [_vm._v(_vm._s(_vm.MCTMaster.users[0].Position))])])]), _vm._v(" "), _c('div', {
     staticClass: "mct-signature-right"
   }, [_c('div', {
     staticClass: "recievedby-label"
@@ -2591,14 +2612,14 @@ module.exports={render:function (){var _vm=this;var _h=_vm.$createElement;var _c
     staticClass: "recievedby-data"
   }, [_c('div', {
     staticClass: "signature-recievedmct"
-  }, [(_vm.MCTMaster.ReceivedbySignature != null) ? _c('img', {
+  }, [(_vm.MCTMaster.users[1].pivot.Signature == '0') ? _c('img', {
     attrs: {
-      "src": '/storage/signatures/' + _vm.MCTMaster.ReceivedbySignature,
+      "src": '/storage/signatures/' + _vm.MCTMaster.users[0].Signature,
       "alt": "signature"
     }
-  }) : _vm._e()]), _vm._v(" "), _c('h1', [_vm._v(_vm._s(_vm.MCTMaster.Receivedby) + " "), (_vm.MCTMaster.IfDeclined == _vm.MCTMaster.Receivedby) ? _c('i', {
+  }) : _vm._e()]), _vm._v(" "), _c('h1', [_vm._v(_vm._s(_vm.MCTMaster.users[1].FullName) + " "), (_vm.MCTMaster.users[1].pivot.Signature == '1') ? _c('i', {
     staticClass: "fa fa-times decliner"
-  }) : _vm._e()]), _vm._v(" "), _c('h5', [_vm._v(_vm._s(_vm.MCTMaster.ReceivedbyPosition))])])])])])])
+  }) : _vm._e()]), _vm._v(" "), _c('h5', [_vm._v(_vm._s(_vm.MCTMaster.users[1].Position))])])])])])]) : _vm._e()
 },staticRenderFns: [function (){var _vm=this;var _h=_vm.$createElement;var _c=_vm._self._c||_h;
   return _c('button', {
     staticClass: "bttn-unite bttn-xs bttn-primary",

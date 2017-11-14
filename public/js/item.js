@@ -27795,8 +27795,9 @@ Vue.use(__WEBPACK_IMPORTED_MODULE_1_vue_numeric___default.a);
         Description: this.Description,
         AlertIfBelow: this.AlertBelow
       }).then(function (response) {
-        console.log(response);
         if (response.data.error == null) {
+          console.log(response);
+          vm.RecentAddedAndSearch();
           Vue.set(vm.$data, 'AccountCode', '');
           Vue.set(vm.$data, 'ItemCode', '');
           Vue.set(vm.$data, 'CurrentQuantity', '');
@@ -27814,7 +27815,6 @@ Vue.use(__WEBPACK_IMPORTED_MODULE_1_vue_numeric___default.a);
         Vue.set(vm.$data, 'laravelerrors', error.response.data);
         Vue.set(vm.$data, 'successAlerts', '');
       });
-      this.RecentAddedAndSearch();
     },
     addUnitRow: function addUnitRow() {
       var vm = this;
@@ -27822,13 +27822,13 @@ Vue.use(__WEBPACK_IMPORTED_MODULE_1_vue_numeric___default.a);
         NewUnit: this.UnitNew
       }).then(function (response) {
         console.log(response);
+        vm.getUnitlist();
         Vue.set(vm.$data, 'UnitIsActive', false);
         Vue.set(vm.$data, 'successAlerts', 'Successfully added unit.');
       }, function (error) {
         console.log(error);
         Vue.set(vm.$data, 'laravelerrors', error.response.data);
       });
-      this.getUnitlist();
     },
     getUnitlist: function getUnitlist() {
       var vm = this;
@@ -27841,10 +27841,10 @@ Vue.use(__WEBPACK_IMPORTED_MODULE_1_vue_numeric___default.a);
       var vm = this;
       __WEBPACK_IMPORTED_MODULE_0_axios___default.a.delete('/delete-unit/' + this.unitdelete).then(function (response) {
         console.log(response);
+        vm.getUnitlist();
         Vue.set(vm.$data, 'deleteunitIsActive', false);
         Vue.set(vm.$data, 'successAlerts', 'Unit removed.');
       });
-      this.getUnitlist();
     }
   },
   computed: {
@@ -28383,7 +28383,7 @@ var Component = __webpack_require__(4)(
   /* cssModules */
   null
 )
-Component.options.__file = "C:\\xampp\\htdocs\\warehouse\\resources\\assets\\js\\components\\AddItemToList.vue"
+Component.options.__file = "c:\\xampp\\htdocs\\warehouse\\resources\\assets\\js\\components\\AddItemToList.vue"
 if (Component.esModule && Object.keys(Component.esModule).some(function (key) {return key !== "default" && key !== "__esModule"})) {console.error("named exports are not supported in *.vue files.")}
 if (Component.options.functional) {console.error("[vue-loader] AddItemToList.vue: functional components are not supported with templates, they should use render functions.")}
 
@@ -28443,7 +28443,7 @@ var Component = __webpack_require__(4)(
   /* cssModules */
   null
 )
-Component.options.__file = "C:\\xampp\\htdocs\\warehouse\\resources\\assets\\js\\components\\Welcome.vue"
+Component.options.__file = "c:\\xampp\\htdocs\\warehouse\\resources\\assets\\js\\components\\Welcome.vue"
 if (Component.esModule && Object.keys(Component.esModule).some(function (key) {return key !== "default" && key !== "__esModule"})) {console.error("named exports are not supported in *.vue files.")}
 if (Component.options.functional) {console.error("[vue-loader] Welcome.vue: functional components are not supported with templates, they should use render functions.")}
 

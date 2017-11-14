@@ -1632,6 +1632,7 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
         Remarks: this.Remarks
       }).then(function (response) {
         console.log(response);
+        vm.FetchSessionStored();
         Vue.set(vm.$data, 'laravelerrors', '');
         Vue.set(vm.$data, 'ownerrors', '');
         Vue.set(vm.$data, 'successAlerts', 'Added successfully');
@@ -1643,7 +1644,6 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
         Vue.set(vm.$data, 'laravelerrors', error.response.data);
         console.log(error);
       });
-      this.FetchSessionStored();
     },
     AddtoSessionForWarehouse: function AddtoSessionForWarehouse(data, count) {
       var vm = this;
@@ -1656,6 +1656,7 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
         Remarks: this.RemarksForWHouse[count]
       }).then(function (response) {
         console.log(response);
+        vm.FetchSessionStored();
         if (response.data.error != null) {
           Vue.set(vm.$data, 'ownerrors', response.data.error);
           Vue.set(vm.$data, 'laravelerrors', '');
@@ -1670,7 +1671,6 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
         Vue.set(vm.$data, 'ownerrors', '');
         Vue.set(vm.$data, 'successAlerts', '');
       });
-      this.FetchSessionStored();
     },
     FetchSessionStored: function FetchSessionStored() {
       var vm = this;
@@ -1691,11 +1691,11 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
       var vm = this;
       __WEBPACK_IMPORTED_MODULE_0_axios___default.a.delete('DeleteSession/' + key).then(function (response) {
         console.log(response);
+        vm.FetchSessionStored();
         Vue.set(vm.$data, 'successAlerts', 'Removed successfully.');
         Vue.set(vm.$data, 'laravelerrors', '');
         Vue.set(vm.$data, 'ownerrors', '');
       });
-      this.FetchSessionStored();
     },
     fetchallUnit: function fetchallUnit() {
       var vm = this;
@@ -5723,7 +5723,7 @@ var Component = __webpack_require__(4)(
   /* cssModules */
   null
 )
-Component.options.__file = "C:\\xampp\\htdocs\\warehouse\\resources\\assets\\js\\components\\FullRVpreview.vue"
+Component.options.__file = "c:\\xampp\\htdocs\\warehouse\\resources\\assets\\js\\components\\FullRVpreview.vue"
 if (Component.esModule && Object.keys(Component.esModule).some(function (key) {return key !== "default" && key !== "__esModule"})) {console.error("named exports are not supported in *.vue files.")}
 if (Component.options.functional) {console.error("[vue-loader] FullRVpreview.vue: functional components are not supported with templates, they should use render functions.")}
 
@@ -5854,7 +5854,7 @@ var Component = __webpack_require__(4)(
   /* cssModules */
   null
 )
-Component.options.__file = "C:\\xampp\\htdocs\\warehouse\\resources\\assets\\js\\components\\RVCreate.vue"
+Component.options.__file = "c:\\xampp\\htdocs\\warehouse\\resources\\assets\\js\\components\\RVCreate.vue"
 if (Component.esModule && Object.keys(Component.esModule).some(function (key) {return key !== "default" && key !== "__esModule"})) {console.error("named exports are not supported in *.vue files.")}
 if (Component.options.functional) {console.error("[vue-loader] RVCreate.vue: functional components are not supported with templates, they should use render functions.")}
 
@@ -5889,7 +5889,7 @@ var Component = __webpack_require__(4)(
   /* cssModules */
   null
 )
-Component.options.__file = "C:\\xampp\\htdocs\\warehouse\\resources\\assets\\js\\components\\RVindex.vue"
+Component.options.__file = "c:\\xampp\\htdocs\\warehouse\\resources\\assets\\js\\components\\RVindex.vue"
 if (Component.esModule && Object.keys(Component.esModule).some(function (key) {return key !== "default" && key !== "__esModule"})) {console.error("named exports are not supported in *.vue files.")}
 if (Component.options.functional) {console.error("[vue-loader] RVindex.vue: functional components are not supported with templates, they should use render functions.")}
 

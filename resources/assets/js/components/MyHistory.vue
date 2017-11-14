@@ -17,7 +17,7 @@
       Histories of
       <select v-model="searchID" v-on:change="NewNameSelected()">
         <option :value="null">{{user.FullName}}</option>
-        <option :value="name.FullName" v-for="name in activenames">{{name.FullName}}</option>
+        <option :value="data.id" v-for="data in activeuser">{{data.FullName}}</option>
       </select>
     </div>
     <div v-else>
@@ -30,9 +30,6 @@
       <tr>
         <th class="left-part">MIRS No</th>
         <th>Date</th>
-        <th>Requisitioner</th>
-        <th>Recommended by</th>
-        <th>Approved by</th>
         <th>Purpose</th>
         <th>Status</th>
         <th class="right-part">Show</th>
@@ -40,25 +37,10 @@
       <tr v-if="mirsResults!=null" v-for="mirs in mirsResults">
         <td>{{mirs.MIRSNo}}</td>
         <td>{{mirs.MIRSDate}}</td>
-        <td>
-          {{mirs.Preparedby}}<br>
-          <i class="fa fa-check"></i>
-          <i class="fa fa-times decliner" v-if="mirs.Preparedby==mirs.IfDeclined"></i>
-        </td>
-        <td>
-          {{mirs.Recommendedby}}<br>
-          <i class="fa fa-check" v-if="mirs.RecommendSignature!=null||mirs.ManagerReplacerSignature!=null"></i>
-          <i class="fa fa-times decliner" v-if="mirs.Recommendedby==mirs.IfDeclined"></i>
-        </td>
-        <td>
-          {{mirs.Approvedby}}<br>
-          <i class="fa fa-check" v-if="mirs.ApproveSignature!=null||mirs.ApprovalReplacerSignature!=null"></i>
-          <i class="fa fa-times decliner" v-if="mirs.Approvedby==mirs.IfDeclined"></i>
-        </td>
         <td>{{mirs.Purpose}}</td>
         <td>
-          <i v-if="(((mirs.RecommendSignature!=null)||(mirs.ManagerReplacerSignature!=null))&&((mirs.ApproveSignature!=null)||(mirs.ApprovalReplacerSignature!=null)))" class="fa fa-thumbs-up"></i>
-          <i v-else-if="mirs.IfDeclined!=null" class="fa fa-times decliner"></i>
+          <i v-if="mirs.Status==0" class="fa fa-thumbs-up"></i>
+          <i v-else-if="mirs.Status==1" class="fa fa-times decliner"></i>
           <i v-else class="fa fa-clock-o"></i>
         </td>
         <td><a v-bind:href="'/previewFullMIRS/'+mirs.MIRSNo"><i class="fa fa-eye"></i></a></td>
@@ -68,7 +50,6 @@
       <tr>
         <th class="left-part">MCT No.</th>
         <th>MCTDate</th>
-        <th>Receiver</th>
         <th>Addressed to</th>
         <th>Particular</th>
         <th>Status</th>
@@ -77,14 +58,11 @@
       <tr v-if="mctResults!=null" v-for="mct in mctResults">
         <td>{{mct.MCTNo}}</td>
         <td>{{mct.MCTDate}}</td>
-        <td>{{mct.Receivedby}}
-          <i v-if="mct.ReceivedbySignature!=null" class="fa fa-check"></i>
-        </td>
         <td>{{mct.AddressTo}}</td>
         <td>{{mct.Particulars}}</td>
         <td>
-          <i v-if="mct.ReceivedbySignature!=null" class="fa fa-thumbs-up"></i>
-          <i v-else-if="mct.IfDeclined!=null" class="fa fa-times decliner"></i>
+          <i v-if="mct.Status=='0'" class="fa fa-thumbs-up"></i>
+          <i v-else-if="mct.Status=='1'" class="fa fa-times decliner"></i>
           <i v-else class="fa fa-clock-o"></i>
         </td>
         <td><a :href="'/preview-mct-page-only/'+mct.MCTNo"><i class="fa fa-eye"></i></a></td>
@@ -224,7 +202,7 @@
 <script>
   import axios from 'axios';
   export default {
-    props:['user','activenames'],
+    props:['user','activeuser'],
      data () {
         return{
           searchmonth:'',
@@ -254,7 +232,7 @@
            var IDofuser=this.searchID;
          }
          var vm=this;
-         axios.get(`/search-my-mirs-history?PreparedbyId=`+IDofuser+`&YearMonth=`+this.searchmonth+`&page=`+page,{
+         axios.get(`/search-my-mirs-history?PreparedById=`+IDofuser+`&YearMonth=`+this.searchmonth+`&page=`+page,{
            YearMonth:this.searchmonth,
          }).then(function(response)
          {
@@ -267,13 +245,13 @@
        {
          if (this.searchID==null)
          {
-           var fullname=this.user.FullName;
+           var receiverId=this.user.id;
          }else
          {
-           var fullname=this.searchID;
+           var receiverId=this.searchID;
          }
          var vm=this;
-         axios.get(`/search-my-mct-history?Receivedby=`+fullname+`&YearMonth=`+this.searchmonth+`&page=`+page,{
+         axios.get(`/search-my-mct-history?ReceivedById=`+receiverId+`&YearMonth=`+this.searchmonth+`&page=`+page,{
          }).then(function(response)
          {
            console.log(response);

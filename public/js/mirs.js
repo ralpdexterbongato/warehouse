@@ -1120,6 +1120,7 @@ function _defineProperty(obj, key, value) { if (key in obj) { Object.definePrope
       }).then(function (response) {
         console.log(response);
         if (response.data.error == null) {
+          vm.fetchAddedSession();
           Vue.set(vm.$data, 'successAlerts', 'Successfully added !');
           Vue.set(vm.$data, 'ownerrors', '');
           Vue.set(vm.$data, 'laravelerrors', '');
@@ -1132,19 +1133,18 @@ function _defineProperty(obj, key, value) { if (key in obj) { Object.definePrope
         console.log(error);
         Vue.set(vm.$data, 'laravelerrors', error.response.data);
       });
-      this.fetchAddedSession();
     },
     deleteSession: function deleteSession(code) {
       var vm = this;
       __WEBPACK_IMPORTED_MODULE_1_axios___default.a.delete('/removeSessions/' + code, {}).then(function (response) {
         console.log(response);
+        vm.fetchAddedSession();
         Vue.set(vm.$data, 'ownerrors', '');
         Vue.set(vm.$data, 'laravelerrors', '');
         Vue.set(vm.$data, 'successAlerts', 'Successfully removed.');
       }, function (error) {
         console.log(error);
       });
-      this.fetchAddedSession();
     },
     fetchAddedSession: function fetchAddedSession() {
       var vm = this;
@@ -1561,21 +1561,28 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
       }
     },
     managerReplaceistrue: function managerReplaceistrue() {
-      if (this.MIRSMaster.users[3] != null && this.MIRSMaster.users[3].id == this.user.id && this.MIRSMaster.users[3].pivot.SignatureType == 'ManagerReplacer' && this.MIRSMaster.users[3].pivot.Signature == null || this.MIRSMaster.users[4] != null && this.MIRSMaster.users[4].id == this.user.id && this.MIRSMaster.users[4].pivot.SignatureType == 'ManagerReplacer' && this.MIRSMaster.users[3].pivot.Signature == null) {
+      if (this.MIRSMaster.users[3] != null && this.MIRSMaster.users[3].id == this.user.id && this.MIRSMaster.users[3].pivot.SignatureType == 'ManagerReplacer' && this.MIRSMaster.users[3].pivot.Signature == null || this.MIRSMaster.users[4] != null && this.MIRSMaster.users[4].id == this.user.id && this.MIRSMaster.users[4].pivot.SignatureType == 'ManagerReplacer' && this.MIRSMaster.users[4].pivot.Signature == null) {
+        return true;
+      } else {
+        return false;
+      }
+    },
+    RequisitionerCanSignature: function RequisitionerCanSignature() {
+      if (this.MIRSMaster.users[0].id == this.user.id && this.MIRSMaster.users[0].pivot.Signature == null && this.MIRSMaster.SignatureTurn == '0') {
         return true;
       } else {
         return false;
       }
     },
     ManagerCansignature: function ManagerCansignature() {
-      if (this.MIRSMaster.users[1].id == this.user.id && this.MIRSMaster.users[1].pivot.Signature == null) {
+      if (this.MIRSMaster.users[1].id == this.user.id && this.MIRSMaster.users[1].pivot.Signature == null && this.MIRSMaster.users[0].pivot.Signature == '0') {
         return true;
       } else {
         return false;
       }
     },
     GMCanSignature: function GMCanSignature() {
-      if (this.MIRSMaster.users[2].id == this.user.id && this.MIRSMaster.users[2].pivot.Signature == null && (this.MIRSMaster.users[1].pivot.Signature == '0' || this.ManagerReplacerData != null && this.MIRSMaster.users[1].pivot.Signature == '0')) {
+      if (this.MIRSMaster.users[2].id == this.user.id && this.MIRSMaster.users[2].pivot.Signature == null && (this.MIRSMaster.users[1].pivot.Signature == '0' || this.ManagerReplacerData != null && this.ManagerReplacerData.pivot.Signature == '0')) {
         return true;
       } else {
         return false;
@@ -1606,7 +1613,7 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
       }
     },
     UserIsApprovalReplacer: function UserIsApprovalReplacer() {
-      if (this.MIRSMaster.users[1].pivot.Signature == '0' && this.MIRSMaster.users[3] != null && this.user.id == this.MIRSMaster.users[3].id && this.MIRSMaster.users[3].pivot.Signature == null && this.MIRSMaster.users[3].pivot.SignatureType == 'ApprovalReplacer' && this.MIRSMaster.users[2].pivot.Signature == null || this.MIRSMaster.users[1].pivot.Signature == '0' && this.MIRSMaster.users[4] != null && this.user.id == this.MIRSMaster.users[4].id && this.MIRSMaster.users[4].pivot.Signature == null && this.MIRSMaster.users[4].pivot.SignatureType == 'ApprovalReplacer' && this.MIRSMaster.users[2].pivot.Signature == null) {
+      if ((this.MIRSMaster.users[1].pivot.Signature == '0' || this.ManagerReplacerData != null && this.ManagerReplacerData.pivot.Signature == '0') && this.MIRSMaster.users[3] != null && this.user.id == this.MIRSMaster.users[3].id && this.MIRSMaster.users[3].pivot.Signature == null && this.MIRSMaster.users[3].pivot.SignatureType == 'ApprovalReplacer' && this.MIRSMaster.users[2].pivot.Signature == null || (this.MIRSMaster.users[1].pivot.Signature == '0' || this.ManagerReplacerData != null && this.ManagerReplacerData.pivot.Signature == '0') && this.MIRSMaster.users[4] != null && this.user.id == this.MIRSMaster.users[4].id && this.MIRSMaster.users[4].pivot.Signature == null && this.MIRSMaster.users[4].pivot.SignatureType == 'ApprovalReplacer' && this.MIRSMaster.users[2].pivot.Signature == null) {
         return true;
       } else {
         return false;
@@ -1614,6 +1621,13 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
     },
     RecommendedBySignatureNull: function RecommendedBySignatureNull() {
       if (this.user.id == this.MIRSMaster.users[0].id && this.MIRSMaster.users[1].pivot.Signature == null && this.MIRSMaster.users[3] != null && this.MIRSMaster.users[3].pivot.Signature == null && this.MIRSMaster.users[3].pivot.SignatureType == 'ManagerReplacer' || this.user.id == this.MIRSMaster.users[0].id && this.MIRSMaster.users[1].pivot.Signature == null && this.MIRSMaster.users[4] != null && this.MIRSMaster.users[4].pivot.Signature == null && this.MIRSMaster.users[4].pivot.SignatureType == 'ManagerReplacer' || this.user.id == this.MIRSMaster.users[0].id && this.MIRSMaster.users[1].pivot.Signature == null && this.MIRSMaster.users[3] == null || this.user.id == this.MIRSMaster.users[0].id && this.MIRSMaster.users[1].pivot.Signature == null && this.MIRSMaster.users[4] == null) {
+        return true;
+      } else {
+        return false;
+      }
+    },
+    RequisitionerAlreadySignatured: function RequisitionerAlreadySignatured() {
+      if (this.MIRSMaster.users[0].pivot.Signature == '0' && this.MIRSMaster.SignatureTurn == '1') {
         return true;
       } else {
         return false;
@@ -1631,8 +1645,6 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
 Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_0_axios__ = __webpack_require__(3);
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_0_axios___default = __webpack_require__.n(__WEBPACK_IMPORTED_MODULE_0_axios__);
-//
-//
 //
 //
 //
@@ -1974,7 +1986,7 @@ var Component = __webpack_require__(4)(
   /* cssModules */
   null
 )
-Component.options.__file = "C:\\xampp\\htdocs\\warehouse\\resources\\assets\\js\\components\\MIRSCreate.vue"
+Component.options.__file = "c:\\xampp\\htdocs\\warehouse\\resources\\assets\\js\\components\\MIRSCreate.vue"
 if (Component.esModule && Object.keys(Component.esModule).some(function (key) {return key !== "default" && key !== "__esModule"})) {console.error("named exports are not supported in *.vue files.")}
 if (Component.options.functional) {console.error("[vue-loader] MIRSCreate.vue: functional components are not supported with templates, they should use render functions.")}
 
@@ -2085,7 +2097,7 @@ var Component = __webpack_require__(4)(
   /* cssModules */
   null
 )
-Component.options.__file = "C:\\xampp\\htdocs\\warehouse\\resources\\assets\\js\\components\\MIRSPreview.vue"
+Component.options.__file = "c:\\xampp\\htdocs\\warehouse\\resources\\assets\\js\\components\\MIRSPreview.vue"
 if (Component.esModule && Object.keys(Component.esModule).some(function (key) {return key !== "default" && key !== "__esModule"})) {console.error("named exports are not supported in *.vue files.")}
 if (Component.options.functional) {console.error("[vue-loader] MIRSPreview.vue: functional components are not supported with templates, they should use render functions.")}
 
@@ -2120,7 +2132,7 @@ var Component = __webpack_require__(4)(
   /* cssModules */
   null
 )
-Component.options.__file = "C:\\xampp\\htdocs\\warehouse\\resources\\assets\\js\\components\\MIRSindex.vue"
+Component.options.__file = "c:\\xampp\\htdocs\\warehouse\\resources\\assets\\js\\components\\MIRSindex.vue"
 if (Component.esModule && Object.keys(Component.esModule).some(function (key) {return key !== "default" && key !== "__esModule"})) {console.error("named exports are not supported in *.vue files.")}
 if (Component.options.functional) {console.error("[vue-loader] MIRSindex.vue: functional components are not supported with templates, they should use render functions.")}
 
@@ -2627,9 +2639,11 @@ module.exports={render:function (){var _vm=this;var _h=_vm.$createElement;var _c
   })])]), _vm._v(" "), _c('div', {
     staticClass: "table-mirs-list"
   }, [_c('table', [_vm._m(1), _vm._v(" "), _vm._l((_vm.SearchResult), function(result) {
-    return (result.users[0] != null) ? _c('tr', [_c('td', [_vm._v(_vm._s(result.MIRSNo))]), _vm._v(" "), _c('td', [_vm._v(_vm._s(result.Purpose))]), _vm._v(" "), _c('td', [_vm._v(_vm._s(result.users[0].FullName) + "\r\n             "), _c('i', {
+    return (result.users[0] != null) ? _c('tr', [_c('td', [_vm._v(_vm._s(result.MIRSNo))]), _vm._v(" "), _c('td', [_vm._v(_vm._s(result.Purpose))]), _vm._v(" "), _c('td', [_vm._v(_vm._s(result.users[0].FullName) + "\r\n            "), ((result.users[0].pivot.Signature == '0')) ? _c('i', {
       staticClass: "fa fa-check"
-    })]), _vm._v(" "), _c('td', [_vm._v(_vm._s(result.users[1].FullName) + "\r\n             "), (((result.users[1].pivot.Signature == '0') || ((result.users[3] != null) && (result.users[3].pivot.Signature == '0') && (result.users[3].pivot.SignatureType == 'ManagerReplacer')) || ((result.users[4] != null) && (result.users[4].pivot.Signature == '0') && (result.users[4].pivot.SignatureType == 'ManagerReplacer')))) ? _c('i', {
+    }) : (result.users[0].pivot.Signature == '1') ? _c('i', {
+      staticClass: "fa fa-times decliner"
+    }) : _vm._e()]), _vm._v(" "), _c('td', [_vm._v(_vm._s(result.users[1].FullName) + "\r\n             "), (((result.users[1].pivot.Signature == '0') || ((result.users[3] != null) && (result.users[3].pivot.Signature == '0') && (result.users[3].pivot.SignatureType == 'ManagerReplacer')) || ((result.users[4] != null) && (result.users[4].pivot.Signature == '0') && (result.users[4].pivot.SignatureType == 'ManagerReplacer')))) ? _c('i', {
       staticClass: "fa fa-check"
     }) : (result.users[1].pivot.Signature == '1') ? _c('i', {
       staticClass: "fa fa-times decliner"
@@ -2798,7 +2812,7 @@ module.exports={render:function (){var _vm=this;var _h=_vm.$createElement;var _c
     }
   }, [_c('i', {
     staticClass: "fa fa-pencil"
-  }), _vm._v(" I can't\r\n          ")])], 1)]) : _vm._e(), _vm._v(" "), (((_vm.ManagerCansignature) && (_vm.NoManagerReplacerSignature) || ((_vm.GMCanSignature) && (_vm.NoApprovalReplacerSignature)))) ? _c('span', [_c('div', {
+  }), _vm._v(" I can't\r\n          ")])], 1)]) : _vm._e(), _vm._v(" "), (((_vm.ManagerCansignature) && (_vm.NoManagerReplacerSignature) || ((_vm.GMCanSignature) && (_vm.NoApprovalReplacerSignature)) || (_vm.RequisitionerCanSignature))) ? _c('span', [_c('div', {
     staticClass: "middle-status",
     class: {
       'hide': _vm.SignatureBtnHide
@@ -2966,7 +2980,7 @@ module.exports={render:function (){var _vm=this;var _h=_vm.$createElement;var _c
     }
   }, [_c('i', {
     staticClass: "fa fa-times color-red"
-  }), _vm._v("cancel")])])]) : _vm._e(), _vm._v(" "), (_vm.RecommendedBySignatureNull) ? _c('i', {
+  }), _vm._v("cancel")])])]) : _vm._e(), _vm._v(" "), (((_vm.RecommendedBySignatureNull) && (_vm.RequisitionerAlreadySignatured))) ? _c('i', {
     staticClass: "color-blue",
     class: [_vm.MIRSMaster.ManagerReplacer == null ? 'fa fa-users' : 'fa fa-clock-o'],
     on: {

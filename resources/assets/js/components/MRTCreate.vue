@@ -41,8 +41,8 @@
     <div class="MRT-middle-form">
       <div class="mrt-form">
         <div class="returner-form">
-          Returned by:<br> <h3>{{mctdata[0].Receivedby}}</h3>
-          <p>{{mctdata[0].ReceivedbyPosition}}</p>
+          Returned by:<br> <h3>{{mctdata[0].receiver_m_c_t[0].FullName}}</h3>
+          <p>{{mctdata[0].receiver_m_c_t[0].Position}}</p>
         </div>
         <input autocomplete="off" type="text" v-model="remarks" placeholder="Remarks">
         <longpress duration="3" class="mrt-gobtn" :class="{'hide':HideSubmitBtn}"  :on-confirm="SubmitMRT" pressing-text="Confirm in {$rcounter}" action-text="Please wait">

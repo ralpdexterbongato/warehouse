@@ -4,12 +4,13 @@
     <meta http-equiv="Content-Type" content="text/html; charset=utf-8"/>
     <meta name="viewport" content="width=device-width, initial-scale=1">
     <meta name="csrf-token" content="{{ csrf_token() }}">
-    <meta name="Developer" content="Ralp Dexter Bongato & Zeshrou Añuber">
+    <meta name="Developers" content="Group 2 IT MDC 2018">
     <link rel="icon" type="image/png" href="/DesignIMG/logo.png">
     <link rel="stylesheet" href="/css/mystyle.min.css">
     <link rel="stylesheet" href="/css/animate.min.css">
     <link rel="stylesheet" href="/css/bttn.min.css">
-    <script type="text/javascript"> (function() { var css = document.createElement('link'); css.href = '/icons/css/font-awesome.min.css'; css.rel = 'stylesheet'; css.type = 'text/css'; document.getElementsByTagName('head')[0].appendChild(css); })(); </script>
+    {{-- <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/font-awesome/4.7.0/css/font-awesome.min.css"> --}}
+    <link rel="stylesheet" href="/css/font-awesome.min.css">
     <title>@yield('title')</title>
     <script>
       window.Laravel = <?php echo json_encode([

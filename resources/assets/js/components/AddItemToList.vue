@@ -162,11 +162,9 @@ Vue.use(VueNumeric)
          }).then(function(response)
          {
             console.log(response);
-            if (response.data.error!=null)
+            if (response.data.error==null)
             {
-              Vue.set(vm.$data,'ownerrors',response.data.error);
-            }else
-            {
+              vm.RecentAddedAndSearch();
               Vue.set(vm.$data,'successAlerts','Created Successfully');
               Vue.set(vm.$data,'AccountCode','');
               Vue.set(vm.$data,'ItemCode','');
@@ -175,13 +173,15 @@ Vue.use(VueNumeric)
               Vue.set(vm.$data,'CurrentCost','');
               Vue.set(vm.$data,'Description','');
               Vue.set(vm.$data,'AlertBelow','');
+            }else
+            {
+              Vue.set(vm.$data,'ownerrors',response.data.error);
             }
           },function(error)
           {
             console.log(error);
-          Vue.set(vm.$data,'laravelerrors',error.response.data);
+            Vue.set(vm.$data,'laravelerrors',error.response.data);
           });
-          this.RecentAddedAndSearch();
        },
        RecentAddedAndSearch(page)
        {
@@ -239,9 +239,10 @@ Vue.use(VueNumeric)
            AlertIfBelow:this.AlertBelow,
          }).then(function(response)
          {
-           console.log(response);
            if (response.data.error==null)
            {
+             console.log(response);
+             vm.RecentAddedAndSearch();
              Vue.set(vm.$data,'AccountCode','');
              Vue.set(vm.$data,'ItemCode','');
              Vue.set(vm.$data,'CurrentQuantity','');
@@ -261,7 +262,6 @@ Vue.use(VueNumeric)
             Vue.set(vm.$data,'laravelerrors',error.response.data);
             Vue.set(vm.$data,'successAlerts','');
           });
-         this.RecentAddedAndSearch();
        },
        addUnitRow()
        {
@@ -271,6 +271,7 @@ Vue.use(VueNumeric)
          }).then(function(response)
         {
           console.log(response);
+          vm.getUnitlist();
           Vue.set(vm.$data,'UnitIsActive',false);
           Vue.set(vm.$data,'successAlerts','Successfully added unit.');
         },function(error)
@@ -278,7 +279,6 @@ Vue.use(VueNumeric)
           console.log(error);
           Vue.set(vm.$data,'laravelerrors',error.response.data);
         });
-        this.getUnitlist();
       },
       getUnitlist()
       {
@@ -295,10 +295,10 @@ Vue.use(VueNumeric)
         axios.delete(`/delete-unit/`+this.unitdelete).then(function(response)
         {
           console.log(response);
+          vm.getUnitlist();
           Vue.set(vm.$data,'deleteunitIsActive',false)
           Vue.set(vm.$data,'successAlerts','Unit removed.')
         });
-        this.getUnitlist();
       }
      },
      computed:{

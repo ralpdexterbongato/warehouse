@@ -145,15 +145,16 @@ import Longpress from 'vue-longpress';
         }).then(function(response)
         {
           console.log(response);
-          if (response.data.error!=null)
+          if (response.data.error==null)
           {
-            Vue.set(vm.$data,'ownerrors',response.data.error);
-            Vue.set(vm.$data,'successAlerts','');
+            vm.fetchSessionData();
+            Vue.set(vm.$data,'successAlerts','Success');
+            Vue.set(vm.$data,'ownerrors','');
             Vue.set(vm.$data,'laravelerrors','');
           }else
           {
-            Vue.set(vm.$data,'successAlerts','Success');
-            Vue.set(vm.$data,'ownerrors','');
+            Vue.set(vm.$data,'ownerrors',response.data.error);
+            Vue.set(vm.$data,'successAlerts','');
             Vue.set(vm.$data,'laravelerrors','');
           }
         },function(error)
@@ -162,7 +163,6 @@ import Longpress from 'vue-longpress';
           Vue.set(vm.$data,'ownerrors','');
           Vue.set(vm.$data,'successAlerts','');
         });
-        this.fetchSessionData();
       },
       fetchSessionData()
       {
@@ -179,11 +179,11 @@ import Longpress from 'vue-longpress';
         axios.delete(`/delete-session-mct/`+ItemCode).then(function(response)
         {
           console.log(response);
+          vm.fetchSessionData();
           Vue.set(vm.$data,'ownerrors','');
           Vue.set(vm.$data,'successAlerts','Deleted successfully');
           Vue.set(vm.$data,'laravelerrors','');
         });
-        this.fetchSessionData();
       },
       SavingMCT()
       {

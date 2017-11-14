@@ -15,7 +15,6 @@
           <th>MCT Date</th>
           <th>Particulars</th>
           <th>Address to</th>
-          <th>Received by</th>
           <th>Status</th>
           <th>View</th>
         </tr>
@@ -25,15 +24,11 @@
             <td>{{$mctmaster->MCTDate->format('M d, Y')}}</td>
             <td>{{$mctmaster->Particulars}}</td>
             <td>{{$mctmaster->AddressTo}}</td>
-            <td>{{$mctmaster->Receivedby}}
-            @if ($mctmaster->IfDeclined==$mctmaster->Receivedby)
-              <i class="fa fa-times decliner"></i>
-            @endif
             </td>
             <td>
-              @if ($mctmaster->IfDeclined!=null)
+              @if ($mctmaster->Status=='1')
                 <i class="fa fa-times decliner"></i>
-              @elseif($mctmaster->ReceivedbySignature!=null)
+              @elseif($mctmaster->Status=='0')
                 <i class="fa fa-thumbs-up"></i>
               @else
                 <i class="fa fa-clock-o color-blue"></i>
