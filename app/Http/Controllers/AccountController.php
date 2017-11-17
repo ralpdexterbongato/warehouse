@@ -105,7 +105,8 @@ class AccountController extends Controller
     }
     public function MyMRTHistoryandSearch(Request $request)
     {
-      return MRTMaster::orderBy('id','DESC')->where('Returnedby',$request->Returnedby)->where('ReturnDate','LIKE',$request->YearMonth.'%')->paginate(10,['MRTNo','ReturnDate','Particulars','AddressTo','Returnedby','ReturnedbySignature','IfDeclined']);
+      $user = User::find($request->ReturnedById);
+      return $mrthistory = $user->MRTHistory($request->YearMonth)->paginate(5);
     }
     public function MyMRHistoryandSearch(Request $request)
     {
@@ -114,8 +115,8 @@ class AccountController extends Controller
     }
     public function MyRVHistoryandSearch(Request $request)
     {
-      return RVMaster::orderBy('RVNo','DESC')->where('Requisitioner',$request->Receivedby)->where('RVDate','LIKE',$request->YearMonth.'%')->paginate(10,['RVNo','RVDate','Purpose','Requisitioner','Recommendedby','RecommendedbySignature','GeneralManager','GeneralManagerSignature','BudgetOfficer'
-      ,'ManagerReplacerSignature','BudgetOfficerSignature','IfDeclined']);
+      $user = User::find($request->Requisitioner);
+      return $rvhistory=$user->RVHistory($request->YearMonth)->paginate(5);
     }
     public function fetchDataofSelectedUser($id)
     {

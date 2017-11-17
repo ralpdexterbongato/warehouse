@@ -2106,9 +2106,10 @@ filter: drop-shadow(0 0 3px #969696);
 /*MCT PREVIEW css*/
 .Preview-MCT-container
 {
-  background-color:#f8f8f8;
+  background-color:#fff;
   padding-bottom: 35px;
   overflow-x: auto;
+	min-height: 100vh;
 }
 
 .bondpaper-preview
@@ -3370,11 +3371,7 @@ overflow-y:auto;
  width: 320px;
  font-family:'Comfortaa',sans-serif;
  border-bottom-right-radius: 5px;
- -ms-filter: drop-shadow(0px 0px 9px rgba(100, 100, 100, 0.8));
- -webkit-filter: drop-shadow(0px 0px 9px rgba(100, 100, 100, 0.8));
- -moz-filter: drop-shadow(0px 0px 9px rgba(100, 100, 100, 0.8));
- -o-filter: drop-shadow(0px 0px 9px rgba(100, 100, 100, 0.8));
- filter: drop-shadow(0px 0px 9px rgba(100, 100, 100, 0.8));
+ box-shadow: 0 2px 4px -1px rgba(0,0,0,0.06), 0 4px 5px 0 rgba(0,0,0,0.06), 0 1px 10px 0 rgba(0,0,0,0.08);
 }
 .middle-account-modal > ul >li >i
 {
@@ -3414,10 +3411,7 @@ overflow-y:auto;
 }
 .userinfo h3 img
 {
-  width: 100%;
   margin: auto;
-  height: 100px;
-  border-radius:50%;
 }
 .userinfo h1
 {
@@ -4127,6 +4121,7 @@ overflow-y:auto;
   padding:10px;
   background: #0063B1;
   color: #fff;
+	font-size:14px;
 }
 .requestRR-table tr:nth-child(odd)
 {
@@ -4141,7 +4136,7 @@ overflow-y:auto;
 {
   text-align: center;
   padding:20px;
-  font-size: 16px;
+  font-size: 14px;
 }
 .title-rr-request
 {
@@ -4653,22 +4648,9 @@ text-align: center;
   background: #fff;
   position: relative;
 }
-.bondpaper-RV:hover
-{
-  -ms-filter: drop-shadow(1px 1px 2px #4B4B4B);
-  -webkit-filter: drop-shadow(1px 1px 2px #4B4B4B);
-  -moz-filter: drop-shadow(1px 1px 2px #4B4B4B);
-  -o-filter: drop-shadow(1px 1px 2px #4B4B4B);
-  filter: drop-shadow(1px 1px 2px #4B4B4B);
-}
 .bondpaper-RV
 {
-  -ms-filter: drop-shadow(1px 1px 4px #4B4B4B);
-  -webkit-filter: drop-shadow(1px 1px 4px #4B4B4B);
-  -moz-filter: drop-shadow(1px 1px 4px #4B4B4B);
-  -o-filter: drop-shadow(1px 1px 4px #4B4B4B);
-  filter: drop-shadow(1px 1px 4px #4B4B4B);
-transition:all .5s;
+  box-shadow: 0 2px 4px -1px rgba(0,0,0,0.3), 0 4px 5px 0 rgba(0,0,0,0.3), 0 1px 10px 0 rgba(0,0,0,0.3);
 }
 .no-rv-request
 {

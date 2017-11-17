@@ -193,13 +193,13 @@
       width: 150px;
       height: 50px;
       position: absolute;
-      top:-49px;
+      top:-70px;
       left:90px;
     }
     .total-amt
     {
       position: absolute;
-      top:-30px;
+      top:-40px;
     }
     .total-amt h3
     {
@@ -303,12 +303,12 @@
             </div>
             <div class="issued-name">
               <div class="signature-issued">
-                @if (!empty($MCTMast[0]->IssuedbySignature))
-                  <img src="c:/xampp/htdocs/warehouse/public/storage/signatures/{{$MCTMast[0]->IssuedbySignature}}" alt="signature">
+                @if ($MCTMast[0]->users[0]->pivot->Signature=='0')
+                  <img src="c:/xampp/htdocs/warehouse/public/storage/signatures/{{$MCTMast[0]->users[0]->Signature}}" alt="signature">
                 @endif
               </div>
-              {{$MCTMast[0]->Issuedby}}
-              <p>HEAD-Warehouse Section</p>
+              {{$MCTMast[0]->users[0]->FullName}}
+              <p>{{$MCTMast[0]->users[0]->Position}}</p>
             </div>
           </div>
           <div class="signature-right">
@@ -321,12 +321,12 @@
             </div>
             <div class="recieve-name">
               <div class="signature-reciever">
-                @if (!empty($MCTMast[0]->ReceivedbySignature))
-                  <img src="c:/xampp/htdocs/warehouse/public/storage/signatures/{{$MCTMast[0]->ReceivedbySignature}}" alt="signature">
+                @if ($MCTMast[0]->users[1]->pivot->Signature=='0')
+                  <img src="c:/xampp/htdocs/warehouse/public/storage/signatures/{{$MCTMast[0]->users[1]->Signature}}" alt="signature">
                 @endif
               </div>
-                {{$MCTMast[0]->Receivedby}}
-                <p>{{$MCTMast[0]->ReceivedbyPosition}}</p>
+                {{$MCTMast[0]->users[1]->FullName}}
+                <p>{{$MCTMast[0]->users[1]->Position}}</p>
             </div>
           </div>
         </div>

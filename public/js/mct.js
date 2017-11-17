@@ -1342,8 +1342,8 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
       var vm = this;
       __WEBPACK_IMPORTED_MODULE_0_axios___default.a.put('/decline-mct/' + this.mctno.MCTNo).then(function (response) {
         console.log(response);
+        vm.fetchData();
       });
-      this.fetchData();
     },
     formatPrice: function formatPrice(value) {
       var val = (value / 1).toFixed(2).replace('.', '.');
@@ -1358,9 +1358,10 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
         console.log(response);
         if (response.data.error != null) {
           window.alert(response.data.error);
+        } else {
+          vm.fetchData();
         }
       });
-      this.fetchData();
     }
   },
   created: function created() {
@@ -2560,7 +2561,7 @@ module.exports={render:function (){var _vm=this;var _h=_vm.$createElement;var _c
       staticClass: "align-left"
     }, [_vm._v(_vm._s(mctconfirm.Description))]), _vm._v(" "), _c('td', [_vm._v(_vm._s(_vm.formatPrice(mctconfirm.UnitCost)))]), _vm._v(" "), _c('td', [_c('span', {
       class: _vm.ShowEdit == true ? 'hide' : 'show'
-    }, [_vm._v(_vm._s(mctconfirm.Quantity))]), (_vm.MCTMaster.ReceivedbySignature != null || _vm.MCTMaster.IssuedbySignature != null) ? _c('input', {
+    }, [_vm._v(_vm._s(mctconfirm.Quantity))]), _c('input', {
       directives: [{
         name: "model",
         rawName: "v-model",
@@ -2580,7 +2581,7 @@ module.exports={render:function (){var _vm=this;var _h=_vm.$createElement;var _c
           _vm.QuantityArray[count] = mctconfirm.Quantity = $event.target.value
         }
       }
-    }) : _vm._e()]), _vm._v(" "), _c('td', [_vm._v(_vm._s(_vm.formatPrice(mctconfirm.Amount)))]), _vm._v(" "), _c('td', [_vm._v(_vm._s(mctconfirm.Unit))])])
+    })]), _vm._v(" "), _c('td', [_vm._v(_vm._s(_vm.formatPrice(mctconfirm.Amount)))]), _vm._v(" "), _c('td', [_vm._v(_vm._s(mctconfirm.Unit))])])
   })], 2)]), _vm._v(" "), _c('div', {
     staticClass: "totalcost-mct"
   }, [_c('ul', _vm._l((_vm.AccountCodeGroup), function(accountcode) {
@@ -2614,7 +2615,7 @@ module.exports={render:function (){var _vm=this;var _h=_vm.$createElement;var _c
     staticClass: "signature-recievedmct"
   }, [(_vm.MCTMaster.users[1].pivot.Signature == '0') ? _c('img', {
     attrs: {
-      "src": '/storage/signatures/' + _vm.MCTMaster.users[0].Signature,
+      "src": '/storage/signatures/' + _vm.MCTMaster.users[1].Signature,
       "alt": "signature"
     }
   }) : _vm._e()]), _vm._v(" "), _c('h1', [_vm._v(_vm._s(_vm.MCTMaster.users[1].FullName) + " "), (_vm.MCTMaster.users[1].pivot.Signature == '1') ? _c('i', {

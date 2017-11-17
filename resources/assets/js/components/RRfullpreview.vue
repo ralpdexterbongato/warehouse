@@ -174,8 +174,8 @@ import Longpress from 'vue-longpress'
         axios.put(`/RR-signature/`+this.rrno.RRNo).then(function(response)
         {
           console.log(response);
+          vm.FetchData();
         });
-        this.FetchData();
       },
       declinesignature()
       {
@@ -184,8 +184,8 @@ import Longpress from 'vue-longpress'
         axios.put(`/decline-this-RR/`+this.rrno.RRNo).then(function(response)
         {
           console.log(response);
+          vm.FetchData();
         });
-        this.FetchData();
       },
       formatPrice(value) {
             let val = (value/1).toFixed(2).replace('.', '.')

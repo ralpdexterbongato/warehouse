@@ -17,17 +17,17 @@
           <th>Status</th>
           <th>Show</th>
         </tr>
-        <tr v-for="data in POindexData">
+        <tr v-for="data in POindexData" v-if="data.users[0]!=null">
           <td>{{data.PONo}}</td>
           <td>{{data.PODate}}</td>
           <td>{{data.RVNo}}</td>
           <td>{{data.RVDate}}</td>
           <td>{{data.Supplier}}</td>
           <td>{{data.Purpose}}</td>
-          <td>{{data.GeneralManager}}</td>
+          <td>{{data.users[0].FullName}}</td>
           <td>
-            <i class="fa fa-thumbs-up" v-if="data.ApprovalReplacerSignature!=null||data.GeneralManagerSignature!=null"></i>
-            <i class="fa fa-times decliner" v-else-if="data.IfDeclined!=null"></i>
+            <i class="fa fa-thumbs-up" v-if="data.Status=='0'"></i>
+            <i class="fa fa-times decliner" v-else-if="data.Status=='1'"></i>
             <i class="fa fa-clock-o darker-blue" v-else></i>
           </td>
           <td>

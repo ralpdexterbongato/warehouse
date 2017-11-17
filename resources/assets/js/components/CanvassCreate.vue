@@ -158,8 +158,8 @@ Vue.use(VueNumeric);
            });
           },
           formatPrice(value) {
-                let val = (value/1).toFixed(2).replace('.', '.')
-                return val.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ",")
+            let val = (value/1).toFixed(2).replace('.', '.')
+            return val.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ",")
           },
          saveSupplier()
          {
@@ -176,7 +176,7 @@ Vue.use(VueNumeric);
                Particulars:this.Particulars,
                Price:this.PriceNew,
                Qty:this.Qty,
-               Unit:this.Unit,
+               Unit:this.Unit
              }).then(function(response)
              {
               console.log(response);
@@ -265,6 +265,7 @@ Vue.use(VueNumeric);
             }).then(function(response)
             {
               console.log(response);
+              vm.getSuppliers();
               Vue.set(vm.$data,'laravelerrors','');
               Vue.set(vm.$data,'successAlerts','Successfully updated !');
 
@@ -273,7 +274,6 @@ Vue.use(VueNumeric);
               Vue.set(vm.$data,'laravelerrors',error.response.data);
               Vue.set(vm.$data,'successAlerts','');
             });
-            this.getSuppliers();
           }
         },
         deleteCanvass(id)

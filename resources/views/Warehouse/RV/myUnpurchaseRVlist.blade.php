@@ -13,7 +13,7 @@
       <tr>
         <th>RVNo</th>
         <th>Purpose</th>
-        <th>Requisitioner</th>
+        <th>Budget available</th>
         <th>RVDate</th>
         <th>Action</th>
       </tr>
@@ -21,7 +21,7 @@
       <tr>
         <td>{{$listpending->RVNo}}</td>
         <td>{{$listpending->Purpose}}</td>
-        <td>{{$listpending->Requisitioner}}</td>
+        <td>{{$listpending->BudgetAvailable}}</td>
         <td>{{$listpending->RVDate->format('M d, Y')}}</td>
         <td><a href="{{route('RVfullpreviewing',[$listpending->RVNo])}}"><i class="fa fa-eye"></i></a></td>
       </tr>

@@ -6,8 +6,6 @@
         <th>Return date</th>
         <th>Particulars</th>
         <th>Address To</th>
-        <th>Returned by</th>
-        <th>Receivedby</th>
         <th>Remarks</th>
         <th>Open</th>
       </tr>
@@ -16,8 +14,6 @@
         <td>{{mrt.ReturnDate}}</td>
         <td>{{mrt.Particulars}}</td>
         <td>{{mrt.AddressTo}}</td>
-        <td>{{mrt.Returnedby}}</td>
-        <td>{{mrt.Receivedby}}</td>
         <td>{{mrt.Remarks}}</td>
         <td><a :href="'/mrt-preview-page/'+mrt.MRTNo"><i class="fa fa-eye"></i></a></td>
       </tr>

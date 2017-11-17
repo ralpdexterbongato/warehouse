@@ -133,15 +133,16 @@ import Longpress from 'vue-longpress';
         }).then(function(response)
         {
           console.log(response);
-          if (response.data.error!=null)
+          if (response.data.error==null)
           {
-            Vue.set(vm.$data,'ownerrors',response.data.error);
-            Vue.set(vm.$data,'successAlerts','');
+            vm.fetchSelectedSession();
+            Vue.set(vm.$data,'ownerrors','');
+            Vue.set(vm.$data,'successAlerts','Added successfully !');
             Vue.set(vm.$data,'laravelerrors','');
           }else
           {
-            Vue.set(vm.$data,'ownerrors','');
-            Vue.set(vm.$data,'successAlerts','Added successfully !');
+            Vue.set(vm.$data,'ownerrors',response.data.error);
+            Vue.set(vm.$data,'successAlerts','');
             Vue.set(vm.$data,'laravelerrors','');
           }
         },function(error)
@@ -150,7 +151,7 @@ import Longpress from 'vue-longpress';
           Vue.set(vm.$data,'successAlerts','');
           Vue.set(vm.$data,'laravelerrors',error.response.data);
         });
-        this.fetchSelectedSession();
+
       },
       deleteSession(ItemCode)
       {
@@ -158,11 +159,11 @@ import Longpress from 'vue-longpress';
           axios.delete(`/MRT-delete/`+ItemCode).then(function(response)
           {
             console.log(response);
+            vm.fetchSelectedSession();
             Vue.set(vm.$data,'successAlerts','Deleted successfully !');
             Vue.set(vm.$data,'ownerrors','');
             Vue.set(vm.$data,'laravelerrors','');
           });
-          this.fetchSelectedSession();
       },
       changepage(next){
         this.pagination.current_page = next;

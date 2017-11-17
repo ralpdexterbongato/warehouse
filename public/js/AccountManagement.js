@@ -1164,11 +1164,11 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
       if (confirm("Are you sure to delete this account?") == true) {
         __WEBPACK_IMPORTED_MODULE_0_axios___default.a.delete('/deleteAccount/' + id).then(function (response) {
           console.log(response);
+          vm.getSelected();
           Vue.set(vm.$data, 'successAlerts', 'Account removed successfully');
         }, function (error) {
           console.log(error);
         });
-        this.getSelected();
       }
     },
     saveManagerAccount: function saveManagerAccount() {
@@ -1184,6 +1184,9 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
           Signature: this.image2
         }).then(function (response) {
           console.log(response);
+          if (vm.managerbtn) {
+            vm.getSelected();
+          }
           Vue.set(vm.$data, 'successAlerts', 'Success');
           Vue.set(vm.$data, 'laravelerrors', '');
           Vue.set(vm.$data, 'ManagerRegisterFullName', '');
@@ -1197,9 +1200,6 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
           Vue.set(vm.$data, 'laravelerrors', error.response.data);
           Vue.set(vm.$data, 'successAlerts', '');
         });
-        if (this.managerbtn) {
-          this.getSelected();
-        }
       }
     },
     SubmitNewUser: function SubmitNewUser() {
@@ -1372,9 +1372,9 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
       var vm = this;
       __WEBPACK_IMPORTED_MODULE_0_axios___default.a.put('/update-manager-to-take-place', { ManagerID: this.AssignedManagerID }).then(function (response) {
         console.log(response);
+        vm.getCurrentAssigned();
+        vm.editActive = false;
       });
-      this.getCurrentAssigned();
-      this.editActive = false;
     }
   },
   created: function created() {
@@ -1425,38 +1425,6 @@ module.exports = function settle(resolve, reject, response) {
 Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_0_axios__ = __webpack_require__(3);
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_0_axios___default = __webpack_require__.n(__WEBPACK_IMPORTED_MODULE_0_axios__);
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
 //
 //
 //
@@ -1680,12 +1648,12 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
     },
     searchMRT: function searchMRT(page) {
       if (this.searchID == null) {
-        var fullname = this.user.FullName;
+        var returnerId = this.user.id;
       } else {
-        var fullname = this.searchID;
+        var returnerId = this.searchID;
       }
       var vm = this;
-      __WEBPACK_IMPORTED_MODULE_0_axios___default.a.get('/search-my-mrt-history?Returnedby=' + fullname + '&YearMonth=' + this.searchmonth + '&page=' + page, {}).then(function (response) {
+      __WEBPACK_IMPORTED_MODULE_0_axios___default.a.get('/search-my-mrt-history?ReturnedById=' + returnerId + '&YearMonth=' + this.searchmonth + '&page=' + page, {}).then(function (response) {
         console.log(response);
         Vue.set(vm.$data, 'mrtResults', response.data.data);
         Vue.set(vm.$data, 'pagination', response.data);
@@ -1706,12 +1674,12 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
     },
     searchRV: function searchRV(page) {
       if (this.searchID == null) {
-        var fullname = this.user.FullName;
+        var RequisitionerId = this.user.id;
       } else {
-        var fullname = this.searchID;
+        var RequisitionerId = this.searchID;
       }
       var vm = this;
-      __WEBPACK_IMPORTED_MODULE_0_axios___default.a.get('/search-my-rv-history?Receivedby=' + fullname + '&YearMonth=' + this.searchmonth + '&page=' + page, {}).then(function (response) {
+      __WEBPACK_IMPORTED_MODULE_0_axios___default.a.get('/search-my-rv-history?Requisitioner=' + RequisitionerId + '&YearMonth=' + this.searchmonth + '&page=' + page, {}).then(function (response) {
         console.log(response);
         Vue.set(vm.$data, 'rvResults', response.data.data);
         Vue.set(vm.$data, 'pagination', response.data);
@@ -2668,13 +2636,9 @@ module.exports={render:function (){var _vm=this;var _h=_vm.$createElement;var _c
       staticClass: "fa fa-eye"
     })])])]) : _vm._e()
   })], 2) : _vm._e(), _vm._v(" "), (_vm.mrtbtn == true) ? _c('table', [_vm._m(2), _vm._v(" "), _vm._l((_vm.mrtResults), function(mrt) {
-    return _c('tr', [_c('td', [_vm._v(_vm._s(mrt.MRTNo))]), _vm._v(" "), _c('td', [_vm._v(_vm._s(mrt.ReturnDate))]), _vm._v(" "), _c('td', [_vm._v(_vm._s(mrt.Particulars))]), _vm._v(" "), _c('td', [_vm._v(_vm._s(mrt.AddressTo))]), _vm._v(" "), _c('td', [_vm._v(_vm._s(mrt.Returnedby) + "\r\n          "), (mrt.IfDeclined == mrt.Returnedby) ? _c('i', {
+    return _c('tr', [_c('td', [_vm._v(_vm._s(mrt.MRTNo))]), _vm._v(" "), _c('td', [_vm._v(_vm._s(mrt.ReturnDate))]), _vm._v(" "), _c('td', [_vm._v(_vm._s(mrt.Particulars))]), _vm._v(" "), _c('td', [_vm._v(_vm._s(mrt.AddressTo))]), _vm._v(" "), _c('td', [(mrt.Status == '1') ? _c('i', {
       staticClass: "fa fa-times decliner"
-    }) : (mrt.ReturnedbySignature != null) ? _c('i', {
-      staticClass: "fa fa-check"
-    }) : _vm._e()]), _vm._v(" "), _c('td', [(mrt.IfDeclined != null) ? _c('i', {
-      staticClass: "fa fa-times decliner"
-    }) : (mrt.ReturnedbySignature != null) ? _c('i', {
+    }) : (mrt.Status == '0') ? _c('i', {
       staticClass: "fa fa-thumbs-up"
     }) : _c('i', {
       staticClass: "fa fa-clock-o color-blue"
@@ -2716,25 +2680,9 @@ module.exports={render:function (){var _vm=this;var _h=_vm.$createElement;var _c
       staticClass: "fa fa-eye"
     })])])])
   })], 2) : _vm._e(), _vm._v(" "), (_vm.rvbtn == true) ? _c('table', [_vm._m(4), _vm._v(" "), _vm._l((_vm.rvResults), function(rv) {
-    return _c('tr', [_c('td', [_vm._v(_vm._s(rv.RVNo))]), _vm._v(" "), _c('td', [_vm._v(_vm._s(rv.RVDate))]), _vm._v(" "), _c('td', [_vm._v(_vm._s(rv.Purpose))]), _vm._v(" "), _c('td', [_vm._v("\r\n          " + _vm._s(rv.Requisitioner)), _c('br'), _vm._v(" "), _c('i', {
-      staticClass: "fa fa-check"
-    })]), _vm._v(" "), _c('td', [_vm._v("\r\n          " + _vm._s(rv.Recommendedby)), _c('br'), _vm._v(" "), (rv.RecommendedbySignature != null || rv.ManagerReplacerSignature != null) ? _c('i', {
-      staticClass: "fa fa-check"
-    }) : (rv.Recommendedby == rv.IfDeclined) ? _c('i', {
-      staticClass: "fa fa-times decliner"
-    }) : _vm._e()]), _vm._v(" "), _c('td', [_vm._v("\r\n          " + _vm._s(rv.BudgetOfficer)), _c('br'), _vm._v(" "), (rv.BudgetOfficerSignature != null) ? _c('i', {
-      staticClass: "fa fa-check"
-    }) : (rv.BudgetOfficer == rv.IfDeclined) ? _c('i', {
-      staticClass: "fa fa-times decliner"
-    }) : _vm._e()]), _vm._v(" "), (rv.ApprovalReplacerSignature != null) ? _c('td', [_vm._v("\r\n          " + _vm._s(rv.ApprovalReplacerFullName) + "\r\n          "), _c('i', {
-      staticClass: "fa fa-check"
-    })]) : _c('td', [_vm._v("\r\n          " + _vm._s(rv.GeneralManager)), _c('br'), _vm._v(" "), (rv.GeneralManagerSignature != null) ? _c('i', {
-      staticClass: "fa fa-check"
-    }) : (rv.GeneralManager == rv.IfDeclined) ? _c('i', {
-      staticClass: "fa fa-times decliner"
-    }) : _vm._e()]), _vm._v(" "), _c('td', [((((rv.GeneralManagerSignature != null) || (rv.ApprovalReplacerSignature != null)) && ((rv.RecommendedbySignature != null) || (rv.ManagerReplacerSignature != null)) && (rv.BudgetOfficerSignature != null))) ? _c('i', {
+    return _c('tr', [_c('td', [_vm._v(_vm._s(rv.RVNo))]), _vm._v(" "), _c('td', [_vm._v(_vm._s(rv.RVDate))]), _vm._v(" "), _c('td', [_vm._v(_vm._s(rv.Purpose))]), _vm._v(" "), _c('td', [(rv.Status == '0') ? _c('i', {
       staticClass: "fa fa-thumbs-up"
-    }) : (rv.IfDeclined != null) ? _c('i', {
+    }) : (rv.Status == '1') ? _c('i', {
       staticClass: "fa fa-times decliner"
     }) : _c('i', {
       staticClass: "fa fa-clock-o"
@@ -2801,11 +2749,11 @@ module.exports={render:function (){var _vm=this;var _h=_vm.$createElement;var _c
     staticClass: "right-part"
   }, [_vm._v("Show")])])
 },function (){var _vm=this;var _h=_vm.$createElement;var _c=_vm._self._c||_h;
-  return _c('tr', [_c('th', [_vm._v("MRT No.")]), _vm._v(" "), _c('th', [_vm._v("Return Date")]), _vm._v(" "), _c('th', [_vm._v("Particulars")]), _vm._v(" "), _c('th', [_vm._v("Address To")]), _vm._v(" "), _c('th', [_vm._v("Returned by")]), _vm._v(" "), _c('th', [_vm._v("Status")]), _vm._v(" "), _c('th', [_vm._v("Show")])])
+  return _c('tr', [_c('th', [_vm._v("MRT No.")]), _vm._v(" "), _c('th', [_vm._v("Return Date")]), _vm._v(" "), _c('th', [_vm._v("Particulars")]), _vm._v(" "), _c('th', [_vm._v("Address To")]), _vm._v(" "), _c('th', [_vm._v("Status")]), _vm._v(" "), _c('th', [_vm._v("Show")])])
 },function (){var _vm=this;var _h=_vm.$createElement;var _c=_vm._self._c||_h;
   return _c('tr', [_c('th', [_vm._v("MRNo")]), _vm._v(" "), _c('th', [_vm._v("Supplier")]), _vm._v(" "), _c('th', [_vm._v("Received by")]), _vm._v(" "), _c('th', [_vm._v("Recommended by")]), _vm._v(" "), _c('th', [_vm._v("Approved by")]), _vm._v(" "), _c('th', [_vm._v("Status")]), _vm._v(" "), _c('th', [_vm._v("Show")])])
 },function (){var _vm=this;var _h=_vm.$createElement;var _c=_vm._self._c||_h;
-  return _c('tr', [_c('th', [_vm._v("RVNo")]), _vm._v(" "), _c('th', [_vm._v("RVDate")]), _vm._v(" "), _c('th', [_vm._v("Purpose")]), _vm._v(" "), _c('th', [_vm._v("Requisitioner")]), _vm._v(" "), _c('th', [_vm._v("Recommended by")]), _vm._v(" "), _c('th', [_vm._v("Budget Officer")]), _vm._v(" "), _c('th', [_vm._v("Approved by")]), _vm._v(" "), _c('th', [_vm._v("Status")]), _vm._v(" "), _c('th', [_vm._v("Show")])])
+  return _c('tr', [_c('th', [_vm._v("RVNo")]), _vm._v(" "), _c('th', [_vm._v("RVDate")]), _vm._v(" "), _c('th', [_vm._v("Purpose")]), _vm._v(" "), _c('th', [_vm._v("Status")]), _vm._v(" "), _c('th', [_vm._v("Show")])])
 }]}
 module.exports.render._withStripped = true
 if (false) {

@@ -1452,30 +1452,30 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
       var vm = this;
       __WEBPACK_IMPORTED_MODULE_0_axios___default.a.put('/MIRS-Signature/' + this.mirsno.MIRSNo).then(function (response) {
         console.log(response);
+        vm.fetchMIRSData();
       });
-      this.fetchMIRSData();
     },
     DeclineMIRS: function DeclineMIRS() {
       this.SignatureBtnHide = true;
       var vm = this;
       __WEBPACK_IMPORTED_MODULE_0_axios___default.a.put('/deniedmirs/' + this.mirsno.MIRSNo).then(function (response) {
         console.log(response);
+        vm.fetchMIRSData();
       });
-      this.fetchMIRSData();
     },
     ApproveinBehalf: function ApproveinBehalf() {
       var vm = this;
       __WEBPACK_IMPORTED_MODULE_0_axios___default.a.put('/mirs-signature-if-gm-isabsent/' + this.mirsno.MIRSNo).then(function (response) {
         console.log(response);
+        vm.fetchMIRSData();
       });
-      this.fetchMIRSData();
     },
     CancelApproveinBehalf: function CancelApproveinBehalf() {
       var vm = this;
       __WEBPACK_IMPORTED_MODULE_0_axios___default.a.put('/cancel-request-toadmin/' + this.mirsno.MIRSNo).then(function (response) {
         console.log(response);
+        vm.fetchMIRSData();
       });
-      this.fetchMIRSData();
     },
     fetchAllManager: function fetchAllManager() {
       var vm = this;
@@ -1491,9 +1491,10 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
       }).then(function (response) {
         if (response.data.error != null) {
           Vue.set(vm.$data, 'error', response.data.error);
+        } else {
+          vm.fetchMIRSData();
         }
       });
-      this.fetchMIRSData();
     },
     cancelrequestReplacer: function cancelrequestReplacer() {
       this.SignatureManagerRelacerBtnHide = true;
@@ -1501,32 +1502,32 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
       __WEBPACK_IMPORTED_MODULE_0_axios___default.a.delete('/cancel-request-manager-replacer/' + this.mirsno.MIRSNo).then(function (response) {
         Vue.set(vm.$data, 'ManagerBehalfActive', false);
         console.log(response);
+        vm.fetchMIRSData();
       });
-      this.fetchMIRSData();
     },
     AcceptrequestReplacer: function AcceptrequestReplacer() {
       this.SignatureManagerRelacerBtnHide = true;
       var vm = this;
       __WEBPACK_IMPORTED_MODULE_0_axios___default.a.put('/signature-replacer-accepted/' + this.mirsno.MIRSNo).then(function (response) {
         console.log(response);
+        vm.fetchMIRSData();
       });
-      this.fetchMIRSData();
     },
     cancelRequestApprovalReplacer: function cancelRequestApprovalReplacer() {
       this.SignatureApproveBtnHide = true;
       var vm = this;
       __WEBPACK_IMPORTED_MODULE_0_axios___default.a.put('/cancel-request-approval/' + this.mirsno.MIRSNo).then(function (response) {
         console.log(response);
+        vm.fetchMIRSData();
       });
-      this.fetchMIRSData();
     },
     AcceptApprovalReplacerequest: function AcceptApprovalReplacerequest() {
       this.SignatureApproveBtnHide = true;
       var vm = this;
       __WEBPACK_IMPORTED_MODULE_0_axios___default.a.put('/confirm-manager-toreplace-gm-signature/' + this.mirsno.MIRSNo).then(function (response) {
         console.log(response);
+        vm.fetchMIRSData();
       });
-      this.fetchMIRSData();
     }
   },
   mounted: function mounted() {

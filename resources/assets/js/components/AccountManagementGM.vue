@@ -395,12 +395,12 @@ import axios from 'axios';
             axios.delete(`/deleteAccount/`+id).then(function(response)
             {
               console.log(response);
+              vm.getSelected();
               Vue.set(vm.$data,'successAlerts','Account removed successfully');
             },function(error)
             {
               console.log(error);
             });
-            this.getSelected();
           }
         },
         saveManagerAccount()
@@ -419,6 +419,10 @@ import axios from 'axios';
             }).then(function(response)
             {
               console.log(response);
+              if (vm.managerbtn)
+              {
+                vm.getSelected();
+              }
               Vue.set(vm.$data,'successAlerts','Success');
               Vue.set(vm.$data,'laravelerrors','');
               Vue.set(vm.$data,'ManagerRegisterFullName','');
@@ -433,10 +437,6 @@ import axios from 'axios';
               Vue.set(vm.$data,'laravelerrors',error.response.data);
               Vue.set(vm.$data,'successAlerts','');
             });
-            if (this.managerbtn)
-            {
-              this.getSelected();
-            }
           }
         },
         SubmitNewUser()

@@ -11,15 +11,15 @@ use App\Events\NewPOEvent;
 class NewCreatedPOJob implements ShouldQueue
 {
     use Dispatchable, InteractsWithQueue, Queueable, SerializesModels;
-    public $NotifyName;
+    public $NotifyId;
     /**
      * Create a new job instance.
      *
      * @return void
      */
-    public function __construct($NotifyName)
+    public function __construct($NotifyId)
     {
-        $this->NotifyName=$NotifyName;
+        $this->NotifyId=$NotifyId;
     }
 
     /**
@@ -29,6 +29,6 @@ class NewCreatedPOJob implements ShouldQueue
      */
     public function handle()
     {
-      Event(new NewPOEvent($this->NotifyName));
+      Event(new NewPOEvent($this->NotifyId));
     }
 }

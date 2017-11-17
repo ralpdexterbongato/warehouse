@@ -1063,7 +1063,7 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
     },
     fetchdata: function fetchdata() {
       var vm = this;
-      __WEBPACK_IMPORTED_MODULE_0_axios___default.a.get('/mrt-viewer/' + this.mrtno[0].MRTNo).then(function (response) {
+      __WEBPACK_IMPORTED_MODULE_0_axios___default.a.get('/mrt-viewer/' + this.mrtno.MRTNo).then(function (response) {
         console.log(response);
         Vue.set(vm.$data, 'MRTMaster', response.data.MRTMaster[0]);
         Vue.set(vm.$data, 'MRTbyAcntCode', response.data.MRTbyAcntCode);
@@ -1074,27 +1074,27 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
     signatureMRT: function signatureMRT() {
       this.SignatureBtnHide = true;
       var vm = this;
-      __WEBPACK_IMPORTED_MODULE_0_axios___default.a.put('/signatureMRT/' + this.mrtno[0].MRTNo).then(function (response) {
+      __WEBPACK_IMPORTED_MODULE_0_axios___default.a.put('/signatureMRT/' + this.mrtno.MRTNo).then(function (response) {
         console.log(response);
+        vm.fetchdata();
       });
-      this.fetchdata();
     },
     declineMRT: function declineMRT() {
       this.SignatureBtnHide = true;
       var vm = this;
-      __WEBPACK_IMPORTED_MODULE_0_axios___default.a.put('/declineMRT/' + this.mrtno[0].MRTNo).then(function (response) {
+      __WEBPACK_IMPORTED_MODULE_0_axios___default.a.put('/declineMRT/' + this.mrtno.MRTNo).then(function (response) {
         console.log(response);
+        vm.fetchdata();
       });
-      this.fetchdata();
     },
     updateQty: function updateQty() {
       var vm = this;
-      __WEBPACK_IMPORTED_MODULE_0_axios___default.a.put('/updateMRTQty/' + this.mrtno[0].MRTNo, { UpdatedQty: this.EditedQty }).then(function (response) {
+      __WEBPACK_IMPORTED_MODULE_0_axios___default.a.put('/updateMRTQty/' + this.mrtno.MRTNo, { UpdatedQty: this.EditedQty }).then(function (response) {
         console.log(response);
       }, function (error) {
         console.log(error);
+        vm.fetchdata();
       });
-      this.fetchdata();
     }
   },
   mounted: function mounted() {
@@ -1103,6 +1103,22 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
 
   components: {
     Longpress: __WEBPACK_IMPORTED_MODULE_1_vue_longpress___default.a
+  },
+  computed: {
+    StillEditable: function StillEditable() {
+      if (this.MRTMaster.users[0] != null && this.user.id == this.MRTMaster.users[0].id && this.MRTMaster.users[1] != null && this.MRTMaster.users[1].pivot.Signature == null && this.MRTMaster.users[1].pivot.Signature != '1' && this.MRTMaster.users[0].pivot.Signature != '1') {
+        return true;
+      } else {
+        return false;
+      }
+    },
+    UserCanSignature: function UserCanSignature() {
+      if (this.MRTMaster.users[0].id == this.user.id && this.MRTMaster.users[0].pivot.Signature == null || this.user.id == this.MRTMaster.users[1].id && this.MRTMaster.users[1].pivot.Signature == null && this.MRTMaster.users[0].pivot.Signature == '0') {
+        return true;
+      } else {
+        return false;
+      }
+    }
   }
 });
 
@@ -1249,13 +1265,14 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
         Limit: data.Quantity
       }).then(function (response) {
         console.log(response);
-        if (response.data.error != null) {
-          Vue.set(vm.$data, 'ownerrors', response.data.error);
-          Vue.set(vm.$data, 'successAlerts', '');
-          Vue.set(vm.$data, 'laravelerrors', '');
-        } else {
+        if (response.data.error == null) {
+          vm.fetchSelectedSession();
           Vue.set(vm.$data, 'ownerrors', '');
           Vue.set(vm.$data, 'successAlerts', 'Added successfully !');
+          Vue.set(vm.$data, 'laravelerrors', '');
+        } else {
+          Vue.set(vm.$data, 'ownerrors', response.data.error);
+          Vue.set(vm.$data, 'successAlerts', '');
           Vue.set(vm.$data, 'laravelerrors', '');
         }
       }, function (error) {
@@ -1263,17 +1280,16 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
         Vue.set(vm.$data, 'successAlerts', '');
         Vue.set(vm.$data, 'laravelerrors', error.response.data);
       });
-      this.fetchSelectedSession();
     },
     deleteSession: function deleteSession(ItemCode) {
       var vm = this;
       __WEBPACK_IMPORTED_MODULE_0_axios___default.a.delete('/MRT-delete/' + ItemCode).then(function (response) {
         console.log(response);
+        vm.fetchSelectedSession();
         Vue.set(vm.$data, 'successAlerts', 'Deleted successfully !');
         Vue.set(vm.$data, 'ownerrors', '');
         Vue.set(vm.$data, 'laravelerrors', '');
       });
-      this.fetchSelectedSession();
     },
     changepage: function changepage(next) {
       this.pagination.current_page = next;
@@ -1355,6 +1371,7 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
 Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_0_axios__ = __webpack_require__(3);
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_0_axios___default = __webpack_require__.n(__WEBPACK_IMPORTED_MODULE_0_axios__);
+//
 //
 //
 //
@@ -1542,10 +1559,6 @@ module.exports = function transformData(data, headers, fns) {
 Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_0_axios__ = __webpack_require__(3);
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_0_axios___default = __webpack_require__.n(__WEBPACK_IMPORTED_MODULE_0_axios__);
-//
-//
-//
-//
 //
 //
 //
@@ -2333,7 +2346,7 @@ module.exports={render:function (){var _vm=this;var _h=_vm.$createElement;var _c
   return _c('div', {
     staticClass: "table-container-mrt-request"
   }, [(_vm.MRTrequests[0] != null) ? _c('table', [_vm._m(0), _vm._v(" "), _vm._l((_vm.MRTrequests), function(mrt) {
-    return _c('tr', [_c('td', [_vm._v(_vm._s(mrt.MRTNo))]), _vm._v(" "), _c('td', [_vm._v(_vm._s(mrt.ReturnDate))]), _vm._v(" "), _c('td', [_vm._v(_vm._s(mrt.Particulars))]), _vm._v(" "), _c('td', [_vm._v(_vm._s(mrt.AddressTo))]), _vm._v(" "), _c('td', [_vm._v(_vm._s(mrt.Returnedby))]), _vm._v(" "), _c('td', [_vm._v(_vm._s(mrt.Receivedby))]), _vm._v(" "), _c('td', [_vm._v(_vm._s(mrt.Remarks))]), _vm._v(" "), _c('td', [_c('a', {
+    return _c('tr', [_c('td', [_vm._v(_vm._s(mrt.MRTNo))]), _vm._v(" "), _c('td', [_vm._v(_vm._s(mrt.ReturnDate))]), _vm._v(" "), _c('td', [_vm._v(_vm._s(mrt.Particulars))]), _vm._v(" "), _c('td', [_vm._v(_vm._s(mrt.AddressTo))]), _vm._v(" "), _c('td', [_vm._v(_vm._s(mrt.Remarks))]), _vm._v(" "), _c('td', [_c('a', {
       attrs: {
         "href": '/mrt-preview-page/' + mrt.MRTNo
       }
@@ -2386,7 +2399,7 @@ module.exports={render:function (){var _vm=this;var _h=_vm.$createElement;var _c
     staticClass: "fa fa-angle-right"
   })])]) : _vm._e()], 2)])])
 },staticRenderFns: [function (){var _vm=this;var _h=_vm.$createElement;var _c=_vm._self._c||_h;
-  return _c('tr', [_c('th', [_vm._v("MRTNo")]), _vm._v(" "), _c('th', [_vm._v("Return date")]), _vm._v(" "), _c('th', [_vm._v("Particulars")]), _vm._v(" "), _c('th', [_vm._v("Address To")]), _vm._v(" "), _c('th', [_vm._v("Returned by")]), _vm._v(" "), _c('th', [_vm._v("Receivedby")]), _vm._v(" "), _c('th', [_vm._v("Remarks")]), _vm._v(" "), _c('th', [_vm._v("Open")])])
+  return _c('tr', [_c('th', [_vm._v("MRTNo")]), _vm._v(" "), _c('th', [_vm._v("Return date")]), _vm._v(" "), _c('th', [_vm._v("Particulars")]), _vm._v(" "), _c('th', [_vm._v("Address To")]), _vm._v(" "), _c('th', [_vm._v("Remarks")]), _vm._v(" "), _c('th', [_vm._v("Open")])])
 }]}
 module.exports.render._withStripped = true
 if (false) {
@@ -2508,15 +2521,17 @@ module.exports={render:function (){var _vm=this;var _h=_vm.$createElement;var _c
   })]), _vm._v(" "), _c('div', {
     staticClass: "mrt-index-table-container"
   }, [_c('table', [_vm._m(1), _vm._v(" "), _vm._l((_vm.MRTindexData), function(data) {
-    return _c('tr', [_c('td', [_vm._v(_vm._s(data.MRTNo))]), _vm._v(" "), _c('td', [_vm._v(_vm._s(data.MCTNo))]), _vm._v(" "), _c('td', [_vm._v(_vm._s(data.ReturnDate))]), _vm._v(" "), _c('td', [_vm._v(_vm._s(data.Particulars))]), _vm._v(" "), _c('td', [_vm._v(_vm._s(data.AddressTo))]), _vm._v(" "), _c('td', [_vm._v("\n          " + _vm._s(data.Receivedby)), _c('br'), _vm._v(" "), _c('i', {
+    return (data.users[0] != null) ? _c('tr', [_c('td', [_vm._v(_vm._s(data.MRTNo))]), _vm._v(" "), _c('td', [_vm._v(_vm._s(data.MCTNo))]), _vm._v(" "), _c('td', [_vm._v(_vm._s(data.ReturnDate))]), _vm._v(" "), _c('td', [_vm._v(_vm._s(data.Particulars))]), _vm._v(" "), _c('td', [_vm._v(_vm._s(data.AddressTo))]), _vm._v(" "), _c('td', [_vm._v("\n          " + _vm._s(data.users[0].FullName)), _c('br'), _vm._v(" "), (data.users[0].pivot.Signature == '0') ? _c('i', {
       staticClass: "fa fa-check"
-    })]), _vm._v(" "), _c('td', [_vm._v("\n          " + _vm._s(data.Returnedby)), _c('br'), _vm._v(" "), (data.ReturnedbySignature != null) ? _c('i', {
-      staticClass: "fa fa-check"
-    }) : _vm._e(), _vm._v(" "), (data.Returnedby == data.IfDeclined) ? _c('i', {
+    }) : _vm._e(), _vm._v(" "), (data.users[0].pivot.Signature == '1') ? _c('i', {
       staticClass: "fa fa-times decliner"
-    }) : _vm._e()]), _vm._v(" "), _c('td', [(data.ReturnedbySignature != null) ? _c('i', {
+    }) : _vm._e()]), _vm._v(" "), _c('td', [_vm._v("\n          " + _vm._s(data.users[1].FullName)), _c('br'), _vm._v(" "), (data.users[1].pivot.Signature == '0') ? _c('i', {
+      staticClass: "fa fa-check"
+    }) : _vm._e(), _vm._v(" "), (data.users[1].pivot.Signature == '1') ? _c('i', {
+      staticClass: "fa fa-times decliner"
+    }) : _vm._e()]), _vm._v(" "), _c('td', [(data.Status == '0') ? _c('i', {
       staticClass: "fa fa-thumbs-up"
-    }) : (data.IfDeclined != null) ? _c('i', {
+    }) : (data.Status == '1') ? _c('i', {
       staticClass: "fa fa-times decliner"
     }) : _c('i', {
       staticClass: "fa fa-clock-o darker-blue"
@@ -2526,7 +2541,7 @@ module.exports={render:function (){var _vm=this;var _h=_vm.$createElement;var _c
       }
     }, [_c('i', {
       staticClass: "fa fa-eye"
-    })])])])
+    })])])]) : _vm._e()
   })], 2), _vm._v(" "), _c('div', {
     staticClass: "paginate-container"
   }, [_c('ul', {
@@ -2591,9 +2606,9 @@ if (false) {
 /***/ (function(module, exports, __webpack_require__) {
 
 module.exports={render:function (){var _vm=this;var _h=_vm.$createElement;var _c=_vm._self._c||_h;
-  return _c('span', [_c('div', {
+  return (_vm.MRTMaster.users != null) ? _c('span', [_c('div', {
     staticClass: "top-MRT-buttons"
-  }, [(_vm.user.FullName == _vm.MRTMaster.Receivedby && _vm.MRTMaster.ReturnedbySignature == null && _vm.MRTMaster.IfDeclined == null) ? _c('span', {
+  }, [(_vm.StillEditable) ? _c('span', {
     staticClass: "edit-mrt-container"
   }, [_c('button', {
     class: {
@@ -2633,7 +2648,7 @@ module.exports={render:function (){var _vm=this;var _h=_vm.$createElement;var _c
         _vm.Editbtn = false, _vm.updateQty()
       }
     }
-  }, [_vm._v("Save")])])]) : _c('span'), _vm._v(" "), (_vm.user.FullName == _vm.MRTMaster.Returnedby && _vm.MRTMaster.ReturnedbySignature == null && _vm.MRTMaster.IfDeclined == null) ? _c('span', {
+  }, [_vm._v("Save")])])]) : _c('span'), _vm._v(" "), (_vm.UserCanSignature) ? _c('span', {
     staticClass: "signature-decline-mrt",
     class: {
       'hide': _vm.SignatureBtnHide
@@ -2658,7 +2673,7 @@ module.exports={render:function (){var _vm=this;var _h=_vm.$createElement;var _c
     }
   }, [_c('i', {
     staticClass: "fa fa-times"
-  }), _vm._v(" I can't\n      ")])], 1) : _vm._e()]), _vm._v(" "), _c('div', {
+  }), _vm._v(" Decline\n      ")])], 1) : _vm._e()]), _vm._v(" "), _c('div', {
     staticClass: "Bondpaper-mrt-preview"
   }, [_vm._m(0), _vm._v(" "), _c('div', {
     staticClass: "left-right-mrt"
@@ -2683,7 +2698,7 @@ module.exports={render:function (){var _vm=this;var _h=_vm.$createElement;var _c
       staticClass: "align-right"
     }, [_c('span', {
       class: [_vm.Editbtn == true ? 'hide' : 'show']
-    }, [_vm._v(_vm._s(mrtconfirm.Quantity))]), (_vm.user.FullName == _vm.MRTMaster.Receivedby) ? _c('span', {
+    }, [_vm._v(_vm._s(mrtconfirm.Quantity))]), (_vm.user.id == _vm.MRTMaster.users[0].id) ? _c('span', {
       class: [_vm.Editbtn == true ? 'show' : 'hide']
     }, [_c('input', {
       directives: [{
@@ -2721,23 +2736,25 @@ module.exports={render:function (){var _vm=this;var _h=_vm.$createElement;var _c
     staticClass: "mrt-returnby-container"
   }, [_c('p', [_vm._v("Returned by:")]), _vm._v(" "), _c('div', {
     staticClass: "mrt-bottom-data"
-  }, [(_vm.MRTMaster.ReturnedbySignature != null) ? _c('h3', [_c('img', {
+  }, [(_vm.MRTMaster.users[1].pivot.Signature == '0') ? _c('h3', [_c('img', {
     attrs: {
-      "src": '/storage/signatures/' + _vm.MRTMaster.ReturnedbySignature,
+      "src": '/storage/signatures/' + _vm.MRTMaster.users[1].Signature,
       "alt": "signature"
     }
-  })]) : _vm._e(), _vm._v(" "), _c('p', [_vm._v(_vm._s(_vm.MRTMaster.Returnedby) + " "), (_vm.MRTMaster.IfDeclined != null) ? _c('i', {
+  })]) : _vm._e(), _vm._v(" "), _c('p', [_vm._v(_vm._s(_vm.MRTMaster.users[1].FullName) + " "), (_vm.MRTMaster.users[1].pivot.Signature == '1') ? _c('i', {
     staticClass: "fa fa-times decliner"
-  }) : _vm._e()]), _vm._v(" "), _c('p', [_vm._v(_vm._s(_vm.MRTMaster.ReturnedbyPosition))])])]), _vm._v(" "), _c('div', {
+  }) : _vm._e()]), _vm._v(" "), _c('p', [_vm._v(_vm._s(_vm.MRTMaster.users[1].Position))])])]), _vm._v(" "), _c('div', {
     staticClass: "mrt-received-container"
   }, [_c('p', [_vm._v("Recieved by:")]), _vm._v(" "), _c('div', {
     staticClass: "mrt-bottom-data"
-  }, [(_vm.MRTMaster.ReceivedbySignature != null) ? _c('h3', [_c('img', {
+  }, [(_vm.MRTMaster.users[0].pivot.Signature == '0') ? _c('h3', [_c('img', {
     attrs: {
-      "src": '/storage/signatures/' + _vm.MRTMaster.ReceivedbySignature,
+      "src": '/storage/signatures/' + _vm.MRTMaster.users[0].Signature,
       "alt": "signature"
     }
-  })]) : _vm._e(), _vm._v(" "), _c('p', [_vm._v(_vm._s(_vm.MRTMaster.Receivedby))]), _vm._v(" "), _c('p', [_vm._v(_vm._s(_vm.MRTMaster.ReceivedbyPosition))])])])])])])
+  })]) : _vm._e(), _vm._v(" "), _c('p', [_vm._v(_vm._s(_vm.MRTMaster.users[0].FullName)), (_vm.MRTMaster.users[0].pivot.Signature == '1') ? _c('i', {
+    staticClass: "fa fa-times decliner"
+  }) : _vm._e()]), _vm._v(" "), _c('p', [_vm._v(_vm._s(_vm.MRTMaster.users[0].Position))])])])])])]) : _vm._e()
 },staticRenderFns: [function (){var _vm=this;var _h=_vm.$createElement;var _c=_vm._self._c||_h;
   return _c('div', {
     staticClass: "header-mrt-center"

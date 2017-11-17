@@ -162,6 +162,7 @@ import Longpress from 'vue-longpress'
              Vue.set(vm.$data,'successAlerts','');
            }else
            {
+             vm.fetchDataofSession();
              Vue.set(vm.$data,'ownerrors','');
              Vue.set(vm.$data,'laravelerrors','');
              Vue.set(vm.$data,'successAlerts','Successfully added !');
@@ -173,7 +174,6 @@ import Longpress from 'vue-longpress'
            Vue.set(vm.$data,'ownerrors','');
            Vue.set(vm.$data,'successAlerts','');
          });
-         this.fetchDataofSession();
        },
        fetchDataofSession()
        {
@@ -190,11 +190,11 @@ import Longpress from 'vue-longpress'
          axios.delete(`/DeleteSession-RR/`+count).then(function(response)
          {
            console.log(response);
+           vm.fetchDataofSession();
            Vue.set(vm.$data,'successAlerts','Deleted successfully !');
            Vue.set(vm.$data,'ownerrors','');
            Vue.set(vm.$data,'laravelerrors','');
          });
-         this.fetchDataofSession();
        },
        formatPrice(value) {
              let val = (value/1).toFixed(2).replace('.', '.')

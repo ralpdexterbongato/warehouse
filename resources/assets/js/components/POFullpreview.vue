@@ -1,7 +1,7 @@
 <template lang="html">
-  <div class="po-full-buttons">
+  <div class="po-full-buttons" v-if="OrderMaster.users!=null">
     <div class="print-po-btn">
-      <div class="Approve-replacer-accept-cant Request-manager-replace" v-if="(user.FullName==OrderMaster.ApprovalReplacer)&&(OrderMaster.GeneralManagerSignature==null)&&(OrderMaster.ApprovalReplacerSignature==null)">
+      <div class="Approve-replacer-accept-cant Request-manager-replace" v-if="ApprovalReplacerCanSignature">
         <h6 class="approve-managerreplace-note"><i class="fa fa-info-circle color-blue"></i>
           The <span class="color-blue">Warehouse section</span> is asking for your signature b/c the General Manager is not available
         </h6>
@@ -14,10 +14,10 @@
           </longpress>
         </span>
       </div>
-      <span class="make-rr-and-print" v-if="((OrderMaster.GeneralManagerSignature!=null)||(OrderMaster.ApprovalReplacerSignature!=null))">
+      <span class="make-rr-and-print" v-if="AlreadyApproved">
         <div class="left-detail-po">
           <a :href="'/PO.pdf/'+pono.PONo"><button type="submit" class="bttn-unite bttn-xs bttn-primary" name="PONo" value="ponohere"><i class="fa fa-print"></i> Print</button></a>
-          <li class="pending-delivery-number"><h1>Unreceived items: <span class="color-blue">{{remaining}}</span></h1></li>
+          <li class="pending-delivery-number"><h1>waiting for: <span class="color-blue">{{remaining}}</span> items</h1></li>
         </div>
          <div class="rr-with-po-btn" v-if="user.Role==4||user.Role==3">
             <a :href="'/create-rr-w-po/'+pono.PONo"><button type="button" class="bttn-unite bttn-xs bttn-primary"><i class="fa fa-plus"></i> RR</button></a>
@@ -25,7 +25,7 @@
       </span>
       <div v-else class="empty-left">
       </div>
-      <div class="signature-btns-wrap-po" :class="{'hide':SignatureBtnHide}" v-if="((user.Role==2)&&(OrderMaster.GeneralManager==user.FullName)&&(OrderMaster.GeneralManagerSignature==null)&&(OrderMaster.IfDeclined==null)&&(OrderMaster.ApprovalReplacerSignature==null))">
+      <div class="signature-btns-wrap-po" :class="{'hide':SignatureBtnHide}" v-if="GMCanSignature">
         <longpress duration="3" class="signaturePObtn" :on-confirm="GMsignaturePO"  pressing-text="confirmed in {$rcounter}" action-text="please wait . .">
         <i class="fa fa-pencil"></i> Signature
         </longpress>
@@ -102,13 +102,13 @@
       <div class="label-signatures-po">
         <h4>ORDER ISSUED AND AUTHORIZED<br> BY:</h4>
         <li>
-          <h6 v-if="OrderMaster.GeneralManagerSignature!=null"><img :src="'/storage/signatures/'+OrderMaster.GeneralManagerSignature" alt="signature"></h6>
-          <h6 v-else-if="OrderMaster.ApprovalReplacerSignature!=null"><p>For :</p><img :src="'/storage/signatures/'+OrderMaster.ApprovalReplacerSignature" alt="signature"></h6>
+          <h6 v-if="OrderMaster.users[0].pivot.Signature=='0'"><img :src="'/storage/signatures/'+OrderMaster.users[0].Signature" alt="signature"></h6>
+          <h6 v-else-if="((OrderMaster.users[1]!=null)&&(OrderMaster.users[1].pivot.Signature=='0'))"><p>For :</p><img :src="'/storage/signatures/'+OrderMaster.users[1].Signature" alt="signature"></h6>
           <h3>
-            {{OrderMaster.GeneralManager}}
-            <i class="fa fa-times decliner" v-if="OrderMaster.IfDeclined!=null"></i>
+            {{OrderMaster.users[0].FullName}}
+            <i class="fa fa-times decliner" v-if="OrderMaster.users[0].pivot.Signature=='1'"></i>
           </h3>
-          <label>General Manager</label>
+          <label>{{OrderMaster.users[0].Position}}</label>
         </li>
       </div>
     </div>
@@ -152,8 +152,8 @@
          axios.put(`/gm-signature-po/`+this.pono.PONo).then(function(response)
         {
           console.log(response);
+          vm.fetchPOPreview();
         });
-        this.fetchPOPreview();
       },
       GMDeclinedPO()
       {
@@ -162,13 +162,13 @@
         axios.put(`/gm-decline-po/`+this.pono.PONo).then(function(response)
         {
           console.log(response);
+          vm.fetchPOPreview();
         });
-        this.fetchPOPreview();
       },
       formatPrice(value) {
             let val = (value/1).toFixed(2).replace('.', '.')
             return val.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ",")
-        },
+      },
       RefuseToAuthorizeInBehalf()
       {
         this.SignatureApproveReplacerHide=true;
@@ -176,8 +176,8 @@
         axios.put(`/declined-Authorize-inbehalf/`+this.pono.PONo).then(function(response)
         {
           console.log(response);
+          vm.fetchPOPreview();
         });
-        this.fetchPOPreview();
       },
       ApproveAuthorizeInBehalf()
       {
@@ -186,12 +186,44 @@
         axios.put(`/authorize-in-behalf-confirmed/`+this.pono.PONo).then(function(response)
         {
           console.log(response);
+          vm.fetchPOPreview();
         });
-        this.fetchPOPreview();
       }
      },
      created () {
        this.fetchPOPreview();
      },
+     computed: {
+       GMCanSignature:function()
+       {
+         if((this.OrderMaster.users[0].id==this.user.id)&&(this.OrderMaster.users[0].pivot.Signature==null)&&((this.OrderMaster.users[1]==null)||(this.OrderMaster.users[1]!=null && this.OrderMaster.users[1].pivot.Signature==null)))
+         {
+           return true;
+         }else
+         {
+           return false;
+         }
+       },
+       ApprovalReplacerCanSignature: function()
+       {
+         if((this.OrderMaster.users[1]!=null)&&(this.user.id==this.OrderMaster.users[1].id)&&(this.OrderMaster.users[0].pivot.Signature==null)&&(this.OrderMaster.users[1].pivot.Signature==null))
+         {
+           return true;
+         }else
+         {
+           return false;
+         }
+       },
+       AlreadyApproved: function()
+       {
+         if ((this.OrderMaster.users[0].pivot.Signature=='0')||((this.OrderMaster.users[1]!=null)&&(this.OrderMaster.users[1].pivot.Signature=='0')))
+         {
+           return true;
+         }else
+         {
+           return false;
+         }
+       }
+     }
   }
 </script>

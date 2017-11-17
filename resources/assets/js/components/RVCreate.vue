@@ -41,7 +41,6 @@
       <div class="RVMaster-form">
         <div class="RV-form">
           <input type="text" autocomplete="off" name="Purpose" v-model="purpose" placeholder="Purpose"  required>
-          <input type="text" v-if="user.Role==7" v-model="budgetavailable" placeholder="Budget Available Remarks">
           <div class="autoselectedRV">
               <h4 v-if="mymanager!=null">{{mymanager.FullName}}</h4>
               <h4 v-else>No Manager found, please ask the administrator</h4>
@@ -154,7 +153,6 @@ import Longpress from 'vue-longpress';
           Quantity:'',
           Remarks:'',
           SessionStored:[],
-          budgetavailable:'',
           purpose:'',
           laravelerrors:[],
           ownerrors:'',
@@ -291,8 +289,7 @@ import Longpress from 'vue-longpress';
         this.HideBtn=true;
         var vm=this;
         axios.post(`/SavetoDBRV`,{
-          Purpose:this.purpose,
-          BudgetAvailable:this.budgetavailable,
+          Purpose:this.purpose
         }).then(function(response)
         {
           console.log(response);

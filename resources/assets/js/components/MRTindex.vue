@@ -17,24 +17,25 @@
           <th>Status</th>
           <th>Show</th>
         </tr>
-        <tr v-for="data in MRTindexData">
+        <tr v-for="data in MRTindexData" v-if="data.users[0]!=null">
           <td>{{data.MRTNo}}</td>
           <td>{{data.MCTNo}}</td>
           <td>{{data.ReturnDate}}</td>
           <td>{{data.Particulars}}</td>
           <td>{{data.AddressTo}}</td>
           <td>
-            {{data.Receivedby}}<br>
-            <i class="fa fa-check"></i>
+            {{data.users[0].FullName}}<br>
+            <i class="fa fa-check" v-if="data.users[0].pivot.Signature=='0'"></i>
+            <i class="fa fa-times decliner" v-if="data.users[0].pivot.Signature=='1'"></i>
           </td>
           <td>
-            {{data.Returnedby}}<br>
-            <i class="fa fa-check" v-if="data.ReturnedbySignature!=null"></i>
-            <i class="fa fa-times decliner" v-if="data.Returnedby==data.IfDeclined"></i>
+            {{data.users[1].FullName}}<br>
+            <i class="fa fa-check" v-if="data.users[1].pivot.Signature=='0'"></i>
+            <i class="fa fa-times decliner" v-if="data.users[1].pivot.Signature=='1'"></i>
           </td>
           <td>
-            <i class="fa fa-thumbs-up" v-if="data.ReturnedbySignature!=null"></i>
-            <i class="fa fa-times decliner" v-else-if="data.IfDeclined!=null"></i>
+            <i class="fa fa-thumbs-up" v-if="data.Status=='0'"></i>
+            <i class="fa fa-times decliner" v-else-if="data.Status=='1'"></i>
             <i class="fa fa-clock-o darker-blue" v-else></i>
           </td>
           <td><a :href="'/mrt-preview-page/'+data.MRTNo"><i class="fa fa-eye"></i></a></td>

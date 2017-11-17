@@ -21,18 +21,18 @@
       <th>Status</th>
       <th>Show</th>
     </tr>
-    <tr v-for="models in model.data">
-      <td>{{models.RVNo}}</td>
-      <td>{{models.Purpose}}</td>
-      <td>{{models.Requisitioner}}<br><i v-if="models.RequisitionerSignature!=null" class="fa fa-check"></i><i v-else-if="models.Requisitioner==models.IfDeclined" class="fa fa-times decliner"></i></td>
-      <td>{{models.Recommendedby}}<br><i v-if="(models.RecommendedbySignature!=null)||(models.ManagerReplacerSignature!=null)" class="fa fa-check"></i><i v-else-if="models.Recommendedby==models.IfDeclined" class="fa fa-times decliner"></i></td>
-      <td>{{models.BudgetOfficer}}<br><i v-if="models.BudgetOfficerSignature!=null" class="fa fa-check"></i><i v-else-if="models.BudgetOfficer==models.IfDeclined" class="fa fa-times decliner"></i></td>
-      <td>{{models.GeneralManager}}<br><i v-if="models.GeneralManagerSignature!=null||models.ApprovalReplacerSignature!=null" class="fa fa-check"></i><i v-else-if="models.GeneralManager==models.IfDeclined" class="fa fa-times decliner"></i></td>
-      <td>{{models.RVDate}}</td>
-      <td v-if="(((models.RecommendedbySignature!=null)||(models.ManagerReplacerSignature!=null))&&(models.BudgetOfficerSignature!=null)&&((models.ApprovalReplacerSignature!=null)||(models.GeneralManagerSignature!=null)))"><i class="fa fa-thumbs-up"></i></td>
-      <td v-else-if="models.IfDeclined==null"><i class="fa fa-clock-o"></i></td>
-      <td v-else><i class="fa fa-times decliner"></i></td>
-      <td><a v-bind:href="'RVfullview/'+models.RVNo"><i class="fa fa-eye"></i></a></td>
+    <tr v-for="rvdata in RVs" v-if="rvdata.users[0]!=null">
+      <td>{{rvdata.RVNo}}</td>
+      <td>{{rvdata.Purpose}}</td>
+      <td>{{rvdata.users[0].FullName}}<br><i v-if="rvdata.users[0].pivot.Signature=='0'" class="fa fa-check"></i><i v-else-if="rvdata.users[0].pivot.Signature=='1'" class="fa fa-times decliner"></i></td>
+      <td>{{rvdata.users[1].FullName}}<br><i v-if="((rvdata.users[1].pivot.Signature=='0')||((rvdata.users[4]!=null)&&(rvdata.users[4].pivot.Signature=='0')&&(rvdata.users[4].pivot.SignatureType=='ManagerReplacer'))||((rvdata.users[5]!=null)&&(rvdata.users[5].pivot.Signature=='0')&&(rvdata.users[5].pivot.SignatureType=='ManagerReplacer')))" class="fa fa-check"></i><i v-else-if="rvdata.users[1].pivot.Signature=='1'" class="fa fa-times decliner"></i></td>
+      <td>{{rvdata.users[2].FullName}}<br><i v-if="rvdata.users[2].pivot.Signature=='0'" class="fa fa-check"></i><i v-else-if="rvdata.users[2].pivot.Signature=='1'" class="fa fa-times decliner"></i></td>
+      <td>{{rvdata.users[3].FullName}}<br><i v-if="((rvdata.users[3].pivot.Signature=='0')||((rvdata.users[4]!=null)&&(rvdata.users[4].pivot.Signature=='0')&&(rvdata.users[4].pivot.SignatureType=='ApprovalReplacer'))||((rvdata.users[5]!=null)&&(rvdata.users[5].pivot.Signature=='0')&&(rvdata.users[5].pivot.SignatureType=='ApprovalReplacer')))" class="fa fa-check"></i><i v-else-if="rvdata.users[3].pivot.Signature=='1'" class="fa fa-times decliner"></i></td>
+      <td>{{rvdata.RVDate}}</td>
+      <td v-if="rvdata.Status=='0'"><i class="fa fa-thumbs-up"></i></td>
+      <td v-else-if="rvdata.Status==null"><i class="fa fa-clock-o"></i></td>
+      <td v-else-if="rvdata.Status=='1'"><i class="fa fa-times decliner"></i></td>
+      <td><a v-bind:href="'RVfullview/'+rvdata.RVNo"><i class="fa fa-eye"></i></a></td>
     </tr>
   </table>
   <div class="paginate-container">
@@ -56,7 +56,7 @@ import axios from 'axios'
 export default {
   data(){
     return {
-      model:[],
+      RVs:[],
       search:'',
       url:'indexRVVUE',
       pagination:{
@@ -103,8 +103,9 @@ export default {
       var vm= this
       axios.get(`${this.url}?search=${this.search}&page=`+page)
       .then(function (response){
-        Vue.set(vm.$data,'model',response.data.model);
-        Vue.set(vm.$data,'pagination',response.data.pagination);
+        console.log(response);
+        Vue.set(vm.$data,'RVs',response.data.data);
+        Vue.set(vm.$data,'pagination',response.data);
       })
     },
     changepageRV(next){

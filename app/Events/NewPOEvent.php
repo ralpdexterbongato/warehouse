@@ -13,15 +13,15 @@ use Illuminate\Contracts\Broadcasting\ShouldBroadcast;
 class NewPOEvent implements ShouldBroadcast
 {
     use Dispatchable, InteractsWithSockets, SerializesModels;
-    public $NotifyName;
+    public $NotifyId;
     /**
      * Create a new event instance.
      *
      * @return void
      */
-    public function __construct($NotifyName)
+    public function __construct($NotifyId)
     {
-        $this->NotifyName=$NotifyName;
+        $this->NotifyId=$NotifyId;
     }
 
     /**
@@ -31,6 +31,6 @@ class NewPOEvent implements ShouldBroadcast
      */
     public function broadcastOn()
     {
-        return new PrivateChannel('POchannel.'.$this->NotifyName->NotifyName);
+        return new PrivateChannel('POchannel.'.$this->NotifyId->NotifyId);
     }
 }

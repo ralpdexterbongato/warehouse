@@ -204,8 +204,8 @@ Vue.use(VueNumeric)
            Vue.set(vm.$data,'CurrentQuantity',response.data.response[0].CurrentQuantity)
            Vue.set(vm.$data,'CurrentCost',response.data.response[0].CurrentCost)
            Vue.set(vm.$data,'Unit',response.data.response[0].master_items.Unit)
-            Vue.set(vm.$data,'Description',response.data.response[0].master_items.Description)
-             Vue.set(vm.$data,'AlertBelow',response.data.response[0].master_items.AlertIfBelow)
+           Vue.set(vm.$data,'Description',response.data.response[0].master_items.Description)
+           Vue.set(vm.$data,'AlertBelow',response.data.response[0].master_items.AlertIfBelow)
          })
        },
        changepage(next){

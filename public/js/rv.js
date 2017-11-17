@@ -1252,19 +1252,19 @@ Vue.use(__WEBPACK_IMPORTED_MODULE_1_vue_numeric___default.a);
         BudgetAvailable: this.BudgetAvail
       }).then(function (response) {
         console.log(response);
+        vm.fetchData();
       }, function (error) {
         console.log(error);
         Vue.set(vm.$data, 'laravelerrors', error.response.data);
       });
-      this.fetchData();
     },
     declineRV: function declineRV() {
       this.SignatureRVBtnHide = true;
       var vm = this;
       __WEBPACK_IMPORTED_MODULE_0_axios___default.a.put('/declineRV/' + this.rvno.RVNo).then(function (response) {
         console.log(response);
+        vm.fetchData();
       });
-      this.fetchData();
     },
     formatPrice: function formatPrice(value) {
       var val = (value / 1).toFixed(2).replace('.', '.');
@@ -1276,26 +1276,28 @@ Vue.use(__WEBPACK_IMPORTED_MODULE_1_vue_numeric___default.a);
         BudgetUpdate: this.BudgetUpdate
       }).then(function (response) {
         console.log(response);
+        vm.fetchData();
       });
-      this.fetchData();
     },
     ApproveInBehalf: function ApproveInBehalf() {
       var vm = this;
-      __WEBPACK_IMPORTED_MODULE_0_axios___default.a.put('/rv-signature-in-behalf/' + this.rvno.RVNo);
-      this.fetchData();
+      __WEBPACK_IMPORTED_MODULE_0_axios___default.a.put('/rv-signature-in-behalf/' + this.rvno.RVNo).then(function (response) {
+        vm.fetchData();
+      });
     },
     ApproveInBehalfCanceled: function ApproveInBehalfCanceled() {
       var vm = this;
-      __WEBPACK_IMPORTED_MODULE_0_axios___default.a.put('/rv-signature-in-behalf-cancel/' + this.rvno.RVNo);
-      this.fetchData();
+      __WEBPACK_IMPORTED_MODULE_0_axios___default.a.put('/rv-signature-in-behalf-cancel/' + this.rvno.RVNo).then(function (response) {
+        vm.fetchData();
+      });
     },
     fetchAllManager: function fetchAllManager() {
       var vm = this;
       __WEBPACK_IMPORTED_MODULE_0_axios___default.a.get('/fetchAllManagerRV').then(function (response) {
         console.log(response);
         Vue.set(vm.$data, 'activemanager', response.data);
+        vm.fetchData();
       });
-      this.fetchData();
     },
     sendRequestManagerReplacer: function sendRequestManagerReplacer() {
       var vm = this;
@@ -1305,31 +1307,33 @@ Vue.use(__WEBPACK_IMPORTED_MODULE_1_vue_numeric___default.a);
         console.log(response);
         if (response.data.error != null) {
           Vue.set(vm.$data, 'error', response.data.error);
+        } else {
+          vm.fetchAllManager();
         }
       });
-      this.fetchAllManager();
     },
     cancelRequestManagerReplacer: function cancelRequestManagerReplacer() {
       this.SignatureManagerReplacerHide = true;
       var vm = this;
       __WEBPACK_IMPORTED_MODULE_0_axios___default.a.put('/cancelrequestsentReplacer/' + this.rvno.RVNo).then(function (response) {
         console.log(response);
+        vm.fetchAllManager();
       });
-      this.fetchAllManager();
     },
     signatureRequestManagerReplacer: function signatureRequestManagerReplacer() {
       this.SignatureManagerReplacerHide = true;
       var vm = this;
-      __WEBPACK_IMPORTED_MODULE_0_axios___default.a.put('/AcceptManagerReplacer/' + this.rvno.RVNo);
-      this.fetchData();
+      __WEBPACK_IMPORTED_MODULE_0_axios___default.a.put('/AcceptManagerReplacer/' + this.rvno.RVNo).then(function (response) {
+        vm.fetchData();
+      });
     },
     PendingRemarksSubmit: function PendingRemarksSubmit() {
       var vm = this;
       __WEBPACK_IMPORTED_MODULE_0_axios___default.a.put('/save-budget-officer-pending-remarks/' + this.rvno.RVNo, { PendingRemarks: this.pendingremarks }).then(function (response) {
         console.log(response);
+        vm.displayRemarks();
         Vue.set(vm.$data, 'RemarksIsActive', false);
       });
-      this.displayRemarks();
     },
     displayRemarks: function displayRemarks() {
       var vm = this;
@@ -1343,16 +1347,16 @@ Vue.use(__WEBPACK_IMPORTED_MODULE_1_vue_numeric___default.a);
       var vm = this;
       __WEBPACK_IMPORTED_MODULE_0_axios___default.a.put('/rv-signature-in-behalf-cancel/' + this.rvno.RVNo).then(function (response) {
         console.log(response);
+        vm.fetchData();
       });
-      this.fetchData();
     },
     acceptApproveRequest: function acceptApproveRequest() {
       this.SignatureApprovalReplacerHide = true;
       var vm = this;
       __WEBPACK_IMPORTED_MODULE_0_axios___default.a.put('/rv-approve-behalf-accept/' + this.rvno.RVNo).then(function (response) {
         console.log(response);
+        vm.fetchData();
       });
-      this.fetchData();
     }
   },
   mounted: function mounted() {
@@ -1362,6 +1366,61 @@ Vue.use(__WEBPACK_IMPORTED_MODULE_1_vue_numeric___default.a);
 
   components: {
     Longpress: __WEBPACK_IMPORTED_MODULE_2_vue_longpress___default.a
+  },
+  computed: {
+    ManagerReplacerData: function ManagerReplacerData() {
+      if (this.RVMaster.users[4] != null && this.RVMaster.users[4].pivot.SignatureType == 'ManagerReplacer') {
+        return this.RVMaster.users[4];
+      } else if (this.RVMaster.users[5] != null && this.RVMaster.users[5].pivot.SignatureType == 'ManagerReplacer') {
+        return this.RVMaster.users[5];
+      } else {
+        return null;
+      }
+    },
+    ApprovalReplacerData: function ApprovalReplacerData() {
+      if (this.RVMaster.users[4] != null && this.RVMaster.users[4].pivot.SignatureType == 'ApprovalReplacer') {
+        return this.RVMaster.users[4];
+      } else if (this.RVMaster.users[5] != null && this.RVMaster.users[5].pivot.SignatureType == 'ApprovalReplacer') {
+        return this.RVMaster.users[5];
+      } else {
+        return null;
+      }
+    },
+    AlreadyApproved: function AlreadyApproved() {
+      if (this.RVMaster.users[0].pivot.Signature == '0' && (this.RVMaster.users[1].pivot.Signature == '0' || this.ManagerReplacerData != null && this.ManagerReplacerData.pivot.Signature == '0') && this.RVMaster.users[2].pivot.Signature == '0' && (this.RVMaster.users[3].pivot.Signature == '0' || this.ApprovalReplacerData != null && this.ApprovalReplacerData.pivot.Signature == '0')) {
+        return true;
+      } else {
+        return false;
+      }
+    },
+    RequisitionerCanSignature: function RequisitionerCanSignature() {
+      if (this.RVMaster.users[0].pivot.Signature == null && this.RVMaster.users[0].id == this.user.id) {
+        return true;
+      } else {
+        return false;
+      }
+    },
+    RecommendedByCanSignature: function RecommendedByCanSignature() {
+      if (this.RVMaster.users[0].pivot.Signature == '0' && this.RVMaster.users[1].pivot.Signature == null && this.user.id == this.RVMaster.users[1].id && (this.ManagerReplacerData == null || this.ManagerReplacerData.pivot.Signature == null)) {
+        return true;
+      } else {
+        return false;
+      }
+    },
+    BudgetOfficerCanSignature: function BudgetOfficerCanSignature() {
+      if (this.RVMaster.users[2].pivot.Signature == null && this.user.id == this.RVMaster.users[2].id && (this.RVMaster.users[1].pivot.Signature == '0' || this.ManagerReplacerData != null && this.ManagerReplacerData.pivot.Signature == '0')) {
+        return true;
+      } else {
+        return false;
+      }
+    },
+    GMCanSignature: function GMCanSignature() {
+      if (this.RVMaster.users[2].pivot.Signature == '0' && this.RVMaster.users[3].pivot.Signature == null && this.user.id == this.RVMaster.users[3].id && (this.ApprovalReplacerData == null || this.ApprovalReplacerData.pivot.Signature == null)) {
+        return true;
+      } else {
+        return false;
+      }
+    }
   }
 });
 
@@ -1574,7 +1633,6 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
 //
 //
 //
-//
 
 
 
@@ -1592,7 +1650,6 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
       Quantity: '',
       Remarks: '',
       SessionStored: [],
-      budgetavailable: '',
       purpose: '',
       laravelerrors: [],
       ownerrors: '',
@@ -1708,8 +1765,7 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
       this.HideBtn = true;
       var vm = this;
       __WEBPACK_IMPORTED_MODULE_0_axios___default.a.post('/SavetoDBRV', {
-        Purpose: this.purpose,
-        BudgetAvailable: this.budgetavailable
+        Purpose: this.purpose
       }).then(function (response) {
         console.log(response);
         if (response.data.error != null) {
@@ -1833,7 +1889,7 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
 /* harmony default export */ __webpack_exports__["default"] = ({
   data: function data() {
     return {
-      model: [],
+      RVs: [],
       search: '',
       url: 'indexRVVUE',
       pagination: {
@@ -1879,8 +1935,9 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
     fetchdataRV: function fetchdataRV(page) {
       var vm = this;
       __WEBPACK_IMPORTED_MODULE_0_axios___default.a.get(this.url + '?search=' + this.search + '&page=' + page).then(function (response) {
-        Vue.set(vm.$data, 'model', response.data.model);
-        Vue.set(vm.$data, 'pagination', response.data.pagination);
+        console.log(response);
+        Vue.set(vm.$data, 'RVs', response.data.data);
+        Vue.set(vm.$data, 'pagination', response.data);
       });
     },
     changepageRV: function changepageRV(next) {
@@ -6069,27 +6126,7 @@ module.exports={render:function (){var _vm=this;var _h=_vm.$createElement;var _c
         _vm.purpose = $event.target.value
       }
     }
-  }), _vm._v(" "), (_vm.user.Role == 7) ? _c('input', {
-    directives: [{
-      name: "model",
-      rawName: "v-model",
-      value: (_vm.budgetavailable),
-      expression: "budgetavailable"
-    }],
-    attrs: {
-      "type": "text",
-      "placeholder": "Budget Available Remarks"
-    },
-    domProps: {
-      "value": (_vm.budgetavailable)
-    },
-    on: {
-      "input": function($event) {
-        if ($event.target.composing) { return; }
-        _vm.budgetavailable = $event.target.value
-      }
-    }
-  }) : _vm._e(), _vm._v(" "), _c('div', {
+  }), _vm._v(" "), _c('div', {
     staticClass: "autoselectedRV"
   }, [(_vm.mymanager != null) ? _c('h4', [_vm._v(_vm._s(_vm.mymanager.FullName))]) : _c('h4', [_vm._v("No Manager found, please ask the administrator")]), _vm._v(" "), _c('p', [_vm._v("Recommended by")])]), _vm._v(" "), _c('div', {
     staticClass: "autoselectedRV"
@@ -6553,9 +6590,9 @@ module.exports = (
 /***/ (function(module, exports, __webpack_require__) {
 
 module.exports={render:function (){var _vm=this;var _h=_vm.$createElement;var _c=_vm._self._c||_h;
-  return _c('div', {}, [_c('div', {
+  return (_vm.RVMaster.users != null) ? _c('div', [_c('div', {
     staticClass: "RV-signature-print-container"
-  }, [((((_vm.RVMaster.RequisitionerSignature != null) && ((_vm.RVMaster.RecommendedbySignature != null) || (_vm.RVMaster.ManagerReplacerSignature != null)) && (_vm.RVMaster.BudgetOfficerSignature != null) && (_vm.RVMaster.GeneralManagerSignature != null)) || ((_vm.RVMaster.RequisitionerSignature != null) && ((_vm.RVMaster.RecommendedbySignature != null) || (_vm.RVMaster.ManagerReplacerSignature != null)) && (_vm.RVMaster.BudgetOfficerSignature != null) && (_vm.RVMaster.ApprovalReplacerSignature != null)))) ? _c('div', {
+  }, [(_vm.AlreadyApproved) ? _c('div', {
     staticClass: "print-and-unreceved"
   }, [_c('a', {
     attrs: {
@@ -6565,11 +6602,11 @@ module.exports={render:function (){var _vm=this;var _h=_vm.$createElement;var _c
     staticClass: "pending-delivery-number"
   }, [_c('h1', [_vm._v("pending item: "), _c('span', {
     staticClass: "color-blue"
-  }, [_vm._v(_vm._s(_vm.undeliveredTotal))])])]) : _vm._e()]) : (_vm.user.FullName != _vm.RVMaster.BudgetOfficer) ? _c('div', {
+  }, [_vm._v(_vm._s(_vm.undeliveredTotal))])])]) : _vm._e()]) : (_vm.RVMaster.SignatureTurn != '2') ? _c('div', {
     staticClass: "empty-left"
-  }) : _vm._e(), _vm._v(" "), (((_vm.RVMaster.BudgetOfficerSignature == null) && ((_vm.RVMaster.RecommendedbySignature != null) || (_vm.RVMaster.ManagerReplacerSignature != null)))) ? _c('div', {
+  }) : _vm._e(), _vm._v(" "), (((_vm.RVMaster.users[2].pivot.Signature == null) && ((_vm.RVMaster.users[1].pivot.Signature == '0') || (_vm.ManagerReplacerData != null && _vm.ManagerReplacerData.pivot.Signature == '0')))) ? _c('div', {
     staticClass: "empty-left relative"
-  }, [(((_vm.RVMaster.BudgetOfficer == _vm.user.FullName) && (_vm.pendingRemarksShow == null))) ? _c('button', {
+  }, [(((_vm.RVMaster.users[2].id == _vm.user.id) && (_vm.pendingRemarksShow == null))) ? _c('button', {
     staticClass: "bttn-unite bttn-sm bttn-primary pending-remarks",
     attrs: {
       "type": "button"
@@ -6581,7 +6618,7 @@ module.exports={render:function (){var _vm=this;var _h=_vm.$createElement;var _c
     }
   }, [_c('i', {
     staticClass: "fa fa-clock-o"
-  }), _vm._v(" remarks")]) : _vm._e(), _vm._v(" "), ((_vm.pendingRemarksShow != null) && (_vm.RVMaster.BudgetOfficerSignature == null) && ((_vm.user.FullName == _vm.RVMaster.Requisitioner) || (_vm.user.FullName == _vm.RVMaster.BudgetOfficer))) ? _c('div', {
+  }), _vm._v(" remarks")]) : _vm._e(), _vm._v(" "), ((_vm.pendingRemarksShow != null) && (_vm.RVMaster.users[2].pivot.Signature == null) && ((_vm.user.id == _vm.RVMaster.users[0].id) || (_vm.user.id == _vm.RVMaster.users[2].id))) ? _c('div', {
     staticClass: "BudgetRemarkShow"
   }, [_c('div', {
     staticClass: "remarks-box animated",
@@ -6642,7 +6679,7 @@ module.exports={render:function (){var _vm=this;var _h=_vm.$createElement;var _c
         _vm.PendingRemarksSubmit()
       }
     }
-  }, [_vm._v("save")])])]) : _vm._e()]) : _vm._e(), _vm._v(" "), (((_vm.user.FullName == _vm.RVMaster.ManagerReplacer) && (_vm.RVMaster.ManagerReplacerSignature == null))) ? _c('div', {
+  }, [_vm._v("save")])])]) : _vm._e()]) : _vm._e(), _vm._v(" "), ((_vm.ManagerReplacerData != null && _vm.ManagerReplacerData.id == _vm.user.id && _vm.ManagerReplacerData.pivot.Signature == null)) ? _c('div', {
     staticClass: "manager-replacer-accept-cant Request-manager-replace"
   }, [_c('h6', {
     staticClass: "approve-managerreplace-note"
@@ -6650,7 +6687,7 @@ module.exports={render:function (){var _vm=this;var _h=_vm.$createElement;var _c
     staticClass: "fa fa-info-circle color-blue"
   }), _vm._v(" "), _c('span', {
     staticClass: "color-blue"
-  }, [_vm._v(_vm._s(_vm.RVMaster.Requisitioner))]), _vm._v(" is asking for your signature b/c the " + _vm._s(_vm.RVMaster.RecommendedbyPosition) + " is not available\r\n      ")]), _vm._v(" "), _c('span', {
+  }, [_vm._v(_vm._s(_vm.RVMaster.users[0].FullName))]), _vm._v(" is asking for your signature b/c the " + _vm._s(_vm.RVMaster.users[1].Position) + " is not available\r\n      ")]), _vm._v(" "), _c('span', {
     class: {
       'hide': _vm.SignatureManagerReplacerHide
     }
@@ -6676,7 +6713,7 @@ module.exports={render:function (){var _vm=this;var _h=_vm.$createElement;var _c
     }
   }, [_c('i', {
     staticClass: "fa fa-times"
-  }), _vm._v(" I can't\r\n        ")])], 1)]) : _vm._e(), _vm._v(" "), (((_vm.RVMaster.BudgetOfficerSignature != null) && (_vm.user.FullName == _vm.RVMaster.ApprovalReplacer) && (_vm.RVMaster.ApprovalReplacerSignature == null) && ((_vm.RVMaster.GeneralManagerSignature == null) && ((_vm.RVMaster.ManagerReplacerSignature != null) || (_vm.RVMaster.RecommendedbySignature != null))))) ? _c('div', {
+  }), _vm._v(" I can't\r\n        ")])], 1)]) : _vm._e(), _vm._v(" "), (((_vm.RVMaster.users[2].pivot.Signature == '0') && (_vm.ApprovalReplacerData != null) && (_vm.user.id == _vm.ApprovalReplacerData.id) && (_vm.ApprovalReplacerData.pivot.Signature == null))) ? _c('div', {
     staticClass: "Approve-replacer-accept-cant Request-manager-replace"
   }, [_c('h6', {
     staticClass: "approve-managerreplace-note"
@@ -6684,7 +6721,7 @@ module.exports={render:function (){var _vm=this;var _h=_vm.$createElement;var _c
     staticClass: "fa fa-info-circle color-blue"
   }), _vm._v(" "), _c('span', {
     staticClass: "color-blue"
-  }, [_vm._v(_vm._s(_vm.RVMaster.Requisitioner))]), _vm._v(" is asking for your signature b/c the General Manager is not available\r\n      ")]), _vm._v(" "), _c('span', {
+  }, [_vm._v(_vm._s(_vm.RVMaster.users[0].FullName))]), _vm._v(" is asking for your signature b/c the General Manager is not available\r\n      ")]), _vm._v(" "), _c('span', {
     class: {
       'hide': _vm.SignatureApprovalReplacerHide
     }
@@ -6712,7 +6749,7 @@ module.exports={render:function (){var _vm=this;var _h=_vm.$createElement;var _c
     staticClass: "fa fa-times"
   }), _vm._v(" I can't\r\n        ")])], 1)]) : _vm._e(), _vm._v(" "), _c('div', {
     staticClass: "declineOrSignatureBtn"
-  }, [((((_vm.RVMaster.BudgetOfficer == _vm.user.FullName) && (_vm.RVMaster.BudgetOfficerSignature == null) && ((_vm.RVMaster.RecommendedbySignature != null) || (_vm.RVMaster.ManagerReplacerSignature != null)) && (_vm.RVMaster.IfDeclined == null)) || ((_vm.RVMaster.IfDeclined == null) && (_vm.RVMaster.Recommendedby == _vm.user.FullName) && (_vm.RVMaster.RecommendedbySignature == null) && (_vm.RVMaster.ManagerReplacerSignature == null)) || ((_vm.RVMaster.IfDeclined == null) && (_vm.RVMaster.GeneralManager == _vm.user.FullName) && (_vm.RVMaster.GeneralManagerSignature == null) && (_vm.RVMaster.ApprovalReplacerSignature == null) && (_vm.RVMaster.BudgetOfficerSignature != null) && ((_vm.RVMaster.RecommendedbySignature != null) || (_vm.RVMaster.ManagerReplacerSignature != null))))) ? _c('span', {
+  }, [(((_vm.RequisitionerCanSignature) || (_vm.RecommendedByCanSignature) || (_vm.BudgetOfficerCanSignature) || (_vm.GMCanSignature))) ? _c('span', {
     class: {
       'hide': _vm.SignatureRVBtnHide
     }
@@ -6755,7 +6792,7 @@ module.exports={render:function (){var _vm=this;var _h=_vm.$createElement;var _c
     attrs: {
       "type": "button"
     }
-  }, [_vm._v("Show P.O.")])])])]) : _vm._e(), _vm._v(" "), (((((_vm.RVMaster.RecommendedbySignature != null) || (_vm.RVMaster.ManagerReplacerSignature != null)) && (_vm.RVMaster.BudgetOfficerSignature != null) && ((_vm.RVMaster.GeneralManagerSignature != null) || _vm.RVMaster.ApprovalReplacerSignature != null)))) ? _c('span', [((_vm.RVMaster.IfPurchased == null) && (_vm.checkPO == null)) ? _c('div', {
+  }, [_vm._v("Show P.O.")])])])]) : _vm._e(), _vm._v(" "), (_vm.AlreadyApproved) ? _c('span', [((_vm.RVMaster.IfPurchased == null) && (_vm.checkPO == null)) ? _c('div', {
     staticClass: "status-po-wrapper"
   }, [_vm._m(3)]) : _vm._e(), _vm._v(" "), (((_vm.RVMaster.IfPurchased) && (_vm.checkPO == null))) ? _c('div', {
     staticClass: "status-po-wrapper"
@@ -6765,7 +6802,7 @@ module.exports={render:function (){var _vm=this;var _h=_vm.$createElement;var _c
     attrs: {
       "href": '/create-rr-wo-po/' + _vm.rvno.RVNo
     }
-  }, [_vm._m(5)])]) : _vm._e(), _vm._v(" "), (_vm.checkPO == null && _vm.checkRR != null) ? _c('span') : _c('span', [((((_vm.RVMaster.RequisitionerSignature != null) && ((_vm.RVMaster.RecommendedbySignature != null) || (_vm.RVMaster.ManagerReplacerSignature != null)) && (_vm.RVMaster.BudgetOfficerSignature != null) && (_vm.RVMaster.GeneralManagerSignature != null) && (_vm.user.Role == 4) && (_vm.RVMaster.IfPurchased == null)) || ((_vm.RVMaster.RequisitionerSignature != null) && ((_vm.RVMaster.RecommendedbySignature != null) || (_vm.RVMaster.ManagerReplacerSignature != null)) && (_vm.RVMaster.BudgetOfficerSignature != null) && (_vm.RVMaster.ApprovalReplacerSignature != null) && (_vm.user.Role == 4) && (_vm.RVMaster.IfPurchased == null)) || ((_vm.RVMaster.RequisitionerSignature != null) && ((_vm.RVMaster.RecommendedbySignature != null) || _vm.RVMaster.ManagerReplacerSignature != null) && (_vm.RVMaster.BudgetOfficerSignature != null) && (_vm.RVMaster.GeneralManagerSignature != null) && (_vm.user.Role == 3) && (_vm.RVMaster.IfPurchased == null)) || ((_vm.RVMaster.RequisitionerSignature != null) && ((_vm.RVMaster.RecommendedbySignature != null) || (_vm.RVMaster.ManagerReplacerSignature != null)) && (_vm.RVMaster.BudgetOfficerSignature != null) && (_vm.RVMaster.ApprovalReplacerSignature != null) && (_vm.user.Role == 3) && (_vm.RVMaster.IfPurchased == null)))) ? _c('div', {
+  }, [_vm._m(5)])]) : _vm._e(), _vm._v(" "), (_vm.checkPO == null && _vm.checkRR != null) ? _c('span') : _c('span', [(((_vm.user.Role == 3) || (_vm.user.Role == 4)) && (_vm.AlreadyApproved)) ? _c('div', {
     staticClass: "CanvasBtn"
   }, [_c('a', {
     attrs: {
@@ -6797,19 +6834,19 @@ module.exports={render:function (){var _vm=this;var _h=_vm.$createElement;var _c
     staticClass: "bondpaper-RV-container"
   }, [_c('div', {
     staticClass: "bondpaper-RV"
-  }, [(((_vm.RVMaster.IfDeclined == null) && ((_vm.RVMaster.RecommendedbySignature != null) || (_vm.RVMaster.ManagerReplacerSignature != null)) && (_vm.RVMaster.BudgetOfficerSignature != null) && ((_vm.RVMaster.GeneralManagerSignature != null) || (_vm.RVMaster.ApprovalReplacerSignature != null)))) ? _c('div', {
+  }, [((_vm.RVMaster.Status == '0')) ? _c('div', {
     staticClass: "status-rv approved"
   }, [_c('i', {
     staticClass: "fa fa-thumbs-up"
-  }), _vm._v(" "), _c('h1', [_vm._v("Approved")])]) : (_vm.RVMaster.IfDeclined == null) ? _c('div', {
+  }), _vm._v(" "), _c('h1', [_vm._v("Approved")])]) : ((_vm.RVMaster.Status == null)) ? _c('div', {
     staticClass: "status-rv"
   }, [_c('i', {
     staticClass: "fa fa-clock-o"
-  }), _vm._v(" "), _c('h1', [_vm._v("Pending")])]) : _c('div', {
+  }), _vm._v(" "), _c('h1', [_vm._v("Pending")])]) : (_vm.RVMaster.Status == '1') ? _c('div', {
     staticClass: "status-rv declined"
   }, [_c('i', {
     staticClass: "fa fa-times"
-  }), _vm._v(" "), _c('h1', [_vm._v("Declined")])]), _vm._v(" "), _vm._m(7), _vm._v(" "), _c('div', {
+  }), _vm._v(" "), _c('h1', [_vm._v("Declined")])]) : _vm._e(), _vm._v(" "), _vm._m(7), _vm._v(" "), _c('div', {
     staticClass: "RVdate-RVNo-container"
   }, [_c('ul', [_c('li', [_c('label', [_vm._v("RV No.")]), _c('p', [_vm._v(_vm._s(_vm.RVMaster.RVNo))])]), _vm._v(" "), _c('li', [_c('label', [_vm._v("DATE:")]), _c('p', [_vm._v(_vm._s(_vm.RVMaster.RVDate))])])])]), _vm._v(" "), _c('div', {
     staticClass: "to-gm-container"
@@ -6827,34 +6864,34 @@ module.exports={render:function (){var _vm=this;var _h=_vm.$createElement;var _c
     staticClass: "RV-top-leftSignature"
   }, [_c('h5', [_vm._v("Requested by:")]), _vm._v(" "), _c('div', {
     staticClass: "requestRV-content"
-  }, [(_vm.RVMaster.RequisitionerSignature != null) ? _c('h6', [_c('img', {
+  }, [(_vm.RVMaster.users[0].pivot.Signature == '0') ? _c('h6', [_c('img', {
     attrs: {
-      "src": '/storage/signatures/' + _vm.RVMaster.RequisitionerSignature,
+      "src": '/storage/signatures/' + _vm.RVMaster.users[0].Signature,
       "alt": "signature"
     }
-  })]) : _vm._e(), _vm._v(" "), _c('p', [_vm._v("\r\n                    " + _vm._s(_vm.RVMaster.Requisitioner) + "\r\n                    "), ((_vm.RVMaster.Requisitioner == _vm.RVMaster.IfDeclined)) ? _c('i', {
+  })]) : _vm._e(), _vm._v(" "), _c('p', [_vm._v("\r\n                    " + _vm._s(_vm.RVMaster.users[0].FullName) + "\r\n                    "), (_vm.RVMaster.users[0].pivot.Signature == '1') ? _c('i', {
     staticClass: "fa fa-times decliner"
-  }) : _vm._e()]), _vm._v(" "), _c('label', [_vm._v(_vm._s(_vm.RVMaster.RequisitionerPosition))])])]), _vm._v(" "), _c('div', {
+  }) : _vm._e()]), _vm._v(" "), _c('label', [_vm._v(_vm._s(_vm.RVMaster.users[0].Position))])])]), _vm._v(" "), _c('div', {
     staticClass: "RV-top-RightSignature"
   }, [_c('h5', [_vm._v("Recommended by:")]), _vm._v(" "), _c('div', {
     staticClass: "requestRV-content"
-  }, [(_vm.RVMaster.RecommendedbySignature != null) ? _c('h6', [_c('img', {
+  }, [(_vm.RVMaster.users[1].pivot.Signature == '0') ? _c('h6', [_c('img', {
     attrs: {
-      "src": '/storage/signatures/' + _vm.RVMaster.RecommendedbySignature,
+      "src": '/storage/signatures/' + _vm.RVMaster.users[1].Signature,
       "alt": "signature"
     }
-  })]) : (_vm.RVMaster.ManagerReplacerSignature != null) ? _c('h6', [_c('h1', [_vm._v("For :")]), _c('img', {
+  })]) : (_vm.ManagerReplacerData != null && _vm.ManagerReplacerData.pivot.Signature == '0') ? _c('h6', [_c('h1', [_vm._v("For :")]), _c('img', {
     attrs: {
-      "src": '/storage/signatures/' + _vm.RVMaster.ManagerReplacerSignature,
+      "src": '/storage/signatures/' + _vm.ManagerReplacerData.Signature,
       "alt": "signature"
     }
-  })]) : _vm._e(), _vm._v(" "), _c('p', [_vm._v("\r\n                  " + _vm._s(_vm.RVMaster.Recommendedby) + "\r\n                "), _c('span', {
+  })]) : _vm._e(), _vm._v(" "), _c('p', [_vm._v("\r\n                  " + _vm._s(_vm.RVMaster.users[1].FullName) + "\r\n                "), _c('span', {
     staticClass: "opener-manager-replace opener-icon"
-  }, [((_vm.user.FullName) == (_vm.RVMaster.Requisitioner) && (this.ManagerBehalfActive == true) && (_vm.RVMaster.ManagerReplacerSignature == null) && (_vm.RVMaster.RecommendedbySignature == null)) ? _c('div', {
+  }, [((_vm.user.id) == (_vm.RVMaster.users[0].id) && (this.ManagerBehalfActive == true) && ((_vm.ManagerReplacerData == null) || (_vm.ManagerReplacerData.pivot.Signature == null)) && (_vm.RVMaster.users[1].pivot.Signature == null)) ? _c('div', {
     staticClass: "mini-menu-managers"
-  }, [(_vm.RVMaster.ManagerReplacer == null) ? _c('h1', [_vm._v("Request signature to")]) : _c('h1', [_vm._v("Request pending "), _c('i', {
+  }, [(_vm.ManagerReplacerData == null) ? _c('h1', [_vm._v("Request signature to")]) : _c('h1', [_vm._v("Request pending "), _c('i', {
     staticClass: "fa fa-clock-o color-white"
-  })]), _vm._v(" "), (_vm.RVMaster.ManagerReplacer == null) ? _c('div', {
+  })]), _vm._v(" "), (_vm.ManagerReplacerData == null) ? _c('div', {
     staticClass: "manager-list-menu"
   }, [_c('select', {
     directives: [{
@@ -6879,7 +6916,7 @@ module.exports={render:function (){var _vm=this;var _h=_vm.$createElement;var _c
       "value": null
     }
   }, [_vm._v("Choose a manager")]), _vm._v(" "), _vm._l((_vm.activemanager), function(manager) {
-    return (manager.FullName != _vm.RVMaster.Recommendedby) ? _c('option', {
+    return (manager.id != _vm.RVMaster.users[1].id) ? _c('option', {
       domProps: {
         "value": manager.id
       }
@@ -6910,7 +6947,7 @@ module.exports={render:function (){var _vm=this;var _h=_vm.$createElement;var _c
     staticClass: "manager-replacer-sent"
   }, [_c('p', [_vm._v("Your request has been sent to"), _c('br'), _vm._v(" "), _c('span', {
     staticClass: "underline"
-  }, [_vm._v(_vm._s(_vm.RVMaster.ManagerReplacer))])]), _vm._v(" "), _c('span', {
+  }, [_vm._v(_vm._s(_vm.ManagerReplacerData.FullName))])]), _vm._v(" "), _c('span', {
     staticClass: "cancel-manager-replace",
     on: {
       "click": function($event) {
@@ -6919,27 +6956,27 @@ module.exports={render:function (){var _vm=this;var _h=_vm.$createElement;var _c
     }
   }, [_c('i', {
     staticClass: "fa fa-times color-red"
-  }), _vm._v("cancel")])])]) : _vm._e(), _vm._v(" "), ((_vm.user.FullName == _vm.RVMaster.Requisitioner) && (_vm.RVMaster.ManagerReplacerSignature == null) && (_vm.RVMaster.RecommendedbySignature == null)) ? _c('i', {
+  }), _vm._v("cancel")])])]) : _vm._e(), _vm._v(" "), (((_vm.user.id == _vm.RVMaster.users[0].id) && ((_vm.ManagerReplacerData == null) || (_vm.ManagerReplacerData.pivot.Signature == null)) && (_vm.RVMaster.users[1].pivot.Signature == null) && (_vm.RVMaster.users[0].pivot.Signature == '0'))) ? _c('i', {
     staticClass: "fa fa-users color-blue",
     on: {
       "click": function($event) {
         _vm.ManagerBehalfActive = !_vm.ManagerBehalfActive, [_vm.activemanager[0] != null ? '' : _vm.fetchAllManager()]
       }
     }
-  }) : _vm._e()]), _vm._v(" "), (_vm.RVMaster.Recommendedby == _vm.RVMaster.IfDeclined) ? _c('i', {
+  }) : _vm._e()]), _vm._v(" "), (_vm.RVMaster.users[1].pivot.Signature == '1') ? _c('i', {
     staticClass: "fa fa-times decliner"
-  }) : _vm._e()]), _vm._v(" "), _c('label', [_vm._v(_vm._s(_vm.RVMaster.RecommendedbyPosition))])])])]), _vm._v(" "), _c('div', {
+  }) : _vm._e()]), _vm._v(" "), _c('label', [_vm._v(_vm._s(_vm.RVMaster.users[1].Position))])])])]), _vm._v(" "), _c('div', {
     staticClass: "bottom-RV-signatures"
   }, [_c('div', {
     staticClass: "RVbottom-left-signature"
-  }, [(_vm.RVMaster.BudgetOfficerSignature != null) ? _c('h6', [_c('img', {
+  }, [(_vm.RVMaster.users[2].pivot.Signature == '0') ? _c('h6', [_c('img', {
     attrs: {
-      "src": '/storage/signatures/' + _vm.RVMaster.BudgetOfficerSignature,
+      "src": '/storage/signatures/' + _vm.RVMaster.users[2].Signature,
       "alt": "signature"
     }
   })]) : _vm._e(), _vm._v(" "), _c('h3', [_vm._v("BUDGET AVAILABLE ON THIS REQUEST")]), _vm._v(" "), _c('h4', [_c('span', {
     staticClass: "rv-signature-form"
-  }, [((_vm.user.Role == 7) && (_vm.RVMaster.BudgetAvailable == null) && (_vm.RVMaster.BudgetOfficer == _vm.user.FullName) && (_vm.RVMaster.BudgetOfficerSignature == null) && ((_vm.RVMaster.RecommendedbySignature != null) || (_vm.RVMaster.ManagerReplacerSignature != null))) ? _c('input', {
+  }, [((_vm.user.Role == 7) && (_vm.RVMaster.BudgetAvailable == null) && (_vm.RVMaster.users[2].id == _vm.user.id) && (_vm.RVMaster.users[2].pivot.Signature == null) && ((_vm.RVMaster.users[1].pivot.Signature == '0') || (_vm.ManagerReplacerData != null && _vm.ManagerReplacerData.pivot.Signature == '0'))) ? _c('input', {
     directives: [{
       name: "model",
       rawName: "v-model",
@@ -6961,7 +6998,7 @@ module.exports={render:function (){var _vm=this;var _h=_vm.$createElement;var _c
     }
   }) : _vm._e()]), _vm._v(" "), ((_vm.editbudgetActive == false)) ? _c('span', {
     staticClass: "budget-from"
-  }, [_vm._v(_vm._s(_vm.RVMaster.BudgetAvailable))]) : _vm._e(), _vm._v(" "), (((_vm.user.Role == 7) && (_vm.RVMaster.BudgetOfficer == _vm.user.FullName) && (_vm.RVMaster.BudgetOfficerSignature != null) && ((_vm.RVMaster.RecommendedbySignature == null) || (_vm.RVMaster.GeneralManagerSignature == null)))) ? _c('span', {
+  }, [_vm._v(_vm._s(_vm.RVMaster.BudgetAvailable))]) : _vm._e(), _vm._v(" "), (((_vm.user.Role == 7) && (_vm.RVMaster.users[2].id == _vm.user.id) && (_vm.RVMaster.users[2].pivot.Signature == '0') && (_vm.RVMaster.users[3].pivot.Signature == null))) ? _c('span', {
     staticClass: "form-edit-budget"
   }, [(_vm.editbudgetActive == true) ? _c('span', {
     staticClass: "flex"
@@ -7023,25 +7060,25 @@ module.exports={render:function (){var _vm=this;var _h=_vm.$createElement;var _c
     }
   }, [_c('i', {
     staticClass: "fa fa-pencil-square-o"
-  })]) : _vm._e()]) : _vm._e()]), _vm._v(" "), _c('p', [_vm._v("\r\n                  " + _vm._s(_vm.RVMaster.BudgetOfficer) + "\r\n                  "), ((_vm.RVMaster.BudgetOfficer == _vm.RVMaster.IfDeclined)) ? _c('i', {
+  })]) : _vm._e()]) : _vm._e()]), _vm._v(" "), _c('p', [_vm._v("\r\n                  " + _vm._s(_vm.RVMaster.users[2].FullName) + "\r\n                  "), (_vm.RVMaster.users[2].pivot.Signature == '1') ? _c('i', {
     staticClass: "fa fa-times decliner"
-  }) : _vm._e()]), _vm._v(" "), _c('label', [_vm._v("Budget Officer")])]), _vm._v(" "), _c('div', {
+  }) : _vm._e()]), _vm._v(" "), _c('label', [_vm._v(_vm._s(_vm.RVMaster.users[2].Position))])]), _vm._v(" "), _c('div', {
     staticClass: "RVbottom-right-signature"
   }, [_c('h3', [_vm._v("Approved:")]), _vm._v(" "), _c('div', {
     staticClass: "requestRV-content"
-  }, [(_vm.RVMaster.GeneralManagerSignature != null) ? _c('h6', [_c('img', {
+  }, [(_vm.RVMaster.users[3].pivot.Signature == '0') ? _c('h6', [_c('img', {
     attrs: {
-      "src": '/storage/signatures/' + _vm.RVMaster.GeneralManagerSignature,
+      "src": '/storage/signatures/' + _vm.RVMaster.users[3].Signature,
       "alt": "signature"
     }
-  })]) : (_vm.RVMaster.ApprovalReplacerSignature != null) ? _c('h6', [_c('h2', [_vm._v("For :")]), _c('img', {
+  })]) : (((_vm.ApprovalReplacerData != null) && (_vm.ApprovalReplacerData.pivot.Signature == '0'))) ? _c('h6', [_c('h2', [_vm._v("For :")]), _c('img', {
     attrs: {
-      "src": '/storage/signatures/' + _vm.RVMaster.ApprovalReplacerSignature,
+      "src": '/storage/signatures/' + _vm.ApprovalReplacerData.Signature,
       "alt": "signature"
     }
-  })]) : _vm._e(), _vm._v(" "), _c('p', [_vm._v("\r\n                  " + _vm._s(_vm.RVMaster.GeneralManager) + "\r\n                  "), (_vm.RVMaster.GeneralManager == _vm.RVMaster.IfDeclined) ? _c('i', {
+  })]) : _vm._e(), _vm._v(" "), _c('p', [_vm._v("\r\n                  " + _vm._s(_vm.RVMaster.users[3].FullName) + "\r\n                  "), (_vm.RVMaster.users[3].pivot.Signature == '1') ? _c('i', {
     staticClass: "fa fa-times decliner"
-  }) : _vm._e()]), _vm._v(" "), _c('label', [_vm._v("General Manager")])])])])])])])])])
+  }) : _vm._e()]), _vm._v(" "), _c('label', [_vm._v(_vm._s(_vm.RVMaster.users[3].Position))])])])])])])])])]) : _vm._e()
 },staticRenderFns: [function (){var _vm=this;var _h=_vm.$createElement;var _c=_vm._self._c||_h;
   return _c('button', {
     staticClass: "bttn-unite bttn-sm bttn-primary",
@@ -7152,36 +7189,36 @@ module.exports={render:function (){var _vm=this;var _h=_vm.$createElement;var _c
         _vm.search = $event.target.value
       }
     }
-  })])]), _vm._v(" "), _c('table', [_vm._m(1), _vm._v(" "), _vm._l((_vm.model.data), function(models) {
-    return _c('tr', [_c('td', [_vm._v(_vm._s(models.RVNo))]), _vm._v(" "), _c('td', [_vm._v(_vm._s(models.Purpose))]), _vm._v(" "), _c('td', [_vm._v(_vm._s(models.Requisitioner)), _c('br'), (models.RequisitionerSignature != null) ? _c('i', {
+  })])]), _vm._v(" "), _c('table', [_vm._m(1), _vm._v(" "), _vm._l((_vm.RVs), function(rvdata) {
+    return (rvdata.users[0] != null) ? _c('tr', [_c('td', [_vm._v(_vm._s(rvdata.RVNo))]), _vm._v(" "), _c('td', [_vm._v(_vm._s(rvdata.Purpose))]), _vm._v(" "), _c('td', [_vm._v(_vm._s(rvdata.users[0].FullName)), _c('br'), (rvdata.users[0].pivot.Signature == '0') ? _c('i', {
       staticClass: "fa fa-check"
-    }) : (models.Requisitioner == models.IfDeclined) ? _c('i', {
+    }) : (rvdata.users[0].pivot.Signature == '1') ? _c('i', {
       staticClass: "fa fa-times decliner"
-    }) : _vm._e()]), _vm._v(" "), _c('td', [_vm._v(_vm._s(models.Recommendedby)), _c('br'), ((models.RecommendedbySignature != null) || (models.ManagerReplacerSignature != null)) ? _c('i', {
+    }) : _vm._e()]), _vm._v(" "), _c('td', [_vm._v(_vm._s(rvdata.users[1].FullName)), _c('br'), (((rvdata.users[1].pivot.Signature == '0') || ((rvdata.users[4] != null) && (rvdata.users[4].pivot.Signature == '0') && (rvdata.users[4].pivot.SignatureType == 'ManagerReplacer')) || ((rvdata.users[5] != null) && (rvdata.users[5].pivot.Signature == '0') && (rvdata.users[5].pivot.SignatureType == 'ManagerReplacer')))) ? _c('i', {
       staticClass: "fa fa-check"
-    }) : (models.Recommendedby == models.IfDeclined) ? _c('i', {
+    }) : (rvdata.users[1].pivot.Signature == '1') ? _c('i', {
       staticClass: "fa fa-times decliner"
-    }) : _vm._e()]), _vm._v(" "), _c('td', [_vm._v(_vm._s(models.BudgetOfficer)), _c('br'), (models.BudgetOfficerSignature != null) ? _c('i', {
+    }) : _vm._e()]), _vm._v(" "), _c('td', [_vm._v(_vm._s(rvdata.users[2].FullName)), _c('br'), (rvdata.users[2].pivot.Signature == '0') ? _c('i', {
       staticClass: "fa fa-check"
-    }) : (models.BudgetOfficer == models.IfDeclined) ? _c('i', {
+    }) : (rvdata.users[2].pivot.Signature == '1') ? _c('i', {
       staticClass: "fa fa-times decliner"
-    }) : _vm._e()]), _vm._v(" "), _c('td', [_vm._v(_vm._s(models.GeneralManager)), _c('br'), (models.GeneralManagerSignature != null || models.ApprovalReplacerSignature != null) ? _c('i', {
+    }) : _vm._e()]), _vm._v(" "), _c('td', [_vm._v(_vm._s(rvdata.users[3].FullName)), _c('br'), (((rvdata.users[3].pivot.Signature == '0') || ((rvdata.users[4] != null) && (rvdata.users[4].pivot.Signature == '0') && (rvdata.users[4].pivot.SignatureType == 'ApprovalReplacer')) || ((rvdata.users[5] != null) && (rvdata.users[5].pivot.Signature == '0') && (rvdata.users[5].pivot.SignatureType == 'ApprovalReplacer')))) ? _c('i', {
       staticClass: "fa fa-check"
-    }) : (models.GeneralManager == models.IfDeclined) ? _c('i', {
+    }) : (rvdata.users[3].pivot.Signature == '1') ? _c('i', {
       staticClass: "fa fa-times decliner"
-    }) : _vm._e()]), _vm._v(" "), _c('td', [_vm._v(_vm._s(models.RVDate))]), _vm._v(" "), ((((models.RecommendedbySignature != null) || (models.ManagerReplacerSignature != null)) && (models.BudgetOfficerSignature != null) && ((models.ApprovalReplacerSignature != null) || (models.GeneralManagerSignature != null)))) ? _c('td', [_c('i', {
+    }) : _vm._e()]), _vm._v(" "), _c('td', [_vm._v(_vm._s(rvdata.RVDate))]), _vm._v(" "), (rvdata.Status == '0') ? _c('td', [_c('i', {
       staticClass: "fa fa-thumbs-up"
-    })]) : (models.IfDeclined == null) ? _c('td', [_c('i', {
+    })]) : (rvdata.Status == null) ? _c('td', [_c('i', {
       staticClass: "fa fa-clock-o"
-    })]) : _c('td', [_c('i', {
+    })]) : (rvdata.Status == '1') ? _c('td', [_c('i', {
       staticClass: "fa fa-times decliner"
-    })]), _vm._v(" "), _c('td', [_c('a', {
+    })]) : _vm._e(), _vm._v(" "), _c('td', [_c('a', {
       attrs: {
-        "href": 'RVfullview/' + models.RVNo
+        "href": 'RVfullview/' + rvdata.RVNo
       }
     }, [_c('i', {
       staticClass: "fa fa-eye"
-    })])])])
+    })])])]) : _vm._e()
   })], 2), _vm._v(" "), _c('div', {
     staticClass: "paginate-container"
   }, [_c('ul', {

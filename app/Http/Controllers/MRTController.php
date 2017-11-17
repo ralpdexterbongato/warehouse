@@ -15,6 +15,7 @@ use App\MCTConfirmationDetail;
 use App\MasterItem;
 use App\Jobs\NewCreatedMRTJob;
 use App\User;
+use App\Signatureable;
 class MRTController extends Controller
 {
     public function __construct()
@@ -63,21 +64,20 @@ class MRTController extends Controller
         {
          $MRTincremented=  $year . '-' . sprintf("%04d",'1');
         }
-        $MCTMaster=MCTMaster::where('MCTNo',$id)->get(['Receivedby','ReceivedbyPosition','MIRSNo']);
+        $ReturnerID=Signatureable::where('signatureable_id',$id)->where('signatureable_type', 'App\MCTMaster')->where('SignatureType', 'ReceivedBy')->get(['user_id']);
         $mrtDB=new MRTMaster;
         $mrtDB->MRTNo=$MRTincremented;
         $mrtDB->MCTNo =$id;
         $mrtDB->ReturnDate =$datenow;
         $mrtDB->Particulars =$request->Particulars;
         $mrtDB->AddressTo= $request->AddressTo;
-        $mrtDB->Returnedby = $MCTMaster[0]->Receivedby ;
-        $mrtDB->ReturnedbyPosition =$MCTMaster[0]->ReceivedbyPosition ;
-        $mrtDB->Receivedby = Auth::user()->FullName;
-        $mrtDB->ReceivedbySignature=Auth::user()->Signature;
-        $mrtDB->ReceivedbyPosition=Auth::user()->Position;
         $mrtDB->Remarks = $request->Remarks;
         $mrtDB->save();
 
+        $forMRTSignatureTbl = array(
+           array('user_id' =>Auth::user()->id, 'signatureable_id'=>$MRTincremented, 'signatureable_type'=>'App\MRTMaster', 'SignatureType'=>'ReceivedBy'),
+           array('user_id' =>$ReturnerID[0]->user_id, 'signatureable_id'=>$MRTincremented, 'signatureable_type'=>'App\MRTMaster', 'SignatureType'=>'ReturnedBy')
+        );
         $forMRTConfirmation = array();
         foreach (Session::get('MCTSelected') as $MRTitem)
         {
@@ -86,13 +86,9 @@ class MRTController extends Controller
           $forMRTConfirmation[] = array('ItemCode' =>$MRTitem->ItemCode,'AccountCode'=>$pricefromitsMCT[0]->AccountCode,'MRTNo'=>$MRTincremented,'Unit'=>$MRTitem->Unit,'Description'=>$MRTitem->Description,'UnitCost' =>$pricefromitsMCT[0]->UnitCost,'Quantity' =>$MRTitem->Summary
           ,'Amount' =>$amount);
         }
+        Signatureable::insert($forMRTSignatureTbl);
         MRTConfirmationDetail::insert($forMRTConfirmation);
         Session::forget('MCTSelected');
-        $nospacename=str_replace(' ','',$MCTMaster[0]->Receivedby);
-        $notifythis = array('tobeNotify'=>$nospacename);
-        $notifythis=(object)$notifythis;
-        $job = (new NewCreatedMRTJob($notifythis))->delay(Carbon::now()->addSeconds(5));
-        dispatch($job);
         return ['redirect'=>route('MRTpreviewPage',$MRTincremented)];
     }
     public function addToSession(Request $request)
@@ -153,12 +149,13 @@ class MRTController extends Controller
     }
     public function toMRTpreviewPage($id)
     {
-      $MRTNo=MRTMaster::where('MRTNo', $id)->get(['MRTNo']);
+      $MRTNo = array('MRTNo' => $id );
+      $MRTNo=json_encode($MRTNo);
       return view('Warehouse.MRT.MRTfullPreview',compact('MRTNo'));
     }
     public function mrtviewing($id)
     {
-      $mrtMaster=MRTMaster::where('MRTNo',$id)->get();
+      $mrtMaster=MRTMaster::with('users')->where('MRTNo',$id)->get();
       $MRTConfirmationItems=MRTConfirmationDetail::where('MRTNo',$id)->get();
       $MRTbyAcntCode=MRTConfirmationDetail::orderBy('AccountCode')->where('MRTNo',$id)->groupBy('AccountCode')->selectRaw('sum(Amount) as totalAMT,AccountCode as AccountCode')->get();
       $totalsum=0;
@@ -171,28 +168,43 @@ class MRTController extends Controller
     }
     public function signatureMRT($id)
     {
-      $datenow=MRTMaster::where('MRTNo',$id)->get(['ReturnDate']);
-      $FromConfirmation=MRTConfirmationDetail::where('MRTNo',$id)->get();
-      $forMRTtbl = array();
-      foreach ($FromConfirmation as $fromConfirm)
+      $ReceiverID=Signatureable::where('signatureable_id',$id)->where('signatureable_type', 'App\MRTMaster')->where('SignatureType', 'ReceivedBy')->get(['user_id']);
+      $ReturnerID=Signatureable::where('signatureable_id',$id)->where('signatureable_type', 'App\MRTMaster')->where('SignatureType', 'ReturnedBy')->get(['user_id']);
+      if (Auth::user()->id==$ReceiverID[0]->user_id)
       {
-        $MTdetails=MaterialsTicketDetail::orderBy('id','DESC')->where('ItemCode', $fromConfirm->ItemCode)->take(1)->get(['CurrentQuantity','CurrentAmount']);
-        $MRTammount=$fromConfirm->Quantity* $fromConfirm->UnitCost;
-        $currentQty=$fromConfirm->Quantity + $MTdetails[0]->CurrentQuantity;
+        Signatureable::where('signatureable_id',$id)->where('signatureable_type', 'App\MRTMaster')->where('SignatureType', 'ReceivedBy')->where('user_id', Auth::user()->id)->update(['Signature'=>'0']);
+        MRTMaster::where('MRTNo', $id)->update(['SignatureTurn'=>'1']);
+        $notifythis = array('tobeNotify'=>$ReturnerID[0]->user_id);
+        $notifythis=(object)$notifythis;
+        $job = (new NewCreatedMRTJob($notifythis))->delay(Carbon::now()->addSeconds(5));
+        dispatch($job);
+      }else
+      {
+        $datenow=MRTMaster::where('MRTNo',$id)->get(['ReturnDate']);
+        $FromConfirmation=MRTConfirmationDetail::where('MRTNo',$id)->get();
+        $forMRTtbl = array();
+        foreach ($FromConfirmation as $fromConfirm)
+        {
+          $MTdetails=MaterialsTicketDetail::orderBy('id','DESC')->where('ItemCode', $fromConfirm->ItemCode)->take(1)->get(['CurrentQuantity','CurrentAmount']);
+          $MRTammount=$fromConfirm->Quantity* $fromConfirm->UnitCost;
+          $currentQty=$fromConfirm->Quantity + $MTdetails[0]->CurrentQuantity;
 
-        $totalofamt=$MTdetails[0]->CurrentAmount+ $MRTammount;
-        $newcurrentcost=$totalofamt/$currentQty;
-        $currentAmnt= $currentQty * $newcurrentcost;
-        MasterItem::where('ItemCode',$fromConfirm->ItemCode)->update(['CurrentQuantity'=>$currentQty]);
-        $forMRTtbl[] = array('ItemCode' =>$fromConfirm->ItemCode,'MTType'=>'MRT','MTNo' =>$fromConfirm->MRTNo ,'AccountCode' =>$fromConfirm->AccountCode,'UnitCost' =>$fromConfirm->UnitCost ,'Quantity' =>$fromConfirm->Quantity
-        ,'Amount' =>$MRTammount ,'CurrentCost' =>$newcurrentcost ,'CurrentQuantity' =>$currentQty ,'CurrentAmount' =>$currentAmnt ,'MTDate' =>$datenow[0]->ReturnDate );
+          $totalofamt=$MTdetails[0]->CurrentAmount+ $MRTammount;
+          $newcurrentcost=$totalofamt/$currentQty;
+          $currentAmnt= $currentQty * $newcurrentcost;
+          MasterItem::where('ItemCode',$fromConfirm->ItemCode)->update(['CurrentQuantity'=>$currentQty]);
+          $forMRTtbl[] = array('ItemCode' =>$fromConfirm->ItemCode,'MTType'=>'MRT','MTNo' =>$fromConfirm->MRTNo ,'AccountCode' =>$fromConfirm->AccountCode,'UnitCost' =>$fromConfirm->UnitCost ,'Quantity' =>$fromConfirm->Quantity
+          ,'Amount' =>$MRTammount ,'CurrentCost' =>$newcurrentcost ,'CurrentQuantity' =>$currentQty ,'CurrentAmount' =>$currentAmnt ,'MTDate' =>$datenow[0]->ReturnDate );
+        }
+        MaterialsTicketDetail::insert($forMRTtbl);
+        Signatureable::where('signatureable_id',$id)->where('signatureable_type', 'App\MRTMaster')->where('SignatureType', 'ReturnedBy')->where('user_id', Auth::user()->id)->update(['Signature'=>'0']);
+        MRTMaster::where('MRTNo', $id)->update(['Status'=>'0']);
       }
-      MaterialsTicketDetail::insert($forMRTtbl);
-      MRTMaster::where('MRTNo',$id)->update(['ReturnedbySignature'=>Auth::user()->Signature]);
     }
     public function DeclineMRT($id)
     {
-      MRTMaster::where('MRTNo',$id)->update(['IfDeclined'=>Auth::user()->FullName]);
+      Signatureable::where('signatureable_id',$id)->where('signatureable_type','App\MRTMaster')->where('user_id', Auth::user()->id)->update(['Signature'=>'1']);
+      MRTMaster::where('MRTNo', $id)->update(['Status'=>'1']);
     }
     public function updateQuantityMRT($id,Request $request)
     {
@@ -201,9 +213,12 @@ class MRTController extends Controller
       foreach ($MRTConfirmdetail as $count=> $mrtconfirm)
       {
         $MCTitemQty=MCTConfirmationDetail::where('MCTNo',$MRTMaster[0]->MCTNo)->where('ItemCode',$mrtconfirm->ItemCode)->get(['Quantity']);
-        if ($request->UpdatedQty[$count]>$MCTitemQty[0]->Quantity)
+        if ($request->UpdatedQty[$count] > $MCTitemQty[0]->Quantity)
         {
           return ['error'=>$mrtconfirm->ItemCode.' quantity may not be greater than'.$MCTitemQty[0]->Quantity];
+        }elseif($request->UpdatedQty[$count] < 1)
+        {
+          return ['error'=>$mrtconfirm->ItemCode.' quantity must be atleast 1'];
         }
       }
       foreach ($MRTConfirmdetail as $key=> $mrtconfirm)
@@ -218,11 +233,8 @@ class MRTController extends Controller
     }
     public function myMRTSignatureFetchData()
     {
-      return MRTMaster::orderBy('id','DESC')
-      ->where('Returnedby',Auth::user()->FullName)
-      ->whereNull('IfDeclined')
-      ->whereNull('ReturnedbySignature')
-      ->paginate(10,['MRTNo','ReturnDate','Particulars','AddressTo','Returnedby','Receivedby','Remarks']);
+      $user=User::find(Auth::user()->id);
+      return $NumberofRequest=$user->MRTSignatureTurn()->paginate(10);
     }
     public function MRTSignatureRequestCount()
     {
@@ -237,6 +249,6 @@ class MRTController extends Controller
     }
     public function MRTindexSearch(Request $request)
     {
-      return MRTMaster::orderBy('id','DESC')->where('MRTNo','LIKE','%'.$request->MRTNo.'%')->paginate(10,['MRTNo','MCTNo','ReturnDate','Particulars','AddressTo','Receivedby','Returnedby','ReturnedbySignature','IfDeclined']);
+      return MRTMaster::with('users')->orderBy('id','DESC')->where('MRTNo','LIKE','%'.$request->MRTNo.'%')->paginate(10,['MRTNo','MCTNo','ReturnDate','Particulars','AddressTo','Status']);
     }
 }

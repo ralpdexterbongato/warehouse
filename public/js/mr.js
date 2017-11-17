@@ -1057,15 +1057,15 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
         if (response.data.error) {
           Vue.set(vm.$data, 'ownerrors', response.data.error);
         } else {
+          vm.fetchSessionDatas();
+          vm.Quantity = [];
+          vm.Remarks = [];
           Vue.set(vm.$data, 'successAlerts', 'Successfully added !');
         }
       }, function (error) {
         Vue.set(vm.$data, 'successAlerts', '');
         Vue.set(vm.$data, 'laravelerrors', error.response.data);
       });
-      this.Quantity = [];
-      this.Remarks = [];
-      this.fetchSessionDatas();
     },
     fetchSessionDatas: function fetchSessionDatas() {
       var vm = this;
@@ -1076,13 +1076,13 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
     deleteSession: function deleteSession(count) {
       var vm = this;
       __WEBPACK_IMPORTED_MODULE_0_axios___default.a.delete('/deletemrSession/' + count).then(function (response) {
+        vm.fetchSessionDatas();
         Vue.set(vm.$data, 'ownerrors', '');
         Vue.set(vm.$data, 'laravelerrors', '');
         Vue.set(vm.$data, 'successAlerts', 'Removed successfully !');
       }, function (error) {
         console.log(error);
       });
-      this.fetchSessionDatas();
     },
     formatPrice: function formatPrice(value) {
       var val = (value / 1).toFixed(2).replace('.', '.');
@@ -1335,30 +1335,31 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
       var vm = this;
       __WEBPACK_IMPORTED_MODULE_0_axios___default.a.put('/signature-MR/' + this.mrno.MRNo).then(function (response) {
         console.log(response);
+        vm.fetchData();
       });
-      this.fetchData();
     },
     declineMR: function declineMR() {
       this.SignatureBtnHide = true;
       var vm = this;
       __WEBPACK_IMPORTED_MODULE_0_axios___default.a.put('/Decline-MR/' + this.mrno.MRNo).then(function (response) {
         console.log(response);
+        vm.fetchData();
       });
     },
     refuseApproveInBehalf: function refuseApproveInBehalf() {
       var vm = this;
       __WEBPACK_IMPORTED_MODULE_0_axios___default.a.put('/mr-approve-inbehalf-refused/' + this.mrno.MRNo).then(function (response) {
         console.log(response);
+        vm.fetchData();
       });
-      this.fetchData();
     },
     SignatureApproveInBehalf: function SignatureApproveInBehalf() {
       this.SignatureApproveReplacer = true;
       var vm = this;
       __WEBPACK_IMPORTED_MODULE_0_axios___default.a.put('/confirmApproveinBehalf/' + this.mrno.MRNo).then(function (response) {
         console.log(response);
+        vm.fetchData();
       });
-      this.fetchData();
     }
   },
   created: function created() {

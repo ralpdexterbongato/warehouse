@@ -13,10 +13,6 @@
         <tr>
           <th>RV No.</th>
           <th>Purpose</th>
-          <th>Requisitioner</th>
-          <th>Recommended by</th>
-          <th>Budget Officer</th>
-          <th>General Manager</th>
           <th>RV Date</th>
           <th>Action</th>
         </tr>
@@ -24,30 +20,6 @@
             <tr>
               <td>{{$myRVrequest->RVNo}}</td>
               <td>{{$myRVrequest->Purpose}}</td>
-              <td>
-                {{$myRVrequest->Requisitioner}}
-                @if ($myRVrequest->RequisitionerSignature)
-                  <br><i class="fa fa-check"></i>
-                @endif
-              </td>
-              <td>
-                {{$myRVrequest->Recommendedby}}
-                @if (($myRVrequest->RecommendedbySignature)||($myRVrequest->ManagerReplacerSignature))
-                  <br><i class="fa fa-check"></i>
-                @endif
-              </td>
-              <td>
-                {{$myRVrequest->BudgetOfficer}}
-                @if ($myRVrequest->BudgetOfficerSignature)
-                  <br><i class="fa fa-check"></i>
-                @endif
-              </td>
-              <td>
-                {{$myRVrequest->GeneralManager}}
-                @if (($myRVrequest->GeneralManagerSignature!=null)||($myRVrequest->ApprovalReplacerSignature!=null))
-                  <br><i class="fa fa-check"></i>
-                @endif
-              </td>
               <td>{{$myRVrequest->RVDate->format('m/d/Y')}}</td>
               <td><a href="{{route('RVfullpreviewing',[$myRVrequest->RVNo])}}"><i class="fa fa-eye"></i></a></td>
             </tr>

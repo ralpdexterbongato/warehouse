@@ -12,20 +12,22 @@ use App\User;
 use Auth;
 use App\Jobs\NewCreatedPOJob;
 use App\RVDetail;
+use App\Signatureable;
 class POController extends Controller
 {
     public function GeneratePOfromCanvass(Request $request)
     {
     $date=Carbon::now();
     $year=Carbon::now()->format('y');
-    $GM=User::orderBy('id','DESC')->whereNotNull('IsActive')->where('Role','2')->take(1)->get(['FullName']);
+    $GM=User::orderBy('id','DESC')->whereNotNull('IsActive')->where('Role','2')->take(1)->get(['id']);
     $RVMasterDB=RVMaster::where('RVNo',$request->RVNo)->get(['RVDate','Purpose']);
     $collected=collect($request->SupplierChoice);
     $SupplierGrouped=$collected->unique();
     $POid=POMaster::orderBy('PONo','DESC')->take(1)->value('PONo');
     $incremented='';
-    $ApprovalReplacer=User::whereNotNull('IfApproveReplacer')->get(['FullName']);
+    $ApprovalReplacer=User::whereNotNull('IfApproveReplacer')->get(['id']);
     $toDBMaster = array();
+    $toDBSignatures = array();
     $toDBDetails = array();
     foreach ($SupplierGrouped as $key => $SupplierG)
     {
@@ -53,14 +55,17 @@ class POController extends Controller
       {
         $toDBMaster[]=array('PONo'=>$incremented,'RVNo' => $CanvasMaster[0]->RVNo,
         'Supplier' =>$CanvasMaster[0]->Supplier ,'Address'=>$CanvasMaster[0]->Address,
-        'Telephone'=>$CanvasMaster[0]->Telephone,'Purpose'=>$RVMasterDB[0]->Purpose,'GeneralManager'=>$GM[0]->FullName,
-        'RVDate'=>$RVMasterDB[0]->RVDate,'PODate'=>$date,'ApprovalReplacer'=>$ApprovalReplacer[0]->FullName);
+        'Telephone'=>$CanvasMaster[0]->Telephone,'Purpose'=>$RVMasterDB[0]->Purpose,
+        'RVDate'=>$RVMasterDB[0]->RVDate,'PODate'=>$date);
+        $toDBSignatures[] = array('user_id' =>$GM[0]->id,'signatureable_id'=>$incremented,'signatureable_type' =>'App\POMaster','SignatureType'=>'ApprovedBy');
+        $toDBSignatures[] = array('user_id' =>$ApprovalReplacer[0]->id,'signatureable_id'=>$incremented,'signatureable_type' =>'App\POMaster','SignatureType'=>'ApprovalReplacer');
       }else
       {
         $toDBMaster[]=array('PONo'=>$incremented,'RVNo' => $CanvasMaster[0]->RVNo,
         'Supplier' =>$CanvasMaster[0]->Supplier ,'Address'=>$CanvasMaster[0]->Address,
-        'Telephone'=>$CanvasMaster[0]->Telephone,'Purpose'=>$RVMasterDB[0]->Purpose,'GeneralManager'=>$GM[0]->FullName,
+        'Telephone'=>$CanvasMaster[0]->Telephone,'Purpose'=>$RVMasterDB[0]->Purpose,
         'RVDate'=>$RVMasterDB[0]->RVDate,'PODate'=>$date);
+        $toDBSignatures[] = array('user_id' =>$GM[0]->id,'signatureable_id'=>$incremented,'signatureable_type' =>'App\POMaster','SignatureType'=>'ApprovedBy');
       }
 
       $FromRVDetail=RVDetail::where('RVNo',$request->RVNo)->get(['Particulars','QuantityValidator']);//use to minus qty for every po generation,so we can validate po items cant be overOrder.
@@ -92,18 +97,17 @@ class POController extends Controller
   if (!empty($toDBMaster[0]))
   {
     POMaster::insert($toDBMaster);
+    Signatureable::insert($toDBSignatures);
     PODetail::insert($toDBDetails);
-    $GMName=str_replace(' ','',$GM[0]->FullName);
-    $NotifyName = array('NotifyName' =>$GMName);
-    $NotifyName=(object)$NotifyName;
-    $job=(new NewCreatedPOJob($NotifyName))->delay(Carbon::now()->addSeconds(5));
+    $NotifyId = array('NotifyId' =>$GM[0]->id);
+    $NotifyId=(object)$NotifyId;
+    $job=(new NewCreatedPOJob($NotifyId))->delay(Carbon::now()->addSeconds(5));
     dispatch($job);
     if (!empty($ApprovalReplacer[0]))
     {
-      $ApproveReplacerName=str_replace(' ','',$ApprovalReplacer[0]->FullName);
-      $NotifyName = array('NotifyName' =>$ApproveReplacerName);
-      $NotifyName=(object)$NotifyName;
-      $job=(new NewCreatedPOJob($NotifyName))->delay(Carbon::now()->addSeconds(5));
+      $NotifyId = array('NotifyId' =>$ApprovalReplacer[0]->id);
+      $NotifyId=(object)$NotifyId;
+      $job=(new NewCreatedPOJob($NotifyId))->delay(Carbon::now()->addSeconds(5));
       dispatch($job);
     }
   }
@@ -112,7 +116,7 @@ class POController extends Controller
 
   public function POListView($id)
   {
-    $POList=POMaster::orderBy('PONo','DESC')->where('RVNo', $id)->get(['PONo','Supplier','GeneralManagerSignature','IfDeclined','ApprovalReplacerSignature']);
+    $POList=POMaster::orderBy('PONo','DESC')->where('RVNo', $id)->get(['PONo','Supplier','Status']);
     return view('Warehouse.PO.POlistView',compact('POList'));
   }
   public function POFullpreview($id)
@@ -125,7 +129,7 @@ class POController extends Controller
   {
     $FromPODetail=PODetail::where('PONo',$id)->get(['QtyValidator']);
     $remainingUnreceived=$FromPODetail->sum('QtyValidator');
-    $OrderMaster=POMaster::where('PONo', $id)->get();
+    $OrderMaster=POMaster::with('users')->where('PONo', $id)->get();
     $OrderMaster->load('PODetails');
     $totalAmt=PODetail::where('PONo', $id)->get(['Amount'])->sum('Amount');
     $response = array('OrderMaster' =>$OrderMaster ,'remainingUnreceived'=>$remainingUnreceived,'totalAmt'=>$totalAmt);
@@ -133,11 +137,15 @@ class POController extends Controller
   }
   public function GMSignaturePO($id)
   {
-    POMaster::where('PONo',$id)->update(['GeneralManagerSignature'=>Auth::user()->Signature,'ApprovalReplacer'=>null,'ApprovalReplacerSignature'=>null]);
+    POMaster::where('PONo',$id)->update(['Status'=>'0']);
+    Signatureable::where('user_id', Auth::user()->id)->where('signatureable_id', $id)->where('signatureable_type','App\POMaster')->where('SignatureType','ApprovedBy')->update(['Signature'=>'0']);
+    Signatureable::where('signatureable_id', $id)->where('signatureable_type','App\POMaster')->where('SignatureType','ApprovalReplacer')->delete();
   }
   public function GMDeclined($id)
   {
-    POMaster::where('PONo',$id)->update(['IfDeclined'=>Auth::user()->FullName,'ApprovalReplacer'=>null,'ApprovalReplacerSignature'=>null]);
+    POMaster::where('PONo',$id)->update(['Status'=>'1']);
+    Signatureable::where('user_id', Auth::user()->id)->where('signatureable_id', $id)->where('signatureable_type','App\POMaster')->where('SignatureType','ApprovedBy')->update(['Signature'=>'1']);
+    Signatureable::where('signatureable_id', $id)->where('signatureable_type','App\POMaster')->where('SignatureType','ApprovalReplacer')->delete();
     $PODetails=PODetail::where('PONo',$id)->get(['Qty','Description']);
     $RVNo=POMaster::where('PONo',$id)->value('RVNo');
     $FROMRVdetail=RVDetail::where('RVNo',$RVNo)->get(['Particulars']);
@@ -154,33 +162,21 @@ class POController extends Controller
   }
   public function MyPOrequestlist()
   {
-    if (Auth::user()->Role==2)
-    {
-      $myPOlist=POMaster::orderBy('PONo','DESC')->where('GeneralManager',Auth::user()->FullName)->whereNull('GeneralManagerSignature')->whereNull('ApprovalReplacerSignature')->where('IfDeclined',null)->paginate(10,['PONo','RVNo','Supplier','Address','Telephone','Purpose','PODate']);
-    }elseif(Auth::user()->Role==0)
-    {
-      $myPOlist=POMaster::orderBy('PONo','DESC')->where('ApprovalReplacer',Auth::user()->FullName)->whereNull('GeneralManagerSignature')->whereNull('ApprovalReplacerSignature')->where('IfDeclined',null)->paginate(10,['PONo','RVNo','Supplier','Address','Telephone','Purpose','PODate']);
-    }
+    $myPOlist=Auth::user()->POSignatureTurn()->paginate(10);
     return view('Warehouse.PO.myPOrequest',compact('myPOlist'));
   }
   public function RefuseAuthorizeInBehalf($id)
   {
-      POMaster::where('PONo', $id)->update(['ApprovalReplacer'=>null]);
+    Signatureable::where('user_id', Auth::user()->id)->where('signatureable_id', $id)->where('signatureable_type', 'App\POMaster')->where('SignatureType', 'ApprovalReplacer')->delete();
   }
   public function AuthorizeInBehalfconfirmed($id)
   {
-    POMaster::where('PONo',$id)->update(['ApprovalReplacerSignature'=>Auth::user()->Signature]);
+    POMaster::where('PONo',$id)->update(['Status'=>'0']);
+    Signatureable::where('user_id', Auth::user()->id)->where('signatureable_id', $id)->where('signatureable_type', 'App\POMaster')->where('SignatureType', 'ApprovalReplacer')->update(['Signature'=>'0']);
   }
   public function MyPORequestCount()
   {
-    $myPOcount=0;
-    if (Auth::user()->Role==2)
-    {
-      $myPOcount=POMaster::orderBy('PONo','DESC')->where('GeneralManager',Auth::user()->FullName)->whereNull('GeneralManagerSignature')->whereNull('ApprovalReplacerSignature')->where('IfDeclined',null)->count();
-    }elseif(Auth::user()->Role==0)
-    {
-      $myPOcount=POMaster::orderBy('PONo','DESC')->where('ApprovalReplacer',Auth::user()->FullName)->whereNull('GeneralManagerSignature')->whereNull('ApprovalReplacerSignature')->where('IfDeclined',null)->count();
-    }
+    $myPOcount=Auth::user()->POSignatureTurn()->count();
     $response = array('PONotifCount' =>$myPOcount);
     return response()->json($response);
   }
@@ -190,6 +186,6 @@ class POController extends Controller
   }
   public function fetchAndSearchPOindex(Request $request)
   {
-    return POMaster::where('PONo','LIKE','%'.$request->PONo.'%')->orderBy('PONo','DESC')->paginate(10,['PONo','PODate','RVNo','RVDate','Supplier','Purpose','GeneralManager','GeneralManagerSignature','IfDeclined','ApprovalReplacerSignature']);
+    return POMaster::with('users')->where('PONo','LIKE','%'.$request->PONo.'%')->orderBy('PONo','DESC')->paginate(10,['PONo','PODate','RVNo','RVDate','Supplier','Purpose','Status']);
   }
 }

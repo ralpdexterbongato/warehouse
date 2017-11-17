@@ -1,7 +1,7 @@
 <template lang="html">
-  <span>
+  <span v-if="MRTMaster.users!=null">
     <div class="top-MRT-buttons">
-      <span class="edit-mrt-container" v-if="user.FullName==MRTMaster.Receivedby&&MRTMaster.ReturnedbySignature==null&&MRTMaster.IfDeclined==null">
+      <span class="edit-mrt-container" v-if="StillEditable">
         <button v-on:click="Editbtn=true" :class="{'hide':Editbtn}"><i class="fa fa-edit"></i> Edit</button>
         <span class="edit-mrt-btns" :class="{'active':Editbtn}">
           <p class="color-blue">Save?</p>
@@ -11,12 +11,12 @@
       </span>
       <span v-else>
       </span>
-      <span class="signature-decline-mrt" :class="{'hide':SignatureBtnHide}" v-if="user.FullName==MRTMaster.Returnedby&&MRTMaster.ReturnedbySignature==null&&MRTMaster.IfDeclined==null">
+      <span class="signature-decline-mrt" :class="{'hide':SignatureBtnHide}" v-if="UserCanSignature">
         <longpress id="signature-mrt" duration="3" :on-confirm="signatureMRT" pressing-text="confirm in {$rcounter}" action-text="Loading . . .">
         <i class="fa fa-pencil"></i> Signature
         </longpress>
         <longpress id="decline-mrt" duration="3" :on-confirm="declineMRT" pressing-text="confirm in {$rcounter}" action-text="Loading . . .">
-        <i class="fa fa-times"></i> I can't
+        <i class="fa fa-times"></i> Decline
         </longpress>
       </span>
     </div>
@@ -55,7 +55,7 @@
             <td>{{formatPrice(mrtconfirm.UnitCost)}}</td>
             <td>{{formatPrice(mrtconfirm.Amount)}}</td>
             <td>{{mrtconfirm.Unit}}</td>
-            <td class="align-right"><span :class="[Editbtn==true?'hide':'show']">{{mrtconfirm.Quantity}}</span><span :class="[Editbtn==true?'show':'hide']" v-if="user.FullName==MRTMaster.Receivedby"><input type="text" v-model="EditedQty[count]=mrtconfirm.Quantity"></span></td>
+            <td class="align-right"><span :class="[Editbtn==true?'hide':'show']">{{mrtconfirm.Quantity}}</span><span :class="[Editbtn==true?'show':'hide']" v-if="user.id==MRTMaster.users[0].id"><input type="text" v-model="EditedQty[count]=mrtconfirm.Quantity"></span></td>
           </tr>
         </table>
       </div>
@@ -72,17 +72,17 @@
         <div class="mrt-returnby-container">
             <p>Returned by:</p>
             <div class="mrt-bottom-data">
-              <h3 v-if="MRTMaster.ReturnedbySignature!=null"><img :src="'/storage/signatures/'+MRTMaster.ReturnedbySignature" alt="signature"></h3>
-              <p>{{MRTMaster.Returnedby}} <i class="fa fa-times decliner" v-if="MRTMaster.IfDeclined!=null"></i></p>
-              <p>{{MRTMaster.ReturnedbyPosition}}</p>
+              <h3 v-if="MRTMaster.users[1].pivot.Signature=='0'"><img :src="'/storage/signatures/'+MRTMaster.users[1].Signature" alt="signature"></h3>
+              <p>{{MRTMaster.users[1].FullName}} <i class="fa fa-times decliner" v-if="MRTMaster.users[1].pivot.Signature=='1'"></i></p>
+              <p>{{MRTMaster.users[1].Position}}</p>
             </div>
         </div>
         <div class="mrt-received-container">
           <p>Recieved by:</p>
           <div class="mrt-bottom-data">
-            <h3 v-if="MRTMaster.ReceivedbySignature!=null"><img :src="'/storage/signatures/'+MRTMaster.ReceivedbySignature" alt="signature"></h3>
-            <p>{{MRTMaster.Receivedby}}</p>
-            <p>{{MRTMaster.ReceivedbyPosition}}</p>
+            <h3 v-if="MRTMaster.users[0].pivot.Signature=='0'"><img :src="'/storage/signatures/'+MRTMaster.users[0].Signature" alt="signature"></h3>
+            <p>{{MRTMaster.users[0].FullName}}<i class="fa fa-times decliner" v-if="MRTMaster.users[0].pivot.Signature=='1'"></i></p>
+            <p>{{MRTMaster.users[0].Position}}</p>
           </div>
         </div>
       </div>
@@ -115,7 +115,7 @@ import Longpress from 'vue-longpress'
        fetchdata()
        {
          var vm=this;
-         axios.get(`/mrt-viewer/`+this.mrtno[0].MRTNo).then(function(response){
+         axios.get(`/mrt-viewer/`+this.mrtno.MRTNo).then(function(response){
           console.log(response);
           Vue.set(vm.$data,'MRTMaster',response.data.MRTMaster[0]);
           Vue.set(vm.$data,'MRTbyAcntCode',response.data.MRTbyAcntCode);
@@ -127,33 +127,33 @@ import Longpress from 'vue-longpress'
       {
         this.SignatureBtnHide=true;
         var vm=this;
-        axios.put(`/signatureMRT/`+this.mrtno[0].MRTNo).then(function(response)
+        axios.put(`/signatureMRT/`+this.mrtno.MRTNo).then(function(response)
         {
           console.log(response);
+          vm.fetchdata();
         });
-        this.fetchdata();
       },
       declineMRT()
       {
         this.SignatureBtnHide=true;
         var vm=this;
-        axios.put(`/declineMRT/`+this.mrtno[0].MRTNo).then(function(response)
+        axios.put(`/declineMRT/`+this.mrtno.MRTNo).then(function(response)
         {
           console.log(response);
+          vm.fetchdata();
         });
-        this.fetchdata();
       },
       updateQty()
       {
         var vm=this;
-        axios.put(`/updateMRTQty/`+this.mrtno[0].MRTNo,{UpdatedQty:this.EditedQty}).then(function(response)
+        axios.put(`/updateMRTQty/`+this.mrtno.MRTNo,{UpdatedQty:this.EditedQty}).then(function(response)
         {
           console.log(response);
         },function(error)
         {
           console.log(error);
+          vm.fetchdata();
         });
-        this.fetchdata();
       }
      },
      mounted () {
@@ -162,5 +162,27 @@ import Longpress from 'vue-longpress'
      components: {
         Longpress
      },
+     computed: {
+       StillEditable: function()
+       {
+         if (this.MRTMaster.users[0]!=null && this.user.id==this.MRTMaster.users[0].id && this.MRTMaster.users[1]!=null && this.MRTMaster.users[1].pivot.Signature==null && this.MRTMaster.users[1].pivot.Signature!='1' && this.MRTMaster.users[0].pivot.Signature!='1')
+         {
+           return true;
+         }else
+         {
+           return false;
+         }
+       },
+       UserCanSignature: function()
+       {
+         if (((this.MRTMaster.users[0].id==this.user.id)&&(this.MRTMaster.users[0].pivot.Signature==null)||(this.user.id==this.MRTMaster.users[1].id)&&(this.MRTMaster.users[1].pivot.Signature==null)&&(this.MRTMaster.users[0].pivot.Signature=='0')))
+         {
+           return true;
+         }else
+         {
+           return false;
+         }
+       }
+     }
   }
 </script>

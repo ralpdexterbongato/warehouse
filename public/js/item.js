@@ -27728,9 +27728,8 @@ Vue.use(__WEBPACK_IMPORTED_MODULE_1_vue_numeric___default.a);
         AlertIfBelow: this.AlertBelow
       }).then(function (response) {
         console.log(response);
-        if (response.data.error != null) {
-          Vue.set(vm.$data, 'ownerrors', response.data.error);
-        } else {
+        if (response.data.error == null) {
+          vm.RecentAddedAndSearch();
           Vue.set(vm.$data, 'successAlerts', 'Created Successfully');
           Vue.set(vm.$data, 'AccountCode', '');
           Vue.set(vm.$data, 'ItemCode', '');
@@ -27739,12 +27738,13 @@ Vue.use(__WEBPACK_IMPORTED_MODULE_1_vue_numeric___default.a);
           Vue.set(vm.$data, 'CurrentCost', '');
           Vue.set(vm.$data, 'Description', '');
           Vue.set(vm.$data, 'AlertBelow', '');
+        } else {
+          Vue.set(vm.$data, 'ownerrors', response.data.error);
         }
       }, function (error) {
         console.log(error);
         Vue.set(vm.$data, 'laravelerrors', error.response.data);
       });
-      this.RecentAddedAndSearch();
     },
     RecentAddedAndSearch: function RecentAddedAndSearch(page) {
       var vm = this;

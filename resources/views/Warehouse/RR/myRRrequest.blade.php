@@ -59,7 +59,9 @@
         <h1 class="no-RR">RR request is empty</h1>
       @endif
       @if (!empty($requestRR[0]))
+      <div class="paginate-container">
         {{$requestRR->links()}}
+      </div>
       @endif
     </div>
   </div>

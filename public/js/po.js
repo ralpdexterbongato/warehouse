@@ -1165,16 +1165,16 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
       var vm = this;
       __WEBPACK_IMPORTED_MODULE_0_axios___default.a.put('/gm-signature-po/' + this.pono.PONo).then(function (response) {
         console.log(response);
+        vm.fetchPOPreview();
       });
-      this.fetchPOPreview();
     },
     GMDeclinedPO: function GMDeclinedPO() {
       this.SignatureBtnHide = true;
       var vm = this;
       __WEBPACK_IMPORTED_MODULE_0_axios___default.a.put('/gm-decline-po/' + this.pono.PONo).then(function (response) {
         console.log(response);
+        vm.fetchPOPreview();
       });
-      this.fetchPOPreview();
     },
     formatPrice: function formatPrice(value) {
       var val = (value / 1).toFixed(2).replace('.', '.');
@@ -1185,20 +1185,44 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
       var vm = this;
       __WEBPACK_IMPORTED_MODULE_0_axios___default.a.put('/declined-Authorize-inbehalf/' + this.pono.PONo).then(function (response) {
         console.log(response);
+        vm.fetchPOPreview();
       });
-      this.fetchPOPreview();
     },
     ApproveAuthorizeInBehalf: function ApproveAuthorizeInBehalf() {
       this.SignatureApproveReplacerHide = true;
       var vm = this;
       __WEBPACK_IMPORTED_MODULE_0_axios___default.a.put('/authorize-in-behalf-confirmed/' + this.pono.PONo).then(function (response) {
         console.log(response);
+        vm.fetchPOPreview();
       });
-      this.fetchPOPreview();
     }
   },
   created: function created() {
     this.fetchPOPreview();
+  },
+
+  computed: {
+    GMCanSignature: function GMCanSignature() {
+      if (this.OrderMaster.users[0].id == this.user.id && this.OrderMaster.users[0].pivot.Signature == null && (this.OrderMaster.users[1] == null || this.OrderMaster.users[1] != null && this.OrderMaster.users[1].pivot.Signature == null)) {
+        return true;
+      } else {
+        return false;
+      }
+    },
+    ApprovalReplacerCanSignature: function ApprovalReplacerCanSignature() {
+      if (this.OrderMaster.users[1] != null && this.user.id == this.OrderMaster.users[1].id && this.OrderMaster.users[0].pivot.Signature == null && this.OrderMaster.users[1].pivot.Signature == null) {
+        return true;
+      } else {
+        return false;
+      }
+    },
+    AlreadyApproved: function AlreadyApproved() {
+      if (this.OrderMaster.users[0].pivot.Signature == '0' || this.OrderMaster.users[1] != null && this.OrderMaster.users[1].pivot.Signature == '0') {
+        return true;
+      } else {
+        return false;
+      }
+    }
   }
 });
 
@@ -1846,9 +1870,9 @@ module.exports={render:function (){var _vm=this;var _h=_vm.$createElement;var _c
   })]), _vm._v(" "), _c('div', {
     staticClass: "po-index-table"
   }, [_c('table', [_vm._m(1), _vm._v(" "), _vm._l((_vm.POindexData), function(data) {
-    return _c('tr', [_c('td', [_vm._v(_vm._s(data.PONo))]), _vm._v(" "), _c('td', [_vm._v(_vm._s(data.PODate))]), _vm._v(" "), _c('td', [_vm._v(_vm._s(data.RVNo))]), _vm._v(" "), _c('td', [_vm._v(_vm._s(data.RVDate))]), _vm._v(" "), _c('td', [_vm._v(_vm._s(data.Supplier))]), _vm._v(" "), _c('td', [_vm._v(_vm._s(data.Purpose))]), _vm._v(" "), _c('td', [_vm._v(_vm._s(data.GeneralManager))]), _vm._v(" "), _c('td', [(data.ApprovalReplacerSignature != null || data.GeneralManagerSignature != null) ? _c('i', {
+    return (data.users[0] != null) ? _c('tr', [_c('td', [_vm._v(_vm._s(data.PONo))]), _vm._v(" "), _c('td', [_vm._v(_vm._s(data.PODate))]), _vm._v(" "), _c('td', [_vm._v(_vm._s(data.RVNo))]), _vm._v(" "), _c('td', [_vm._v(_vm._s(data.RVDate))]), _vm._v(" "), _c('td', [_vm._v(_vm._s(data.Supplier))]), _vm._v(" "), _c('td', [_vm._v(_vm._s(data.Purpose))]), _vm._v(" "), _c('td', [_vm._v(_vm._s(data.users[0].FullName))]), _vm._v(" "), _c('td', [(data.Status == '0') ? _c('i', {
       staticClass: "fa fa-thumbs-up"
-    }) : (data.IfDeclined != null) ? _c('i', {
+    }) : (data.Status == '1') ? _c('i', {
       staticClass: "fa fa-times decliner"
     }) : _c('i', {
       staticClass: "fa fa-clock-o darker-blue"
@@ -1858,7 +1882,7 @@ module.exports={render:function (){var _vm=this;var _h=_vm.$createElement;var _c
       }
     }, [_c('i', {
       staticClass: "fa fa-eye"
-    })])])])
+    })])])]) : _vm._e()
   })], 2), _vm._v(" "), _c('div', {
     staticClass: "paginate-container"
   }, [_c('ul', {
@@ -1999,11 +2023,11 @@ module.exports = (
 /***/ (function(module, exports, __webpack_require__) {
 
 module.exports={render:function (){var _vm=this;var _h=_vm.$createElement;var _c=_vm._self._c||_h;
-  return _c('div', {
+  return (_vm.OrderMaster.users != null) ? _c('div', {
     staticClass: "po-full-buttons"
   }, [_c('div', {
     staticClass: "print-po-btn"
-  }, [((_vm.user.FullName == _vm.OrderMaster.ApprovalReplacer) && (_vm.OrderMaster.GeneralManagerSignature == null) && (_vm.OrderMaster.ApprovalReplacerSignature == null)) ? _c('div', {
+  }, [(_vm.ApprovalReplacerCanSignature) ? _c('div', {
     staticClass: "Approve-replacer-accept-cant Request-manager-replace"
   }, [_vm._m(0), _vm._v(" "), _c('span', {
     staticClass: "approval-po-replacer-btn",
@@ -2030,7 +2054,7 @@ module.exports={render:function (){var _vm=this;var _h=_vm.$createElement;var _c
     }
   }, [_c('i', {
     staticClass: "fa fa-times"
-  }), _vm._v(" I Can't\n        ")])], 1)]) : _vm._e(), _vm._v(" "), (((_vm.OrderMaster.GeneralManagerSignature != null) || (_vm.OrderMaster.ApprovalReplacerSignature != null))) ? _c('span', {
+  }), _vm._v(" I Can't\n        ")])], 1)]) : _vm._e(), _vm._v(" "), (_vm.AlreadyApproved) ? _c('span', {
     staticClass: "make-rr-and-print"
   }, [_c('div', {
     staticClass: "left-detail-po"
@@ -2040,9 +2064,9 @@ module.exports={render:function (){var _vm=this;var _h=_vm.$createElement;var _c
     }
   }, [_vm._m(1)]), _vm._v(" "), _c('li', {
     staticClass: "pending-delivery-number"
-  }, [_c('h1', [_vm._v("Unreceived items: "), _c('span', {
+  }, [_c('h1', [_vm._v("waiting for: "), _c('span', {
     staticClass: "color-blue"
-  }, [_vm._v(_vm._s(_vm.remaining))])])])]), _vm._v(" "), (_vm.user.Role == 4 || _vm.user.Role == 3) ? _c('div', {
+  }, [_vm._v(_vm._s(_vm.remaining))]), _vm._v(" items")])])]), _vm._v(" "), (_vm.user.Role == 4 || _vm.user.Role == 3) ? _c('div', {
     staticClass: "rr-with-po-btn"
   }, [_c('a', {
     attrs: {
@@ -2050,7 +2074,7 @@ module.exports={render:function (){var _vm=this;var _h=_vm.$createElement;var _c
     }
   }, [_vm._m(2)])]) : _vm._e()]) : _c('div', {
     staticClass: "empty-left"
-  }), _vm._v(" "), (((_vm.user.Role == 2) && (_vm.OrderMaster.GeneralManager == _vm.user.FullName) && (_vm.OrderMaster.GeneralManagerSignature == null) && (_vm.OrderMaster.IfDeclined == null) && (_vm.OrderMaster.ApprovalReplacerSignature == null))) ? _c('div', {
+  }), _vm._v(" "), (_vm.GMCanSignature) ? _c('div', {
     staticClass: "signature-btns-wrap-po",
     class: {
       'hide': _vm.SignatureBtnHide
@@ -2095,19 +2119,19 @@ module.exports={render:function (){var _vm=this;var _h=_vm.$createElement;var _c
     staticClass: "signatures-po"
   }, [_vm._m(7), _vm._v(" "), _c('div', {
     staticClass: "label-signatures-po"
-  }, [_vm._m(8), _vm._v(" "), _c('li', [(_vm.OrderMaster.GeneralManagerSignature != null) ? _c('h6', [_c('img', {
+  }, [_vm._m(8), _vm._v(" "), _c('li', [(_vm.OrderMaster.users[0].pivot.Signature == '0') ? _c('h6', [_c('img', {
     attrs: {
-      "src": '/storage/signatures/' + _vm.OrderMaster.GeneralManagerSignature,
+      "src": '/storage/signatures/' + _vm.OrderMaster.users[0].Signature,
       "alt": "signature"
     }
-  })]) : (_vm.OrderMaster.ApprovalReplacerSignature != null) ? _c('h6', [_c('p', [_vm._v("For :")]), _c('img', {
+  })]) : (((_vm.OrderMaster.users[1] != null) && (_vm.OrderMaster.users[1].pivot.Signature == '0'))) ? _c('h6', [_c('p', [_vm._v("For :")]), _c('img', {
     attrs: {
-      "src": '/storage/signatures/' + _vm.OrderMaster.ApprovalReplacerSignature,
+      "src": '/storage/signatures/' + _vm.OrderMaster.users[1].Signature,
       "alt": "signature"
     }
-  })]) : _vm._e(), _vm._v(" "), _c('h3', [_vm._v("\n          " + _vm._s(_vm.OrderMaster.GeneralManager) + "\n          "), (_vm.OrderMaster.IfDeclined != null) ? _c('i', {
+  })]) : _vm._e(), _vm._v(" "), _c('h3', [_vm._v("\n          " + _vm._s(_vm.OrderMaster.users[0].FullName) + "\n          "), (_vm.OrderMaster.users[0].pivot.Signature == '1') ? _c('i', {
     staticClass: "fa fa-times decliner"
-  }) : _vm._e()]), _vm._v(" "), _c('label', [_vm._v("General Manager")])])])])])])
+  }) : _vm._e()]), _vm._v(" "), _c('label', [_vm._v(_vm._s(_vm.OrderMaster.users[0].Position))])])])])])]) : _vm._e()
 },staticRenderFns: [function (){var _vm=this;var _h=_vm.$createElement;var _c=_vm._self._c||_h;
   return _c('h6', {
     staticClass: "approve-managerreplace-note"

@@ -74,7 +74,6 @@
         <th>Return Date</th>
         <th>Particulars</th>
         <th>Address To</th>
-        <th>Returned by</th>
         <th>Status</th>
         <th>Show</th>
       </tr>
@@ -83,13 +82,9 @@
         <td>{{mrt.ReturnDate}}</td>
         <td>{{mrt.Particulars}}</td>
         <td>{{mrt.AddressTo}}</td>
-        <td>{{mrt.Returnedby}}
-          <i class="fa fa-times decliner" v-if="mrt.IfDeclined==mrt.Returnedby"></i>
-          <i class="fa fa-check" v-else-if="mrt.ReturnedbySignature!=null"></i>
-        </td>
         <td>
-          <i class="fa fa-times decliner" v-if="mrt.IfDeclined!=null"></i>
-          <i class="fa fa-thumbs-up" v-else-if="mrt.ReturnedbySignature!=null"></i>
+          <i class="fa fa-times decliner" v-if="mrt.Status=='1'"></i>
+          <i class="fa fa-thumbs-up" v-else-if="mrt.Status=='0'"></i>
           <i class="fa fa-clock-o color-blue" v-else></i>
         </td>
         <td><a :href="'/mrt-preview-page/'+mrt.MRTNo"><i class="fa fa-eye"></i></a></td>
@@ -140,10 +135,6 @@
         <th>RVNo</th>
         <th>RVDate</th>
         <th>Purpose</th>
-        <th>Requisitioner</th>
-        <th>Recommended by</th>
-        <th>Budget Officer</th>
-        <th>Approved by</th>
         <th>Status</th>
         <th>Show</th>
       </tr>
@@ -152,31 +143,8 @@
         <td>{{rv.RVDate}}</td>
         <td>{{rv.Purpose}}</td>
         <td>
-          {{rv.Requisitioner}}<br>
-          <i class="fa fa-check"></i>
-        </td>
-        <td>
-          {{rv.Recommendedby}}<br>
-          <i v-if="rv.RecommendedbySignature!=null||rv.ManagerReplacerSignature!=null" class="fa fa-check"></i>
-          <i class="fa fa-times decliner" v-else-if="rv.Recommendedby==rv.IfDeclined"></i>
-        </td>
-        <td>
-          {{rv.BudgetOfficer}}<br>
-          <i v-if="rv.BudgetOfficerSignature!=null" class="fa fa-check"></i>
-          <i class="fa fa-times decliner" v-else-if="rv.BudgetOfficer==rv.IfDeclined"></i>
-        </td>
-        <td v-if="rv.ApprovalReplacerSignature!=null">
-          {{rv.ApprovalReplacerFullName}}
-          <i class="fa fa-check"></i>
-        </td>
-        <td v-else>
-          {{rv.GeneralManager}}<br>
-          <i v-if="rv.GeneralManagerSignature!=null" class="fa fa-check"></i>
-          <i class="fa fa-times decliner" v-else-if="rv.GeneralManager==rv.IfDeclined"></i>
-        </td>
-        <td>
-          <i class="fa fa-thumbs-up" v-if="(((rv.GeneralManagerSignature!=null)||(rv.ApprovalReplacerSignature!=null))&&((rv.RecommendedbySignature!=null)||(rv.ManagerReplacerSignature!=null))&&(rv.BudgetOfficerSignature!=null))"></i>
-          <i class="fa fa-times decliner" v-else-if="rv.IfDeclined!=null"></i>
+          <i class="fa fa-thumbs-up" v-if="rv.Status=='0'"></i>
+          <i class="fa fa-times decliner" v-else-if="rv.Status=='1'"></i>
           <i class="fa fa-clock-o" v-else></i>
         </td>
         <td><a :href="'/RVfullview/'+rv.RVNo"><i class="fa fa-eye"></i></a></td>
@@ -263,13 +231,13 @@
        {
          if (this.searchID==null)
          {
-           var fullname=this.user.FullName;
+           var returnerId=this.user.id;
          }else
          {
-           var fullname=this.searchID;
+           var returnerId=this.searchID;
          }
          var vm=this;
-         axios.get(`/search-my-mrt-history?Returnedby=`+fullname+`&YearMonth=`+this.searchmonth+`&page=`+page,{
+         axios.get(`/search-my-mrt-history?ReturnedById=`+returnerId+`&YearMonth=`+this.searchmonth+`&page=`+page,{
          }).then(function(response)
          {
            console.log(response);
@@ -299,13 +267,13 @@
        {
          if (this.searchID==null)
          {
-           var fullname=this.user.FullName;
+           var RequisitionerId=this.user.id;
          }else
          {
-           var fullname=this.searchID;
+           var RequisitionerId=this.searchID;
          }
          var vm=this;
-         axios.get(`/search-my-rv-history?Receivedby=`+fullname+`&YearMonth=`+this.searchmonth+`&page=`+page,{
+         axios.get(`/search-my-rv-history?Requisitioner=`+RequisitionerId+`&YearMonth=`+this.searchmonth+`&page=`+page,{
          }).then(function(response)
          {
            console.log(response);

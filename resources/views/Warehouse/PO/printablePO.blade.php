@@ -325,13 +325,13 @@
           <div class="right-gm-wrap">
             <label>ORDER ISSUED AND AUTHORIZED <br> BY:</label>
             <div class="gm-signature">
-              @if ($MasterPO[0]->GeneralManagerSignature)
-                <h1><img src="c:/xampp/htdocs/warehouse/public/storage/signatures/{{$MasterPO[0]->GeneralManagerSignature}}" alt="signature"></h1>
-              @elseif ($MasterPO[0]->ApprovalReplacerSignature)
-                <medium class="for">For :</medium><h1><img src="c:/xampp/htdocs/warehouse/public/storage/signatures/{{$MasterPO[0]->ApprovalReplacerSignature}}" alt="signature"></h1>
+              @if ($MasterPO[0]->users[0]->pivot->Signature=='0')
+                <h1><img src="c:/xampp/htdocs/warehouse/public/storage/signatures/{{$MasterPO[0]->users[0]->Signature}}" alt="signature"></h1>
+              @elseif (isset($MasterPO[0]->users[1])&&($MasterPO[0]->users[1]->pivot->Signature=='0'))
+                <medium class="for">For :</medium><h1><img src="c:/xampp/htdocs/warehouse/public/storage/signatures/{{$MasterPO[0]->users[1]->Signature}}" alt="signature"></h1>
               @endif
-              <h4>{{$MasterPO[0]->GeneralManager}}</h4>
-              <p>General Manager</p>
+              <h4>{{$MasterPO[0]->users[0]->FullName}}</h4>
+              <p>{{$MasterPO[0]->users[0]->Position}}</p>
             </div>
           </div>
         </div>

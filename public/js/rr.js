@@ -1079,6 +1079,7 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
           Vue.set(vm.$data, 'laravelerrors', '');
           Vue.set(vm.$data, 'successAlerts', '');
         } else {
+          vm.fetchDataofSession();
           Vue.set(vm.$data, 'ownerrors', '');
           Vue.set(vm.$data, 'laravelerrors', '');
           Vue.set(vm.$data, 'successAlerts', 'Successfully added !');
@@ -1089,7 +1090,6 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
         Vue.set(vm.$data, 'ownerrors', '');
         Vue.set(vm.$data, 'successAlerts', '');
       });
-      this.fetchDataofSession();
     },
     fetchDataofSession: function fetchDataofSession() {
       var vm = this;
@@ -1102,11 +1102,11 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
       var vm = this;
       __WEBPACK_IMPORTED_MODULE_0_axios___default.a.delete('/DeleteSession-RR/' + count).then(function (response) {
         console.log(response);
+        vm.fetchDataofSession();
         Vue.set(vm.$data, 'successAlerts', 'Deleted successfully !');
         Vue.set(vm.$data, 'ownerrors', '');
         Vue.set(vm.$data, 'laravelerrors', '');
       });
-      this.fetchDataofSession();
     },
     formatPrice: function formatPrice(value) {
       var val = (value / 1).toFixed(2).replace('.', '.');
@@ -1305,6 +1305,7 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
           Vue.set(vm.$data, 'successAlerts', '');
           Vue.set(vm.$data, 'laravelerrors', '');
         } else {
+          vm.showaddedSession();
           Vue.set(vm.$data, 'successAlerts', 'Successfully added !');
           Vue.set(vm.$data, 'ownerrors', '');
           Vue.set(vm.$data, 'laravelerrors', '');
@@ -1318,7 +1319,6 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
           Vue.set(vm.$data, 'ownerrors', '');
         }
       });
-      this.showaddedSession();
     },
     showaddedSession: function showaddedSession() {
       var vm = this;
@@ -1335,11 +1335,11 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
       var vm = this;
       __WEBPACK_IMPORTED_MODULE_0_axios___default.a.delete('/DeleteSession-RR/' + count).then(function (response) {
         console.log(response);
+        vm.showaddedSession();
         Vue.set(vm.$data, 'successAlerts', 'Successfully removed');
         Vue.set(vm.$data, 'laravelerrors', '');
         Vue.set(vm.$data, 'ownerrors', '');
       });
-      this.showaddedSession();
     },
     SubmitRRwithPO: function SubmitRRwithPO() {
       this.HideSubmitBtn = true;
@@ -1622,16 +1622,16 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
       var vm = this;
       __WEBPACK_IMPORTED_MODULE_0_axios___default.a.put('/RR-signature/' + this.rrno.RRNo).then(function (response) {
         console.log(response);
+        vm.FetchData();
       });
-      this.FetchData();
     },
     declinesignature: function declinesignature() {
       this.SignatureBtnHide = true;
       var vm = this;
       __WEBPACK_IMPORTED_MODULE_0_axios___default.a.put('/decline-this-RR/' + this.rrno.RRNo).then(function (response) {
         console.log(response);
+        vm.FetchData();
       });
-      this.FetchData();
     },
     formatPrice: function formatPrice(value) {
       var val = (value / 1).toFixed(2).replace('.', '.');

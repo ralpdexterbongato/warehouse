@@ -16,6 +16,7 @@ use App\MaterialsTicketDetail;
 use App\Jobs\NewRVCreatedJob;
 use App\Jobs\NewRVApprovedJob;
 use App\Jobs\RVApprovalReplacer;
+use App\Signatureable;
 class RVController extends Controller
 {
     public function __construct()
@@ -56,8 +57,8 @@ class RVController extends Controller
       {
         return ['error'=>'Item is Required'];
       }
-      $currentBudgetOfficer=User::orderBy('id','DESC')->whereNotNull('IsActive')->where('Role', '7')->take(1)->get(['FullName']);//also using this at the bottom for RVdetails
-      $GM=User::orderBy('id','DESC')->whereNotNull('IsActive')->where('Role', '2')->take(1)->get(['FullName']);//also using this at the bottom for RVdetails
+      $currentBudgetOfficer=User::orderBy('id','DESC')->whereNotNull('IsActive')->where('Role', '7')->take(1)->get(['id']);//also using this at the bottom for RVdetails
+      $GM=User::orderBy('id','DESC')->whereNotNull('IsActive')->where('Role', '2')->take(1)->get(['id']);//also using this at the bottom for RVdetails
       if (empty($currentBudgetOfficer[0]))
       {
         return ['error'=>'Budget Officer cannot be empty'];
@@ -79,45 +80,41 @@ class RVController extends Controller
       {
         $incremented=$year.'-'.sprintf("%04d",'1');
       }
-      $recommended=User::whereNotNull('IsActive')->where('id',Auth::user()->Manager)->get(['FullName','Position']);
       $RVMaster=new RVMaster;
       $RVMaster->RVNo=$incremented;
       $RVMaster->RVDate=$date;
       $RVMaster->Purpose=$request->Purpose;
-      $RVMaster->Requisitioner=Auth::user()->FullName;
-      $RVMaster->RequisitionerPosition=Auth::user()->Position;
-      $RVMaster->RequisitionerSignature=Auth::user()->Signature;
-      $approveReplacer=User::whereNotNull('IfApproveReplacer')->get(['FullName']);
-      if (!empty($approveReplacer[0]))
-      {
-        $RVMaster->ApprovalReplacer=$approveReplacer[0]->FullName;
-      }
-      $RVMaster->Recommendedby=$recommended[0]->FullName;
-      $RVMaster->RecommendedbyPosition=$recommended[0]->Position;
-      if (($request->BudgetAvailable!=null)&&(Auth::user()->Role==7))
-      {
-        $RVMaster->BudgetAvailable=$request->BudgetAvailable;
-      }
-      $RVMaster->BudgetOfficer=$currentBudgetOfficer[0]->FullName;
-      $RVMaster->GeneralManager=$GM[0]->FullName;
       $RVMaster->save();
-
+      $approveReplacerId=User::whereNotNull('IfApproveReplacer')->get(['id']);
+      if (!empty($approveReplacerId[0]))
+      {
+        $forSignatureableTbl = array(
+          array('user_id' =>Auth::user()->id,'signatureable_id'=>$incremented,'signatureable_type'=>'App\RVMaster','SignatureType'=>'Requisitioner'),
+          array('user_id' =>Auth::user()->Manager,'signatureable_id'=>$incremented,'signatureable_type'=>'App\RVMaster','SignatureType'=>'RecommendedBy'),
+          array('user_id' =>$currentBudgetOfficer[0]->id,'signatureable_id'=>$incremented,'signatureable_type'=>'App\RVMaster','SignatureType'=>'BudgetOfficer'),
+          array('user_id' =>$GM[0]->id,'signatureable_id'=>$incremented,'signatureable_type'=>'App\RVMaster','SignatureType'=>'ApprovedBy'),
+          array('user_id' =>$approveReplacerId[0]->id,'signatureable_id'=>$incremented,'signatureable_type'=>'App\RVMaster','SignatureType'=>'ApprovalReplacer')
+        );
+      }else
+      {
+        $forSignatureableTbl = array(
+          array('user_id' =>Auth::user()->id,'signatureable_id'=>$incremented,'signatureable_type'=>'App\RVMaster','SignatureType'=>'Requisitioner'),
+          array('user_id' =>Auth::user()->Manager,'signatureable_id'=>$incremented,'signatureable_type'=>'App\RVMaster','SignatureType'=>'RecommendedBy'),
+          array('user_id' =>$currentBudgetOfficer[0]->id,'signatureable_id'=>$incremented,'signatureable_type'=>'App\RVMaster','SignatureType'=>'BudgetOfficer'),
+          array('user_id' =>$GM[0]->id,'signatureable_id'=>$incremented,'signatureable_type'=>'App\RVMaster','SignatureType'=>'ApprovedBy')
+        );
+      }
       $forRVdetailDB = array();
       foreach (Session::get('ItemSessionList') as $SessionItem)
       {
         $forRVdetailDB[] = array('RVNo' =>$incremented ,'Particulars'=>$SessionItem->Description,'Unit'=>$SessionItem->Unit,'Quantity'=>$SessionItem->Quantity,'QuantityValidator'=>$SessionItem->Quantity,'Remarks'=>$SessionItem->Remarks,'AccountCode'=>$SessionItem->AccountCode,'ItemCode'=>$SessionItem->ItemCode);
       }
+      Signatureable::insert($forSignatureableTbl);
       RVDetail::insert($forRVdetailDB);
       Session::forget('ItemSessionList');
       Session::forget('SessionForStock');
-      $nospaceName=str_replace(' ','',$recommended[0]->FullName);
-      $NotifyThisPerson = array('NotificReceiver'=>$nospaceName);
-      $NotifyThisPerson=(object)$NotifyThisPerson;
-      $job = (new NewRVCreatedJob($NotifyThisPerson))->delay(Carbon::now()->addSeconds(5));
-      dispatch($job);
       return ['redirect' => route('RVfullpreviewing',[$incremented])];
     }
-
     public function RVindexView()
     {
       return view('Warehouse.RV.RVindex');
@@ -131,7 +128,7 @@ class RVController extends Controller
     public function RVfullpreviewFetchData($id)
     {
       $RVDetails=RVDetail::where('RVNo',$id)->get(['RVNo','Particulars','Unit','Quantity','Remarks']);
-      $RVMaster=RVMaster::where('RVNo',$id)->get();
+      $RVMaster=RVMaster::with('users')->where('RVNo',$id)->get();
       $checkRR=RRMaster::where('RVNo', $id)->take(1)->value('RRNo');
       $checkPO=POMaster::where('RVNo',$id)->take(1)->value('PONo');
       $undeliveredTotal=null;
@@ -144,40 +141,59 @@ class RVController extends Controller
     }
     public function Signature($id,Request $request)
     {
-      $RVMasterNames=RVMaster::where('RVNo',$id)->get(['Requisitioner','BudgetOfficer','Recommendedby','GeneralManager','ApprovalReplacer']);
-      if ($RVMasterNames[0]->BudgetOfficer == Auth::user()->FullName)
+      $RequisitionerID=Signatureable::where('signatureable_id', $id)->where('signatureable_type', 'App\RVMaster')->where('SignatureType', 'Requisitioner')->get(['user_id']);
+      $RecommendedByID=Signatureable::where('signatureable_id', $id)->where('signatureable_type', 'App\RVMaster')->where('SignatureType', 'RecommendedBy')->get(['user_id']);
+      $BudgetOfficerID=Signatureable::where('signatureable_id', $id)->where('signatureable_type', 'App\RVMaster')->where('SignatureType', 'BudgetOfficer')->get(['user_id']);
+      $ApprovalReplacerID=Signatureable::where('signatureable_id', $id)->where('signatureable_type', 'App\RVMaster')->where('SignatureType', 'ApprovalReplacer')->get(['user_id']);
+      $GMID=Signatureable::where('signatureable_id', $id)->where('signatureable_type', 'App\RVMaster')->where('SignatureType', 'ApprovedBy')->get(['user_id']);
+      $RVMasterTurn=RVMaster::where('RVNo', $id)->value('SignatureTurn');
+
+      if (Auth::user()->id==$RequisitionerID[0]->user_id && $RVMasterTurn==0)
+      {
+        Signatureable::where('signatureable_id', $id)->where('signatureable_type', 'App\RVMaster')->where('SignatureType', 'Requisitioner')->where('user_id', Auth::user()->id)->update(['Signature'=>'0']);
+        RVMaster::where('RVNo', $id)->update(['SignatureTurn'=>'1']);
+        $NotifyThisPerson = array('NotificReceiver'=>$RecommendedByID[0]->user_id);
+        $NotifyThisPerson=(object)$NotifyThisPerson;
+        $job = (new NewRVCreatedJob($NotifyThisPerson))->delay(Carbon::now()->addSeconds(5));
+        dispatch($job);
+      }
+
+      if ($BudgetOfficerID[0]->user_id == Auth::user()->id && $RVMasterTurn==2)
       {
         $this->validate($request,[
             'BudgetAvailable'=>'max:50',
         ]);
-        RVMaster::where('RVNo',$id)->update(['BudgetOfficerSignature'=>Auth::user()->Signature,'BudgetAvailable'=>$request->BudgetAvailable]);
-        $nospaceName=str_replace(' ','',$RVMasterNames[0]->GeneralManager);
-        $NotifyThisPerson = array('NotificReceiver' => $nospaceName);
+        Signatureable::where('signatureable_id', $id)->where('signatureable_type', 'App\RVMaster')->where('SignatureType', 'BudgetOfficer')->where('user_id', Auth::user()->id)->update(['Signature'=>'0']);
+        RVMaster::where('RVNo',$id)->update(['BudgetAvailable'=>$request->BudgetAvailable,'SignatureTurn'=>'3']);
+        $NotifyThisPerson = array('NotificReceiver' =>$GMID[0]->user_id);
         $NotifyThisPerson=(object)$NotifyThisPerson;
         $job = (new NewRVCreatedJob($NotifyThisPerson))->delay(Carbon::now()->addSeconds(5));
         dispatch($job);
-        if (!empty($RVMasterNames[0]->ApprovalReplacer))
+        if (!empty($ApprovalReplacerID[0]))
         {
-          $nospaceName=str_replace(' ','',$RVMasterNames[0]->ApprovalReplacer);
-          $NotifyThisPerson = array('NotificReceiver' => $nospaceName);
+          $NotifyThisPerson = array('NotificReceiver' => $ApprovalReplacerID[0]->user_id);
           $NotifyThisPerson=(object)$NotifyThisPerson;
           $job = (new NewRVCreatedJob($NotifyThisPerson))->delay(Carbon::now()->addSeconds(5));
           dispatch($job);
         }
       }
-      if ($RVMasterNames[0]->Recommendedby == Auth::user()->FullName)
+      if ($RecommendedByID[0]->user_id == Auth::user()->id)
       {
-        RVMaster::where('RVNo',$id)->update(['RecommendedbySignature'=>Auth::user()->Signature,'ManagerReplacer'=>null,'ManagerReplacerSignature'=>null]);
-        $nospaceName=str_replace(' ','',$RVMasterNames[0]->BudgetOfficer);
-        $NotifyThisPerson = array('NotificReceiver' => $nospaceName);
+        Signatureable::where('signatureable_id', $id)->where('signatureable_type', 'App\RVMaster')->where('SignatureType', 'RecommendedBy')->where('user_id', Auth::user()->id)->update(['Signature'=>'0']);
+        Signatureable::where('signatureable_id', $id)->where('signatureable_type', 'App\RVMaster')->where('SignatureType', 'ManagerReplacer')->delete();
+        RVMaster::where('RVNo',$id)->update(['SignatureTurn'=>'2']);
+        $NotifyThisPerson = array('NotificReceiver' => $BudgetOfficerID[0]->user_id);
         $NotifyThisPerson=(object)$NotifyThisPerson;
         $job = (new NewRVCreatedJob($NotifyThisPerson))->delay(Carbon::now()->addSeconds(5));
         dispatch($job);
       }
-      if ($RVMasterNames[0]->GeneralManager == Auth::user()->FullName)
+      if ($GMID[0]->user_id == Auth::user()->id)
       {
-        RVMaster::where('RVNo',$id)->update(['GeneralManagerSignature'=>Auth::user()->Signature,'ApprovalReplacer'=>null,'ApprovalReplacerSignature'=>null]);
-        $requisitionerMobile=User::where('FullName',$RVMasterNames[0]->Requisitioner)->get(['Mobile']);
+        Signatureable::where('signatureable_id', $id)->where('signatureable_type', 'App\RVMaster')->where('SignatureType', 'ApprovedBy')->where('user_id', Auth::user()->id)->update(['Signature'=>'0']);
+        RVMaster::where('RVNo',$id)->update(['SignatureTurn'=>'4','Status'=>'0']);
+        Signatureable::where('signatureable_id', $id)->where('signatureable_type', 'App\RVMaster')->where('SignatureType', 'ApprovalReplacer')->delete();
+
+        $requisitionerMobile=User::where('id',$RequisitionerID[0]->user_id)->get(['Mobile']);
         $notifyData = array('RequisitionerMobile' =>$requisitionerMobile[0]->Mobile,'RVNo'=>$id);
         $notifyData=(object)$notifyData;
         $job = (new NewRVApprovedJob($notifyData))->delay(Carbon::now()->addSeconds(5));
@@ -186,53 +202,13 @@ class RVController extends Controller
     }
     public function RVrequest()
     {
-    $myRVPendingrequest=RVMaster::orderBy('RVNo','DESC')
-    ->orWhere('Recommendedby',Auth::user()->FullName)
-    ->whereNull('RecommendedbySignature')
-    ->whereNull('IfDeclined')
-    ->whereNotNull('RequisitionerSignature')
-    ->whereNull('ManagerReplacerSignature')
-    ->orWhere('BudgetOfficer',Auth::user()->FullName)
-    ->whereNull('BudgetOfficerSignature')
-    ->whereNotNull('RecommendedbySignature')
-    ->whereNull('IfDeclined')
-    ->orWhere('BudgetOfficer',Auth::user()->FullName)
-    ->whereNull('BudgetOfficerSignature')
-    ->whereNotNull('ManagerReplacerSignature')
-    ->whereNull('IfDeclined')
-    ->orWhere('GeneralManager',Auth::user()->FullName)
-    ->whereNull('GeneralManagerSignature')
-    ->whereNull('ApprovalReplacerSignature')
-    ->whereNull('IfDeclined')
-    ->whereNotNull('RequisitionerSignature')
-    ->whereNotNull('RecommendedbySignature')
-    ->whereNotNull('BudgetOfficerSignature')
-    ->whereNull('ApprovalReplacerSignature')
-    ->orWhere('GeneralManager',Auth::user()->FullName)
-    ->whereNull('GeneralManagerSignature')
-    ->whereNull('ApprovalReplacerSignature')
-    ->whereNull('IfDeclined')
-    ->whereNotNull('ManagerReplacerSignature')
-    ->whereNotNull('BudgetOfficerSignature')
-    ->orWhere('ManagerReplacer',Auth::user()->FullName)
-    ->whereNull('ManagerReplacerSignature')
-    ->whereNull('RecommendedbySignature')
-    ->orWhere('ApprovalReplacer',Auth::user()->FullName)
-    ->whereNull('ApprovalReplacerSignature')
-    ->whereNull('GeneralManagerSignature')
-    ->whereNotNull('RecommendedbySignature')
-    ->whereNotNull('BudgetOfficerSignature')
-    ->orWhere('ApprovalReplacer',Auth::user()->FullName)
-    ->whereNull('ApprovalReplacerSignature')
-    ->whereNull('GeneralManagerSignature')
-    ->whereNotNull('ManagerReplacerSignature')
-    ->whereNotNull('BudgetOfficerSignature')
-    ->paginate(10,['RVNo','Purpose','Requisitioner','RequisitionerSignature','Recommendedby','RecommendedbySignature','BudgetOfficer','BudgetOfficerSignature','GeneralManager','GeneralManagerSignature','RVDate','ApprovalReplacerSignature','ManagerReplacerSignature']);
+    $myRVPendingrequest=Auth::user()->RVSignatureTurn()->paginate(10);
       return view('Warehouse.RV.MyRVrequest',compact('myRVPendingrequest'));
     }
     public function declineRV($id)
     {
-      RVMaster::where('RVNo',$id)->update(['IfDeclined'=>Auth::user()->FullName,'ApprovalReplacer'=>null,'ApprovalReplacerSignature'=>null]);
+      Signatureable::where('signatureable_id', $id)->where('user_id', Auth::user()->id)->update(['Signature'=>'1']);
+      RVMaster::where('RVNo', $id)->update(['Status'=>'1']);
     }
     public function searchRV(Request $request)
     {
@@ -265,42 +241,14 @@ class RVController extends Controller
 
     public function RVIndexSearch(Request $request)
     {
-      $allRVMaster=RVMaster::orderBy('RVNo','DESC')->where('RVNo','LIKE','%'.$request->search.'%')->paginate(10,['RVNo','Purpose','Requisitioner','RequisitionerSignature','Recommendedby','RecommendedbySignature','BudgetOfficer','BudgetOfficerSignature','GeneralManager','GeneralManagerSignature','RVDate','IfDeclined','ApprovalReplacerSignature',
-      'ManagerReplacerSignature']);
-      $response=[
-        'pagination'=>[
-          'total'=> $allRVMaster->total(),
-          'per_page'=>$allRVMaster->perPage(),
-          'current_page'=>$allRVMaster->currentPage(),
-          'last_page'=>$allRVMaster->lastPage(),
-          'from'=>$allRVMaster->firstitem(),
-          'to'=>$allRVMaster->lastitem(),
-        ],
-        'model'=>$allRVMaster
-      ];
-
-      return response()->json($response);
+      return $allRVMaster=RVMaster::orderBy('RVNo','DESC')->with('users')->where('RVNo','LIKE','%'.$request->search.'%')->paginate(10,['RVNo','Purpose','RVDate','Status']);
     }
     public function UnpurchaseList()
     {
       $unpurchaselist=RVMaster::orderBy('RVNo','ASC')
-      ->whereNotNull('RecommendedbySignature')
-      ->whereNotNull('BudgetOfficerSignature')
-      ->whereNull('IfPurchased')
-      ->whereNotNull('GeneralManagerSignature')
-      ->orWhereNotNull('ApprovalReplacerSignature')
-      ->whereNotNull('RecommendedbySignature')
-      ->whereNotNull('BudgetOfficerSignature')
-      ->whereNull('IfPurchased')
-      ->orWhereNotNull('ApprovalReplacerSignature')
-      ->whereNotNull('ManagerReplacerSignature')
-      ->whereNotNull('BudgetOfficerSignature')
-      ->whereNull('IfPurchased')
-      ->orWhereNotNull('ManagerReplacerSignature')
-      ->whereNotNull('BudgetOfficerSignature')
-      ->whereNull('IfPurchased')
-      ->whereNotNull('GeneralManagerSignature')
-      ->paginate(10,['RVNo','Purpose','Requisitioner','RVDate']);
+      ->where('Status', '0')
+      ->where('IfPurchased', null)
+      ->paginate(10,['RVNo','Purpose','BudgetAvailable','RVDate']);
       return view('Warehouse.RV.myUnpurchaseRVlist',compact('unpurchaselist'));
     }
     public function updateBudgetAvailable($id, Request $request)
@@ -313,18 +261,21 @@ class RVController extends Controller
     }
     public function cancelSignatureApproveInBehalf($id)
     {
-        RVMaster::where('RVNo', $id)->update(['ApprovalReplacer'=>null]);
+      Signatureable::where('signatureable_id', $id)->where('SignatureType','ApprovalReplacer')->where('user_id', Auth::user()->id)->delete();
     }
     public function AcceptSignatureBehalf($id)
     {
-      RVMaster::where('RVNo', $id)->update(['ApprovalReplacerSignature'=>Auth::user()->Signature]);
-        $RVMaster=RVMaster::where('RVNo',$id)->get(['Requisitioner','GeneralManager']);
-        $RequisitionerMobile=User::where('FullName',$RVMaster[0]->Requisitioner)->get(['Mobile']);
-        $GMMoble=User::where('FullName',$RVMaster[0]->GeneralManager)->get(['Mobile']);
-        $NotifData = array('RequisitionerMobile' =>$RequisitionerMobile[0]->Mobile,'RVNo'=>$id,'ApprovalReplacer'=>Auth::user()->FullName,'GMMobile'=>$GMMoble[0]->Mobile);
-        $NotifData=(object)$NotifData;
-        $job = (new RVApprovalReplacer($NotifData))->delay(Carbon::now()->addSeconds(5));
-        dispatch($job);
+      RVMaster::where('RVNo', $id)->update(['SignatureTurn'=>'4','Status'=>'0']);
+      Signatureable::where('signatureable_id', $id)->where('SignatureType','ApprovalReplacer')->where('user_id', Auth::user()->id)->update(['Signature'=>'0']);
+      $RequisitionerId=Signatureable::where('signatureable_id', $id)->where('SignatureType','Requisitioner')->get(['user_id']);
+      $GMID=Signatureable::where('signatureable_id', $id)->where('SignatureType','ApprovedBy')->get(['user_id']);
+
+      $RequisitionerMobile=User::where('id',$RequisitionerId[0]->user_id)->get(['Mobile']);
+      $GMMoble=User::where('id',$GMID[0]->user_id)->get(['Mobile']);
+      $NotifData = array('RequisitionerMobile' =>$RequisitionerMobile[0]->Mobile,'RVNo'=>$id,'ApprovalReplacer'=>Auth::user()->FullName,'GMMobile'=>$GMMoble[0]->Mobile);
+      $NotifData=(object)$NotifData;
+      $job = (new RVApprovalReplacer($NotifData))->delay(Carbon::now()->addSeconds(5));
+      dispatch($job);
     }
     public function fetchSessionRV()
     {
@@ -344,24 +295,28 @@ class RVController extends Controller
       {
         return ['error'=>'required'];
       }
-      $replacer=User::where('id',$request->ManagerID)->get(['FullName']);
-      RVMaster::where('RVNo',$id)->update(['ManagerReplacer'=>$replacer[0]->FullName]);
-      $nospaceName=str_replace(' ','',$replacer[0]->FullName);
-      $NotifyThisPerson = array('NotificReceiver' => $nospaceName);
+      $signatureTbl=new Signatureable;
+      $signatureTbl->user_id=$request->ManagerID;
+      $signatureTbl->signatureable_id = $id;
+      $signatureTbl->signatureable_type = 'App\RVMaster';
+      $signatureTbl->SignatureType = 'ManagerReplacer';
+      $signatureTbl->save();
+
+      $NotifyThisPerson = array('NotificReceiver' =>$request->ManagerID);
       $NotifyThisPerson=(object)$NotifyThisPerson;
       $job = (new NewRVCreatedJob($NotifyThisPerson))->delay(Carbon::now()->addSeconds(5));
       dispatch($job);
     }
     public function cancelrequestsentReplacer($id)
     {
-      RVMaster::where('RVNo', $id)->update(['ManagerReplacer'=>null]);
+      Signatureable::where('signatureable_id', $id)->where('SignatureType','ManagerReplacer')->delete();
     }
     public function AcceptManagerReplacer($id)
     {
-      RVMaster::where('RVNo', $id)->update(['ManagerReplacerSignature'=>Auth::user()->Signature,'RecommendedbySignature'=>null]);
-      $BudgetOfficer=RVMaster::where('RVNo', $id)->value('BudgetOfficer');
-      $nospaceName=str_replace(' ','',$BudgetOfficer);
-      $NotifyThisPerson = array('NotificReceiver' => $nospaceName);
+      RVMaster::where('RVNo', $id)->update(['SignatureTurn'=>'2']);
+      Signatureable::where('signatureable_id', $id)->where('SignatureType','ManagerReplacer')->where('user_id', Auth::user()->id)->update(['Signature'=>'0']);
+      $BudgetOfficerID=Signatureable::where('signatureable_id', $id)->where('SignatureType','BudgetOfficer')->get(['user_id']);
+      $NotifyThisPerson = array('NotificReceiver' => $BudgetOfficerID[0].user_id);
       $NotifyThisPerson=(object)$NotifyThisPerson;
       $job = (new NewRVCreatedJob($NotifyThisPerson))->delay(Carbon::now()->addSeconds(5));
       dispatch($job);
@@ -379,71 +334,13 @@ class RVController extends Controller
     }
     public function RVRequestCount()
     {
-      $myRVPendingrequest=RVMaster::orderBy('RVNo','DESC')
-      ->orWhere('Recommendedby',Auth::user()->FullName)
-      ->whereNull('RecommendedbySignature')
-      ->whereNull('IfDeclined')
-      ->whereNotNull('RequisitionerSignature')
-      ->whereNull('ManagerReplacerSignature')
-      ->orWhere('BudgetOfficer',Auth::user()->FullName)
-      ->whereNull('BudgetOfficerSignature')
-      ->whereNotNull('RecommendedbySignature')
-      ->whereNull('IfDeclined')
-      ->orWhere('BudgetOfficer',Auth::user()->FullName)
-      ->whereNull('BudgetOfficerSignature')
-      ->whereNotNull('ManagerReplacerSignature')
-      ->whereNull('IfDeclined')
-      ->orWhere('GeneralManager',Auth::user()->FullName)
-      ->whereNull('GeneralManagerSignature')
-      ->whereNull('ApprovalReplacerSignature')
-      ->whereNull('IfDeclined')
-      ->whereNotNull('RequisitionerSignature')
-      ->whereNotNull('RecommendedbySignature')
-      ->whereNotNull('BudgetOfficerSignature')
-      ->whereNull('ApprovalReplacerSignature')
-      ->orWhere('GeneralManager',Auth::user()->FullName)
-      ->whereNull('GeneralManagerSignature')
-      ->whereNull('ApprovalReplacerSignature')
-      ->whereNull('IfDeclined')
-      ->whereNotNull('ManagerReplacerSignature')
-      ->whereNotNull('BudgetOfficerSignature')
-      ->orWhere('ManagerReplacer',Auth::user()->FullName)
-      ->whereNull('ManagerReplacerSignature')
-      ->whereNull('RecommendedbySignature')
-      ->orWhere('ApprovalReplacer',Auth::user()->FullName)
-      ->whereNull('ApprovalReplacerSignature')
-      ->whereNull('GeneralManagerSignature')
-      ->whereNotNull('RecommendedbySignature')
-      ->whereNotNull('BudgetOfficerSignature')
-      ->orWhere('ApprovalReplacer',Auth::user()->FullName)
-      ->whereNull('ApprovalReplacerSignature')
-      ->whereNull('GeneralManagerSignature')
-      ->whereNotNull('ManagerReplacerSignature')
-      ->whereNotNull('BudgetOfficerSignature')
-      ->count();
+      $myRVPendingrequest = Auth::user()->RVSignatureTurn()->count();
       $response = array('RVRequestCount'=>$myRVPendingrequest);
       return response()->json($response);
     }
     public function RefreshRVWaitingForRRCount()
     {
-      $RVWaitingPurchaseCount=RVMaster::orderBy('RVNo','ASC')
-      ->whereNotNull('RecommendedbySignature')
-      ->whereNotNull('BudgetOfficerSignature')
-      ->whereNull('IfPurchased')
-      ->whereNotNull('GeneralManagerSignature')
-      ->orWhereNotNull('ApprovalReplacerSignature')
-      ->whereNotNull('RecommendedbySignature')
-      ->whereNotNull('BudgetOfficerSignature')
-      ->whereNull('IfPurchased')
-      ->orWhereNotNull('ApprovalReplacerSignature')
-      ->whereNotNull('ManagerReplacerSignature')
-      ->whereNotNull('BudgetOfficerSignature')
-      ->whereNull('IfPurchased')
-      ->orWhereNotNull('ManagerReplacerSignature')
-      ->whereNotNull('BudgetOfficerSignature')
-      ->whereNull('IfPurchased')
-      ->whereNotNull('GeneralManagerSignature')
-      ->count();
+      $RVWaitingPurchaseCount=RVMaster::orderBy('RVNo','ASC')->whereNull('IfPurchased')->where('Status', '0')->count();
       $response = array('RVwaitingRR' =>$RVWaitingPurchaseCount);
       return response()->json($response);
     }

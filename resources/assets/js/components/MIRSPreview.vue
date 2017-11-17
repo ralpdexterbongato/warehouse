@@ -231,8 +231,8 @@ import Longpress from 'vue-longpress';
          axios.put(`/MIRS-Signature/`+this.mirsno.MIRSNo).then(function(response)
         {
           console.log(response);
+          vm.fetchMIRSData();
         });
-        this.fetchMIRSData();
       },
       DeclineMIRS()
       {
@@ -241,8 +241,8 @@ import Longpress from 'vue-longpress';
         axios.put(`/deniedmirs/`+this.mirsno.MIRSNo).then(function(response)
         {
           console.log(response);
+          vm.fetchMIRSData();
         })
-        this.fetchMIRSData();
       },
       ApproveinBehalf()
       {
@@ -250,8 +250,8 @@ import Longpress from 'vue-longpress';
         axios.put(`/mirs-signature-if-gm-isabsent/`+this.mirsno.MIRSNo).then(function(response)
         {
           console.log(response);
+          vm.fetchMIRSData();
         });
-        this.fetchMIRSData();
       },
       CancelApproveinBehalf()
       {
@@ -259,8 +259,8 @@ import Longpress from 'vue-longpress';
         axios.put(`/cancel-request-toadmin/`+this.mirsno.MIRSNo).then(function(response)
         {
           console.log(response);
+          vm.fetchMIRSData();
         });
-        this.fetchMIRSData();
       },
       fetchAllManager()
       {
@@ -281,9 +281,11 @@ import Longpress from 'vue-longpress';
           if (response.data.error!=null)
           {
             Vue.set(vm.$data,'error',response.data.error);
+          }else
+          {
+            vm.fetchMIRSData();
           }
         });
-        this.fetchMIRSData();
       },
       cancelrequestReplacer()
       {
@@ -293,8 +295,8 @@ import Longpress from 'vue-longpress';
         {
           Vue.set(vm.$data,'ManagerBehalfActive',false);
           console.log(response);
+          vm.fetchMIRSData();
         });
-        this.fetchMIRSData();
       },
       AcceptrequestReplacer()
       {
@@ -303,8 +305,8 @@ import Longpress from 'vue-longpress';
         axios.put(`/signature-replacer-accepted/`+this.mirsno.MIRSNo).then(function(response)
         {
           console.log(response);
+          vm.fetchMIRSData();
         });
-        this.fetchMIRSData();
       },
       cancelRequestApprovalReplacer()
       {
@@ -313,8 +315,8 @@ import Longpress from 'vue-longpress';
         axios.put(`/cancel-request-approval/`+this.mirsno.MIRSNo).then(function(response)
         {
           console.log(response);
+          vm.fetchMIRSData();
         })
-        this.fetchMIRSData();
       },
       AcceptApprovalReplacerequest()
       {
@@ -323,8 +325,8 @@ import Longpress from 'vue-longpress';
         axios.put(`/confirm-manager-toreplace-gm-signature/`+this.mirsno.MIRSNo).then(function(response)
         {
           console.log(response);
+          vm.fetchMIRSData();
         });
-        this.fetchMIRSData();
       }
      },
      mounted () {

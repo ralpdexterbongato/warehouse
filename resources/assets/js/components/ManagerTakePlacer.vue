@@ -61,9 +61,9 @@ import axios from 'axios';
         axios.put(`/update-manager-to-take-place`,{ManagerID:this.AssignedManagerID}).then(function(response)
         {
           console.log(response);
+          vm.getCurrentAssigned();
+          vm.editActive=false;
         });
-        this.getCurrentAssigned();
-        this.editActive=false;
       }
      },
      created()

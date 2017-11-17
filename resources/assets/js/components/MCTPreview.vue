@@ -84,7 +84,7 @@
           <td>{{mctconfirm.ItemCode}}</td>
           <td class="align-left">{{mctconfirm.Description}}</td>
           <td>{{formatPrice(mctconfirm.UnitCost)}}</td>
-          <td><span :class="ShowEdit==true?'hide':'show'">{{mctconfirm.Quantity}}</span><input type="text" v-if="MCTMaster.ReceivedbySignature!=null||MCTMaster.IssuedbySignature!=null" v-model="QuantityArray[count]=mctconfirm.Quantity" :class="ShowEdit==true?'show':'hide'"></td>
+          <td><span :class="ShowEdit==true?'hide':'show'">{{mctconfirm.Quantity}}</span><input type="text" v-model="QuantityArray[count]=mctconfirm.Quantity" :class="ShowEdit==true?'show':'hide'"></td>
           <td>{{formatPrice(mctconfirm.Amount)}}</td>
           <td>{{mctconfirm.Unit}}</td>
         </tr>
@@ -117,7 +117,7 @@
         </div>
         <div class="recievedby-data">
           <div class="signature-recievedmct">
-            <img :src="'/storage/signatures/'+MCTMaster.users[0].Signature" v-if="MCTMaster.users[1].pivot.Signature=='0'" alt="signature">
+            <img :src="'/storage/signatures/'+MCTMaster.users[1].Signature" v-if="MCTMaster.users[1].pivot.Signature=='0'" alt="signature">
           </div>
           <h1>{{MCTMaster.users[1].FullName}} <i v-if="MCTMaster.users[1].pivot.Signature=='1'" class="fa fa-times decliner"></i></h1>
           <h5>{{MCTMaster.users[1].Position}}</h5>
@@ -180,8 +180,8 @@ import Longpress from 'vue-longpress'
         axios.put(`/decline-mct/`+this.mctno.MCTNo).then(function(response)
         {
           console.log(response);
+          vm.fetchData();
         });
-        this.fetchData();
       },
       formatPrice(value) {
             let val = (value/1).toFixed(2).replace('.', '.')
@@ -199,9 +199,11 @@ import Longpress from 'vue-longpress'
           if (response.data.error!=null)
           {
             window.alert(response.data.error);
+          }else
+          {
+            vm.fetchData();
           }
         });
-        this.fetchData();
       },
      },
      created () {

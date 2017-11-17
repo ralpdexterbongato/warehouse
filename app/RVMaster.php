@@ -10,4 +10,11 @@ class RVMaster extends Model
   public $timestamps =false;
   public $dates=['RVDate'];
   protected $dateFormat = 'M d, Y';
+  protected $primaryKey='RVNo';
+  public $incrementing = false;
+
+  public function users()
+  {
+    return $this->morphToMany('App\User','signatureable')->withPivot('Signature','SignatureType');
+  }
 }

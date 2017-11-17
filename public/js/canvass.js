@@ -1165,6 +1165,7 @@ Vue.use(__WEBPACK_IMPORTED_MODULE_2_vue_numeric___default.a);
           Telephone: this.UpdateformTelephone
         }).then(function (response) {
           console.log(response);
+          vm.getSuppliers();
           Vue.set(vm.$data, 'laravelerrors', '');
           Vue.set(vm.$data, 'successAlerts', 'Successfully updated !');
         }, function (error) {
@@ -1172,7 +1173,6 @@ Vue.use(__WEBPACK_IMPORTED_MODULE_2_vue_numeric___default.a);
           Vue.set(vm.$data, 'laravelerrors', error.response.data);
           Vue.set(vm.$data, 'successAlerts', '');
         });
-        this.getSuppliers();
       }
     },
     deleteCanvass: function deleteCanvass(id) {

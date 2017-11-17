@@ -145,6 +145,7 @@ import Longpress from 'vue-longpress'
               Vue.set(vm.$data,'laravelerrors','');
             }else
             {
+              vm.showaddedSession();
               Vue.set(vm.$data,'successAlerts','Successfully added !');
               Vue.set(vm.$data,'ownerrors','');
               Vue.set(vm.$data,'laravelerrors','');
@@ -159,7 +160,6 @@ import Longpress from 'vue-longpress'
               Vue.set(vm.$data,'ownerrors','');
             }
           });
-          this.showaddedSession();
         },
         showaddedSession()
         {
@@ -180,11 +180,11 @@ import Longpress from 'vue-longpress'
           axios.delete(`/DeleteSession-RR/`+count).then(function(response)
           {
             console.log(response);
+            vm.showaddedSession();
             Vue.set(vm.$data,'successAlerts','Successfully removed');
             Vue.set(vm.$data,'laravelerrors','');
             Vue.set(vm.$data,'ownerrors','');
           });
-          this.showaddedSession();
         },
         SubmitRRwithPO()
         {

@@ -140,23 +140,23 @@ export default {
          Vue.set(vm.$data,'ownerrors',response.data.error);
        }else
        {
+         vm.fetchSessionDatas();
+         vm.Quantity=[];
+         vm.Remarks=[];
          Vue.set(vm.$data,'successAlerts','Successfully added !');
        }
      },function(error){
        Vue.set(vm.$data,'successAlerts','');
        Vue.set(vm.$data,'laravelerrors',error.response.data);
      });
-     this.Quantity=[];
-     this.Remarks=[];
-     this.fetchSessionDatas();
    },
    fetchSessionDatas()
    {
      var vm=this
      axios.get(`/displaySessionMR`).then(function(response)
-   {
-     Vue.set(vm.$data,'sessions',response.data.sessions);
-   });
+     {
+       Vue.set(vm.$data,'sessions',response.data.sessions);
+     });
   },
 
   deleteSession(count)
@@ -164,14 +164,14 @@ export default {
     var vm=this
     axios.delete(`/deletemrSession/`+count).then(function(response)
   {
+    vm.fetchSessionDatas();
     Vue.set(vm.$data,'ownerrors','')
     Vue.set(vm.$data,'laravelerrors','');
     Vue.set(vm.$data,'successAlerts','Removed successfully !')
   },function(error)
-  {
-    console.log(error);
-  });
-  this.fetchSessionDatas();
+    {
+      console.log(error);
+    });
   },
   formatPrice(value) {
         let val = (value/1).toFixed(2).replace('.', '.')

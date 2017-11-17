@@ -272,23 +272,25 @@
           <div class="bottom-left-sign">
             <h5>Requested by</h5>
             <li>
-              @if ($RVMaster[0]->RequisitionerSignature)
-              <h1><img src="c:/xampp/htdocs/Warehouse/public/storage/signatures/{{$RVMaster[0]->RequisitionerSignature}}" alt="signature"></h1>
+              @if ($RVMaster[0]->users[0]->pivot->Signature=='0')
+              <h1><img src="c:/xampp/htdocs/Warehouse/public/storage/signatures/{{$RVMaster[0]->users[0]->Signature}}" alt="signature"></h1>
               @endif
-              <p>{{$RVMaster[0]->Requisitioner}}</p>
-              <p>{{$RVMaster[0]->RequisitionerPosition}}</p>
+              <p>{{$RVMaster[0]->users[0]->FullName}}</p>
+              <p>{{$RVMaster[0]->users[0]->Position}}</p>
             </li>
           </div>
           <div class="bottom-right-sign">
             <h5>Recommended by</h5>
             <li>
-              @if ($RVMaster[0]->RecommendedbySignature)
-                <h1><img src="c:/xampp/htdocs/Warehouse/public/storage/signatures/{{$RVMaster[0]->RecommendedbySignature}}" alt="signature"></h1>
-              @elseif($RVMaster[0]->ManagerReplacerSignature)
-                <medium class="for">For :</medium><h1><img src="c:/xampp/htdocs/Warehouse/public/storage/signatures/{{$RVMaster[0]->ManagerReplacerSignature}}" alt="signature"></h1>
+              @if ($RVMaster[0]->users[1]->pivot->Signature == '0')
+                <h1><img src="c:/xampp/htdocs/Warehouse/public/storage/signatures/{{$RVMaster[0]->users[1]->Signature}}" alt="signature"></h1>
+              @elseif(isset($RVMaster[0]->users[4])&&($RVMaster[0]->users[4]->pivot->Signature=='0')&&($RVMaster[0]->users[4]->pivot->SignatureType=='ManagerReplacer'))
+                <medium class="for">For :</medium><h1><img src="c:/xampp/htdocs/Warehouse/public/storage/signatures/{{$RVMaster[0]->users[4]->Signature}}" alt="signature"></h1>
+              @elseif(isset($RVMaster[0]->users[5])&&($RVMaster[0]->users[5]->pivot->Signature=='0')&&($RVMaster[0]->users[5]->pivot->SignatureType=='ManagerReplacer'))
+                <medium class="for">For :</medium><h1><img src="c:/xampp/htdocs/Warehouse/public/storage/signatures/{{$RVMaster[0]->users[5]->Signature}}" alt="signature"></h1>
               @endif
-              <p>{{$RVMaster[0]->Recommendedby}}</p>
-              <p>{{$RVMaster[0]->RecommendedbyPosition}}</p>
+              <p>{{$RVMaster[0]->users[1]->FullName}}</p>
+              <p>{{$RVMaster[0]->users[1]->Position}}</p>
             </li>
           </div>
         </div>
@@ -297,23 +299,25 @@
             <label>BUDGET AVAILABLE ON THIS REQUEST</label>
             <p class="availableAmmount">{{$RVMaster[0]->BudgetAvailable,'2','.',','}}</p>
             <li>
-              @if ($RVMaster[0]->BudgetOfficerSignature)
-                <h1><img src="c:/xampp/htdocs/Warehouse/public/storage/signatures/{{$RVMaster[0]->BudgetOfficerSignature}}" alt="signature"></h1>
+              @if ($RVMaster[0]->users[2]->pivot->Signature=='0')
+                <h1><img src="c:/xampp/htdocs/Warehouse/public/storage/signatures/{{$RVMaster[0]->users[2]->Signature}}" alt="signature"></h1>
               @endif
-              <p>{{$RVMaster[0]->BudgetOfficer}}</p>
-              <p>Budget Officer</p>
+              <p>{{$RVMaster[0]->users[2]->FullName}}</p>
+              <p>{{$RVMaster[0]->users[2]->Position}}</p>
             </li>
           </div>
           <div class="bottom-right-sign bottom">
             <h5>Approved:</h5>
             <li>
-              @if ($RVMaster[0]->GeneralManagerSignature)
-                <h1><img src="c:/xampp/htdocs/Warehouse/public/storage/signatures/{{$RVMaster[0]->GeneralManagerSignature}}" alt="signature"></h1>
-              @elseif($RVMaster[0]->ApprovalReplacerSignature!=null)
-                <medium class="for">For :</medium><h1><img src="c:/xampp/htdocs/Warehouse/public/storage/signatures/{{$RVMaster[0]->ApprovalReplacerSignature}}" alt="signature"></h1>
+              @if ($RVMaster[0]->users[3]->pivot->Signature=='0')
+                <h1><img src="c:/xampp/htdocs/Warehouse/public/storage/signatures/{{$RVMaster[0]->users[3]->Signature}}" alt="signature"></h1>
+              @elseif(isset($RVMaster[0]->users[4])&&($RVMaster[0]->users[4]->pivot->Signature=='0')&&($RVMaster[0]->users[4]->pivot->SignatureType=='ApprovalReplacer'))
+                <medium class="for">For :</medium><h1><img src="c:/xampp/htdocs/Warehouse/public/storage/signatures/{{$RVMaster[0]->users[4]->Signature}}" alt="signature"></h1>
+              @elseif(isset($RVMaster[0]->users[5])&&($RVMaster[0]->users[5]->pivot->Signature=='0')&&($RVMaster[0]->users[5]->pivot->SignatureType=='ApprovalReplacer'))
+                <medium class="for">For :</medium><h1><img src="c:/xampp/htdocs/Warehouse/public/storage/signatures/{{$RVMaster[0]->users[5]->Signature}}" alt="signature"></h1>
               @endif
-              <p>{{$RVMaster[0]->GeneralManager}}</p>
-              <p>General Manager</p>
+              <p>{{$RVMaster[0]->users[3]->FullName}}</p>
+              <p>{{$RVMaster[0]->users[3]->Position}}</p>
             </li>
           </div>
         </div>

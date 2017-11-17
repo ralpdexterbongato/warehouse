@@ -178,8 +178,8 @@ import Longpress from 'vue-longpress'
         axios.put(`/signature-MR/`+this.mrno.MRNo).then(function(response)
       {
         console.log(response);
+        vm.fetchData();
       });
-      this.fetchData();
       },
       declineMR()
       {
@@ -188,6 +188,7 @@ import Longpress from 'vue-longpress'
         axios.put(`/Decline-MR/`+this.mrno.MRNo).then(function(response)
         {
           console.log(response);
+          vm.fetchData();
         })
       },
       refuseApproveInBehalf()
@@ -196,8 +197,8 @@ import Longpress from 'vue-longpress'
         axios.put(`/mr-approve-inbehalf-refused/`+this.mrno.MRNo).then(function(response)
         {
           console.log(response);
+          vm.fetchData();
         });
-        this.fetchData();
       },
       SignatureApproveInBehalf()
       {
@@ -206,8 +207,8 @@ import Longpress from 'vue-longpress'
         axios.put(`/confirmApproveinBehalf/`+this.mrno.MRNo).then(function(response)
         {
           console.log(response);
+          vm.fetchData();
         });
-        this.fetchData();
       }
      },
      created()

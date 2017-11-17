@@ -9,9 +9,9 @@ PO|Generated PO's
         <a href="{{route('POFullView',[$POrder->PONo])}}">
           <div class="PO-box">
             <h1>{{$POrder->Supplier}} purchase order</h1>
-            @if (($POrder->GeneralManagerSignature!=null)||($POrder->ApprovalReplacerSignature!=null))
+            @if($POrder->Status=='0')
               <h4><i class="fa fa-check"></i></h4>
-            @elseif (!empty($POrder->IfDeclined))
+            @elseif ($POrder->Status=='1')
               <h2><i class="fa fa-times"></i></h2>
             @else
               <h3><i class="fa fa-clock-o"></i></h3>

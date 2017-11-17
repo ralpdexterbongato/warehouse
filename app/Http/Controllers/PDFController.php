@@ -28,20 +28,19 @@ class PDFController extends Controller
   }
   public function mctpdf(Request $request)
   {
-    $MCTMast=MCTMaster::where('MCTNo',$request->MCTNo)->get();
+    $MCTMast=MCTMaster::with('users')->where('MCTNo',$request->MCTNo)->get();
     $MTDetails=MaterialsTicketDetail::where('MTType', 'MCT')->where('MTNo', $request->MCTNo)->get();
     $AccountCodeGroup = DB::table("MaterialsTicketDetails")
-	    ->select(DB::raw("SUM(Amount) as totals"),DB::raw("AccountCode as AccountCode"))
-      ->where('MTType', 'MCT')->where('MTNo', $request->MCTNo)
-      ->orderBy("AccountCode")
-	    ->groupBy(DB::raw("AccountCode"))
-	    ->get();
-
-      $totalsum=0;
-      foreach ($AccountCodeGroup as $codegrouped)
-      {
-        $totalsum= $totalsum +$codegrouped->totals;
-      }
+    ->select(DB::raw("SUM(Amount) as totals"),DB::raw("AccountCode as AccountCode"))
+    ->where('MTType', 'MCT')->where('MTNo', $request->MCTNo)
+    ->orderBy("AccountCode")
+    ->groupBy(DB::raw("AccountCode"))
+    ->get();
+    $totalsum=0;
+    foreach ($AccountCodeGroup as $codegrouped)
+    {
+      $totalsum= $totalsum +$codegrouped->totals;
+    }
     $pdf = PDF::loadView('Warehouse.MCT.MCTprintable',compact('MCTMast','MTDetails','AccountCodeGroup','totalsum'));
     return $pdf->stream('MCT.pdf');
   }
@@ -73,13 +72,13 @@ class PDFController extends Controller
   public function RVdownload($id)
   {
     $RVDetails=RVDetail::where('RVNo',$id)->get();
-    $RVMaster=RVMaster::where('RVNo',$id)->get();
+    $RVMaster=RVMaster::with('users')->where('RVNo',$id)->get();
     $pdf=PDF::loadView('Warehouse.RV.RVpdf',compact('RVDetails','RVMaster'));
     return $pdf->stream('RV_No'.$id.'.pdf');
   }
   public function POdownload($id)
   {
-    $MasterPO=POMaster::where('PONo',$id)->get();
+    $MasterPO=POMaster::with('users')->where('PONo',$id)->get();
     $Totalamt=PODetail::where('PONo',$id)->get(['Amount'])->sum('Amount');
     $pdf=PDF::loadView('Warehouse.PO.printablePO',compact('MasterPO','Totalamt'));
     return $pdf->stream('PO_No'.$id.'.pdf');
