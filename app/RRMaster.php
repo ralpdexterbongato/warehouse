@@ -11,4 +11,11 @@ class RRMaster extends Model
   public $dates=['RRDate'];
   public $fillable=['RVNo'];
   protected $dateFormat='M d, Y';
+  public $incrementing=false;
+  public $primaryKey='RRNo';
+
+  public function users()
+  {
+    return $this->morphToMany('App\User', 'signatureable')->withPivot('Signature','SignatureType');
+  }
 }

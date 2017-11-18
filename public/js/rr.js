@@ -1587,6 +1587,7 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
 //
 //
 //
+//
 
 
 
@@ -1644,6 +1645,15 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
 
   components: {
     Longpress: __WEBPACK_IMPORTED_MODULE_1_vue_longpress___default.a
+  },
+  computed: {
+    UserCanSignature: function UserCanSignature() {
+      if (this.RRMaster.users[0] != null && this.RRMaster.users[0].pivot.Signature == null && this.RRMaster.users[0].id == this.user.id || this.RRMaster.users[1] != null && this.RRMaster.users[1].pivot.Signature == null && this.RRMaster.users[1].id == this.user.id || this.RRMaster.users[2] != null && this.RRMaster.users[2].pivot.Signature == null && this.RRMaster.users[2].id == this.user.id || this.RRMaster.users[3] != null && this.RRMaster.users[3].pivot.Signature == null && this.RRMaster.users[3].id == this.user.id) {
+        return true;
+      } else {
+        return false;
+      }
+    }
   }
 });
 
@@ -1656,6 +1666,7 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
 Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_0_axios__ = __webpack_require__(3);
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_0_axios___default = __webpack_require__.n(__WEBPACK_IMPORTED_MODULE_0_axios__);
+//
 //
 //
 //
@@ -1973,7 +1984,7 @@ var Component = __webpack_require__(4)(
   /* cssModules */
   null
 )
-Component.options.__file = "c:\\xampp\\htdocs\\warehouse\\resources\\assets\\js\\components\\CreateRRNoPO.vue"
+Component.options.__file = "C:\\xampp\\htdocs\\warehouse\\resources\\assets\\js\\components\\CreateRRNoPO.vue"
 if (Component.esModule && Object.keys(Component.esModule).some(function (key) {return key !== "default" && key !== "__esModule"})) {console.error("named exports are not supported in *.vue files.")}
 if (Component.options.functional) {console.error("[vue-loader] CreateRRNoPO.vue: functional components are not supported with templates, they should use render functions.")}
 
@@ -2008,7 +2019,7 @@ var Component = __webpack_require__(4)(
   /* cssModules */
   null
 )
-Component.options.__file = "c:\\xampp\\htdocs\\warehouse\\resources\\assets\\js\\components\\CreateRRWithPO.vue"
+Component.options.__file = "C:\\xampp\\htdocs\\warehouse\\resources\\assets\\js\\components\\CreateRRWithPO.vue"
 if (Component.esModule && Object.keys(Component.esModule).some(function (key) {return key !== "default" && key !== "__esModule"})) {console.error("named exports are not supported in *.vue files.")}
 if (Component.options.functional) {console.error("[vue-loader] CreateRRWithPO.vue: functional components are not supported with templates, they should use render functions.")}
 
@@ -2139,7 +2150,7 @@ var Component = __webpack_require__(4)(
   /* cssModules */
   null
 )
-Component.options.__file = "c:\\xampp\\htdocs\\warehouse\\resources\\assets\\js\\components\\RRfullpreview.vue"
+Component.options.__file = "C:\\xampp\\htdocs\\warehouse\\resources\\assets\\js\\components\\RRfullpreview.vue"
 if (Component.esModule && Object.keys(Component.esModule).some(function (key) {return key !== "default" && key !== "__esModule"})) {console.error("named exports are not supported in *.vue files.")}
 if (Component.options.functional) {console.error("[vue-loader] RRfullpreview.vue: functional components are not supported with templates, they should use render functions.")}
 
@@ -2174,7 +2185,7 @@ var Component = __webpack_require__(4)(
   /* cssModules */
   null
 )
-Component.options.__file = "c:\\xampp\\htdocs\\warehouse\\resources\\assets\\js\\components\\RRindex.vue"
+Component.options.__file = "C:\\xampp\\htdocs\\warehouse\\resources\\assets\\js\\components\\RRindex.vue"
 if (Component.esModule && Object.keys(Component.esModule).some(function (key) {return key !== "default" && key !== "__esModule"})) {console.error("named exports are not supported in *.vue files.")}
 if (Component.options.functional) {console.error("[vue-loader] RRindex.vue: functional components are not supported with templates, they should use render functions.")}
 
@@ -2729,9 +2740,9 @@ if (false) {
 /***/ (function(module, exports, __webpack_require__) {
 
 module.exports={render:function (){var _vm=this;var _h=_vm.$createElement;var _c=_vm._self._c||_h;
-  return _c('div', {
+  return (_vm.RRMaster.users != null) ? _c('div', {
     staticClass: "rr-preview-vue"
-  }, [((((_vm.RRMaster.Verifiedby == _vm.user.FullName) && (_vm.RRMaster.VerifiedbySignature == null) && (_vm.RRMaster.IfDeclined == null)) || ((_vm.RRMaster.ReceivedOriginalby == _vm.user.FullName) && (_vm.RRMaster.ReceivedOriginalbySignature == null) && (_vm.RRMaster.IfDeclined == null)) || ((_vm.RRMaster.PostedtoBINby == _vm.user.FullName) && (_vm.RRMaster.PostedtoBINbySignature == null) && (_vm.RRMaster.IfDeclined == null)))) ? _c('div', {
+  }, [(_vm.UserCanSignature) ? _c('div', {
     staticClass: "signature-btn",
     class: {
       'hide': _vm.SignatureBtnHide
@@ -2756,7 +2767,7 @@ module.exports={render:function (){var _vm=this;var _h=_vm.$createElement;var _c
     }
   }, [_c('i', {
     staticClass: "fa fa-times"
-  }), _vm._v(" Decline\r\n    ")])], 1) : (((_vm.RRMaster.ReceivedOriginalbySignature != null) && (_vm.RRMaster.VerifiedbySignature != null) && (_vm.RRMaster.PostedtoBINbySignature != null))) ? _c('div', {
+  }), _vm._v(" Decline\r\n    ")])], 1) : ((_vm.RRMaster.Status == '0')) ? _c('div', {
     staticClass: "print-RR-btn"
   }, [_c('a', {
     attrs: {
@@ -2766,7 +2777,7 @@ module.exports={render:function (){var _vm=this;var _h=_vm.$createElement;var _c
     attrs: {
       "href": '/view-list-MR-of-RR/' + _vm.RRMaster.RRNo
     }
-  }, [_vm._m(1)]) : _vm._e(), _vm._v(" "), ((((_vm.user.Role == 4) || (_vm.user.Role == 3)) && (_vm.RRMaster.IfDeclined == null))) ? _c('a', {
+  }, [_vm._m(1)]) : _vm._e(), _vm._v(" "), ((((_vm.user.Role == 4) || (_vm.user.Role == 3)) && (_vm.RRMaster.Status == '0'))) ? _c('a', {
     attrs: {
       "href": '/create-mr/' + _vm.RRMaster.RRNo
     }
@@ -2806,47 +2817,49 @@ module.exports={render:function (){var _vm=this;var _h=_vm.$createElement;var _c
     staticClass: "signature-rr-left"
   }, [_c('label', [_vm._v("RECEIVED BY:")]), _vm._v(" "), _c('div', {
     staticClass: "signatureRR-content"
-  }, [(_vm.RRMaster.ReceivedbySignature != null) ? _c('h2', [_c('img', {
+  }, [(_vm.RRMaster.users[0].pivot.Signature == '0') ? _c('h2', [_c('img', {
     attrs: {
-      "src": '/storage/signatures/' + _vm.RRMaster.ReceivedbySignature,
+      "src": '/storage/signatures/' + _vm.RRMaster.users[0].Signature,
       "alt": "signature"
     }
-  })]) : _vm._e(), _vm._v(" "), _c('h4', [_vm._v(_vm._s(_vm.RRMaster.Receivedby))]), _vm._v(" "), _c('p', [_vm._v(_vm._s(_vm.RRMaster.ReceivedbyPosition))])])]), _vm._v(" "), _c('div', {
+  })]) : _vm._e(), _vm._v(" "), _c('h4', [_vm._v(_vm._s(_vm.RRMaster.users[0].FullName) + "\r\n                "), (_vm.RRMaster.users[0].pivot.Signature == '1') ? _c('i', {
+    staticClass: "fa fa-times"
+  }) : _vm._e()]), _vm._v(" "), _c('p', [_vm._v(_vm._s(_vm.RRMaster.users[0].Position))])])]), _vm._v(" "), _c('div', {
     staticClass: "signature-rr-right"
-  }, [(_vm.RRMaster.ReceivedOriginalbySignature != null) ? _c('h2', [_c('img', {
+  }, [(_vm.RRMaster.users[2].pivot.Signature == '0') ? _c('h2', [_c('img', {
     attrs: {
-      "src": '/storage/signatures/' + _vm.RRMaster.ReceivedOriginalbySignature,
+      "src": '/storage/signatures/' + _vm.RRMaster.users[2].Signature,
       "alt": "signature"
     }
   })]) : _vm._e(), _vm._v(" "), _c('label', [_vm._v("RECEIVED ORIGINAL BY:")]), _vm._v(" "), _c('div', {
     staticClass: "signatureRR-content"
-  }, [_c('h4', [_vm._v(_vm._s(_vm.RRMaster.ReceivedOriginalby) + "\r\n                "), (_vm.RRMaster.IfDeclined == _vm.RRMaster.ReceivedOriginalby) ? _c('i', {
+  }, [_c('h4', [_vm._v(_vm._s(_vm.RRMaster.users[2].FullName) + "\r\n                "), (_vm.RRMaster.users[2].pivot.Signature == '1') ? _c('i', {
     staticClass: "fa fa-times"
-  }) : _vm._e()]), _vm._v(" "), _c('p', [_vm._v(_vm._s(_vm.RRMaster.ReceivedOriginalbyPosition))])])])]), _vm._v(" "), _c('div', {
+  }) : _vm._e()]), _vm._v(" "), _c('p', [_vm._v(_vm._s(_vm.RRMaster.users[2].Position))])])])]), _vm._v(" "), _c('div', {
     staticClass: "bottom-signatures-rr"
   }, [_c('div', {
     staticClass: "signature-rr-left"
   }, [_c('label', [_vm._v("VERIFIED BY:")]), _vm._v(" "), _c('div', {
     staticClass: "signatureRR-content"
-  }, [(_vm.RRMaster.VerifiedbySignature != null) ? _c('h2', [_c('img', {
+  }, [(_vm.RRMaster.users[1].pivot.Signature == '0') ? _c('h2', [_c('img', {
     attrs: {
-      "src": '/storage/signatures/' + _vm.RRMaster.VerifiedbySignature,
+      "src": '/storage/signatures/' + _vm.RRMaster.users[1].Signature,
       "alt": "signature"
     }
-  })]) : _vm._e(), _vm._v(" "), _c('h4', [_vm._v("\r\n                " + _vm._s(_vm.RRMaster.Verifiedby) + "\r\n                "), (_vm.RRMaster.IfDeclined == _vm.RRMaster.Verifiedby) ? _c('i', {
+  })]) : _vm._e(), _vm._v(" "), _c('h4', [_vm._v("\r\n                " + _vm._s(_vm.RRMaster.users[1].FullName) + "\r\n                "), (_vm.RRMaster.users[1].pivot.Signature == '1') ? _c('i', {
     staticClass: "fa fa-times"
-  }) : _vm._e()]), _vm._v(" "), _c('p', [_vm._v(_vm._s(_vm.RRMaster.VerifiedbyPosition))])])]), _vm._v(" "), _c('div', {
+  }) : _vm._e()]), _vm._v(" "), _c('p', [_vm._v(_vm._s(_vm.RRMaster.users[1].Position))])])]), _vm._v(" "), _c('div', {
     staticClass: "signature-rr-right"
-  }, [(_vm.RRMaster.PostedtoBINbySignature != null) ? _c('h2', [_c('img', {
+  }, [(_vm.RRMaster.users[3].pivot.Signature == '0') ? _c('h2', [_c('img', {
     attrs: {
-      "src": '/storage/signatures/' + _vm.RRMaster.PostedtoBINbySignature,
+      "src": '/storage/signatures/' + _vm.RRMaster.users[3].Signature,
       "alt": "signature"
     }
   })]) : _vm._e(), _vm._v(" "), _c('label', [_vm._v("POSTED TO BIN CARD BY:")]), _vm._v(" "), _c('div', {
     staticClass: "signatureRR-content"
-  }, [_c('h4', [_vm._v("\r\n                " + _vm._s(_vm.RRMaster.PostedtoBINby) + "\r\n                "), (_vm.RRMaster.IfDeclined == _vm.RRMaster.PostedtoBINby) ? _c('i', {
+  }, [_c('h4', [_vm._v("\r\n                " + _vm._s(_vm.RRMaster.users[3].FullName) + "\r\n                "), (_vm.RRMaster.users[3].pivot.Signature == '1') ? _c('i', {
     staticClass: "fa fa-times"
-  }) : _vm._e()]), _vm._v(" "), _c('p', [_vm._v(_vm._s(_vm.RRMaster.PostedtoBINbyPosition))])])])])])])])
+  }) : _vm._e()]), _vm._v(" "), _c('p', [_vm._v(_vm._s(_vm.RRMaster.users[3].Position))])])])])])])]) : _vm._e()
 },staticRenderFns: [function (){var _vm=this;var _h=_vm.$createElement;var _c=_vm._self._c||_h;
   return _c('button', {
     staticClass: "bttn-unite bttn-xs bttn-primary",
@@ -3321,23 +3334,25 @@ module.exports={render:function (){var _vm=this;var _h=_vm.$createElement;var _c
   })])])]), _vm._v(" "), _c('div', {
     staticClass: "index-RR-table-container"
   }, [_c('table', [_vm._m(1), _vm._v(" "), _vm._l((_vm.RRDataResults), function(result) {
-    return _c('tr', [_c('td', [_vm._v(_vm._s(result.RRNo))]), _vm._v(" "), _c('td', [_vm._v(_vm._s(result.Supplier))]), _vm._v(" "), _c('td', [_vm._v(_vm._s(result.RVNo))]), _vm._v(" "), _c('td', [_vm._v("\r\n            " + _vm._s(result.Receivedby)), _c('br'), _vm._v(" "), (result.ReceivedbySignature != null) ? _c('i', {
+    return (result.users[0] != null) ? _c('tr', [_c('td', [_vm._v(_vm._s(result.RRNo))]), _vm._v(" "), _c('td', [_vm._v(_vm._s(result.Supplier))]), _vm._v(" "), _c('td', [_vm._v(_vm._s(result.RVNo))]), _vm._v(" "), _c('td', [_vm._v("\r\n            " + _vm._s(result.users[0].FullName)), _c('br'), _vm._v(" "), (result.users[0].pivot.Signature == '0') ? _c('i', {
       staticClass: "fa fa-check"
-    }) : _vm._e()]), _vm._v(" "), _c('td', [_vm._v("\r\n            " + _vm._s(result.ReceivedOriginalby)), _c('br'), _vm._v(" "), (result.ReceivedOriginalbySignature != null) ? _c('i', {
-      staticClass: "fa fa-check"
-    }) : (result.ReceivedOriginalby == result.IfDeclined) ? _c('i', {
+    }) : (result.users[0].pivot.Signature == '1') ? _c('i', {
       staticClass: "fa fa-times index-decline"
-    }) : _vm._e()]), _vm._v(" "), _c('td', [_vm._v("\r\n            " + _vm._s(result.Verifiedby)), _c('br'), _vm._v(" "), (result.VerifiedbySignature != null) ? _c('i', {
+    }) : _vm._e()]), _vm._v(" "), _c('td', [_vm._v("\r\n            " + _vm._s(result.users[2].FullName)), _c('br'), _vm._v(" "), (result.users[2].pivot.Signature == '0') ? _c('i', {
       staticClass: "fa fa-check"
-    }) : (result.Verifiedby == result.IfDeclined) ? _c('i', {
+    }) : (result.users[2].pivot.Signature == '1') ? _c('i', {
       staticClass: "fa fa-times index-decline"
-    }) : _vm._e()]), _vm._v(" "), _c('td', [_vm._v("\r\n            " + _vm._s(result.PostedtoBINby)), _c('br'), _vm._v(" "), (result.PostedtoBINbySignature != null) ? _c('i', {
+    }) : _vm._e()]), _vm._v(" "), _c('td', [_vm._v("\r\n            " + _vm._s(result.users[1].FullName)), _c('br'), _vm._v(" "), (result.users[1].pivot.Signature == '0') ? _c('i', {
       staticClass: "fa fa-check"
-    }) : _vm._e(), _vm._v(" "), (result.PostedtoBINby == result.IfDeclined) ? _c('i', {
+    }) : (result.users[1].pivot.Signature == '1') ? _c('i', {
       staticClass: "fa fa-times index-decline"
-    }) : _vm._e()]), _vm._v(" "), _c('td', [(((result.ReceivedOriginalbySignature != null) && (result.VerifiedbySignature != null) && (result.PostedtoBINbySignature))) ? _c('i', {
+    }) : _vm._e()]), _vm._v(" "), _c('td', [_vm._v("\r\n            " + _vm._s(result.users[3].FullName)), _c('br'), _vm._v(" "), (result.users[3].pivot.Signature == '0') ? _c('i', {
+      staticClass: "fa fa-check"
+    }) : _vm._e(), _vm._v(" "), (result.users[3].pivot.Signature == '1') ? _c('i', {
+      staticClass: "fa fa-times index-decline"
+    }) : _vm._e()]), _vm._v(" "), _c('td', [(result.Status == '0') ? _c('i', {
       staticClass: "fa fa-thumbs-up"
-    }) : (result.IfDeclined != null) ? _c('i', {
+    }) : (result.Status == '1') ? _c('i', {
       staticClass: "fa fa-times decliner"
     }) : _c('i', {
       staticClass: "fa fa-clock-o"
@@ -3347,7 +3362,7 @@ module.exports={render:function (){var _vm=this;var _h=_vm.$createElement;var _c
       }
     }, [_c('i', {
       staticClass: "fa fa-eye"
-    })])])])
+    })])])]) : _vm._e()
   })], 2), _vm._v(" "), _c('div', {
     staticClass: "paginate-container"
   }, [_c('ul', {

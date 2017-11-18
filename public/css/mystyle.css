@@ -210,18 +210,13 @@ input[type='radio']:after {
 }
 .title-top
 {
-margin:auto;
--ms-filter: drop-shadow(3px 5px 4px #1D1A33);
--webkit-filter: drop-shadow(3px 5px 4px #1D1A33);
--moz-filter: drop-shadow(3px 5px 4px #1D1A33);
--o-filter: drop-shadow(3px 5px 4px #1D1A33);
-filter: drop-shadow(3px 5px 4px #1D1A33);
-}
-.title-top
-{
   color: #fff;
   font-size: 30px;
   font-family: 'Comfortaa', sans-serif;
+	margin:auto;
+	-ms-filter: "progid:DXImageTransform.Microsoft.Shadow(Strength=5, Direction=0, Color=#2E3A40)";/*IE 8*/
+	text-shadow: 0 4px 5px #2E3A40;/* FF3.5+, Opera 9+, Saf1+, Chrome, IE10 */
+	filter: progid:DXImageTransform.Microsoft.Shadow(Strength=5, Direction=135, Color=#2E3A40);
 }
 @media (max-width:850px)
 {
@@ -3365,13 +3360,17 @@ filter: drop-shadow(1px 1px 4px #6B6B6B);
 
 .middle-account-modal
 {
-overflow-y:auto;
+ overflow-y:hidden;
  background: #fff;
  height:100vh;
  width: 320px;
  font-family:'Comfortaa',sans-serif;
  border-bottom-right-radius: 5px;
  box-shadow: 0 2px 4px -1px rgba(0,0,0,0.06), 0 4px 5px 0 rgba(0,0,0,0.06), 0 1px 10px 0 rgba(0,0,0,0.08);
+}
+.middle-account-modal:hover
+{
+	overflow-y:auto;
 }
 .middle-account-modal > ul >li >i
 {
@@ -7258,7 +7257,7 @@ filter: drop-shadow(-2px 1px 5px #1D1A33);
 {
   color: gray;
   position:absolute;
-  top: 7px;
+  top: 9px;
   left: 10px;
   font-size: 14px;
   font-family:'Comfortaa',sans-serif;
@@ -7270,6 +7269,7 @@ filter: drop-shadow(-2px 1px 5px #1D1A33);
   top: -16px;
   left: 3px;
   transition: all .5s;
+	font-size: 12px;
 }
 .updateinput-label
 {
@@ -7618,7 +7618,11 @@ filter: drop-shadow(-2px 1px 5px #1D1A33);
   flex:2.5;
   font-family:'Comfortaa',sans-serif;
   margin-right: 30px;
-  overflow-x: auto;
+  overflow-x:hidden;
+}
+.left-item-adding-form:hover
+{
+	overflow-x: auto;
 }
 .right-item-adding-form
 {

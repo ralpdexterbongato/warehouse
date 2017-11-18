@@ -372,21 +372,21 @@
             <div class="left-name-sign">
               <h5>Received by</h5>
               <li>
-                @if ($RRconfirmMasterResult[0]->ReceivedbySignature)
-                    <h2><img src="storage/signatures/{{$RRconfirmMasterResult[0]->ReceivedbySignature}}" alt="signature"></h2>
+                @if ($RRconfirmMasterResult[0]->users[0]->pivot->Signature=='0')
+                    <h2><img src="storage/signatures/{{$RRconfirmMasterResult[0]->users[0]->Signature}}" alt="signature"></h2>
                 @endif
-                <p>{{$RRconfirmMasterResult[0]->Receivedby}}</p>
-                <label>{{$RRconfirmMasterResult[0]->ReceivedbyPosition}}</label>
+                <p>{{$RRconfirmMasterResult[0]->users[0]->FullName}}</p>
+                <label>{{$RRconfirmMasterResult[0]->users[0]->Position}}</label>
               </li>
             </div>
             <div class="right-name-sign">
               <h5>Received Original by</h5>
               <li>
-                @if ($RRconfirmMasterResult[0]->ReceivedOriginalbySignature)
-                  <h2><img src="storage/signatures/{{$RRconfirmMasterResult[0]->ReceivedOriginalbySignature}}" alt="signature"></h2>
+                @if ($RRconfirmMasterResult[0]->users[2]->pivot->Signature=='0')
+                  <h2><img src="storage/signatures/{{$RRconfirmMasterResult[0]->users[2]->Signature}}" alt="signature"></h2>
                 @endif
-                <p>{{$RRconfirmMasterResult[0]->ReceivedOriginalby}}</p>
-                <label>{{$RRconfirmMasterResult[0]->ReceivedOriginalbyPosition}}</label>
+                <p>{{$RRconfirmMasterResult[0]->users[2]->FullName}}</p>
+                <label>{{$RRconfirmMasterResult[0]->users[2]->Position}}</label>
               </li>
             </div>
           </div>
@@ -395,21 +395,21 @@
           <div class="left-name-sign">
             <h5>Verified by</h5>
             <li>
-              @if ($RRconfirmMasterResult[0]->VerifiedbySignature)
-                <h2><img src="storage/signatures/{{$RRconfirmMasterResult[0]->VerifiedbySignature}}" alt="signature"></h2>
+              @if ($RRconfirmMasterResult[0]->users[1]->pivot->Signature=='0')
+                <h2><img src="storage/signatures/{{$RRconfirmMasterResult[0]->users[1]->Signature}}" alt="signature"></h2>
               @endif
-              <p>{{$RRconfirmMasterResult[0]->Verifiedby}}</p>
-              <label>{{$RRconfirmMasterResult[0]->VerifiedbyPosition}}</label>
+              <p>{{$RRconfirmMasterResult[0]->users[1]->FullName}}</p>
+              <label>{{$RRconfirmMasterResult[0]->users[1]->Position}}</label>
             </li>
           </div>
           <div class="right-name-sign">
             <h5>Posted to BIN card by</h5>
             <li>
-              @if ($RRconfirmMasterResult[0]->PostedtoBINbySignature)
-                <h2><img src="storage/signatures/{{$RRconfirmMasterResult[0]->PostedtoBINbySignature}}" alt="signature"></h2>
+              @if ($RRconfirmMasterResult[0]->users[3]->pivot->Signature=='0')
+                <h2><img src="storage/signatures/{{$RRconfirmMasterResult[0]->users[3]->Signature}}" alt="signature"></h2>
               @endif
-              <p>{{$RRconfirmMasterResult[0]->PostedtoBINby}}</p>
-              <label>{{$RRconfirmMasterResult[0]->PostedtoBINbyPosition}}</label>
+              <p>{{$RRconfirmMasterResult[0]->users[3]->FullName}}</p>
+              <label>{{$RRconfirmMasterResult[0]->users[3]->Position}}</label>
             </li>
           </div>
         </div>

@@ -61,7 +61,7 @@ class PDFController extends Controller
   }
   public function rrdownload($id)
   {
-    $RRconfirmMasterResult=RRMaster::where('RRNo',$id)->get();
+    $RRconfirmMasterResult=RRMaster::with('users')->where('RRNo',$id)->get();
     $RRconfirmDetails=RRconfirmationDetails::where('RRNo',$id)->get(['ItemCode','Unit','RRQuantityDelivered','Description','QuantityAccepted','UnitCost','Amount']);
     $netsales=$RRconfirmDetails->sum('Amount');
     $VAT=$netsales*.12;

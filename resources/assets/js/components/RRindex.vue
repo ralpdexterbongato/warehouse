@@ -21,32 +21,33 @@
         <th>Status</th>
         <th>Action</th>
       </tr>
-      <tr v-for="result in RRDataResults">
+      <tr v-for="result in RRDataResults" v-if="result.users[0]!=null">
           <td>{{result.RRNo}}</td>
           <td>{{result.Supplier}}</td>
           <td>{{result.RVNo}}</td>
           <td>
-            {{result.Receivedby}}<br>
-            <i class="fa fa-check"  v-if="result.ReceivedbySignature!=null"></i>
+            {{result.users[0].FullName}}<br>
+            <i class="fa fa-check" v-if="result.users[0].pivot.Signature=='0'"></i>
+            <i class="fa fa-times index-decline" v-else-if="result.users[0].pivot.Signature=='1'"></i>
           </td>
           <td>
-            {{result.ReceivedOriginalby}}<br>
-            <i class="fa fa-check" v-if="result.ReceivedOriginalbySignature!=null"></i>
-            <i class="fa fa-times index-decline" v-else-if="result.ReceivedOriginalby==result.IfDeclined"></i>
+            {{result.users[2].FullName}}<br>
+            <i class="fa fa-check" v-if="result.users[2].pivot.Signature=='0'"></i>
+            <i class="fa fa-times index-decline" v-else-if="result.users[2].pivot.Signature=='1'"></i>
           </td>
           <td>
-            {{result.Verifiedby}}<br>
-            <i class="fa fa-check" v-if="result.VerifiedbySignature!=null"></i>
-            <i class="fa fa-times index-decline" v-else-if="result.Verifiedby==result.IfDeclined"></i>
+            {{result.users[1].FullName}}<br>
+            <i class="fa fa-check" v-if="result.users[1].pivot.Signature=='0'"></i>
+            <i class="fa fa-times index-decline" v-else-if="result.users[1].pivot.Signature=='1'"></i>
           </td>
           <td>
-            {{result.PostedtoBINby}}<br>
-            <i class="fa fa-check" v-if="result.PostedtoBINbySignature!=null"></i>
-            <i class="fa fa-times index-decline" v-if="result.PostedtoBINby==result.IfDeclined"></i>
+            {{result.users[3].FullName}}<br>
+            <i class="fa fa-check" v-if="result.users[3].pivot.Signature=='0'"></i>
+            <i class="fa fa-times index-decline" v-if="result.users[3].pivot.Signature=='1'"></i>
           </td>
           <td>
-            <i class="fa fa-thumbs-up" v-if="((result.ReceivedOriginalbySignature!=null)&&(result.VerifiedbySignature!=null)&&(result.PostedtoBINbySignature))"></i>
-            <i class="fa fa-times decliner" v-else-if="result.IfDeclined!=null"></i>
+            <i class="fa fa-thumbs-up" v-if="result.Status=='0'"></i>
+            <i class="fa fa-times decliner" v-else-if="result.Status=='1'"></i>
             <i class="fa fa-clock-o" v-else></i>
           </td>
           <td><a :href="'/RR-fullpreview/'+result.RRNo"><i class="fa fa-eye"></i></a></td>

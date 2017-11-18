@@ -17,6 +17,7 @@ use App\RRDetailsNotForStock;
 use App\RVMaster;
 use App\Jobs\NewCreatedRRJob;
 use App\PODetail;
+use App\Signatureable;
 class RRController extends Controller
 {
   public function __construct()
@@ -152,7 +153,7 @@ class RRController extends Controller
     }
     $year=Carbon::now()->format('y');
     $date=Carbon::now();
-    $latestID=RRMaster::orderBy('id','DESC')->take(1)->value('RRNo');
+    $latestID=RRMaster::orderBy('RRNo','DESC')->take(1)->value('RRNo');
     if (isset($latestID[0]))
     {
       $numOnly=substr($latestID,'3');
@@ -163,9 +164,6 @@ class RRController extends Controller
     {
       $incremented=$year.'-'.sprintf("%04d",'1');
     }
-    $verifiedUser=User::whereNotNull('IsActive')->where('id',$request->Verifiedby)->get(['FullName','Position']);
-    $originalReceiver=User::whereNotNull('IsActive')->where('id',$request->ReceivedOriginalby)->get(['FullName','Position']);
-    $BINPoster=User::whereNotNull('IsActive')->where('id', $request->PostedtoBINby)->get(['FullName','Position']);
     $RRMasterDB=new RRMaster;
     $RRMasterDB->RRNo =$incremented;
     $RRMasterDB->RRDate=$date;
@@ -176,28 +174,13 @@ class RRController extends Controller
     $RRMasterDB->Carrier=$request->Carrier;
     $RRMasterDB->DeliveryReceiptNo=$request->DeliveryReceiptNo;
     $RRMasterDB->Note=$request->Note;
-    $RRMasterDB->Receivedby=Auth::user()->FullName;
-    $RRMasterDB->ReceivedbyPosition=Auth::user()->Position;
-    $RRMasterDB->ReceivedbySignature=Auth::user()->Signature;
-    if ($verifiedUser[0]->FullName== Auth::user()->FullName)
-    {
-      $RRMasterDB->VerifiedbySignature=Auth::user()->Signature;
-    }
-    if ($originalReceiver[0]->FullName== Auth::user()->FullName)
-    {
-      $RRMasterDB->ReceivedOriginalbySignature=Auth::user()->Signature;
-    }
-    if ($BINPoster[0]->FullName == Auth::user()->FullName)
-    {
-      $RRMasterDB->PostedtoBINbySignature=Auth::user()->Signature;
-    }
-    $RRMasterDB->Verifiedby=$verifiedUser[0]->FullName;
-    $RRMasterDB->VerifiedbyPosition=$verifiedUser[0]->Position;
-    $RRMasterDB->ReceivedOriginalby=$originalReceiver[0]->FullName;
-    $RRMasterDB->ReceivedOriginalbyPosition=$originalReceiver[0]->Position;
-    $RRMasterDB->PostedToBINby=$BINPoster[0]->FullName;
-    $RRMasterDB->PostedToBINbyPosition=$BINPoster[0]->Position;
     $RRMasterDB->save();
+    $forSignatures = array(
+      array('user_id' =>Auth::user()->id,'signatureable_id'=>$incremented,'signatureable_type'=>'App\RRMaster','SignatureType'=>'ReceivedBy'),
+      array('user_id' =>$request->Verifiedby,'signatureable_id'=>$incremented,'signatureable_type'=>'App\RRMaster','SignatureType'=>'VerifiedBy'),
+      array('user_id' =>$request->ReceivedOriginalby,'signatureable_id'=>$incremented,'signatureable_type'=>'App\RRMaster','SignatureType'=>'ReceivedOriginalBy'),
+      array('user_id' =>$request->PostedtoBINby,'signatureable_id'=>$incremented,'signatureable_type'=>'App\RRMaster','SignatureType'=>'PostedToBINBy'),
+    );
     $ForRRconfirmItemsDB = array();
     $RVDetail=RVDetail::where('RVNo',$request->RVNo)->get(['Particulars','QuantityValidator']);
     foreach (Session::get('RR-Items-Added') as $forconfirmDetail)
@@ -214,14 +197,11 @@ class RRController extends Controller
         }
       }
     }
-      RRconfirmationDetails::insert($ForRRconfirmItemsDB);
-      Session::forget('RR-Items-Added');
+    Signatureable::insert($forSignatures);
+    RRconfirmationDetails::insert($ForRRconfirmItemsDB);
+    Session::forget('RR-Items-Added');
 
-    $VerifiedName=str_replace(' ','',$verifiedUser[0]->FullName);
-    $ReceivedOriginalName=str_replace(' ','',$originalReceiver[0]->FullName);
-    $BINPosterName=str_replace(' ','',$BINPoster[0]->FullName);
-
-    $NotifableName = array('first' =>$VerifiedName,'second'=>$ReceivedOriginalName,'third'=>$BINPosterName);
+    $NotifableName = array('first' =>$request->Verifiedby,'second'=>$request->ReceivedOriginalby,'third'=>$request->PostedtoBINby);
     $NotifableName=(object)$NotifableName;
     $job = (new NewCreatedRRJob($NotifableName))->delay(Carbon::now()->addSeconds(5));
     dispatch($job);
@@ -237,7 +217,7 @@ class RRController extends Controller
     }
     $year=Carbon::now()->format('y');
     $date=Carbon::now();
-    $latestID=RRMaster::orderBy('id','DESC')->take(1)->value('RRNo');
+    $latestID=RRMaster::orderBy('RRNo','DESC')->take(1)->value('RRNo');
     if (isset($latestID[0]))
     {
       $numOnly=substr($latestID,'3');
@@ -248,9 +228,6 @@ class RRController extends Controller
     {
       $incremented=$year.'-'.sprintf("%04d",'1');
     }
-    $verifiedUser=User::whereNotNull('IsActive')->where('id',$request->Verifiedby)->get(['FullName','Position']);
-    $originalReceiver=User::whereNotNull('IsActive')->where('id',$request->ReceivedOriginalby)->get(['FullName','Position']);
-    $BINPoster=User::whereNotNull('IsActive')->where('id', $request->PostedtoBINby)->get(['FullName','Position']);
     $POMaster=POMaster::where('PONo',$request->PONo)->get(['Supplier','Address','RVNo']);
     $RRMasterDB=new RRMaster;
     $RRMasterDB->RRNo =$incremented;
@@ -263,28 +240,13 @@ class RRController extends Controller
     $RRMasterDB->Carrier=$request->Carrier;
     $RRMasterDB->DeliveryReceiptNo=$request->DeliveryReceiptNo;
     $RRMasterDB->Note=$request->Note;
-    $RRMasterDB->Receivedby=Auth::user()->FullName;
-    $RRMasterDB->ReceivedbyPosition=Auth::user()->Position;
-    $RRMasterDB->ReceivedbySignature=Auth::user()->Signature;
-    if ($verifiedUser[0]->FullName==Auth::user()->FullName)
-    {
-      $RRMasterDB->VerifiedbySignature=Auth::user()->Signature;
-    }
-    if ($originalReceiver[0]->FullName== Auth::user()->FullName)
-    {
-      $RRMasterDB->ReceivedOriginalbySignature=Auth::user()->Signature;
-    }
-    if ($BINPoster[0]->FullName == Auth::user()->FullName)
-    {
-      $RRMasterDB->PostedtoBINbySignature=Auth::user()->Signature;
-    }
-    $RRMasterDB->Verifiedby=$verifiedUser[0]->FullName;
-    $RRMasterDB->VerifiedbyPosition=$verifiedUser[0]->Position;
-    $RRMasterDB->ReceivedOriginalby=$originalReceiver[0]->FullName;
-    $RRMasterDB->ReceivedOriginalbyPosition=$originalReceiver[0]->Position;
-    $RRMasterDB->PostedToBINby=$BINPoster[0]->FullName;
-    $RRMasterDB->PostedToBINbyPosition=$BINPoster[0]->Position;
     $RRMasterDB->save();
+    $forSignatures = array(
+      array('user_id' =>Auth::user()->id,'signatureable_id'=>$incremented,'signatureable_type'=>'App\RRMaster','SignatureType'=>'ReceivedBy'),
+      array('user_id' =>$request->Verifiedby,'signatureable_id'=>$incremented,'signatureable_type'=>'App\RRMaster','SignatureType'=>'VerifiedBy'),
+      array('user_id' =>$request->ReceivedOriginalby,'signatureable_id'=>$incremented,'signatureable_type'=>'App\RRMaster','SignatureType'=>'ReceivedOriginalBy'),
+      array('user_id' =>$request->PostedtoBINby,'signatureable_id'=>$incremented,'signatureable_type'=>'App\RRMaster','SignatureType'=>'PostedToBINBy'),
+    );
     $ForRRconfirmItemsDB = array();
     $FromPODetail=PODetail::where('PONo',$request->PONo)->get(['QtyValidator','Description']);
     foreach (Session::get('RR-Items-Added') as $forconfirmDetail)
@@ -302,13 +264,10 @@ class RRController extends Controller
       }
     }
     RRconfirmationDetails::insert($ForRRconfirmItemsDB);
+    Signatureable::insert($forSignatures);
     Session::forget('RR-Items-Added');
 
-    $VerifiedName=str_replace(' ','',$verifiedUser[0]->FullName);
-    $ReceivedOriginalName=str_replace(' ','',$originalReceiver[0]->FullName);
-    $BINPosterName=str_replace(' ','',$BINPoster[0]->FullName);
-
-    $NotifableName = array('first' =>$VerifiedName,'second'=>$ReceivedOriginalName,'third'=>$BINPosterName);
+    $NotifableName = array('first' =>$request->Verifiedby,'second'=>$request->ReceivedOriginalby,'third'=>$request->PostedtoBINby);
     $NotifableName=(object)$NotifableName;
     $job = (new NewCreatedRRJob($NotifableName))->delay(Carbon::now()->addSeconds(5));
     dispatch($job);
@@ -347,7 +306,7 @@ class RRController extends Controller
   }
   public function RRindexSearchAndFetch(Request $request)
   {
-    return RRMaster::where('RRNo','LIKE','%'.$request->RRNo.'%')->orderBy('RRNo','DESC')->paginate(10,['RRNo','Supplier','RVNo','Receivedby','ReceivedbySignature','ReceivedOriginalby','ReceivedOriginalbySignature','Verifiedby','VerifiedbySignature','PostedtoBINby','PostedtoBINbySignature','IfDeclined']);
+    return RRMaster::with('users')->where('RRNo','LIKE','%'.$request->RRNo.'%')->orderBy('RRNo','DESC')->paginate(10,['RRNo','Supplier','RVNo','Status']);
   }
   public function previewRR($id)
   {
@@ -361,29 +320,18 @@ class RRController extends Controller
     $Netsales=$RRconfirmationDetails->sum('Amount');
     $VAT=$Netsales*.12;
     $TOTALamt=$Netsales+$VAT;
-    $RRMaster=RRMaster::where('RRNo',$id)->get();
+    $RRMaster=RRMaster::with('users')->where('RRNo',$id)->get();
     $checkMR=MRMaster::orderBy('RRNo','DESC')->where('RRNo',$id)->take(1)->get(['MRNo']);
     $response = array('RRconfirmationDetails' =>$RRconfirmationDetails ,'Netsales'=>$Netsales,'VAT'=>$VAT,'TOTALamt'=>$TOTALamt,'RRMaster'=>$RRMaster,'checkMR'=>$checkMR);
     return response()->json($response);
   }
   public function signatureRR($id)
   {
-    $RRMaster=RRMaster::where('RRNo',$id)->get(['ReceivedOriginalby','Verifiedby','PostedtoBINby','PONo','RVNo']);
-    if ($RRMaster[0]->ReceivedOriginalby==Auth::user()->FullName)
+    Signatureable::where('signatureable_id',$id)->where('signatureable_type','App\RRMaster')->where('user_id', Auth::user()->id)->update(['Signature'=>'0']);
+    $RRMaster=RRMaster::with('users')->where('RRNo',$id)->get();
+    if(($RRMaster[0]->users[0]->pivot->Signature =='0')&&($RRMaster[0]->users[1]->pivot->Signature =='0')&&($RRMaster[0]->users[2]->pivot->Signature =='0')&&($RRMaster[0]->users[3]->pivot->Signature =='0'))
     {
-        RRMaster::where('RRNo',$id)->update(['ReceivedOriginalbySignature'=>Auth::user()->Signature]);
-    }
-    if ($RRMaster[0]->Verifiedby==Auth::user()->FullName)
-    {
-      RRMaster::where('RRNo',$id)->update(['VerifiedbySignature'=>Auth::user()->Signature]);
-    }
-    if ($RRMaster[0]->PostedtoBINby==Auth::user()->FullName)
-    {
-        RRMaster::where('RRNo',$id)->update(['PostedtoBINbySignature'=>Auth::user()->Signature]);
-    }
-    $RRMasterUpdated=RRMaster::where('RRNo',$id)->get(['ReceivedbySignature','ReceivedOriginalbySignature','VerifiedbySignature','PostedtoBINbySignature']);
-    if (($RRMasterUpdated[0]->ReceivedOriginalbySignature)&&($RRMasterUpdated[0]->VerifiedbySignature)&&($RRMasterUpdated[0]->PostedtoBINbySignature)&&($RRMasterUpdated[0]->ReceivedbySignature))
-    {
+      RRMaster::where('RRNo', $id)->update(['Status'=>'0']);
       $RRconfirmDetails=RRconfirmationDetails::where('RRNo',$id)->get();
       $forMTDtable = array();
       $date=RRMaster::where('RRNo', $id)->get(['RRDate']);
@@ -431,21 +379,13 @@ class RRController extends Controller
   }
   public function RRsignatureRequest()
   {
-    $requestRR=RRMaster::orderBy('RRNo','DESC')->where('ReceivedOriginalby',Auth::user()->FullName)
-    ->whereNull('ReceivedOriginalbySignature')
-    ->whereNull('IfDeclined')
-    ->orWhere('Verifiedby',Auth::user()->FullName)
-    ->whereNull('VerifiedbySignature')
-    ->whereNull('IfDeclined')
-    ->orWhere('PostedtoBINby',Auth::user()->FullName)
-    ->whereNull('PostedtoBINbySignature')
-    ->whereNull('IfDeclined')
-    ->paginate(10,['RRNo','Supplier','Address','RVNo','Receivedby','ReceivedbySignature','ReceivedOriginalby','ReceivedOriginalbySignature','Verifiedby','VerifiedbySignature','PostedtoBINby','PostedtoBINbySignature']);
+    $requestRR=Auth::user()->RRSignatureTurn()->paginate(10,['RRNo','Supplier','Address','RVNo']);
     return view('Warehouse.RR.myRRrequest',compact('requestRR'));
   }
   public function declineRR($id)
   {
-    RRMaster::where('RRNo',$id)->update(['IfDeclined'=>Auth::user()->FullName]);
+    Signatureable::where('signatureable_id',$id)->where('signatureable_type','App\RRMaster')->where('user_id', Auth::user()->id)->update(['Signature'=>'1']);
+    RRMaster::where('RRNo', $id)->update(['Status'=>'1']);
     $RRMaster=RRMaster::where('RRNo',$id)->get(['PONo','RVNo']);
     if ($RRMaster[0]->PONo!=null)
     {
@@ -506,20 +446,13 @@ class RRController extends Controller
   }
   public function RRofRVlist($id)
   {
-    $RRofRV=RRMaster::where('RVNo',$id)->paginate(9,['RRNo','RVNo','RRDate','Supplier','Address','ReceivedOriginalbySignature','VerifiedbySignature','PostedtoBINbySignature','IfDeclined']);
+    $RRofRV=RRMaster::where('RVNo',$id)->paginate(9,['RRNo','RVNo','RRDate','Supplier','Address','Status']);
     return view('Warehouse.RR.RRlistOfRV',compact('RRofRV'));
   }
   public function refreshRRSignatureCount()
   {
-    $requestRR=RRMaster::orderBy('RRNo','DESC')->where('ReceivedOriginalby',Auth::user()->FullName)
-    ->whereNull('ReceivedOriginalbySignature')
-    ->whereNull('IfDeclined')
-    ->orWhere('Verifiedby',Auth::user()->FullName)
-    ->whereNull('VerifiedbySignature')
-    ->whereNull('IfDeclined')
-    ->orWhere('PostedtoBINby',Auth::user()->FullName)
-    ->whereNull('PostedtoBINbySignature')
-    ->whereNull('IfDeclined')->count();
+    $requestRR=Auth::user()->RRSignatureTurn()->count();
+
     $response = [
       'RRrequestCount' =>$requestRR
     ];

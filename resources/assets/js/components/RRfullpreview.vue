@@ -1,6 +1,6 @@
 <template lang="html">
-<div class="rr-preview-vue">
-  <div class="signature-btn" :class="{'hide':SignatureBtnHide}" v-if="(((RRMaster.Verifiedby==user.FullName)&&(RRMaster.VerifiedbySignature==null)&&(RRMaster.IfDeclined==null))||((RRMaster.ReceivedOriginalby==user.FullName)&&(RRMaster.ReceivedOriginalbySignature==null)&&(RRMaster.IfDeclined==null))||((RRMaster.PostedtoBINby==user.FullName)&&(RRMaster.PostedtoBINbySignature==null)&&(RRMaster.IfDeclined==null)))">
+<div class="rr-preview-vue" v-if="RRMaster.users!=null">
+  <div class="signature-btn" :class="{'hide':SignatureBtnHide}" v-if="UserCanSignature">
     <longpress id="RRsignature" duration="3" :on-confirm="signature"  pressing-text="confirm in {$rcounter}" action-text="Loading . . .">
       <i class="fa fa-pencil"></i> Signature
     </longpress>
@@ -8,11 +8,11 @@
       <i class="fa fa-times"></i> Decline
     </longpress>
   </div>
-  <div class="print-RR-btn" v-else-if="((RRMaster.ReceivedOriginalbySignature!=null)&&(RRMaster.VerifiedbySignature!=null)&&(RRMaster.PostedtoBINbySignature!=null))">
+  <div class="print-RR-btn" v-else-if="(RRMaster.Status=='0')">
       <a :href="'/RR.pdf/'+RRMaster.RRNo"><button type="submit" class="bttn-unite bttn-xs bttn-primary" name="RRNo" value="RRNohere"><i class="fa fa-file-pdf-o"></i> print</button></a>
     <div>
       <a :href="'/view-list-MR-of-RR/'+RRMaster.RRNo" v-if="checkMR!=0"><button type="button" id="full-mr-preview-btn" class="bttn-unite bttn-xs bttn-primary"><i class="fa fa-folder"></i> M.R. list</button></a>
-      <a :href="'/create-mr/'+RRMaster.RRNo" v-if="(((user.Role==4)||(user.Role==3))&&(RRMaster.IfDeclined==null))"><button type="button" class="make-mr bttn-unite bttn-xs bttn-primary"><i class="fa fa-plus"></i> Make M.R.</button></a>
+      <a :href="'/create-mr/'+RRMaster.RRNo" v-if="(((user.Role==4)||(user.Role==3))&&(RRMaster.Status=='0'))"><button type="button" class="make-mr bttn-unite bttn-xs bttn-primary"><i class="fa fa-plus"></i> Make M.R.</button></a>
     </div>
   </div>
     <div class="bondpaper-RR">
@@ -89,22 +89,23 @@
           <div class="signature-rr-left">
             <label>RECEIVED BY:</label>
             <div class="signatureRR-content">
-              <h2 v-if="RRMaster.ReceivedbySignature!=null">
-                <img :src="'/storage/signatures/'+RRMaster.ReceivedbySignature" alt="signature">
+              <h2 v-if="RRMaster.users[0].pivot.Signature=='0'">
+                <img :src="'/storage/signatures/'+RRMaster.users[0].Signature" alt="signature">
               </h2>
-              <h4>{{RRMaster.Receivedby}}</h4>
-              <p>{{RRMaster.ReceivedbyPosition}}</p>
+              <h4>{{RRMaster.users[0].FullName}}
+                <i class="fa fa-times" v-if="RRMaster.users[0].pivot.Signature=='1'"></i>
+              </h4>
+              <p>{{RRMaster.users[0].Position}}</p>
             </div>
           </div>
           <div class="signature-rr-right">
-            <h2 v-if="RRMaster.ReceivedOriginalbySignature!=null"><img :src="'/storage/signatures/'+RRMaster.ReceivedOriginalbySignature" alt="signature"></h2>
+            <h2 v-if="RRMaster.users[2].pivot.Signature=='0'"><img :src="'/storage/signatures/'+RRMaster.users[2].Signature" alt="signature"></h2>
             <label>RECEIVED ORIGINAL BY:</label>
             <div class="signatureRR-content">
-
-              <h4>{{RRMaster.ReceivedOriginalby}}
-                <i class="fa fa-times" v-if="RRMaster.IfDeclined==RRMaster.ReceivedOriginalby"></i>
+              <h4>{{RRMaster.users[2].FullName}}
+                <i class="fa fa-times" v-if="RRMaster.users[2].pivot.Signature=='1'"></i>
               </h4>
-              <p>{{RRMaster.ReceivedOriginalbyPosition}}</p>
+              <p>{{RRMaster.users[2].Position}}</p>
             </div>
           </div>
         </div>
@@ -112,23 +113,23 @@
           <div class="signature-rr-left">
             <label>VERIFIED BY:</label>
             <div class="signatureRR-content">
-              <h2 v-if="RRMaster.VerifiedbySignature!=null"><img :src="'/storage/signatures/'+RRMaster.VerifiedbySignature" alt="signature"></h2>
+              <h2 v-if="RRMaster.users[1].pivot.Signature=='0'"><img :src="'/storage/signatures/'+RRMaster.users[1].Signature" alt="signature"></h2>
               <h4>
-                {{RRMaster.Verifiedby}}
-                <i class="fa fa-times" v-if="RRMaster.IfDeclined==RRMaster.Verifiedby"></i>
+                {{RRMaster.users[1].FullName}}
+                <i class="fa fa-times" v-if="RRMaster.users[1].pivot.Signature=='1'"></i>
               </h4>
-              <p>{{RRMaster.VerifiedbyPosition}}</p>
+              <p>{{RRMaster.users[1].Position}}</p>
             </div>
           </div>
           <div class="signature-rr-right">
-            <h2 v-if="RRMaster.PostedtoBINbySignature!=null"><img :src="'/storage/signatures/'+RRMaster.PostedtoBINbySignature" alt="signature"></h2>
+            <h2 v-if="RRMaster.users[3].pivot.Signature=='0'"><img :src="'/storage/signatures/'+RRMaster.users[3].Signature" alt="signature"></h2>
             <label>POSTED TO BIN CARD BY:</label>
             <div class="signatureRR-content">
               <h4>
-                {{RRMaster.PostedtoBINby}}
-                <i class="fa fa-times" v-if="RRMaster.IfDeclined==RRMaster.PostedtoBINby"></i>
+                {{RRMaster.users[3].FullName}}
+                <i class="fa fa-times" v-if="RRMaster.users[3].pivot.Signature=='1'"></i>
               </h4>
-              <p>{{RRMaster.PostedtoBINbyPosition}}</p>
+              <p>{{RRMaster.users[3].Position}}</p>
             </div>
           </div>
         </div>
@@ -198,5 +199,17 @@ import Longpress from 'vue-longpress'
     components: {
        Longpress
      },
+     computed: {
+       UserCanSignature: function()
+       {
+         if(((this.RRMaster.users[0]!=null)&&(this.RRMaster.users[0].pivot.Signature==null)&&(this.RRMaster.users[0].id==this.user.id))||((this.RRMaster.users[1]!=null)&&(this.RRMaster.users[1].pivot.Signature==null)&&(this.RRMaster.users[1].id==this.user.id))||((this.RRMaster.users[2]!=null)&&(this.RRMaster.users[2].pivot.Signature==null)&&(this.RRMaster.users[2].id==this.user.id))||((this.RRMaster.users[3]!=null)&&(this.RRMaster.users[3].pivot.Signature==null)&&(this.RRMaster.users[3].id==this.user.id)))
+         {
+           return true;
+         }else
+         {
+           return false;
+         }
+       }
+     }
   }
 </script>

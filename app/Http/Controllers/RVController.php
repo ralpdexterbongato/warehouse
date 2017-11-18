@@ -316,10 +316,11 @@ class RVController extends Controller
       RVMaster::where('RVNo', $id)->update(['SignatureTurn'=>'2']);
       Signatureable::where('signatureable_id', $id)->where('SignatureType','ManagerReplacer')->where('user_id', Auth::user()->id)->update(['Signature'=>'0']);
       $BudgetOfficerID=Signatureable::where('signatureable_id', $id)->where('SignatureType','BudgetOfficer')->get(['user_id']);
-      $NotifyThisPerson = array('NotificReceiver' => $BudgetOfficerID[0].user_id);
+      $NotifyThisPerson = array('NotificReceiver' => $BudgetOfficerID[0]->user_id);
       $NotifyThisPerson=(object)$NotifyThisPerson;
       $job = (new NewRVCreatedJob($NotifyThisPerson))->delay(Carbon::now()->addSeconds(5));
       dispatch($job);
+      return null;
     }
     public function savePendingRemark($id,Request $request)
     {

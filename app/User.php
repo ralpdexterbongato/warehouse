@@ -74,4 +74,13 @@ class User extends Authenticatable
       ->whereNull('Status')->wherePivot('Signature',null)->wherePivot('SignatureType', 'ApprovedBy')
       ->orWhere('Status',null)->wherePivot('Signature',null)->where('SignatureType', 'ApprovalReplacer');
     }
+    public function RRSignatureTurn()
+    {
+      return $this->morphedByMany('App\RRMaster','Signatureable')->orderBy('RRNo','DESC')->withPivot(['SignatureType','Signature'])
+      ->whereNull('Status')->wherePivot('Signature',null);
+    }
+    public function RRHistory($date)
+    {
+      return $this->morphedByMany('App\RVMaster', 'Signatureable')->orderBy('RVNo','DESC')->withPivot(['SignatureType','Signature'])->wherePivot('SignatureType', 'Requisitioner')->where('RVDate','LIKE',$date.'%');
+    }
 }

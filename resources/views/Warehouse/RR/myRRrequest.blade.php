@@ -15,10 +15,6 @@
           <th>Supplier</th>
           <th>Address</th>
           <th>RV No.</th>
-          <th>Received by</th>
-          <th>Received Original by</th>
-          <th>Verified by</th>
-          <th>Posted to BIN by</th>
           <th>Show</th>
         </tr>
         @foreach ($requestRR as $requestSignature)
@@ -27,30 +23,6 @@
             <td>{{$requestSignature->Supplier}}</td>
             <td>{{$requestSignature->Address}}</td>
             <td>{{$requestSignature->RVNo}}</td>
-            <td>
-              {{$requestSignature->Receivedby}}
-              @if ($requestSignature->ReceivedbySignature)
-                <br><i class="fa fa-check"></i>
-              @endif
-            </td>
-            <td>
-              {{$requestSignature->ReceivedOriginalby}}
-              @if ($requestSignature->ReceivedOriginalbySignature)
-                <br><i class="fa fa-check"></i>
-              @endif
-            </td>
-            <td>
-              {{$requestSignature->Verifiedby}}
-              @if ($requestSignature->VerifiedbySignature)
-                <br><i class="fa fa-check"></i>
-              @endif
-            </td>
-            <td>
-              {{$requestSignature->PostedtoBINby}}
-              @if ($requestSignature->PostedtoBINbySignature)
-              <br><i class="fa fa-check"></i>
-              @endif
-            </td>
             <td><a href="{{route('RRfullpreview',[$requestSignature->RRNo])}}"><i class="fa fa-eye"></i></a></td>
           </tr>
         @endforeach

@@ -16,9 +16,9 @@
             <div class="triangle-top-right">
             </div>
           </div>
-          @if (($rr->IfDeclined==null)&&($rr->ReceivedOriginalbySignature!=null)&&($rr->VerifiedbySignature!=null)&&($rr->PostedtoBINbySignature!=null))
+          @if ($rr->Status=='0')
             <h1><i class="fa fa-check"></i></h1>
-          @elseif ($rr->IfDeclined!=null)
+          @elseif ($rr->Status=='1')
             <h3 class="big-x"><i class="fa fa-times"></i></h3>
           @else
             <h2 class="big-clock"><i class="fa fa-clock-o"></i></h2>
