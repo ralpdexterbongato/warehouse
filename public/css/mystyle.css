@@ -47,8 +47,7 @@ table {
 	border-spacing: 0;
 }
 /*end reset*/
-
-@import url('https://fonts.googleapis.com/css?family=Comfortaa');
+@import url('https://fonts.googleapis.com/css?family=Roboto');
 /*GLOBAL*/
 *{
   outline:none;
@@ -144,7 +143,7 @@ input[type='radio']:after {
 }
 .darker-blue
 {
-  color:#0063B1;
+  color:#3367D6;
 }
 .bold
 {
@@ -176,17 +175,21 @@ input[type='radio']:after {
 /*home*/
 .top-nav-container
 {
-  padding: 20px 100px;
-  height: 85px;
+  padding:0 50px;
+  height: 65px;
   display: flex;
   justify-content: space-between;
-  background-color:#0063B1;
+  background-color:#3367D6;
 }
 
 .left-nav-content h1
 {
-  width: 90px;
+  width: 70px;
   margin-left: 50px;
+}
+.left-nav-content h1 img
+{
+	width: 60px;
 }
 .left-nav-content
 {
@@ -211,25 +214,12 @@ input[type='radio']:after {
 .title-top
 {
   color: #fff;
-  font-size: 30px;
-  font-family: 'Comfortaa', sans-serif;
+  font-size: 25px;
+  font-family:Roboto, 'Segoe UI', Tahoma, sans-serif;
 	margin:auto;
 	-ms-filter: "progid:DXImageTransform.Microsoft.Shadow(Strength=5, Direction=0, Color=#2E3A40)";/*IE 8*/
 	text-shadow: 0 4px 5px #2E3A40;/* FF3.5+, Opera 9+, Saf1+, Chrome, IE10 */
 	filter: progid:DXImageTransform.Microsoft.Shadow(Strength=5, Direction=135, Color=#2E3A40);
-}
-@media (max-width:850px)
-{
-  .top-nav-container
-  {
-    padding: 20px 100px;
-  }
-}
-@media (max-width:600px) {
-  .top-nav-container
-  {
-    padding:20px 50px;
-  }
 }
 .body-container
 {
@@ -252,7 +242,7 @@ min-height: 100vh;
 .pending-remarks
 {
   border-radius:3px;
-  font-family: 'Comfortaa',sans-serif!important;
+  font-family:Roboto, 'Segoe UI', Tahoma, sans-serif;
 }
 .pending-remarks > i
 {
@@ -289,7 +279,7 @@ min-height: 100vh;
   top:50px;
   left:5px;
   position: absolute;
-  background: #0063B1;
+  background: #3367D6;
   -ms-filter: drop-shadow(2px 3px 2px #B8B8B8);
   -webkit-filter: drop-shadow(2px 3px 2px #B8B8B8);
   -moz-filter: drop-shadow(2px 3px 2px #B8B8B8);
@@ -307,7 +297,7 @@ min-height: 100vh;
 }
 .pending-remarks-input > h1
 {
-  font-family:'Comfortaa',sans-serif;
+  font-family:Roboto, 'Segoe UI', Tahoma, sans-serif;
   color: #fff;
   font-size: 14px;
   padding:3px;
@@ -324,7 +314,7 @@ min-height: 100vh;
   font-size: 13px;
   box-sizing: border-box;
   border-radius: 3px;
-  font-family:'Comfortaa',sans-serif;
+  font-family:Roboto, 'Segoe UI', Tahoma, sans-serif;
   margin-left: 5px;
 }
 .pending-remarks-btn button:nth-child(even)
@@ -342,7 +332,7 @@ min-height: 100vh;
 {
   display: flex;
   flex-direction: column;
-  background: #0063B1;
+  background: #3367D6;
   padding:5px;
   border-radius: 3px;
   position: absolute;
@@ -364,13 +354,13 @@ min-height: 100vh;
 	width: 0;
 	position: absolute;
 	pointer-events: none;
-	border-bottom-color: #0063B1;
+	border-bottom-color: #3367D6;
 	border-width: 10px;
 	margin-left: 0px;
 }
 .empty-left
 {
-  font-family:'Comfortaa',sans-serif;
+  font-family:Roboto, 'Segoe UI', Tahoma, sans-serif;
   flex:3;
   display: flex;
   flex-wrap: wrap;
@@ -382,8 +372,8 @@ min-height: 100vh;
 .empty-left-btn > ul > li h1
 {
   position: relative;
-  font-family: 'Comfortaa', sans-serif;
-  background: #0063B1;
+  font-family:Roboto, 'Segoe UI', Tahoma, sans-serif;
+  background: #3367D6;
   color: #fff;
   display: flex;
   transition: background .3s;
@@ -454,11 +444,11 @@ filter: drop-shadow(0px 7px 3px rgba(61, 61, 61, 0.4));
 {
   margin-right: 10px;
   font-size: 15px!important;
-  color:#2860BE;
+  color:#3367D6;
 }
 .dropping li
 {
-  font-family: 'Comfortaa', sans-serif;
+  font-family:Roboto, 'Segoe UI', Tahoma, sans-serif;
   color:#505050;
   font-size: 13px;
   border-bottom: 1px solid #e5e5e5;
@@ -483,7 +473,7 @@ filter: drop-shadow(0px 7px 3px rgba(61, 61, 61, 0.4));
 {
   color: #fff;
   font-size: 18px;
-  font-family:'Comfortaa',sans-serif;
+  font-family:Roboto, 'Segoe UI', Tahoma, sans-serif;
 }
 .text-left h1
 {
@@ -497,12 +487,12 @@ filter: drop-shadow(0px 7px 3px rgba(61, 61, 61, 0.4));
 }
 .SearchItemSuccess input
 {
-  border:1px solid #0063B1!important;
+  border:1px solid #3367D6!important;
 }
 .SearchItemSuccess button
 {
-  background:#0063B1!important;
-  border:1px solid #0063B1!important;
+  background:#3367D6!important;
+  border:1px solid #3367D6!important;
   color: #fff!important;
   transition: all .5s;
 }
@@ -513,7 +503,7 @@ filter: drop-shadow(0px 7px 3px rgba(61, 61, 61, 0.4));
   display: flex;
   justify-content:space-between;
   border-radius: 3px;
-  background: #2860BE;
+  background: #3367D6;
   margin-top: 40px;
   height: 20px;
 }
@@ -532,7 +522,7 @@ filter: drop-shadow(0px 7px 3px rgba(61, 61, 61, 0.4));
   text-align: center;
   font-size: 15px;
   border:1px solid #fff;
-  font-family:'Comfortaa',sans-serif;
+  font-family:Roboto, 'Segoe UI', Tahoma, sans-serif;
 }
 .search-box button
 {
@@ -567,15 +557,15 @@ filter: drop-shadow(0px 7px 3px rgba(61, 61, 61, 0.4));
 .simple-footer h1
 {
   text-align: center;
-  font-family:'Comfortaa',sans-serif;
+  font-family:Roboto, 'Segoe UI', Tahoma, sans-serif;
   font-size: 14px;
   color: #fff;
   margin: auto;
 }
 .simple-footer
 {
-  height: 70px;
-  background: #0063B1;
+  height: 50px;
+  background: #3367D6;
   display: flex;
 }
 .background-pic
@@ -600,6 +590,7 @@ filter: drop-shadow(0px 7px 3px rgba(61, 61, 61, 0.4));
 	margin:auto;
 	font-size: 20px;
 	color: #8D8D8D;
+	font-family: sans-serif;
 }
 .data-results-container
 {
@@ -630,13 +621,13 @@ filter: drop-shadow(0 6px 3px #C3C3C3);
 .data-results-container table
 {
   width: 100%;
-  font-family:'Comfortaa',sans-serif;
+  font-family:Roboto, 'Segoe UI', Tahoma, sans-serif;
   font-size: 14px;
   text-align: center;
 }
 .latest-data th
 {
-  background: #0063B1;
+  background: #3367D6;
   color: #fff;
   padding: 10px;
   font-size: 15px;
@@ -697,7 +688,7 @@ filter: drop-shadow(0 6px 3px #C3C3C3);
 {
   display: flex;
   flex:1;
-  font-family:'Comfortaa',sans-serif;
+  font-family:Roboto, 'Segoe UI', Tahoma, sans-serif;
   font-size: 20px;
   color: #2A2D37;
 }
@@ -719,128 +710,6 @@ margin:auto;
 	font-size: 30px;
 	color: #102B55;
 }
-/*add-new-item modal*/
-.add-new-modal
-{
-  position: fixed;
-  background: rgba(0, 0, 0, 0.9);
-  height: 100vh;
-  width: 100%;
-  top:0;
-  right: -200%;
-  display: flex;
-  transition: right .5s;
-  z-index: 6;
-  overflow-y: auto;
-}
-.add-new-modal.active
-{
-  right:0;
-}
-.new-modal-box
-{
-  margin:auto;
-  width: 600px;
-  min-height:700px;;
-  background-color:#fff;
-}
-
-.new-modal-title
-{
-  height: 80px;
-  width: 100%;
-  background-color:#0063B1;
-  font-family:'Comfortaa',sans-serif;
-  font-size: 20px;
-  display: flex;
-  color: #fff;
-
-}
-.new-modal-title h1
-{
-  margin: auto;
-}
-.form-new-item td input[type="number"]
-{
-  width: 200px;
-}
-.form-new-item table tr
-{
-    display: flex;
-    float: left;
-    margin-bottom: 20px;
-}
-.form-new-item th
-{
-  width: 300px;
-  font-family:'Comfortaa',sans-serif;
-  float: left;
-  margin: auto;
-}
-.form-new-item,.form-new-item table
-{
-  width: 100%;
-  height:100%;
-  box-sizing: border-box;
-  margin-top: 20px;
-}
-.add-new-item-form
-{
-  height: 400px;
-}
-
-.form-new-item input
-{
-  height: 20px;
-  width: 200px;
-}
-.form-new-item select
-{
-  height: 25px;
-  color:#2A2D37;
-  font-weight: 600;
-  font-family:'Comfortaa',sans-serif;
-  outline: none;
-}
-.form-new-item textarea
-{
-  height: 100px;
-  width: 200px;
-  resize: none;
-}
-.submit-bottons-newitem-container
-{
-  display: flex;
-}
-.submit-bottons-new
-{
-  flex:3;
-
-}
-#cancel-btn
-{
-  border-style: none;
-  padding: 8px 20px;
-  background:#808080;
-  color:#fff;
-  width: 80px;
-}
-#go-create
-{
-  background: #0063B1;
-  color: #fff;
-  border-style: none;
-  padding: 8px 20px;
-  width: 80px;
-}
-.submit-bottons-new button
-{
-  padding:6px 12px;
-}
-.empty-submit
-{
-  flex:3;
-}
 /*MAKE MIRS*/
 .mirs-container h1
 {
@@ -849,66 +718,22 @@ margin:auto;
   font-weight: 400;
   font-size: 30px;
   margin-top: 30px;
-  color:#0063B1;
+  color:#3367D6;
 }
 .mirs-container
 {
     height: 100vh;
-}
-/*MODAL FOR ALL NOTICE*/
-.modal-for-all-notice
-{
-  position: fixed;
-  top: 0;
-  left: 0;
-  height: 100vh;
-  width:100%;
-  background-color:rgba(0, 0, 0, 0.5);
-  z-index: 16;
-  display: none;
-}
-.modal-for-all-notice.active
-{
-  display: block;
-  display: flex;
-
-}
-.center-notice-div
-{
-  margin:auto;
-  background: #fff;
-  min-width:300px;
-  max-width: 500px;
-  border-radius: 10px;
-
-}
-.center-notice-div ul li
-{
-  text-align: center;
-  font-family:'Comfortaa',sans-serif;
-  font-size: 20px;
-  padding: 5px;
-}
-.notice-title
-{
-  background: #0063B1;
-  color:#fff;
-  display: flex;
-  justify-content:space-between;
-  padding:10px;
-  border-top-left-radius: 5px;
-  border-top-right-radius: 5px;
-  box-sizing: border-box;
 }
 /*MCT of MIRS list*/
 .mct-of-mirs-container
 {
   padding:30px;
   min-height: 100vh;
+	font-family: sans-serif;
 }
 .title-of-page-container
 {
-  font-size: 20px;
+  font-size: 17px;
 }
 .table-mct-of-mirs
 {
@@ -916,14 +741,17 @@ margin:auto;
 }
 .table-mct-of-mirs table
 {
-  border:1px solid black;
   width: 100%;
   text-align: center;
+	font-size: 14px;
+}
+.table-mct-of-mirs tr:nth-child(odd)
+{
+	background: #e7e7e7;
 }
 .table-mct-of-mirs td
 {
   padding:20px;
-  border-bottom: 1px solid black;
 }
 .table-mct-of-mirs td i
 {
@@ -934,7 +762,7 @@ margin:auto;
 {
   font-size: 15px;
   padding:10px;
-  background: #0063B1;
+  background: #3367D6;
   color: #fff;
   font-weight: 600;
 }
@@ -959,7 +787,7 @@ margin:auto;
   margin-top: 30px;
   margin-right: 20px;
   margin-bottom: 30px;
-  background:#0063B1;
+  background:#3367D6;
   -ms-filter: drop-shadow(-2px 1px 5px #1D1A33);
   -webkit-filter: drop-shadow(-2px 1px 5px #1D1A33);
   -moz-filter: drop-shadow(-2px 1px 5px #1D1A33);
@@ -988,7 +816,7 @@ margin:auto;
   border-bottom: 1px solid #fff;
   margin-bottom:10px;
   padding-bottom: 5px;
-  font-family:'Comfortaa',sans-serif;
+  font-family:Roboto, 'Segoe UI', Tahoma, sans-serif;
 }
 .mymanagerName
 {
@@ -996,7 +824,7 @@ margin:auto;
   color: #fff;
   text-align: center;
   border-bottom: 1px solid #fff;
-  font-family:'Comfortaa',sans-serif;
+  font-family:Roboto, 'Segoe UI', Tahoma, sans-serif;
   margin-top: 30px;
   margin-bottom: 10px;
   padding-bottom: 5px;
@@ -1006,14 +834,15 @@ margin:auto;
   margin-bottom: 90px;
   text-align: center;
   color: #fff;
-  font-family:'Comfortaa',sans-serif;
+  font-family:Roboto, 'Segoe UI', Tahoma, sans-serif;
   font-size: 14px;
 }
 #go-btn
 {
   background: #004276;
   color: #fff;
-
+	font-family: sans-serif;
+	font-size: 14px;
 }
 #go-btn:hover
 {
@@ -1105,7 +934,7 @@ width:98%;
 .added-table-wrapper table
 {
   font-size: 14px;
-  font-family:'Comfortaa',sans-serif;
+  font-family:Roboto, 'Segoe UI', Tahoma, sans-serif;
   margin:auto;
   width: 100%;
   background: #fff;
@@ -1159,7 +988,7 @@ width:98%;
   border-style: none;
   color: #fff;
   padding: 10px 20px;
-  font-size:15px;
+  font-size:14px;
   margin-bottom: 10px;
   border-radius: 5px;
   outline: none;
@@ -1189,7 +1018,7 @@ width:98%;
 }
 .middle-modal-search h1
 {
- background: #0063B1;
+ background: #3367D6;
  color: #fff;
  padding:8px;
  text-align: center;
@@ -1232,7 +1061,7 @@ width:98%;
   padding:5px;
   font-size: 15px;
   text-align: center;
-  font-family:'Comfortaa',sans-serif;
+  font-family:Roboto, 'Segoe UI', Tahoma, sans-serif;
 }
 .modal-search-results
 {
@@ -1243,7 +1072,7 @@ width:98%;
   width:100%;
   margin-top: 10px;
   overflow-y: auto;
-  font-family:'Comfortaa',sans-serif;
+  font-family:Roboto, 'Segoe UI', Tahoma, sans-serif;
 }
 .table-mirs-modalcontain
 {
@@ -1280,7 +1109,7 @@ width:98%;
 }
 .modal-search-results th
 {
-  background:#0063B1;
+  background:#3367D6;
   color:#fff;
   font-size: 15px;
 }
@@ -1331,14 +1160,14 @@ filter: drop-shadow(0 0 3px #969696);
   position: absolute;
   top: 30px;
   right: 20px;
-  font-family:'Comfortaa', cursive;
+  font-family:Roboto, 'Segoe UI', Tahoma, sans-serif;
   height: 100px;
   width: 100px;
   border-radius: 50%;
   display: flex;
   box-sizing: border-box;
   color:#fff;
-  background: #0063B1;
+  background: #3367D6;
 }
 .status-mirs.approved
 {
@@ -1355,7 +1184,7 @@ filter: drop-shadow(0 0 3px #969696);
 .status-mirs h1
 {
   margin: auto;
-  font-family:'Comfortaa', cursive;
+  font-family:Roboto, 'Segoe UI', Tahoma, sans-serif;
   font-size: 15px;
   font-weight: 200;
 }
@@ -1376,11 +1205,13 @@ filter: drop-shadow(0 0 3px #969696);
 .top-part-box1 h1
 {
   font-weight: bold;
+	font-family: sans-serif;
 }
 .top-part-box1 h4
 {
   font-size: 14px;
   margin-top: 5px;
+	font-family: sans-serif;
 }
 .top-part-box2
 {
@@ -1476,7 +1307,7 @@ filter: drop-shadow(0 0 3px #969696);
   margin-top: 30px;
   margin-right: 20px;
   margin-bottom: 30px;
-  background:#0063B1;
+  background:#3367D6;
 }
 .table-mirs-container th
 {
@@ -1563,7 +1394,7 @@ filter: drop-shadow(0 0 3px #969696);
 }
 .mini-menu-managers >h1
 {
-  background: #0063B1;
+  background: #3367D6;
   color: #fff;
   border-top-left-radius: 3px;
   border-top-right-radius: 3px;
@@ -1580,7 +1411,7 @@ filter: drop-shadow(0 0 3px #969696);
 }
 .mini-menu-managers
 {
-  font-family:'Comfortaa',sans-serif;
+  font-family:Roboto, 'Segoe UI', Tahoma, sans-serif;
   box-sizing: border-box;
   display: flex;
   flex-direction: column;
@@ -1611,8 +1442,8 @@ filter: drop-shadow(0 0 3px #969696);
   margin-left: 4px;
   border-radius: 2px;
   color: #fff;
-  background: #0063B1;
-  border:1px solid #0063B1;
+  background: #3367D6;
+  border:1px solid #3367D6;
 }
 .send-cancel-btns > button:nth-child(even):hover
 {
@@ -1630,7 +1461,7 @@ filter: drop-shadow(0 0 3px #969696);
   margin:0 auto;
   border-radius: 3px;
   padding:3px;
-  font-family:'Comfortaa',sans-serif;
+  font-family:Roboto, 'Segoe UI', Tahoma, sans-serif;
 }
 .manager-list-menu
 {
@@ -1744,7 +1575,7 @@ filter: drop-shadow(0 0 3px #969696);
   border-radius: 3px;
   background: #fff;
   border-style: none;
-  font-family:'Comfortaa',sans-serif;
+  font-family:Roboto, 'Segoe UI', Tahoma, sans-serif;
   -ms-filter: drop-shadow(0 1px 2px #888);
   -webkit-filter: drop-shadow(0 1px 2px #888);
   -moz-filter: drop-shadow(0 1px 2px #888);
@@ -1761,7 +1592,7 @@ filter: drop-shadow(0 0 3px #969696);
 }
 .download-form
 {
-  font-family:'Comfortaa',sans-serif;
+  font-family:Roboto, 'Segoe UI', Tahoma, sans-serif;
 }
 .print-btn-container .download-form button i
 {
@@ -1782,7 +1613,7 @@ filter: drop-shadow(0 0 3px #969696);
 }
 .print-btn-container h1
 {
-  font-family:'Comfortaa',sans-serif;
+  font-family:Roboto, 'Segoe UI', Tahoma, sans-serif;
   font-size: 15px;
   color: #004276;
 }
@@ -1792,7 +1623,7 @@ filter: drop-shadow(0 0 3px #969696);
   left: -360px;
   width: 400px;
   top: 0;
-  font-family:'Comfortaa',sans-serif;
+  font-family:Roboto, 'Segoe UI', Tahoma, sans-serif;
 }
 .manager-replacer-accept-cant
 {
@@ -1804,7 +1635,7 @@ filter: drop-shadow(0 0 3px #969696);
   border-color: #AA0000;
   border-radius: 3px;
   color: #fff;
-  font-family:'Comfortaa',sans-serif;
+  font-family:Roboto, 'Segoe UI', Tahoma, sans-serif;
   margin-left: 10px;
   width: 100px;
   padding:7px 14px;
@@ -1816,7 +1647,7 @@ filter: drop-shadow(0 0 3px #969696);
   border-color: #004275;
   border-radius: 3px;
   color: #fff;
-  font-family:'Comfortaa',sans-serif;
+  font-family:Roboto, 'Segoe UI', Tahoma, sans-serif;
   padding:7px 14px;
   width: 100px;
 }
@@ -1841,7 +1672,7 @@ filter: drop-shadow(0 0 3px #969696);
 }
 #accepted
 {
-  font-family:'Comfortaa',sans-serif;
+  font-family:Roboto, 'Segoe UI', Tahoma, sans-serif;
   border-style: none;
   background-color:#004276;
   color: #fff;
@@ -1859,7 +1690,7 @@ filter: drop-shadow(0 0 3px #969696);
 }
 #not-accepted
 {
-  font-family:'Comfortaa',sans-serif;
+  font-family:Roboto, 'Segoe UI', Tahoma, sans-serif;
   border-style:none;
   background-color:#AA0000;
   color: #fff;
@@ -1932,7 +1763,7 @@ filter: drop-shadow(0 0 3px #969696);
 {
   display: flex;
   flex-direction:column;
-  font-family:'Comfortaa',sans-serif;
+  font-family:Roboto, 'Segoe UI', Tahoma, sans-serif;
 }
 .address-where-form input
 {
@@ -1942,7 +1773,7 @@ filter: drop-shadow(0 0 3px #969696);
   font-size: 15px;
   margin-bottom: 20px;
   margin-top: 10px;
-  font-family:'Comfortaa',sans-serif;
+  font-family:Roboto, 'Segoe UI', Tahoma, sans-serif;
 }
 .SubmitMCTButton
 {
@@ -1953,7 +1784,7 @@ filter: drop-shadow(0 0 3px #969696);
   padding:10px;
   letter-spacing: 1px;
   font-size: 14px;
-  font-family:'Comfortaa',sans-serif;
+  font-family:Roboto, 'Segoe UI', Tahoma, sans-serif;
   text-align: center;
 }
 .SubmitMCTButton:hover
@@ -1967,19 +1798,19 @@ filter: drop-shadow(0 0 3px #969696);
   margin-left: 30px;
   flex:1;
   box-sizing: border-box;
-  background: #0063B1;
+  background: #3367D6;
 }
 .selected-items-session-mct table
 {
   width: 100%;
   background: #fff;
   text-align: center;
-  font-family:'Comfortaa',sans-serif;
+  font-family:Roboto, 'Segoe UI', Tahoma, sans-serif;
   font-size: 14px;
 }
 .selected-items-session-mct th
 {
-  background:#0063B1;
+  background:#3367D6;
   color: #fff;
   font-weight: 600;
   padding:10px;
@@ -2018,7 +1849,7 @@ filter: drop-shadow(0 0 3px #969696);
 {
  color: #fff;
  font-weight: 600;
- background: #0063B1;
+ background: #3367D6;
  text-align: center;
  font-size: 15px;
  padding:10px;
@@ -2042,7 +1873,7 @@ filter: drop-shadow(0 0 3px #969696);
   width: 100%;
   text-align: center;
   font-size: 14px;
-  font-family:'Comfortaa',sans-serif;
+  font-family:Roboto, 'Segoe UI', Tahoma, sans-serif;
 }
 .table-mct-itemchoices tr:nth-child(odd)
 {
@@ -2056,13 +1887,13 @@ filter: drop-shadow(0 0 3px #969696);
 .table-mct-itemchoices th
 {
   padding:10px;
-  background: #0063B1;
+  background: #3367D6;
   color: #fff;
 }
 .table-mct-itemchoices td
 {
   padding:15px;
-  font-family:'Comfortaa',sans-serif;
+  font-family:Roboto, 'Segoe UI', Tahoma, sans-serif;
 }
 .table-mct-itemchoices td button
 {
@@ -2116,6 +1947,7 @@ filter: drop-shadow(0 0 3px #969696);
   margin-bottom: 30px;
   padding: 50px 20px 10px 20px;
   box-sizing: border-box;
+	font-family: sans-serif;
   -ms-filter: drop-shadow(0 0 2px #888);
   -webkit-filter: drop-shadow(0 0 2px #888);
   -moz-filter: drop-shadow(0 0 2px #888);
@@ -2177,7 +2009,7 @@ filter: drop-shadow(0 0 3px #969696);
 }
 .signature-mct-btn button
 {
-  font-family:'Comfortaa',sans-serif;
+  font-family:Roboto, 'Segoe UI', Tahoma, sans-serif;
 }
 #signatureMCT
 {
@@ -2194,7 +2026,7 @@ filter: drop-shadow(0 0 3px #969696);
 .MCT-title
 {
   text-align: center;
-  font-family:'Comfortaa',sans-serif;
+  font-family:Roboto, 'Segoe UI', Tahoma, sans-serif;
   padding-top: 10px;
   display: flex;
   justify-content: space-between;
@@ -2313,7 +2145,7 @@ display: flex;
 }
 .total-result
 {
-  font-family:'Comfortaa',sans-serif;
+  font-family:Roboto, 'Segoe UI', Tahoma, sans-serif;
   font-size: 14px;
   display: flex;
   position: absolute;
@@ -2458,7 +2290,7 @@ display: flex;
 }
 .MRT-middle-form
 {
-  background:#0063B1;
+  background:#3367D6;
   flex:1;
   margin-bottom: 25px;
   margin-top: 25px;
@@ -2489,9 +2321,8 @@ display: flex;
   background: #004275;
   border-radius: 3px;
   text-align: center;
-  font-family:'Comfortaa',sans-serif;
   padding:8px;
-  font-family: 'Comfortaa'sans-serif;
+  font-family:Roboto, 'Segoe UI', Tahoma, sans-serif;
   color: #fff;
   font-size: 16px;
   margin-top: 10px;
@@ -2516,7 +2347,7 @@ display: flex;
 .items-from-mct table
 {
   width: 100%;
-  font-family:'Comfortaa',sans-serif;
+  font-family:Roboto, 'Segoe UI', Tahoma, sans-serif;
 }
 .items-from-mct td
 {
@@ -2549,7 +2380,7 @@ display: flex;
 }
 .pick-from-items h1
 {
-  font-family:'Comfortaa',sans-serif;
+  font-family:Roboto, 'Segoe UI', Tahoma, sans-serif;
   font-size: 20x;
   font-weight: 600;
 }
@@ -2585,7 +2416,7 @@ display: flex;
 .mrt-items table
 {
   width: 100%;
-  font-family:'Comfortaa',sans-serif;
+  font-family:Roboto, 'Segoe UI', Tahoma, sans-serif;
 }
 .mrt-items th
 {
@@ -2637,7 +2468,7 @@ display: flex;
   border: 1px solid #0078D7;
   outline: none;
   border-radius: 4px;
-  font-family:'Comfortaa',sans-serif;
+  font-family:Roboto, 'Segoe UI', Tahoma, sans-serif;
 }
 
 .Title-MIRS-Index
@@ -2645,7 +2476,7 @@ display: flex;
   font-size: 20px;
   color: #00213B;
   font-weight: 600;
-  font-family:'Comfortaa',sans-serif;
+  font-family:Roboto, 'Segoe UI', Tahoma, sans-serif;
 }
 .table-mirs-list
 {
@@ -2657,8 +2488,8 @@ display: flex;
 {
   background: #fff;
   width: 100%;
-  font-family:'Comfortaa',sans-serif;
-  border:1px solid #2860BE;
+  font-family:Roboto, 'Segoe UI', Tahoma, sans-serif;
+  border:1px solid #3367D6;
   font-size: 14px;
 }
 .grid-mirs-container
@@ -2677,7 +2508,7 @@ display: flex;
 {
  text-align: center;
  padding:20px 5px;
- border:1px solid #0063B1;
+ border:1px solid #3367D6;
 }
 .table-mirs-list tr:nth-child(odd)
 {
@@ -2686,7 +2517,7 @@ display: flex;
 .table-mirs-list th
 {
   color: #fff;
-  background: #0063B1;
+  background: #3367D6;
   font-weight: 600;
   padding:6px 12px;
 }
@@ -2714,13 +2545,13 @@ display: flex;
 .search-mrt-summary h1
 {
  text-align: center;
- font-family:'Comfortaa',sans-serif;
+ font-family:Roboto, 'Segoe UI', Tahoma, sans-serif;
  font-size: 20px;
  color: #002847;
 }
 .print-mrt-summary button
 {
-  font-family:'Comfortaa',sans-serif;
+  font-family:Roboto, 'Segoe UI', Tahoma, sans-serif;
   border-radius: 3px;
   background: #fff;
   border-style: none;
@@ -2875,7 +2706,7 @@ display: flex;
 }
 .no-MRT-summary
 {
-  font-family:'Comfortaa',sans-serif;
+  font-family:Roboto, 'Segoe UI', Tahoma, sans-serif;
   font-size: 25px;
   color: #a1a1a1;
   text-align: center;
@@ -2935,7 +2766,7 @@ display: flex;
   border-color: #00345E;
   color: #fff;
   padding:7px 14px;
-  font-family:'Comfortaa',sans-serif;
+  font-family:Roboto, 'Segoe UI', Tahoma, sans-serif;
   margin-right: 10px;
   width: 100px;
   padding:7px 14px;
@@ -2946,7 +2777,7 @@ display: flex;
   border-color: #AA0000;
   color: #fff;
   padding:6px;
-  font-family:'Comfortaa',sans-serif;
+  font-family:Roboto, 'Segoe UI', Tahoma, sans-serif;
   width: 100px;
   padding:7px 14px;
   text-align: center;
@@ -2962,6 +2793,7 @@ display: flex;
   height: 1056px;
   width: 816px;
   background: #fff;
+	font-family: sans-serif;
   -ms-filter: drop-shadow(0 0 3px #4F5F6E);
   -webkit-filter: drop-shadow(0 0 3px #4F5F6E);
   -moz-filter: drop-shadow(0 0 3px #4F5F6E);
@@ -3170,7 +3002,7 @@ filter: drop-shadow(1px 1px 3px #1D1A33);
 .title-summary-mct
 {
   font-size: 20px;
-  font-family:'Comfortaa',sans-serif;
+  font-family:Roboto, 'Segoe UI', Tahoma, sans-serif;
   color: #002C4E;
 }
 .no-mct-summary
@@ -3186,7 +3018,7 @@ filter: drop-shadow(1px 1px 3px #1D1A33);
 }
 .print-summary-mct-btn button
 {
-  font-family:'Comfortaa',sans-serif;
+  font-family:Roboto, 'Segoe UI', Tahoma, sans-serif;
   padding:6px 12px;
   border-style: none;
   border-radius: 3px;
@@ -3221,7 +3053,7 @@ filter: drop-shadow(1px 1px 3px #1D1A33);
 {
   font-size: 15px;
   font-weight:600;
-  font-family:'Comfortaa',sans-serif;
+  font-family:Roboto, 'Segoe UI', Tahoma, sans-serif;
   color: #fff;
   text-align: center;
 }
@@ -3229,7 +3061,7 @@ filter: drop-shadow(1px 1px 3px #1D1A33);
 {
   padding: 20px;
   box-sizing: border-box;
-  background: #0063B1;
+  background: #3367D6;
   height: 200px;
   width: 340px;
   display: flex;
@@ -3301,7 +3133,7 @@ filter: drop-shadow(1px 1px 4px #6B6B6B);
   text-align:left;
   height: 20px;
   color: #2A2D37;
-  font-family:'Comfortaa',sans-serif;
+  font-family:Roboto, 'Segoe UI', Tahoma, sans-serif;
 }
 .login-form button
 {
@@ -3313,7 +3145,7 @@ filter: drop-shadow(1px 1px 4px #6B6B6B);
   color: #fff;
   padding: 6px 5px;
   border-color: #1A407F;
-  font-family:'Comfortaa',sans-serif;
+  font-family:Roboto, 'Segoe UI', Tahoma, sans-serif;
 }
 .login-form button:active,.login-form button:hover,.login-form button:focus
 {
@@ -3332,8 +3164,8 @@ filter: drop-shadow(1px 1px 4px #6B6B6B);
 .burger-button
 {
   box-sizing: border-box;
-  font-size: 25px;
-  background: #0063B1;
+  font-size: 22px;
+  background: #3367D6;
   outline: none;
 }
 .left-nav-content button
@@ -3344,27 +3176,26 @@ filter: drop-shadow(1px 1px 4px #6B6B6B);
 }
 .Account-modal
 {
+	background: rgba(0, 0, 0, 0.5);
   position: fixed;
   height: 100vh;
   width: 100%;
   top: 0;
-  left: -200%;
+  left:0;
   z-index: 16;
   transition: left .5s;
-
+	display: none;
 }
 .Account-modal.active
 {
-  left: 0;
+  display: flex;
 }
-
 .middle-account-modal
 {
  overflow-y:hidden;
  background: #fff;
  height:100vh;
- width: 320px;
- font-family:'Comfortaa',sans-serif;
+ width: 260px;
  border-bottom-right-radius: 5px;
  box-shadow: 0 2px 4px -1px rgba(0,0,0,0.06), 0 4px 5px 0 rgba(0,0,0,0.06), 0 1px 10px 0 rgba(0,0,0,0.08);
 }
@@ -3388,54 +3219,6 @@ filter: drop-shadow(1px 1px 4px #6B6B6B);
 {
   width: 100%;
 }
-.middle-account-modal .userinfo
-{
-  background: #2860BE;
-  position: relative;
-  line-height: 21px;
-  text-align: center;
-  padding:10px;
-  height: 210px;
-  color: #fff;
-  display: flex;
-  justify-content: flex-end;
-  flex-direction: column;
-  font-family: 'Comfortaa', sans-serif;
-}
-.userinfo .name-of-user
-{
-  letter-spacing: 2px;
-  margin-top:5px;
-  text-transform: capitalize;
-}
-.userinfo h3 img
-{
-  margin: auto;
-}
-.userinfo h1
-{
-  text-align: right;
-}
-.userinfo h1 a
-{
-  color: #fff;
-  font-size: 14px;
-}
-.userinfo h3
-{
-  display: flex;
-  height: 100px;
-  width: 100px;
-  border-radius: 50%;
-  margin:0 auto;
-}
-.userinfo .position
-{
-  margin-bottom: 20px;
-  text-transform:uppercase;
-  font-weight:600;
-  font-size: 11px!important;
-}
 .middle-account-modal ul a
 {
   text-decoration: none;
@@ -3447,28 +3230,21 @@ filter: drop-shadow(1px 1px 4px #6B6B6B);
 }
 .middle-account-modal ul a li
 {
-  font-family: 'Comfortaa', sans-serif;
+	font-family:Roboto, 'Segoe UI', Tahoma, sans-serif;
   text-align:left;
-  padding: 12px;
-  font-size:15px;
-  letter-spacing: 1px;
-  color:#0B1C37;
+  padding:10px 10px 10px 30px;
+  font-size:13px;
+	font-weight:600;
+  color:#5A5A5A;
   display: flex;
   background: #fff;
   justify-content: space-between;
   transition: padding-left .5s,backround .5s;
 }
-.middle-account-modal ul a li:hover
+.middle-account-modal .clickable:hover
 {
-  background: #fff;
-  padding-left: 30px;
-  -ms-filter: drop-shadow(0px 0px 2px #AAA);
-  -webkit-filter: drop-shadow(0px 0px 2px #AAA);
-  -moz-filter: drop-shadow(0px 0px 2px #AAA);
-  -o-filter: drop-shadow(0px 0px 2px #AAA);
-  filter: drop-shadow(0px 0px 2px #AAA);
+  padding-left: 40px;
 }
-
 .middle-account-modal::-webkit-scrollbar
 {
 	width: 12px;
@@ -3494,28 +3270,40 @@ filter: drop-shadow(1px 1px 4px #6B6B6B);
 .notif
 {
   position: relative;
-  font-family:'Comfortaa',sans-serif;
+  font-family:Roboto, 'Segoe UI', Tahoma, sans-serif;
   background:#AAAAAA;
   color:#fff;
-  font-size: 14px;
+  font-size: 13px;
   border-radius:20px;
-  padding:3px;
+  padding:3px 3px 5px 3px;
   min-width: 28px;
   text-align: center;
-  font-family:'Comfortaa',sans-serif;
+	font-weight: 500!important;
 }
 .notif.active
 {
-  background:#2860BE;
+  background:#3367D6;
 }
 .middle-account-modal ul a li i
 {
   margin-right: 20px;
-  font-size: 20px;
+  font-size: 16px;
 }
 .navnotif
 {
   width: 100px;
+}
+.logout-btn
+{
+	margin-top: 20px;
+	border-top: 1px solid #e5e5e5;
+}
+.sidebar-title
+{
+	padding:10px 10px 10px 30px;
+	font-size: 16px;
+	border-top: 1px solid #e5e5e5;
+	cursor: pointer;
 }
 .returner-form h3
 {
@@ -3531,7 +3319,7 @@ filter: drop-shadow(1px 1px 4px #6B6B6B);
 .returner-form
 {
   text-align: center;
-  font-family:'Comfortaa',sans-serif;
+  font-family:Roboto, 'Segoe UI', Tahoma, sans-serif;
   font-size: 15px;
   color: #fff;
 }
@@ -3549,7 +3337,7 @@ filter: drop-shadow(1px 1px 4px #6B6B6B);
 .mirs-request-table-list table
 {
   width: 100%;
-  font-family:'Comfortaa',sans-serif;
+  font-family:Roboto, 'Segoe UI', Tahoma, sans-serif;
 }
 .mirs-request-table-list th
 {
@@ -3577,7 +3365,7 @@ filter: drop-shadow(1px 1px 4px #6B6B6B);
 }
 .MIRS-request-container h1
 {
-  font-family:'Comfortaa',sans-serif;
+  font-family:Roboto, 'Segoe UI', Tahoma, sans-serif;
   font-size: 20px;
   color: #00355F;
 }
@@ -3586,7 +3374,7 @@ filter: drop-shadow(1px 1px 4px #6B6B6B);
   text-align: center;
   margin-top: 130px;
   font-size: 20px;
-  font-family: 'Comfortaa',sans-serif;
+  font-family:Roboto, 'Segoe UI', Tahoma, sans-serif;
   color: #BFBFBF;
 }
 /*MCT check request css*/
@@ -3598,7 +3386,7 @@ filter: drop-shadow(1px 1px 4px #6B6B6B);
 .mct-request-table table
 {
   width: 100%;
-  font-family:'Comfortaa',sans-serif;
+  font-family:Roboto, 'Segoe UI', Tahoma, sans-serif;
 }
 .mct-request-table td i
 {
@@ -3623,14 +3411,14 @@ filter: drop-shadow(1px 1px 4px #6B6B6B);
 {
   text-align: center;
   font-size: 14px;
-  background: #0063B1;
+  background: #3367D6;
   color: #fff;
   padding: 6px 12px;
 }
 .mct-request-list-Container h1
 {
   color: #002C4E;
-  font-family:'Comfortaa',sans-serif;
+  font-family:Roboto, 'Segoe UI', Tahoma, sans-serif;
   font-size: 20px;
   margin-top: 20px;
 }
@@ -3643,7 +3431,7 @@ filter: drop-shadow(1px 1px 4px #6B6B6B);
   text-align: center;
   margin-top: 130px;
   font-size: 20px;
-  font-family:'Comfortaa',sans-serif;
+  font-family:Roboto, 'Segoe UI', Tahoma, sans-serif;
   color: #BFBFBF;
 
 }
@@ -3658,13 +3446,13 @@ filter: drop-shadow(1px 1px 4px #6B6B6B);
   padding:20px 5px;
   font-size: 20px;
   color: #002C4E;
-  font-family: 'Comfortaa',sans-serif;
+  font-family:Roboto, 'Segoe UI', Tahoma, sans-serif;
 }
 .MIRS-Ready-Container table
 {
   width: 100%;
   text-align: center;
-  font-family:'Comfortaa',sans-serif;
+  font-family:Roboto, 'Segoe UI', Tahoma, sans-serif;
 }
 .MIRS-Ready-Container th
 {
@@ -3691,7 +3479,7 @@ filter: drop-shadow(1px 1px 4px #6B6B6B);
 .no-waitingMIRS
 {
   text-align: center;
-  font-family:'Comfortaa',sans-serif;
+  font-family:Roboto, 'Segoe UI', Tahoma, sans-serif;
   font-size: 25px;
   font-weight: 600;
   margin-top: 180px;
@@ -3725,7 +3513,7 @@ filter: drop-shadow(1px 1px 4px #6B6B6B);
 }
 .index-RRtitle-container h1
 {
-  font-family:'Comfortaa',sans-serif;
+  font-family:Roboto, 'Segoe UI', Tahoma, sans-serif;
   font-weight: 600;
   font-size: 20px;
   margin-top: 40px;
@@ -3735,7 +3523,7 @@ filter: drop-shadow(1px 1px 4px #6B6B6B);
 .index-RR-table-container table
 {
   width: 100%;
-  font-family:'Comfortaa',sans-serif;
+  font-family:Roboto, 'Segoe UI', Tahoma, sans-serif;
   font-size: 15px;
   background: #fff;
   border: 1px solid #337AB7;
@@ -3744,7 +3532,7 @@ filter: drop-shadow(1px 1px 4px #6B6B6B);
 {
   text-align: center;
   padding:10px;
-  background: #0063B1;
+  background: #3367D6;
   color: #fff;
 }
 .index-RR-table-container tr:nth-child(odd)
@@ -3796,6 +3584,7 @@ filter: drop-shadow(1px 1px 4px #6B6B6B);
   margin-bottom: 10px;
   display: flex;
   justify-content: center;
+	font-family: sans-serif;
 }
 .successAlertRRsession
 {
@@ -3805,6 +3594,7 @@ filter: drop-shadow(1px 1px 4px #6B6B6B);
   color: #3C763D;
   margin-bottom: 10px;
   text-align: center;
+	font-family: sans-serif;
 }
 /*PREVIEW RR CSS*/
 .previewRR-Container
@@ -3820,6 +3610,7 @@ filter: drop-shadow(1px 1px 4px #6B6B6B);
   min-height: 1056px;
   width:816px;
   margin:auto;
+	font-family: sans-serif;
   padding: 60px 30px 20px 30px;
   -ms-filter: drop-shadow(1px 1px 6px #A1A1A1);
   -webkit-filter: drop-shadow(1px 1px 6px #A1A1A1);
@@ -3834,7 +3625,7 @@ filter: drop-shadow(1px 1px 4px #6B6B6B);
   display: flex;
   justify-content: flex-end;
   margin-bottom:5px;
-  font-family:'Comfortaa',sans-serif;
+  font-family:Roboto, 'Segoe UI', Tahoma, sans-serif;
 }
 #RRsignature:hover
 {
@@ -3878,6 +3669,7 @@ filter: drop-shadow(1px 1px 4px #6B6B6B);
   display: flex;
   margin-bottom:5px;
   justify-content: space-between;
+	font-family: sans-serif;
 }
 .print-RR-btn button
 {
@@ -4089,7 +3881,7 @@ filter: drop-shadow(1px 1px 4px #6B6B6B);
   text-align:center;
   height: 40px;
   margin-bottom: 10px;
-  font-family:'Comfortaa',sans-serif;
+  font-family:Roboto, 'Segoe UI', Tahoma, sans-serif;
   color:#1D1F25;
   padding-left: 10px;
 }
@@ -4104,7 +3896,7 @@ filter: drop-shadow(1px 1px 4px #6B6B6B);
 .no-RR
 {
   font-size: 20px;
-  font-family: 'Comfortaa',sans-serif;
+  font-family:Roboto, 'Segoe UI', Tahoma, sans-serif;
   color: #BFBFBF;
   text-align: center;
   margin-top: 130px;
@@ -4112,13 +3904,13 @@ filter: drop-shadow(1px 1px 4px #6B6B6B);
 .requestRR-table table
 {
   width: 100%;
-  font-family:'Comfortaa', sans-serif;
+  font-family:Roboto, 'Segoe UI', Tahoma, sans-serif;
 }
 .requestRR-table th
 {
   text-align: center;
   padding:10px;
-  background: #0063B1;
+  background: #3367D6;
   color: #fff;
 	font-size:14px;
 }
@@ -4142,7 +3934,7 @@ filter: drop-shadow(1px 1px 4px #6B6B6B);
   font-size: 20px;
   color: #00213B;
   margin-bottom: 10px;
-  font-family: 'Comfortaa',sans-serif;
+  font-family:Roboto, 'Segoe UI', Tahoma, sans-serif;
 }
 /*RV Create CSS*/
 .RV-container
@@ -4175,7 +3967,7 @@ filter: drop-shadow(1px 1px 4px #6B6B6B);
 .added-items-table table
 {
   width: 100%;
-  font-family:'Comfortaa',sans-serif;
+  font-family:Roboto, 'Segoe UI', Tahoma, sans-serif;
   margin-bottom: 20px;
   font-size: 14px;
 }
@@ -4205,7 +3997,7 @@ filter: drop-shadow(1px 1px 4px #6B6B6B);
 {
   flex:1;
   margin-left: 20px;
-  background: #0063B1;
+  background: #3367D6;
   padding:20px;
   border-radius: 3px;
 
@@ -4223,7 +4015,7 @@ filter: drop-shadow(1px 1px 4px #6B6B6B);
   padding-left: 10px;
   border-radius: 4px;
   border-style:inset;
-  font-family:'Comfortaa',sans-serif;
+  font-family:Roboto, 'Segoe UI', Tahoma, sans-serif;
 }
 .RV-form select
 {
@@ -4250,7 +4042,7 @@ filter: drop-shadow(1px 1px 4px #6B6B6B);
     background: #0078D7;
     font-size: 14px;
     font-weight: 600;
-    font-family:'Comfortaa',sans-serif;
+    font-family:Roboto, 'Segoe UI', Tahoma, sans-serif;
     margin-left: 5px;
     transition: background .5s;
 }
@@ -4272,7 +4064,7 @@ filter: drop-shadow(1px 1px 4px #6B6B6B);
   color: #fff;
   background:#004276;
   font-size: 14px;
-  font-family:'Comfortaa',sans-serif;
+  font-family:Roboto, 'Segoe UI', Tahoma, sans-serif;
   margin-left: 5px;
 }
 .title-RV
@@ -4282,7 +4074,7 @@ filter: drop-shadow(1px 1px 4px #6B6B6B);
  padding-right: 20px;
  justify-content: space-between;
  padding-top: 20px;
- font-family:'Comfortaa',sans-serif;
+ font-family:Roboto, 'Segoe UI', Tahoma, sans-serif;
  font-weight: 600;
  font-size: 20px;
  color: #00213B;
@@ -4294,7 +4086,7 @@ filter: drop-shadow(1px 1px 4px #6B6B6B);
 .autoselectedRV
 {
   text-align: center;
-  font-family:'Comfortaa',sans-serif;
+  font-family:Roboto, 'Segoe UI', Tahoma, sans-serif;
   font-size: 15px;
   font-weight: 200;
   margin-top: 100px;
@@ -4359,11 +4151,11 @@ filter: drop-shadow(1px 1px 4px #6B6B6B);
 .rv-modal-centered h1
 {
  text-align: center;
- font-family:'Comfortaa',sans-serif;
+ font-family:Roboto, 'Segoe UI', Tahoma, sans-serif;
  font-weight: 600;
  font-size: 20px;
  padding: 30px;
- background: #0063B1;
+ background: #3367D6;
  color:#fff;
 }
 .itemRV-form
@@ -4383,7 +4175,7 @@ filter: drop-shadow(1px 1px 4px #6B6B6B);
   font-size: 15px;
   border-radius: 4px;
   border:1px solid gray;
-  font-family:'Comfortaa',sans-serif;
+  font-family:Roboto, 'Segoe UI', Tahoma, sans-serif;
 }
 .itemRV-form select
 {
@@ -4422,8 +4214,8 @@ filter: drop-shadow(1px 1px 4px #6B6B6B);
 {
   padding:7px 14px;
   color: #fff;
-  background: #0063B1;
-  border-color:#0063B1;
+  background: #3367D6;
+  border-color:#3367D6;
   border-style: none;
 }
 #addtolistRV:hover
@@ -4465,14 +4257,14 @@ text-align: center;
   width: 100%;
   border: 1px solid black;
   text-align: center;
-  font-family:'Comfortaa',sans-serif;
+  font-family:Roboto, 'Segoe UI', Tahoma, sans-serif;
 }
 .RV-index-table th
 {
   font-weight: 600;
   color: #fff;
   padding:6px 12px;
-  background: #0063B1;
+  background: #3367D6;
 }
 .RV-index-table td i
 {
@@ -4487,7 +4279,7 @@ text-align: center;
 }
 .rv-index-title h1
 {
-  font-family:'Comfortaa',sans-serif;
+  font-family:Roboto, 'Segoe UI', Tahoma, sans-serif;
   font-size: 20px;
   font-weight: 600;
   color: #00213B;
@@ -4504,11 +4296,11 @@ text-align: center;
   border-radius: 5px;
   outline: none;
   border-style: none;
-  border:1px solid #0063B1;
+  border:1px solid #3367D6;
   text-align: center;
   padding-left: 5px;
   font-size: 15px;
-  font-family: 'Comfortaa',sans-serif;
+  font-family:Roboto, 'Segoe UI', Tahoma, sans-serif;
 }
 /*Full RV view CSS*/
 .fullRV-container
@@ -4520,6 +4312,7 @@ text-align: center;
 {
   padding-bottom: 30px;
   display: flex;
+	font-family: sans-serif;
 }
 .declineOrSignatureBtn > span
 {
@@ -4527,7 +4320,7 @@ text-align: center;
 }
 .rvapprovebtn
 {
-  font-family:'Comfortaa',sans-serif;
+  font-family:Roboto, 'Segoe UI', Tahoma, sans-serif;
   background:#004276;
   border-style: none;
   padding:7px 14px;
@@ -4543,7 +4336,7 @@ text-align: center;
 }
 .RVdeclineBtn
 {
-  font-family:'Comfortaa',sans-serif;
+  font-family:Roboto, 'Segoe UI', Tahoma, sans-serif;
   background: #AA0000;
   color: #fff;
   border-style:none;
@@ -4566,7 +4359,7 @@ text-align: center;
   left: -360px;
   width: 400px;
   top: 0;
-  font-family:'Comfortaa',sans-serif;
+  font-family:Roboto, 'Segoe UI', Tahoma, sans-serif;
 }
 .approval-po-replacer-btn
 {
@@ -4579,6 +4372,7 @@ text-align: center;
 .print-and-unreceved
 {
   display: flex;
+	font-family: sans-serif!important;
 }
 .RV-signature-print-container
 {
@@ -4601,7 +4395,7 @@ text-align: center;
 }
 .no-PO,.done-but-no-po
 {
-  font-family:'Comfortaa',sans-serif;
+  font-family:Roboto, 'Segoe UI', Tahoma, sans-serif;
   font-size: 16px;
   margin-right: 10px;
 }
@@ -4618,7 +4412,7 @@ text-align: center;
 }
 .status-po-wrapper h1
 {
-    font-family:'Comfortaa',sans-serif;
+    font-family:Roboto, 'Segoe UI', Tahoma, sans-serif;
     margin:auto;
 }
 .show-rr-of-rv button
@@ -4627,6 +4421,7 @@ text-align: center;
   font-weight: 600;
   background: #fff;
   border-radius: 5px;
+	font-family: sans-serif!important;
 }
 
 .CreateRRwoPO button,.CanvasBtn button
@@ -4661,7 +4456,7 @@ text-align: center;
 .status-rv
 {
   position: absolute;
-  background: #0063B1;
+  background: #3367D6;
   color: #fff;
   font-size: 16px;
   border-radius: 50%;
@@ -4672,7 +4467,7 @@ text-align: center;
   text-align: center;
   padding-top: 20px;
   box-sizing: border-box;
-  font-family:'Comfortaa',sans-serif;
+  font-family:Roboto, 'Segoe UI', Tahoma, sans-serif;
   font-weight: 600;
 }
 .status-rv.approved
@@ -4932,19 +4727,19 @@ text-align: center;
 {
   min-height: 100vh;
   padding: 30px;
-  font-family:'Comfortaa',sans-serif;
+  font-family:Roboto, 'Segoe UI', Tahoma, sans-serif;
 }
 .RV-request-title
 {
   font-size: 20px;
   margin-bottom: 5px;
   color: #002C4E;
-  font-family:'Comfortaa',sans-serif;
+  font-family:Roboto, 'Segoe UI', Tahoma, sans-serif;
 }
 .rv-request-table table
 {
     width: 100%;
-    font-family:'Comfortaa',sans-serif;
+    font-family:Roboto, 'Segoe UI', Tahoma, sans-serif;
     font-size: 15px;
 }
 .rv-request-table td i
@@ -4967,7 +4762,7 @@ text-align: center;
   font-weight: 600;
   color: #fff;
   text-align: center;
-  background: #0063B1;
+  background: #3367D6;
 }
 .lowqtyactive
 {
@@ -5004,11 +4799,11 @@ text-align: center;
 }
 .middle-forStock-div h1
 {
-  background: #0063B1;
+  background: #3367D6;
   text-align: center;
   color: #fff;
   padding:10px;
-  font-family:'Comfortaa',sans-serif;
+  font-family:Roboto, 'Segoe UI', Tahoma, sans-serif;
   font-size: 19px;
   border-top-right-radius:4px;
   border-top-left-radius: 4px;
@@ -5017,11 +4812,11 @@ text-align: center;
 {
   border-radius: 3px;
   border-style: outset;
-  border-color: #0063B1;
-  background: #0063B1;
+  border-color: #3367D6;
+  background: #3367D6;
   padding:5px;
   color: #fff;
-  font-family:'Comfortaa',sans-serif;
+  font-family:Roboto, 'Segoe UI', Tahoma, sans-serif;
 }
 .low-qty-items button:active
 {
@@ -5042,18 +4837,18 @@ text-align: center;
   border-style: none;
   border-top-right-radius: 4px;
   border-bottom-right-radius: 4px;
-  background: #0063B1;
+  background: #3367D6;
   color: #fff;
 }
 .searchboxes-forstock input
 {
   border-style: none;
-  border:1px solid #0063B1;
+  border:1px solid #3367D6;
   border-top-left-radius:4px;
   border-bottom-left-radius:4px;
   padding:5px;
   font-size: 14px;
-  font-family:'Comfortaa',sans-serif;
+  font-family:Roboto, 'Segoe UI', Tahoma, sans-serif;
 }
 .search-description-RV
 {
@@ -5065,14 +4860,14 @@ text-align: center;
   border-bottom-right-radius: 5px;
   border-style: none;
   width: 30px;
-  border:1px solid #0063B1;
-  background: #0063B1;
+  border:1px solid #3367D6;
+  background: #3367D6;
   color: #fff;
 }
 .search-description-RV input
 {
   height: 22px;
-  border:1px solid #0063B1;
+  border:1px solid #3367D6;
   border-top-left-radius: 5px;
   border-bottom-left-radius: 5px;
   outline: none;
@@ -5087,12 +4882,12 @@ text-align: center;
 {
   width: 100%;
   font-size: 14px;
-  font-family:'Comfortaa',sans-serif;
-  font-family:'Comfortaa',sans-serif;
+  font-family:Roboto, 'Segoe UI', Tahoma, sans-serif;
+  font-family:Roboto, 'Segoe UI', Tahoma, sans-serif;
 }
 .searchResults-forstock th
 {
-  background: #0063B1;
+  background: #3367D6;
   text-align: center;
   font-size: 15px;
   color: #fff;
@@ -5129,7 +4924,7 @@ text-align: center;
 {
   width: 100%;
   text-align: center;
-  font-family:'Comfortaa',sans-serif;
+  font-family:Roboto, 'Segoe UI', Tahoma, sans-serif;
   border:1px solid #337AB7;
   font-size: 14px;
 }
@@ -5163,7 +4958,7 @@ text-align: center;
 .top-title-canvass
 {
   font-size: 20px;
-  font-family:'Comfortaa',sans-serif;
+  font-family:Roboto, 'Segoe UI', Tahoma, sans-serif;
   color: #002C4E;
 }
 .add-supplier-canvass
@@ -5180,7 +4975,7 @@ text-align: center;
 {
  color:#fff;
  border-style: none;
- background: #0063B1;
+ background: #3367D6;
  padding:9px 12px;
  font-size: 15px;
  border-radius: 5px;
@@ -5205,7 +5000,7 @@ text-align: center;
   border:1px solid #337AB7;
   width: 100%;
   font-size: 14px;
-  font-family:'Comfortaa',sans-serif;
+  font-family:Roboto, 'Segoe UI', Tahoma, sans-serif;
 }
 .items-from-rv-table th
 {
@@ -5286,7 +5081,7 @@ text-align: center;
   color: #fff;
   font-size:25px;
   text-align: center;
-  font-family:'Comfortaa',sans-serif;
+  font-family:Roboto, 'Segoe UI', Tahoma, sans-serif;
   padding:20px;
 }
 .canvass-form
@@ -5313,7 +5108,7 @@ text-align: center;
 {
   width: 100%;
   border:1px solid #a1a1a1;
-  font-family:'Comfortaa',sans-serif;
+  font-family:Roboto, 'Segoe UI', Tahoma, sans-serif;
   margin-top: 10px;
 }
 .table-wrap-canvass th
@@ -5389,7 +5184,7 @@ button.done-canvass:hover
   padding:7px 12px;
   border-style: none;
   border:1px solid #aaa;
-  background: #0063B1;
+  background: #3367D6;
   border-radius: 5px;
   font-size: 16px;
   color: #fff;
@@ -5409,7 +5204,7 @@ button.done-canvass:hover
 }
 .viewPObtn button
 {
-  font-family:'Comfortaa',sans-serif;
+  font-family:Roboto, 'Segoe UI', Tahoma, sans-serif;
   font-size: 14px;
   background: #fff;
   font-weight: 600;
@@ -5444,7 +5239,7 @@ button.done-canvass:hover
 {
   font-size: 180px;
   margin:auto;
-  color: #0063B1;
+  color: #3367D6;
 }
 .PO-box h2
 {
@@ -5490,6 +5285,7 @@ filter: drop-shadow(1px 1px 8px #0D4DFF);
   margin:auto;
   background: #fff;
   padding:70px 30px 30px 30px;
+	font-family: sans-serif;
   -ms-filter: drop-shadow(0px 0px 3px #AAA);
   -webkit-filter: drop-shadow(0px 0px 3px #AAA);
   -moz-filter: drop-shadow(0px 0px 3px #AAA);
@@ -5514,7 +5310,7 @@ filter: drop-shadow(1px 1px 8px #0D4DFF);
   margin-left: 5px;
   list-style: none;
   display: flex;
-  font-family:'Comfortaa',sans-serif;
+  font-family:Roboto, 'Segoe UI', Tahoma, sans-serif;
 }
 .pending-delivery-number h1
 {
@@ -5523,6 +5319,7 @@ filter: drop-shadow(1px 1px 8px #0D4DFF);
 .left-detail-po
 {
   display: flex;
+	font-family: sans-serif;
 }
 .make-rr-and-print
 {
@@ -5689,7 +5486,7 @@ filter: drop-shadow(1px 1px 8px #0D4DFF);
   text-decoration: none;
   font-weight: 600;
   font-size: 20px;
-  font-family:'Comfortaa',sans-serif;
+  font-family:Roboto, 'Segoe UI', Tahoma, sans-serif;
   color: #fff;
   text-align:center;
 }
@@ -5705,7 +5502,7 @@ filter: drop-shadow(1px 1px 8px #0D4DFF);
   top:-30px;
   left: 0;
   color:#fff;
-  font-family:'Comfortaa',sans-serif;
+  font-family:Roboto, 'Segoe UI', Tahoma, sans-serif;
   background: #0078D7;
   padding:8px;
   box-sizing: border-box;
@@ -5725,7 +5522,7 @@ filter: drop-shadow(1px 1px 8px #0D4DFF);
  font-size: 15px;
  padding:7px 14px;
  width: 115px;
- font-family:'Comfortaa',sans-serif;
+ font-family:Roboto, 'Segoe UI', Tahoma, sans-serif;
 }
 .signaturePObtn:hover
 {
@@ -5742,7 +5539,7 @@ filter: drop-shadow(1px 1px 8px #0D4DFF);
   font-size: 15px;
   padding:7px 14px;
   width: 115px;
-  font-family:'Comfortaa',sans-serif;
+  font-family:Roboto, 'Segoe UI', Tahoma, sans-serif;
 }
 .signature-btns-wrap-po
 {
@@ -5762,7 +5559,7 @@ filter: drop-shadow(1px 1px 8px #0D4DFF);
 .title-po-list-request
 {
   font-size:22px;
-  font-family:'Comfortaa',sans-serif;
+  font-family:Roboto, 'Segoe UI', Tahoma, sans-serif;
   color: #002C4E;
 }
 .po-request-table
@@ -5772,7 +5569,7 @@ filter: drop-shadow(1px 1px 8px #0D4DFF);
 .po-request-table table
 {
   width: 100%;
-  font-family:'Comfortaa',sans-serif;
+  font-family:Roboto, 'Segoe UI', Tahoma, sans-serif;
   text-align: center;
 	font-size: 15px;
 }
@@ -5812,7 +5609,7 @@ filter: drop-shadow(1px 1px 8px #0D4DFF);
 }
 .rv-unpurchased-list
 {
-  font-family:'Comfortaa',sans-serif;
+  font-family:Roboto, 'Segoe UI', Tahoma, sans-serif;
   font-size: 20px;
   color: #00233F;
 }
@@ -5822,7 +5619,7 @@ filter: drop-shadow(1px 1px 8px #0D4DFF);
 }
 .pending-purchase-table table
 {
-  font-family:'Comfortaa',sans-serif;
+  font-family:Roboto, 'Segoe UI', Tahoma, sans-serif;
   width: 100%;
   text-align:center;
   font-size: 14px;
@@ -5851,7 +5648,7 @@ filter: drop-shadow(1px 1px 8px #0D4DFF);
 {
   font-size: 20px;
   font-weight: 600;
-  font-family:'Comfortaa',sans-serif;
+  font-family:Roboto, 'Segoe UI', Tahoma, sans-serif;
   text-align: center;
   margin-top: 130px;
   color:#a1a1a1;
@@ -5880,7 +5677,7 @@ filter: drop-shadow(1px 1px 8px #0D4DFF);
   padding:7px 14px;
   width: 100px;
   text-align: center;
-  font-family:'Comfortaa',sans-serif;
+  font-family:Roboto, 'Segoe UI', Tahoma, sans-serif;
 }
 #signatureMRbtn:hover
 {
@@ -5894,7 +5691,7 @@ filter: drop-shadow(1px 1px 8px #0D4DFF);
   padding:7px 14px;
   width: 100px;
   text-align: center;
-  font-family:'Comfortaa',sans-serif;
+  font-family:Roboto, 'Segoe UI', Tahoma, sans-serif;
 }
 #declineMRbtn:hover
 {
@@ -5907,7 +5704,7 @@ filter: drop-shadow(1px 1px 8px #0D4DFF);
   width: 120px;
   margin-left: 5px;
   color: #fff;
-  font-family:'Comfortaa',sans-serif;
+  font-family:Roboto, 'Segoe UI', Tahoma, sans-serif;
 }
 .Approve-MR-inBehalf-btn button:nth-child(even)
 {
@@ -5927,12 +5724,13 @@ filter: drop-shadow(1px 1px 8px #0D4DFF);
 {
   padding:8px 10px;
   font-size: 15px;
-  font-family:'Comfortaa',sans-serif;
+  font-family:Roboto, 'Segoe UI', Tahoma, sans-serif;
 }
 .MR-full-container
 {
   background: #fff;
   padding:40px;
+	font-family: sans-serif;
 }
 .mr-top-titles
 {
@@ -6118,7 +5916,7 @@ filter: drop-shadow(1px 1px 8px #0D4DFF);
   border:1px solid #e2e2e2;
   border-radius: 3px;
   font-size: 15px;
-  font-family: 'Comfortaa',sans-serif;
+  font-family:Roboto, 'Segoe UI', Tahoma, sans-serif;
   padding:5px;
   outline: none;
   resize: none;
@@ -6128,7 +5926,7 @@ filter: drop-shadow(1px 1px 8px #0D4DFF);
 {
   padding:44px 15px 15px 15px;
   flex:1;
-  background: #0063B1;
+  background: #3367D6;
   margin-left: 20px;
   -ms-filter: drop-shadow(-2px 1px 5px #1D1A33);
 -webkit-filter: drop-shadow(-2px 1px 5px #1D1A33);
@@ -6153,12 +5951,12 @@ filter: drop-shadow(-2px 1px 5px #1D1A33);
   width: 100%;
   text-align: center;
   margin-top: 10px;
-  font-family: 'Comfortaa',sans-serif;
+  font-family:Roboto, 'Segoe UI', Tahoma, sans-serif;
   font-size: 15px;
 }
 .selected-mr-session th
 {
-  background: #0063B1;
+  background: #3367D6;
   color: #fff;
   padding:5px;
 }
@@ -6224,7 +6022,7 @@ filter: drop-shadow(-2px 1px 5px #1D1A33);
   border-top-right-radius: 4px;
   border-top-left-radius:4px;
   position:relative;
-  background:#0063B1;
+  background:#3367D6;
   padding:20px;
   text-align: center;
   color: #fff;
@@ -6242,7 +6040,7 @@ filter: drop-shadow(-2px 1px 5px #1D1A33);
   width: 100%;
   margin-top: 30px;
   text-align: center;
-  font-family: 'Comfortaa',sans-serif;
+  font-family:Roboto, 'Segoe UI', Tahoma, sans-serif;
   font-size: 14px;
 }
 .table-container-mr-form
@@ -6253,7 +6051,7 @@ filter: drop-shadow(-2px 1px 5px #1D1A33);
 {
  padding:5px;
  font-weight: 600;
- background: #0063B1;
+ background: #3367D6;
  color: #fff;
 }
 .table-container-mr-form tr:nth-child(odd)
@@ -6267,7 +6065,7 @@ filter: drop-shadow(-2px 1px 5px #1D1A33);
 .table-container-mr-form td button
 {
   border-style: none;
-  background-color: #fff;
+  background-color: transparent;
   color: #002C4E;
   font-size: 25px;
 }
@@ -6331,7 +6129,7 @@ filter: drop-shadow(-2px 1px 5px #1D1A33);
   left:0;
   font-size: 30px;
   color: #fff;
-  background-color: #0063B1;
+  background-color: #3367D6;
   position: absolute;
 }
 .big-x
@@ -6341,7 +6139,7 @@ filter: drop-shadow(-2px 1px 5px #1D1A33);
 }
 .big-clock
 {
-  color: #0063B1;
+  color: #3367D6;
   font-size:200px;
 }
 /*MY MR REQUEST */
@@ -6353,7 +6151,7 @@ padding:50px 30px;
 .mr-request-title h1
 {
   font-size: 20px;
-  font-family: 'Comfortaa',sans-serif;
+  font-family:Roboto, 'Segoe UI', Tahoma, sans-serif;
   color: #002C4E;
 }
 .mr-table-container
@@ -6364,12 +6162,12 @@ padding:50px 30px;
 {
   text-align: center;
   width: 100%;
-  font-family:'Comfortaa',sans-serif;
+  font-family:Roboto, 'Segoe UI', Tahoma, sans-serif;
   font-size: 15px;
 }
 .mr-table-container th
 {
-  background: #0063B1;
+  background: #3367D6;
   padding:10px;
   color: #fff;
   font-weight: 600;
@@ -6418,6 +6216,7 @@ padding:50px 30px;
   margin-top: 20px;
   padding: 50px 10px 10px 10px;
   overflow-x: auto;
+	font-family: sans-serif;
 }
 .setting-accounts-table h1
 {
@@ -6429,7 +6228,7 @@ padding:50px 30px;
 {
   width: 100%;
   text-align: center;
-  font-family:'Comfortaa',sans-serif;
+  font-family:Roboto, 'Segoe UI', Tahoma, sans-serif;
 }
 .setting-accounts-table td h1
 {
@@ -6466,7 +6265,7 @@ padding:50px 30px;
 .setting-accounts-table th
 {
   padding:10px;
-  background: #0063B1;
+  background: #3367D6;
   color: #fff;
 }
 .setting-accounts-table tr:nth-child(odd)
@@ -6491,10 +6290,10 @@ padding:50px 30px;
   padding:5px 10px;
   margin:5px;
   border-radius:4px;
-  background:#0063B1;
+  background:#3367D6;
   color: #fff;
   font-size: 16px;
-  font-family:'Comfortaa',sans-serif;
+  font-family:Roboto, 'Segoe UI', Tahoma, sans-serif;
   border:1px solid #004276;
 }
 
@@ -6520,9 +6319,9 @@ padding:50px 30px;
 }
 .create-acc-minimenu h1
 {
-  background: #0063B1;
+  background: #3367D6;
   font-size: 14px;
-  font-family:'Comfortaa',sans-serif;
+  font-family:Roboto, 'Segoe UI', Tahoma, sans-serif;
   color: #fff;
   padding:5px;
   border-top-right-radius: 4px;
@@ -6537,10 +6336,10 @@ padding:50px 30px;
 }
 .create-acc-minimenu h2 input
 {
-  background: #0063B1;
+  background: #3367D6;
   padding:3px 7px;
   font-size: 12px;
-  font-family:'Comfortaa',sans-serif;
+  font-family:Roboto, 'Segoe UI', Tahoma, sans-serif;
   border-style: none;
   border-radius: 3px;
   color: #fff;
@@ -6614,7 +6413,7 @@ padding:50px 30px;
   border-radius: 3px;
   height: 100vh;
   flex:1;
-  background: #0063B1;
+  background: #3367D6;
   margin-left: 20px;
   -ms-filter: drop-shadow(-2px 1px 5px #1D1A33);
 -webkit-filter: drop-shadow(-2px 1px 5px #1D1A33);
@@ -6687,7 +6486,7 @@ filter: drop-shadow(-2px 1px 5px #1D1A33);
 {
   font-weight: 600;
   padding:5px;
-  background: #0063B1;
+  background: #3367D6;
   color: #fff;
 }
 .selected-received-items-table td
@@ -6742,7 +6541,7 @@ filter: drop-shadow(-2px 1px 5px #1D1A33);
 {
   padding:10px 5px;
   font-size: 14px;
-  background: #0063B1;
+  background: #3367D6;
   color: #fff;
   font-weight: 100;
 }
@@ -6771,7 +6570,7 @@ filter: drop-shadow(-2px 1px 5px #1D1A33);
   background-color:transparent;
   padding:5px;
   border-style: none;
-  border-bottom: 1px solid #0063B1;
+  border-bottom: 1px solid #3367D6;
 }
 /* create RR with PO*/
 .vue-rr-create-withpo
@@ -6796,7 +6595,7 @@ filter: drop-shadow(-2px 1px 5px #1D1A33);
 {
   flex:1;
   margin-left: 20px;
-  background: #0063B1;
+  background: #3367D6;
   border-radius: 3px;
   display: flex;
   flex-direction: column;
@@ -6846,7 +6645,7 @@ filter: drop-shadow(-2px 1px 5px #1D1A33);
 }
 .table-rr-w-po th
 {
-  background: #0063B1;
+  background: #3367D6;
   color: #fff;
   padding:10px;
 }
@@ -6908,7 +6707,7 @@ filter: drop-shadow(-2px 1px 5px #1D1A33);
 .middle-rr-withpo th
 {
   padding:15px;
-  background: #0063B1;
+  background: #3367D6;
   color: #fff;
   font-size: 15px;
   font-weight: 600;
@@ -6928,7 +6727,7 @@ filter: drop-shadow(-2px 1px 5px #1D1A33);
   width: 110px;
   border-style: none;
   background: transparent;
-  border-bottom: 1px solid #0063B1;
+  border-bottom: 1px solid #3367D6;
 }
 .middle-rr-withpo td button
 {
@@ -6945,7 +6744,7 @@ filter: drop-shadow(-2px 1px 5px #1D1A33);
 .title-rr-of-rv
 {
   font-size: 20px;
-  font-family:'Comfortaa',sans-serif;
+  font-family:Roboto, 'Segoe UI', Tahoma, sans-serif;
 }
 .rr-of-rv-box-container
 {
@@ -6978,11 +6777,11 @@ filter: drop-shadow(-2px 1px 5px #1D1A33);
 .box-rr-of-rv:hover
 {
   transform: scale(1);
-  -ms-filter: drop-shadow(1px 1px 4px #0063B1);
-  -webkit-filter: drop-shadow(1px 1px 4px #0063B1);
-  -moz-filter: drop-shadow(1px 1px 4px #0063B1);
-  -o-filter: drop-shadow(1px 1px 4px #0063B1);
-  filter: drop-shadow(1px 1px 4px #0063B1);
+  -ms-filter: drop-shadow(1px 1px 4px #3367D6);
+  -webkit-filter: drop-shadow(1px 1px 4px #3367D6);
+  -moz-filter: drop-shadow(1px 1px 4px #3367D6);
+  -o-filter: drop-shadow(1px 1px 4px #3367D6);
+  filter: drop-shadow(1px 1px 4px #3367D6);
 }
 .rr-num-top
 {
@@ -6990,13 +6789,13 @@ filter: drop-shadow(-2px 1px 5px #1D1A33);
   top:0px;
   left: -10px;
   width: 80%;
-  background: #0063B1;
+  background: #3367D6;
   color: #fff;
   font-size: 20px;
   text-align:left;
   padding:20px 5px 20px 30px;
   box-sizing: border-box;
-  font-family:'Comfortaa',sans-serif;
+  font-family:Roboto, 'Segoe UI', Tahoma, sans-serif;
   border-bottom-right-radius:30%;
   position: relative;
 }
@@ -7066,7 +6865,7 @@ filter: drop-shadow(-2px 1px 5px #1D1A33);
   font-size: 20px;
   font-weight: 600;
   color: #112A53;
-  font-family:'Comfortaa',sans-serif;
+  font-family:Roboto, 'Segoe UI', Tahoma, sans-serif;
 }
 .top-history-setting li button
 {
@@ -7076,7 +6875,7 @@ filter: drop-shadow(-2px 1px 5px #1D1A33);
 .top-history-setting li
 {
   margin-left: 10px;
-  font-family:'Comfortaa',sans-serif;
+  font-family:Roboto, 'Segoe UI', Tahoma, sans-serif;
 }
 .table-history-container
 {
@@ -7087,11 +6886,11 @@ filter: drop-shadow(-2px 1px 5px #1D1A33);
   width: 100%;
   font-size: 14px;
   text-align: center;
-  font-family:'Comfortaa',sans-serif;
+  font-family:Roboto, 'Segoe UI', Tahoma, sans-serif;
 }
 .table-history-container th
 {
-  background: #0063B1;
+  background: #3367D6;
   color: #fff;
   padding:10px;
 }
@@ -7113,7 +6912,7 @@ filter: drop-shadow(-2px 1px 5px #1D1A33);
   display: flex;
   justify-content: space-between;
   margin-top: 20px;
-  font-family:'Comfortaa',sans-serif;
+  font-family:Roboto, 'Segoe UI', Tahoma, sans-serif;
 }
 .searchbar-month-history button
 {
@@ -7122,7 +6921,7 @@ filter: drop-shadow(-2px 1px 5px #1D1A33);
   padding:6px;
   font-size: 14px;
   color: #fff;
-  background: #0063B1;
+  background: #3367D6;
   border-style: none;
 }
 .searchbar-month-history input
@@ -7132,7 +6931,7 @@ filter: drop-shadow(-2px 1px 5px #1D1A33);
   padding:5px;
   font-size: 14px;
   border-style: none;
-  border:1px solid #0063B1;
+  border:1px solid #3367D6;
 }
 .searchbox-for-admin-warehouse select
 {
@@ -7141,7 +6940,7 @@ filter: drop-shadow(-2px 1px 5px #1D1A33);
   font-size: 16px;
   border-style: none;
   border-bottom: 1px solid gray;
-  font-family:'Comfortaa',sans-serif;
+  font-family:Roboto, 'Segoe UI', Tahoma, sans-serif;
 }
 .monthsearch-history h1
 {
@@ -7150,7 +6949,7 @@ filter: drop-shadow(-2px 1px 5px #1D1A33);
 }
 .monthsearch-history input
 {
-  font-family:'Comfortaa',sans-serif;
+  font-family:Roboto, 'Segoe UI', Tahoma, sans-serif;
   text-align: center;
 }
 .update-account-modal
@@ -7181,7 +6980,7 @@ filter: drop-shadow(-2px 1px 5px #1D1A33);
 }
 .update-modal-center select,.update-modal-center input[type=text],.update-modal-center input[type=password]
 {
-    font-family:'Comfortaa',sans-serif;
+    font-family:Roboto, 'Segoe UI', Tahoma, sans-serif;
   padding:5px;
   font-size: 15px;
   margin-bottom:25px;
@@ -7200,11 +6999,11 @@ filter: drop-shadow(-2px 1px 5px #1D1A33);
 {
   border-style: none;
   border-radius: 4px;
-  background: #0063B1;
+  background: #3367D6;
   color: #fff;
   font-size: 16px;
   padding:5px;
-  font-family:'Comfortaa',sans-serif;
+  font-family:Roboto, 'Segoe UI', Tahoma, sans-serif;
 }
 .update-inputs button:hover
 {
@@ -7212,7 +7011,7 @@ filter: drop-shadow(-2px 1px 5px #1D1A33);
 }
 .update-modal-center h1
 {
-  background: #0063B1;
+  background: #3367D6;
   color: #fff;
   padding:20px;
   position:absolute;
@@ -7260,7 +7059,7 @@ filter: drop-shadow(-2px 1px 5px #1D1A33);
   top: 9px;
   left: 10px;
   font-size: 14px;
-  font-family:'Comfortaa',sans-serif;
+  font-family:Roboto, 'Segoe UI', Tahoma, sans-serif;
   transition: top .5s;
   pointer-events: none;
 }
@@ -7291,10 +7090,10 @@ filter: drop-shadow(-2px 1px 5px #1D1A33);
 {
   border-top-right-radius: 5px;
   border-top-left-radius: 5px;
-  background: #0063B1;
+  background: #3367D6;
   padding:5px;
   font-size: 13px;
-  font-family:'Comfortaa',sans-serif;
+  font-family:Roboto, 'Segoe UI', Tahoma, sans-serif;
   color: #fff;
   text-align:left;
   padding-left: 10px;
@@ -7359,7 +7158,7 @@ filter: drop-shadow(-2px 1px 5px #1D1A33);
   padding:3px;
   color: #fff;
   font-size: 13px;
-  font-family:'Comfortaa',sans-serif;
+  font-family:Roboto, 'Segoe UI', Tahoma, sans-serif;
   background: #004275;
   border-color: #004276;
   border-radius: 3px;
@@ -7429,11 +7228,11 @@ filter: drop-shadow(-2px 1px 5px #1D1A33);
 {
   border-radius: 3px;
   border-style: none;
-  border-color: #0063B1;
-  background: #0063B1;
+  border-color: #3367D6;
+  background: #3367D6;
   padding:3px;
   font-size: 14px;
-  font-family:'Comfortaa',sans-serif;
+  font-family:Roboto, 'Segoe UI', Tahoma, sans-serif;
   color: #fff;
   margin-left: 4px;
 }
@@ -7488,9 +7287,9 @@ filter: drop-shadow(-2px 1px 5px #1D1A33);
   border-top-right-radius: 4px;
   padding:3px;
   font-size: 13px;
-  font-family:'Comfortaa',sans-serif;
+  font-family:Roboto, 'Segoe UI', Tahoma, sans-serif;
   color: #fff;
-  background: #0063B1;
+  background: #3367D6;
 }
 
 /*CREATE MANAGER MODAL*/
@@ -7517,12 +7316,12 @@ filter: drop-shadow(-2px 1px 5px #1D1A33);
   width:40%;
   margin:auto;
   background: #fff;
-  font-family:'Comfortaa',sans-serif;
+  font-family:Roboto, 'Segoe UI', Tahoma, sans-serif;
 }
 .center-manager-create-form h1
 {
   padding:20px 55px;
-  background: #0063B1;
+  background: #3367D6;
   color: #fff;
   border-top-right-radius: 3px;
   border-top-left-radius: 3px;
@@ -7540,9 +7339,9 @@ filter: drop-shadow(-2px 1px 5px #1D1A33);
   border-radius: 3px;
   padding:8px;
   color: #fff;
-  background: #0063B1;
+  background: #3367D6;
   border-style: none;
-  font-family:'Comfortaa',sans-serif;
+  font-family:Roboto, 'Segoe UI', Tahoma, sans-serif;
   margin-top: 20px;
 }
 .signature-preview
@@ -7551,7 +7350,7 @@ filter: drop-shadow(-2px 1px 5px #1D1A33);
   height: 100px;
   margin:auto;
   margin-top: 20px;
-  font-family:'Comfortaa',sans-serif;
+  font-family:Roboto, 'Segoe UI', Tahoma, sans-serif;
 }
 .signature-preview img
 {
@@ -7564,7 +7363,7 @@ filter: drop-shadow(-2px 1px 5px #1D1A33);
   margin-bottom:5px;
   padding:10px;
   font-size: 15px;
-  font-family:'Comfortaa',sans-serif;
+  font-family:Roboto, 'Segoe UI', Tahoma, sans-serif;
   border-style: none;
   border-bottom: 1px solid gray;
 }
@@ -7573,7 +7372,7 @@ filter: drop-shadow(-2px 1px 5px #1D1A33);
 .left-item-adding-form table
 {
   margin-top: 6px;
-  font-family:'Comfortaa',sans-serif;
+  font-family:Roboto, 'Segoe UI', Tahoma, sans-serif;
   width: 100%;
   font-size: 14px;
   text-align: center;
@@ -7581,7 +7380,7 @@ filter: drop-shadow(-2px 1px 5px #1D1A33);
 .left-item-adding-form th
 {
   padding:10px;
-  background: #0063B1;
+  background: #3367D6;
   color: #fff;
 }
 .left-item-adding-form tr:nth-child(odd)
@@ -7616,7 +7415,7 @@ filter: drop-shadow(-2px 1px 5px #1D1A33);
 .left-item-adding-form
 {
   flex:2.5;
-  font-family:'Comfortaa',sans-serif;
+  font-family:Roboto, 'Segoe UI', Tahoma, sans-serif;
   margin-right: 30px;
   overflow-x:hidden;
 }
@@ -7647,7 +7446,7 @@ filter: drop-shadow(-2px 1px 5px #1D1A33);
 .form-item-right
 {
   box-sizing: border-box;
-  background: #0063B1;
+  background: #3367D6;
   box-sizing: border-box;
   height: 100%;
   border-radius: 2px;
@@ -7659,7 +7458,7 @@ filter: drop-shadow(0px 0px 8px #4A4A4A);
 }
 .form-item-right-inputs > .updateinput-label >input,.form-item-right-inputs > .updateinput-label >select
 {
-  font-family:'Comfortaa',sans-serif;
+  font-family:Roboto, 'Segoe UI', Tahoma, sans-serif;
   padding:5px;
   font-size: 14px;
   border-radius: 5px;
@@ -7681,7 +7480,7 @@ filter: drop-shadow(0px 0px 8px #4A4A4A);
   color: #fff;
   margin-top: 10px;
   font-size: 15px;
-  font-family:'Comfortaa',sans-serif;
+  font-family:Roboto, 'Segoe UI', Tahoma, sans-serif;
 }
 .form-item-right button:hover,.form-item-right button:active
 {
@@ -7699,7 +7498,7 @@ filter: drop-shadow(0px 0px 8px #4A4A4A);
 .label-warehouse-add-item h1
 {
   font-size: 19px;
-  font-family:'Comfortaa',sans-serif;
+  font-family:Roboto, 'Segoe UI', Tahoma, sans-serif;
 }
 
 /*MRTSignature request css*/
@@ -7712,7 +7511,7 @@ filter: drop-shadow(0px 0px 8px #4A4A4A);
 {
   color: #00223E;
   font-size: 18px;
-  font-family:'Comfortaa',sans-serif;
+  font-family:Roboto, 'Segoe UI', Tahoma, sans-serif;
 }
 .No-MRT
 {
@@ -7720,7 +7519,7 @@ filter: drop-shadow(0px 0px 8px #4A4A4A);
   margin-top: 130px;
   color: #a1a1a1;
   text-align: center;
-  font-family: 'Comfortaa',sans-serif;
+  font-family:Roboto, 'Segoe UI', Tahoma, sans-serif;
 }
 .table-container-mrt-request
 {
@@ -7731,11 +7530,11 @@ filter: drop-shadow(0px 0px 8px #4A4A4A);
   width: 100%;
   text-align: center;
   font-size: 15px;
-  font-family:'Comfortaa',sans-serif;
+  font-family:Roboto, 'Segoe UI', Tahoma, sans-serif;
 }
 .table-container-mrt-request th
 {
-  background: #0063B1;
+  background: #3367D6;
   color: #fff;
   padding:10px;
 }
@@ -7760,8 +7559,8 @@ filter: drop-shadow(0px 0px 8px #4A4A4A);
 }
 .search-added-master input
 {
-  font-family:'Comfortaa',sans-serif;
-  border:1px solid #0063B1;
+  font-family:Roboto, 'Segoe UI', Tahoma, sans-serif;
+  border:1px solid #3367D6;
   padding:3px 5px;
   font-size: 15px;
   border-top-left-radius: 4px;
@@ -7769,7 +7568,7 @@ filter: drop-shadow(0px 0px 8px #4A4A4A);
 }
 .search-added-master button
 {
-  background: #0063B1;
+  background: #3367D6;
   color: #fff;
   border-style: none;
   border-top-right-radius: 4px;
@@ -7795,7 +7594,7 @@ filter: drop-shadow(0px 0px 8px #4A4A4A);
 {
   border-style: none;
   border-bottom: 1px solid gray;
-  font-family:'Comfortaa',sans-serif;
+  font-family:Roboto, 'Segoe UI', Tahoma, sans-serif;
   font-size: 15px;
 }
 .Manager-List
@@ -7814,7 +7613,7 @@ filter: drop-shadow(0px 0px 8px #4A4A4A);
 }
 .manager-box
 {
-  font-family:'Comfortaa',sans-serif;
+  font-family:Roboto, 'Segoe UI', Tahoma, sans-serif;
   display: flex;
   flex-direction: column;
   justify-content: space-between;
@@ -7832,7 +7631,6 @@ filter: drop-shadow(0px 0px 8px #4A4A4A);
 /*TOP NAV BARS*/
 .top-nav-boxes
 {
-  background:#fff;
   height: 54px;
   padding:25px 90px;
   border-bottom-right-radius: 5px;
@@ -7841,7 +7639,6 @@ filter: drop-shadow(0px 0px 8px #4A4A4A);
   border-bottom: 1px solid #D4D4D4;
   border-left: 1px solid #D4D4D4;
   border-right: 1px solid #D4D4D4;
-
 }
 /*CREATE NEW USER ACCOUNT*/
 .CreateNEwUserModal
@@ -7871,12 +7668,12 @@ filter: drop-shadow(0px 0px 8px #4A4A4A);
 .center-form-newuser h1
 {
   color: #fff;
-  background: #0063B1;
+  background: #3367D6;
   font-size: 14px;
   text-align: left;
   border-top-right-radius: 3px;
   border-top-left-radius: 3px;
-  font-family:'Comfortaa',sans-serif;
+  font-family:Roboto, 'Segoe UI', Tahoma, sans-serif;
   padding:20px 55px;
 }
 .newuserinputs
@@ -7898,7 +7695,7 @@ filter: drop-shadow(0px 0px 8px #4A4A4A);
   border-bottom: 1px solid gray;
   padding:10px;
   font-size: 15px;
-  font-family:'Comfortaa',sans-serif;
+  font-family:Roboto, 'Segoe UI', Tahoma, sans-serif;
 }
 .newuserinputs select
 {
@@ -7907,7 +7704,7 @@ filter: drop-shadow(0px 0px 8px #4A4A4A);
   font-size: 15px;
   border-style: none;
   border-bottom: 1px solid gray;
-  font-family:'Comfortaa',sans-serif;
+  font-family:Roboto, 'Segoe UI', Tahoma, sans-serif;
 }
 .newuserinputs > input,.newuserinputs > select
 {
@@ -7923,9 +7720,9 @@ filter: drop-shadow(0px 0px 8px #4A4A4A);
   border-radius: 3px;
   padding:8px;
   color: #fff;
-  background: #0063B1;
+  background: #3367D6;
   border-style: none;
-  font-family:'Comfortaa',sans-serif;
+  font-family:Roboto, 'Segoe UI', Tahoma, sans-serif;
   margin-top: 10px;
 }
 /*MCT INDEX*/
@@ -7943,7 +7740,7 @@ filter: drop-shadow(0px 0px 8px #4A4A4A);
 {
   font-size: 20px;
   color: #00213B;
-  font-family:'Comfortaa',sans-serif;
+  font-family:Roboto, 'Segoe UI', Tahoma, sans-serif;
   font-weight: 600;
 }
 .search-mct-index input
@@ -7951,7 +7748,7 @@ filter: drop-shadow(0px 0px 8px #4A4A4A);
   padding:5px;
   font-size: 15px;
   border-radius: 3px;
-  border:1px solid #0063B1;
+  border:1px solid #3367D6;
   text-align: center;
 }
 .mct-index-table
@@ -7968,7 +7765,7 @@ filter: drop-shadow(0px 0px 8px #4A4A4A);
   width: 100%;
   text-align: center;
   font-size: 14px;
-  font-family:'Comfortaa',sans-serif;
+  font-family:Roboto, 'Segoe UI', Tahoma, sans-serif;
 }
 .mct-index-table tr:nth-child(odd)
 {
@@ -7977,13 +7774,13 @@ filter: drop-shadow(0px 0px 8px #4A4A4A);
 .mct-index-table th
 {
   padding:10px;
-  background: #0063B1;
+  background: #3367D6;
   color: #fff;
 }
 .mct-index-table td
 {
   padding:20px;
-  border:1px solid #0063B1;
+  border:1px solid #3367D6;
 }
 /*MRT INDEX PAGE*/
 .container-big-index-mrt
@@ -8001,7 +7798,7 @@ filter: drop-shadow(0px 0px 8px #4A4A4A);
 {
   font-size: 20px;
   font-weight: 600;
-  font-family:'Comfortaa',sans-serif;
+  font-family:Roboto, 'Segoe UI', Tahoma, sans-serif;
   color: #002C4E;
 }
 .title-mrt-index-and-search input
@@ -8010,7 +7807,7 @@ filter: drop-shadow(0px 0px 8px #4A4A4A);
   border-radius: 4px;
   border-style: none;
   font-size: 15px;
-  border: 1px solid #0063B1;
+  border: 1px solid #3367D6;
 }
 .mrt-index-table-container
 {
@@ -8019,14 +7816,14 @@ filter: drop-shadow(0px 0px 8px #4A4A4A);
 .mrt-index-table-container table
 {
   width: 100%;
-  font-family:'Comfortaa',sans-serif;
+  font-family:Roboto, 'Segoe UI', Tahoma, sans-serif;
   text-align: center;
   font-size: 15px;
-  border:1px solid #0063B1;
+  border:1px solid #3367D6;
 }
 .mrt-index-table-container th
 {
-  background: #0063B1;
+  background: #3367D6;
   color: #fff;
   padding:10px;
 }
@@ -8037,7 +7834,7 @@ filter: drop-shadow(0px 0px 8px #4A4A4A);
 .mrt-index-table-container td
 {
   padding:20px;
-  border:1px solid #0063B1;
+  border:1px solid #3367D6;
 }
 .mrt-index-table-container td i
 {
@@ -8057,12 +7854,12 @@ filter: drop-shadow(0px 0px 8px #4A4A4A);
 .po-index-title-and-search h1
 {
   font-size: 20px;
-  font-family:'Comfortaa',sans-serif;
+  font-family:Roboto, 'Segoe UI', Tahoma, sans-serif;
 }
 .po-index-title-and-search input
 {
   border-radius: 4px;
-  border:1px solid #0063B1;
+  border:1px solid #3367D6;
   padding:4px;
   font-size: 15px;
   letter-spacing:2px;
@@ -8074,11 +7871,11 @@ filter: drop-shadow(0px 0px 8px #4A4A4A);
 }
 .po-index-table table
 {
-  border:1px solid #0063B1;
+  border:1px solid #3367D6;
   width: 100%;
   font-size: 15px;
   text-align: center;
-  font-family:'Comfortaa',sans-serif;
+  font-family:Roboto, 'Segoe UI', Tahoma, sans-serif;
 }
 .po-index-table
 {
@@ -8086,14 +7883,14 @@ filter: drop-shadow(0px 0px 8px #4A4A4A);
 }
 .po-index-table th
 {
-  background:#0063B1;
+  background:#3367D6;
   color: #fff;
   padding:10px;
 }
 .po-index-table td
 {
   padding:20px;
-  border:1px solid #0063B1;
+  border:1px solid #3367D6;
 }
 .po-index-table tr:nth-child(odd)
 {
@@ -8124,7 +7921,7 @@ filter: drop-shadow(0px 0px 8px #4A4A4A);
   border-radius: 4px;
   padding:5px;
   text-align: center;
-  border:1px solid #0063B1;
+  border:1px solid #3367D6;
 }
 .mr-index-table
 {
@@ -8134,9 +7931,9 @@ filter: drop-shadow(0px 0px 8px #4A4A4A);
 {
   width: 100%;
   text-align: center;
-  border:1px solid #0063B1;
+  border:1px solid #3367D6;
   font-size: 15px;
-  font-family:'Comfortaa',sans-serif;
+  font-family:Roboto, 'Segoe UI', Tahoma, sans-serif;
 }
 .mr-index-table tr:nth-child(odd)
 {
@@ -8144,14 +7941,14 @@ filter: drop-shadow(0px 0px 8px #4A4A4A);
 }
 .mr-index-table th
 {
-  background: #0063B1;
+  background: #3367D6;
   color:#fff;
   padding:10px;
 }
 .mr-index-table td
 {
   padding:20px;
-  border:1px solid #0063B1;
+  border:1px solid #3367D6;
 }
 .mr-index-table td i
 {

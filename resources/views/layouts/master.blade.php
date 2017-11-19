@@ -25,35 +25,24 @@
       }
     @endphp
     <header>
-      <div class="top-nav-container">
-        <div class="left-nav-content">
-          @if (Auth::check())
-            <button type="button" class="burger-button"><i class="fa fa-navicon"></i></button>
-          @endif
-          <h1><a href="/"><img src="/DesignIMG/logo.png" alt="logo"></a></h1>
-        </div>
-        <div class="right-nav-content">
-          <div class="title-top">
-            <p> Warehouse Inventory</p>
-          </div>
-        </div>
-      </div>
-      <div class="modal-for-all-notice">
-        <div class="center-notice-div">
-          <ul>
-            <li class="notice-title"><h1>Notice</h1> <i class="fa fa-times"></i></li>
-            <li>{{Session::get('message')}}</li>
-            @foreach ($errors->all() as $error)
-              <li>{{$error}}</li>
-            @endforeach
-          </ul>
-        </div>
-      </div>
       @if (Auth::check())
         <span id="master">
           <mynotification :user="{{Auth::user()}}">
           </mynotification>
         </span>
+      @else
+        <div class="top-nav-container">
+          <div class="left-nav-content">
+            <h1><a href="/"><img src="/DesignIMG/logo.png" alt="logo"></a></h1>
+          </div>
+          <div class="right-nav-content">
+            <div class="title-top">
+              <p> Warehouse Inventory</p>
+            </div>
+          </div>
+        </div>
+      @endif
+      @if (Auth::check())
       <div class="top-nav-boxes empty-left-btn">
         <ul>
           @if ((Auth::user()->Role!=0)&&(Auth::user()->Role!=2))
@@ -94,7 +83,7 @@
           @endif
         </ul>
       </div>
-    @endif
+      @endif
     </header>
         @section('body')
         @show
@@ -105,25 +94,15 @@
         </div>
       </div>
     </footer>
+    @if (Auth::check())
     <script src="//{{ Request::getHost() }}:6001/socket.io/socket.io.js"></script>
-    <script type="text/javascript" src="/js/jquery.js"></script>
+    @endif
     <script type="text/javascript" src="/js/myjquery.js"></script>
     <script type="text/javascript">
-      // $(document).ready(function() {
-      //   @if ((count($errors)>0)||(Session::has('message')))
-      //     $('.modal-for-all-notice').addClass('active');
-      //   @endif
-      //   @if (Session::has('itemMasters'))
-      //     $('.modal-search-item').addClass('active');
-      //   @endif
-      //   @if (Session::has('SessionForStock'))
-      //     $('.for-stock-Modal').addClass('active');
-      //   @endif
-      // });
     </script>
-      @if (Auth::check())
-        <script type="text/javascript" src="/js/master.js">
-        </script>
-      @endif
+    @if (Auth::check())
+      <script type="text/javascript" src="/js/master.js">
+      </script>
+    @endif
   </body>
 </html>

@@ -112,9 +112,15 @@ class ItemsController extends Controller
     }
     public function SearchDescriptionAndRecentAdded(Request $request)
     {
-        $MasterItem=MaterialsTicketDetail::where('ItemCode','LIKE','%'.$request->ItemCode.'%')->where('MTNo', 'Init')->orderBy('id','DESC')->paginate(10,['AccountCode','ItemCode','CurrentCost','CurrentQuantity','id']);
-        $MasterItem->load('MasterItems');
-        $response = array('pagination'=>$MasterItem);
+      if ($request->ItemCode==null)
+      {
+        $MasterItem=MaterialsTicketDetail::where('MTNo', 'Init')->orderBy('id','DESC')->paginate(10,['AccountCode','ItemCode','CurrentCost','CurrentQuantity','id']);
+      }else 
+      {
+        $MasterItem=MaterialsTicketDetail::where('ItemCode',$request->ItemCode)->where('MTNo', 'Init')->orderBy('id','DESC')->paginate(10,['AccountCode','ItemCode','CurrentCost','CurrentQuantity','id']);
+      }
+      $MasterItem->load('MasterItems');
+      $response = array('pagination'=>$MasterItem);
        return response()->json($response);
     }
     public function FetchItemToEdit($id)

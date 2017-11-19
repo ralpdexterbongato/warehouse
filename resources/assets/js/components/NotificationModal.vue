@@ -1,18 +1,37 @@
 <template lang="html">
   <span>
+    <div class="top-nav-container">
+      <div class="left-nav-content">
+          <button type="button" class="burger-button" v-on:click="modalOpen=true"><i class="fa fa-navicon"></i></button>
+        <h1><a href="/"><img src="/DesignIMG/logo.png" alt="logo"></a></h1>
+      </div>
+      <div class="right-nav-content">
+        <div class="title-top">
+          <p> Warehouse Inventory</p>
+        </div>
+      </div>
+    </div>
     <div class="Account-modal" :class="[modalOpen==true?'active':'']" v-on:click="modalOpen=!modalOpen">
-      <div class="middle-account-modal" v-on:click="modalOpen=!modalOpen">
-        <li class="userinfo">
-          <h3 class="account-image"><img src="/DesignIMG/logo.png" alt="pic"></h3>
-          <p class="name-of-user">{{user.FullName}}</p>
-          <p class="position">{{user.Position}}</p>
-          <h1><a href="/show-my-history"><i class="fa fa-history"></i> Histories</a></h1>
-        </li>
+      <div class="middle-account-modal animated" :class="[modalOpen==true?'slideInLeft':'slideOutleft']" v-on:click="modalOpen=!modalOpen">
         <ul>
-          <a href="/mirs-signature-list">
-            <li>
+          <a>
+            <li class="sidebar-title">
               <span>
-                <i class="fa fa-bell-o" :class="[MIRSNew==true?'animated swing':'']"></i> MIRS signature
+                <i class="fa fa-user-circle"></i> {{user.FullName}}
+              </span>
+            </li>
+          </a>
+          <a>
+            <li class="sidebar-title">
+              <span>
+                Notifications
+              </span>
+            </li>
+          </a>
+          <a href="/mirs-signature-list">
+            <li class="clickable">
+              <span>
+                <i class="fa fa-bell-o" :class="[MIRSNew==true?'animated swing':'']"></i>MIRS
               </span>
               <span class="notif" :class="[MIRSNotif!=0?'active':'']">
                 {{MIRSNotif}}
@@ -21,9 +40,9 @@
             </li>
           </a>
           <a href="/mct-signature-request">
-            <li>
+            <li class="clickable">
               <span>
-                <i class="fa fa-bell-o" :class="[MCTNew==true?'animated swing':'']"></i> MCT signature
+                <i class="fa fa-bell-o" :class="[MCTNew==true?'animated swing':'']"></i>MCT
               </span>
               <span class="notif" :class="[NewlyCreatedMCT!=0?'active':'']">{{NewlyCreatedMCT}}
                 <small class="new-notif" v-if="MCTNew==true">new !</small>
@@ -31,9 +50,9 @@
             </li>
           </a>
           <a href="/my-mrt-signature-request">
-            <li>
+            <li class="clickable">
               <span>
-                <i class="fa fa-bell-o" :class="[MRTNew==true?'animated swing':'']"></i> MRT signature
+                <i class="fa fa-bell-o" :class="[MRTNew==true?'animated swing':'']"></i> MRT
               </span>
               <span class="notif" :class="[NewlyCreatedMRT!=0?'active':'']">{{NewlyCreatedMRT}}
                 <small class="new-notif" v-if="MRTNew==true">new !</small>
@@ -41,9 +60,9 @@
             </li>
           </a>
           <a href="/checkout-rr-request">
-            <li>
+            <li class="clickable">
               <span>
-                <i class="fa fa-bell-o" :class="[RRNew==true?'animated swing':'']"></i> RR signature
+                <i class="fa fa-bell-o" :class="[RRNew==true?'animated swing':'']"></i> RR
               </span>
               <span class="notif" :class="[RRRequestCount!=0?'active':'']">{{RRRequestCount}}
                 <small class="new-notif" v-if="RRNew==true">new !
@@ -52,9 +71,9 @@
             </li>
           </a>
           <a href="/myRVrequest">
-            <li>
+            <li class="clickable">
               <span>
-                <i class="fa fa-bell-o" :class="[RVNew==true?'animated swing':'']"></i> RV signature
+                <i class="fa fa-bell-o" :class="[RVNew==true?'animated swing':'']"></i> RV
               </span>
               <span class="notif" :class="[NewlyCreatedRV!=0?'active':'']">{{NewlyCreatedRV}}
                 <small class="new-notif" v-if="RVNew==true">new !
@@ -63,9 +82,9 @@
             </li>
           </a>
           <a href="/my-mr-request">
-            <li>
+            <li class="clickable">
               <span>
-                <i class="fa fa-bell-o" :class="[MRNew==true?'animated swing':'']"></i> M.R. signature
+                <i class="fa fa-bell-o" :class="[MRNew==true?'animated swing':'']"></i> MR
               </span>
               <span class="notif" :class="[CountMRRequest!=0?'active':'']">{{CountMRRequest}}
                 <small class="new-notif" v-if="MRNew==true">new !
@@ -74,9 +93,9 @@
             </li>
           </a>
           <a v-if="user.Role==0||user.Role==2" href="/my-PO-request">
-            <li>
+            <li class="clickable">
               <span>
-          <i class="fa fa-bell-o" :class="[PONew==true?'animated swing':'']"></i>PO signature
+          <i class="fa fa-bell-o" :class="[PONew==true?'animated swing':'']"></i>P O
               </span>
               <span class="notif" :class="[CountPOrequest!=0?'active':'']">{{CountPOrequest}}
                 <small class="new-notif" v-if="PONew==true">new !
@@ -86,9 +105,9 @@
           </a>
           <span v-if="user.Role==3||user.Role==4">
             <a href="/ready-mirs">
-              <li>
+              <li class="clickable">
                 <span>
-                  <i class="fa fa-bell-o" :class="[ApproveMIRSNew==true?'animated swing':'']"></i>Newly approved MIRS
+                  <i class="fa fa-bell-o" :class="[ApproveMIRSNew==true?'animated swing':'']"></i>Approved mirs
                 </span>
                 <span class="notif" :class="[NewlyApprovedMIRS!=0?'active':'']">{{NewlyApprovedMIRS}}
                   <small class="new-notif" v-if="ApproveMIRSNew==true">new !
@@ -97,9 +116,9 @@
               </li>
             </a>
             <a href="/waiting-to-be-purchased-rv">
-              <li>
+              <li class="clickable">
                 <span>
-                  <i class="fa fa-bell-o" :class="[RVwaitingRRNew==true?'animated swing':'']"></i> RV waiting for RR
+                  <i class="fa fa-bell-o" :class="[RVwaitingRRNew==true?'animated swing':'']"></i>Approved rv
                 </span>
                 <span class="notif" :class="[RVWaitingRRCount!=0?'active':'']">{{RVWaitingRRCount}}
                   <small class="new-notif" v-if="RVwaitingRRNew==true">new !
@@ -108,8 +127,15 @@
               </li>
             </a>
           </span>
+            <a v-if="user.Role==2 || user.Role==1">
+              <li class="sidebar-title">
+                <span>
+                  Settings
+                </span>
+              </li>
+            </a>
             <a v-if="user.Role==2" href="/manager-take-placer-setting">
-              <li>
+              <li class="clickable">
                 <span>
                   <i class="fa fa-user"></i>Assign a Manager
                 </span>
@@ -117,14 +143,14 @@
             </a>
           <span v-if="user.Role==1">
             <a href="/create-non-existing-item-in-warehouse">
-              <li>
+              <li class="clickable">
                 <span>
                   <i class="fa fa-plus"></i> Add new item
                 </span>
               </li>
             </a>
             <a href="/settings-accounts-list">
-              <li>
+              <li class="clickable">
                 <span>
                   <i class="fa fa-cog"></i> Manage accounts
                 </span>
@@ -132,7 +158,21 @@
             </a>
           </span>
           <a>
-            <li v-on:click="logout()">
+            <li class="sidebar-title">
+              <span>
+                History
+              </span>
+            </li>
+          </a>
+          <a href="/show-my-history">
+            <li class="clickable">
+              <span>
+                <i class="fa fa-history"></i> My history
+              </span>
+            </li>
+          </a>
+          <a>
+            <li v-on:click="logout()" class="logout-btn clickable">
             <span>
             <i class="fa fa-sign-out"></i> Logout
             </span>
