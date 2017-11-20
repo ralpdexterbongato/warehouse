@@ -4,7 +4,7 @@
     <div class="search-box" :class="[latestFound.MTNo!=null?'SearchItemSuccess':'']">
       <div class="text-left">
         <p v-if="latestFound.MTNo==null">
-          <span class="big"><i class="fa fa-search"></i> Search</span> & <span class="big">check</span> item's latest data & history.
+          <span class="big"><i class="fa fa-search"></i> Search</span> & <span class="big">check</span> item's latest & previous data here.
         </p>
         <h1 v-else>
           <i class="fa fa-th-large"></i> Item # {{ItemCodeSearch}} data
@@ -58,7 +58,7 @@
         </table>
       </div>
       <div class="history-found">
-        <h1><i class="fa fa-history"></i> History</h1>
+        <h1><i class="fa fa-history"></i> Previous info</h1>
         <table>
           <tr>
             <th>MT type</th>

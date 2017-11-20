@@ -32147,7 +32147,7 @@ module.exports={render:function (){var _vm=this;var _h=_vm.$createElement;var _c
       }
     }
   }, [_c('ul', [_c('a', [_c('li', {
-    staticClass: "sidebar-title"
+    staticClass: "sidebar-title CurrentUser"
   }, [_c('span', [_c('i', {
     staticClass: "fa fa-user-circle"
   }), _vm._v(" " + _vm._s(_vm.user.FullName) + "\n            ")])])]), _vm._v(" "), _vm._m(2), _vm._v(" "), _c('a', {

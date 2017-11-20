@@ -62,7 +62,7 @@
                 <td>{{$item[0]->AccountCode}}</td>
                 <td>{{$item[0]->ItemCode}}</td>
                 <td>{{$item[0]->MasterItems->Description}}</td>
-                <td>{{$item[1]->UnitCost}}</td>
+                <td>{{number_format($item[1]->UnitCost,'2','.',',')}}</td>
                 <td>{{$item[0]->MasterItems->Unit}}</td>
                 <td>{{$item[0]->CurrentQuantity}}</td>
                 <td>{{$item[1]->totalissued}}</td>

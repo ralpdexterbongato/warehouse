@@ -159,7 +159,7 @@
           <h4 class="boheco-big-title"><img src="c:/xampp/htdocs/warehouse/public/DesignIMG/logo.png" alt="logo"> BOHOL I ELECTRIC COOPERATIVE, INC.</h4>
           <h4 class="address-mrt">Cabulijan, Tubigon, Bohol</h4>
           <h4 class="boheco-big-title">SUMMARY OF MATERIAL RETURN TICKET</h4>
-          <h4>(MONTH OF {{$mrtmaster[0]->ReturnDate->format('M, Y')}})</h4>
+          <h4>(MONTH OF {{$MaterialDate->format('M, Y')}})</h4>
         </div>
       </div>
       <div class="table-mrt-pdf">
@@ -186,12 +186,12 @@
         <label>Received By:</label>
         <div class="recieverName">
           <h1><img src="c:/xampp/htdocs/warehouse/public/DesignIMG/signature1.png" alt="signature"></h1>
+          @if (isset($WarehouseMan[0]))
           <p class="name">
-            @if (isset($mrtmaster[0]))
-              {{$mrtmaster[0]->Receivedby}}
-            @endif
+              {{$WarehouseMan[0]->FullName}}
           </p>
-          <p>Assistant Warehouseman</p>
+          <p>{{$WarehouseMan[0]->Position}}</p>
+          @endif
         </div>
       </div>
     </div>

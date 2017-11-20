@@ -15,7 +15,7 @@
       <div class="middle-account-modal animated" :class="[modalOpen==true?'slideInLeft':'slideOutleft']" v-on:click="modalOpen=!modalOpen">
         <ul>
           <a>
-            <li class="sidebar-title">
+            <li class="sidebar-title CurrentUser">
               <span>
                 <i class="fa fa-user-circle"></i> {{user.FullName}}
               </span>

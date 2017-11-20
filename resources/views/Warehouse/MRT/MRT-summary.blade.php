@@ -12,10 +12,10 @@
       </form>
     </div>
     <div class="results-summary-mrt">
-      @if (!empty($mrtmaster[0]))
+      @if (!empty($MaterialDate))
       <div class="print-summary-mrt-container">
         <form class="print-mrt-summary" action="{{route('mrt-summary-print')}}" method="get">
-          <button type="submit" name="monthInput" value="{{$mrtmaster[0]->ReturnDate->format('Y-m')}}"><i class="fa fa-file-pdf-o"></i> Print</button>
+          <button type="submit" name="monthInput" value="{{$MaterialDate->format('Y-m')}}"><i class="fa fa-file-pdf-o"></i> Print</button>
         </form>
       </div>
       <div class="bondpaper-sample-mrt">
@@ -25,8 +25,8 @@
             <h2>BOHOL I ELECTRIC COOPERATIVE, INC</h2>
             <h3>Cabulijan, Tubigon, Bohol</h3>
             <h4>SUMMARY OF MATERIAL RETURN TICKET</h4>
-            @if (isset($mrtmaster[0]))
-              <h5>(MONTH OF {{$mrtmaster[0]->ReturnDate->format('M, Y')}})</h5>
+            @if (isset($MaterialDate))
+              <h5>(MONTH OF {{$MaterialDate->format('M, Y')}})</h5>
             @endif
           </div>
         </div>
@@ -52,11 +52,11 @@
         </div>
         <div class="reciever-signature">
           <h3>Received By:</h3>
-          @if (!empty($mrtmaster[0]))
+          @if (!empty($WarehouseMan[0]))
             <div class="recievers-name">
-              <h5><img src="DesignIMG/signature1.png" alt="signature"></h5>
-              <h4>{{$mrtmaster[0]->Receivedby}}</h4>
-              <p>{{$mrtmaster[0]->ReceivedbyPosition}}</p>
+              <h5><img src="/storage/Signatures/{{$WarehouseMan[0]->Signature}}" alt="signature"></h5>
+              <h4>{{$WarehouseMan[0]->FullName}}</h4>
+              <p>{{$WarehouseMan[0]->Position}}</p>
             </div>
           @endif
         </div>

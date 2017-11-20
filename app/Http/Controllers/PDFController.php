@@ -17,6 +17,7 @@ use App\RVMaster;
 use App\POMaster;
 use App\PODetail;
 use App\MRMaster;
+use App\User;
 class PDFController extends Controller
 {
   public function mirspdf($id)
@@ -50,9 +51,9 @@ class PDFController extends Controller
       $itemsummary=MaterialsTicketDetail::orderBy('ItemCode')->where('MTType','MRT')->whereDate('MTDate','LIKE',date($datesearch).'%')->groupBy('ItemCode')->selectRaw('sum(Quantity) as totalQty, ItemCode as ItemCode ')->get();
       if (!empty($itemsummary[0]))
       {
-        $detailMTNum =MaterialsTicketDetail::orderBy('id','DESC')->where('MTType','MRT')->whereDate('MTDate','LIKE',date($datesearch).'%')->take(1)->get(['MTNo']);
-        $mrtmaster=MRTMaster::where('MRTNo',$detailMTNum[0]->MTNo)->get(['Receivedby','ReturnDate']);
-        $pdf = PDF::loadView('Warehouse.MRT.printableSummaryMRT',compact('itemsummary','mrtmaster'));
+        $MaterialDate =MaterialsTicketDetail::orderBy('id','DESC')->where('MTType','MRT')->whereDate('MTDate','LIKE',date($datesearch).'%')->take(1)->value('MTDate');
+        $WarehouseMan=User::where('isActive', '0')->where('Role', '4')->orderBy('id','DESC')->take(1)->get(['FullName','Position','Signature']);
+        $pdf = PDF::loadView('Warehouse.MRT.printableSummaryMRT',compact('itemsummary','MaterialDate','WarehouseMan'));
         return $pdf->stream('MRT_Summary_'.$datesearch.'.pdf');
       }else
       {

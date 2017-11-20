@@ -28967,7 +28967,7 @@ module.exports={render:function (){var _vm=this;var _h=_vm.$createElement;var _c
     staticClass: "text-left"
   }, [(_vm.latestFound.MTNo == null) ? _c('p', [_vm._m(0), _vm._v(" & "), _c('span', {
     staticClass: "big"
-  }, [_vm._v("check")]), _vm._v(" item's latest data & history.\r\n        ")]) : _c('h1', [_c('i', {
+  }, [_vm._v("check")]), _vm._v(" item's latest & previous data here.\r\n        ")]) : _c('h1', [_c('i', {
     staticClass: "fa fa-th-large"
   }), _vm._v(" Item # " + _vm._s(_vm.ItemCodeSearch) + " data\r\n        ")])]), _vm._v(" "), _c('div', {
     staticClass: "Search-item-box"
@@ -29095,7 +29095,7 @@ module.exports={render:function (){var _vm=this;var _h=_vm.$createElement;var _c
 },function (){var _vm=this;var _h=_vm.$createElement;var _c=_vm._self._c||_h;
   return _c('h1', [_c('i', {
     staticClass: "fa fa-history"
-  }), _vm._v(" History")])
+  }), _vm._v(" Previous info")])
 },function (){var _vm=this;var _h=_vm.$createElement;var _c=_vm._self._c||_h;
   return _c('tr', [_c('th', [_vm._v("MT type")]), _vm._v(" "), _c('th', [_vm._v("MT No.")]), _vm._v(" "), _c('th', [_vm._v("Account code")]), _vm._v(" "), _c('th', [_vm._v("Item code")]), _vm._v(" "), _c('th', [_vm._v("Description")]), _vm._v(" "), _c('th', [_vm._v("Unit cost")]), _vm._v(" "), _c('th', [_vm._v("Quantity")]), _vm._v(" "), _c('th', [_vm._v("Unit")]), _vm._v(" "), _c('th', [_vm._v("Amount")]), _vm._v(" "), _c('th', [_vm._v("Current cost")]), _vm._v(" "), _c('th', [_vm._v("Current quantity")]), _vm._v(" "), _c('th', [_vm._v("Current amount")]), _vm._v(" "), _c('th', [_vm._v("Month")])])
 }]}
