@@ -2496,7 +2496,7 @@ module.exports={render:function (){var _vm=this;var _h=_vm.$createElement;var _c
     attrs: {
       "href": '/mrt-preview-page/' + _vm.MRTCheck
     }
-  }, [_vm._m(1)])])])]) : _c('span', [_vm._v("\n        No MRT generated yet\n      ")])]) : (((_vm.MCTMaster.users[0].pivot.Signature == '0') && (_vm.MCTMaster.users[1].id == _vm.user.id) && (_vm.MCTMaster.users[1].pivot.Signature == null) || (_vm.MCTMaster.users[0].id == _vm.user.id) && (_vm.MCTMaster.users[0].pivot.Signature == null))) ? _c('span', [_c('div', {
+  }, [_vm._m(1)])])])]) : _c('span', [_vm._v("\r\n        No MRT generated yet\r\n      ")])]) : (((_vm.MCTMaster.users[0].pivot.Signature == '0') && (_vm.MCTMaster.users[1].id == _vm.user.id) && (_vm.MCTMaster.users[1].pivot.Signature == null) || (_vm.MCTMaster.users[0].id == _vm.user.id) && (_vm.MCTMaster.users[0].pivot.Signature == null))) ? _c('span', [_c('div', {
     staticClass: "signature-mct-btn",
     class: {
       'hide': _vm.SignatureMCTBtnHide

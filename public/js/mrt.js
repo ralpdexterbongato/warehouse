@@ -1265,14 +1265,13 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
         Limit: data.Quantity
       }).then(function (response) {
         console.log(response);
-        if (response.data.error == null) {
-          vm.fetchSelectedSession();
-          Vue.set(vm.$data, 'ownerrors', '');
-          Vue.set(vm.$data, 'successAlerts', 'Added successfully !');
-          Vue.set(vm.$data, 'laravelerrors', '');
-        } else {
+        if (response.data.error != null) {
           Vue.set(vm.$data, 'ownerrors', response.data.error);
           Vue.set(vm.$data, 'successAlerts', '');
+          Vue.set(vm.$data, 'laravelerrors', '');
+        } else {
+          Vue.set(vm.$data, 'ownerrors', '');
+          Vue.set(vm.$data, 'successAlerts', 'Added successfully !');
           Vue.set(vm.$data, 'laravelerrors', '');
         }
       }, function (error) {
@@ -1280,16 +1279,17 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
         Vue.set(vm.$data, 'successAlerts', '');
         Vue.set(vm.$data, 'laravelerrors', error.response.data);
       });
+      this.fetchSelectedSession();
     },
     deleteSession: function deleteSession(ItemCode) {
       var vm = this;
       __WEBPACK_IMPORTED_MODULE_0_axios___default.a.delete('/MRT-delete/' + ItemCode).then(function (response) {
         console.log(response);
-        vm.fetchSelectedSession();
         Vue.set(vm.$data, 'successAlerts', 'Deleted successfully !');
         Vue.set(vm.$data, 'ownerrors', '');
         Vue.set(vm.$data, 'laravelerrors', '');
       });
+      this.fetchSelectedSession();
     },
     changepage: function changepage(next) {
       this.pagination.current_page = next;
@@ -1559,6 +1559,10 @@ module.exports = function transformData(data, headers, fns) {
 Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_0_axios__ = __webpack_require__(3);
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_0_axios___default = __webpack_require__.n(__WEBPACK_IMPORTED_MODULE_0_axios__);
+//
+//
+//
+//
 //
 //
 //
@@ -2164,7 +2168,7 @@ module.exports={render:function (){var _vm=this;var _h=_vm.$createElement;var _c
     staticClass: "mrt-form"
   }, [_c('div', {
     staticClass: "returner-form"
-  }, [_vm._v("\r\n          Returned by:"), _c('br'), _vm._v(" "), _c('h3', [_vm._v(_vm._s(_vm.mctdata[0].receiver_m_c_t[0].FullName))]), _vm._v(" "), _c('p', [_vm._v(_vm._s(_vm.mctdata[0].receiver_m_c_t[0].Position))])]), _vm._v(" "), _c('input', {
+  }, [_vm._v("\r\n          Returned by:"), _c('br'), _vm._v(" "), _c('h3', [_vm._v(_vm._s(_vm.mctdata[0].Receivedby))]), _vm._v(" "), _c('p', [_vm._v(_vm._s(_vm.mctdata[0].ReceivedbyPosition))])]), _vm._v(" "), _c('input', {
     directives: [{
       name: "model",
       rawName: "v-model",
@@ -2346,7 +2350,7 @@ module.exports={render:function (){var _vm=this;var _h=_vm.$createElement;var _c
   return _c('div', {
     staticClass: "table-container-mrt-request"
   }, [(_vm.MRTrequests[0] != null) ? _c('table', [_vm._m(0), _vm._v(" "), _vm._l((_vm.MRTrequests), function(mrt) {
-    return _c('tr', [_c('td', [_vm._v(_vm._s(mrt.MRTNo))]), _vm._v(" "), _c('td', [_vm._v(_vm._s(mrt.ReturnDate))]), _vm._v(" "), _c('td', [_vm._v(_vm._s(mrt.Particulars))]), _vm._v(" "), _c('td', [_vm._v(_vm._s(mrt.AddressTo))]), _vm._v(" "), _c('td', [_vm._v(_vm._s(mrt.Remarks))]), _vm._v(" "), _c('td', [_c('a', {
+    return _c('tr', [_c('td', [_vm._v(_vm._s(mrt.MRTNo))]), _vm._v(" "), _c('td', [_vm._v(_vm._s(mrt.ReturnDate))]), _vm._v(" "), _c('td', [_vm._v(_vm._s(mrt.Particulars))]), _vm._v(" "), _c('td', [_vm._v(_vm._s(mrt.AddressTo))]), _vm._v(" "), _c('td', [_vm._v(_vm._s(mrt.Returnedby))]), _vm._v(" "), _c('td', [_vm._v(_vm._s(mrt.Receivedby))]), _vm._v(" "), _c('td', [_vm._v(_vm._s(mrt.Remarks))]), _vm._v(" "), _c('td', [_c('a', {
       attrs: {
         "href": '/mrt-preview-page/' + mrt.MRTNo
       }
@@ -2399,7 +2403,7 @@ module.exports={render:function (){var _vm=this;var _h=_vm.$createElement;var _c
     staticClass: "fa fa-angle-right"
   })])]) : _vm._e()], 2)])])
 },staticRenderFns: [function (){var _vm=this;var _h=_vm.$createElement;var _c=_vm._self._c||_h;
-  return _c('tr', [_c('th', [_vm._v("MRTNo")]), _vm._v(" "), _c('th', [_vm._v("Return date")]), _vm._v(" "), _c('th', [_vm._v("Particulars")]), _vm._v(" "), _c('th', [_vm._v("Address To")]), _vm._v(" "), _c('th', [_vm._v("Remarks")]), _vm._v(" "), _c('th', [_vm._v("Open")])])
+  return _c('tr', [_c('th', [_vm._v("MRTNo")]), _vm._v(" "), _c('th', [_vm._v("Return date")]), _vm._v(" "), _c('th', [_vm._v("Particulars")]), _vm._v(" "), _c('th', [_vm._v("Address To")]), _vm._v(" "), _c('th', [_vm._v("Returned by")]), _vm._v(" "), _c('th', [_vm._v("Receivedby")]), _vm._v(" "), _c('th', [_vm._v("Remarks")]), _vm._v(" "), _c('th', [_vm._v("Open")])])
 }]}
 module.exports.render._withStripped = true
 if (false) {

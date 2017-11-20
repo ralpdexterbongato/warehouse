@@ -2455,7 +2455,7 @@ module.exports={render:function (){var _vm=this;var _h=_vm.$createElement;var _c
     staticClass: "top-history-setting"
   }, [_c('div', {
     staticClass: "title-history"
-  }, [_vm._v("\n      History\n    ")]), _vm._v(" "), _c('ul', [_c('li', [_c('button', {
+  }, [_vm._v("\r\n      History\r\n    ")]), _vm._v(" "), _c('ul', [_c('li', [_c('button', {
     staticClass: "bttn-fill bttn-sm bttn-primary",
     class: [_vm.mirsbtn == true ? 'active' : ''],
     attrs: {
