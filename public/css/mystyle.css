@@ -28,6 +28,9 @@ article, aside, details, figcaption, figure,
 footer, header, hgroup, menu, nav, section {
 	display: block;
 }
+html{
+	font-family:sans-serif;
+}
 body {
 	line-height: 1;
 }
@@ -5940,6 +5943,7 @@ filter: drop-shadow(-2px 1px 5px #1D1A33);
   font-size: 20px;
   font-weight: 600;
   color: #002C4E;
+  font-family: sans-serif;
 }
 .create-mr-bigcontainer
 {
@@ -6028,6 +6032,7 @@ filter: drop-shadow(-2px 1px 5px #1D1A33);
   color: #fff;
   font-weight: 600;
   font-size: 18px;
+	font-family: sans-serif;
 }
 .center-white-fromrr h1 i
 {

@@ -271,33 +271,33 @@ property for which I am responsible, subject to the provision of the usual accou
           <div class="signature-box">
             <label>RECOMMENDING APPROVAL:</label>
             <div class="signature-names">
-              @if ($MRMaster[0]->RecommendedbySignature)
-                <h1><img src="c:/xampp/htdocs/warehouse/public/storage/signatures/{{$MRMaster[0]->RecommendedbySignature}}" alt="signatures"></h1>
+              @if ($MRMaster[0]->users[0]->pivot->Signature=='0')
+                <h1><img src="c:/xampp/htdocs/warehouse/public/storage/signatures/{{$MRMaster[0]->users[0]->Signature}}" alt="signatures"></h1>
               @endif
-              <p>{{$MRMaster[0]->Recommendedby}}</p>
-              <label>{{$MRMaster[0]->RecommendedbyPosition}}</label>
+              <p>{{$MRMaster[0]->users[0]->FullName}}</p>
+              <label>{{$MRMaster[0]->users[0]->Position}}</label>
             </div>
           </div>
           <div class="signature-box">
             <label>APPROVED:</label>
             <div class="signature-names">
-              @if ($MRMaster[0]->GeneralManagerSignature)
-                <h1><img src="c:/xampp/htdocs/warehouse/public/storage/signatures/{{$MRMaster[0]->GeneralManagerSignature}}" alt="signatures"></h1>
-              @elseif($MRMaster[0]->ApprovalReplacerSignature)
-                <medium class="for">For :</medium> <h1><img src="c:/xampp/htdocs/warehouse/public/storage/signatures/{{$MRMaster[0]->ApprovalReplacerSignature}}" alt="signatures"></h1>
+              @if ($MRMaster[0]->users[1]->pivot->Signature=='0')
+                <h1><img src="c:/xampp/htdocs/warehouse/public/storage/signatures/{{$MRMaster[0]->users[1]->Signature}}" alt="signatures"></h1>
+              @elseif(isset($MRMaster[0]->users[3])&&($MRMaster[0]->users[3]->pivot->Signature=='0'))
+                <medium class="for">For :</medium> <h1><img src="c:/xampp/htdocs/warehouse/public/storage/signatures/{{$MRMaster[0]->users[3]->Signature}}" alt="signatures"></h1>
               @endif
-              <p>{{$MRMaster[0]->GeneralManager}}</p>
-              <label>General Manager</label>
+              <p>{{$MRMaster[0]->users[1]->FullName}}</p>
+              <label>{{$MRMaster[0]->users[1]->Position}}</label>
             </div>
           </div>
           <div class="signature-box">
             <label>RECEIVED:</label>
             <div class="signature-names">
-              @if ($MRMaster[0]->ReceivedbySignature)
-                <h1><img src="c:/xampp/htdocs/warehouse/public/storage/signatures/{{$MRMaster[0]->ReceivedbySignature}}" alt="signatures"></h1>
+              @if($MRMaster[0]->users[2]->pivot->Signature=='0')
+                <h1><img src="c:/xampp/htdocs/warehouse/public/storage/signatures/{{$MRMaster[0]->users[2]->Signature}}" alt="signatures"></h1>
               @endif
-              <p>{{$MRMaster[0]->Receivedby}}</p>
-              <label>{{$MRMaster[0]->ReceivedbyPosition}}</label>
+              <p>{{$MRMaster[0]->users[2]->FullName}}</p>
+              <label>{{$MRMaster[0]->users[2]->Position}}</label>
             </div>
           </div>
         </div>

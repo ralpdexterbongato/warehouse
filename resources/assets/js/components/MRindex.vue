@@ -19,34 +19,35 @@
           <th>Status</th>
           <th>Show</th>
         </tr>
-        <tr v-for="data in MRindexData">
+        <tr v-for="data in MRindexData" v-if="data.users[0]!=null">
           <td>{{data.MRNo}}</td>
           <td>{{data.MRDate}}</td>
           <td>{{data.RVNo}}</td>
           <td>{{data.RRNo}}</td>
-          <td>{{data.PONo}}</td>
+          <td v-if="data.PONo!=null">{{data.PONo}}</td>
+          <td v-else>N/A</td>
           <td>{{data.Supplier}}</td>
           <td>
-            {{data.Recommendedby}}<br>
-            <i class="fa fa-check" v-if="data.RecommendedbySignature!=null"></i>
-            <i class="fa fa-times decliner" v-else-if="data.Recommendedby==data.IfDeclined"></i>
+            {{data.users[0].FullName}}<br>
+            <i class="fa fa-check" v-if="data.users[0].pivot.Signature=='0'"></i>
+            <i class="fa fa-times decliner" v-else-if="data.users[0].pivot.Signature=='1'"></i>
             <i class="fa fa-clock-o" v-else></i>
           </td>
           <td>
-            {{data.GeneralManager}}<br>
-            <i class="fa fa-check" v-if="data.GeneralManagerSignature!=null||data.ApprovalReplacerSignature!=null"></i>
-            <i class="fa fa-times decliner" v-else-if="data.GeneralManager==data.IfDeclined"></i>
+            {{data.users[1].FullName}}<br>
+            <i class="fa fa-check" v-if="((data.users[1].pivot.Signature=='0')||(data.users[3]!=null && data.users[3].pivot.Signature=='0'))"></i>
+            <i class="fa fa-times decliner" v-else-if="data.users[1].pivot.Signature=='1'"></i>
             <i class="fa fa-clock-o" v-else></i>
           </td>
           <td>
-            {{data.Receivedby}}<br>
-            <i class="fa fa-check" v-if="data.ReceivedbySignature!=null"></i>
-            <i class="fa fa-times decliner" v-else-if="data.Receivedby==data.IfDeclined"></i>
+            {{data.users[2].FullName}}<br>
+            <i class="fa fa-check" v-if="data.users[2].pivot.Signature=='0'"></i>
+            <i class="fa fa-times decliner" v-else-if="data.users[2].pivot.Signature=='1'"></i>
             <i class="fa fa-clock-o" v-else></i>
           </td>
           <td>
-            <i class="fa fa-thumbs-up" v-if="((data.ReceivedbySignature!=null)&&((data.GeneralManagerSignature!=null)||(data.ApprovalReplacerSignature!=null))&&(data.RecommendedbySignature!=null))"></i>
-            <i class="fa fa-times decliner" v-else-if="data.IfDeclined!=null"></i>
+            <i class="fa fa-thumbs-up" v-if="data.Status=='0'"></i>
+            <i class="fa fa-times decliner" v-else-if="data.Status=='1'"></i>
             <i class="fa fa-clock-o darker-blue" v-else></i>
           </td>
           <td><a :href="'/full-preview-MR/'+data.MRNo"><i class="fa fa-eye"></i></a></td>

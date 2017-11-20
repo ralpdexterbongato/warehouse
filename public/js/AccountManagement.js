@@ -1572,28 +1572,6 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
 //
 //
 //
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
 
 
 /* harmony default export */ __webpack_exports__["default"] = ({
@@ -1661,12 +1639,12 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
     },
     searchMR: function searchMR(page) {
       if (this.searchID == null) {
-        var fullname = this.user.FullName;
+        var UserId = this.user.id;
       } else {
-        var fullname = this.searchID;
+        var UserId = this.searchID;
       }
       var vm = this;
-      __WEBPACK_IMPORTED_MODULE_0_axios___default.a.get('/search-my-mr-history?Receivedby=' + fullname + '&YearMonth=' + this.searchmonth + '&page=' + page, {}).then(function (response) {
+      __WEBPACK_IMPORTED_MODULE_0_axios___default.a.get('/search-my-mr-history?ReceivedById=' + UserId + '&YearMonth=' + this.searchmonth + '&page=' + page, {}).then(function (response) {
         console.log(response);
         Vue.set(vm.$data, 'mrResults', response.data.data);
         Vue.set(vm.$data, 'pagination', response.data);
@@ -2650,25 +2628,9 @@ module.exports={render:function (){var _vm=this;var _h=_vm.$createElement;var _c
       staticClass: "fa fa-eye"
     })])])])
   })], 2) : _vm._e(), _vm._v(" "), (_vm.mrbtn == true) ? _c('table', [_vm._m(3), _vm._v(" "), _vm._l((_vm.mrResults), function(mr) {
-    return _c('tr', [_c('td', [_vm._v(_vm._s(mr.MRNo))]), _vm._v(" "), _c('td', [_vm._v(_vm._s(mr.Supplier))]), _vm._v(" "), _c('td', [_vm._v(_vm._s(mr.Receivedby) + "\r\n          "), (mr.ReceivedbySignature != null) ? _c('i', {
-      staticClass: "fa fa-check"
-    }) : (mr.IfDeclined == mr.Receivedby) ? _c('i', {
+    return _c('tr', [_c('td', [_vm._v(_vm._s(mr.MRNo))]), _vm._v(" "), _c('td', [_vm._v(_vm._s(mr.Supplier))]), _vm._v(" "), _c('td', [(mr.Status == '1') ? _c('i', {
       staticClass: "fa fa-times decliner"
-    }) : _vm._e()]), _vm._v(" "), _c('td', [_vm._v("\r\n          " + _vm._s(mr.Recommendedby) + "\r\n          "), (mr.RecommendedbySignature != null) ? _c('i', {
-      staticClass: "fa fa-check"
-    }) : (mr.IfDeclined == mr.Recommendedby) ? _c('i', {
-      staticClass: "fa fa-times decliner"
-    }) : _vm._e()]), _vm._v(" "), (mr.ApprovalReplacerSignature != null) ? _c('td', [_vm._v("\r\n          " + _vm._s(mr.ApprovalReplacerFullName) + "\r\n          "), _c('i', {
-      staticClass: "fa fa-check"
-    })]) : _c('td', [_vm._v("\r\n          " + _vm._s(mr.GeneralManager) + "\r\n          "), (mr.GeneralManagerSignature != null) ? _c('i', {
-      staticClass: "fa fa-check"
-    }) : (mr.IfDeclined == mr.GeneralManager) ? _c('i', {
-      staticClass: "fa fa-times decliner"
-    }) : _vm._e()]), _vm._v(" "), _c('td', [(mr.IfDeclined != null) ? _c('i', {
-      staticClass: "fa fa-times decliner"
-    }) : (mr.ReceivedbySignature != null && mr.RecommendedbySignature != null && mr.GeneralManagerSignature != null) ? _c('i', {
-      staticClass: "fa fa-thumbs-up"
-    }) : (mr.ReceivedbySignature != null && mr.RecommendedbySignature != null && mr.ApprovalReplacerSignature != null) ? _c('i', {
+    }) : (mr.Status == '0') ? _c('i', {
       staticClass: "fa fa-thumbs-up"
     }) : _c('i', {
       staticClass: "fa fa-clock-o"
@@ -2751,7 +2713,7 @@ module.exports={render:function (){var _vm=this;var _h=_vm.$createElement;var _c
 },function (){var _vm=this;var _h=_vm.$createElement;var _c=_vm._self._c||_h;
   return _c('tr', [_c('th', [_vm._v("MRT No.")]), _vm._v(" "), _c('th', [_vm._v("Return Date")]), _vm._v(" "), _c('th', [_vm._v("Particulars")]), _vm._v(" "), _c('th', [_vm._v("Address To")]), _vm._v(" "), _c('th', [_vm._v("Status")]), _vm._v(" "), _c('th', [_vm._v("Show")])])
 },function (){var _vm=this;var _h=_vm.$createElement;var _c=_vm._self._c||_h;
-  return _c('tr', [_c('th', [_vm._v("MRNo")]), _vm._v(" "), _c('th', [_vm._v("Supplier")]), _vm._v(" "), _c('th', [_vm._v("Received by")]), _vm._v(" "), _c('th', [_vm._v("Recommended by")]), _vm._v(" "), _c('th', [_vm._v("Approved by")]), _vm._v(" "), _c('th', [_vm._v("Status")]), _vm._v(" "), _c('th', [_vm._v("Show")])])
+  return _c('tr', [_c('th', [_vm._v("MRNo")]), _vm._v(" "), _c('th', [_vm._v("Supplier")]), _vm._v(" "), _c('th', [_vm._v("Status")]), _vm._v(" "), _c('th', [_vm._v("Show")])])
 },function (){var _vm=this;var _h=_vm.$createElement;var _c=_vm._self._c||_h;
   return _c('tr', [_c('th', [_vm._v("RVNo")]), _vm._v(" "), _c('th', [_vm._v("RVDate")]), _vm._v(" "), _c('th', [_vm._v("Purpose")]), _vm._v(" "), _c('th', [_vm._v("Status")]), _vm._v(" "), _c('th', [_vm._v("Show")])])
 }]}

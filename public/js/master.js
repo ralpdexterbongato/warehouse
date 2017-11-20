@@ -32243,7 +32243,7 @@ module.exports={render:function (){var _vm=this;var _h=_vm.$createElement;var _c
   }, [_c('span', [_c('i', {
     staticClass: "fa fa-bell-o",
     class: [_vm.PONew == true ? 'animated swing' : '']
-  }), _vm._v("P O\n            ")]), _vm._v(" "), _c('span', {
+  }), _vm._v("PO\n            ")]), _vm._v(" "), _c('span', {
     staticClass: "notif",
     class: [_vm.CountPOrequest != 0 ? 'active' : '']
   }, [_vm._v(_vm._s(_vm.CountPOrequest) + "\n              "), (_vm.PONew == true) ? _c('small', {

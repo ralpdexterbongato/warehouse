@@ -94,37 +94,15 @@
       <tr>
         <th>MRNo</th>
         <th>Supplier</th>
-        <th>Received by</th>
-        <th>Recommended by</th>
-        <th>Approved by</th>
         <th>Status</th>
         <th>Show</th>
       </tr>
       <tr v-for="mr in mrResults">
         <td>{{mr.MRNo}}</td>
         <td>{{mr.Supplier}}</td>
-        <td>{{mr.Receivedby}}
-          <i v-if="mr.ReceivedbySignature!=null" class="fa fa-check"></i>
-          <i v-else-if="mr.IfDeclined==mr.Receivedby" class="fa fa-times decliner"></i>
-        </td>
         <td>
-          {{mr.Recommendedby}}
-          <i v-if="mr.RecommendedbySignature!=null" class="fa fa-check"></i>
-          <i v-else-if="mr.IfDeclined==mr.Recommendedby" class="fa fa-times decliner"></i>
-        </td>
-        <td v-if="mr.ApprovalReplacerSignature!=null">
-          {{mr.ApprovalReplacerFullName}}
-          <i class="fa fa-check"></i>
-        </td>
-        <td v-else>
-          {{mr.GeneralManager}}
-          <i v-if="mr.GeneralManagerSignature!=null" class="fa fa-check"></i>
-          <i v-else-if="mr.IfDeclined==mr.GeneralManager" class="fa fa-times decliner"></i>
-        </td>
-        <td>
-          <i v-if="mr.IfDeclined!=null" class="fa fa-times decliner"></i>
-          <i v-else-if="mr.ReceivedbySignature!=null&&mr.RecommendedbySignature!=null&&mr.GeneralManagerSignature!=null" class="fa fa-thumbs-up"></i>
-          <i v-else-if="mr.ReceivedbySignature!=null&&mr.RecommendedbySignature!=null&&mr.ApprovalReplacerSignature!=null" class="fa fa-thumbs-up"></i>
+          <i v-if="mr.Status=='1'" class="fa fa-times decliner"></i>
+          <i v-else-if="mr.Status=='0'" class="fa fa-thumbs-up"></i>
           <i v-else class="fa fa-clock-o"></i>
         </td>
         <td><a :href="'full-preview-MR/'+mr.MRNo"><i class="fa fa-eye"></i></a></td>
@@ -249,13 +227,13 @@
        {
          if (this.searchID==null)
          {
-           var fullname=this.user.FullName;
+           var UserId=this.user.id;
          }else
          {
-           var fullname=this.searchID;
+           var UserId=this.searchID;
          }
          var vm=this;
-         axios.get(`/search-my-mr-history?Receivedby=`+fullname+`&YearMonth=`+this.searchmonth+`&page=`+page,{
+         axios.get(`/search-my-mr-history?ReceivedById=`+UserId+`&YearMonth=`+this.searchmonth+`&page=`+page,{
          }).then(function(response)
          {
            console.log(response);

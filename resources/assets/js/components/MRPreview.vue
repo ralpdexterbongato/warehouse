@@ -1,14 +1,14 @@
 <template lang="html">
-<div class="">
+<div v-if="MRMaster.users!=null">
   <div class="btns-mr-full">
     <div>
-      <a :href="'/MR.pdf/'+this.mrno.MRNo" v-if="(((MRMaster.RecommendedbySignature!=null)&&(MRMaster.GeneralManagerSignature!=null)&&(MRMaster.ReceivedbySignature!=null))||((MRMaster.RecommendedbySignature!=null)&&(MRMaster.ApprovalReplacerSignature!=null)&&(MRMaster.ReceivedbySignature!=null)))"><button type="submit" name="MRNo" value="mrnohere"><i class="fa fa-print"></i> Print</button></a>
-      <h6 class="approve-managerreplace-note" v-if="(user.FullName==MRMaster.ApprovalReplacer)&&(MRMaster.ApprovalReplacerSignature==null)&&(MRMaster.RecommendedbySignature!=null)&&(MRMaster.GeneralManagerSignature==null)"><i class="fa fa-info-circle color-blue"></i>
+      <a :href="'/MR.pdf/'+this.mrno.MRNo" v-if="AlreadyApproved"><button type="submit" name="MRNo" value="mrnohere"><i class="fa fa-print"></i> Print</button></a>
+      <h6 class="approve-managerreplace-note" v-if="replacerCanSignature"><i class="fa fa-info-circle color-blue"></i>
         The <span class="color-blue">{{MRMaster.WarehouseMan}}</span> is asking for your signature b/c the General Manager is not available
       </h6>
     </div>
     <div class="signature-MR-btns">
-      <span class="Approve-MR-inBehalf-btn" :class="{'hide':SignatureApproveReplacer}" v-if="MRMaster.ApprovalReplacer==user.FullName&&MRMaster.GeneralManagerSignature==null&&MRMaster.ApprovalReplacerSignature==null&&MRMaster.RecommendedbySignature!=null">
+      <span class="Approve-MR-inBehalf-btn" :class="{'hide':SignatureApproveReplacer}" v-if="replacerCanSignature">
         <longpress class="rvapprovebtn" duration="3" :on-confirm="SignatureApproveInBehalf" pressing-text="confirm in {$rcounter}" action-text="Loading . . .">
           <i class="fa fa-pencil"></i> Signature
         </longpress>
@@ -16,7 +16,7 @@
           <i class="fa fa-times"></i> I can't
         </longpress>
       </span>
-      <span :class="{'hide':SignatureBtnHide}" v-if="(((MRMaster.RecommendedbySignature==null)&&(MRMaster.Recommendedby==user.FullName)&&(MRMaster.IfDeclined==null))||((MRMaster.GeneralManagerSignature==null)&&(MRMaster.GeneralManager==user.FullName)&&(MRMaster.RecommendedbySignature!=null)&&(MRMaster.IfDeclined==null))||((MRMaster.ReceivedbySignature==null)&&(MRMaster.ReceivedbySignature==null)&&(MRMaster.Receivedby==user.FullName)&&(MRMaster.IfDeclined==null)&&((MRMaster.GeneralManagerSignature!=null)||(MRMaster.ApprovalReplacerSignature!=null))))">
+      <span :class="{'hide':SignatureBtnHide}" v-if="UserCanSignature">
         <longpress  id="signatureMRbtn" duration="3" :on-confirm="signatureMR" pressing-text="confirm in {$rcounter}" action-text="Loading . . .">
           <i class="fa fa-pencil"></i> Signature
         </longpress>
@@ -114,28 +114,28 @@
         <h4>P.O. Number: {{MRMaster.PONo}}</h4>
         <div class="signature-mr-box">
           <label>RECOMMENDING APPROVAL:</label>
-            <h5 v-if="MRMaster.RecommendedbySignature!=null"><img :src="'/storage/signatures/'+MRMaster.RecommendedbySignature" alt="signature"></h5>
+            <h5 v-if="MRMaster.users[0].pivot.Signature=='0'"><img :src="'/storage/signatures/'+MRMaster.users[0].Signature" alt="signature"></h5>
           <h3>
-            {{MRMaster.Recommendedby}}
-              <i v-if="(MRMaster.Recommendedby==MRMaster.IfDeclined)" class="fa fa-times decliner"></i>
+            {{MRMaster.users[0].FullName}}
+              <i v-if="(MRMaster.users[0].pivot.Signature=='1')" class="fa fa-times decliner"></i>
           </h3>
-          <p>{{MRMaster.RecommendedbyPosition}}</p>
+          <p>{{MRMaster.users[0].Position}}</p>
         </div>
         <div class="signature-mr-box">
           <label>APPROVED:</label>
-            <h5 v-if="MRMaster.GeneralManagerSignature!=null"><img :src="'/storage/signatures/'+MRMaster.GeneralManagerSignature" alt="signature"></h5>
-            <h5 v-else-if="MRMaster.ApprovalReplacerSignature!=null"><p>For :</p><img :src="'/storage/signatures/'+MRMaster.ApprovalReplacerSignature" alt="signature"></h5>
+          <h5 v-if="MRMaster.users[1].pivot.Signature=='0'"><img :src="'/storage/signatures/'+MRMaster.users[1].Signature" alt="signature"></h5>
+          <h5 v-else-if="((MRMaster.users[3]!=null)&&(MRMaster.users[3].pivot.Signature=='0'))"><p>For :</p><img :src="'/storage/signatures/'+MRMaster.users[3].Signature" alt="signature"></h5>
           <h3>
-            {{MRMaster.GeneralManager}}
-              <i v-if="MRMaster.GeneralManager==MRMaster.IfDeclined" class="fa fa-times decliner"></i>
+            {{MRMaster.users[1].FullName}}
+              <i v-if="MRMaster.users[1].pivot.Signature=='1'" class="fa fa-times decliner"></i>
           </h3>
-          <p>General Manager</p>
+          <p>{{MRMaster.users[1].Position}}</p>
         </div>
         <div class="signature-mr-box">
           <label>RECEIVED:</label>
-            <h5 v-if="MRMaster.ReceivedbySignature!=null"><img :src="'/storage/signatures/'+MRMaster.ReceivedbySignature" alt="signature"></h5>
-          <h3>{{MRMaster.Receivedby}}<i class="fa fa-times decliner" v-if="MRMaster.Receivedby==MRMaster.IfDeclined"></i></h3>
-          <p>{{MRMaster.ReceivedbyPosition}}</p>
+            <h5 v-if="MRMaster.users[2].pivot.Signature=='0'"><img :src="'/storage/signatures/'+MRMaster.users[2].Signature" alt="signature"></h5>
+          <h3>{{MRMaster.users[2].FullName}}<i class="fa fa-times decliner" v-if="MRMaster.users[2].pivot.Signature=='1'"></i></h3>
+          <p>{{MRMaster.users[2].Position}}</p>
         </div>
       </div>
     </div>
@@ -179,6 +179,7 @@ import Longpress from 'vue-longpress'
       {
         console.log(response);
         vm.fetchData();
+        vm.SignatureBtnHide=false;
       });
       },
       declineMR()
@@ -217,6 +218,38 @@ import Longpress from 'vue-longpress'
      },
      components: {
         Longpress
-      },
+     },
+     computed: {
+       AlreadyApproved:function()
+       {
+         if ((this.MRMaster.users[0].pivot.Signature=='0')&&((this.MRMaster.users[1].pivot.Signature=='0')||(this.MRMaster.users[3]!=null && this.MRMaster.users[3].pivot.Signature=='0'))&&(this.MRMaster.users[2].pivot.Signature=='0'))
+         {
+           return true;
+         }else
+         {
+           return false;
+         }
+       },
+       replacerCanSignature: function()
+       {
+         if((this.MRMaster.users[3]!=null)&&(this.user.id==this.MRMaster.users[3].id)&&(this.MRMaster.users[3].pivot.Signature==null)&&(this.MRMaster.users[0].pivot.Signature=='0')&&(this.MRMaster.users[1].pivot.Signature==null))
+         {
+           return true;
+         }else
+         {
+           return false;
+         }
+       },
+       UserCanSignature: function()
+       {
+         if (((this.MRMaster.users[0].pivot.Signature==null)&&(this.MRMaster.users[0].id==this.user.id))||((this.MRMaster.users[1].pivot.Signature==null)&&(this.MRMaster.SignatureTurn=='1')&&(this.MRMaster.users[1].id==this.user.id))||((this.MRMaster.users[2].id==this.user.id)&&(this.MRMaster.users[2].pivot.Signature==null)&&(this.MRMaster.SignatureTurn=='2')))
+         {
+           return true;
+         }else
+         {
+           return false;
+         }
+       }
+     }
   }
 </script>

@@ -95,7 +95,7 @@
           <a v-if="user.Role==0||user.Role==2" href="/my-PO-request">
             <li class="clickable">
               <span>
-          <i class="fa fa-bell-o" :class="[PONew==true?'animated swing':'']"></i>P O
+          <i class="fa fa-bell-o" :class="[PONew==true?'animated swing':'']"></i>PO
               </span>
               <span class="notif" :class="[CountPOrequest!=0?'active':'']">{{CountPOrequest}}
                 <small class="new-notif" v-if="PONew==true">new !

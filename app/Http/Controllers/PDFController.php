@@ -85,7 +85,7 @@ class PDFController extends Controller
   }
   public function MRprinting($id)
   {
-    $MRMaster=MRMaster::where('MRNo', $id)->get();
+    $MRMaster=MRMaster::with('users')->where('MRNo', $id)->get();
     $pdf=PDF::loadView('Warehouse.MR.PrintableMR',compact('MRMaster'));
     return $pdf->stream('MR_No'.$id.'.pdf');
   }

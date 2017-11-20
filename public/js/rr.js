@@ -3338,13 +3338,13 @@ module.exports={render:function (){var _vm=this;var _h=_vm.$createElement;var _c
       staticClass: "fa fa-check"
     }) : (result.users[0].pivot.Signature == '1') ? _c('i', {
       staticClass: "fa fa-times index-decline"
-    }) : _vm._e()]), _vm._v(" "), _c('td', [_vm._v("\r\n            " + _vm._s(result.users[2].FullName)), _c('br'), _vm._v(" "), (result.users[2].pivot.Signature == '0') ? _c('i', {
-      staticClass: "fa fa-check"
-    }) : (result.users[2].pivot.Signature == '1') ? _c('i', {
-      staticClass: "fa fa-times index-decline"
     }) : _vm._e()]), _vm._v(" "), _c('td', [_vm._v("\r\n            " + _vm._s(result.users[1].FullName)), _c('br'), _vm._v(" "), (result.users[1].pivot.Signature == '0') ? _c('i', {
       staticClass: "fa fa-check"
     }) : (result.users[1].pivot.Signature == '1') ? _c('i', {
+      staticClass: "fa fa-times index-decline"
+    }) : _vm._e()]), _vm._v(" "), _c('td', [_vm._v("\r\n            " + _vm._s(result.users[2].FullName)), _c('br'), _vm._v(" "), (result.users[2].pivot.Signature == '0') ? _c('i', {
+      staticClass: "fa fa-check"
+    }) : (result.users[2].pivot.Signature == '1') ? _c('i', {
       staticClass: "fa fa-times index-decline"
     }) : _vm._e()]), _vm._v(" "), _c('td', [_vm._v("\r\n            " + _vm._s(result.users[3].FullName)), _c('br'), _vm._v(" "), (result.users[3].pivot.Signature == '0') ? _c('i', {
       staticClass: "fa fa-check"
@@ -3411,7 +3411,7 @@ module.exports={render:function (){var _vm=this;var _h=_vm.$createElement;var _c
     staticClass: "fa fa-th-large"
   }), _vm._v(" Receiving Report index")])
 },function (){var _vm=this;var _h=_vm.$createElement;var _c=_vm._self._c||_h;
-  return _c('tr', [_c('th', [_vm._v("RR No.")]), _vm._v(" "), _c('th', [_vm._v("Supplier")]), _vm._v(" "), _c('th', [_vm._v("RV No.")]), _vm._v(" "), _c('th', [_vm._v("Received by")]), _vm._v(" "), _c('th', [_vm._v("Received original by")]), _vm._v(" "), _c('th', [_vm._v("Verified by")]), _vm._v(" "), _c('th', [_vm._v("Posted to BIN by")]), _vm._v(" "), _c('th', [_vm._v("Status")]), _vm._v(" "), _c('th', [_vm._v("Action")])])
+  return _c('tr', [_c('th', [_vm._v("RR No.")]), _vm._v(" "), _c('th', [_vm._v("Supplier")]), _vm._v(" "), _c('th', [_vm._v("RV No.")]), _vm._v(" "), _c('th', [_vm._v("Received by")]), _vm._v(" "), _c('th', [_vm._v("Verified by")]), _vm._v(" "), _c('th', [_vm._v("Received original by")]), _vm._v(" "), _c('th', [_vm._v("Posted to BIN by")]), _vm._v(" "), _c('th', [_vm._v("Status")]), _vm._v(" "), _c('th', [_vm._v("Action")])])
 }]}
 module.exports.render._withStripped = true
 if (false) {

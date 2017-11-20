@@ -83,4 +83,16 @@ class User extends Authenticatable
     {
       return $this->morphedByMany('App\RVMaster', 'Signatureable')->orderBy('RVNo','DESC')->withPivot(['SignatureType','Signature'])->wherePivot('SignatureType', 'Requisitioner')->where('RVDate','LIKE',$date.'%');
     }
+    public function MRSignatureTurn()
+    {
+      return $this->morphedByMany('App\MRMaster', 'Signatureable')->orderBy('MRNo','DESC')->withPivot(['SignatureType','Signature'])
+      ->where('Signature',null)->where('SignatureTurn','1')->wherePivot('SignatureType','ApprovedBy')->where('user_id', Auth::user()->id)
+      ->orWhere('Signature',null)->where('SignatureTurn','1')->wherePivot('SignatureType','ApprovalReplacer')->where('user_id', Auth::user()->id)
+      ->orWhere('Signature',null)->where('SignatureTurn','0')->wherePivot('SignatureType','RecommendedBy')->wherePivot('user_id', Auth::user()->id)
+      ->orWhere('Signature',null)->where('SignatureTurn','2')->wherePivot('SignatureType','ReceivedBy')->where('user_id', Auth::user()->id);
+    }
+    public function MRHistory($date)
+    {
+      return $this->morphedByMany('App\MRMaster', 'Signatureable')->orderBy('MRNo','DESC')->withPivot(['SignatureType','Signature'])->wherePivot('SignatureType', 'ReceivedBy')->where('MRDate','LIKE',$date.'%');
+    }
 }

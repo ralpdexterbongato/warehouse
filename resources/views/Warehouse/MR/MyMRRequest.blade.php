@@ -12,36 +12,19 @@
       <table>
         <tr>
           <th>M.R. No</th>
-          <th>Note</th>
-          <th>Received by</th>
-          <th>Recommended by</th>
-          <th>General Manager</th>
           <th>M.R. Date</th>
+          <th>Supplier</th>
+          <th>Invoice #</th>
+          <th>Warehouse Man</th>
           <th>Action</th>
         </tr>
         @foreach ($MRRequest as $mrRequest)
           <tr>
             <td>{{$mrRequest->MRNo}}</td>
-            <td>{{$mrRequest->Note}}</td>
-            <td>
-              {{$mrRequest->Receivedby}}
-              @if ($mrRequest->ReceivedbySignature)
-                <i class="fa fa-check"></i>
-              @endif
-            </td>
-            <td>
-              {{$mrRequest->Recommendedby}}
-              @if ($mrRequest->RecommendedbySignature)
-                <i class="fa fa-check"></i>
-              @endif
-            </td>
-            <td>
-              {{$mrRequest->GeneralManager}}
-              @if (($mrRequest->GeneralManagerSignature)||($mrRequest->ApprovalReplacerSignature))
-                <i class="fa fa-check"></i>
-              @endif
-            </td>
             <td>{{$mrRequest->MRDate->format('M d, Y')}}</td>
+            <td>{{$mrRequest->Supplier}}</td>
+            <td>{{$mrRequest->Invoice}}</td>
+            <td>{{$mrRequest->WarehouseMan}}</td>
             <td><a href="{{route('fullMR',[$mrRequest->MRNo])}}"><i class="fa fa-eye"></i></a></td>
           </tr>
         @endforeach

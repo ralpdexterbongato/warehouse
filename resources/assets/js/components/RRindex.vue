@@ -15,8 +15,8 @@
         <th>Supplier</th>
         <th>RV No.</th>
         <th>Received by</th>
-        <th>Received original by</th>
         <th>Verified by</th>
+        <th>Received original by</th>
         <th>Posted to BIN by</th>
         <th>Status</th>
         <th>Action</th>
@@ -31,14 +31,14 @@
             <i class="fa fa-times index-decline" v-else-if="result.users[0].pivot.Signature=='1'"></i>
           </td>
           <td>
-            {{result.users[2].FullName}}<br>
-            <i class="fa fa-check" v-if="result.users[2].pivot.Signature=='0'"></i>
-            <i class="fa fa-times index-decline" v-else-if="result.users[2].pivot.Signature=='1'"></i>
-          </td>
-          <td>
             {{result.users[1].FullName}}<br>
             <i class="fa fa-check" v-if="result.users[1].pivot.Signature=='0'"></i>
             <i class="fa fa-times index-decline" v-else-if="result.users[1].pivot.Signature=='1'"></i>
+          </td>
+          <td>
+            {{result.users[2].FullName}}<br>
+            <i class="fa fa-check" v-if="result.users[2].pivot.Signature=='0'"></i>
+            <i class="fa fa-times index-decline" v-else-if="result.users[2].pivot.Signature=='1'"></i>
           </td>
           <td>
             {{result.users[3].FullName}}<br>

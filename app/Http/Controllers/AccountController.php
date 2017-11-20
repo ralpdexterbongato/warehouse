@@ -20,11 +20,10 @@ class AccountController extends Controller
     {
       $this->middleware('IsAdmin',['except'=>['loginpage','sendsms','getCurrentAssigned','UpdateManagerTakePlace','getActiveManager','toManagerTakePlacePage','fetchDataofSelectedUser','MyRVHistoryandSearch','MyMRHistoryandSearch','MyMRTHistoryandSearch','MyMCTHistoryandSearch','MyMIRSHistoryandSearch','ShowMyHistoryPage','loginSubmit','logoutAccount']]);
     }
-    public function sendsms()
-    {
-       return $mirs=MIRSMaster::with('users')->paginate(4);
-      // return $mirs=MIRSMaster::with('users')->where('MIRSNo', '17-0001')->get();
-    }
+    // public function sendsms()
+    // {
+    //    return $mirs=MIRSMaster::with('users')->paginate(4);
+    // }
     public function loginpage()
     {
       return view('Warehouse.Account.login-page');
@@ -110,8 +109,8 @@ class AccountController extends Controller
     }
     public function MyMRHistoryandSearch(Request $request)
     {
-      return MRMaster::orderBy('MRNo','DESC')->where('Receivedby',$request->Receivedby)->where('MRDate','LIKE',$request->YearMonth.'%')->paginate(10,['MRNo','MRDate','Supplier','Receivedby','ReceivedbySignature','Recommendedby','RecommendedbySignature','GeneralManager','GeneralManagerSignature'
-      ,'IfDeclined']);
+      $user = User::find($request->ReceivedById);
+      return $mrhistory=$user->MRHistory($request->YearMonth)->paginate(5);
     }
     public function MyRVHistoryandSearch(Request $request)
     {
