@@ -149,6 +149,11 @@ import Longpress from 'vue-longpress'
         axios.put(`/updateMRTQty/`+this.mrtno.MRTNo,{UpdatedQty:this.EditedQty}).then(function(response)
         {
           console.log(response);
+          vm.fetchdata();
+          if (response.data.error!=null)
+          {
+            alert(response.data.error);
+          }
         },function(error)
         {
           console.log(error);

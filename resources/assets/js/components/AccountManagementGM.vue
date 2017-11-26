@@ -2,21 +2,32 @@
   <div class="setting-accounts-table">
     <div class="title-account-manager">
       <h1>
-        <span v-if="gmbtn==true">List of General Managers</span>
-        <span v-if="managerbtn==true">List of Managers</span>
-        <span v-if="adminbtn==true">List of Admins</span>
-        <span v-if="otherbtn==true">List of Other accounts</span>
+        <span>List of accounts</span>
         <i class="fa fa-group color-blue"></i>
       </h1>
     </div>
     <div class="top-right-menu-accounts">
+      <div class="search-name-box">
+        <input type="text" placeholder="Firstname Lastname" v-on:keyup="getSelectedAndSearch" v-model="FullNameSearch">
+      </div>
       <ul>
-        <li><button v-on:click="gmbtn=true,managerbtn=false,adminbtn=false,otherbtn=false,getSelected()" type="button" :class="[gmbtn==true?'active':'']">General Managers</button></li>
-        <li><button type="button" v-on:click="gmbtn=false,managerbtn=true,adminbtn=false,otherbtn=false,getSelected()" :class="[managerbtn==true?'active':'']">Managers</button></li>
-        <li><button type="button" v-on:click="gmbtn=false,managerbtn=false,adminbtn=true,otherbtn=false,getSelected()" :class="[adminbtn==true?'active':'']">Admins</button></li>
-        <li><button type="button" v-on:click="gmbtn=false,managerbtn=false,adminbtn=false,otherbtn=true,getSelected()" :class="[otherbtn==true?'active':'']">Other</button></li>
+        <select class="SortByRole" v-model="SelectedRole" v-on:change="getSelectedAndSearch(1)">
+          <option value=''>All</option>
+          <option value="0">Managers</option>
+          <option value="1">Admins</option>
+          <option value="2">General managers</option>
+          <option value="3">Warehouse assistants</option>
+          <option value="4">Warehouse heads</option>
+          <option value="5">Auditors</option>
+          <option value="6">Clerks</option>
+          <option value="7">Budget officers</option>
+          <option value="8">Basic-roles</option>
+        </select>
         <li>
-          <button type="button" v-on:click="createAccMenu=!createAccMenu"><i class="fa fa-user-plus"></i></button>
+          <button type="button" v-on:click="createAccMenu=!createAccMenu">
+            <i class="fa fa-user-plus" v-if="createAccMenu==false"></i>
+            <i class="fa fa-times"v-else></i>
+          </button>
           <div class="create-acc-minimenu" :class="[createAccMenu==true?'active':'']">
             <h1><i class="fa fa-user-plus"></i> Create Account</h1>
             <h2>
@@ -27,10 +38,6 @@
         </li>
       </ul>
     </div>
-    <h1 v-if="gmbtn==true">General Managers</h1>
-    <h1 v-if="managerbtn==true">Managers</h1>
-    <h1 v-if="adminbtn==true">Admins</h1>
-    <h1 v-if="otherbtn==true">Other accounts</h1>
     <ul class="error-tab" v-if="laravelerrors!=''">
       <span v-for="errors in laravelerrors">
         <li v-for="error in errors">{{error}}</li>
@@ -48,7 +55,7 @@
         <th>Username</th>
         <th>Mobile #</th>
         <th>Signature</th>
-        <th>Active</th>
+        <th>Status</th>
         <th>Action</th>
       </tr>
       <tr v-for="account in AccountResults">
@@ -83,7 +90,7 @@
         <div class="triangle-top-right-update">
         </div>
         <div class="update-inputs">
-          <div class="updateinput-label">
+          <div class="updateinput-label short-width">
             <h3 :class="[fullname!=''?'active':'']">Full Name</h3>
             <input type="text" name="FullName" v-model="fullname=userFetched.FullName">
           </div>
@@ -125,7 +132,7 @@
             <input type="text" name="Username" autocomplete="off" v-model="username=userFetched.Username">
           </div>
           <div class="updateinput-label short-width">
-            <h3 :class="[MobileUpdate!=''?'active':'']">Mobile #</h3>
+            <h3 :class="[MobileUpdate==''?'':'active']">Mobile #</h3>
             <input type="text" name="Username" autocomplete="off" v-model="MobileUpdate=userFetched.Mobile">
           </div>
           <div class="updateinput-label short-width" >
@@ -133,7 +140,7 @@
             <input type="password" name="Password" autocomplete="off" v-model="Password">
           </div>
           <div class="updateinput-label short-width">
-            <h3 :class="[Password_confirmation!=''?'active':'']">Confirm new password</h3>
+            <h3 :class="[Password_confirmation!=''?'active':'']">Confirm-password</h3>
             <input type="password" name="PasswordConfirmation" v-model="Password_confirmation" autocomplete="off" >
           </div>
           <input type="file"  name="Signature" @change="onFileChange" autocomplete="off" id="inputSignature" accept="image/PNG">
@@ -212,10 +219,6 @@ import axios from 'axios';
        AccountResults:[],
        pagination:[],
        offset:4,
-       gmbtn:true,
-       managerbtn:false,
-       adminbtn:false,
-       otherbtn:false,
        modalUpdate:false,
        userFetched:[],
        fullname:'',
@@ -252,39 +255,29 @@ import axios from 'axios';
        RegisterPassword:null,
        RegisterPwordConfirm:null,
        RegisterMobile:null,
+       //render by Role
+       SelectedRole:'',
+       FullNameSearch:''
        }
      },
       methods: {
-        getSelected(page)
+        getSelectedAndSearch(page)
         {
-          if (this.gmbtn==true)
-          {
-            var url='/get-general-managers';
-          }else if(this.managerbtn==true)
-          {
-            var url='/get-all-managers';
-          }else if(this.adminbtn==true)
-          {
-            var url='/getallAdmin';
-          }else if(this.otherbtn==true)
-          {
-            var url='/get-other-accounts';
-          }
           var vm=this;
-          axios.get(url+`?page=`+page).then(function(response)
-        {
-          console.log(response);
-          Vue.set(vm.$data,'AccountResults',response.data.data);
-          Vue.set(vm.$data,'pagination',response.data);
-        },function(error)
-        {
-          console.log(error)
-        });
+          axios.get(`/sort-by-role-and-search?Role=`+this.SelectedRole+`&FullName=`+this.FullNameSearch+`&page=`+page).then(function(response)
+          {
+            console.log(response);
+            Vue.set(vm.$data,'AccountResults',response.data.data);
+            Vue.set(vm.$data,'pagination',response.data);
+          },function(error)
+          {
+            console.log(error)
+          });
         },
         changepage(next)
         {
           this.pagination.current_page = next;
-          this.getSelected(next);
+          this.getSelectedAndSearch(next);
         },
         fetchselecteduser(id)
         {
@@ -376,7 +369,7 @@ import axios from 'axios';
                 Vue.set(vm.$data,'successAlerts','Updated Successfully');
                 Vue.set(vm.$data,'laravelerrors','');
                 Vue.set(vm.$data,'ownerrors','');
-                vm.getSelected();
+                vm.getSelectedAndSearch(vm.Activepage);
                 vm.image='';
               }
             },function(error)
@@ -395,7 +388,7 @@ import axios from 'axios';
             axios.delete(`/deleteAccount/`+id).then(function(response)
             {
               console.log(response);
-              vm.getSelected();
+              vm.getSelectedAndSearch(vm.Activepage);
               Vue.set(vm.$data,'successAlerts','Account removed successfully');
             },function(error)
             {
@@ -419,10 +412,7 @@ import axios from 'axios';
             }).then(function(response)
             {
               console.log(response);
-              if (vm.managerbtn)
-              {
-                vm.getSelected();
-              }
+              vm.getSelectedAndSearch(vm.Activepage);
               Vue.set(vm.$data,'successAlerts','Success');
               Vue.set(vm.$data,'laravelerrors','');
               Vue.set(vm.$data,'ManagerRegisterFullName','');
@@ -474,7 +464,7 @@ import axios from 'axios';
                 vm.RegisterPwordConfirm=null;
                 vm.image3=null;
                 vm.RegisterMobile=null;
-                vm.getSelected()
+                vm.getSelectedAndSearch(vm.Activepage)
               }
             },function(error)
             {
@@ -490,7 +480,7 @@ import axios from 'axios';
           axios.get(`/get-all-managers`).then(function(response)
           {
             console.log(response);
-            Vue.set(vm.$data,'ManagerChoices',response.data.data);
+            Vue.set(vm.$data,'ManagerChoices',response.data);
           });
         },
       },
@@ -519,7 +509,7 @@ import axios from 'axios';
         }
       },
       mounted () {
-        this.getSelected(this.pagination.current_page);
+        this.getSelectedAndSearch(this.pagination.current_page);
       },
   }
 </script>

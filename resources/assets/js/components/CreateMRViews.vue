@@ -124,6 +124,7 @@ export default {
     {
      var vm=this
      axios.post(`/addSession-MR`,{
+       id:datas.id,
        ItemCode:datas.ItemCode,
        Quantity:this.Quantity[datas.ItemCode],
        Unit:datas.Unit,

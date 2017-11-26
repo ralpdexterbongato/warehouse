@@ -5,21 +5,23 @@
 @section('body')
   <div class="RRrequest-container">
     <div class="title-rr-request">
-      <h1>My RR signature<i class="fa fa-pencil"></i> requests</h1>
+      <h1><i class="fa fa-pencil"></i> Signature request RR</h1>
     </div>
     <div class="requestRR-table">
       @if (!empty($requestRR[0]))
       <table>
         <tr>
           <th>RR No.</th>
+          <th>RR Date</th>
           <th>Supplier</th>
           <th>Address</th>
           <th>RV No.</th>
-          <th>Show</th>
+          <th>View</th>
         </tr>
         @foreach ($requestRR as $requestSignature)
           <tr>
             <td>{{$requestSignature->RRNo}}</td>
+            <td>{{$requestSignature->RRDate->format('M, d Y')}}</td>
             <td>{{$requestSignature->Supplier}}</td>
             <td>{{$requestSignature->Address}}</td>
             <td>{{$requestSignature->RVNo}}</td>

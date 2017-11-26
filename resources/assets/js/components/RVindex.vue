@@ -12,23 +12,23 @@
   <table>
     <tr>
       <th>RV No.</th>
+      <th>RV Date</th>
       <th>Purpose</th>
       <th>Requisitioner</th>
       <th>Recommended by</th>
       <th>Budget Officer</th>
-      <th>General Manager</th>
-      <th>RV Date</th>
+      <th>Approved by</th>
       <th>Status</th>
-      <th>Show</th>
+      <th>View</th>
     </tr>
     <tr v-for="rvdata in RVs" v-if="rvdata.users[0]!=null">
       <td>{{rvdata.RVNo}}</td>
+      <td>{{rvdata.RVDate}}</td>
       <td>{{rvdata.Purpose}}</td>
       <td>{{rvdata.users[0].FullName}}<br><i v-if="rvdata.users[0].pivot.Signature=='0'" class="fa fa-check"></i><i v-else-if="rvdata.users[0].pivot.Signature=='1'" class="fa fa-times decliner"></i></td>
       <td>{{rvdata.users[1].FullName}}<br><i v-if="((rvdata.users[1].pivot.Signature=='0')||((rvdata.users[4]!=null)&&(rvdata.users[4].pivot.Signature=='0')&&(rvdata.users[4].pivot.SignatureType=='ManagerReplacer'))||((rvdata.users[5]!=null)&&(rvdata.users[5].pivot.Signature=='0')&&(rvdata.users[5].pivot.SignatureType=='ManagerReplacer')))" class="fa fa-check"></i><i v-else-if="rvdata.users[1].pivot.Signature=='1'" class="fa fa-times decliner"></i></td>
       <td>{{rvdata.users[2].FullName}}<br><i v-if="rvdata.users[2].pivot.Signature=='0'" class="fa fa-check"></i><i v-else-if="rvdata.users[2].pivot.Signature=='1'" class="fa fa-times decliner"></i></td>
       <td>{{rvdata.users[3].FullName}}<br><i v-if="((rvdata.users[3].pivot.Signature=='0')||((rvdata.users[4]!=null)&&(rvdata.users[4].pivot.Signature=='0')&&(rvdata.users[4].pivot.SignatureType=='ApprovalReplacer'))||((rvdata.users[5]!=null)&&(rvdata.users[5].pivot.Signature=='0')&&(rvdata.users[5].pivot.SignatureType=='ApprovalReplacer')))" class="fa fa-check"></i><i v-else-if="rvdata.users[3].pivot.Signature=='1'" class="fa fa-times decliner"></i></td>
-      <td>{{rvdata.RVDate}}</td>
       <td v-if="rvdata.Status=='0'"><i class="fa fa-thumbs-up"></i></td>
       <td v-else-if="rvdata.Status==null"><i class="fa fa-clock-o"></i></td>
       <td v-else-if="rvdata.Status=='1'"><i class="fa fa-times decliner"></i></td>

@@ -2,13 +2,13 @@
 <div v-if="RVMaster.users!=null">
   <div class="RV-signature-print-container">
     <div class="print-and-unreceved" v-if="AlreadyApproved">
-      <a :href="'/RV.pdf/'+rvno.RVNo"><button type="submit" class="bttn-unite bttn-sm bttn-primary" name="RVNo" value="RVNohere"><i class="fa fa-print"></i> Print</button></a>
+      <a :href="'/RV.pdf/'+rvno.RVNo"><button type="submit"  name="RVNo" value="RVNohere"><i class="fa fa-print"></i> Print</button></a>
       <li class="pending-delivery-number" v-if="((RVMaster.IfPurchased==null)&&(checkPO==null)&&(checkRR!=null))"><h1>pending item: <span class="color-blue">{{undeliveredTotal}}</span></h1></li>
     </div>
     <div v-else-if="RVMaster.SignatureTurn!='2'" class="empty-left">
     </div>
     <div v-if="((RVMaster.users[2].pivot.Signature==null)&&((RVMaster.users[1].pivot.Signature=='0')||(ManagerReplacerData!=null && ManagerReplacerData.pivot.Signature=='0')))" class="empty-left relative">
-      <button v-on:click="RemarksIsActive=true" class="bttn-unite bttn-sm bttn-primary pending-remarks" type="button" v-if="((RVMaster.users[2].id==user.id)&&(pendingRemarksShow==null))"><i class="fa fa-clock-o"></i> remarks</button>
+      <button v-on:click="RemarksIsActive=true" class="pending-remarks" type="button" v-if="((RVMaster.users[2].id==user.id)&&(pendingRemarksShow==null))"><i class="fa fa-clock-o"></i> remarks</button>
       <div v-if="(pendingRemarksShow!=null)&&(RVMaster.users[2].pivot.Signature==null)&&((user.id==RVMaster.users[0].id)||(user.id==RVMaster.users[2].id))" class="BudgetRemarkShow">
         <div class="remarks-box animated" :class="{'hinge':drop}">
           <h1> budget officer: <i class="fa fa-thumb-tack animated" v-on:click="drop=true"></i></h1>
@@ -71,7 +71,7 @@
             <div class="status-po-wrapper" v-else>
               <h1>Status: <span class="underline">Waiting for RR</span></h1>
             </div>
-           <a :href="'/po-list-view-of-rv/'+rvno.RVNo"><button type="button" class="bttn-unite bttn-sm bttn-primary">Show P.O.</button></a>
+           <a :href="'/po-list-view-of-rv/'+rvno.RVNo"><button type="button" >Show P.O.</button></a>
         </div>
       </span>
       <span v-if="AlreadyApproved">
@@ -82,17 +82,17 @@
           <h1 class="done-but-no-po">Status : <span class="underline">Already purchased <i class="fa fa-check"></i> without P.O.</span></h1>
         </div>
           <div class="CreateRRwoPO" v-else-if="((RVMaster.IfPurchased==null)&&(checkPO==null)&&((user.Role==4)||(user.Role==3)))">
-            <a :href="'/create-rr-wo-po/'+rvno.RVNo"><button type="button" class="bttn-unite bttn-sm bttn-primary"> <i class="fa fa-plus"></i> RR</button></a>
+            <a :href="'/create-rr-wo-po/'+rvno.RVNo"><button type="button" > <i class="fa fa-plus"></i> RR</button></a>
           </div>
           <span v-if="checkPO==null&&checkRR!=null">
           </span>
           <span v-else>
             <div class="CanvasBtn" v-if="((user.Role==3)||(user.Role==4))&&(AlreadyApproved)">
-                <a :href="'/CanvassCreate/'+rvno.RVNo"><button type="submit" class="bttn-unite bttn-sm bttn-primary"><i class="fa fa-building"></i> Canvass</button></a>
+                <a :href="'/CanvassCreate/'+rvno.RVNo"><button type="submit" ><i class="fa fa-building"></i> Canvass</button></a>
             </div>
           </span>
           <div class="show-rr-of-rv" v-if="checkRR!=null">
-            <a :href="'/rr-of-rv-list/'+rvno.RVNo"><button class="bttn-unite bttn-sm bttn-primary" type="button">R.R. history</button></a>
+            <a :href="'/rr-of-rv-list/'+rvno.RVNo"><button  type="button">R.R. history</button></a>
           </div>
       </span>
 

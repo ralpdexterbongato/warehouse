@@ -49,6 +49,10 @@
     <input type="text" autocomplete="off" name="Carrier" v-model="Carrier" placeholder="Carrier">
     <input type="text" autocomplete="off" name="DeliveryReceiptNo" v-model="DeliveryReceiptNo" placeholder="Delivery Receipt Number">
     <input type="text" autocomplete="off" name="Note" v-model="Note" placeholder="Note">
+    <select v-model="ReceivedBy" :class="[ReceivedBy!=null ?'black':'']">
+      <option :value="null" class="gray">Received by</option>
+      <option v-for="user in allusers" class="black" :value="user.id">{{user.FullName}}</option>
+    </select>
     <select name="Verifiedby" v-model="Verifiedby" :class="[Verifiedby!=null ?'black':'']">
       <option :value="null" class="gray">Verified by</option>
       <option v-for="manager in managers" class="black" :value="manager.id">{{manager.FullName}}</option>
@@ -116,13 +120,14 @@ import Longpress from 'vue-longpress'
        Carrier:'',
        DeliveryReceiptNo:'',
        Note:'',
+       ReceivedBy:null,
        Verifiedby:null,
        ReceivedOriginalby:null,
        PostedtoBINby:null,
        HideSubmitBtn:false,
        }
      },
-     props: ['pomasters','rrvalidatorwpo','auditors','managers','clerks'],
+     props: ['pomasters','rrvalidatorwpo','auditors','managers','clerks','allusers'],
       methods: {
         addtosession(data,count)
         {
@@ -191,6 +196,7 @@ import Longpress from 'vue-longpress'
           this.HideSubmitBtn=true;
           var vm=this;
           axios.post(`/save-rr-with-po-to-db`,{
+            Receivedby:this.ReceivedBy,
             Verifiedby:this.Verifiedby,
             ReceivedOriginalby:this.ReceivedOriginalby,
             PostedtoBINby:this.PostedtoBINby,

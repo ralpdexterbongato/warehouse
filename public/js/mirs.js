@@ -1171,10 +1171,14 @@ function _defineProperty(obj, key, value) { if (key in obj) { Object.definePrope
     changePageCode: function changePageCode(page) {
       this.Pagination.current_page = page;
       this.searchbyItemCode(page);
+      this.Quantity = [];
+      this.Remarks = [];
     },
     changePage: function changePage(page) {
       this.Pagination.current_page = page;
       this.searchbyDescriptionMIRS(page);
+      this.Quantity = [];
+      this.Remarks = [];
     }
   },
   created: function created() {
@@ -1987,7 +1991,7 @@ var Component = __webpack_require__(4)(
   /* cssModules */
   null
 )
-Component.options.__file = "c:\\xampp\\htdocs\\warehouse\\resources\\assets\\js\\components\\MIRSCreate.vue"
+Component.options.__file = "C:\\xampp\\htdocs\\warehouse\\resources\\assets\\js\\components\\MIRSCreate.vue"
 if (Component.esModule && Object.keys(Component.esModule).some(function (key) {return key !== "default" && key !== "__esModule"})) {console.error("named exports are not supported in *.vue files.")}
 if (Component.options.functional) {console.error("[vue-loader] MIRSCreate.vue: functional components are not supported with templates, they should use render functions.")}
 
@@ -2098,7 +2102,7 @@ var Component = __webpack_require__(4)(
   /* cssModules */
   null
 )
-Component.options.__file = "c:\\xampp\\htdocs\\warehouse\\resources\\assets\\js\\components\\MIRSPreview.vue"
+Component.options.__file = "C:\\xampp\\htdocs\\warehouse\\resources\\assets\\js\\components\\MIRSPreview.vue"
 if (Component.esModule && Object.keys(Component.esModule).some(function (key) {return key !== "default" && key !== "__esModule"})) {console.error("named exports are not supported in *.vue files.")}
 if (Component.options.functional) {console.error("[vue-loader] MIRSPreview.vue: functional components are not supported with templates, they should use render functions.")}
 
@@ -2133,7 +2137,7 @@ var Component = __webpack_require__(4)(
   /* cssModules */
   null
 )
-Component.options.__file = "c:\\xampp\\htdocs\\warehouse\\resources\\assets\\js\\components\\MIRSindex.vue"
+Component.options.__file = "C:\\xampp\\htdocs\\warehouse\\resources\\assets\\js\\components\\MIRSindex.vue"
 if (Component.esModule && Object.keys(Component.esModule).some(function (key) {return key !== "default" && key !== "__esModule"})) {console.error("named exports are not supported in *.vue files.")}
 if (Component.options.functional) {console.error("[vue-loader] MIRSindex.vue: functional components are not supported with templates, they should use render functions.")}
 
@@ -2376,7 +2380,7 @@ module.exports={render:function (){var _vm=this;var _h=_vm.$createElement;var _c
       "type": "text",
       "autocomplete": "off",
       "name": "Description",
-      "placeholder": "Search by description"
+      "placeholder": "Find by description"
     },
     domProps: {
       "value": (_vm.SearchDescription)
@@ -2403,7 +2407,7 @@ module.exports={render:function (){var _vm=this;var _h=_vm.$createElement;var _c
       "type": "text",
       "autocomplete": "off",
       "name": "ItemCode",
-      "placeholder": "Search by item code"
+      "placeholder": "Find by item-code"
     },
     domProps: {
       "value": (_vm.ItemCodeSearch)
@@ -2717,7 +2721,7 @@ module.exports={render:function (){var _vm=this;var _h=_vm.$createElement;var _c
     staticClass: "fa fa-th-large"
   }), _vm._v("  Materials Issuance Requisition Slip index\r\n    ")])
 },function (){var _vm=this;var _h=_vm.$createElement;var _c=_vm._self._c||_h;
-  return _c('tr', [_c('th', [_vm._v("MIRSNo")]), _vm._v(" "), _c('th', [_vm._v("Purpose")]), _vm._v(" "), _c('th', [_vm._v("Prepared by")]), _vm._v(" "), _c('th', [_vm._v("Recommended by")]), _vm._v(" "), _c('th', [_vm._v("Approved by")]), _vm._v(" "), _c('th', [_vm._v("Date")]), _vm._v(" "), _c('th', [_vm._v("Status")]), _vm._v(" "), _c('th', [_vm._v("Action")])])
+  return _c('tr', [_c('th', [_vm._v("MIRSNo")]), _vm._v(" "), _c('th', [_vm._v("Purpose")]), _vm._v(" "), _c('th', [_vm._v("Prepared by")]), _vm._v(" "), _c('th', [_vm._v("Recommended by")]), _vm._v(" "), _c('th', [_vm._v("Approved by")]), _vm._v(" "), _c('th', [_vm._v("Date")]), _vm._v(" "), _c('th', [_vm._v("Status")]), _vm._v(" "), _c('th', [_vm._v("View")])])
 }]}
 module.exports.render._withStripped = true
 if (false) {

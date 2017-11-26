@@ -5,22 +5,22 @@
 @section('body')
   <div class="my-rv-container">
     <div class="RV-request-title">
-      <h1>My RV signature <i class="fa fa-pencil"></i> request</h1>
+      <h1><i class="fa fa-pencil"></i> Signature request RV</h1>
     </div>
     <div class="rv-request-table">
       @if (isset($myRVPendingrequest[0]))
       <table>
         <tr>
           <th>RV No.</th>
-          <th>Purpose</th>
           <th>RV Date</th>
+          <th>Purpose</th>
           <th>Action</th>
         </tr>
           @foreach ($myRVPendingrequest as $myRVrequest)
             <tr>
               <td>{{$myRVrequest->RVNo}}</td>
-              <td>{{$myRVrequest->Purpose}}</td>
               <td>{{$myRVrequest->RVDate->format('m/d/Y')}}</td>
+              <td>{{$myRVrequest->Purpose}}</td>
               <td><a href="{{route('RVfullpreviewing',[$myRVrequest->RVNo])}}"><i class="fa fa-eye"></i></a></td>
             </tr>
           @endforeach

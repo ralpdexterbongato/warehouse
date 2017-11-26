@@ -1091,6 +1091,10 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
       var vm = this;
       __WEBPACK_IMPORTED_MODULE_0_axios___default.a.put('/updateMRTQty/' + this.mrtno.MRTNo, { UpdatedQty: this.EditedQty }).then(function (response) {
         console.log(response);
+        vm.fetchdata();
+        if (response.data.error != null) {
+          alert(response.data.error);
+        }
       }, function (error) {
         console.log(error);
         vm.fetchdata();
@@ -1888,7 +1892,7 @@ var Component = __webpack_require__(4)(
   /* cssModules */
   null
 )
-Component.options.__file = "c:\\xampp\\htdocs\\warehouse\\resources\\assets\\js\\components\\MRTPreview.vue"
+Component.options.__file = "C:\\xampp\\htdocs\\warehouse\\resources\\assets\\js\\components\\MRTPreview.vue"
 if (Component.esModule && Object.keys(Component.esModule).some(function (key) {return key !== "default" && key !== "__esModule"})) {console.error("named exports are not supported in *.vue files.")}
 if (Component.options.functional) {console.error("[vue-loader] MRTPreview.vue: functional components are not supported with templates, they should use render functions.")}
 
@@ -1923,7 +1927,7 @@ var Component = __webpack_require__(4)(
   /* cssModules */
   null
 )
-Component.options.__file = "c:\\xampp\\htdocs\\warehouse\\resources\\assets\\js\\components\\MRTcreate.vue"
+Component.options.__file = "C:\\xampp\\htdocs\\warehouse\\resources\\assets\\js\\components\\MRTcreate.vue"
 if (Component.esModule && Object.keys(Component.esModule).some(function (key) {return key !== "default" && key !== "__esModule"})) {console.error("named exports are not supported in *.vue files.")}
 if (Component.options.functional) {console.error("[vue-loader] MRTcreate.vue: functional components are not supported with templates, they should use render functions.")}
 
@@ -1958,7 +1962,7 @@ var Component = __webpack_require__(4)(
   /* cssModules */
   null
 )
-Component.options.__file = "c:\\xampp\\htdocs\\warehouse\\resources\\assets\\js\\components\\MRTindex.vue"
+Component.options.__file = "C:\\xampp\\htdocs\\warehouse\\resources\\assets\\js\\components\\MRTindex.vue"
 if (Component.esModule && Object.keys(Component.esModule).some(function (key) {return key !== "default" && key !== "__esModule"})) {console.error("named exports are not supported in *.vue files.")}
 if (Component.options.functional) {console.error("[vue-loader] MRTindex.vue: functional components are not supported with templates, they should use render functions.")}
 
@@ -2013,7 +2017,7 @@ var Component = __webpack_require__(4)(
   /* cssModules */
   null
 )
-Component.options.__file = "c:\\xampp\\htdocs\\warehouse\\resources\\assets\\js\\components\\myMRTSignatureRequest.vue"
+Component.options.__file = "C:\\xampp\\htdocs\\warehouse\\resources\\assets\\js\\components\\myMRTSignatureRequest.vue"
 if (Component.esModule && Object.keys(Component.esModule).some(function (key) {return key !== "default" && key !== "__esModule"})) {console.error("named exports are not supported in *.vue files.")}
 if (Component.options.functional) {console.error("[vue-loader] myMRTSignatureRequest.vue: functional components are not supported with templates, they should use render functions.")}
 
@@ -2399,7 +2403,7 @@ module.exports={render:function (){var _vm=this;var _h=_vm.$createElement;var _c
     staticClass: "fa fa-angle-right"
   })])]) : _vm._e()], 2)])])
 },staticRenderFns: [function (){var _vm=this;var _h=_vm.$createElement;var _c=_vm._self._c||_h;
-  return _c('tr', [_c('th', [_vm._v("MRTNo")]), _vm._v(" "), _c('th', [_vm._v("Return date")]), _vm._v(" "), _c('th', [_vm._v("Particulars")]), _vm._v(" "), _c('th', [_vm._v("Address To")]), _vm._v(" "), _c('th', [_vm._v("Remarks")]), _vm._v(" "), _c('th', [_vm._v("Open")])])
+  return _c('tr', [_c('th', [_vm._v("MRTNo")]), _vm._v(" "), _c('th', [_vm._v("Return date")]), _vm._v(" "), _c('th', [_vm._v("Particulars")]), _vm._v(" "), _c('th', [_vm._v("Address To")]), _vm._v(" "), _c('th', [_vm._v("Remarks")]), _vm._v(" "), _c('th', [_vm._v("View")])])
 }]}
 module.exports.render._withStripped = true
 if (false) {
@@ -2521,7 +2525,7 @@ module.exports={render:function (){var _vm=this;var _h=_vm.$createElement;var _c
   })]), _vm._v(" "), _c('div', {
     staticClass: "mrt-index-table-container"
   }, [_c('table', [_vm._m(1), _vm._v(" "), _vm._l((_vm.MRTindexData), function(data) {
-    return (data.users[0] != null) ? _c('tr', [_c('td', [_vm._v(_vm._s(data.MRTNo))]), _vm._v(" "), _c('td', [_vm._v(_vm._s(data.MCTNo))]), _vm._v(" "), _c('td', [_vm._v(_vm._s(data.ReturnDate))]), _vm._v(" "), _c('td', [_vm._v(_vm._s(data.Particulars))]), _vm._v(" "), _c('td', [_vm._v(_vm._s(data.AddressTo))]), _vm._v(" "), _c('td', [_vm._v("\n          " + _vm._s(data.users[0].FullName)), _c('br'), _vm._v(" "), (data.users[0].pivot.Signature == '0') ? _c('i', {
+    return (data.users[0] != null) ? _c('tr', [_c('td', [_vm._v(_vm._s(data.MRTNo))]), _vm._v(" "), _c('td', [_vm._v(_vm._s(data.ReturnDate))]), _vm._v(" "), _c('td', [_vm._v(_vm._s(data.MCTNo))]), _vm._v(" "), _c('td', [_vm._v(_vm._s(data.Particulars))]), _vm._v(" "), _c('td', [_vm._v(_vm._s(data.AddressTo))]), _vm._v(" "), _c('td', [_vm._v("\n          " + _vm._s(data.users[0].FullName)), _c('br'), _vm._v(" "), (data.users[0].pivot.Signature == '0') ? _c('i', {
       staticClass: "fa fa-check"
     }) : _vm._e(), _vm._v(" "), (data.users[0].pivot.Signature == '1') ? _c('i', {
       staticClass: "fa fa-times decliner"
@@ -2590,7 +2594,7 @@ module.exports={render:function (){var _vm=this;var _h=_vm.$createElement;var _c
     staticClass: "fa fa-th-large"
   }), _vm._v(" Materials Returned Ticket index")])
 },function (){var _vm=this;var _h=_vm.$createElement;var _c=_vm._self._c||_h;
-  return _c('tr', [_c('th', [_vm._v("MRTNo")]), _vm._v(" "), _c('th', [_vm._v("MCTNo")]), _vm._v(" "), _c('th', [_vm._v("Return Date")]), _vm._v(" "), _c('th', [_vm._v("Particulars")]), _vm._v(" "), _c('th', [_vm._v("Addressed to")]), _vm._v(" "), _c('th', [_vm._v("Received by")]), _vm._v(" "), _c('th', [_vm._v("Returned by")]), _vm._v(" "), _c('th', [_vm._v("Status")]), _vm._v(" "), _c('th', [_vm._v("Show")])])
+  return _c('tr', [_c('th', [_vm._v("MRTNo")]), _vm._v(" "), _c('th', [_vm._v("Date returned")]), _vm._v(" "), _c('th', [_vm._v("MCTNo")]), _vm._v(" "), _c('th', [_vm._v("Particulars")]), _vm._v(" "), _c('th', [_vm._v("Addressed to")]), _vm._v(" "), _c('th', [_vm._v("Received by")]), _vm._v(" "), _c('th', [_vm._v("Returned by")]), _vm._v(" "), _c('th', [_vm._v("Status")]), _vm._v(" "), _c('th', [_vm._v("Show")])])
 }]}
 module.exports.render._withStripped = true
 if (false) {

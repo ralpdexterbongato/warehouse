@@ -12,15 +12,15 @@ MIRS Ready for MCT
       <table>
         <tr>
           <th>MIRS No.</th>
+          <th>MIRS Date</th>
           <th>Purpose</th>
-          <th>Date</th>
-          <th>Action</th>
+          <th>View</th>
         </tr>
         @foreach ($readyformct as $mctReady)
           <tr>
             <td>{{$mctReady->MIRSNo}}</td>
+            <td>{{$mctReady->MIRSDate->format('M, d Y')}}</td>
             <td>{{$mctReady->Purpose}}</td>
-            <td>{{$mctReady->MIRSDate->format('M d,Y')}}</td>
             <td><a href="{{route('full-mirs',[$mctReady->MIRSNo])}}"><i class="fa fa-eye"></i></a></td>
           </tr>
         @endforeach

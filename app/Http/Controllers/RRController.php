@@ -18,6 +18,7 @@ use App\RVMaster;
 use App\Jobs\NewCreatedRRJob;
 use App\PODetail;
 use App\Signatureable;
+use App\Jobs\RRNewAlertReceiver;
 class RRController extends Controller
 {
   public function __construct()
@@ -176,7 +177,7 @@ class RRController extends Controller
     $RRMasterDB->Note=$request->Note;
     $RRMasterDB->save();
     $forSignatures = array(
-      array('user_id' =>Auth::user()->id,'signatureable_id'=>$incremented,'signatureable_type'=>'App\RRMaster','SignatureType'=>'ReceivedBy'),
+      array('user_id' =>$request->Receivedby,'signatureable_id'=>$incremented,'signatureable_type'=>'App\RRMaster','SignatureType'=>'ReceivedBy'),
       array('user_id' =>$request->Verifiedby,'signatureable_id'=>$incremented,'signatureable_type'=>'App\RRMaster','SignatureType'=>'VerifiedBy'),
       array('user_id' =>$request->ReceivedOriginalby,'signatureable_id'=>$incremented,'signatureable_type'=>'App\RRMaster','SignatureType'=>'ReceivedOriginalBy'),
       array('user_id' =>$request->PostedtoBINby,'signatureable_id'=>$incremented,'signatureable_type'=>'App\RRMaster','SignatureType'=>'PostedToBINBy'),
@@ -187,7 +188,7 @@ class RRController extends Controller
     {
       $ForRRconfirmItemsDB[] = array('ItemCode' =>$forconfirmDetail->ItemCode ,'RRNo' =>$incremented ,
       'AccountCode' =>$forconfirmDetail->AccountCode ,'Description' =>$forconfirmDetail->Description ,'UnitCost' =>$forconfirmDetail->UnitCost ,'RRQuantityDelivered' =>$forconfirmDetail->QuantityDelivered,
-      'QuantityAccepted' =>$forconfirmDetail->QuantityAccepted ,'Unit' =>$forconfirmDetail->Unit ,'Amount'=>$forconfirmDetail->Amount);
+      'QuantityAccepted' =>$forconfirmDetail->QuantityAccepted,'QuantityValidator'=>$forconfirmDetail->QuantityAccepted,'Unit' =>$forconfirmDetail->Unit ,'Amount'=>$forconfirmDetail->Amount);
       foreach ($RVDetail as $rvdetail)
       {
         if ($rvdetail->Particulars==$forconfirmDetail->Description)
@@ -200,12 +201,16 @@ class RRController extends Controller
     Signatureable::insert($forSignatures);
     RRconfirmationDetails::insert($ForRRconfirmItemsDB);
     Session::forget('RR-Items-Added');
-
     $NotifableName = array('first' =>$request->Verifiedby,'second'=>$request->ReceivedOriginalby,'third'=>$request->PostedtoBINby);
     $NotifableName=(object)$NotifableName;
     $job = (new NewCreatedRRJob($NotifableName))->delay(Carbon::now()->addSeconds(5));
     dispatch($job);
 
+    $MobileOfReceiver=User::where('id',$request->Receivedby)->value('Mobile');
+    $AlertForReceiver = array('RRNo'=>$incremented,'Mobile'=>$MobileOfReceiver,'RVNo'=>$request->RVNo);
+    $AlertForReceiver=(object)$AlertForReceiver;
+    $job = (new RRNewAlertReceiver($AlertForReceiver))->delay(Carbon::now()->addSeconds(5));
+    dispatch($job);
     return ['redirect'=>route('RRfullpreview',[$incremented])];
   }
   public function StoreRRtoTableWithPO(Request $request)
@@ -242,7 +247,7 @@ class RRController extends Controller
     $RRMasterDB->Note=$request->Note;
     $RRMasterDB->save();
     $forSignatures = array(
-      array('user_id' =>Auth::user()->id,'signatureable_id'=>$incremented,'signatureable_type'=>'App\RRMaster','SignatureType'=>'ReceivedBy'),
+      array('user_id' =>$request->Receivedby,'signatureable_id'=>$incremented,'signatureable_type'=>'App\RRMaster','SignatureType'=>'ReceivedBy'),
       array('user_id' =>$request->Verifiedby,'signatureable_id'=>$incremented,'signatureable_type'=>'App\RRMaster','SignatureType'=>'VerifiedBy'),
       array('user_id' =>$request->ReceivedOriginalby,'signatureable_id'=>$incremented,'signatureable_type'=>'App\RRMaster','SignatureType'=>'ReceivedOriginalBy'),
       array('user_id' =>$request->PostedtoBINby,'signatureable_id'=>$incremented,'signatureable_type'=>'App\RRMaster','SignatureType'=>'PostedToBINBy'),
@@ -253,7 +258,7 @@ class RRController extends Controller
     {
       $ForRRconfirmItemsDB[] = array('ItemCode' =>$forconfirmDetail->ItemCode ,'RRNo' =>$incremented ,
       'AccountCode' =>$forconfirmDetail->AccountCode ,'Description' =>$forconfirmDetail->Description ,'UnitCost' =>$forconfirmDetail->UnitCost ,'RRQuantityDelivered' =>$forconfirmDetail->QuantityDelivered,
-      'QuantityAccepted' =>$forconfirmDetail->QuantityAccepted ,'Unit' =>$forconfirmDetail->Unit ,'Amount' =>$forconfirmDetail->Amount);
+      'QuantityAccepted' =>$forconfirmDetail->QuantityAccepted ,'QuantityValidator'=>$forconfirmDetail->QuantityAccepted,'Unit' =>$forconfirmDetail->Unit ,'Amount' =>$forconfirmDetail->Amount);
       foreach ($FromPODetail as $frompodetail)
       {
         if ($frompodetail->Description==$forconfirmDetail->Description)
@@ -270,6 +275,12 @@ class RRController extends Controller
     $NotifableName = array('first' =>$request->Verifiedby,'second'=>$request->ReceivedOriginalby,'third'=>$request->PostedtoBINby);
     $NotifableName=(object)$NotifableName;
     $job = (new NewCreatedRRJob($NotifableName))->delay(Carbon::now()->addSeconds(5));
+    dispatch($job);
+
+    $MobileOfReceiver=User::where('id',$request->Receivedby)->value('Mobile');
+    $AlertForReceiver = array('RRNo'=>$incremented,'Mobile'=>$MobileOfReceiver,'RVNo'=>$request->RVNo);
+    $AlertForReceiver=(object)$AlertForReceiver;
+    $job = (new RRNewAlertReceiver($AlertForReceiver))->delay(Carbon::now()->addSeconds(5));
     dispatch($job);
     return ['redirect'=>route('RRfullpreview',[$incremented])];
   }
@@ -306,7 +317,7 @@ class RRController extends Controller
   }
   public function RRindexSearchAndFetch(Request $request)
   {
-    return RRMaster::with('users')->where('RRNo','LIKE','%'.$request->RRNo.'%')->orderBy('RRNo','DESC')->paginate(10,['RRNo','Supplier','RVNo','Status']);
+    return RRMaster::with('users')->where('RRNo','LIKE','%'.$request->RRNo.'%')->orderBy('RRNo','DESC')->paginate(10,['RRNo','Supplier','RRDate','Status']);
   }
   public function previewRR($id)
   {
@@ -379,7 +390,7 @@ class RRController extends Controller
   }
   public function RRsignatureRequest()
   {
-    $requestRR=Auth::user()->RRSignatureTurn()->paginate(10,['RRNo','Supplier','Address','RVNo']);
+    $requestRR=Auth::user()->RRSignatureTurn()->paginate(10,['RRNo','RRDate','Supplier','Address','RVNo']);
     return view('Warehouse.RR.myRRrequest',compact('requestRR'));
   }
   public function declineRR($id)
@@ -432,17 +443,19 @@ class RRController extends Controller
     $Auditors=User::where('Role', '5')->whereNotNull('IsActive')->get(['id','FullName']);
     $Managers=User::where('Role','0')->whereNotNull('IsActive')->get(['id','FullName']);
     $Clerks=User::where('Role','6')->whereNotNull('IsActive')->get(['id','FullName']);
+    $AllActiveUsers=User::where('IsActive','0')->get(['id','FullName']);
     $fromRVDetail=RVDetail::where('RVNo',$id)->get(['RVNo','Particulars','Unit','Remarks','ItemCode','AccountCode']);
-    return view('Warehouse.RR.CreateRRNoPO',compact('fromRVDetail','Auditors','Managers','Clerks'));
+    return view('Warehouse.RR.CreateRRNoPO',compact('fromRVDetail','Auditors','AllActiveUsers','Managers','Clerks'));
   }
   public function CreateRRWithPO($id)
   {
     $Auditors=User::where('Role', '5')->whereNotNull('IsActive')->get(['id','FullName']);
     $Managers=User::where('Role','0')->whereNotNull('IsActive')->get(['id','FullName']);
     $Clerks=User::where('Role','6')->whereNotNull('IsActive')->get(['id','FullName']);
+    $AllActiveUsers=User::where('IsActive','0')->get(['id','FullName']);
     $POMaster=POMaster::where('PONo',$id)->get(['Supplier','Address','RVNo','PONo']);
     $fromPODetail=PODetail::where('PONo',$id)->get(['Price','Unit','Description','Amount','PONo','ItemCode','AccountCode']);
-    return view('Warehouse.RR.CreateRRWithPO',compact('POMaster','fromPODetail','Auditors','Managers','Clerks'));
+    return view('Warehouse.RR.CreateRRWithPO',compact('POMaster','fromPODetail','Auditors','Managers','Clerks','AllActiveUsers'));
   }
   public function RRofRVlist($id)
   {

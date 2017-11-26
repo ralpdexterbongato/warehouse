@@ -5,7 +5,7 @@
 @section('body')
   <div class="my-mr-request-container">
     <div class="mr-request-title">
-      <h1>My M.R. signature <i class="fa fa-pencil"></i> request</h1>
+      <h1><i class="fa fa-pencil"></i> Signature request MR</h1>
     </div>
     @if (!empty($MRRequest[0]))
     <div class="mr-table-container">
@@ -16,14 +16,18 @@
           <th>Supplier</th>
           <th>Invoice #</th>
           <th>Warehouse Man</th>
-          <th>Action</th>
+          <th>View</th>
         </tr>
         @foreach ($MRRequest as $mrRequest)
           <tr>
             <td>{{$mrRequest->MRNo}}</td>
             <td>{{$mrRequest->MRDate->format('M d, Y')}}</td>
             <td>{{$mrRequest->Supplier}}</td>
-            <td>{{$mrRequest->Invoice}}</td>
+            @if ($mrRequest->Invoice)
+              <td>{{$mrRequest->Invoice}}</td>
+            @else
+              <td>N/A</td>
+            @endif
             <td>{{$mrRequest->WarehouseMan}}</td>
             <td><a href="{{route('fullMR',[$mrRequest->MRNo])}}"><i class="fa fa-eye"></i></a></td>
           </tr>

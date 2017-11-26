@@ -76,10 +76,7 @@
           </select>
           <input type="number" v-model="Quantity" autocomplete="off" name="Quantity" placeholder="Quantity" min="1" required>
           <input type="text" autocomplete="off" v-model="Remarks" name="Remarks" placeholder="Remarks">
-          <div class="buttons-RV-Item">
-            <button type="button" id="closemodalRV" v-on:click="notforstock=!notforstock">Cancel</button>
-            <button type="submit" id="addtolistRV" v-on:click="notforstock=!notforstock,addToSession()">Add to list</button>
-          </div>
+          <button type="submit" id="addtolistRV" v-on:click="notforstock=!notforstock,addToSession()">Add to list</button>
         </div>
       </div>
     </div>
@@ -185,7 +182,8 @@ import Longpress from 'vue-longpress';
        {
          this.searchDescription(next);
        }
-
+       this.QuantityForWHouse=[];
+       this.RemarksForWHouse=[];
       },
       addToSession()
       {

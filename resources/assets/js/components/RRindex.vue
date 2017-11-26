@@ -12,19 +12,19 @@
     <table>
       <tr>
         <th>RR No.</th>
+        <th>RR Date</th>
         <th>Supplier</th>
-        <th>RV No.</th>
         <th>Received by</th>
         <th>Verified by</th>
-        <th>Received original by</th>
-        <th>Posted to BIN by</th>
+        <th>ReceivedOriginal</th>
+        <th>PostedToBIN by</th>
         <th>Status</th>
-        <th>Action</th>
+        <th>View</th>
       </tr>
-      <tr v-for="result in RRDataResults" v-if="result.users[0]!=null">
+      <tr v-for="result in RRDataResults" v-if="result.users[0]!=null && result.users[1]!=null && result.users[2]!=null && result.users[3]!=null">
           <td>{{result.RRNo}}</td>
+          <td>{{result.RRDate}}</td>
           <td>{{result.Supplier}}</td>
-          <td>{{result.RVNo}}</td>
           <td>
             {{result.users[0].FullName}}<br>
             <i class="fa fa-check" v-if="result.users[0].pivot.Signature=='0'"></i>

@@ -11,18 +11,22 @@
     @if (!empty($unpurchaselist[0]))
     <table>
       <tr>
-        <th>RVNo</th>
+        <th>RV No</th>
+        <th>RV Date</th>
         <th>Purpose</th>
         <th>Budget available</th>
-        <th>RVDate</th>
-        <th>Action</th>
+        <th>View</th>
       </tr>
       @foreach ($unpurchaselist as $listpending)
       <tr>
         <td>{{$listpending->RVNo}}</td>
+        <td>{{$listpending->RVDate->format('M, d Y')}}</td>
         <td>{{$listpending->Purpose}}</td>
-        <td>{{$listpending->BudgetAvailable}}</td>
-        <td>{{$listpending->RVDate->format('M d, Y')}}</td>
+        @if ($listpending->BudgetAvailable)
+          <td>{{$listpending->BudgetAvailable}}</td>
+        @else
+          <td>N/A</td>
+        @endif
         <td><a href="{{route('RVfullpreviewing',[$listpending->RVNo])}}"><i class="fa fa-eye"></i></a></td>
       </tr>
       @endforeach

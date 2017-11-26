@@ -11,14 +11,9 @@
 |
 */
 Route::get('/sendsms','AccountController@sendsms');
-Route::get('/settings-accounts-list','AccountController@GMAccountsList')->name('AccountsListGM');
-Route::get('/settings-admin-list','AccountController@AdminAccountslist')->name('Admin-list');
-Route::get('/settings-other-acc','AccountController@otheraccountslist')->name('otherAccounts');
-Route::get('/settings-manager-accounts-list','AccountController@ManagerAccountsList')->name('AccountlistManagers');
-Route::get('/get-general-managers','AccountController@getallGMAccounts')->name('getGMaccts');
+Route::get('/settings-accounts-list','AccountController@AccountsList')->name('AccountsListGM');
 Route::get('/get-all-managers','AccountController@getallManagers');
-Route::get('/getallAdmin','AccountController@getallAdmin');
-Route::get('/get-other-accounts','AccountController@getOtherAccounts');
+Route::get('/sort-by-role-and-search','AccountController@getSelectedRoleAndSearch');
 Route::get('/fetchDataofSelectedUser/{id}','AccountController@fetchDataofSelectedUser')->name('fetchDataUser');
 Route::put('/update-user-data/{id}','AccountController@updateUser');
 Route::delete('/deleteAccount/{id}','AccountController@deleteAccount');
@@ -28,6 +23,7 @@ Route::get('/search-my-mct-history','AccountController@MyMCTHistoryandSearch');
 Route::get('/search-my-mrt-history','AccountController@MyMRTHistoryandSearch');
 Route::get('/search-my-mr-history','AccountController@MyMRHistoryandSearch');
 Route::get('/search-my-rv-history','AccountController@MyRVHistoryandSearch');
+Route::get('/search-my-rr-history','AccountController@MyRRHistoryandSearch');
 Route::get('/login','AccountController@loginpage')->name('login')->middleware('guest');
 Route::post('/logout','AccountController@logoutAccount')->name('Logging.out');
 Route::post('/login-submit','AccountController@loginSubmit')->name('login-submit');

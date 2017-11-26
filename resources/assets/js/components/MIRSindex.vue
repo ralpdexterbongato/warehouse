@@ -18,7 +18,7 @@
         <th>Approved by</th>
         <th>Date</th>
         <th>Status</th>
-        <th>Action</th>
+        <th>View</th>
       </tr>
       <tr v-for="result in SearchResult" v-if="result.users[0]!=null">
           <td>{{result.MIRSNo}}</td>

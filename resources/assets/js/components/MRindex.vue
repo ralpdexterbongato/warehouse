@@ -17,7 +17,7 @@
           <th>Approved by</th>
           <th>Received by</th>
           <th>Status</th>
-          <th>Show</th>
+          <th>View</th>
         </tr>
         <tr v-for="data in MRindexData" v-if="data.users[0]!=null">
           <td>{{data.MRNo}}</td>
@@ -31,19 +31,16 @@
             {{data.users[0].FullName}}<br>
             <i class="fa fa-check" v-if="data.users[0].pivot.Signature=='0'"></i>
             <i class="fa fa-times decliner" v-else-if="data.users[0].pivot.Signature=='1'"></i>
-            <i class="fa fa-clock-o" v-else></i>
           </td>
           <td>
             {{data.users[1].FullName}}<br>
             <i class="fa fa-check" v-if="((data.users[1].pivot.Signature=='0')||(data.users[3]!=null && data.users[3].pivot.Signature=='0'))"></i>
             <i class="fa fa-times decliner" v-else-if="data.users[1].pivot.Signature=='1'"></i>
-            <i class="fa fa-clock-o" v-else></i>
           </td>
           <td>
             {{data.users[2].FullName}}<br>
             <i class="fa fa-check" v-if="data.users[2].pivot.Signature=='0'"></i>
             <i class="fa fa-times decliner" v-else-if="data.users[2].pivot.Signature=='1'"></i>
-            <i class="fa fa-clock-o" v-else></i>
           </td>
           <td>
             <i class="fa fa-thumbs-up" v-if="data.Status=='0'"></i>

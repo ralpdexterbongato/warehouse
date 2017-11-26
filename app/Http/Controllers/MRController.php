@@ -14,6 +14,7 @@ use Session;
 use Auth;
 use App\Jobs\NewMRCreatedJob;
 use App\Signatureable;
+use App\Jobs\MRApprovedAlert;
 class MRController extends Controller
 {
     public function __construct()
@@ -28,8 +29,23 @@ class MRController extends Controller
        'Receivedby'=>'required|max:2',
        'RRNo'=>'required'
      ]);
-     if (Session::get('MRSession')==null) {
+     if (Session::get('MRSession')==null)
+     {
        return response()->json(['error'=>'Item is required']);
+     }
+     $QtyValidation=RRconfirmationDetails::where('RRNo', $request->RRNo)->get(['id','QuantityValidator','Description']);
+     foreach (Session::get('MRSession') as $items)
+     {
+       foreach ($QtyValidation as $validator)
+       {
+         if ($validator->id==$items->id)
+         {
+            if ($validator->QuantityValidator < $items->Quantity)
+            {
+              return response()->json(['error'=>'The quantity of item '.$items->Description.' must be '.$validator->QuantityValidator.' or below']);
+            }
+         }
+       }
      }
      $year=Carbon::now()->format('y');
      $MRNum=MRMaster::orderBy('MRNo','DESC')->take(1)->value('MRNo');
@@ -81,7 +97,10 @@ class MRController extends Controller
      $ForMRDetailDB = array();
      foreach (Session::get('MRSession') as $items)
      {
-      $ForMRDetailDB[]=array('MRNo' =>$incremented ,'Quantity'=>$items->Quantity,'Unit'=>$items->Unit,'NameDescription'=>$items->Description,'UnitValue'=>$items->UnitCost,'TotalValue'=>$items->Amount,'Remarks'=>$items->Remarks);
+        $ForMRDetailDB[]=array('MRNo' =>$incremented ,'Quantity'=>$items->Quantity,'Unit'=>$items->Unit,'NameDescription'=>$items->Description,'UnitValue'=>$items->UnitCost,'TotalValue'=>$items->Amount,'Remarks'=>$items->Remarks);
+        $confirmationDetail=RRconfirmationDetails::where('id',$items->id)->get(['QuantityValidator']);
+        $newQty=$confirmationDetail[0]->QuantityValidator - $items->Quantity;
+        RRconfirmationDetails::where('id',$items->id)->update(['QuantityValidator'=>$newQty]);
      }
      Signatureable::insert($forSignatures);
      MRDetail::insert($ForMRDetailDB);
@@ -105,7 +124,7 @@ class MRController extends Controller
     }
     public function createMR($id)
     {
-      $RRItemsdetail=RRconfirmationDetails::where('RRNo',$id)->get(['Unit','Description','UnitCost','Amount','ItemCode','RRNo']);
+      $RRItemsdetail=RRconfirmationDetails::where('RRNo',$id)->get(['Unit','Description','UnitCost','Amount','ItemCode','RRNo','id']);
       $allmanager=User::where('Role', '0')->whereNotNull('IsActive')->get(['FullName','id']);
       $AllActiveUsers=User::whereNotNull('IsActive')->orderBy('Role')->get(['FullName','id']);
       return view('Warehouse.MR.CreateMRViews',compact('allmanager','RRItemsdetail','AllActiveUsers'));
@@ -115,7 +134,7 @@ class MRController extends Controller
       $this->validate($request,[
         'Quantity'=>'required|regex:/^[0-9]+$/|numeric|min:1',
       ]);
-      $ItemsRemaining=RRconfirmationDetails::where('RRNo', $request->RRNo)->where('Description',$request->Description)->value('QuantityAccepted');
+      $ItemsRemaining=RRconfirmationDetails::where('RRNo', $request->RRNo)->where('id',$request->id)->value('QuantityValidator');
       if ($request->Quantity > $ItemsRemaining)
       {
         return response()->json(['error'=>'The maximum qty is '.$ItemsRemaining]);
@@ -123,7 +142,7 @@ class MRController extends Controller
       if (Session::has('MRSession')) {
         foreach (Session::get('MRSession') as $key => $items)
         {
-          if ($items->Description == $request->Description )
+          if ($items->id == $request->id )
           {
             $response = ['error'=>'Cannot duplicate items'];
             return response()->json($response);
@@ -133,7 +152,7 @@ class MRController extends Controller
       $cost=$request->UnitCost;
       $qty=$request->Quantity;
       $amt=$cost*$qty;
-      $toSession = array('ItemCode' =>$request->ItemCode,'Quantity' =>$request->Quantity,'Unit' =>$request->Unit,'Description' =>$request->Description,'UnitCost' =>$request->UnitCost,'Amount'=>$amt,'Remarks'=>$request->Remarks);
+      $toSession = array('id'=>$request->id,'ItemCode' =>$request->ItemCode,'Quantity' =>$request->Quantity,'Unit' =>$request->Unit,'Description' =>$request->Description,'UnitCost' =>$request->UnitCost,'Amount'=>$amt,'Remarks'=>$request->Remarks);
       $toSession=(object)$toSession;
       Session::push('MRSession',$toSession);
     }
@@ -177,6 +196,11 @@ class MRController extends Controller
         Signatureable::where('user_id', Auth::user()->id)->where('signatureable_id',$id)->where('signatureable_type', 'App\MRMaster')->where('SignatureType', 'ApprovedBy')->update(['Signature'=>'0']);
         Signatureable::where('signatureable_id',$id)->where('signatureable_type', 'App\MRMaster')->where('SignatureType', 'ApprovalReplacer')->delete();
         $job=(new NewMRCreatedJob($MRMaster[0]->users[2]->id))->delay(Carbon::now()->addSeconds(5));
+        dispatch($job);
+
+        $data = array('MRNo' =>$id,'ReceiverMobile'=>$MRMaster[0]->users[2]->Mobile);
+        $data=(object)$data;
+        $job=(new MRApprovedAlert($data))->delay(Carbon::now()->addSeconds(5));
         dispatch($job);
       }elseif((Auth::user()->id==$MRMaster[0]->users[2]->id)&&($MRMaster[0]->users[2]->pivot->Signature==null))
       {

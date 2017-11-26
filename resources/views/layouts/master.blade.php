@@ -5,8 +5,9 @@
     <meta name="viewport" content="width=device-width, initial-scale=1">
     <meta name="csrf-token" content="{{ csrf_token() }}">
     <meta name="Developers" content="Group 2 IT MDC 2018">
+    <meta name="theme-color" content="#3367D6" />
     <link rel="icon" type="image/png" href="/DesignIMG/logo.png">
-    <link rel="stylesheet" href="/css/mystyle.min.css">
+    <link rel="stylesheet" href="/css/mystyle.css">
     <link rel="stylesheet" href="/css/animate.min.css">
     <link rel="stylesheet" href="/css/bttn.min.css">
     <link rel="stylesheet" href="/css/font-awesome.min.css">

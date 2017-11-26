@@ -28033,6 +28033,7 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
 //
 //
 //
+//
 
 
 
@@ -28383,7 +28384,7 @@ var Component = __webpack_require__(4)(
   /* cssModules */
   null
 )
-Component.options.__file = "c:\\xampp\\htdocs\\warehouse\\resources\\assets\\js\\components\\AddItemToList.vue"
+Component.options.__file = "C:\\xampp\\htdocs\\warehouse\\resources\\assets\\js\\components\\AddItemToList.vue"
 if (Component.esModule && Object.keys(Component.esModule).some(function (key) {return key !== "default" && key !== "__esModule"})) {console.error("named exports are not supported in *.vue files.")}
 if (Component.options.functional) {console.error("[vue-loader] AddItemToList.vue: functional components are not supported with templates, they should use render functions.")}
 
@@ -28443,7 +28444,7 @@ var Component = __webpack_require__(4)(
   /* cssModules */
   null
 )
-Component.options.__file = "c:\\xampp\\htdocs\\warehouse\\resources\\assets\\js\\components\\Welcome.vue"
+Component.options.__file = "C:\\xampp\\htdocs\\warehouse\\resources\\assets\\js\\components\\Welcome.vue"
 if (Component.esModule && Object.keys(Component.esModule).some(function (key) {return key !== "default" && key !== "__esModule"})) {console.error("named exports are not supported in *.vue files.")}
 if (Component.options.functional) {console.error("[vue-loader] Welcome.vue: functional components are not supported with templates, they should use render functions.")}
 
@@ -29065,7 +29066,12 @@ module.exports={render:function (){var _vm=this;var _h=_vm.$createElement;var _c
     staticClass: "fa fa-angle-right"
   })])]) : _vm._e()], 2)])])]) : _c('div', {
     staticClass: "background-pic"
-  })]) : _c('div', {
+  }, [_c('img', {
+    attrs: {
+      "src": "/DesignIMG/truck.jpg",
+      "alt": "img"
+    }
+  })])]) : _c('div', {
     staticClass: "not-found-msg",
     class: _vm.Searching == true ? 'hide' : 'flex'
   }, [_c('h2', [_c('i', {

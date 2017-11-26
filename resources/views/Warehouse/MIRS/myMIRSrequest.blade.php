@@ -4,21 +4,21 @@ MIRS signature request list
 @endsection
 @section('body')
   <div class="MIRS-request-container">
-    <h1>My MIRS signature <i class="fa fa-pencil"></i>request</h1>
+    <h1><i class="fa fa-pencil"></i> Signature request MIRS</h1>
       @if (!empty($myrequestMIRS[0]))
     <div class="mirs-request-table-list">
       <table>
         <tr>
           <th>MIRS No.</th>
+          <th>MIRS Date</th>
           <th>Purpose</th>
-          <th>Date</th>
-          <th>Action</th>
+          <th>View</th>
         </tr>
           @foreach ($myrequestMIRS as $mirsRequest)
           <tr>
             <td>{{$mirsRequest->MIRSNo}}</td>
-            <td>{{$mirsRequest->Purpose}}</td>
             <td>{{$mirsRequest->MIRSDate->format('M d, Y')}}</td>
+            <td>{{$mirsRequest->Purpose}}</td>
             <td><a href="{{route('full-mirs',[$mirsRequest->MIRSNo])}}"><i class="fa fa-eye"></i></a></td>
           </tr>
           @endforeach

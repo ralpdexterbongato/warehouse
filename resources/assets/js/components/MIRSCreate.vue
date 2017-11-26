@@ -65,10 +65,10 @@
         <div class="table-mirs-modalcontain">
           <div class="search-item-bar">
               <div class="search-mirs-modal">
-                <input type="text" autocomplete="off" v-model="SearchDescription" name="Description" @keyup="searchbyDescriptionMIRS()" placeholder="Search by description">
+                <input type="text" autocomplete="off" v-model="SearchDescription" name="Description" @keyup="searchbyDescriptionMIRS()" placeholder="Find by description">
               </div>
               <div class="search-mirs-modal">
-                <input type="text" autocomplete="off" name="ItemCode" @keyup="searchbyItemCode()" v-model="ItemCodeSearch" placeholder="Search by item code">
+                <input type="text" autocomplete="off" name="ItemCode" @keyup="searchbyItemCode()" v-model="ItemCodeSearch" placeholder="Find by item-code">
               </div>
           </div>
           <div class="modal-search-results">
@@ -245,10 +245,14 @@ import axios from 'axios';
         changePageCode(page){
          this.Pagination.current_page = page;
          this.searchbyItemCode(page);
+         this.Quantity=[];
+         this.Remarks=[];
        },
        changePage(page){
         this.Pagination.current_page = page;
         this.searchbyDescriptionMIRS(page);
+        this.Quantity=[];
+        this.Remarks=[];
       },
      },
      created:function(){

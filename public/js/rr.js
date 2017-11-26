@@ -1029,6 +1029,10 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
 //
 //
 //
+//
+//
+//
+//
 
 
 
@@ -1046,6 +1050,7 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
       laravelerrors: [],
       ownerrors: '',
       successAlerts: '',
+      ReceivedBy: null,
       Verifiedby: null,
       ReceivedOriginalby: null,
       PostedtoBINby: null,
@@ -1059,7 +1064,7 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
     };
   },
 
-  props: ['fromrvdetail', 'managers', 'auditors', 'clerks'],
+  props: ['fromrvdetail', 'managers', 'auditors', 'clerks', 'allusers'],
   methods: {
     submitTosession: function submitTosession(particular, unit, count) {
       var vm = this;
@@ -1116,6 +1121,7 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
       this.HideBtn = true;
       var vm = this;
       __WEBPACK_IMPORTED_MODULE_0_axios___default.a.post('/save-rr-no-po-to-db', {
+        Receivedby: this.ReceivedBy,
         Verifiedby: this.Verifiedby,
         ReceivedOriginalby: this.ReceivedOriginalby,
         PostedtoBINby: this.PostedtoBINby,
@@ -1262,6 +1268,10 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
 //
 //
 //
+//
+//
+//
+//
 
 
 
@@ -1279,6 +1289,7 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
       Carrier: '',
       DeliveryReceiptNo: '',
       Note: '',
+      ReceivedBy: null,
       Verifiedby: null,
       ReceivedOriginalby: null,
       PostedtoBINby: null,
@@ -1286,7 +1297,7 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
     };
   },
 
-  props: ['pomasters', 'rrvalidatorwpo', 'auditors', 'managers', 'clerks'],
+  props: ['pomasters', 'rrvalidatorwpo', 'auditors', 'managers', 'clerks', 'allusers'],
   methods: {
     addtosession: function addtosession(data, count) {
       var vm = this;
@@ -1345,6 +1356,7 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
       this.HideSubmitBtn = true;
       var vm = this;
       __WEBPACK_IMPORTED_MODULE_0_axios___default.a.post('/save-rr-with-po-to-db', {
+        Receivedby: this.ReceivedBy,
         Verifiedby: this.Verifiedby,
         ReceivedOriginalby: this.ReceivedOriginalby,
         PostedtoBINby: this.PostedtoBINby,
@@ -1984,7 +1996,7 @@ var Component = __webpack_require__(4)(
   /* cssModules */
   null
 )
-Component.options.__file = "c:\\xampp\\htdocs\\warehouse\\resources\\assets\\js\\components\\CreateRRNoPO.vue"
+Component.options.__file = "C:\\xampp\\htdocs\\warehouse\\resources\\assets\\js\\components\\CreateRRNoPO.vue"
 if (Component.esModule && Object.keys(Component.esModule).some(function (key) {return key !== "default" && key !== "__esModule"})) {console.error("named exports are not supported in *.vue files.")}
 if (Component.options.functional) {console.error("[vue-loader] CreateRRNoPO.vue: functional components are not supported with templates, they should use render functions.")}
 
@@ -2019,7 +2031,7 @@ var Component = __webpack_require__(4)(
   /* cssModules */
   null
 )
-Component.options.__file = "c:\\xampp\\htdocs\\warehouse\\resources\\assets\\js\\components\\CreateRRWithPO.vue"
+Component.options.__file = "C:\\xampp\\htdocs\\warehouse\\resources\\assets\\js\\components\\CreateRRWithPO.vue"
 if (Component.esModule && Object.keys(Component.esModule).some(function (key) {return key !== "default" && key !== "__esModule"})) {console.error("named exports are not supported in *.vue files.")}
 if (Component.options.functional) {console.error("[vue-loader] CreateRRWithPO.vue: functional components are not supported with templates, they should use render functions.")}
 
@@ -2150,7 +2162,7 @@ var Component = __webpack_require__(4)(
   /* cssModules */
   null
 )
-Component.options.__file = "c:\\xampp\\htdocs\\warehouse\\resources\\assets\\js\\components\\RRfullpreview.vue"
+Component.options.__file = "C:\\xampp\\htdocs\\warehouse\\resources\\assets\\js\\components\\RRfullpreview.vue"
 if (Component.esModule && Object.keys(Component.esModule).some(function (key) {return key !== "default" && key !== "__esModule"})) {console.error("named exports are not supported in *.vue files.")}
 if (Component.options.functional) {console.error("[vue-loader] RRfullpreview.vue: functional components are not supported with templates, they should use render functions.")}
 
@@ -2185,7 +2197,7 @@ var Component = __webpack_require__(4)(
   /* cssModules */
   null
 )
-Component.options.__file = "c:\\xampp\\htdocs\\warehouse\\resources\\assets\\js\\components\\RRindex.vue"
+Component.options.__file = "C:\\xampp\\htdocs\\warehouse\\resources\\assets\\js\\components\\RRindex.vue"
 if (Component.esModule && Object.keys(Component.esModule).some(function (key) {return key !== "default" && key !== "__esModule"})) {console.error("named exports are not supported in *.vue files.")}
 if (Component.options.functional) {console.error("[vue-loader] RRindex.vue: functional components are not supported with templates, they should use render functions.")}
 
@@ -2466,6 +2478,40 @@ module.exports={render:function (){var _vm=this;var _h=_vm.$createElement;var _c
       }
     }
   }), _vm._v(" "), _c('select', {
+    directives: [{
+      name: "model",
+      rawName: "v-model",
+      value: (_vm.ReceivedBy),
+      expression: "ReceivedBy"
+    }],
+    class: [_vm.ReceivedBy != null ? 'black' : ''],
+    attrs: {
+      "name": "ReceivedBy"
+    },
+    on: {
+      "change": function($event) {
+        var $$selectedVal = Array.prototype.filter.call($event.target.options, function(o) {
+          return o.selected
+        }).map(function(o) {
+          var val = "_value" in o ? o._value : o.value;
+          return val
+        });
+        _vm.ReceivedBy = $event.target.multiple ? $$selectedVal : $$selectedVal[0]
+      }
+    }
+  }, [_c('option', {
+    staticClass: "gray",
+    attrs: {
+      "value": "null"
+    }
+  }, [_vm._v("Received by")]), _vm._v(" "), _vm._l((_vm.allusers), function(user) {
+    return _c('option', {
+      staticClass: "black",
+      domProps: {
+        "value": user.id
+      }
+    }, [_vm._v(_vm._s(user.FullName))])
+  })], 2), _vm._v(" "), _c('select', {
     directives: [{
       name: "model",
       rawName: "v-model",
@@ -2862,7 +2908,6 @@ module.exports={render:function (){var _vm=this;var _h=_vm.$createElement;var _c
   }) : _vm._e()]), _vm._v(" "), _c('p', [_vm._v(_vm._s(_vm.RRMaster.users[3].Position))])])])])])])]) : _vm._e()
 },staticRenderFns: [function (){var _vm=this;var _h=_vm.$createElement;var _c=_vm._self._c||_h;
   return _c('button', {
-    staticClass: "bttn-unite bttn-xs bttn-primary",
     attrs: {
       "type": "submit",
       "name": "RRNo",
@@ -2873,7 +2918,6 @@ module.exports={render:function (){var _vm=this;var _h=_vm.$createElement;var _c
   }), _vm._v(" print")])
 },function (){var _vm=this;var _h=_vm.$createElement;var _c=_vm._self._c||_h;
   return _c('button', {
-    staticClass: "bttn-unite bttn-xs bttn-primary",
     attrs: {
       "type": "button",
       "id": "full-mr-preview-btn"
@@ -2883,7 +2927,7 @@ module.exports={render:function (){var _vm=this;var _h=_vm.$createElement;var _c
   }), _vm._v(" M.R. list")])
 },function (){var _vm=this;var _h=_vm.$createElement;var _c=_vm._self._c||_h;
   return _c('button', {
-    staticClass: "make-mr bttn-unite bttn-xs bttn-primary",
+    staticClass: "make-mr",
     attrs: {
       "type": "button"
     }
@@ -3064,6 +3108,37 @@ module.exports={render:function (){var _vm=this;var _h=_vm.$createElement;var _c
       }
     }
   }), _vm._v(" "), _c('select', {
+    directives: [{
+      name: "model",
+      rawName: "v-model",
+      value: (_vm.ReceivedBy),
+      expression: "ReceivedBy"
+    }],
+    class: [_vm.ReceivedBy != null ? 'black' : ''],
+    on: {
+      "change": function($event) {
+        var $$selectedVal = Array.prototype.filter.call($event.target.options, function(o) {
+          return o.selected
+        }).map(function(o) {
+          var val = "_value" in o ? o._value : o.value;
+          return val
+        });
+        _vm.ReceivedBy = $event.target.multiple ? $$selectedVal : $$selectedVal[0]
+      }
+    }
+  }, [_c('option', {
+    staticClass: "gray",
+    domProps: {
+      "value": null
+    }
+  }, [_vm._v("Received by")]), _vm._v(" "), _vm._l((_vm.allusers), function(user) {
+    return _c('option', {
+      staticClass: "black",
+      domProps: {
+        "value": user.id
+      }
+    }, [_vm._v(_vm._s(user.FullName))])
+  })], 2), _vm._v(" "), _c('select', {
     directives: [{
       name: "model",
       rawName: "v-model",
@@ -3334,7 +3409,7 @@ module.exports={render:function (){var _vm=this;var _h=_vm.$createElement;var _c
   })])])]), _vm._v(" "), _c('div', {
     staticClass: "index-RR-table-container"
   }, [_c('table', [_vm._m(1), _vm._v(" "), _vm._l((_vm.RRDataResults), function(result) {
-    return (result.users[0] != null) ? _c('tr', [_c('td', [_vm._v(_vm._s(result.RRNo))]), _vm._v(" "), _c('td', [_vm._v(_vm._s(result.Supplier))]), _vm._v(" "), _c('td', [_vm._v(_vm._s(result.RVNo))]), _vm._v(" "), _c('td', [_vm._v("\r\n            " + _vm._s(result.users[0].FullName)), _c('br'), _vm._v(" "), (result.users[0].pivot.Signature == '0') ? _c('i', {
+    return (result.users[0] != null && result.users[1] != null && result.users[2] != null && result.users[3] != null) ? _c('tr', [_c('td', [_vm._v(_vm._s(result.RRNo))]), _vm._v(" "), _c('td', [_vm._v(_vm._s(result.RRDate))]), _vm._v(" "), _c('td', [_vm._v(_vm._s(result.Supplier))]), _vm._v(" "), _c('td', [_vm._v("\r\n            " + _vm._s(result.users[0].FullName)), _c('br'), _vm._v(" "), (result.users[0].pivot.Signature == '0') ? _c('i', {
       staticClass: "fa fa-check"
     }) : (result.users[0].pivot.Signature == '1') ? _c('i', {
       staticClass: "fa fa-times index-decline"
@@ -3411,7 +3486,7 @@ module.exports={render:function (){var _vm=this;var _h=_vm.$createElement;var _c
     staticClass: "fa fa-th-large"
   }), _vm._v(" Receiving Report index")])
 },function (){var _vm=this;var _h=_vm.$createElement;var _c=_vm._self._c||_h;
-  return _c('tr', [_c('th', [_vm._v("RR No.")]), _vm._v(" "), _c('th', [_vm._v("Supplier")]), _vm._v(" "), _c('th', [_vm._v("RV No.")]), _vm._v(" "), _c('th', [_vm._v("Received by")]), _vm._v(" "), _c('th', [_vm._v("Verified by")]), _vm._v(" "), _c('th', [_vm._v("Received original by")]), _vm._v(" "), _c('th', [_vm._v("Posted to BIN by")]), _vm._v(" "), _c('th', [_vm._v("Status")]), _vm._v(" "), _c('th', [_vm._v("Action")])])
+  return _c('tr', [_c('th', [_vm._v("RR No.")]), _vm._v(" "), _c('th', [_vm._v("RR Date")]), _vm._v(" "), _c('th', [_vm._v("Supplier")]), _vm._v(" "), _c('th', [_vm._v("Received by")]), _vm._v(" "), _c('th', [_vm._v("Verified by")]), _vm._v(" "), _c('th', [_vm._v("ReceivedOriginal")]), _vm._v(" "), _c('th', [_vm._v("PostedToBIN by")]), _vm._v(" "), _c('th', [_vm._v("Status")]), _vm._v(" "), _c('th', [_vm._v("View")])])
 }]}
 module.exports.render._withStripped = true
 if (false) {

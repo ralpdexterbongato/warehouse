@@ -18,7 +18,7 @@ class AccountController extends Controller
 {
     public function __construct()
     {
-      $this->middleware('IsAdmin',['except'=>['loginpage','sendsms','getCurrentAssigned','UpdateManagerTakePlace','getActiveManager','toManagerTakePlacePage','fetchDataofSelectedUser','MyRVHistoryandSearch','MyMRHistoryandSearch','MyMRTHistoryandSearch','MyMCTHistoryandSearch','MyMIRSHistoryandSearch','ShowMyHistoryPage','loginSubmit','logoutAccount']]);
+      $this->middleware('IsAdmin',['except'=>['getSelectedRoleAndSearch','loginpage','sendsms','getCurrentAssigned','UpdateManagerTakePlace','getActiveManager','toManagerTakePlacePage','fetchDataofSelectedUser','MyRVHistoryandSearch','MyMRHistoryandSearch','MyMRTHistoryandSearch','MyMCTHistoryandSearch','MyMIRSHistoryandSearch','ShowMyHistoryPage','loginSubmit','logoutAccount']]);
     }
     // public function sendsms()
     // {
@@ -52,39 +52,24 @@ class AccountController extends Controller
       Auth::logout();
       return ['redirect'=>route('login')];
     }
-    public function GMAccountsList()
+    public function AccountsList()
     {
       return view('Warehouse.Account.ManageAccounts');
     }
-    public function ManagerAccountsList()
-    {
-      return view('Warehouse.Account.ManageAccountsManagers');
-    }
-    public function AdminAccountslist()
-    {
-      return view('Warehouse.Account.ManageAccountsAdmins');
-    }
-    public function otheraccountslist()
-    {
-      return view('Warehouse.Account.ManageAccountsOther');
-    }
-
     //vue js
-    public function getallGMAccounts()
-    {
-      return User::orderBy('id','DESC')->where('Role','2')->paginate(5,['id','FullName','Signature','IsActive','Username','Mobile']);
-    }
     public function getallManagers()
     {
-      return User::orderBy('id','DESC')->where('Role','0')->paginate(5,['id','FullName','Signature','IsActive','Username','Mobile']);
+      return User::where('Role', '0')->where('IsActive', '0')->get(['id','FullName']);
     }
-    public function getallAdmin()
+    public function getSelectedRoleAndSearch(Request $request)
     {
-      return User::orderBy('id','DESC')->where('Role','1')->paginate(5,['id','FullName','Signature','IsActive','Username','Mobile']);
-    }
-    public function getOtherAccounts()
-    {
-      return User::orderBy('id','DESC')->where('Role','3')->orWhere('Role', '4')->orWhere('Role','5')->orWhere('Role','6')->orWhere('Role','7')->orWhere('Role','8')->paginate(5,['id','FullName','Signature','IsActive','Username','Mobile']);
+      if ($request->Role=='')
+      {
+        return User::orderBy('id','DESC')->where('FullName','LIKE','%'.$request->FullName.'%')->paginate(5,['id','FullName','Username','Signature','IsActive','Mobile']);
+      }else
+      {
+        return User::orderBy('id','DESC')->where('Role', $request->Role)->where('FullName', 'LIKE','%'.$request->FullName.'%')->paginate(5,['id','FullName','Username','Signature','IsActive','Mobile']);
+      }
     }
     public function ShowMyHistoryPage(Request $request)
     {
@@ -116,6 +101,11 @@ class AccountController extends Controller
     {
       $user = User::find($request->Requisitioner);
       return $rvhistory=$user->RVHistory($request->YearMonth)->paginate(5);
+    }
+    public function MyRRHistoryandSearch(Request $request)
+    {
+      $user = User::find($request->ReceivedById);
+      return $rrhistory=$user->RRHistory($request->YearMonth)->paginate(5);
     }
     public function fetchDataofSelectedUser($id)
     {

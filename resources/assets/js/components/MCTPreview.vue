@@ -21,7 +21,7 @@
       <span v-else-if="MRTCheck!=null">
         <div class="View-MRT-btn">
           <div class="mrt-done">
-           <a :href="'/mrt-preview-page/'+MRTCheck"><button type="submit"><i class="fa fa-eye eyesicon"></i> View MRT</button></a>
+           <a :href="'/mrt-preview-page/'+MRTCheck"><button type="submit"><i class="fa fa-eye eyesicon"></i> MRT</button></a>
           </div>
         </div>
       </span>

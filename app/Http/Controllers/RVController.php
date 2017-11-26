@@ -16,6 +16,7 @@ use App\MaterialsTicketDetail;
 use App\Jobs\NewRVCreatedJob;
 use App\Jobs\NewRVApprovedJob;
 use App\Jobs\RVApprovalReplacer;
+use App\Jobs\RVManagerReplacer;
 use App\Signatureable;
 class RVController extends Controller
 {
@@ -207,7 +208,7 @@ class RVController extends Controller
     }
     public function declineRV($id)
     {
-      Signatureable::where('signatureable_id', $id)->where('user_id', Auth::user()->id)->update(['Signature'=>'1']);
+      Signatureable::where('signatureable_id', $id)->where('signatureable_type', 'App\RVMaster')->where('user_id', Auth::user()->id)->update(['Signature'=>'1']);
       RVMaster::where('RVNo', $id)->update(['Status'=>'1']);
     }
     public function searchRV(Request $request)
@@ -261,14 +262,14 @@ class RVController extends Controller
     }
     public function cancelSignatureApproveInBehalf($id)
     {
-      Signatureable::where('signatureable_id', $id)->where('SignatureType','ApprovalReplacer')->where('user_id', Auth::user()->id)->delete();
+      Signatureable::where('signatureable_id', $id)->where('signatureable_type', 'App\RVMaster')->where('SignatureType','ApprovalReplacer')->where('user_id', Auth::user()->id)->delete();
     }
     public function AcceptSignatureBehalf($id)
     {
       RVMaster::where('RVNo', $id)->update(['SignatureTurn'=>'4','Status'=>'0']);
-      Signatureable::where('signatureable_id', $id)->where('SignatureType','ApprovalReplacer')->where('user_id', Auth::user()->id)->update(['Signature'=>'0']);
-      $RequisitionerId=Signatureable::where('signatureable_id', $id)->where('SignatureType','Requisitioner')->get(['user_id']);
-      $GMID=Signatureable::where('signatureable_id', $id)->where('SignatureType','ApprovedBy')->get(['user_id']);
+      Signatureable::where('signatureable_id', $id)->where('signatureable_type', 'App\RVMaster')->where('SignatureType','ApprovalReplacer')->where('user_id', Auth::user()->id)->update(['Signature'=>'0']);
+      $RequisitionerId=Signatureable::where('signatureable_id', $id)->where('signatureable_type', 'App\RVMaster')->where('SignatureType','Requisitioner')->get(['user_id']);
+      $GMID=Signatureable::where('signatureable_id', $id)->where('signatureable_type', 'App\RVMaster')->where('SignatureType','ApprovedBy')->get(['user_id']);
 
       $RequisitionerMobile=User::where('id',$RequisitionerId[0]->user_id)->get(['Mobile']);
       $GMMoble=User::where('id',$GMID[0]->user_id)->get(['Mobile']);
@@ -309,17 +310,26 @@ class RVController extends Controller
     }
     public function cancelrequestsentReplacer($id)
     {
-      Signatureable::where('signatureable_id', $id)->where('SignatureType','ManagerReplacer')->delete();
+      RVMaster::where('RVNo', $id)->update(['SignatureTurn'=>'1']);
+      Signatureable::where('signatureable_id', $id)->where('signatureable_type', 'App\RVMaster')->where('SignatureType','ManagerReplacer')->delete();
     }
     public function AcceptManagerReplacer($id)
     {
       RVMaster::where('RVNo', $id)->update(['SignatureTurn'=>'2']);
-      Signatureable::where('signatureable_id', $id)->where('SignatureType','ManagerReplacer')->where('user_id', Auth::user()->id)->update(['Signature'=>'0']);
-      $BudgetOfficerID=Signatureable::where('signatureable_id', $id)->where('SignatureType','BudgetOfficer')->get(['user_id']);
+      Signatureable::where('signatureable_id', $id)->where('signatureable_type', 'App\RVMaster')->where('SignatureType','ManagerReplacer')->where('user_id', Auth::user()->id)->update(['Signature'=>'0']);
+      $BudgetOfficerID=Signatureable::where('signatureable_id', $id)->where('signatureable_type', 'App\RVMaster')->where('SignatureType','BudgetOfficer')->get(['user_id']);
       $NotifyThisPerson = array('NotificReceiver' => $BudgetOfficerID[0]->user_id);
       $NotifyThisPerson=(object)$NotifyThisPerson;
       $job = (new NewRVCreatedJob($NotifyThisPerson))->delay(Carbon::now()->addSeconds(5));
       dispatch($job);
+
+      $RealSignaturerId=Signatureable::where('signatureable_id', $id)->where('signatureable_type', 'App\RVMaster')->where('SignatureType','RecommendedBy')->value('user_id');
+      $RealSignaturerMobile=User::where('id', $RealSignaturerId)->value('Mobile');
+      $data = array('Mobile' =>$RealSignaturerMobile,'RVNo'=>$id,'Replacer'=>Auth::user()->FullName);
+      $data=(object)$data;
+      $job = (new RVManagerReplacer($data))->delay(Carbon::now()->addSeconds(5));
+      dispatch($job);
+
       return null;
     }
     public function savePendingRemark($id,Request $request)

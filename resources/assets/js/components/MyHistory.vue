@@ -5,11 +5,12 @@
       History
     </div>
     <ul>
-      <li><button type="button" class="bttn-fill bttn-sm bttn-primary":class="[mirsbtn==true?'active':'']" v-on:click="mirsbtn=true,mctbtn=false,mrtbtn=false,mrbtn=false,rvbtn=false,searchMIRS(1)">MIRS</button></li>
-      <li><button type="button" class="bttn-fill bttn-sm bttn-primary":class="[mctbtn==true?'active':'']" v-on:click="mirsbtn=false,mctbtn=true,mrtbtn=false,mrbtn=false,rvbtn=false,searchMCT(1)">MCT</button></li>
-      <li><button type="button" class="bttn-fill bttn-sm bttn-primary":class="[mrtbtn==true?'active':'']"v-on:click="mirsbtn=false,mctbtn=false,mrtbtn=true,mrbtn=false,rvbtn=false,searchMRT(1)" >MRT</button></li>
-      <li><button type="button" class="bttn-fill bttn-sm bttn-primary":class="[mrbtn==true?'active':'']" v-on:click="mirsbtn=false,mctbtn=false,mrtbtn=false,mrbtn=true,rvbtn=false,searchMR(1)">MR</button></li>
-      <li><button type="button" class="bttn-fill bttn-sm bttn-primary":class="[rvbtn==true?'active':'']" v-on:click="mirsbtn=false,mctbtn=false,mrtbtn=false,mrbtn=false,rvbtn=true,searchRV(1)">RV</button></li>
+      <li><button type="button" class="bttn-fill bttn-sm bttn-primary":class="[mirsbtn==true?'active':'']" v-on:click="mirsbtn=true,mctbtn=false,mrtbtn=false,mrbtn=false,rvbtn=false,rrbtn=false,searchMIRS(1)">MIRS</button></li>
+      <li><button type="button" class="bttn-fill bttn-sm bttn-primary":class="[mctbtn==true?'active':'']" v-on:click="mirsbtn=false,mctbtn=true,mrtbtn=false,mrbtn=false,rvbtn=false,rrbtn=false,searchMCT(1)">MCT</button></li>
+      <li><button type="button" class="bttn-fill bttn-sm bttn-primary":class="[mrtbtn==true?'active':'']"v-on:click="mirsbtn=false,mctbtn=false,mrtbtn=true,mrbtn=false,rvbtn=false,rrbtn=false,searchMRT(1)" >MRT</button></li>
+      <li><button type="button" class="bttn-fill bttn-sm bttn-primary":class="[mrbtn==true?'active':'']" v-on:click="mirsbtn=false,mctbtn=false,mrtbtn=false,mrbtn=true,rvbtn=false,rrbtn=false,searchMR(1)">MR</button></li>
+      <li><button type="button" class="bttn-fill bttn-sm bttn-primary":class="[rvbtn==true?'active':'']" v-on:click="mirsbtn=false,mctbtn=false,mrtbtn=false,mrbtn=false,rvbtn=true,rrbtn=false,searchRV(1)">RV</button></li>
+      <li><button type="button" class="bttn-fill bttn-sm bttn-primary":class="[rrbtn==true?'active':'']" v-on:click="mirsbtn=false,mctbtn=false,mrtbtn=false,mrbtn=false,rvbtn=false,rrbtn=true,searchRR(1)">RR</button></li>
     </ul>
   </div>
   <div class="searchbar-month-history">
@@ -128,6 +129,26 @@
         <td><a :href="'/RVfullview/'+rv.RVNo"><i class="fa fa-eye"></i></a></td>
       </tr>
     </table>
+    <table v-if="rrbtn==true">
+      <tr>
+        <th>RR No</th>
+        <th>RR Date</th>
+        <th>RV No</th>
+        <th>Status</th>
+        <th>Show</th>
+      </tr>
+      <tr v-for="rr in rrResults">
+        <td>{{rr.RRNo}}</td>
+        <td>{{rr.RRDate}}</td>
+        <td>{{rr.RVNo}}</td>
+        <td>
+          <i class="fa fa-thumbs-up" v-if="rr.Status=='0'"></i>
+          <i class="fa fa-times decliner" v-else-if="rr.Status=='1'"></i>
+          <i class="fa fa-clock-o" v-else></i>
+        </td>
+        <td><a :href="'/RR-fullpreview/'+rr.RRNo"><i class="fa fa-eye"></i></a></td>
+      </tr>
+    </table>
     <div class="paginate-container">
       <ul class="pagination">
         <li v-if="pagination.current_page > 1">
@@ -158,11 +179,13 @@
           mrtResults:[],
           mrResults:[],
           rvResults:[],
+          rrResults:[],
           mirsbtn:true,
           mctbtn:false,
           mrbtn:false,
           mrtbtn:false,
           rvbtn:false,
+          rrbtn:false,
           pagination:[],
           offset:4,
         }
@@ -259,6 +282,24 @@
            Vue.set(vm.$data,'pagination',response.data);
          });
        },
+       searchRR(page)
+       {
+         if (this.searchID==null)
+         {
+           var ReceiverId=this.user.id;
+         }else
+         {
+           var ReceiverId=this.searchID;
+         }
+         var vm=this;
+         axios.get(`/search-my-rr-history?ReceivedById=`+ReceiverId+`&YearMonth=`+this.searchmonth+`&page=`+page,{
+         }).then(function(response)
+         {
+           console.log(response);
+           Vue.set(vm.$data,'rrResults',response.data.data);
+           Vue.set(vm.$data,'pagination',response.data);
+         });
+       },
        changepage(next)
        {
          this.pagination.current_page = next;
@@ -277,6 +318,9 @@
          }else if (this.rvbtn==true)
          {
            this.searchRV(next);
+         }else if (this.rrbtn==true)
+         {
+           this.searchRR(next);
          }
        },
        NewNameSelected()
@@ -296,6 +340,9 @@
          }else if (this.rvbtn==true)
          {
            this.searchRV(1);
+         }else if (this.rrbtn==true)
+         {
+           this.searchRR(1);
          }
        }
 

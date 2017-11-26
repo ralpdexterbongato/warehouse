@@ -7,7 +7,7 @@
         <th>Particulars</th>
         <th>Address To</th>
         <th>Remarks</th>
-        <th>Open</th>
+        <th>View</th>
       </tr>
       <tr v-for="mrt in MRTrequests">
         <td>{{mrt.MRTNo}}</td>

@@ -55,6 +55,10 @@
         <input autocomplete="off" type="text" name="Carrier" v-model="Carrier" placeholder="Carrier (optional)">
         <input autocomplete="off" type="text" name="DeliveryReceiptNo" v-model="DeliveryReceiptNo" placeholder="Delivery Receipt No. (optional)">
         <input autocomplete="off" type="text" name="Note" v-model="Note" placeholder="Note (optional)">
+        <select name="ReceivedBy" v-model="ReceivedBy" :class="[ReceivedBy!=null ?'black':'']">
+          <option value="null" class="gray">Received by</option>
+          <option class="black" v-for="user in allusers" v-bind:value="user.id">{{user.FullName}}</option>
+        </select>
         <select name="Verifiedby" v-model="Verifiedby" :class="[Verifiedby!=null ?'black':'']">
           <option value="null" class="gray">Verified by</option>
           <option class="black" v-for="manager in managers" v-bind:value="manager.id">{{manager.FullName}}</option>
@@ -126,6 +130,7 @@ import Longpress from 'vue-longpress'
         laravelerrors:[],
         ownerrors:'',
         successAlerts:'',
+        ReceivedBy:null,
         Verifiedby:null,
         ReceivedOriginalby:null,
         PostedtoBINby:null,
@@ -138,7 +143,7 @@ import Longpress from 'vue-longpress'
         HideBtn:false,
       }
     },
-     props: ['fromrvdetail','managers','auditors','clerks'],
+     props: ['fromrvdetail','managers','auditors','clerks','allusers'],
      methods: {
        submitTosession(particular,unit,count)
        {
@@ -205,6 +210,7 @@ import Longpress from 'vue-longpress'
          this.HideBtn=true;
          var vm=this;
          axios.post(`/save-rr-no-po-to-db`,{
+           Receivedby:this.ReceivedBy,
            Verifiedby:this.Verifiedby,
            ReceivedOriginalby:this.ReceivedOriginalby,
            PostedtoBINby:this.PostedtoBINby,

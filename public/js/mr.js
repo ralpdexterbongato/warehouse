@@ -1042,6 +1042,7 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
     addtoSession: function addtoSession(datas) {
       var vm = this;
       __WEBPACK_IMPORTED_MODULE_0_axios___default.a.post('/addSession-MR', {
+        id: datas.id,
         ItemCode: datas.ItemCode,
         Quantity: this.Quantity[datas.ItemCode],
         Unit: datas.Unit,
@@ -1473,9 +1474,6 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
 //
 //
 //
-//
-//
-//
 
 
 /* harmony default export */ __webpack_exports__["default"] = ({
@@ -1754,7 +1752,7 @@ var Component = __webpack_require__(4)(
   /* cssModules */
   null
 )
-Component.options.__file = "c:\\xampp\\htdocs\\warehouse\\resources\\assets\\js\\components\\CreateMRViews.vue"
+Component.options.__file = "C:\\xampp\\htdocs\\warehouse\\resources\\assets\\js\\components\\CreateMRViews.vue"
 if (Component.esModule && Object.keys(Component.esModule).some(function (key) {return key !== "default" && key !== "__esModule"})) {console.error("named exports are not supported in *.vue files.")}
 if (Component.options.functional) {console.error("[vue-loader] CreateMRViews.vue: functional components are not supported with templates, they should use render functions.")}
 
@@ -1865,7 +1863,7 @@ var Component = __webpack_require__(4)(
   /* cssModules */
   null
 )
-Component.options.__file = "c:\\xampp\\htdocs\\warehouse\\resources\\assets\\js\\components\\MRPreview.vue"
+Component.options.__file = "C:\\xampp\\htdocs\\warehouse\\resources\\assets\\js\\components\\MRPreview.vue"
 if (Component.esModule && Object.keys(Component.esModule).some(function (key) {return key !== "default" && key !== "__esModule"})) {console.error("named exports are not supported in *.vue files.")}
 if (Component.options.functional) {console.error("[vue-loader] MRPreview.vue: functional components are not supported with templates, they should use render functions.")}
 
@@ -1900,7 +1898,7 @@ var Component = __webpack_require__(4)(
   /* cssModules */
   null
 )
-Component.options.__file = "c:\\xampp\\htdocs\\warehouse\\resources\\assets\\js\\components\\MRindex.vue"
+Component.options.__file = "C:\\xampp\\htdocs\\warehouse\\resources\\assets\\js\\components\\MRindex.vue"
 if (Component.esModule && Object.keys(Component.esModule).some(function (key) {return key !== "default" && key !== "__esModule"})) {console.error("named exports are not supported in *.vue files.")}
 if (Component.options.functional) {console.error("[vue-loader] MRindex.vue: functional components are not supported with templates, they should use render functions.")}
 
@@ -2041,21 +2039,15 @@ module.exports={render:function (){var _vm=this;var _h=_vm.$createElement;var _c
       staticClass: "fa fa-check"
     }) : (data.users[0].pivot.Signature == '1') ? _c('i', {
       staticClass: "fa fa-times decliner"
-    }) : _c('i', {
-      staticClass: "fa fa-clock-o"
-    })]), _vm._v(" "), _c('td', [_vm._v("\n          " + _vm._s(data.users[1].FullName)), _c('br'), _vm._v(" "), (((data.users[1].pivot.Signature == '0') || (data.users[3] != null && data.users[3].pivot.Signature == '0'))) ? _c('i', {
+    }) : _vm._e()]), _vm._v(" "), _c('td', [_vm._v("\n          " + _vm._s(data.users[1].FullName)), _c('br'), _vm._v(" "), (((data.users[1].pivot.Signature == '0') || (data.users[3] != null && data.users[3].pivot.Signature == '0'))) ? _c('i', {
       staticClass: "fa fa-check"
     }) : (data.users[1].pivot.Signature == '1') ? _c('i', {
       staticClass: "fa fa-times decliner"
-    }) : _c('i', {
-      staticClass: "fa fa-clock-o"
-    })]), _vm._v(" "), _c('td', [_vm._v("\n          " + _vm._s(data.users[2].FullName)), _c('br'), _vm._v(" "), (data.users[2].pivot.Signature == '0') ? _c('i', {
+    }) : _vm._e()]), _vm._v(" "), _c('td', [_vm._v("\n          " + _vm._s(data.users[2].FullName)), _c('br'), _vm._v(" "), (data.users[2].pivot.Signature == '0') ? _c('i', {
       staticClass: "fa fa-check"
     }) : (data.users[2].pivot.Signature == '1') ? _c('i', {
       staticClass: "fa fa-times decliner"
-    }) : _c('i', {
-      staticClass: "fa fa-clock-o"
-    })]), _vm._v(" "), _c('td', [(data.Status == '0') ? _c('i', {
+    }) : _vm._e()]), _vm._v(" "), _c('td', [(data.Status == '0') ? _c('i', {
       staticClass: "fa fa-thumbs-up"
     }) : (data.Status == '1') ? _c('i', {
       staticClass: "fa fa-times decliner"
@@ -2116,7 +2108,7 @@ module.exports={render:function (){var _vm=this;var _h=_vm.$createElement;var _c
     staticClass: "fa fa-th-large"
   }), _vm._v(" Memorandum Receipt index")])
 },function (){var _vm=this;var _h=_vm.$createElement;var _c=_vm._self._c||_h;
-  return _c('tr', [_c('th', [_vm._v("MR #")]), _vm._v(" "), _c('th', [_vm._v("MR Date")]), _vm._v(" "), _c('th', [_vm._v("RV #")]), _vm._v(" "), _c('th', [_vm._v("RR #")]), _vm._v(" "), _c('th', [_vm._v("PO #")]), _vm._v(" "), _c('th', [_vm._v("Supplier")]), _vm._v(" "), _c('th', [_vm._v("Recommended by")]), _vm._v(" "), _c('th', [_vm._v("Approved by")]), _vm._v(" "), _c('th', [_vm._v("Received by")]), _vm._v(" "), _c('th', [_vm._v("Status")]), _vm._v(" "), _c('th', [_vm._v("Show")])])
+  return _c('tr', [_c('th', [_vm._v("MR #")]), _vm._v(" "), _c('th', [_vm._v("MR Date")]), _vm._v(" "), _c('th', [_vm._v("RV #")]), _vm._v(" "), _c('th', [_vm._v("RR #")]), _vm._v(" "), _c('th', [_vm._v("PO #")]), _vm._v(" "), _c('th', [_vm._v("Supplier")]), _vm._v(" "), _c('th', [_vm._v("Recommended by")]), _vm._v(" "), _c('th', [_vm._v("Approved by")]), _vm._v(" "), _c('th', [_vm._v("Received by")]), _vm._v(" "), _c('th', [_vm._v("Status")]), _vm._v(" "), _c('th', [_vm._v("View")])])
 }]}
 module.exports.render._withStripped = true
 if (false) {

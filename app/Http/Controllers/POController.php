@@ -11,6 +11,7 @@ use App\RVMaster;
 use App\User;
 use Auth;
 use App\Jobs\NewCreatedPOJob;
+use App\Jobs\POApprovalReplacer;
 use App\RVDetail;
 use App\Signatureable;
 class POController extends Controller
@@ -173,6 +174,14 @@ class POController extends Controller
   {
     POMaster::where('PONo',$id)->update(['Status'=>'0']);
     Signatureable::where('user_id', Auth::user()->id)->where('signatureable_id', $id)->where('signatureable_type', 'App\POMaster')->where('SignatureType', 'ApprovalReplacer')->update(['Signature'=>'0']);
+
+    //smsAlert
+    $GMId=Signatureable::where('signatureable_id', $id)->where('signatureable_type', 'App\POMaster')->where('SignatureType', 'ApprovedBy')->value('user_id');
+    $GMMobile=User::where('id', $GMId)->value('Mobile');
+    $data = array('Mobile' =>$GMMobile, 'PONo'=>$id,'Replacer'=>Auth::user()->FullName);
+    $data=(object)$data;
+    $job = (new POApprovalReplacer($data))->delay(Carbon::now()->addSeconds(5));
+    dispatch($job);
   }
   public function MyPORequestCount()
   {

@@ -10,13 +10,13 @@
     <table>
       <tr>
         <th>MCTNo</th>
-        <th>Date created</th>
+        <th>Date</th>
         <th>Particulars</th>
         <th>Issued by</th>
         <th>Received by</th>
         <th>Addressed to</th>
         <th>Status</th>
-        <th>Show</th>
+        <th>View</th>
       </tr>
       <tr v-for="data in indexData" v-if="data.users[0]!=null">
         <td>{{data.MCTNo}}</td>

@@ -4,30 +4,28 @@
 @endsection
 @section('body')
   <div class="mct-request-list-Container">
-    <h1>My MCT signature <i class="fa fa-pencil"></i>request</h1>
+    <h1><i class="fa fa-pencil"></i> Signature request MCT</h1>
     <div class="mct-request-table">
       @if (!empty($myrequestMCT[0]))
       <table>
         <tr>
           <th>MCT No.</th>
+          <th>MCT Date</th>
           <th>MIRS No.</th>
           <th>Particulars</th>
           <th>Address to</th>
-          <th>MIRS Date</th>
           <th>Action</th>
         </tr>
-        <tr>
-          @foreach ($myrequestMCT as $myMCT)
-            <tr>
-              <td>{{$myMCT->MCTNo}}</td>
-              <td>{{$myMCT->MIRSNo}}</td>
-              <td>{{$myMCT->Particulars}}</td>
-              <td>{{$myMCT->AddressTo}}</td>
-              <td>{{$myMCT->MCTDate->format('m/d/Y')}}</td>
-              <td><a href="{{route('MCTpageOnly',[$myMCT->MCTNo])}}"><i class="fa fa-eye"></i></a></td>
-            </tr>
-          @endforeach
-        </tr>
+        @foreach ($myrequestMCT as $myMCT)
+          <tr>
+            <td>{{$myMCT->MCTNo}}</td>
+            <td>{{$myMCT->MCTDate->format('m/d/Y')}}</td>
+            <td>{{$myMCT->MIRSNo}}</td>
+            <td>{{$myMCT->Particulars}}</td>
+            <td>{{$myMCT->AddressTo}}</td>
+            <td><a href="{{route('MCTpageOnly',[$myMCT->MCTNo])}}"><i class="fa fa-eye"></i></a></td>
+          </tr>
+        @endforeach
       </table>
       {{$myrequestMCT->links()}}
       @else

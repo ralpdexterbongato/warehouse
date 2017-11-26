@@ -1630,9 +1630,6 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
 //
 //
 //
-//
-//
-//
 
 
 
@@ -1679,6 +1676,8 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
       } else {
         this.searchDescription(next);
       }
+      this.QuantityForWHouse = [];
+      this.RemarksForWHouse = [];
     },
     addToSession: function addToSession() {
       var vm = this;
@@ -5780,7 +5779,7 @@ var Component = __webpack_require__(4)(
   /* cssModules */
   null
 )
-Component.options.__file = "c:\\xampp\\htdocs\\warehouse\\resources\\assets\\js\\components\\FullRVpreview.vue"
+Component.options.__file = "C:\\xampp\\htdocs\\warehouse\\resources\\assets\\js\\components\\FullRVpreview.vue"
 if (Component.esModule && Object.keys(Component.esModule).some(function (key) {return key !== "default" && key !== "__esModule"})) {console.error("named exports are not supported in *.vue files.")}
 if (Component.options.functional) {console.error("[vue-loader] FullRVpreview.vue: functional components are not supported with templates, they should use render functions.")}
 
@@ -5911,7 +5910,7 @@ var Component = __webpack_require__(4)(
   /* cssModules */
   null
 )
-Component.options.__file = "c:\\xampp\\htdocs\\warehouse\\resources\\assets\\js\\components\\RVCreate.vue"
+Component.options.__file = "C:\\xampp\\htdocs\\warehouse\\resources\\assets\\js\\components\\RVCreate.vue"
 if (Component.esModule && Object.keys(Component.esModule).some(function (key) {return key !== "default" && key !== "__esModule"})) {console.error("named exports are not supported in *.vue files.")}
 if (Component.options.functional) {console.error("[vue-loader] RVCreate.vue: functional components are not supported with templates, they should use render functions.")}
 
@@ -5946,7 +5945,7 @@ var Component = __webpack_require__(4)(
   /* cssModules */
   null
 )
-Component.options.__file = "c:\\xampp\\htdocs\\warehouse\\resources\\assets\\js\\components\\RVindex.vue"
+Component.options.__file = "C:\\xampp\\htdocs\\warehouse\\resources\\assets\\js\\components\\RVindex.vue"
 if (Component.esModule && Object.keys(Component.esModule).some(function (key) {return key !== "default" && key !== "__esModule"})) {console.error("named exports are not supported in *.vue files.")}
 if (Component.options.functional) {console.error("[vue-loader] RVindex.vue: functional components are not supported with templates, they should use render functions.")}
 
@@ -6264,19 +6263,7 @@ module.exports={render:function (){var _vm=this;var _h=_vm.$createElement;var _c
         _vm.Remarks = $event.target.value
       }
     }
-  }), _vm._v(" "), _c('div', {
-    staticClass: "buttons-RV-Item"
-  }, [_c('button', {
-    attrs: {
-      "type": "button",
-      "id": "closemodalRV"
-    },
-    on: {
-      "click": function($event) {
-        _vm.notforstock = !_vm.notforstock
-      }
-    }
-  }, [_vm._v("Cancel")]), _vm._v(" "), _c('button', {
+  }), _vm._v(" "), _c('button', {
     attrs: {
       "type": "submit",
       "id": "addtolistRV"
@@ -6286,7 +6273,7 @@ module.exports={render:function (){var _vm=this;var _h=_vm.$createElement;var _c
         _vm.notforstock = !_vm.notforstock, _vm.addToSession()
       }
     }
-  }, [_vm._v("Add to list")])])])])]), _vm._v(" "), (_vm.user.Role == 3 || _vm.user.Role == 4) ? _c('span', [_c('div', {
+  }, [_vm._v("Add to list")])])])]), _vm._v(" "), (_vm.user.Role == 3 || _vm.user.Role == 4) ? _c('span', [_c('div', {
     staticClass: "for-stock-Modal",
     class: {
       'active': _vm.forstock
@@ -6607,7 +6594,7 @@ module.exports={render:function (){var _vm=this;var _h=_vm.$createElement;var _c
   }) : _vm._e(), _vm._v(" "), (((_vm.RVMaster.users[2].pivot.Signature == null) && ((_vm.RVMaster.users[1].pivot.Signature == '0') || (_vm.ManagerReplacerData != null && _vm.ManagerReplacerData.pivot.Signature == '0')))) ? _c('div', {
     staticClass: "empty-left relative"
   }, [(((_vm.RVMaster.users[2].id == _vm.user.id) && (_vm.pendingRemarksShow == null))) ? _c('button', {
-    staticClass: "bttn-unite bttn-sm bttn-primary pending-remarks",
+    staticClass: "pending-remarks",
     attrs: {
       "type": "button"
     },
@@ -6788,7 +6775,6 @@ module.exports={render:function (){var _vm=this;var _h=_vm.$createElement;var _c
       "href": '/po-list-view-of-rv/' + _vm.rvno.RVNo
     }
   }, [_c('button', {
-    staticClass: "bttn-unite bttn-sm bttn-primary",
     attrs: {
       "type": "button"
     }
@@ -6815,7 +6801,6 @@ module.exports={render:function (){var _vm=this;var _h=_vm.$createElement;var _c
       "href": '/rr-of-rv-list/' + _vm.rvno.RVNo
     }
   }, [_c('button', {
-    staticClass: "bttn-unite bttn-sm bttn-primary",
     attrs: {
       "type": "button"
     }
@@ -7081,7 +7066,6 @@ module.exports={render:function (){var _vm=this;var _h=_vm.$createElement;var _c
   }) : _vm._e()]), _vm._v(" "), _c('label', [_vm._v(_vm._s(_vm.RVMaster.users[3].Position))])])])])])])])])]) : _vm._e()
 },staticRenderFns: [function (){var _vm=this;var _h=_vm.$createElement;var _c=_vm._self._c||_h;
   return _c('button', {
-    staticClass: "bttn-unite bttn-sm bttn-primary",
     attrs: {
       "type": "submit",
       "name": "RVNo",
@@ -7116,7 +7100,6 @@ module.exports={render:function (){var _vm=this;var _h=_vm.$createElement;var _c
   }), _vm._v(" without P.O.")])])
 },function (){var _vm=this;var _h=_vm.$createElement;var _c=_vm._self._c||_h;
   return _c('button', {
-    staticClass: "bttn-unite bttn-sm bttn-primary",
     attrs: {
       "type": "button"
     }
@@ -7125,7 +7108,6 @@ module.exports={render:function (){var _vm=this;var _h=_vm.$createElement;var _c
   }), _vm._v(" RR")])
 },function (){var _vm=this;var _h=_vm.$createElement;var _c=_vm._self._c||_h;
   return _c('button', {
-    staticClass: "bttn-unite bttn-sm bttn-primary",
     attrs: {
       "type": "submit"
     }
@@ -7190,7 +7172,7 @@ module.exports={render:function (){var _vm=this;var _h=_vm.$createElement;var _c
       }
     }
   })])]), _vm._v(" "), _c('table', [_vm._m(1), _vm._v(" "), _vm._l((_vm.RVs), function(rvdata) {
-    return (rvdata.users[0] != null) ? _c('tr', [_c('td', [_vm._v(_vm._s(rvdata.RVNo))]), _vm._v(" "), _c('td', [_vm._v(_vm._s(rvdata.Purpose))]), _vm._v(" "), _c('td', [_vm._v(_vm._s(rvdata.users[0].FullName)), _c('br'), (rvdata.users[0].pivot.Signature == '0') ? _c('i', {
+    return (rvdata.users[0] != null) ? _c('tr', [_c('td', [_vm._v(_vm._s(rvdata.RVNo))]), _vm._v(" "), _c('td', [_vm._v(_vm._s(rvdata.RVDate))]), _vm._v(" "), _c('td', [_vm._v(_vm._s(rvdata.Purpose))]), _vm._v(" "), _c('td', [_vm._v(_vm._s(rvdata.users[0].FullName)), _c('br'), (rvdata.users[0].pivot.Signature == '0') ? _c('i', {
       staticClass: "fa fa-check"
     }) : (rvdata.users[0].pivot.Signature == '1') ? _c('i', {
       staticClass: "fa fa-times decliner"
@@ -7206,7 +7188,7 @@ module.exports={render:function (){var _vm=this;var _h=_vm.$createElement;var _c
       staticClass: "fa fa-check"
     }) : (rvdata.users[3].pivot.Signature == '1') ? _c('i', {
       staticClass: "fa fa-times decliner"
-    }) : _vm._e()]), _vm._v(" "), _c('td', [_vm._v(_vm._s(rvdata.RVDate))]), _vm._v(" "), (rvdata.Status == '0') ? _c('td', [_c('i', {
+    }) : _vm._e()]), _vm._v(" "), (rvdata.Status == '0') ? _c('td', [_c('i', {
       staticClass: "fa fa-thumbs-up"
     })]) : (rvdata.Status == null) ? _c('td', [_c('i', {
       staticClass: "fa fa-clock-o"
@@ -7269,7 +7251,7 @@ module.exports={render:function (){var _vm=this;var _h=_vm.$createElement;var _c
     staticClass: "fa fa-th-large"
   }), _vm._v(" Requisition Voucher index")])])
 },function (){var _vm=this;var _h=_vm.$createElement;var _c=_vm._self._c||_h;
-  return _c('tr', [_c('th', [_vm._v("RV No.")]), _vm._v(" "), _c('th', [_vm._v("Purpose")]), _vm._v(" "), _c('th', [_vm._v("Requisitioner")]), _vm._v(" "), _c('th', [_vm._v("Recommended by")]), _vm._v(" "), _c('th', [_vm._v("Budget Officer")]), _vm._v(" "), _c('th', [_vm._v("General Manager")]), _vm._v(" "), _c('th', [_vm._v("RV Date")]), _vm._v(" "), _c('th', [_vm._v("Status")]), _vm._v(" "), _c('th', [_vm._v("Show")])])
+  return _c('tr', [_c('th', [_vm._v("RV No.")]), _vm._v(" "), _c('th', [_vm._v("RV Date")]), _vm._v(" "), _c('th', [_vm._v("Purpose")]), _vm._v(" "), _c('th', [_vm._v("Requisitioner")]), _vm._v(" "), _c('th', [_vm._v("Recommended by")]), _vm._v(" "), _c('th', [_vm._v("Budget Officer")]), _vm._v(" "), _c('th', [_vm._v("Approved by")]), _vm._v(" "), _c('th', [_vm._v("Status")]), _vm._v(" "), _c('th', [_vm._v("View")])])
 }]}
 module.exports.render._withStripped = true
 if (false) {

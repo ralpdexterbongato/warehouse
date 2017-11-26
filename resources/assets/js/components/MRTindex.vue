@@ -8,8 +8,8 @@
       <table>
         <tr>
           <th>MRTNo</th>
+          <th>Date returned</th>
           <th>MCTNo</th>
-          <th>Return Date</th>
           <th>Particulars</th>
           <th>Addressed to</th>
           <th>Received by</th>
@@ -19,8 +19,8 @@
         </tr>
         <tr v-for="data in MRTindexData" v-if="data.users[0]!=null">
           <td>{{data.MRTNo}}</td>
-          <td>{{data.MCTNo}}</td>
           <td>{{data.ReturnDate}}</td>
+          <td>{{data.MCTNo}}</td>
           <td>{{data.Particulars}}</td>
           <td>{{data.AddressTo}}</td>
           <td>

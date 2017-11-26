@@ -9,10 +9,10 @@
     </longpress>
   </div>
   <div class="print-RR-btn" v-else-if="(RRMaster.Status=='0')">
-      <a :href="'/RR.pdf/'+RRMaster.RRNo"><button type="submit" class="bttn-unite bttn-xs bttn-primary" name="RRNo" value="RRNohere"><i class="fa fa-file-pdf-o"></i> print</button></a>
+      <a :href="'/RR.pdf/'+RRMaster.RRNo"><button type="submit"  name="RRNo" value="RRNohere"><i class="fa fa-file-pdf-o"></i> print</button></a>
     <div>
-      <a :href="'/view-list-MR-of-RR/'+RRMaster.RRNo" v-if="checkMR!=0"><button type="button" id="full-mr-preview-btn" class="bttn-unite bttn-xs bttn-primary"><i class="fa fa-folder"></i> M.R. list</button></a>
-      <a :href="'/create-mr/'+RRMaster.RRNo" v-if="(((user.Role==4)||(user.Role==3))&&(RRMaster.Status=='0'))"><button type="button" class="make-mr bttn-unite bttn-xs bttn-primary"><i class="fa fa-plus"></i> Make M.R.</button></a>
+      <a :href="'/view-list-MR-of-RR/'+RRMaster.RRNo" v-if="checkMR!=0"><button type="button" id="full-mr-preview-btn" ><i class="fa fa-folder"></i> M.R. list</button></a>
+      <a :href="'/create-mr/'+RRMaster.RRNo" v-if="(((user.Role==4)||(user.Role==3))&&(RRMaster.Status=='0'))"><button type="button" class="make-mr"><i class="fa fa-plus"></i> Make M.R.</button></a>
     </div>
   </div>
     <div class="bondpaper-RR">

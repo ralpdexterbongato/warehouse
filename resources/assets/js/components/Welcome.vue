@@ -107,6 +107,7 @@
       </div>
     </div><!--  end of v-if result is not empty -->
     <div class="background-pic" v-else>
+      <img src="/DesignIMG/truck.jpg" alt="img">
     </div>
   </div>
   <div class="not-found-msg" v-else :class="Searching==true?'hide':'flex'">

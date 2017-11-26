@@ -14,6 +14,7 @@ use Redis;
 use App\Jobs\SendMIRSNotification;
 use App\Jobs\NewApprovedMIRSJob;
 use App\Jobs\MIRSApprovalReplacer;
+use App\Jobs\MIRSManagerReplacer;
 use App\Signatureable;
 class MIRSController extends Controller
 {
@@ -280,6 +281,7 @@ class MIRSController extends Controller
   }
   public function CancelRequestManagerReplacer($id)
   {
+    MIRSMaster::where('MIRSNo',$id)->update(['SignatureTurn'=>'1']);
     Signatureable::where('signatureable_id', $id)->where('signatureable_type', 'App\MIRSMaster')->where('SignatureType', 'ManagerReplacer')->delete();
   }
   public function SignatureManagerReplacer($id)
@@ -288,7 +290,8 @@ class MIRSController extends Controller
     MIRSMaster::where('MIRSNo', $id)->update(['SignatureTurn'=>'2']);
     $GMId=Signatureable::where('signatureable_id', $id)->where('signatureable_type', 'App\MIRSMaster')->where('SignatureType', 'ApprovedBy')->get(['user_id']);
     $ApprovalReplacerId=Signatureable::where('signatureable_id', $id)->where('signatureable_type', 'App\MIRSMaster')->where('SignatureType', 'ApprovalReplacer')->get(['user_id']);
-    if (!empty($ApprovalReplacerId[0])) {
+    if (!empty($ApprovalReplacerId[0]))
+    {
       $notifyname = array('tobeNotify' =>$ApprovalReplacerId[0]->user_id);
       $notifyname=(object)$notifyname;
       $job = (new SendMIRSNotification($notifyname))->delay(Carbon::now()->addSeconds(5));
@@ -298,6 +301,15 @@ class MIRSController extends Controller
     $GMid=(object)$GMid;
     $job = (new SendMIRSNotification($GMid))->delay(Carbon::now()->addSeconds(5));
     dispatch($job);
+
+    //smsAlert
+    $RealSignaturerId=Signatureable::where('signatureable_id', $id)->where('signatureable_type', 'App\MIRSMaster')->where('SignatureType', 'RecommendedBy')->value('user_id');
+    $RealSignaturerMobile=User::where('id', $RealSignaturerId)->value('Mobile');
+    $data = array('Mobile' =>$RealSignaturerMobile, 'MIRSNo'=>$id,'Replacer'=>Auth::user()->FullName);
+    $data=(object)$data;
+    $job = (new MIRSManagerReplacer($data))->delay(Carbon::now()->addSeconds(5));
+    dispatch($job);
+
   }
   public function MIRSNotification()
   {
