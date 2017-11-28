@@ -1790,6 +1790,17 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
 //
 //
 //
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
 
 
 /* harmony default export */ __webpack_exports__["default"] = ({
@@ -1798,14 +1809,16 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
       Username: '',
       Password: '',
       failmsg: '',
-      loadingMsg: '',
-      laravelerror: []
+      stillLoading: false,
+      laravelerror: [],
+      usernameForm: false,
+      passForm: false
     };
   },
 
   methods: {
     submitCredentials: function submitCredentials() {
-      this.loadingMsg = 'Loading';
+      this.stillLoading = true;
       var vm = this;
       __WEBPACK_IMPORTED_MODULE_0_axios___default.a.post('/login-submit', {
         Username: this.Username,
@@ -1813,16 +1826,15 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
       }).then(function (response) {
         if (response.data.message != null) {
           Vue.set(vm.$data, 'failmsg', response.data.message);
-          Vue.set(vm.$data, 'loadingMsg', '');
+          vm.stillLoading = false;
         } else {
           window.location = response.data.redirect;
         }
         console.log('response');
       }, function (error) {
-
         console.log(error);
         Vue.set(vm.$data, 'failmsg', 'Fields are required');
-        Vue.set(vm.$data, 'loadingMsg', '');
+        vm.stillLoading = false;
       });
     }
   }
@@ -3774,26 +3786,22 @@ if (false) {
 
 module.exports={render:function (){var _vm=this;var _h=_vm.$createElement;var _c=_vm._self._c||_h;
   return _c('div', {
-    staticClass: "middle-box-login"
-  }, [(_vm.failmsg != '') ? _c('div', {
-    staticClass: "error-tab login-errors",
-    on: {
-      "click": function($event) {
-        _vm.failmsg = ''
-      }
-    }
-  }, [_vm._v("\n    " + _vm._s(_vm.failmsg) + "\n  ")]) : _vm._e(), _vm._v(" "), _c('div', {
-    staticClass: "box-form-login log-box animated",
-    class: [_vm.failmsg != '' ? 'headShake' : '']
-  }, [(_vm.loadingMsg == '') ? _c('h1', [_vm._v("Login")]) : _vm._e(), _vm._v(" "), (_vm.loadingMsg != '') ? _c('h1', [_vm._v(_vm._s(_vm.loadingMsg))]) : _vm._e(), _vm._v(" "), (_vm.loadingMsg != '') ? _c('h1', {
-    staticClass: "login-loading"
-  }, [_c('i', {
-    staticClass: "fa fa-spinner fa-spin fa-pulse"
-  })]) : _vm._e(), _vm._v(" "), (_vm.loadingMsg == '') ? _c('div', {
-    staticClass: "login-form"
+    staticClass: "login-vue"
+  }, [_vm._m(0), _vm._v(" "), _c('div', {
+    staticClass: "right-login"
   }, [_c('div', {
-    staticClass: "login-input-container"
-  }, [_vm._m(0), _c('input', {
+    staticClass: "form-login-container"
+  }, [_c('div', {
+    staticClass: "login-placeholder-container"
+  }, [_c('h5', {
+    class: {
+      'active': _vm.usernameForm
+    }
+  }, [_vm._v("Username")]), _vm._v(" "), _c('div', {
+    staticClass: "icon-and-input"
+  }, [_c('i', {
+    staticClass: "material-icons"
+  }, [_vm._v("person")]), _vm._v(" "), _c('input', {
     directives: [{
       name: "model",
       rawName: "v-model",
@@ -3801,27 +3809,34 @@ module.exports={render:function (){var _vm=this;var _h=_vm.$createElement;var _c
       expression: "Username"
     }],
     attrs: {
-      "type": "text",
-      "autofocus": "",
-      "autocomplete": "off",
-      "name": "Username",
-      "placeholder": "Username"
+      "type": "text"
     },
     domProps: {
       "value": (_vm.Username)
     },
     on: {
-      "change": function($event) {
-        _vm.failmsg = ''
+      "focus": function($event) {
+        _vm.usernameForm = true
+      },
+      "blur": function($event) {
+        [_vm.Username != '' ? _vm.usernameForm = true : _vm.usernameForm = false]
       },
       "input": function($event) {
         if ($event.target.composing) { return; }
         _vm.Username = $event.target.value
       }
     }
-  })]), _vm._v(" "), _c('div', {
-    staticClass: "login-input-container"
-  }, [_vm._m(1), _c('input', {
+  })])]), _vm._v(" "), _c('div', {
+    staticClass: "login-placeholder-container"
+  }, [_c('h5', {
+    class: {
+      'active': _vm.passForm
+    }
+  }, [_vm._v("Password")]), _vm._v(" "), _c('div', {
+    staticClass: "icon-and-input"
+  }, [_c('i', {
+    staticClass: "material-icons"
+  }, [_vm._v("vpn_key")]), _vm._v(" "), _c('input', {
     directives: [{
       name: "model",
       rawName: "v-model",
@@ -3829,46 +3844,50 @@ module.exports={render:function (){var _vm=this;var _h=_vm.$createElement;var _c
       expression: "Password"
     }],
     attrs: {
-      "type": "password",
-      "name": "Password",
-      "placeholder": "Password"
+      "type": "password"
     },
     domProps: {
       "value": (_vm.Password)
     },
     on: {
-      "change": function($event) {
-        _vm.failmsg = ''
-      },
       "keyup": function($event) {
         if (!('button' in $event) && _vm._k($event.keyCode, "enter", 13)) { return null; }
-        _vm.submitCredentials()
+        _vm.submitCredentials($event)
+      },
+      "focus": function($event) {
+        _vm.passForm = true
+      },
+      "blur": function($event) {
+        [_vm.Password != '' ? _vm.passForm = true : _vm.passForm = false]
       },
       "input": function($event) {
         if ($event.target.composing) { return; }
         _vm.Password = $event.target.value
       }
     }
-  })]), _vm._v(" "), _c('button', {
+  })])]), _vm._v(" "), _c('div', {
+    staticClass: "submit-btn-login-container"
+  }, [_vm._m(1), _vm._v(" "), (_vm.stillLoading == false) ? _c('button', {
     attrs: {
-      "type": "button"
+      "type": "button",
+      "name": "button"
     },
     on: {
-      "click": function($event) {
-        _vm.submitCredentials()
-      }
+      "click": _vm.submitCredentials
     }
-  }, [_vm._v("Login "), _c('i', {
-    staticClass: "fa fa-sign-in"
-  })])]) : _vm._e()])])
+  }, [_c('i', {
+    staticClass: "material-icons"
+  }, [_vm._v("send")]), _vm._v(" Login")]) : _c('div', {
+    staticClass: "loader-container"
+  }, [_c('i', {
+    staticClass: "loading-login material-icons fa-spin"
+  }, [_vm._v("toys")])])])])])])
 },staticRenderFns: [function (){var _vm=this;var _h=_vm.$createElement;var _c=_vm._self._c||_h;
-  return _c('p', [_c('i', {
-    staticClass: "fa fa-user"
-  })])
+  return _c('div', {
+    staticClass: "left-login"
+  }, [_c('h1', [_vm._v("Warehouse")])])
 },function (){var _vm=this;var _h=_vm.$createElement;var _c=_vm._self._c||_h;
-  return _c('p', [_c('i', {
-    staticClass: "fa fa-key"
-  })])
+  return _c('p', [_vm._v("Forgot password?"), _c('br'), _vm._v("-please contact the administrator.")])
 }]}
 module.exports.render._withStripped = true
 if (false) {

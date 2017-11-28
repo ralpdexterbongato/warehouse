@@ -12,6 +12,7 @@
     <link rel="stylesheet" href="/css/bttn.min.css">
     <link rel="stylesheet" href="/css/font-awesome.min.css">
     <link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css?family=Kaushan+Script" rel="stylesheet">
     <title>@yield('title')</title>
     <script>
       window.Laravel = <?php echo json_encode([
@@ -32,17 +33,6 @@
           <mynotification :user="{{Auth::user()}}">
           </mynotification>
         </span>
-      @else
-        <div class="top-nav-container">
-          <div class="left-nav-content">
-            <h1><a href="/"><img src="/DesignIMG/logo.png" alt="logo"></a></h1>
-          </div>
-          <div class="right-nav-content">
-            <div class="title-top">
-              <p> Warehouse Inventory</p>
-            </div>
-          </div>
-        </div>
       @endif
       @if (Auth::check())
       <div class="top-nav-boxes empty-left-btn">
@@ -90,11 +80,13 @@
         @section('body')
         @show
     <footer>
+      @Auth
       <div class="footer-container">
         <div class="simple-footer">
           <h1>&copy; 2017 All rights reserved BOHECO 1</h1>
         </div>
       </div>
+      @endAuth
     </footer>
     @if (Auth::check())
     <script src="//{{ Request::getHost() }}:6001/socket.io/socket.io.js"></script>

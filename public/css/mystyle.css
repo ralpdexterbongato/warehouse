@@ -46,7 +46,7 @@ table {
 	border-spacing: 0;
 }
 /*end reset*/
-@import url('https://fonts.googleapis.com/css?family=Roboto');
+@import url('https://fonts.googleapis.com/css?family=Roboto|Kaushan+Script');
 /*GLOBAL*/
 tr{
 	background: #fff;
@@ -3450,139 +3450,189 @@ filter: drop-shadow(1px 1px 3px #1D1A33);
   -o-filter: drop-shadow(0 0px 1px #7D7D7D);
   filter: drop-shadow(0 0px 1px #7D7D7D);
 }
-.login-container
+
+/*login css*/
+.login-vue
 {
-  min-height: 100vh;
-  background: #f3f3f3;
-  display: flex;
+	display: flex;
+	height: 100vh;
 }
-.login-errors
+@media (max-width:800px)
 {
-  position: absolute;
-  top:-70px;
-  width: 100%;
-}
-.box-form-login h1
-{
-  font-size: 15px;
-  font-weight:600;
-  font-family:Roboto, 'Segoe UI', Tahoma, sans-serif;
-  color: #fff;
-  text-align: center;
-}
-.box-form-login
-{
-  padding: 20px;
-  box-sizing: border-box;
-  background: #3367D6;
-  height: 200px;
-  width: 340px;
-  display: flex;
-  flex-direction: column;
-  border-radius: 5px;
-}
-@media (max-width:450px)
-{
-	.box-form-login
+	.login-vue
 	{
-		width:280px;
-		height:90vh;
-	}
-	.login-form input
-	{
-		width: 155px!important;
+		flex-direction: column;
 	}
 }
-@media (max-width:350px)
+.left-login
 {
-	.box-form-login
+	flex:1;
+	display: flex;
+	background: #3367D6;
+}
+.left-login h1
+{
+	margin: auto;
+	font-family: 'Kaushan Script', cursive;
+	font-size:70px;
+	font-weight:700;
+	color: #fff;
+}
+@media (max-width:570px)
+{
+	.left-login h1
 	{
-		width:240px;
-		height:90vh;
+		font-size: 60px;
 	}
 }
-.middle-box-login
+.right-login
 {
-  margin:auto!important;
-  position: relative;
+	flex:1;
+	display: flex;
+	background: #22448E;
 }
-.login-loading
+.form-login-container
 {
-  text-align: center;
-  margin-top: 50px;
+	display: flex;
+	flex-direction: column;
+	margin: auto;
+	width: 60%;
 }
-.login-loading i
+@media (max-width:1120px)
 {
-  font-size: 35px;
+	.form-login-container
+	{
+		width: 80%;
+	}
 }
-.log-box
+@media (max-width:540px)
 {
-  -ms-filter: drop-shadow(1px 1px 10px #6B6B6B);
-  -webkit-filter: drop-shadow(1px 1px 10px #6B6B6B);
-  -moz-filter: drop-shadow(1px 1px 10px #6B6B6B);
-  -o-filter: drop-shadow(1px 1px 10px #6B6B6B);
-  filter: drop-shadow(1px 1px 10px #6B6B6B);
-  transition: all .4s;
+	.right-login
+	{
+		padding-top:10px;
+		padding-bottom: 10px;
+	}
+	.form-login-container
+	{
+		width: 90%;
+	}
 }
-.box-form-login:hover.log-box
+.login-placeholder-container input:focus
 {
-  -ms-filter: drop-shadow(1px 1px 4px #6B6B6B);
--webkit-filter: drop-shadow(1px 1px 4px #6B6B6B);
--moz-filter: drop-shadow(1px 1px 4px #6B6B6B);
--o-filter: drop-shadow(1px 1px 4px #6B6B6B);
-filter: drop-shadow(1px 1px 4px #6B6B6B);
+	border-bottom-color:#BBCCF1;
 }
-.login-form
+.login-placeholder-container input
 {
-  display: flex;
-  flex-direction: column;
-  margin-top: 40px;
+	margin-bottom: 50px;
+	color: #fff;
+	font-size: 15px;
+	background: transparent;
+	border-style: none;
+	border-bottom:1.1px solid #7799E3;
+	width: 100%;
+	margin-left: 10px;
+	padding-bottom: 11px;
+	letter-spacing:1px;
 }
-.login-input-container
+.login-placeholder-container input[type="password"]
 {
-  display: flex;
-  margin:0 auto;
+	letter-spacing: 4px;
 }
-.login-input-container p
+.login-placeholder-container
 {
-  color:#555555;
-  background: #e2e2e2;
-  height: 20px;
-  padding:3px;
-  width: 24px;
-  text-align: center;
-  border-top-left-radius: 3px;
-  border-bottom-left-radius: 3px;
+	position: relative;
+	width: 100%;
 }
-.login-form input
+.login-placeholder-container h5
 {
-  border-style: none;
-  border-top-right-radius: 3px;
-  border-bottom-right-radius: 3px;
-  padding: 3px 5px 3px 9px;
-  font-size: 14px;
-  width: 180px;
-  margin-bottom: 15px;
-  text-align:left;
-  height: 20px;
-  color: #2A2D37;
-  font-family:Roboto, 'Segoe UI', Tahoma, sans-serif;
+	position: absolute;
+	pointer-events: none;
+	color: #fff;
+	top: 3px;
+	left: 35px;
+	font-size: 15px;
+	transition: all .2s;
 }
-.login-form button
+.login-placeholder-container h5.active
 {
-  width: 100px;
-  margin:0 auto;
-  border-style:none;
-  background: #1A407F;
-  border-radius:2px;
-  color: #fff;
-  padding: 6px 5px;
-  border-color: #1A407F;
-  font-family:Roboto, 'Segoe UI', Tahoma, sans-serif;
+	top: -22px;
+	font-size:12.5px;
+	color: #7799E3;
 }
-.login-form button:active,.login-form button:hover,.login-form button:focus
+.submit-btn-login-container
 {
-  background: #112A54;
+	display: flex;
+	justify-content:space-between;
+}
+.submit-btn-login-container button
+{
+	display: flex;
+	background: #3367D6;
+	border-radius: 3px;
+	padding:7px 14px;
+	font-weight: 700;
+	border-style: none;
+	color: #fff;
+	font-size:19px;
+	-webkit-transition: box-shadow .28s cubic-bezier(0.4,0.0,0.2,1);
+  transition: box-shadow .28s cubic-bezier(0.4,0.0,0.2,1);
+  -webkit-box-shadow: 0 2px 2px 0 rgba(0,0,0,0.14), 0 3px 1px -2px rgba(0,0,0,0.12), 0 1px 5px 0 rgba(0,0,0,0.2);
+  box-shadow: 0 2px 2px 0 rgba(0,0,0,0.14), 0 3px 1px -2px rgba(0,0,0,0.12), 0 1px 5px 0 rgba(0,0,0,0.2);
+}
+.submit-btn-login-container p
+{
+	font-size: 14px;
+	color: #7799E3;
+	line-height: 17px;
+}
+@media (max-width:540px)
+{
+	.submit-btn-login-container
+	{
+		flex-direction: column;
+	}
+	.submit-btn-login-container button
+	{
+		display: block;
+		margin-top: 20px;
+	}
+	.login-placeholder-container input
+	{
+		margin-bottom: 30px;
+	}
+}
+.submit-btn-login-container button i
+{
+	vertical-align: middle;
+	margin-right: 7px;
+}
+.icon-and-input
+{
+	display: flex;
+}
+.icon-and-input i
+{
+	vertical-align: middle;
+	color: #fff;
+	font-size:26px;
+}
+.loading-login
+{
+	text-align: right;
+	font-size: 35px!important;
+	color: #fff;
+}
+@media (max-width:540px)
+{
+	.loader-container
+	{
+		display: flex;
+	}
+	.loading-login
+	{
+		margin: auto;
+		margin-top: 23px;
+	}
 }
 /*REGISTRAION CSS*/
 #signaturePreview,#signatureUpdate

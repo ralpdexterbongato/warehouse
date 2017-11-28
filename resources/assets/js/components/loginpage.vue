@@ -1,23 +1,34 @@
 <template lang="html">
-    <div class="middle-box-login">
-      <div class="error-tab login-errors" v-if="failmsg!=''" v-on:click="failmsg=''">
-        {{failmsg}}
-      </div>
-      <div class="box-form-login log-box animated" :class="[failmsg!=''?'headShake':'']">
-        <h1 v-if="loadingMsg==''">Login</h1>
-        <h1 v-if="loadingMsg!=''">{{loadingMsg}}</h1>
-        <h1 class="login-loading" v-if="loadingMsg!=''"><i class="fa fa-spinner fa-spin fa-pulse"></i></h1>
-        <div class="login-form" v-if="loadingMsg==''">
-          <div class="login-input-container">
-            <p><i class="fa fa-user"></i></p><input type="text" autofocus v-model="Username" @change="failmsg=''" autocomplete="off" name="Username" placeholder="Username">
+  <div class="login-vue">
+    <div class="left-login">
+      <h1>Warehouse</h1>
+    </div>
+    <div class="right-login">
+      <div class="form-login-container">
+        <div class="login-placeholder-container">
+          <h5 :class="{'active':usernameForm}">Username</h5>
+          <div class="icon-and-input">
+            <i class="material-icons">person</i>
+            <input type="text" v-model="Username" @focus="usernameForm=true" @blur="[Username!=''?usernameForm=true:usernameForm=false]">
           </div>
-          <div class="login-input-container">
-            <p><i class="fa fa-key"></i></p><input type="password" @change="failmsg=''" v-model="Password" v-on:keyup.enter="submitCredentials()" name="Password" placeholder="Password">
+        </div>
+        <div class="login-placeholder-container">
+          <h5 :class="{'active':passForm}">Password</h5>
+          <div class="icon-and-input">
+            <i class="material-icons">vpn_key</i>
+            <input type="password" v-on:keyup.enter="submitCredentials" v-model="Password" @focus="passForm=true" @blur="[Password!=''?passForm=true:passForm=false]">
           </div>
-          <button type="button" v-on:click="submitCredentials()">Login <i class="fa fa-sign-in"></i></button>
+        </div>
+        <div class="submit-btn-login-container">
+          <p>Forgot password?<br>-please contact the administrator.</p>
+          <button type="button" name="button" v-on:click="submitCredentials" v-if="stillLoading==false"><i class="material-icons">send</i> Login</button>
+          <div v-else class="loader-container">
+            <i class="loading-login material-icons fa-spin">toys</i>
+          </div>
         </div>
       </div>
     </div>
+  </div>
 </template>
 
 <script>
@@ -29,15 +40,17 @@ export default {
         Username:'',
         Password:'',
         failmsg:'',
-        loadingMsg:'',
+        stillLoading:false,
         laravelerror:[],
+        usernameForm:false,
+        passForm:false
       }
     },
    methods:
    {
      submitCredentials()
      {
-      this.loadingMsg='Loading';
+      this.stillLoading=true;
        var vm=this;
        axios.post(`/login-submit`,{
          Username:this.Username,
@@ -47,7 +60,7 @@ export default {
          if (response.data.message!=null)
          {
            Vue.set(vm.$data,'failmsg',response.data.message);
-           Vue.set(vm.$data,'loadingMsg','');
+           vm.stillLoading=false;
          }else
          {
            window.location=response.data.redirect;
@@ -55,10 +68,9 @@ export default {
          console.log('response');
        },function(error)
        {
-
          console.log(error);
          Vue.set(vm.$data,'failmsg','Fields are required');
-         Vue.set(vm.$data,'loadingMsg','');
+         vm.stillLoading=false;
        });
      }
    },
