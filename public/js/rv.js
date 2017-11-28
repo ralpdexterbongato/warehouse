@@ -6746,6 +6746,7 @@ module.exports={render:function (){var _vm=this;var _h=_vm.$createElement;var _c
   }, [_vm._v("close")]), _vm._v(" I can't\r\n        ")])], 1)]) : _vm._e(), _vm._v(" "), _c('div', {
     staticClass: "declineOrSignatureBtn"
   }, [(((_vm.RequisitionerCanSignature) || (_vm.RecommendedByCanSignature) || (_vm.BudgetOfficerCanSignature) || (_vm.GMCanSignature))) ? _c('span', {
+    staticClass: "RVsignatureBtns",
     class: {
       'hide': _vm.SignatureRVBtnHide
     }

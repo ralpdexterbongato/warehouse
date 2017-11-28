@@ -51,7 +51,7 @@
       </span>
     </div>
     <div class="declineOrSignatureBtn">
-          <span :class="{'hide':SignatureRVBtnHide}" v-if="((RequisitionerCanSignature)||(RecommendedByCanSignature)||(BudgetOfficerCanSignature)||(GMCanSignature))">
+          <span class="RVsignatureBtns" :class="{'hide':SignatureRVBtnHide}" v-if="((RequisitionerCanSignature)||(RecommendedByCanSignature)||(BudgetOfficerCanSignature)||(GMCanSignature))">
             <div class="RVapprove">
               <longpress class="rvapprovebtn" duration="3" :on-confirm="Signature" pressing-text="confirm in {$rcounter}" action-text="Loading . . .">
               <i class="material-icons">edit</i> Signature

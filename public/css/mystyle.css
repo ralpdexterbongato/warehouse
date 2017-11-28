@@ -304,6 +304,20 @@ min-height: 100vh;
   filter: drop-shadow(2px 3px 2px #B8B8B8);
 
 }
+@media (max-width:745px)
+{
+	.remarks-box
+	{
+		position: static;
+		flex:1;
+		margin-top: 20px;
+	}
+	.BudgetRemarkShow
+	{
+		flex:1;
+		display: flex;
+	}
+}
 .pending-remarks-input textarea
 {
   font-size: 14px;
@@ -361,6 +375,13 @@ min-height: 100vh;
   -moz-filter: drop-shadow(5px 8px 2px #B8B8B8);
   -o-filter: drop-shadow(5px 8px 2px #B8B8B8);
   filter: drop-shadow(5px 8px 2px #B8B8B8);
+}
+@media (max-width:845px)
+{
+	.pending-remarks-input
+	{
+		left: 10px;
+	}
 }
 .pending-remarks-input:after {
 	bottom: 100%;
@@ -5195,6 +5216,10 @@ text-align: center;
 	{
 		flex-direction: column;
 	}
+	.RVsignatureBtns
+	{
+		flex-direction: row!important;
+	}
 	.CanvasBtn a
 	{
 		display: flex;
@@ -5256,6 +5281,23 @@ text-align: center;
 {
   display: flex;
 }
+@media (max-width:700px)
+{
+	.Approve-replacer-accept-cant
+	{
+		flex-direction: column;
+	}
+	.Request-manager-replace > span
+	{
+		justify-content: center;
+	}
+	.approve-managerreplace-note
+	{
+		margin:0 auto;
+		margin-bottom: 20px;
+		width: auto;
+	}
+}
 .print-and-unreceved
 {
   display: flex;
@@ -5310,7 +5352,7 @@ text-align: center;
 }
 @media (max-width:845px)
 {
-	.show-rr-of-rv a,.viewPObtn a
+	.show-rr-of-rv a,.viewPObtn a,.CreateRRwoPO a
 	{
 		display: flex;
 		text-decoration: none;
@@ -5319,8 +5361,9 @@ text-align: center;
 	{
 		margin-top: 10px;
 		width:flex:1;
-		padding:10px 20px;
+		padding:10px;
 		flex:1;
+		text-align: left;
 	}
 	.show-rr-of-rv
 	{
@@ -5466,6 +5509,7 @@ text-align: center;
 	{
 		justify-content: flex-start;
 		margin-top: 30px;
+		font-size: 14px;
 	}
 
 }
@@ -5498,6 +5542,10 @@ text-align: center;
 		margin-top: 10px;
 		margin-bottom: 5px;
 		flex-direction: column;
+	}
+	.to-gm-container
+	{
+		font-size: 14px;
 	}
 }
 .to-gm-container h3
@@ -5793,6 +5841,18 @@ only screen and (max-width: 1050px),
   position: absolute;
   top: -10px;
   right: -30px;
+}
+@media (max-width:400px)
+{
+	.update-budget-btn
+	{
+		right: 0;
+		top: -40px;
+	}
+	.edit-budget-opener
+	{
+		right: 0;
+	}
 }
 .budget-from.disable
 {
@@ -8192,7 +8252,6 @@ filter: drop-shadow(-2px 1px 5px #1D1A33);
 }
 .selected-received-items-table th
 {
-  font-weight: 600;
   padding:5px;
   background: #3367D6;
   color: #fff;
