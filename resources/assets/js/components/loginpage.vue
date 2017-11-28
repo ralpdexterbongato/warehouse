@@ -21,10 +21,7 @@
         </div>
         <div class="submit-btn-login-container">
           <p>Forgot password?<br>-please contact the administrator.</p>
-          <button type="button" name="button" v-on:click="submitCredentials" v-if="stillLoading==false"><i class="material-icons">send</i> Login</button>
-          <div v-else class="loader-container">
-            <i class="loading-login material-icons fa-spin">toys</i>
-          </div>
+          <button type="button" name="button" v-on:click="submitCredentials"><i class="material-icons">send</i> Login</button>
         </div>
       </div>
     </div>
@@ -33,15 +30,15 @@
 
 <script>
 import axios from 'axios';
+import 'vue2-toast/lib/toast.css';
+import Toast from 'vue2-toast';
+Vue.use(Toast);
 export default {
    data ()
    {
       return {
         Username:'',
         Password:'',
-        failmsg:'',
-        stillLoading:false,
-        laravelerror:[],
         usernameForm:false,
         passForm:false
       }
@@ -50,7 +47,7 @@ export default {
    {
      submitCredentials()
      {
-      this.stillLoading=true;
+      this.$loading('loading...');
        var vm=this;
        axios.post(`/login-submit`,{
          Username:this.Username,
@@ -59,18 +56,14 @@ export default {
        {
          if (response.data.message!=null)
          {
-           Vue.set(vm.$data,'failmsg',response.data.message);
-           vm.stillLoading=false;
+           vm.$toast.bottom(response.data.message);
+           vm.$loading.close();
          }else
          {
+           vm.$loading.close();
+           vm.$toast.bottom('Welcome !');
            window.location=response.data.redirect;
          }
-         console.log('response');
-       },function(error)
-       {
-         console.log(error);
-         Vue.set(vm.$data,'failmsg','Fields are required');
-         vm.stillLoading=false;
        });
      }
    },

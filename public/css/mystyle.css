@@ -3457,18 +3457,18 @@ filter: drop-shadow(1px 1px 3px #1D1A33);
 	display: flex;
 	height: 100vh;
 }
+.left-login
+{
+	flex:1;
+	display: flex;
+	background: #3367D6;
+}
 @media (max-width:800px)
 {
 	.login-vue
 	{
 		flex-direction: column;
 	}
-}
-.left-login
-{
-	flex:1;
-	display: flex;
-	background: #3367D6;
 }
 .left-login h1
 {
@@ -3478,18 +3478,22 @@ filter: drop-shadow(1px 1px 3px #1D1A33);
 	font-weight:700;
 	color: #fff;
 }
+.right-login
+{
+	flex:1;
+	display: flex;
+	background: #22448E;
+}
 @media (max-width:570px)
 {
 	.left-login h1
 	{
 		font-size: 60px;
 	}
-}
-.right-login
-{
-	flex:1;
-	display: flex;
-	background: #22448E;
+	.right-login
+	{
+		flex:2;
+	}
 }
 .form-login-container
 {
@@ -3615,24 +3619,6 @@ filter: drop-shadow(1px 1px 3px #1D1A33);
 	vertical-align: middle;
 	color: #fff;
 	font-size:26px;
-}
-.loading-login
-{
-	text-align: right;
-	font-size: 35px!important;
-	color: #fff;
-}
-@media (max-width:540px)
-{
-	.loader-container
-	{
-		display: flex;
-	}
-	.loading-login
-	{
-		margin: auto;
-		margin-top: 23px;
-	}
 }
 /*REGISTRAION CSS*/
 #signaturePreview,#signatureUpdate

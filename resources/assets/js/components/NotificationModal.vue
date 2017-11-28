@@ -187,7 +187,10 @@
 </template>
 
 <script>
-import axios from 'axios'
+import axios from 'axios';
+import 'vue2-toast/lib/toast.css';
+import Toast from 'vue2-toast';
+Vue.use(Toast);
   export default {
      data () {
        return {
@@ -320,6 +323,7 @@ import axios from 'axios'
       },
       logout()
       {
+        this.$loading('Logging out');
         axios.post(`/logout`).then(function(response)
         {
           window.location=response.data.redirect;

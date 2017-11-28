@@ -30,10 +30,10 @@ class AccountController extends Controller
     }
     public function loginSubmit(Request $request)
     {
-      $this->validate($request,[
-        'Username'=>'required',
-        'Password'=>'required',
-      ]);
+      if ($request->Username==null || $request->Password==null)
+      {
+        return ['message'=>'fields are required'];
+      }
       $credentials = array('Username' =>$request->Username,'password'=>$request->Password );
       if (Auth::attempt($credentials)) {
         if (Auth::user()->IsActive==null)
