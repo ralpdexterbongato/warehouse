@@ -32129,8 +32129,8 @@ module.exports={render:function (){var _vm=this;var _h=_vm.$createElement;var _c
       }
     }
   }, [_c('i', {
-    staticClass: "fa fa-navicon"
-  })]), _vm._v(" "), _vm._m(0)]), _vm._v(" "), _vm._m(1)]), _vm._v(" "), _c('div', {
+    staticClass: "material-icons"
+  }, [_vm._v("menu")])]), _vm._v(" "), _vm._m(0)]), _vm._v(" "), _vm._m(1)]), _vm._v(" "), _c('div', {
     staticClass: "Account-modal",
     class: [_vm.modalOpen == true ? 'active' : ''],
     on: {
@@ -32138,31 +32138,23 @@ module.exports={render:function (){var _vm=this;var _h=_vm.$createElement;var _c
         _vm.modalOpen = !_vm.modalOpen
       }
     }
-  }, [_c('div', {
-    staticClass: "middle-account-modal animated",
-    class: [_vm.modalOpen == true ? 'slideInLeft' : 'slideOutleft'],
-    on: {
-      "click": function($event) {
-        _vm.modalOpen = !_vm.modalOpen
-      }
-    }
+  }), _vm._v(" "), _c('div', {
+    staticClass: "middle-account-modal",
+    class: [_vm.modalOpen == true ? 'active' : '']
   }, [_c('ul', [_c('a', [_c('li', {
     staticClass: "sidebar-title CurrentUser"
   }, [_c('span', [_c('i', {
-    staticClass: "fa fa-user-circle"
-  }), _vm._v(" " + _vm._s(_vm.user.FullName) + "\n            ")])])]), _vm._v(" "), _vm._m(2), _vm._v(" "), _c('a', {
+    staticClass: "material-icons"
+  }, [_vm._v("person")]), _vm._v(" " + _vm._s(_vm.user.FullName) + "\n          ")])])]), _vm._v(" "), _vm._m(2), _vm._v(" "), _c('a', {
     attrs: {
       "href": "/mirs-signature-list"
     }
   }, [_c('li', {
     staticClass: "clickable"
-  }, [_c('span', [_c('i', {
-    staticClass: "fa fa-bell-o",
-    class: [_vm.MIRSNew == true ? 'animated swing' : '']
-  }), _vm._v("MIRS\n            ")]), _vm._v(" "), _c('span', {
+  }, [_vm._m(3), _vm._v(" "), _c('span', {
     staticClass: "notif",
     class: [_vm.MIRSNotif != 0 ? 'active' : '']
-  }, [_vm._v("\n              " + _vm._s(_vm.MIRSNotif) + "\n              "), (_vm.MIRSNew == true) ? _c('small', {
+  }, [_vm._v("\n            " + _vm._s(_vm.MIRSNotif) + "\n            "), (_vm.MIRSNew == true) ? _c('small', {
     staticClass: "new-notif"
   }, [_vm._v("new !")]) : _vm._e()])])]), _vm._v(" "), _c('a', {
     attrs: {
@@ -32170,13 +32162,10 @@ module.exports={render:function (){var _vm=this;var _h=_vm.$createElement;var _c
     }
   }, [_c('li', {
     staticClass: "clickable"
-  }, [_c('span', [_c('i', {
-    staticClass: "fa fa-bell-o",
-    class: [_vm.MCTNew == true ? 'animated swing' : '']
-  }), _vm._v("MCT\n            ")]), _vm._v(" "), _c('span', {
+  }, [_vm._m(4), _vm._v(" "), _c('span', {
     staticClass: "notif",
     class: [_vm.NewlyCreatedMCT != 0 ? 'active' : '']
-  }, [_vm._v(_vm._s(_vm.NewlyCreatedMCT) + "\n              "), (_vm.MCTNew == true) ? _c('small', {
+  }, [_vm._v(_vm._s(_vm.NewlyCreatedMCT) + "\n            "), (_vm.MCTNew == true) ? _c('small', {
     staticClass: "new-notif"
   }, [_vm._v("new !")]) : _vm._e()])])]), _vm._v(" "), _c('a', {
     attrs: {
@@ -32184,13 +32173,10 @@ module.exports={render:function (){var _vm=this;var _h=_vm.$createElement;var _c
     }
   }, [_c('li', {
     staticClass: "clickable"
-  }, [_c('span', [_c('i', {
-    staticClass: "fa fa-bell-o",
-    class: [_vm.MRTNew == true ? 'animated swing' : '']
-  }), _vm._v(" MRT\n            ")]), _vm._v(" "), _c('span', {
+  }, [_vm._m(5), _vm._v(" "), _c('span', {
     staticClass: "notif",
     class: [_vm.NewlyCreatedMRT != 0 ? 'active' : '']
-  }, [_vm._v(_vm._s(_vm.NewlyCreatedMRT) + "\n              "), (_vm.MRTNew == true) ? _c('small', {
+  }, [_vm._v(_vm._s(_vm.NewlyCreatedMRT) + "\n            "), (_vm.MRTNew == true) ? _c('small', {
     staticClass: "new-notif"
   }, [_vm._v("new !")]) : _vm._e()])])]), _vm._v(" "), _c('a', {
     attrs: {
@@ -32198,96 +32184,78 @@ module.exports={render:function (){var _vm=this;var _h=_vm.$createElement;var _c
     }
   }, [_c('li', {
     staticClass: "clickable"
-  }, [_c('span', [_c('i', {
-    staticClass: "fa fa-bell-o",
-    class: [_vm.RRNew == true ? 'animated swing' : '']
-  }), _vm._v(" RR\n            ")]), _vm._v(" "), _c('span', {
+  }, [_vm._m(6), _vm._v(" "), _c('span', {
     staticClass: "notif",
     class: [_vm.RRRequestCount != 0 ? 'active' : '']
-  }, [_vm._v(_vm._s(_vm.RRRequestCount) + "\n              "), (_vm.RRNew == true) ? _c('small', {
+  }, [_vm._v(_vm._s(_vm.RRRequestCount) + "\n            "), (_vm.RRNew == true) ? _c('small', {
     staticClass: "new-notif"
-  }, [_vm._v("new !\n              ")]) : _vm._e()])])]), _vm._v(" "), _c('a', {
+  }, [_vm._v("new !\n            ")]) : _vm._e()])])]), _vm._v(" "), _c('a', {
     attrs: {
       "href": "/myRVrequest"
     }
   }, [_c('li', {
     staticClass: "clickable"
-  }, [_c('span', [_c('i', {
-    staticClass: "fa fa-bell-o",
-    class: [_vm.RVNew == true ? 'animated swing' : '']
-  }), _vm._v(" RV\n            ")]), _vm._v(" "), _c('span', {
+  }, [_vm._m(7), _vm._v(" "), _c('span', {
     staticClass: "notif",
     class: [_vm.NewlyCreatedRV != 0 ? 'active' : '']
-  }, [_vm._v(_vm._s(_vm.NewlyCreatedRV) + "\n              "), (_vm.RVNew == true) ? _c('small', {
+  }, [_vm._v(_vm._s(_vm.NewlyCreatedRV) + "\n            "), (_vm.RVNew == true) ? _c('small', {
     staticClass: "new-notif"
-  }, [_vm._v("new !\n              ")]) : _vm._e()])])]), _vm._v(" "), _c('a', {
+  }, [_vm._v("new !\n            ")]) : _vm._e()])])]), _vm._v(" "), _c('a', {
     attrs: {
       "href": "/my-mr-request"
     }
   }, [_c('li', {
     staticClass: "clickable"
-  }, [_c('span', [_c('i', {
-    staticClass: "fa fa-bell-o",
-    class: [_vm.MRNew == true ? 'animated swing' : '']
-  }), _vm._v(" MR\n            ")]), _vm._v(" "), _c('span', {
+  }, [_vm._m(8), _vm._v(" "), _c('span', {
     staticClass: "notif",
     class: [_vm.CountMRRequest != 0 ? 'active' : '']
-  }, [_vm._v(_vm._s(_vm.CountMRRequest) + "\n              "), (_vm.MRNew == true) ? _c('small', {
+  }, [_vm._v(_vm._s(_vm.CountMRRequest) + "\n            "), (_vm.MRNew == true) ? _c('small', {
     staticClass: "new-notif"
-  }, [_vm._v("new !\n              ")]) : _vm._e()])])]), _vm._v(" "), (_vm.user.Role == 0 || _vm.user.Role == 2) ? _c('a', {
+  }, [_vm._v("new !\n            ")]) : _vm._e()])])]), _vm._v(" "), (_vm.user.Role == 0 || _vm.user.Role == 2) ? _c('a', {
     attrs: {
       "href": "/my-PO-request"
     }
   }, [_c('li', {
     staticClass: "clickable"
-  }, [_c('span', [_c('i', {
-    staticClass: "fa fa-bell-o",
-    class: [_vm.PONew == true ? 'animated swing' : '']
-  }), _vm._v("PO\n            ")]), _vm._v(" "), _c('span', {
+  }, [_vm._m(9), _vm._v(" "), _c('span', {
     staticClass: "notif",
     class: [_vm.CountPOrequest != 0 ? 'active' : '']
-  }, [_vm._v(_vm._s(_vm.CountPOrequest) + "\n              "), (_vm.PONew == true) ? _c('small', {
+  }, [_vm._v(_vm._s(_vm.CountPOrequest) + "\n            "), (_vm.PONew == true) ? _c('small', {
     staticClass: "new-notif"
-  }, [_vm._v("new !\n              ")]) : _vm._e()])])]) : _vm._e(), _vm._v(" "), (_vm.user.Role == 3 || _vm.user.Role == 4) ? _c('span', [_c('a', {
+  }, [_vm._v("new !\n            ")]) : _vm._e()])])]) : _vm._e(), _vm._v(" "), (_vm.user.Role == 3 || _vm.user.Role == 4) ? _c('span', [_c('a', {
     attrs: {
       "href": "/ready-mirs"
     }
   }, [_c('li', {
     staticClass: "clickable"
-  }, [_c('span', [_c('i', {
-    staticClass: "fa fa-bell-o",
-    class: [_vm.ApproveMIRSNew == true ? 'animated swing' : '']
-  }), _vm._v("Approved mirs\n              ")]), _vm._v(" "), _c('span', {
+  }, [_vm._m(10), _vm._v(" "), _c('span', {
     staticClass: "notif",
     class: [_vm.NewlyApprovedMIRS != 0 ? 'active' : '']
-  }, [_vm._v(_vm._s(_vm.NewlyApprovedMIRS) + "\n                "), (_vm.ApproveMIRSNew == true) ? _c('small', {
+  }, [_vm._v(_vm._s(_vm.NewlyApprovedMIRS) + "\n              "), (_vm.ApproveMIRSNew == true) ? _c('small', {
     staticClass: "new-notif"
-  }, [_vm._v("new !\n                ")]) : _vm._e()])])]), _vm._v(" "), _c('a', {
+  }, [_vm._v("new !\n              ")]) : _vm._e()])])]), _vm._v(" "), _c('a', {
     attrs: {
       "href": "/waiting-to-be-purchased-rv"
     }
   }, [_c('li', {
     staticClass: "clickable"
-  }, [_c('span', [_c('i', {
-    staticClass: "fa fa-bell-o",
-    class: [_vm.RVwaitingRRNew == true ? 'animated swing' : '']
-  }), _vm._v("Approved rv\n              ")]), _vm._v(" "), _c('span', {
+  }, [_vm._m(11), _vm._v(" "), _c('span', {
     staticClass: "notif",
     class: [_vm.RVWaitingRRCount != 0 ? 'active' : '']
-  }, [_vm._v(_vm._s(_vm.RVWaitingRRCount) + "\n                "), (_vm.RVwaitingRRNew == true) ? _c('small', {
+  }, [_vm._v(_vm._s(_vm.RVWaitingRRCount) + "\n              "), (_vm.RVwaitingRRNew == true) ? _c('small', {
     staticClass: "new-notif"
-  }, [_vm._v("new !\n                ")]) : _vm._e()])])])]) : _vm._e(), _vm._v(" "), (_vm.user.Role == 2 || _vm.user.Role == 1) ? _c('a', [_vm._m(3)]) : _vm._e(), _vm._v(" "), (_vm.user.Role == 2) ? _c('a', {
+  }, [_vm._v("new !\n              ")]) : _vm._e()])])])]) : _vm._e(), _vm._v(" "), (_vm.user.Role == 2 || _vm.user.Role == 1) ? _c('a', [_vm._m(12)]) : _vm._e(), _vm._v(" "), (_vm.user.Role == 2) ? _c('a', {
     attrs: {
       "href": "/manager-take-placer-setting"
     }
-  }, [_vm._m(4)]) : _vm._e(), _vm._v(" "), (_vm.user.Role == 1) ? _c('span', [_vm._m(5), _vm._v(" "), _vm._m(6)]) : _vm._e(), _vm._v(" "), _vm._m(7), _vm._v(" "), _vm._m(8), _vm._v(" "), _c('a', [_c('li', {
+  }, [_vm._m(13)]) : _vm._e(), _vm._v(" "), (_vm.user.Role == 1) ? _c('span', [_vm._m(14), _vm._v(" "), _vm._m(15)]) : _vm._e(), _vm._v(" "), _vm._m(16), _vm._v(" "), _vm._m(17), _vm._v(" "), _c('a', [_c('li', {
     staticClass: "logout-btn clickable",
     on: {
       "click": function($event) {
         _vm.logout()
       }
     }
-  }, [_vm._m(9)])])])])]), _vm._v(" "), _c('audio', {
+  }, [_vm._m(18)])])])]), _vm._v(" "), _c('audio', {
     ref: "audioElm",
     attrs: {
       "src": "/audio/NotificationSound.mp3"
@@ -32313,17 +32281,53 @@ module.exports={render:function (){var _vm=this;var _h=_vm.$createElement;var _c
 },function (){var _vm=this;var _h=_vm.$createElement;var _c=_vm._self._c||_h;
   return _c('a', [_c('li', {
     staticClass: "sidebar-title"
-  }, [_c('span', [_vm._v("\n              Notifications\n            ")])])])
+  }, [_c('span', [_vm._v("\n            Notifications\n          ")])])])
+},function (){var _vm=this;var _h=_vm.$createElement;var _c=_vm._self._c||_h;
+  return _c('span', [_c('i', {
+    staticClass: "material-icons"
+  }, [_vm._v("notifications_none")]), _vm._v("MIRS\n          ")])
+},function (){var _vm=this;var _h=_vm.$createElement;var _c=_vm._self._c||_h;
+  return _c('span', [_c('i', {
+    staticClass: "material-icons"
+  }, [_vm._v("notifications_none")]), _vm._v("MCT\n          ")])
+},function (){var _vm=this;var _h=_vm.$createElement;var _c=_vm._self._c||_h;
+  return _c('span', [_c('i', {
+    staticClass: "material-icons"
+  }, [_vm._v("notifications_none")]), _vm._v(" MRT\n          ")])
+},function (){var _vm=this;var _h=_vm.$createElement;var _c=_vm._self._c||_h;
+  return _c('span', [_c('i', {
+    staticClass: "material-icons"
+  }, [_vm._v("notifications_none")]), _vm._v(" RR\n          ")])
+},function (){var _vm=this;var _h=_vm.$createElement;var _c=_vm._self._c||_h;
+  return _c('span', [_c('i', {
+    staticClass: "material-icons"
+  }, [_vm._v("notifications_none")]), _vm._v(" RV\n          ")])
+},function (){var _vm=this;var _h=_vm.$createElement;var _c=_vm._self._c||_h;
+  return _c('span', [_c('i', {
+    staticClass: "material-icons"
+  }, [_vm._v("notifications_none")]), _vm._v(" MR\n          ")])
+},function (){var _vm=this;var _h=_vm.$createElement;var _c=_vm._self._c||_h;
+  return _c('span', [_c('i', {
+    staticClass: "material-icons"
+  }, [_vm._v("notifications_none")]), _vm._v("PO\n          ")])
+},function (){var _vm=this;var _h=_vm.$createElement;var _c=_vm._self._c||_h;
+  return _c('span', [_c('i', {
+    staticClass: "material-icons"
+  }, [_vm._v("notifications_none")]), _vm._v("Approved mirs\n            ")])
+},function (){var _vm=this;var _h=_vm.$createElement;var _c=_vm._self._c||_h;
+  return _c('span', [_c('i', {
+    staticClass: "material-icons"
+  }, [_vm._v("notifications_none")]), _vm._v("Approved rv\n            ")])
 },function (){var _vm=this;var _h=_vm.$createElement;var _c=_vm._self._c||_h;
   return _c('li', {
     staticClass: "sidebar-title"
-  }, [_c('span', [_vm._v("\n                Settings\n              ")])])
+  }, [_c('span', [_vm._v("\n              Settings\n            ")])])
 },function (){var _vm=this;var _h=_vm.$createElement;var _c=_vm._self._c||_h;
   return _c('li', {
     staticClass: "clickable"
   }, [_c('span', [_c('i', {
-    staticClass: "fa fa-user"
-  }), _vm._v("Assign a Manager\n              ")])])
+    staticClass: "material-icons"
+  }, [_vm._v("face")]), _vm._v("Assign a Manager\n            ")])])
 },function (){var _vm=this;var _h=_vm.$createElement;var _c=_vm._self._c||_h;
   return _c('a', {
     attrs: {
@@ -32332,8 +32336,8 @@ module.exports={render:function (){var _vm=this;var _h=_vm.$createElement;var _c
   }, [_c('li', {
     staticClass: "clickable"
   }, [_c('span', [_c('i', {
-    staticClass: "fa fa-plus"
-  }), _vm._v(" Add new item\n              ")])])])
+    staticClass: "material-icons"
+  }, [_vm._v("fiber_new")]), _vm._v(" Add new item\n            ")])])])
 },function (){var _vm=this;var _h=_vm.$createElement;var _c=_vm._self._c||_h;
   return _c('a', {
     attrs: {
@@ -32342,12 +32346,12 @@ module.exports={render:function (){var _vm=this;var _h=_vm.$createElement;var _c
   }, [_c('li', {
     staticClass: "clickable"
   }, [_c('span', [_c('i', {
-    staticClass: "fa fa-cog"
-  }), _vm._v(" Manage accounts\n              ")])])])
+    staticClass: "material-icons"
+  }, [_vm._v("people")]), _vm._v(" Manage accounts\n            ")])])])
 },function (){var _vm=this;var _h=_vm.$createElement;var _c=_vm._self._c||_h;
   return _c('a', [_c('li', {
     staticClass: "sidebar-title"
-  }, [_c('span', [_vm._v("\n              History\n            ")])])])
+  }, [_c('span', [_vm._v("\n            History\n          ")])])])
 },function (){var _vm=this;var _h=_vm.$createElement;var _c=_vm._self._c||_h;
   return _c('a', {
     attrs: {
@@ -32356,12 +32360,12 @@ module.exports={render:function (){var _vm=this;var _h=_vm.$createElement;var _c
   }, [_c('li', {
     staticClass: "clickable"
   }, [_c('span', [_c('i', {
-    staticClass: "fa fa-history"
-  }), _vm._v(" My history\n            ")])])])
+    staticClass: "material-icons"
+  }, [_vm._v("history")]), _vm._v(" My history\n          ")])])])
 },function (){var _vm=this;var _h=_vm.$createElement;var _c=_vm._self._c||_h;
   return _c('span', [_c('i', {
-    staticClass: "fa fa-sign-out"
-  }), _vm._v(" Logout\n          ")])
+    staticClass: "material-icons"
+  }, [_vm._v("exit_to_app")]), _vm._v(" Logout\n        ")])
 }]}
 module.exports.render._withStripped = true
 if (false) {

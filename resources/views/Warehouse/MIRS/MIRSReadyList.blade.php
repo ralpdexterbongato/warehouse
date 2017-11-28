@@ -6,7 +6,7 @@ MIRS Ready for MCT
   <div class="MIRS-Ready-Container">
     <div class="ready-mirs-container">
       <div class="ready-mirs-title">
-        <h1><i class="fa fa-thumbs-up"></i> Newly approved M.I.R.S.</h1>
+        <h1><i class="material-icons">thumb_up</i> Newly approved M.I.R.S.</h1>
       </div>
       @if (!empty($readyformct[0]))
       <table>
@@ -21,7 +21,7 @@ MIRS Ready for MCT
             <td>{{$mctReady->MIRSNo}}</td>
             <td>{{$mctReady->MIRSDate->format('M, d Y')}}</td>
             <td>{{$mctReady->Purpose}}</td>
-            <td><a href="{{route('full-mirs',[$mctReady->MIRSNo])}}"><i class="fa fa-eye"></i></a></td>
+            <td><a href="{{route('full-mirs',[$mctReady->MIRSNo])}}"><i class="material-icons">remove_red_eye</i></a></td>
           </tr>
         @endforeach
       </table>

@@ -29010,8 +29010,8 @@ module.exports={render:function (){var _vm=this;var _h=_vm.$createElement;var _c
       }
     }
   }, [_c('i', {
-    staticClass: "fa fa-search"
-  })])])])]), _vm._v(" "), (_vm.NotFoundSearch == '') ? _c('div', {
+    staticClass: "material-icons"
+  }, [_vm._v("search")])])])])]), _vm._v(" "), (_vm.NotFoundSearch == '') ? _c('div', {
     staticClass: "data-results-container",
     class: [_vm.Searching == true ? 'hide' : 'show']
   }, [(_vm.latestFound.MTNo != null) ? _c('div', {
@@ -29075,8 +29075,8 @@ module.exports={render:function (){var _vm=this;var _h=_vm.$createElement;var _c
     staticClass: "not-found-msg",
     class: _vm.Searching == true ? 'hide' : 'flex'
   }, [_c('h2', [_c('i', {
-    staticClass: "fa fa-search"
-  }), _vm._v(" " + _vm._s(_vm.NotFoundSearch))])]), _vm._v(" "), _c('div', {
+    staticClass: "material-icons"
+  }, [_vm._v("search")]), _vm._v(" " + _vm._s(_vm.NotFoundSearch))])]), _vm._v(" "), _c('div', {
     staticClass: "loading-spin",
     class: _vm.Searching == true ? 'flex' : 'hide'
   }, [_c('i', {
@@ -29086,22 +29086,22 @@ module.exports={render:function (){var _vm=this;var _h=_vm.$createElement;var _c
   return _c('span', {
     staticClass: "big"
   }, [_c('i', {
-    staticClass: "fa fa-search"
-  }), _vm._v(" Search")])
+    staticClass: "material-icons"
+  }, [_vm._v("search")]), _vm._v(" Search")])
 },function (){var _vm=this;var _h=_vm.$createElement;var _c=_vm._self._c||_h;
   return _c('div', {
     staticClass: "search-welcome-title"
   }, [_c('div', {
     staticClass: "Current-title"
   }, [_c('h1', [_c('i', {
-    staticClass: "fa fa-fire"
-  }), _vm._v(" Latest info")])])])
+    staticClass: "material-icons"
+  }, [_vm._v("whatshot")]), _vm._v(" Latest info")])])])
 },function (){var _vm=this;var _h=_vm.$createElement;var _c=_vm._self._c||_h;
   return _c('tr', [_c('th', [_vm._v("MT type")]), _vm._v(" "), _c('th', [_vm._v("MT No.")]), _vm._v(" "), _c('th', [_vm._v("Account code")]), _vm._v(" "), _c('th', [_vm._v("Item code")]), _vm._v(" "), _c('th', [_vm._v("Description")]), _vm._v(" "), _c('th', [_vm._v("Unit cost")]), _vm._v(" "), _c('th', [_vm._v("Quantity")]), _vm._v(" "), _c('th', [_vm._v("Unit")]), _vm._v(" "), _c('th', [_vm._v("Amount")]), _vm._v(" "), _c('th', [_vm._v("Current cost")]), _vm._v(" "), _c('th', [_vm._v("Current quantity")]), _vm._v(" "), _c('th', [_vm._v("Current amount")]), _vm._v(" "), _c('th', [_vm._v("Month")])])
 },function (){var _vm=this;var _h=_vm.$createElement;var _c=_vm._self._c||_h;
   return _c('h1', [_c('i', {
-    staticClass: "fa fa-history"
-  }), _vm._v(" Previous info")])
+    staticClass: "material-icons"
+  }, [_vm._v("history")]), _vm._v(" Previous info")])
 },function (){var _vm=this;var _h=_vm.$createElement;var _c=_vm._self._c||_h;
   return _c('tr', [_c('th', [_vm._v("MT type")]), _vm._v(" "), _c('th', [_vm._v("MT No.")]), _vm._v(" "), _c('th', [_vm._v("Account code")]), _vm._v(" "), _c('th', [_vm._v("Item code")]), _vm._v(" "), _c('th', [_vm._v("Description")]), _vm._v(" "), _c('th', [_vm._v("Unit cost")]), _vm._v(" "), _c('th', [_vm._v("Quantity")]), _vm._v(" "), _c('th', [_vm._v("Unit")]), _vm._v(" "), _c('th', [_vm._v("Amount")]), _vm._v(" "), _c('th', [_vm._v("Current cost")]), _vm._v(" "), _c('th', [_vm._v("Current quantity")]), _vm._v(" "), _c('th', [_vm._v("Current amount")]), _vm._v(" "), _c('th', [_vm._v("Month")])])
 }]}

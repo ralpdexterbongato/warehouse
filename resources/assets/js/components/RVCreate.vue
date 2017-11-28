@@ -18,8 +18,8 @@
             <p>{{successAlerts}}</p>
           </div>
         <div class="add-item-RV">
-          <button type="button" v-if="user.Role==3||user.Role==4" name="button" id="forstock-ItemRV" v-on:click="forstock=!forstock"><i class="fa fa-cubes" v-if="user.Role==3||user.Role==4"></i> For stocks</button>
-          <button type="button" class="bttn-unite bttn-sm bttn-primary" id="none-existing-itemRV" v-on:click="notforstock=!notforstock"><i class="fa fa-ban"></i> Not in warehouse</button>
+          <button type="button" v-if="user.Role==3||user.Role==4" name="button" id="forstock-ItemRV" v-on:click="forstock=!forstock"><i class="material-icons" v-if="user.Role==3||user.Role==4">widgets</i> For stocks</button>
+          <button type="button" class="bttn-unite bttn-sm bttn-primary" id="none-existing-itemRV" v-on:click="notforstock=!notforstock"><i class="material-icons">shopping_cart</i> Not in warehouse</button>
         </div>
         <table>
           <tr>
@@ -27,14 +27,14 @@
             <th>Unit</th>
             <th>Qty</th>
             <th>Remarks</th>
-            <th>Action</th>
+            <th>Remove</th>
           </tr>
             <tr v-for="(sessionrv,key) in SessionStored">
               <td>{{sessionrv.Description}}</td>
               <td>{{sessionrv.Unit}}</td>
               <td>{{sessionrv.Quantity}}</td>
               <td>{{sessionrv.Remarks}}</td>
-              <td><i class="fa fa-trash" v-on:click="deleteSession(key)"></i></td>
+              <td><i class="material-icons" v-on:click="deleteSession(key)">close</i></td>
             </tr>
         </table>
       </div>
@@ -86,9 +86,11 @@
           <h1>Request for warehouse stock items</h1>
           <div class="searchboxes-forstock">
             <div class="low-qty-items">
-              <button type="button" v-on:click="[lowqtyactive==false?FetchLowQtyItems():searchDescription()],lowqtyactive=!lowqtyactive" :class="{'lowqtyactive':lowqtyactive}"><i class="fa fa-arrow-down"></i> Qty items</button>
+              <button type="button" v-on:click="[lowqtyactive==false?FetchLowQtyItems():searchDescription()],lowqtyactive=!lowqtyactive" :class="{'lowqtyactive':lowqtyactive}"><i class="material-icons">arrow_downward</i> Qty items</button>
             </div>
-              <span><input type="text" autocomplete="off" name="Description" placeholder="Article/Description" v-model="findDescription" v-on:keyup.enter="searchDescription(),lowqtyactive=false"><button type="submit"v-on:click="searchDescription(),lowqtyactive=false"><i class="fa fa-search"></i></button></span>
+            <div class="search-input-item">
+              <input type="text" autocomplete="off" name="Description" placeholder="Article/Description" v-model="findDescription" v-on:keyup.enter="searchDescription(),lowqtyactive=false"><button type="submit"v-on:click="searchDescription(),lowqtyactive=false"><i class="material-icons">search</i></button>
+            </div>
           </div>
           <div class="searchResults-forstock">
             <table>
@@ -100,7 +102,7 @@
                 <th>Current Balance</th>
                 <th>Minimum balance</th>
                 <th>Remarks</th>
-                <th>Action</th>
+                <th>Add</th>
               </tr>
               <tr v-for="(result,count) in findResults">
                   <td>{{result.ItemCode}}</td>
@@ -110,7 +112,7 @@
                   <td class="bold" :class="{'color-red':lowqtyactive}">{{result.CurrentQuantity}}</td>
                   <td class="bold">{{result.AlertIfBelow}}</td>
                   <td><input type="text" autocomplete="off" v-model="RemarksForWHouse[count]" name="Remarks"></td>
-                  <td><button type="submit" v-on:click="AddtoSessionForWarehouse(result,count),forstock=!forstock"><i class="fa fa-plus-circle"></i></button></td>
+                  <td><button type="submit" v-on:click="AddtoSessionForWarehouse(result,count),forstock=!forstock"><i class="material-icons">add_circle</i></button></td>
               </tr>
             </table>
             <div class="paginate-container">
@@ -169,6 +171,8 @@ import Longpress from 'vue-longpress';
          axios.get(`/search-rv-forstock?Description=`+this.findDescription+`&page=`+page).then(function(response)
          {
             console.log(response);
+            vm.QuantityForWHouse=[];
+            vm.RemarksForWHouse=[];
             Vue.set(vm.$data,'findResults',response.data.MasterResults.data);
             Vue.set(vm.$data,'pagination',response.data.MasterResults);
          });

@@ -30,7 +30,11 @@ class MIRSController extends Controller
   }
   public function fetchSessionMIRS()
   {
-      return Session::get('ItemSelected');
+      $items=Session::get('ItemSelected');
+      if (isset($items))
+      {
+        return array_reverse($items);
+      }
   }
   public function addingSessionItem(Request $request)
   {

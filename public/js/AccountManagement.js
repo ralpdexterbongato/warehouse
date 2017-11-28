@@ -1002,6 +1002,8 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
 //
 //
 //
+//
+//
 
 
 /* harmony default export */ __webpack_exports__["default"] = ({
@@ -1817,6 +1819,7 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
         }
         console.log('response');
       }, function (error) {
+
         console.log(error);
         Vue.set(vm.$data, 'failmsg', 'Fields are required');
         Vue.set(vm.$data, 'loadingMsg', '');
@@ -2633,88 +2636,88 @@ module.exports={render:function (){var _vm=this;var _h=_vm.$createElement;var _c
     staticClass: "table-history-container"
   }, [(_vm.mirsbtn == true) ? _c('table', [_vm._m(0), _vm._v(" "), _vm._l((_vm.mirsResults), function(mirs) {
     return (_vm.mirsResults != null) ? _c('tr', [_c('td', [_vm._v(_vm._s(mirs.MIRSNo))]), _vm._v(" "), _c('td', [_vm._v(_vm._s(mirs.MIRSDate))]), _vm._v(" "), _c('td', [_vm._v(_vm._s(mirs.Purpose))]), _vm._v(" "), _c('td', [(mirs.Status == 0) ? _c('i', {
-      staticClass: "fa fa-thumbs-up"
-    }) : (mirs.Status == 1) ? _c('i', {
-      staticClass: "fa fa-times decliner"
-    }) : _c('i', {
-      staticClass: "fa fa-clock-o"
-    })]), _vm._v(" "), _c('td', [_c('a', {
+      staticClass: "material-icons"
+    }, [_vm._v("thumb_up")]) : (mirs.Status == 1) ? _c('i', {
+      staticClass: "material-icons decliner"
+    }, [_vm._v("close")]) : _c('i', {
+      staticClass: "material-icons"
+    }, [_vm._v("access_time")])]), _vm._v(" "), _c('td', [_c('a', {
       attrs: {
         "href": '/previewFullMIRS/' + mirs.MIRSNo
       }
     }, [_c('i', {
-      staticClass: "fa fa-eye"
-    })])])]) : _vm._e()
+      staticClass: "material-icons"
+    }, [_vm._v("remove_red_eye")])])])]) : _vm._e()
   })], 2) : _vm._e(), _vm._v(" "), (_vm.mctbtn == true) ? _c('table', [_vm._m(1), _vm._v(" "), _vm._l((_vm.mctResults), function(mct) {
     return (_vm.mctResults != null) ? _c('tr', [_c('td', [_vm._v(_vm._s(mct.MCTNo))]), _vm._v(" "), _c('td', [_vm._v(_vm._s(mct.MCTDate))]), _vm._v(" "), _c('td', [_vm._v(_vm._s(mct.AddressTo))]), _vm._v(" "), _c('td', [_vm._v(_vm._s(mct.Particulars))]), _vm._v(" "), _c('td', [(mct.Status == '0') ? _c('i', {
-      staticClass: "fa fa-thumbs-up"
-    }) : (mct.Status == '1') ? _c('i', {
-      staticClass: "fa fa-times decliner"
-    }) : _c('i', {
-      staticClass: "fa fa-clock-o"
-    })]), _vm._v(" "), _c('td', [_c('a', {
+      staticClass: "material-icons"
+    }, [_vm._v("thumb_up")]) : (mct.Status == '1') ? _c('i', {
+      staticClass: "material-icons decliner"
+    }, [_vm._v("close")]) : _c('i', {
+      staticClass: "material-icons"
+    }, [_vm._v("access_time")])]), _vm._v(" "), _c('td', [_c('a', {
       attrs: {
         "href": '/preview-mct-page-only/' + mct.MCTNo
       }
     }, [_c('i', {
-      staticClass: "fa fa-eye"
-    })])])]) : _vm._e()
+      staticClass: "material-icons"
+    }, [_vm._v("remove_red_eye")])])])]) : _vm._e()
   })], 2) : _vm._e(), _vm._v(" "), (_vm.mrtbtn == true) ? _c('table', [_vm._m(2), _vm._v(" "), _vm._l((_vm.mrtResults), function(mrt) {
     return _c('tr', [_c('td', [_vm._v(_vm._s(mrt.MRTNo))]), _vm._v(" "), _c('td', [_vm._v(_vm._s(mrt.ReturnDate))]), _vm._v(" "), _c('td', [_vm._v(_vm._s(mrt.Particulars))]), _vm._v(" "), _c('td', [_vm._v(_vm._s(mrt.AddressTo))]), _vm._v(" "), _c('td', [(mrt.Status == '1') ? _c('i', {
-      staticClass: "fa fa-times decliner"
-    }) : (mrt.Status == '0') ? _c('i', {
-      staticClass: "fa fa-thumbs-up"
-    }) : _c('i', {
-      staticClass: "fa fa-clock-o color-blue"
-    })]), _vm._v(" "), _c('td', [_c('a', {
+      staticClass: "material-icons decliner"
+    }, [_vm._v("close")]) : (mrt.Status == '0') ? _c('i', {
+      staticClass: "material-icons"
+    }, [_vm._v("thumb_up")]) : _c('i', {
+      staticClass: "material-icons color-blue"
+    }, [_vm._v("access_time")])]), _vm._v(" "), _c('td', [_c('a', {
       attrs: {
         "href": '/mrt-preview-page/' + mrt.MRTNo
       }
     }, [_c('i', {
-      staticClass: "fa fa-eye"
-    })])])])
+      staticClass: "material-icons"
+    }, [_vm._v("remove_red_eye")])])])])
   })], 2) : _vm._e(), _vm._v(" "), (_vm.mrbtn == true) ? _c('table', [_vm._m(3), _vm._v(" "), _vm._l((_vm.mrResults), function(mr) {
     return _c('tr', [_c('td', [_vm._v(_vm._s(mr.MRNo))]), _vm._v(" "), _c('td', [_vm._v(_vm._s(mr.Supplier))]), _vm._v(" "), _c('td', [(mr.Status == '1') ? _c('i', {
-      staticClass: "fa fa-times decliner"
-    }) : (mr.Status == '0') ? _c('i', {
-      staticClass: "fa fa-thumbs-up"
-    }) : _c('i', {
-      staticClass: "fa fa-clock-o"
-    })]), _vm._v(" "), _c('td', [_c('a', {
+      staticClass: "material-icons decliner"
+    }, [_vm._v("close")]) : (mr.Status == '0') ? _c('i', {
+      staticClass: "material-icons"
+    }, [_vm._v("thumb_up")]) : _c('i', {
+      staticClass: "material-icons"
+    }, [_vm._v("access_time")])]), _vm._v(" "), _c('td', [_c('a', {
       attrs: {
         "href": 'full-preview-MR/' + mr.MRNo
       }
     }, [_c('i', {
-      staticClass: "fa fa-eye"
-    })])])])
+      staticClass: "material-icons"
+    }, [_vm._v("remove_red_eye")])])])])
   })], 2) : _vm._e(), _vm._v(" "), (_vm.rvbtn == true) ? _c('table', [_vm._m(4), _vm._v(" "), _vm._l((_vm.rvResults), function(rv) {
     return _c('tr', [_c('td', [_vm._v(_vm._s(rv.RVNo))]), _vm._v(" "), _c('td', [_vm._v(_vm._s(rv.RVDate))]), _vm._v(" "), _c('td', [_vm._v(_vm._s(rv.Purpose))]), _vm._v(" "), _c('td', [(rv.Status == '0') ? _c('i', {
-      staticClass: "fa fa-thumbs-up"
-    }) : (rv.Status == '1') ? _c('i', {
-      staticClass: "fa fa-times decliner"
-    }) : _c('i', {
-      staticClass: "fa fa-clock-o"
-    })]), _vm._v(" "), _c('td', [_c('a', {
+      staticClass: "material-icons"
+    }, [_vm._v("thumb_up")]) : (rv.Status == '1') ? _c('i', {
+      staticClass: "material-icons decliner"
+    }, [_vm._v("close")]) : _c('i', {
+      staticClass: "material-icons"
+    }, [_vm._v("access_time")])]), _vm._v(" "), _c('td', [_c('a', {
       attrs: {
         "href": '/RVfullview/' + rv.RVNo
       }
     }, [_c('i', {
-      staticClass: "fa fa-eye"
-    })])])])
+      staticClass: "material-icons"
+    }, [_vm._v("remove_red_eye")])])])])
   })], 2) : _vm._e(), _vm._v(" "), (_vm.rrbtn == true) ? _c('table', [_vm._m(5), _vm._v(" "), _vm._l((_vm.rrResults), function(rr) {
     return _c('tr', [_c('td', [_vm._v(_vm._s(rr.RRNo))]), _vm._v(" "), _c('td', [_vm._v(_vm._s(rr.RRDate))]), _vm._v(" "), _c('td', [_vm._v(_vm._s(rr.RVNo))]), _vm._v(" "), _c('td', [(rr.Status == '0') ? _c('i', {
-      staticClass: "fa fa-thumbs-up"
-    }) : (rr.Status == '1') ? _c('i', {
-      staticClass: "fa fa-times decliner"
-    }) : _c('i', {
-      staticClass: "fa fa-clock-o"
-    })]), _vm._v(" "), _c('td', [_c('a', {
+      staticClass: "material-icons"
+    }, [_vm._v("thumb_up")]) : (rr.Status == '1') ? _c('i', {
+      staticClass: "material-icons decliner"
+    }, [_vm._v("close")]) : _c('i', {
+      staticClass: "material-icons"
+    }, [_vm._v("access_time")])]), _vm._v(" "), _c('td', [_c('a', {
       attrs: {
         "href": '/RR-fullpreview/' + rr.RRNo
       }
     }, [_c('i', {
-      staticClass: "fa fa-eye"
-    })])])])
+      staticClass: "material-icons"
+    }, [_vm._v("remove_red_eye")])])])])
   })], 2) : _vm._e(), _vm._v(" "), _c('div', {
     staticClass: "paginate-container"
   }, [_c('ul', {
@@ -2891,10 +2894,10 @@ module.exports={render:function (){var _vm=this;var _h=_vm.$createElement;var _c
       }
     }
   }, [(_vm.createAccMenu == false) ? _c('i', {
-    staticClass: "fa fa-user-plus"
-  }) : _c('i', {
-    staticClass: "fa fa-times"
-  })]), _vm._v(" "), _c('div', {
+    staticClass: "material-icons"
+  }, [_vm._v("person_add")]) : _c('i', {
+    staticClass: "material-icons"
+  }, [_vm._v("close")])]), _vm._v(" "), _c('div', {
     staticClass: "create-acc-minimenu",
     class: [_vm.createAccMenu == true ? 'active' : '']
   }, [_vm._m(1), _vm._v(" "), _c('h2', [_c('input', {
@@ -2936,26 +2939,26 @@ module.exports={render:function (){var _vm=this;var _h=_vm.$createElement;var _c
     })])]), _vm._v(" "), _c('td', {
       staticClass: "userstatus"
     }, [(account.IsActive != null) ? _c('i', {
-      staticClass: "fa fa-circle active"
-    }) : _c('i', {
-      staticClass: "fa fa-circle"
-    })]), _vm._v(" "), _c('td', {
+      staticClass: "material-icons active"
+    }, [_vm._v("person")]) : _c('i', {
+      staticClass: "material-icons"
+    }, [_vm._v("person")])]), _vm._v(" "), _c('td', {
       staticClass: "settingActions"
     }, [_c('i', {
-      staticClass: "fa fa-edit",
+      staticClass: "material-icons",
       on: {
         "click": function($event) {
           _vm.modalUpdate = !_vm.modalUpdate, _vm.fetchselecteduser(account.id), _vm.fetchManagerChoices()
         }
       }
-    }), _vm._v(" "), _c('i', {
-      staticClass: "fa fa-trash",
+    }, [_vm._v("edit")]), _vm._v(" "), _c('i', {
+      staticClass: "material-icons",
       on: {
         "click": function($event) {
           _vm.deleteAccount(account.id)
         }
       }
-    })])])
+    }, [_vm._v("delete_forever")])])])
   })], 2), _vm._v(" "), _c('div', {
     staticClass: "paginate-container"
   }, [_c('ul', {
@@ -3738,23 +3741,23 @@ module.exports={render:function (){var _vm=this;var _h=_vm.$createElement;var _c
 },staticRenderFns: [function (){var _vm=this;var _h=_vm.$createElement;var _c=_vm._self._c||_h;
   return _c('div', {
     staticClass: "title-account-manager"
-  }, [_c('h1', [_c('span', [_vm._v("List of accounts")]), _vm._v(" "), _c('i', {
-    staticClass: "fa fa-group color-blue"
-  })])])
+  }, [_c('h1', [_c('i', {
+    staticClass: "material-icons"
+  }, [_vm._v("people")]), _c('span', [_vm._v(" List of accounts")])])])
 },function (){var _vm=this;var _h=_vm.$createElement;var _c=_vm._self._c||_h;
   return _c('h1', [_c('i', {
-    staticClass: "fa fa-user-plus"
-  }), _vm._v(" Create Account")])
+    staticClass: "material-icons"
+  }, [_vm._v("person_add")]), _vm._v(" Create Account")])
 },function (){var _vm=this;var _h=_vm.$createElement;var _c=_vm._self._c||_h;
   return _c('tr', [_c('th', [_vm._v("FullName")]), _vm._v(" "), _c('th', [_vm._v("Username")]), _vm._v(" "), _c('th', [_vm._v("Mobile #")]), _vm._v(" "), _c('th', [_vm._v("Signature")]), _vm._v(" "), _c('th', [_vm._v("Status")]), _vm._v(" "), _c('th', [_vm._v("Action")])])
 },function (){var _vm=this;var _h=_vm.$createElement;var _c=_vm._self._c||_h;
   return _c('h1', [_c('i', {
-    staticClass: "fa fa-user-plus"
-  }), _vm._v(" Manager Account\n      ")])
+    staticClass: "material-icons"
+  }, [_vm._v("person_add")]), _vm._v(" Manager Account\n      ")])
 },function (){var _vm=this;var _h=_vm.$createElement;var _c=_vm._self._c||_h;
   return _c('h1', [_c('i', {
-    staticClass: "fa fa-user-plus"
-  }), _vm._v(" New account")])
+    staticClass: "material-icons"
+  }, [_vm._v("person_add")]), _vm._v(" New account")])
 }]}
 module.exports.render._withStripped = true
 if (false) {
@@ -3782,9 +3785,7 @@ module.exports={render:function (){var _vm=this;var _h=_vm.$createElement;var _c
   }, [_vm._v("\n    " + _vm._s(_vm.failmsg) + "\n  ")]) : _vm._e(), _vm._v(" "), _c('div', {
     staticClass: "box-form-login log-box animated",
     class: [_vm.failmsg != '' ? 'headShake' : '']
-  }, [(_vm.loadingMsg == '') ? _c('h1', [_vm._v("Login "), _c('i', {
-    staticClass: "fa fa-sign-in"
-  })]) : _vm._e(), _vm._v(" "), (_vm.loadingMsg != '') ? _c('h1', [_vm._v(_vm._s(_vm.loadingMsg))]) : _vm._e(), _vm._v(" "), (_vm.loadingMsg != '') ? _c('h1', {
+  }, [(_vm.loadingMsg == '') ? _c('h1', [_vm._v("Login")]) : _vm._e(), _vm._v(" "), (_vm.loadingMsg != '') ? _c('h1', [_vm._v(_vm._s(_vm.loadingMsg))]) : _vm._e(), _vm._v(" "), (_vm.loadingMsg != '') ? _c('h1', {
     staticClass: "login-loading"
   }, [_c('i', {
     staticClass: "fa fa-spinner fa-spin fa-pulse"

@@ -23,7 +23,7 @@
             <td>{{$myMCT->MIRSNo}}</td>
             <td>{{$myMCT->Particulars}}</td>
             <td>{{$myMCT->AddressTo}}</td>
-            <td><a href="{{route('MCTpageOnly',[$myMCT->MCTNo])}}"><i class="fa fa-eye"></i></a></td>
+            <td><a href="{{route('MCTpageOnly',[$myMCT->MCTNo])}}"><i class="material-icons">remove_red_eye</i></a></td>
           </tr>
         @endforeach
       </table>

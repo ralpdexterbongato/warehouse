@@ -1,7 +1,7 @@
 <template lang="html">
   <div class="po-index-vue">
     <div class="po-index-title-and-search">
-      <h1><i class="fa fa-th-large"></i> Purchase Order index</h1>
+      <h1><i class="material-icons">show_chart</i> Purchase Order index</h1>
       <input type="text" placeholder="PO #" v-model="ponumsearch" v-on:keyup="FetchAndSearch(1)">
     </div>
     <div class="po-index-table">
@@ -26,13 +26,13 @@
           <td>{{data.Purpose}}</td>
           <td>{{data.users[0].FullName}}</td>
           <td>
-            <i class="fa fa-thumbs-up" v-if="data.Status=='0'"></i>
-            <i class="fa fa-times decliner" v-else-if="data.Status=='1'"></i>
-            <i class="fa fa-clock-o darker-blue" v-else></i>
+            <i class="material-icons" v-if="data.Status=='0'">thumb_up</i>
+            <i class="material-icons decliner" v-else-if="data.Status=='1'">close</i>
+            <i class="material-icons" v-else>access_time</i>
           </td>
           <td>
             <a :href="'/po-full-preview/'+data.PONo">
-              <i class="fa fa-eye"></i>
+              <i class="material-icons darker-blue">remove_red_eye</i>
             </a>
           </td>
         </tr>

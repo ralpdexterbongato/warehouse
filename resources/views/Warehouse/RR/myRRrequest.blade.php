@@ -25,7 +25,7 @@
             <td>{{$requestSignature->Supplier}}</td>
             <td>{{$requestSignature->Address}}</td>
             <td>{{$requestSignature->RVNo}}</td>
-            <td><a href="{{route('RRfullpreview',[$requestSignature->RRNo])}}"><i class="fa fa-eye"></i></a></td>
+            <td><a href="{{route('RRfullpreview',[$requestSignature->RRNo])}}"><i class="material-icons">remove_red_eye</i></a></td>
           </tr>
         @endforeach
       </table>

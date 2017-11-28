@@ -2,17 +2,17 @@
 <div class="rr-preview-vue" v-if="RRMaster.users!=null">
   <div class="signature-btn" :class="{'hide':SignatureBtnHide}" v-if="UserCanSignature">
     <longpress id="RRsignature" duration="3" :on-confirm="signature"  pressing-text="confirm in {$rcounter}" action-text="Loading . . .">
-      <i class="fa fa-pencil"></i> Signature
+      <i class="material-icons">edit</i> Signature
     </longpress>
     <longpress id="RRdecline" duration="3" :on-confirm="declinesignature"  pressing-text="confirm in {$rcounter}" action-text="Loading . . .">
-      <i class="fa fa-times"></i> Decline
+      <i class="material-icons">close</i> Decline
     </longpress>
   </div>
   <div class="print-RR-btn" v-else-if="(RRMaster.Status=='0')">
-      <a :href="'/RR.pdf/'+RRMaster.RRNo"><button type="submit"  name="RRNo" value="RRNohere"><i class="fa fa-file-pdf-o"></i> print</button></a>
+      <a :href="'/RR.pdf/'+RRMaster.RRNo"><button type="submit"  name="RRNo" value="RRNohere"><i class="material-icons">print</i></button></a>
     <div>
-      <a :href="'/view-list-MR-of-RR/'+RRMaster.RRNo" v-if="checkMR!=0"><button type="button" id="full-mr-preview-btn" ><i class="fa fa-folder"></i> M.R. list</button></a>
-      <a :href="'/create-mr/'+RRMaster.RRNo" v-if="(((user.Role==4)||(user.Role==3))&&(RRMaster.Status=='0'))"><button type="button" class="make-mr"><i class="fa fa-plus"></i> Make M.R.</button></a>
+      <a :href="'/view-list-MR-of-RR/'+RRMaster.RRNo" v-if="checkMR!=0"><button type="button" id="full-mr-preview-btn" ><i class="material-icons">history</i> MR</button></a>
+      <a :href="'/create-mr/'+RRMaster.RRNo" v-if="(((user.Role==4)||(user.Role==3))&&(RRMaster.Status=='0'))"><button type="button" class="make-mr"><i class="material-icons">add</i>M.R.</button></a>
     </div>
   </div>
     <div class="bondpaper-RR">
@@ -93,7 +93,7 @@
                 <img :src="'/storage/signatures/'+RRMaster.users[0].Signature" alt="signature">
               </h2>
               <h4>{{RRMaster.users[0].FullName}}
-                <i class="fa fa-times" v-if="RRMaster.users[0].pivot.Signature=='1'"></i>
+                <i class="material-icons" v-if="RRMaster.users[0].pivot.Signature=='1'">close</i>
               </h4>
               <p>{{RRMaster.users[0].Position}}</p>
             </div>
@@ -103,7 +103,7 @@
             <label>RECEIVED ORIGINAL BY:</label>
             <div class="signatureRR-content">
               <h4>{{RRMaster.users[2].FullName}}
-                <i class="fa fa-times" v-if="RRMaster.users[2].pivot.Signature=='1'"></i>
+                <i class="material-icons" v-if="RRMaster.users[2].pivot.Signature=='1'">close</i>
               </h4>
               <p>{{RRMaster.users[2].Position}}</p>
             </div>
@@ -116,7 +116,7 @@
               <h2 v-if="RRMaster.users[1].pivot.Signature=='0'"><img :src="'/storage/signatures/'+RRMaster.users[1].Signature" alt="signature"></h2>
               <h4>
                 {{RRMaster.users[1].FullName}}
-                <i class="fa fa-times" v-if="RRMaster.users[1].pivot.Signature=='1'"></i>
+                <i class="material-icons" v-if="RRMaster.users[1].pivot.Signature=='1'">close</i>
               </h4>
               <p>{{RRMaster.users[1].Position}}</p>
             </div>
@@ -127,7 +127,7 @@
             <div class="signatureRR-content">
               <h4>
                 {{RRMaster.users[3].FullName}}
-                <i class="fa fa-times" v-if="RRMaster.users[3].pivot.Signature=='1'"></i>
+                <i class="material-icons" v-if="RRMaster.users[3].pivot.Signature=='1'">close</i>
               </h4>
               <p>{{RRMaster.users[3].Position}}</p>
             </div>

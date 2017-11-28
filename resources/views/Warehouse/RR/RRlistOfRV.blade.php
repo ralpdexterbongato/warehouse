@@ -17,11 +17,11 @@
             </div>
           </div>
           @if ($rr->Status=='0')
-            <h1><i class="fa fa-check"></i></h1>
+            <h1><i class="material-icons">thumb_up</i></h1>
           @elseif ($rr->Status=='1')
-            <h3 class="big-x"><i class="fa fa-times"></i></h3>
+            <h3><i class="material-icons big-x">close</i></h3>
           @else
-            <h2 class="big-clock"><i class="fa fa-clock-o"></i></h2>
+            <h2><i class="material-icons big-clock">access_time</i></h2>
           @endif
         </div>
       </a>

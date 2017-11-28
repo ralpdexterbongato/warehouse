@@ -280,7 +280,11 @@ class RVController extends Controller
     }
     public function fetchSessionRV()
     {
-      return Session::get('ItemSessionList');
+      $items=Session::get('ItemSessionList');
+      if (isset($items))
+      {
+        return array_reverse($items);
+      }
     }
     public function getBelowminimumItems()
     {

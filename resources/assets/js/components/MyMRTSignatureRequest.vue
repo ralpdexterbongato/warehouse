@@ -15,7 +15,7 @@
         <td>{{mrt.Particulars}}</td>
         <td>{{mrt.AddressTo}}</td>
         <td>{{mrt.Remarks}}</td>
-        <td><a :href="'/mrt-preview-page/'+mrt.MRTNo"><i class="fa fa-eye"></i></a></td>
+        <td><a :href="'/mrt-preview-page/'+mrt.MRTNo"><i class="material-icons">remove_red_eye</i></a></td>
       </tr>
     </table>
     <h1 v-else class="No-MRT"> No MRT signature request</h1>

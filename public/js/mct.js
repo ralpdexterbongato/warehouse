@@ -1358,6 +1358,7 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
         console.log(response);
         if (response.data.error != null) {
           window.alert(response.data.error);
+          vm.fetchData();
         } else {
           vm.fetchData();
         }
@@ -2044,26 +2045,26 @@ module.exports={render:function (){var _vm=this;var _h=_vm.$createElement;var _c
     staticClass: "mct-index-table"
   }, [_c('table', [_vm._m(1), _vm._v(" "), _vm._l((_vm.indexData), function(data) {
     return (data.users[0] != null) ? _c('tr', [_c('td', [_vm._v(_vm._s(data.MCTNo))]), _vm._v(" "), _c('td', [_vm._v(_vm._s(data.MCTDate))]), _vm._v(" "), _c('td', [_vm._v(_vm._s(data.Particulars))]), _vm._v(" "), _c('td', [_vm._v("\r\n          " + _vm._s(data.users[0].FullName)), _c('br'), _vm._v(" "), (data.users[0].pivot.Signature == '0') ? _c('i', {
-      staticClass: "fa fa-check"
-    }) : (data.users[0].pivot.Signature == '1') ? _c('i', {
-      staticClass: "fa fa-times decliner"
-    }) : _vm._e()]), _vm._v(" "), _c('td', [_vm._v("\r\n          " + _vm._s(data.users[1].FullName)), _c('br'), _vm._v(" "), (data.users[1].pivot.Signature == '0') ? _c('i', {
-      staticClass: "fa fa-check"
-    }) : (data.users[1].pivot.Signature == '1') ? _c('i', {
-      staticClass: "fa fa-times decliner"
-    }) : _vm._e()]), _vm._v(" "), _c('td', [_vm._v(_vm._s(data.AddressTo))]), _vm._v(" "), _c('td', [(data.Status == '0') ? _c('i', {
-      staticClass: "fa fa-thumbs-up"
-    }) : (data.Status == '1') ? _c('i', {
-      staticClass: "fa fa-times decliner"
-    }) : _c('i', {
-      staticClass: "fa fa-clock-o darker-blue"
-    })]), _vm._v(" "), _c('td', [_c('a', {
+      staticClass: "material-icons"
+    }, [_vm._v("check")]) : (data.users[0].pivot.Signature == '1') ? _c('i', {
+      staticClass: "material-icons decliner"
+    }, [_vm._v("close")]) : _vm._e()]), _vm._v(" "), _c('td', [_vm._v("\r\n          " + _vm._s(data.users[1].FullName)), _c('br'), _vm._v(" "), (data.users[1].pivot.Signature == '0') ? _c('i', {
+      staticClass: "material-icons"
+    }, [_vm._v("check")]) : (data.users[1].pivot.Signature == '1') ? _c('i', {
+      staticClass: "material-icons decliner"
+    }, [_vm._v("close")]) : _vm._e()]), _vm._v(" "), _c('td', [_vm._v(_vm._s(data.AddressTo))]), _vm._v(" "), _c('td', [(data.Status == '0') ? _c('i', {
+      staticClass: "material-icons"
+    }, [_vm._v("thumb_up")]) : (data.Status == '1') ? _c('i', {
+      staticClass: "material-icons decliner"
+    }, [_vm._v("close")]) : _c('i', {
+      staticClass: "material-icons"
+    }, [_vm._v("access_time")])]), _vm._v(" "), _c('td', [_c('a', {
       attrs: {
         "href": '/preview-mct-page-only/' + data.MCTNo
       }
     }, [_c('i', {
-      staticClass: "fa fa-eye"
-    })])])]) : _vm._e()
+      staticClass: "material-icons"
+    }, [_vm._v("visibility")])])])]) : _vm._e()
   })], 2)]), _vm._v(" "), _c('div', {
     staticClass: "paginate-container"
   }, [_c('ul', {
@@ -2109,8 +2110,8 @@ module.exports={render:function (){var _vm=this;var _h=_vm.$createElement;var _c
   })])]) : _vm._e()], 2)])])
 },staticRenderFns: [function (){var _vm=this;var _h=_vm.$createElement;var _c=_vm._self._c||_h;
   return _c('h1', [_c('i', {
-    staticClass: "fa fa-th-large"
-  }), _vm._v(" Materials Charge Ticket index")])
+    staticClass: "material-icons"
+  }, [_vm._v("show_chart")]), _vm._v(" Materials Charge Ticket index")])
 },function (){var _vm=this;var _h=_vm.$createElement;var _c=_vm._self._c||_h;
   return _c('tr', [_c('th', [_vm._v("MCTNo")]), _vm._v(" "), _c('th', [_vm._v("Date")]), _vm._v(" "), _c('th', [_vm._v("Particulars")]), _vm._v(" "), _c('th', [_vm._v("Issued by")]), _vm._v(" "), _c('th', [_vm._v("Received by")]), _vm._v(" "), _c('th', [_vm._v("Addressed to")]), _vm._v(" "), _c('th', [_vm._v("Status")]), _vm._v(" "), _c('th', [_vm._v("View")])])
 }]}
@@ -2445,20 +2446,20 @@ module.exports={render:function (){var _vm=this;var _h=_vm.$createElement;var _c
       "name": "MCTNo"
     }
   }, [_c('i', {
-    staticClass: "fa fa-file-pdf-o"
-  }), _vm._v(".pdf")])])]) : (((_vm.user.id == _vm.MCTMaster.users[0].id) && (_vm.MCTMaster.users[1].pivot.Signature == null) && (_vm.MCTMaster.users[0].pivot.Signature != '1'))) ? _c('div', {
+    staticClass: "material-icons"
+  }, [_vm._v("print")])])])]) : (((_vm.user.id == _vm.MCTMaster.users[0].id) && (_vm.MCTMaster.users[1].pivot.Signature == null) && (_vm.MCTMaster.users[0].pivot.Signature != '1'))) ? _c('div', {
     staticClass: "empty-div-left mct-edit-container"
   }, [_c('span', {
     staticClass: "edit-mct",
-    class: _vm.ShowEdit == true ? 'hide' : 'show'
-  }, [_c('i', {
-    staticClass: "fa fa-edit",
+    class: _vm.ShowEdit == true ? 'hide' : 'show',
     on: {
       "click": function($event) {
         _vm.ShowEdit = true
       }
     }
-  }), _vm._v("Edit")]), _vm._v(" "), _c('span', {
+  }, [_c('i', {
+    staticClass: "material-icons"
+  }, [_vm._v("edit")]), _vm._v("Edit")]), _vm._v(" "), _c('span', {
     staticClass: "edit-mct",
     class: _vm.ShowEdit == false ? 'hide' : 'show'
   }, [_c('span', {
@@ -2496,7 +2497,11 @@ module.exports={render:function (){var _vm=this;var _h=_vm.$createElement;var _c
     attrs: {
       "href": '/mrt-preview-page/' + _vm.MRTCheck
     }
-  }, [_vm._m(1)])])])]) : _c('span', [_vm._v("\r\n        No MRT generated yet\r\n      ")])]) : (((_vm.MCTMaster.users[0].pivot.Signature == '0') && (_vm.MCTMaster.users[1].id == _vm.user.id) && (_vm.MCTMaster.users[1].pivot.Signature == null) || (_vm.MCTMaster.users[0].id == _vm.user.id) && (_vm.MCTMaster.users[0].pivot.Signature == null))) ? _c('span', [_c('div', {
+  }, [_c('button', {
+    attrs: {
+      "type": "submit"
+    }
+  }, [_vm._v("MRT")])])])])]) : _c('span', [_vm._v("\r\n        No MRT generated yet\r\n      ")])]) : (((_vm.MCTMaster.users[0].pivot.Signature == '0') && (_vm.MCTMaster.users[1].id == _vm.user.id) && (_vm.MCTMaster.users[1].pivot.Signature == null) || (_vm.MCTMaster.users[0].id == _vm.user.id) && (_vm.MCTMaster.users[0].pivot.Signature == null))) ? _c('span', [_c('div', {
     staticClass: "signature-mct-btn",
     class: {
       'hide': _vm.SignatureMCTBtnHide
@@ -2511,8 +2516,8 @@ module.exports={render:function (){var _vm=this;var _h=_vm.$createElement;var _c
       "action-text": "Loading . . ."
     }
   }, [_c('i', {
-    staticClass: "fa fa-pencil"
-  }), _vm._v(" Signature\r\n        ")]), _vm._v(" "), _c('longpress', {
+    staticClass: "material-icons"
+  }, [_vm._v("edit")]), _vm._v(" Signature\r\n        ")]), _vm._v(" "), _c('longpress', {
     attrs: {
       "id": "declineMCT",
       "duration": "3",
@@ -2522,10 +2527,10 @@ module.exports={render:function (){var _vm=this;var _h=_vm.$createElement;var _c
       "action-text": "Loading . . ."
     }
   }, [_c('i', {
-    staticClass: "fa fa-times"
-  }), _vm._v(" Decline\r\n        ")])], 1)]) : _vm._e()]), _vm._v(" "), _c('div', {
+    staticClass: "material-icons"
+  }, [_vm._v("close")]), _vm._v(" Decline\r\n        ")])], 1)]) : _vm._e()]), _vm._v(" "), _c('div', {
     staticClass: "bondpaper-preview"
-  }, [_vm._m(2), _vm._v(" "), _c('div', {
+  }, [_vm._m(1), _vm._v(" "), _c('div', {
     staticClass: "MCTMaster-details"
   }, [_c('div', {
     staticClass: "MCTmaster-left"
@@ -2556,7 +2561,7 @@ module.exports={render:function (){var _vm=this;var _h=_vm.$createElement;var _c
     staticClass: "MCTmaster-right"
   }, [_c('ul', [_c('li', [_c('label', [_vm._v("MIRS No :")]), _c('h2', [_vm._v(_vm._s(_vm.MCTMaster.MIRSNo))])]), _vm._v(" "), _c('li', [_c('label', [_vm._v("MCT Date : ")]), _c('h2', [_vm._v(_vm._s(_vm.MCTMaster.MCTDate))])]), _vm._v(" "), _c('li', [_c('label', [_vm._v("MCT No.:")]), _c('h2', [_vm._v(_vm._s(_vm.MCTMaster.MCTNo))])])])])]), _vm._v(" "), _c('div', {
     staticClass: "MCTpreview"
-  }, [_c('table', [_vm._m(3), _vm._v(" "), _vm._l((_vm.MCTConfirmDetails), function(mctconfirm, count) {
+  }, [_c('table', [_vm._m(2), _vm._v(" "), _vm._l((_vm.MCTConfirmDetails), function(mctconfirm, count) {
     return _c('tr', [_c('td', [_vm._v(_vm._s(mctconfirm.AccountCode))]), _vm._v(" "), _c('td', [_vm._v(_vm._s(mctconfirm.ItemCode))]), _vm._v(" "), _c('td', {
       staticClass: "align-left"
     }, [_vm._v(_vm._s(mctconfirm.Description))]), _vm._v(" "), _c('td', [_vm._v(_vm._s(_vm.formatPrice(mctconfirm.UnitCost)))]), _vm._v(" "), _c('td', [_c('span', {
@@ -2604,8 +2609,8 @@ module.exports={render:function (){var _vm=this;var _h=_vm.$createElement;var _c
       "alt": "signature"
     }
   }) : _vm._e()]), _vm._v(" "), _c('h1', [_vm._v(_vm._s(_vm.MCTMaster.users[0].FullName)), (_vm.MCTMaster.users[0].pivot.Signature == '1') ? _c('i', {
-    staticClass: "fa fa-times decliner"
-  }) : _vm._e()]), _vm._v(" "), _c('h5', [_vm._v(_vm._s(_vm.MCTMaster.users[0].Position))])])]), _vm._v(" "), _c('div', {
+    staticClass: "material-icons decliner"
+  }, [_vm._v("close")]) : _vm._e()]), _vm._v(" "), _c('h5', [_vm._v(_vm._s(_vm.MCTMaster.users[0].Position))])])]), _vm._v(" "), _c('div', {
     staticClass: "mct-signature-right"
   }, [_c('div', {
     staticClass: "recievedby-label"
@@ -2619,8 +2624,8 @@ module.exports={render:function (){var _vm=this;var _h=_vm.$createElement;var _c
       "alt": "signature"
     }
   }) : _vm._e()]), _vm._v(" "), _c('h1', [_vm._v(_vm._s(_vm.MCTMaster.users[1].FullName) + " "), (_vm.MCTMaster.users[1].pivot.Signature == '1') ? _c('i', {
-    staticClass: "fa fa-times decliner"
-  }) : _vm._e()]), _vm._v(" "), _c('h5', [_vm._v(_vm._s(_vm.MCTMaster.users[1].Position))])])])])])]) : _vm._e()
+    staticClass: "material-icons decliner"
+  }, [_vm._v("close")]) : _vm._e()]), _vm._v(" "), _c('h5', [_vm._v(_vm._s(_vm.MCTMaster.users[1].Position))])])])])])]) : _vm._e()
 },staticRenderFns: [function (){var _vm=this;var _h=_vm.$createElement;var _c=_vm._self._c||_h;
   return _c('button', {
     staticClass: "bttn-unite bttn-xs bttn-primary",
@@ -2630,14 +2635,6 @@ module.exports={render:function (){var _vm=this;var _h=_vm.$createElement;var _c
   }, [_c('i', {
     staticClass: "fa fa-plus"
   }), _vm._v(" Make MRT")])
-},function (){var _vm=this;var _h=_vm.$createElement;var _c=_vm._self._c||_h;
-  return _c('button', {
-    attrs: {
-      "type": "submit"
-    }
-  }, [_c('i', {
-    staticClass: "fa fa-eye eyesicon"
-  }), _vm._v(" MRT")])
 },function (){var _vm=this;var _h=_vm.$createElement;var _c=_vm._self._c||_h;
   return _c('div', {
     staticClass: "bond-center-titles"

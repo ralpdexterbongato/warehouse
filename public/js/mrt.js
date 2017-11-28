@@ -2355,8 +2355,8 @@ module.exports={render:function (){var _vm=this;var _h=_vm.$createElement;var _c
         "href": '/mrt-preview-page/' + mrt.MRTNo
       }
     }, [_c('i', {
-      staticClass: "fa fa-eye"
-    })])])])
+      staticClass: "material-icons"
+    }, [_vm._v("remove_red_eye")])])])])
   })], 2) : _c('h1', {
     staticClass: "No-MRT"
   }, [_vm._v(" No MRT signature request")]), _vm._v(" "), _c('div', {
@@ -2526,26 +2526,26 @@ module.exports={render:function (){var _vm=this;var _h=_vm.$createElement;var _c
     staticClass: "mrt-index-table-container"
   }, [_c('table', [_vm._m(1), _vm._v(" "), _vm._l((_vm.MRTindexData), function(data) {
     return (data.users[0] != null) ? _c('tr', [_c('td', [_vm._v(_vm._s(data.MRTNo))]), _vm._v(" "), _c('td', [_vm._v(_vm._s(data.ReturnDate))]), _vm._v(" "), _c('td', [_vm._v(_vm._s(data.MCTNo))]), _vm._v(" "), _c('td', [_vm._v(_vm._s(data.Particulars))]), _vm._v(" "), _c('td', [_vm._v(_vm._s(data.AddressTo))]), _vm._v(" "), _c('td', [_vm._v("\n          " + _vm._s(data.users[0].FullName)), _c('br'), _vm._v(" "), (data.users[0].pivot.Signature == '0') ? _c('i', {
-      staticClass: "fa fa-check"
-    }) : _vm._e(), _vm._v(" "), (data.users[0].pivot.Signature == '1') ? _c('i', {
-      staticClass: "fa fa-times decliner"
-    }) : _vm._e()]), _vm._v(" "), _c('td', [_vm._v("\n          " + _vm._s(data.users[1].FullName)), _c('br'), _vm._v(" "), (data.users[1].pivot.Signature == '0') ? _c('i', {
-      staticClass: "fa fa-check"
-    }) : _vm._e(), _vm._v(" "), (data.users[1].pivot.Signature == '1') ? _c('i', {
-      staticClass: "fa fa-times decliner"
-    }) : _vm._e()]), _vm._v(" "), _c('td', [(data.Status == '0') ? _c('i', {
-      staticClass: "fa fa-thumbs-up"
-    }) : (data.Status == '1') ? _c('i', {
-      staticClass: "fa fa-times decliner"
-    }) : _c('i', {
-      staticClass: "fa fa-clock-o darker-blue"
-    })]), _vm._v(" "), _c('td', [_c('a', {
+      staticClass: "material-icons"
+    }, [_vm._v("check")]) : _vm._e(), _vm._v(" "), (data.users[0].pivot.Signature == '1') ? _c('i', {
+      staticClass: "material-icons decliner"
+    }, [_vm._v("close")]) : _vm._e()]), _vm._v(" "), _c('td', [_vm._v("\n          " + _vm._s(data.users[1].FullName)), _c('br'), _vm._v(" "), (data.users[1].pivot.Signature == '0') ? _c('i', {
+      staticClass: "material-icons"
+    }, [_vm._v("check")]) : _vm._e(), _vm._v(" "), (data.users[1].pivot.Signature == '1') ? _c('i', {
+      staticClass: "material-icons decliner"
+    }, [_vm._v("close")]) : _vm._e()]), _vm._v(" "), _c('td', [(data.Status == '0') ? _c('i', {
+      staticClass: "material-icons"
+    }, [_vm._v("thumb_up")]) : (data.Status == '1') ? _c('i', {
+      staticClass: "material-icons decliner"
+    }, [_vm._v("close")]) : _c('i', {
+      staticClass: "material-icons darker-blue"
+    }, [_vm._v("access_time")])]), _vm._v(" "), _c('td', [_c('a', {
       attrs: {
         "href": '/mrt-preview-page/' + data.MRTNo
       }
     }, [_c('i', {
-      staticClass: "fa fa-eye"
-    })])])]) : _vm._e()
+      staticClass: "material-icons"
+    }, [_vm._v("remove_red_eye")])])])]) : _vm._e()
   })], 2), _vm._v(" "), _c('div', {
     staticClass: "paginate-container"
   }, [_c('ul', {
@@ -2591,8 +2591,8 @@ module.exports={render:function (){var _vm=this;var _h=_vm.$createElement;var _c
   })])]) : _vm._e()], 2)])])])
 },staticRenderFns: [function (){var _vm=this;var _h=_vm.$createElement;var _c=_vm._self._c||_h;
   return _c('h1', [_c('i', {
-    staticClass: "fa fa-th-large"
-  }), _vm._v(" Materials Returned Ticket index")])
+    staticClass: "material-icons"
+  }, [_vm._v("show_chart")]), _vm._v(" Materials Returned Ticket index")])
 },function (){var _vm=this;var _h=_vm.$createElement;var _c=_vm._self._c||_h;
   return _c('tr', [_c('th', [_vm._v("MRTNo")]), _vm._v(" "), _c('th', [_vm._v("Date returned")]), _vm._v(" "), _c('th', [_vm._v("MCTNo")]), _vm._v(" "), _c('th', [_vm._v("Particulars")]), _vm._v(" "), _c('th', [_vm._v("Addressed to")]), _vm._v(" "), _c('th', [_vm._v("Received by")]), _vm._v(" "), _c('th', [_vm._v("Returned by")]), _vm._v(" "), _c('th', [_vm._v("Status")]), _vm._v(" "), _c('th', [_vm._v("Show")])])
 }]}
@@ -2624,8 +2624,8 @@ module.exports={render:function (){var _vm=this;var _h=_vm.$createElement;var _c
       }
     }
   }, [_c('i', {
-    staticClass: "fa fa-edit"
-  }), _vm._v(" Edit")]), _vm._v(" "), _c('span', {
+    staticClass: "material-icons"
+  }, [_vm._v("edit")]), _vm._v(" Edit")]), _vm._v(" "), _c('span', {
     staticClass: "edit-mrt-btns",
     class: {
       'active': _vm.Editbtn
@@ -2666,8 +2666,8 @@ module.exports={render:function (){var _vm=this;var _h=_vm.$createElement;var _c
       "action-text": "Loading . . ."
     }
   }, [_c('i', {
-    staticClass: "fa fa-pencil"
-  }), _vm._v(" Signature\n      ")]), _vm._v(" "), _c('longpress', {
+    staticClass: "material-icons"
+  }, [_vm._v("edit")]), _vm._v(" Signature\n      ")]), _vm._v(" "), _c('longpress', {
     attrs: {
       "id": "decline-mrt",
       "duration": "3",
@@ -2676,8 +2676,8 @@ module.exports={render:function (){var _vm=this;var _h=_vm.$createElement;var _c
       "action-text": "Loading . . ."
     }
   }, [_c('i', {
-    staticClass: "fa fa-times"
-  }), _vm._v(" Decline\n      ")])], 1) : _vm._e()]), _vm._v(" "), _c('div', {
+    staticClass: "material-icons"
+  }, [_vm._v("close")]), _vm._v(" Decline\n      ")])], 1) : _vm._e()]), _vm._v(" "), _c('div', {
     staticClass: "Bondpaper-mrt-preview"
   }, [_vm._m(0), _vm._v(" "), _c('div', {
     staticClass: "left-right-mrt"
@@ -2746,8 +2746,8 @@ module.exports={render:function (){var _vm=this;var _h=_vm.$createElement;var _c
       "alt": "signature"
     }
   })]) : _vm._e(), _vm._v(" "), _c('p', [_vm._v(_vm._s(_vm.MRTMaster.users[1].FullName) + " "), (_vm.MRTMaster.users[1].pivot.Signature == '1') ? _c('i', {
-    staticClass: "fa fa-times decliner"
-  }) : _vm._e()]), _vm._v(" "), _c('p', [_vm._v(_vm._s(_vm.MRTMaster.users[1].Position))])])]), _vm._v(" "), _c('div', {
+    staticClass: "material-icons decliner"
+  }, [_vm._v("close")]) : _vm._e()]), _vm._v(" "), _c('p', [_vm._v(_vm._s(_vm.MRTMaster.users[1].Position))])])]), _vm._v(" "), _c('div', {
     staticClass: "mrt-received-container"
   }, [_c('p', [_vm._v("Recieved by:")]), _vm._v(" "), _c('div', {
     staticClass: "mrt-bottom-data"
@@ -2757,8 +2757,8 @@ module.exports={render:function (){var _vm=this;var _h=_vm.$createElement;var _c
       "alt": "signature"
     }
   })]) : _vm._e(), _vm._v(" "), _c('p', [_vm._v(_vm._s(_vm.MRTMaster.users[0].FullName)), (_vm.MRTMaster.users[0].pivot.Signature == '1') ? _c('i', {
-    staticClass: "fa fa-times decliner"
-  }) : _vm._e()]), _vm._v(" "), _c('p', [_vm._v(_vm._s(_vm.MRTMaster.users[0].Position))])])])])])]) : _vm._e()
+    staticClass: "material-icons decliner"
+  }, [_vm._v("close")]) : _vm._e()]), _vm._v(" "), _c('p', [_vm._v(_vm._s(_vm.MRTMaster.users[0].Position))])])])])])]) : _vm._e()
 },staticRenderFns: [function (){var _vm=this;var _h=_vm.$createElement;var _c=_vm._self._c||_h;
   return _c('div', {
     staticClass: "header-mrt-center"

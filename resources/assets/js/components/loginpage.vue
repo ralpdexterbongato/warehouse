@@ -4,7 +4,7 @@
         {{failmsg}}
       </div>
       <div class="box-form-login log-box animated" :class="[failmsg!=''?'headShake':'']">
-        <h1 v-if="loadingMsg==''">Login <i class="fa fa-sign-in"></i></h1>
+        <h1 v-if="loadingMsg==''">Login</h1>
         <h1 v-if="loadingMsg!=''">{{loadingMsg}}</h1>
         <h1 class="login-loading" v-if="loadingMsg!=''"><i class="fa fa-spinner fa-spin fa-pulse"></i></h1>
         <div class="login-form" v-if="loadingMsg==''">
@@ -55,6 +55,7 @@ export default {
          console.log('response');
        },function(error)
        {
+
          console.log(error);
          Vue.set(vm.$data,'failmsg','Fields are required');
          Vue.set(vm.$data,'loadingMsg','');

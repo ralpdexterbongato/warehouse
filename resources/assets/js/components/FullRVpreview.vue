@@ -2,13 +2,13 @@
 <div v-if="RVMaster.users!=null">
   <div class="RV-signature-print-container">
     <div class="print-and-unreceved" v-if="AlreadyApproved">
-      <a :href="'/RV.pdf/'+rvno.RVNo"><button type="submit"  name="RVNo" value="RVNohere"><i class="fa fa-print"></i> Print</button></a>
+      <a :href="'/RV.pdf/'+rvno.RVNo"><button type="submit"  name="RVNo" value="RVNohere"><i class="material-icons">print</i></button></a>
       <li class="pending-delivery-number" v-if="((RVMaster.IfPurchased==null)&&(checkPO==null)&&(checkRR!=null))"><h1>pending item: <span class="color-blue">{{undeliveredTotal}}</span></h1></li>
     </div>
     <div v-else-if="RVMaster.SignatureTurn!='2'" class="empty-left">
     </div>
     <div v-if="((RVMaster.users[2].pivot.Signature==null)&&((RVMaster.users[1].pivot.Signature=='0')||(ManagerReplacerData!=null && ManagerReplacerData.pivot.Signature=='0')))" class="empty-left relative">
-      <button v-on:click="RemarksIsActive=true" class="pending-remarks" type="button" v-if="((RVMaster.users[2].id==user.id)&&(pendingRemarksShow==null))"><i class="fa fa-clock-o"></i> remarks</button>
+      <button v-on:click="RemarksIsActive=true" class="pending-remarks" type="button" v-if="((RVMaster.users[2].id==user.id)&&(pendingRemarksShow==null))"><i class="material-icons">access_time</i> remarks</button>
       <div v-if="(pendingRemarksShow!=null)&&(RVMaster.users[2].pivot.Signature==null)&&((user.id==RVMaster.users[0].id)||(user.id==RVMaster.users[2].id))" class="BudgetRemarkShow">
         <div class="remarks-box animated" :class="{'hinge':drop}">
           <h1> budget officer: <i class="fa fa-thumb-tack animated" v-on:click="drop=true"></i></h1>
@@ -25,28 +25,28 @@
       </div>
     </div>
     <div class="manager-replacer-accept-cant Request-manager-replace" v-if="(ManagerReplacerData!=null && ManagerReplacerData.id==user.id && ManagerReplacerData.pivot.Signature==null)">
-      <h6 class="approve-managerreplace-note"><i class="fa fa-info-circle color-blue"></i>
+      <h6 class="approve-managerreplace-note"><i class="material-icons color-blue">info</i>
         <span class="color-blue">{{RVMaster.users[0].FullName}}</span> is asking for your signature b/c the {{RVMaster.users[1].Position}} is not available
       </h6>
       <span :class="{'hide':SignatureManagerReplacerHide}">
         <longpress class="rvapprovebtn" duration="3" :on-confirm="signatureRequestManagerReplacer" :disabled="btndisabled" pressing-text="confirm in {$rcounter}" action-text="Loading . . .">
-        <i class="fa fa-pencil"></i> Signature
+        <i class="material-icons">edit</i> Signature
         </longpress>
         <longpress class="RVdeclineBtn" duration="3" :on-confirm="cancelRequestManagerReplacer" :disabled="btndisabled" pressing-text="confirm in {$rcounter}" action-text="Loading . . .">
-        <i class="fa fa-times"></i> I can't
+        <i class="material-icons">close</i> I can't
         </longpress>
       </span>
     </div>
     <div class="Approve-replacer-accept-cant Request-manager-replace" v-if="((RVMaster.users[2].pivot.Signature=='0')&&(ApprovalReplacerData!=null)&&(user.id==ApprovalReplacerData.id)&&(ApprovalReplacerData.pivot.Signature==null))">
-      <h6 class="approve-managerreplace-note"><i class="fa fa-info-circle color-blue"></i>
+      <h6 class="approve-managerreplace-note"><i class="material-icons color-blue">info</i>
         <span class="color-blue">{{RVMaster.users[0].FullName}}</span> is asking for your signature b/c the General Manager is not available
       </h6>
       <span :class="{'hide':SignatureApprovalReplacerHide}">
         <longpress class="rvapprovebtn" duration="3" :on-confirm="acceptApproveRequest" :disabled="approveBtnReplacer" pressing-text="confirm in {$rcounter}" action-text="Loading . . .">
-        <i class="fa fa-pencil"></i> Signature
+        <i class="material-icons">edit</i> Signature
         </longpress>
         <longpress class="RVdeclineBtn" duration="3" :on-confirm="cancelApprovalRequest" :disabled="approveBtnReplacer" pressing-text="confirm in {$rcounter}" action-text="Loading . . .">
-        <i class="fa fa-times"></i> I can't
+        <i class="material-icons">close</i> I can't
         </longpress>
       </span>
     </div>
@@ -54,24 +54,24 @@
           <span :class="{'hide':SignatureRVBtnHide}" v-if="((RequisitionerCanSignature)||(RecommendedByCanSignature)||(BudgetOfficerCanSignature)||(GMCanSignature))">
             <div class="RVapprove">
               <longpress class="rvapprovebtn" duration="3" :on-confirm="Signature" pressing-text="confirm in {$rcounter}" action-text="Loading . . .">
-              <i class="fa fa-pencil"></i> Signature
+              <i class="material-icons">edit</i> Signature
               </longpress>
             </div>
             <div class="RVdecline">
               <longpress class="RVdeclineBtn" duration="3" :on-confirm="declineRV" pressing-text="confirm in {$rcounter}" action-text="Loading . . .">
-              <i class="fa fa-times"></i> Decline
+              <i class="material-icons">close</i> Decline
               </longpress>
             </div>
           </span>
       <span v-if="checkPO!=null">
         <div class="viewPObtn">
             <div class="status-po-wrapper" v-if="(RVMaster.IfPurchased!=null)">
-              <h1>Status : <span class="underline">Already Purchased</span> <i class="fa fa-check"></i></h1>
+              <h1>Status : <span class="underline">Already Purchased</span> <i class="material-icons">check</i></h1>
             </div>
             <div class="status-po-wrapper" v-else>
               <h1>Status: <span class="underline">Waiting for RR</span></h1>
             </div>
-           <a :href="'/po-list-view-of-rv/'+rvno.RVNo"><button type="button" >Show P.O.</button></a>
+           <a :href="'/po-list-view-of-rv/'+rvno.RVNo"><button type="button" ><i class="material-icons">history</i> PO history</button></a>
         </div>
       </span>
       <span v-if="AlreadyApproved">
@@ -79,20 +79,20 @@
           <h1 class="no-PO">Status : <span class="underline">Waiting for RR</span></h1>
         </div>
         <div class="status-po-wrapper" v-if="((RVMaster.IfPurchased)&&(checkPO==null))">
-          <h1 class="done-but-no-po">Status : <span class="underline">Already purchased <i class="fa fa-check"></i> without P.O.</span></h1>
+          <h1 class="done-but-no-po">Status : <span class="underline">Already purchased <i class="material-icons">check</i> without P.O.</span></h1>
         </div>
           <div class="CreateRRwoPO" v-else-if="((RVMaster.IfPurchased==null)&&(checkPO==null)&&((user.Role==4)||(user.Role==3)))">
-            <a :href="'/create-rr-wo-po/'+rvno.RVNo"><button type="button" > <i class="fa fa-plus"></i> RR</button></a>
+            <a :href="'/create-rr-wo-po/'+rvno.RVNo"><button type="button" > <i class="material-icons">add</i> RR</button></a>
           </div>
           <span v-if="checkPO==null&&checkRR!=null">
           </span>
           <span v-else>
             <div class="CanvasBtn" v-if="((user.Role==3)||(user.Role==4))&&(AlreadyApproved)">
-                <a :href="'/CanvassCreate/'+rvno.RVNo"><button type="submit" ><i class="fa fa-building"></i> Canvass</button></a>
+                <a :href="'/CanvassCreate/'+rvno.RVNo"><button type="submit" ><i class="material-icons">store</i> Canvass</button></a>
             </div>
           </span>
           <div class="show-rr-of-rv" v-if="checkRR!=null">
-            <a :href="'/rr-of-rv-list/'+rvno.RVNo"><button  type="button">R.R. history</button></a>
+            <a :href="'/rr-of-rv-list/'+rvno.RVNo"><button  type="button"><i class="material-icons">history</i> R.R. history</button></a>
           </div>
       </span>
 
@@ -107,15 +107,15 @@
     <div class="bondpaper-RV">
 
           <div v-if="(RVMaster.Status=='0')" class="status-rv approved">
-            <i class="fa fa-thumbs-up"></i>
+            <i class="material-icons">thumb_up</i>
             <h1>Approved</h1>
           </div>
           <div class="status-rv" v-else-if="(RVMaster.Status==null)">
-            <i class="fa fa-clock-o"></i>
+            <i class="material-icons">access_time</i>
             <h1>Pending</h1>
           </div>
           <div class="status-rv declined" v-else-if="RVMaster.Status=='1'">
-            <i class="fa fa-times"></i>
+            <i class="material-icons">close</i>
             <h1>Declined</h1>
           </div>
       <!-- @endif -->
@@ -150,12 +150,6 @@
               <td>{{rvdata.Quantity}}</td>
               <td>{{rvdata.Remarks}}</td>
             </tr>
-          <tr>
-            <td></td>
-            <td></td>
-            <td></td>
-            <td>.</td>
-          </tr>
         </table>
         <div class="certify-RV">
           <h3>I hereby certify that the above requested materials/supplies are necessary and will be used solely for the purpose stated above.</h3>
@@ -168,7 +162,7 @@
                   <h6 v-if="RVMaster.users[0].pivot.Signature=='0'"><img :src="'/storage/signatures/'+RVMaster.users[0].Signature" alt="signature"></h6>
                   <p>
                     {{RVMaster.users[0].FullName}}
-                    <i v-if="RVMaster.users[0].pivot.Signature=='1'" class="fa fa-times decliner"></i>
+                    <i v-if="RVMaster.users[0].pivot.Signature=='1'" class="material-icons decliner">close</i>
                   </p>
                   <label>{{RVMaster.users[0].Position}}</label>
                 </div>
@@ -183,7 +177,7 @@
                 <span class="opener-manager-replace opener-icon">
                   <div class="mini-menu-managers" v-if="(user.id)==(RVMaster.users[0].id)&&(this.ManagerBehalfActive==true)&&((ManagerReplacerData==null)||(ManagerReplacerData.pivot.Signature==null))&&(RVMaster.users[1].pivot.Signature==null)">
                     <h1 v-if="ManagerReplacerData==null">Request signature to</h1>
-                    <h1 v-else>Request pending <i class="fa fa-clock-o color-white"></i></h1>
+                    <h1 v-else>Request pending <i class="material-icons color-white">access_time</i></h1>
                     <div class="manager-list-menu"v-if="ManagerReplacerData==null">
                       <select v-model="ManagerID">
                         <option :value="null">Choose a manager</option>
@@ -197,12 +191,12 @@
                     </div>
                     <div class="manager-replacer-sent" v-else>
                       <p>Your request has been sent to<br> <span class="underline">{{ManagerReplacerData.FullName}}</span></p>
-                      <span class="cancel-manager-replace" v-on:click="cancelRequestManagerReplacer()"><i class="fa fa-times color-red"></i>cancel</span>
+                      <span class="cancel-manager-replace" v-on:click="cancelRequestManagerReplacer()"><i class="material-icons color-red">close</i>cancel</span>
                     </div>
                   </div>
-                  <i v-on:click="ManagerBehalfActive=!ManagerBehalfActive,[activemanager[0]!=null?'':fetchAllManager()]" class="fa fa-users color-blue" v-if="((user.id==RVMaster.users[0].id)&&((ManagerReplacerData==null)||(ManagerReplacerData.pivot.Signature==null))&&(RVMaster.users[1].pivot.Signature==null)&&(RVMaster.users[0].pivot.Signature=='0'))"></i>
+                  <i v-on:click="ManagerBehalfActive=!ManagerBehalfActive,[activemanager[0]!=null?'':fetchAllManager()]" class="material-icons color-blue" v-if="((user.id==RVMaster.users[0].id)&&((ManagerReplacerData==null)||(ManagerReplacerData.pivot.Signature==null))&&(RVMaster.users[1].pivot.Signature==null)&&(RVMaster.users[0].pivot.Signature=='0'))">people</i>
                 </span>
-                   <i v-if="RVMaster.users[1].pivot.Signature=='1'" class="fa fa-times decliner"></i>
+                   <i v-if="RVMaster.users[1].pivot.Signature=='1'" class="material-icons decliner">close</i>
                 </p>
                 <label>{{RVMaster.users[1].Position}}</label>
               </div>
@@ -221,8 +215,8 @@
                       <span v-if="editbudgetActive==true" class="flex">
                         <input type="text" class="editbudget-input" v-model="BudgetUpdate=RVMaster.BudgetAvailable">
                         <span class="update-budget-btn">
-                          <button class="editbudget" type="submit" v-on:click="UpdateBudget(),editbudgetActive=false"><i class="fa fa-check"></i></button>
-                          <button type="button" class="editbudget cancel-edit" v-on:click="editbudgetActive=false,fetchData();"><i class="fa fa-times"></i></i></button>
+                          <button class="editbudget" type="submit" v-on:click="UpdateBudget(),editbudgetActive=false"><i class="material-icons">check</i></button>
+                          <button type="button" class="editbudget cancel-edit" v-on:click="editbudgetActive=false,fetchData();"><i class="material-icons">close</i></button>
                         </span>
                       </span>
                       <button type="button" v-on:click="editbudgetActive=true" class="edit-budget-opener" v-if="editbudgetActive==false"><i class="fa fa-pencil-square-o"></i></button>
@@ -230,7 +224,7 @@
               </h4>
               <p>
                   {{RVMaster.users[2].FullName}}
-                  <i v-if="RVMaster.users[2].pivot.Signature=='1'" class="fa fa-times decliner"></i>
+                  <i v-if="RVMaster.users[2].pivot.Signature=='1'" class="material-icons decliner">close</i>
               </p>
               <label>{{RVMaster.users[2].Position}}</label>
             </div>
@@ -241,7 +235,7 @@
                 <h6 v-else-if="((ApprovalReplacerData!=null) && (ApprovalReplacerData.pivot.Signature=='0'))"><h2>For :</h2><img :src="'/storage/signatures/'+ApprovalReplacerData.Signature" alt="signature"></h6>
                 <p>
                   {{RVMaster.users[3].FullName}}
-                  <i v-if="RVMaster.users[3].pivot.Signature=='1'" class="fa fa-times decliner"></i>
+                  <i v-if="RVMaster.users[3].pivot.Signature=='1'" class="material-icons decliner">close</i>
                 </p>
                 <label>{{RVMaster.users[3].Position}}</label>
               </div>

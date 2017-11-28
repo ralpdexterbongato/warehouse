@@ -1,7 +1,7 @@
 <template lang="html">
 <div class="mct-index-vue-container">
   <div class="index-mct-title-and-search">
-    <h1><i class="fa fa-th-large"></i> Materials Charge Ticket index</h1>
+    <h1><i class="material-icons">show_chart</i> Materials Charge Ticket index</h1>
     <div class="search-mct-index">
       <input type="text" placeholder="MCT #" v-on:keyup="fetchdatatable()" v-model="searchMCTNo">
     </div>
@@ -24,21 +24,21 @@
         <td>{{data.Particulars}}</td>
         <td>
           {{data.users[0].FullName}}<br>
-          <i class="fa fa-check" v-if="data.users[0].pivot.Signature=='0'"></i>
-          <i class="fa fa-times decliner" v-else-if="data.users[0].pivot.Signature=='1'"></i>
+          <i class="material-icons" v-if="data.users[0].pivot.Signature=='0'">check</i>
+          <i class="material-icons decliner" v-else-if="data.users[0].pivot.Signature=='1'">close</i>
         </td>
         <td>
           {{data.users[1].FullName}}<br>
-          <i class="fa fa-check" v-if="data.users[1].pivot.Signature=='0'"></i>
-          <i class="fa fa-times decliner" v-else-if="data.users[1].pivot.Signature=='1'"></i>
+          <i class="material-icons" v-if="data.users[1].pivot.Signature=='0'">check</i>
+          <i class="material-icons decliner" v-else-if="data.users[1].pivot.Signature=='1'">close</i>
         </td>
         <td>{{data.AddressTo}}</td>
         <td>
-          <i class="fa fa-thumbs-up" v-if="data.Status=='0'"></i>
-          <i class="fa fa-times decliner" v-else-if="data.Status=='1'"></i>
-          <i class="fa fa-clock-o darker-blue" v-else></i>
+          <i class="material-icons" v-if="data.Status=='0'">thumb_up</i>
+          <i class="material-icons decliner" v-else-if="data.Status=='1'">close</i>
+          <i class="material-icons" v-else>access_time</i>
         </td>
-        <td><a :href="'/preview-mct-page-only/'+data.MCTNo"><i class="fa fa-eye"></i></a></td>
+        <td><a :href="'/preview-mct-page-only/'+data.MCTNo"><i class="material-icons">visibility</i></a></td>
       </tr>
     </table>
   </div>

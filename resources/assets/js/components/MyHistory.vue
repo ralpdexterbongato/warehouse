@@ -40,11 +40,11 @@
         <td>{{mirs.MIRSDate}}</td>
         <td>{{mirs.Purpose}}</td>
         <td>
-          <i v-if="mirs.Status==0" class="fa fa-thumbs-up"></i>
-          <i v-else-if="mirs.Status==1" class="fa fa-times decliner"></i>
-          <i v-else class="fa fa-clock-o"></i>
+          <i v-if="mirs.Status==0" class="material-icons">thumb_up</i>
+          <i v-else-if="mirs.Status==1" class="material-icons decliner">close</i>
+          <i v-else class="material-icons">access_time</i>
         </td>
-        <td><a v-bind:href="'/previewFullMIRS/'+mirs.MIRSNo"><i class="fa fa-eye"></i></a></td>
+        <td><a v-bind:href="'/previewFullMIRS/'+mirs.MIRSNo"><i class="material-icons">remove_red_eye</i></a></td>
       </tr>
     </table>
     <table v-if="mctbtn==true">
@@ -62,11 +62,11 @@
         <td>{{mct.AddressTo}}</td>
         <td>{{mct.Particulars}}</td>
         <td>
-          <i v-if="mct.Status=='0'" class="fa fa-thumbs-up"></i>
-          <i v-else-if="mct.Status=='1'" class="fa fa-times decliner"></i>
-          <i v-else class="fa fa-clock-o"></i>
+          <i v-if="mct.Status=='0'" class="material-icons">thumb_up</i>
+          <i v-else-if="mct.Status=='1'" class="material-icons decliner">close</i>
+          <i v-else class="material-icons">access_time</i>
         </td>
-        <td><a :href="'/preview-mct-page-only/'+mct.MCTNo"><i class="fa fa-eye"></i></a></td>
+        <td><a :href="'/preview-mct-page-only/'+mct.MCTNo"><i class="material-icons">remove_red_eye</i></a></td>
       </tr>
     </table>
     <table v-if="mrtbtn==true">
@@ -84,11 +84,11 @@
         <td>{{mrt.Particulars}}</td>
         <td>{{mrt.AddressTo}}</td>
         <td>
-          <i class="fa fa-times decliner" v-if="mrt.Status=='1'"></i>
-          <i class="fa fa-thumbs-up" v-else-if="mrt.Status=='0'"></i>
-          <i class="fa fa-clock-o color-blue" v-else></i>
+          <i class="material-icons decliner" v-if="mrt.Status=='1'">close</i>
+          <i class="material-icons" v-else-if="mrt.Status=='0'">thumb_up</i>
+          <i class="material-icons color-blue" v-else>access_time</i>
         </td>
-        <td><a :href="'/mrt-preview-page/'+mrt.MRTNo"><i class="fa fa-eye"></i></a></td>
+        <td><a :href="'/mrt-preview-page/'+mrt.MRTNo"><i class="material-icons">remove_red_eye</i></a></td>
       </tr>
     </table>
     <table v-if="mrbtn==true">
@@ -102,11 +102,11 @@
         <td>{{mr.MRNo}}</td>
         <td>{{mr.Supplier}}</td>
         <td>
-          <i v-if="mr.Status=='1'" class="fa fa-times decliner"></i>
-          <i v-else-if="mr.Status=='0'" class="fa fa-thumbs-up"></i>
-          <i v-else class="fa fa-clock-o"></i>
+          <i v-if="mr.Status=='1'" class="material-icons decliner">close</i>
+          <i v-else-if="mr.Status=='0'" class="material-icons">thumb_up</i>
+          <i v-else class="material-icons">access_time</i>
         </td>
-        <td><a :href="'full-preview-MR/'+mr.MRNo"><i class="fa fa-eye"></i></a></td>
+        <td><a :href="'full-preview-MR/'+mr.MRNo"><i class="material-icons">remove_red_eye</i></a></td>
       </tr>
     </table>
     <table v-if="rvbtn==true">
@@ -122,11 +122,11 @@
         <td>{{rv.RVDate}}</td>
         <td>{{rv.Purpose}}</td>
         <td>
-          <i class="fa fa-thumbs-up" v-if="rv.Status=='0'"></i>
-          <i class="fa fa-times decliner" v-else-if="rv.Status=='1'"></i>
-          <i class="fa fa-clock-o" v-else></i>
+          <i class="material-icons" v-if="rv.Status=='0'">thumb_up</i>
+          <i class="material-icons decliner" v-else-if="rv.Status=='1'">close</i>
+          <i class="material-icons" v-else>access_time</i>
         </td>
-        <td><a :href="'/RVfullview/'+rv.RVNo"><i class="fa fa-eye"></i></a></td>
+        <td><a :href="'/RVfullview/'+rv.RVNo"><i class="material-icons">remove_red_eye</i></a></td>
       </tr>
     </table>
     <table v-if="rrbtn==true">
@@ -142,11 +142,11 @@
         <td>{{rr.RRDate}}</td>
         <td>{{rr.RVNo}}</td>
         <td>
-          <i class="fa fa-thumbs-up" v-if="rr.Status=='0'"></i>
-          <i class="fa fa-times decliner" v-else-if="rr.Status=='1'"></i>
-          <i class="fa fa-clock-o" v-else></i>
+          <i class="material-icons" v-if="rr.Status=='0'">thumb_up</i>
+          <i class="material-icons decliner" v-else-if="rr.Status=='1'">close</i>
+          <i class="material-icons" v-else>access_time</i>
         </td>
-        <td><a :href="'/RR-fullpreview/'+rr.RRNo"><i class="fa fa-eye"></i></a></td>
+        <td><a :href="'/RR-fullpreview/'+rr.RRNo"><i class="material-icons">remove_red_eye</i></a></td>
       </tr>
     </table>
     <div class="paginate-container">

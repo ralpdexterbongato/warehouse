@@ -2,7 +2,7 @@
 <div v-if="MRMaster.users!=null">
   <div class="btns-mr-full">
     <div>
-      <a :href="'/MR.pdf/'+this.mrno.MRNo" v-if="AlreadyApproved"><button type="submit" name="MRNo" value="mrnohere"><i class="fa fa-print"></i> Print</button></a>
+      <a :href="'/MR.pdf/'+this.mrno.MRNo" v-if="AlreadyApproved"><button type="submit" name="MRNo" value="mrnohere"><i class="material-icons">print</i></button></a>
       <h6 class="approve-managerreplace-note" v-if="replacerCanSignature"><i class="fa fa-info-circle color-blue"></i>
         The <span class="color-blue">{{MRMaster.WarehouseMan}}</span> is asking for your signature b/c the General Manager is not available
       </h6>
@@ -10,18 +10,18 @@
     <div class="signature-MR-btns">
       <span class="Approve-MR-inBehalf-btn" :class="{'hide':SignatureApproveReplacer}" v-if="replacerCanSignature">
         <longpress class="rvapprovebtn" duration="3" :on-confirm="SignatureApproveInBehalf" pressing-text="confirm in {$rcounter}" action-text="Loading . . .">
-          <i class="fa fa-pencil"></i> Signature
+          <i class="material-icons">edit</i> Signature
         </longpress>
         <longpress class="RVdeclineBtn" duration="3" :on-confirm="refuseApproveInBehalf" pressing-text="confirm in {$rcounter}" action-text="Loading . . .">
-          <i class="fa fa-times"></i> I can't
+          <i class="material-icons">close</i> I can't
         </longpress>
       </span>
       <span :class="{'hide':SignatureBtnHide}" v-if="UserCanSignature">
         <longpress  id="signatureMRbtn" duration="3" :on-confirm="signatureMR" pressing-text="confirm in {$rcounter}" action-text="Loading . . .">
-          <i class="fa fa-pencil"></i> Signature
+          <i class="material-icons">edit</i> Signature
         </longpress>
         <longpress  id="declineMRbtn" duration="3" :on-confirm="declineMR" pressing-text="confirm in {$rcounter}" action-text="Loading . . .">
-          <i class="fa fa-times"></i> Decline
+          <i class="material-icons">close</i> Decline
         </longpress>
       </span>
     </div>
@@ -117,7 +117,7 @@
             <h5 v-if="MRMaster.users[0].pivot.Signature=='0'"><img :src="'/storage/signatures/'+MRMaster.users[0].Signature" alt="signature"></h5>
           <h3>
             {{MRMaster.users[0].FullName}}
-              <i v-if="(MRMaster.users[0].pivot.Signature=='1')" class="fa fa-times decliner"></i>
+              <i v-if="(MRMaster.users[0].pivot.Signature=='1')" class="material-icons decliner">close</i>
           </h3>
           <p>{{MRMaster.users[0].Position}}</p>
         </div>
@@ -127,14 +127,14 @@
           <h5 v-else-if="((MRMaster.users[3]!=null)&&(MRMaster.users[3].pivot.Signature=='0'))"><p>For :</p><img :src="'/storage/signatures/'+MRMaster.users[3].Signature" alt="signature"></h5>
           <h3>
             {{MRMaster.users[1].FullName}}
-              <i v-if="MRMaster.users[1].pivot.Signature=='1'" class="fa fa-times decliner"></i>
+              <i v-if="MRMaster.users[1].pivot.Signature=='1'" class="material-icons decliner">close</i>
           </h3>
           <p>{{MRMaster.users[1].Position}}</p>
         </div>
         <div class="signature-mr-box">
           <label>RECEIVED:</label>
             <h5 v-if="MRMaster.users[2].pivot.Signature=='0'"><img :src="'/storage/signatures/'+MRMaster.users[2].Signature" alt="signature"></h5>
-          <h3>{{MRMaster.users[2].FullName}}<i class="fa fa-times decliner" v-if="MRMaster.users[2].pivot.Signature=='1'"></i></h3>
+          <h3>{{MRMaster.users[2].FullName}}<i class="material-icons decliner" v-if="MRMaster.users[2].pivot.Signature=='1'">close</i></h3>
           <p>{{MRMaster.users[2].Position}}</p>
         </div>
       </div>

@@ -5,7 +5,7 @@
 @section('body')
 <div class="Unpurchase-RV-list">
   <div class="rv-unpurchased-list">
-    <h1><i class="fa fa-cart-plus"></i> RV purchase pending</h1>
+    <h1><i class="material-icons">store</i> RV purchase pending</h1>
   </div>
   <div class="pending-purchase-table">
     @if (!empty($unpurchaselist[0]))
@@ -27,7 +27,7 @@
         @else
           <td>N/A</td>
         @endif
-        <td><a href="{{route('RVfullpreviewing',[$listpending->RVNo])}}"><i class="fa fa-eye"></i></a></td>
+        <td><a href="{{route('RVfullpreviewing',[$listpending->RVNo])}}"><i class="material-icons">remove_red_eye</i></a></td>
       </tr>
       @endforeach
     </table>
@@ -35,7 +35,7 @@
       {{$unpurchaselist->links()}}
     </div>
     @else
-      <h1 class="all-is-purchased">No pending RV purchase <i class="fa fa-thumbs-up"></i></h1>
+      <h1 class="all-is-purchased">No pending RV purchase <i class="material-icons">thumb_up</i></h1>
     @endif
   </div>
 </div>

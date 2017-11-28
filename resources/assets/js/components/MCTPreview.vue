@@ -3,11 +3,11 @@
   <div class="MCT-title">
     <span v-if="AlreadySignatured">
       <form action="/MCT.pdf" method="get">
-        <button type="submit" :value="this.mctno.MCTNo" name="MCTNo"><i class="fa fa-file-pdf-o"></i>.pdf</button>
+        <button type="submit" :value="this.mctno.MCTNo" name="MCTNo"><i class="material-icons">print</i></button>
       </form>
     </span>
     <div class="empty-div-left mct-edit-container" v-else-if="((user.id==MCTMaster.users[0].id)&&(MCTMaster.users[1].pivot.Signature==null)&&(MCTMaster.users[0].pivot.Signature!='1'))">
-      <span class="edit-mct" :class="ShowEdit==true?'hide':'show'"><i class="fa fa-edit" v-on:click="ShowEdit=true"></i>Edit</span>
+      <span class="edit-mct" :class="ShowEdit==true?'hide':'show'" v-on:click="ShowEdit=true"><i class="material-icons">edit</i>Edit</span>
       <span class="edit-mct" :class="ShowEdit==false?'hide':'show'"><span class="color-blue">Save?</span> <button type="button" v-on:click="ShowEdit=false,fetchData();">cancel</button> <button v-on:click="ShowEdit=false,editMCTSave()" type="button" name="button">Save</button></span>
     </div>
     <span v-else>
@@ -21,7 +21,7 @@
       <span v-else-if="MRTCheck!=null">
         <div class="View-MRT-btn">
           <div class="mrt-done">
-           <a :href="'/mrt-preview-page/'+MRTCheck"><button type="submit"><i class="fa fa-eye eyesicon"></i> MRT</button></a>
+           <a :href="'/mrt-preview-page/'+MRTCheck"><button type="submit">MRT</button></a>
           </div>
         </div>
       </span>
@@ -32,10 +32,10 @@
     <span v-else-if="((MCTMaster.users[0].pivot.Signature=='0')&&(MCTMaster.users[1].id==user.id)&&(MCTMaster.users[1].pivot.Signature==null)||(MCTMaster.users[0].id==user.id)&&(MCTMaster.users[0].pivot.Signature==null))">
       <div class="signature-mct-btn" :class="{'hide':SignatureMCTBtnHide}">
         <longpress id="signatureMCT" duration="3" :on-confirm="signatureMCT" :disabled="IsDisabled" pressing-text="confirm in {$rcounter}" action-text="Loading . . .">
-        <i class="fa fa-pencil"></i> Signature
+        <i class="material-icons">edit</i> Signature
         </longpress>
         <longpress id="declineMCT" duration="3" :on-confirm="declineMCT" :disabled="IsDisabled" pressing-text="confirm in {$rcounter}" action-text="Loading . . .">
-        <i class="fa fa-times"></i> Decline
+        <i class="material-icons">close</i> Decline
         </longpress>
       </div>
     </span>
@@ -107,7 +107,7 @@
           <div class="signature-issuedmct">
               <img :src="'/storage/signatures/'+MCTMaster.users[0].Signature" v-if="MCTMaster.users[0].pivot.Signature=='0'" alt="signature">
           </div>
-          <h1>{{MCTMaster.users[0].FullName}}<i v-if="MCTMaster.users[0].pivot.Signature=='1'" class="fa fa-times decliner"></i></h1>
+          <h1>{{MCTMaster.users[0].FullName}}<i v-if="MCTMaster.users[0].pivot.Signature=='1'" class="material-icons decliner">close</i></h1>
           <h5>{{MCTMaster.users[0].Position}}</h5>
         </div>
       </div>
@@ -119,7 +119,7 @@
           <div class="signature-recievedmct">
             <img :src="'/storage/signatures/'+MCTMaster.users[1].Signature" v-if="MCTMaster.users[1].pivot.Signature=='0'" alt="signature">
           </div>
-          <h1>{{MCTMaster.users[1].FullName}} <i v-if="MCTMaster.users[1].pivot.Signature=='1'" class="fa fa-times decliner"></i></h1>
+          <h1>{{MCTMaster.users[1].FullName}} <i v-if="MCTMaster.users[1].pivot.Signature=='1'" class="material-icons decliner">close</i></h1>
           <h5>{{MCTMaster.users[1].Position}}</h5>
         </div>
       </div>
@@ -199,6 +199,7 @@ import Longpress from 'vue-longpress'
           if (response.data.error!=null)
           {
             window.alert(response.data.error);
+            vm.fetchData();
           }else
           {
             vm.fetchData();

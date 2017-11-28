@@ -2,21 +2,21 @@
   <div class="po-full-buttons" v-if="OrderMaster.users!=null">
     <div class="print-po-btn">
       <div class="Approve-replacer-accept-cant Request-manager-replace" v-if="ApprovalReplacerCanSignature">
-        <h6 class="approve-managerreplace-note"><i class="fa fa-info-circle color-blue"></i>
+        <h6 class="approve-managerreplace-note"><i class="material-icons color-blue">info</i>
           The <span class="color-blue">Warehouse section</span> is asking for your signature b/c the General Manager is not available
         </h6>
         <span class="approval-po-replacer-btn" :class="{'hide':SignatureApproveReplacerHide}">
           <longpress duration="3" class="signaturePObtn" :on-confirm="ApproveAuthorizeInBehalf"  pressing-text="confirmed in {$rcounter}" action-text="please wait . .">
-          <i class="fa fa-pencil"></i> Signature
+          <i class="material-icons">edit</i> Signature
           </longpress>
           <longpress  duration="3" class="declinePObtn" :on-confirm="RefuseToAuthorizeInBehalf"  pressing-text="confirmed in {$rcounter}" action-text="please wait . .">
-          <i class="fa fa-times"></i> I Can't
+          <i class="material-icons">close</i> I Can't
           </longpress>
         </span>
       </div>
       <span class="make-rr-and-print" v-if="AlreadyApproved">
         <div class="left-detail-po">
-          <a :href="'/PO.pdf/'+pono.PONo"><button type="submit" class="bttn-unite bttn-xs bttn-primary" name="PONo" value="ponohere"><i class="fa fa-print"></i> Print</button></a>
+          <a :href="'/PO.pdf/'+pono.PONo"><button type="submit" name="PONo" value="ponohere"><i class="material-icons">print</i></button></a>
           <li class="pending-delivery-number"><h1>waiting for: <span class="color-blue">{{remaining}}</span> items</h1></li>
         </div>
          <div class="rr-with-po-btn" v-if="user.Role==4||user.Role==3">
@@ -27,10 +27,10 @@
       </div>
       <div class="signature-btns-wrap-po" :class="{'hide':SignatureBtnHide}" v-if="GMCanSignature">
         <longpress duration="3" class="signaturePObtn" :on-confirm="GMsignaturePO"  pressing-text="confirmed in {$rcounter}" action-text="please wait . .">
-        <i class="fa fa-pencil"></i> Signature
+        <i class="material-icons">edit</i> Signature
         </longpress>
         <longpress  duration="3" class="declinePObtn" :on-confirm="GMDeclinedPO" pressing-text="confirmed in {$rcounter}" action-text="please wait . .">
-        <i class="fa fa-times"></i> Decline
+        <i class="material-icons">close</i> Decline
         </longpress>
       </div>
   </div>
@@ -106,7 +106,7 @@
           <h6 v-else-if="((OrderMaster.users[1]!=null)&&(OrderMaster.users[1].pivot.Signature=='0'))"><p>For :</p><img :src="'/storage/signatures/'+OrderMaster.users[1].Signature" alt="signature"></h6>
           <h3>
             {{OrderMaster.users[0].FullName}}
-            <i class="fa fa-times decliner" v-if="OrderMaster.users[0].pivot.Signature=='1'"></i>
+            <i class="material-icons decliner" v-if="OrderMaster.users[0].pivot.Signature=='1'">close</i>
           </h3>
           <label>{{OrderMaster.users[0].Position}}</label>
         </li>

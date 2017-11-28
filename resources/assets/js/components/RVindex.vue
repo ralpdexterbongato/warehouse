@@ -3,7 +3,7 @@
 <div class="table-rv-container">
   <div class="top-RV-index">
     <div class="rv-index-title">
-      <h1><i class="fa fa-th-large"></i> Requisition Voucher index</h1>
+      <h1><i class="material-icons">show_chart</i> Requisition Voucher index</h1>
     </div>
     <div class="searchbox-RV">
       <input @keyup="fetchdataRV()" type="text" name="search" v-model="search" placeholder="Search RV Number">
@@ -25,14 +25,23 @@
       <td>{{rvdata.RVNo}}</td>
       <td>{{rvdata.RVDate}}</td>
       <td>{{rvdata.Purpose}}</td>
-      <td>{{rvdata.users[0].FullName}}<br><i v-if="rvdata.users[0].pivot.Signature=='0'" class="fa fa-check"></i><i v-else-if="rvdata.users[0].pivot.Signature=='1'" class="fa fa-times decliner"></i></td>
-      <td>{{rvdata.users[1].FullName}}<br><i v-if="((rvdata.users[1].pivot.Signature=='0')||((rvdata.users[4]!=null)&&(rvdata.users[4].pivot.Signature=='0')&&(rvdata.users[4].pivot.SignatureType=='ManagerReplacer'))||((rvdata.users[5]!=null)&&(rvdata.users[5].pivot.Signature=='0')&&(rvdata.users[5].pivot.SignatureType=='ManagerReplacer')))" class="fa fa-check"></i><i v-else-if="rvdata.users[1].pivot.Signature=='1'" class="fa fa-times decliner"></i></td>
-      <td>{{rvdata.users[2].FullName}}<br><i v-if="rvdata.users[2].pivot.Signature=='0'" class="fa fa-check"></i><i v-else-if="rvdata.users[2].pivot.Signature=='1'" class="fa fa-times decliner"></i></td>
-      <td>{{rvdata.users[3].FullName}}<br><i v-if="((rvdata.users[3].pivot.Signature=='0')||((rvdata.users[4]!=null)&&(rvdata.users[4].pivot.Signature=='0')&&(rvdata.users[4].pivot.SignatureType=='ApprovalReplacer'))||((rvdata.users[5]!=null)&&(rvdata.users[5].pivot.Signature=='0')&&(rvdata.users[5].pivot.SignatureType=='ApprovalReplacer')))" class="fa fa-check"></i><i v-else-if="rvdata.users[3].pivot.Signature=='1'" class="fa fa-times decliner"></i></td>
-      <td v-if="rvdata.Status=='0'"><i class="fa fa-thumbs-up"></i></td>
-      <td v-else-if="rvdata.Status==null"><i class="fa fa-clock-o"></i></td>
-      <td v-else-if="rvdata.Status=='1'"><i class="fa fa-times decliner"></i></td>
-      <td><a v-bind:href="'RVfullview/'+rvdata.RVNo"><i class="fa fa-eye"></i></a></td>
+      <td>{{rvdata.users[0].FullName}}<br>
+        <i v-if="rvdata.users[0].pivot.Signature=='0'" class="material-icons">check</i>
+        <i v-else-if="rvdata.users[0].pivot.Signature=='1'" class="material-icons decliner">close</i>
+      </td>
+      <td>{{rvdata.users[1].FullName}}<br>
+        <i v-if="((rvdata.users[1].pivot.Signature=='0')||((rvdata.users[4]!=null)&&(rvdata.users[4].pivot.Signature=='0')&&(rvdata.users[4].pivot.SignatureType=='ManagerReplacer'))||((rvdata.users[5]!=null)&&(rvdata.users[5].pivot.Signature=='0')&&(rvdata.users[5].pivot.SignatureType=='ManagerReplacer')))" class="material-icons">check</i>
+        <i v-else-if="rvdata.users[1].pivot.Signature=='1'" class="material-icons decliner">close</i></td>
+      <td>{{rvdata.users[2].FullName}}<br>
+        <i v-if="rvdata.users[2].pivot.Signature=='0'" class="material-icons">check</i>
+        <i v-else-if="rvdata.users[2].pivot.Signature=='1'" class="material-icons decliner">close</i></td>
+      <td>{{rvdata.users[3].FullName}}<br>
+        <i v-if="((rvdata.users[3].pivot.Signature=='0')||((rvdata.users[4]!=null)&&(rvdata.users[4].pivot.Signature=='0')&&(rvdata.users[4].pivot.SignatureType=='ApprovalReplacer'))||((rvdata.users[5]!=null)&&(rvdata.users[5].pivot.Signature=='0')&&(rvdata.users[5].pivot.SignatureType=='ApprovalReplacer')))" class="material-icons">check</i>
+        <i v-else-if="rvdata.users[3].pivot.Signature=='1'" class="material-icons decliner">close</i></td>
+      <td v-if="rvdata.Status=='0'"><i class="material-icons">thumb_up</i></td>
+      <td v-else-if="rvdata.Status==null"><i class="material-icons">access_time</i></td>
+      <td v-else-if="rvdata.Status=='1'"><i class="material-icons decliner">close</i></td>
+      <td><a v-bind:href="'RVfullview/'+rvdata.RVNo"><i class="material-icons">remove_red_eye</i></a></td>
     </tr>
   </table>
   <div class="paginate-container">

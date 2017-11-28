@@ -27,14 +27,14 @@
             </td>
             <td>
               @if ($mctmaster->Status=='1')
-                <i class="fa fa-times decliner"></i>
+                <i class="material-icons decliner">close</i>
               @elseif($mctmaster->Status=='0')
-                <i class="fa fa-thumbs-up"></i>
+                <i class="material-icons">thumb_up</i>
               @else
-                <i class="fa fa-clock-o color-blue"></i>
+                <i class="material-icons color-blue">access_time</i>
               @endif
             </td>
-            <td><a href="{{route('MCTpageOnly',[$mctmaster->MCTNo])}}"><i class="fa fa-eye"></i></a></td>
+            <td><a href="{{route('MCTpageOnly',[$mctmaster->MCTNo])}}"><i class="material-icons">remove_red_eye</i></a></td>
           </tr>
         @endforeach
       </table>

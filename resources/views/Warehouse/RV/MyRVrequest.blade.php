@@ -21,7 +21,7 @@
               <td>{{$myRVrequest->RVNo}}</td>
               <td>{{$myRVrequest->RVDate->format('m/d/Y')}}</td>
               <td>{{$myRVrequest->Purpose}}</td>
-              <td><a href="{{route('RVfullpreviewing',[$myRVrequest->RVNo])}}"><i class="fa fa-eye"></i></a></td>
+              <td><a href="{{route('RVfullpreviewing',[$myRVrequest->RVNo])}}"><i class="material-icons">remove_red_eye</i></a></td>
             </tr>
           @endforeach
       </table>

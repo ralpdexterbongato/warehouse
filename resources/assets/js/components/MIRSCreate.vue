@@ -3,7 +3,7 @@
   <div class="Search-item-container">
     <div class="Added-Items">
       <div class="modal-find-button" >
-          <button type="button" name="button" v-on:click="isActive = !isActive"><i class="fa fa-plus-circle"></i> Add item</button>
+          <button type="button" name="button" v-on:click="isActive = !isActive"><i class="material-icons">add</i>item</button>
       </div>
       <div class="added-table-wrapper">
         <ul class="error-tab" v-if="laravelerrors!=''" v-on:click="laravelerrors=''">
@@ -32,7 +32,7 @@
               <td>{{sessionitem.Quantity}}</td>
               <td>{{sessionitem.Unit}}</td>
               <td>{{sessionitem.Remarks}}</td>
-              <td class="delete-trash"><i class="fa fa-trash" v-on:click="deleteSession(sessionitem.ItemCode)"></i></td>
+              <td class="delete-trash"><i class="material-icons" v-on:click="deleteSession(sessionitem.ItemCode)">close</i></td>
           </tr>
         </table>
       </div>
@@ -157,6 +157,8 @@ import axios from 'axios';
           console.log(response);
           Vue.set(vm.$data,'SearchResults',response.data.data);
           Vue.set(vm.$data,'Pagination',response.data);
+          vm.Quantity=[];
+          vm.Remarks=[];
         });
       },
       searchbyDescriptionMIRS(page)
@@ -168,6 +170,8 @@ import axios from 'axios';
           console.log(response);
           Vue.set(vm.$data,'SearchResults',response.data.data);
           Vue.set(vm.$data,'Pagination',response.data);
+          vm.Quantity=[];
+          vm.Remarks=[];
         });
       },
       submitTosession(datas,count)

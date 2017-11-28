@@ -10,11 +10,11 @@
         <div class="mr-box">
           <h1>{{$master->MRNo}}</h1>
           @if ($master->Status=='0')
-            <h2><i class="fa fa-check"></i></h2>
+            <h2><i class="material-icons">thumb_up</i></h2>
           @elseif($master->Status=='1')
-            <h2><i class="fa fa-times big-x"></i></h2>
+            <h2><i class="material-icons big-x">close</i></h2>
           @else
-            <h2><i class="fa fa-clock-o big-clock"></i></h2>
+            <h2><i class="material-icons big-clock">access_time</i></h2>
           @endif
         </div>
       </a>

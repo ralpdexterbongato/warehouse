@@ -212,6 +212,20 @@ class MRController extends Controller
     {
       MRMaster::where('MRNo',$id)->update(['Status'=>'1']);
       Signatureable::where('user_id', Auth::user()->id)->where('signatureable_id',$id)->where('signatureable_type', 'App\MRMaster')->update(['Signature'=>'1']);
+      $RRNumber=MRMaster::where('MRNo',$id)->get(['RRNo']);
+      $MRitemsDeclined=MRDetail::where('MRNo',$id)->get(['Quantity','NameDescription']);
+      $RRDetailItems=RRconfirmationDetails::where('RRNo', $RRNumber[0]->RRNo)->get(['QuantityValidator','Description','id']);
+      foreach ($MRitemsDeclined as $itemdeclined)
+      {
+        foreach ($RRDetailItems as $itemvalidator)
+        {
+          if ($itemdeclined->NameDescription == $itemvalidator->Description)
+          {
+            $newValidatorQty=$itemvalidator->QuantityValidator + $itemdeclined->Quantity;
+            RRconfirmationDetails::where('id', $itemvalidator->id)->update(['QuantityValidator'=>$newValidatorQty]);
+          }
+        }
+      }
     }
     public function myMRrequest()
     {

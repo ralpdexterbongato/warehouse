@@ -29,7 +29,7 @@
             <td>{{$polist->Address}}</td>
             <td>{{$polist->Telephone}}</td>
             <td>{{$polist->Purpose}}</td>
-            <td><a href="{{route('POFullView',[$polist->PONo])}}"><i class="fa fa-eye"></i></a></td>
+            <td><a href="{{route('POFullView',[$polist->PONo])}}"><i class="material-icons">remove_red_eye</i></a></td>
           </tr>
         @endforeach
       </table>

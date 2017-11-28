@@ -1098,6 +1098,8 @@ function _defineProperty(obj, key, value) { if (key in obj) { Object.definePrope
         console.log(response);
         Vue.set(vm.$data, 'SearchResults', response.data.data);
         Vue.set(vm.$data, 'Pagination', response.data);
+        vm.Quantity = [];
+        vm.Remarks = [];
       });
     },
     searchbyDescriptionMIRS: function searchbyDescriptionMIRS(page) {
@@ -1107,6 +1109,8 @@ function _defineProperty(obj, key, value) { if (key in obj) { Object.definePrope
         console.log(response);
         Vue.set(vm.$data, 'SearchResults', response.data.data);
         Vue.set(vm.$data, 'Pagination', response.data);
+        vm.Quantity = [];
+        vm.Remarks = [];
       });
     },
     submitTosession: function submitTosession(datas, count) {
@@ -2263,8 +2267,8 @@ module.exports={render:function (){var _vm=this;var _h=_vm.$createElement;var _c
       }
     }
   }, [_c('i', {
-    staticClass: "fa fa-plus-circle"
-  }), _vm._v(" Add item")])]), _vm._v(" "), _c('div', {
+    staticClass: "material-icons"
+  }, [_vm._v("add")]), _vm._v("item")])]), _vm._v(" "), _c('div', {
     staticClass: "added-table-wrapper"
   }, [(_vm.laravelerrors != '') ? _c('ul', {
     staticClass: "error-tab",
@@ -2295,13 +2299,13 @@ module.exports={render:function (){var _vm=this;var _h=_vm.$createElement;var _c
     return _c('tr', [_c('td', [_vm._v(_vm._s(sessionitem.ItemCode))]), _vm._v(" "), _c('td', [_vm._v(_vm._s(sessionitem.Particulars))]), _vm._v(" "), _c('td', [_vm._v(_vm._s(sessionitem.Quantity))]), _vm._v(" "), _c('td', [_vm._v(_vm._s(sessionitem.Unit))]), _vm._v(" "), _c('td', [_vm._v(_vm._s(sessionitem.Remarks))]), _vm._v(" "), _c('td', {
       staticClass: "delete-trash"
     }, [_c('i', {
-      staticClass: "fa fa-trash",
+      staticClass: "material-icons",
       on: {
         "click": function($event) {
           _vm.deleteSession(sessionitem.ItemCode)
         }
       }
-    })])])
+    }, [_vm._v("close")])])])
   })], 2)])])]), _vm._v(" "), _c('div', {
     staticClass: "MIRSform-container"
   }, [_c('div', {
@@ -2645,32 +2649,32 @@ module.exports={render:function (){var _vm=this;var _h=_vm.$createElement;var _c
     staticClass: "table-mirs-list"
   }, [_c('table', [_vm._m(1), _vm._v(" "), _vm._l((_vm.SearchResult), function(result) {
     return (result.users[0] != null) ? _c('tr', [_c('td', [_vm._v(_vm._s(result.MIRSNo))]), _vm._v(" "), _c('td', [_vm._v(_vm._s(result.Purpose))]), _vm._v(" "), _c('td', [_vm._v(_vm._s(result.users[0].FullName) + "\r\n            "), ((result.users[0].pivot.Signature == '0')) ? _c('i', {
-      staticClass: "fa fa-check"
-    }) : (result.users[0].pivot.Signature == '1') ? _c('i', {
-      staticClass: "fa fa-times decliner"
-    }) : _vm._e()]), _vm._v(" "), _c('td', [_vm._v(_vm._s(result.users[1].FullName) + "\r\n             "), (((result.users[1].pivot.Signature == '0') || ((result.users[3] != null) && (result.users[3].pivot.Signature == '0') && (result.users[3].pivot.SignatureType == 'ManagerReplacer')) || ((result.users[4] != null) && (result.users[4].pivot.Signature == '0') && (result.users[4].pivot.SignatureType == 'ManagerReplacer')))) ? _c('i', {
-      staticClass: "fa fa-check"
-    }) : (result.users[1].pivot.Signature == '1') ? _c('i', {
-      staticClass: "fa fa-times decliner"
-    }) : _vm._e()]), _vm._v(" "), _c('td', [_vm._v(_vm._s(result.users[2].FullName) + "\r\n            "), (((result.users[2].pivot.Signature == '0') || ((result.users[3] != null) && (result.users[3].pivot.Signature == '0') && (result.users[3].pivot.SignatureType == 'ApprovalReplacer')) || ((result.users[4] != null) && (result.users[4].pivot.Signature == '0') && (result.users[4].pivot.SignatureType == 'ApprovalReplacer')))) ? _c('i', {
-      staticClass: "fa fa-check"
-    }) : (result.users[2].pivot.Signature == '1') ? _c('i', {
-      staticClass: "fa fa-times decliner"
-    }) : _vm._e()]), _vm._v(" "), _c('td', [_vm._v(_vm._s(result.MIRSDate))]), _vm._v(" "), _c('td', [(((result.users[0].pivot.Signature == '0') && ((result.users[1].pivot.Signature == '0') || (result.users[3] != null) && (result.users[3].pivot.Signature == '0') && (result.users[3].pivot.SignatureType == 'ManagerReplacer') || (result.users[4] != null) && (result.users[4].pivot.Signature == '0') && (result.users[4].pivot.SignatureType == 'ManagerReplacer')) && ((result.users[2].pivot.Signature == '0') || (result.users[3] != null) && (result.users[3].pivot.Signature == '0') && (result.users[3].pivot.SignatureType == 'ApprovalReplacer') || (result.users[4] != null) && (result.users[4].pivot.Signature == '0') && (result.users[4].pivot.SignatureType == 'ApprovalReplacer')))) ? _c('i', {
-      staticClass: "fa fa-thumbs-up"
-    }) : (((result.users[0].pivot.Signature == '1') || (result.users[1].pivot.Signature == '1') || (result.users[2].pivot.Signature == '1'))) ? _c('i', {
-      staticClass: "fa fa-times decliner"
-    }) : _c('i', {
-      staticClass: "fa fa-clock-o"
-    })]), _vm._v(" "), _c('td', {
+      staticClass: "material-icons"
+    }, [_vm._v("check")]) : (result.users[0].pivot.Signature == '1') ? _c('i', {
+      staticClass: "material-icons decliner"
+    }, [_vm._v("close")]) : _vm._e()]), _vm._v(" "), _c('td', [_vm._v(_vm._s(result.users[1].FullName) + "\r\n             "), (((result.users[1].pivot.Signature == '0') || ((result.users[3] != null) && (result.users[3].pivot.Signature == '0') && (result.users[3].pivot.SignatureType == 'ManagerReplacer')) || ((result.users[4] != null) && (result.users[4].pivot.Signature == '0') && (result.users[4].pivot.SignatureType == 'ManagerReplacer')))) ? _c('i', {
+      staticClass: "material-icons"
+    }, [_vm._v("check")]) : (result.users[1].pivot.Signature == '1') ? _c('i', {
+      staticClass: "material-icons decliner"
+    }, [_vm._v("close")]) : _vm._e()]), _vm._v(" "), _c('td', [_vm._v(_vm._s(result.users[2].FullName) + "\r\n            "), (((result.users[2].pivot.Signature == '0') || ((result.users[3] != null) && (result.users[3].pivot.Signature == '0') && (result.users[3].pivot.SignatureType == 'ApprovalReplacer')) || ((result.users[4] != null) && (result.users[4].pivot.Signature == '0') && (result.users[4].pivot.SignatureType == 'ApprovalReplacer')))) ? _c('i', {
+      staticClass: "material-icons"
+    }, [_vm._v("check")]) : (result.users[2].pivot.Signature == '1') ? _c('i', {
+      staticClass: "material-icons decliner"
+    }, [_vm._v("close")]) : _vm._e()]), _vm._v(" "), _c('td', [_vm._v(_vm._s(result.MIRSDate))]), _vm._v(" "), _c('td', [(((result.users[0].pivot.Signature == '0') && ((result.users[1].pivot.Signature == '0') || (result.users[3] != null) && (result.users[3].pivot.Signature == '0') && (result.users[3].pivot.SignatureType == 'ManagerReplacer') || (result.users[4] != null) && (result.users[4].pivot.Signature == '0') && (result.users[4].pivot.SignatureType == 'ManagerReplacer')) && ((result.users[2].pivot.Signature == '0') || (result.users[3] != null) && (result.users[3].pivot.Signature == '0') && (result.users[3].pivot.SignatureType == 'ApprovalReplacer') || (result.users[4] != null) && (result.users[4].pivot.Signature == '0') && (result.users[4].pivot.SignatureType == 'ApprovalReplacer')))) ? _c('i', {
+      staticClass: "material-icons"
+    }, [_vm._v("thumb_up")]) : (((result.users[0].pivot.Signature == '1') || (result.users[1].pivot.Signature == '1') || (result.users[2].pivot.Signature == '1'))) ? _c('i', {
+      staticClass: "material-icons decliner"
+    }, [_vm._v("close")]) : _c('i', {
+      staticClass: "material-icons"
+    }, [_vm._v("access_time")])]), _vm._v(" "), _c('td', {
       staticClass: "fullmirsClick"
     }, [_c('a', {
       attrs: {
         "href": '/previewFullMIRS/' + result.MIRSNo
       }
     }, [_c('i', {
-      staticClass: "fa fa-eye"
-    })])])]) : _vm._e()
+      staticClass: "material-icons"
+    }, [_vm._v("remove_red_eye")])])])]) : _vm._e()
   })], 2), _vm._v(" "), _c('div', {
     staticClass: "paginate-container"
   }, [_c('ul', {
@@ -2718,8 +2722,8 @@ module.exports={render:function (){var _vm=this;var _h=_vm.$createElement;var _c
   return _c('div', {
     staticClass: "Title-MIRS-Index"
   }, [_c('i', {
-    staticClass: "fa fa-th-large"
-  }), _vm._v("  Materials Issuance Requisition Slip index\r\n    ")])
+    staticClass: "material-icons"
+  }, [_vm._v("show_chart")]), _vm._v(" Materials Issuance Requisition Slip index\r\n    ")])
 },function (){var _vm=this;var _h=_vm.$createElement;var _c=_vm._self._c||_h;
   return _c('tr', [_c('th', [_vm._v("MIRSNo")]), _vm._v(" "), _c('th', [_vm._v("Purpose")]), _vm._v(" "), _c('th', [_vm._v("Prepared by")]), _vm._v(" "), _c('th', [_vm._v("Recommended by")]), _vm._v(" "), _c('th', [_vm._v("Approved by")]), _vm._v(" "), _c('th', [_vm._v("Date")]), _vm._v(" "), _c('th', [_vm._v("Status")]), _vm._v(" "), _c('th', [_vm._v("View")])])
 }]}
@@ -2773,8 +2777,8 @@ module.exports={render:function (){var _vm=this;var _h=_vm.$createElement;var _c
       "action-text": "Loading . . ."
     }
   }, [_c('i', {
-    staticClass: "fa fa-pencil"
-  }), _vm._v(" Signature\r\n          ")]), _vm._v(" "), _c('longpress', {
+    staticClass: "material-icons"
+  }, [_vm._v("edit")]), _vm._v(" Signature\r\n          ")]), _vm._v(" "), _c('longpress', {
     attrs: {
       "duration": "3",
       "id": "manager-replacer-cant",
@@ -2783,8 +2787,8 @@ module.exports={render:function (){var _vm=this;var _h=_vm.$createElement;var _c
       "action-text": "Loading . . ."
     }
   }, [_c('i', {
-    staticClass: "fa fa-pencil"
-  }), _vm._v(" I can't\r\n          ")])], 1)]) : _vm._e(), _vm._v(" "), (_vm.UserIsApprovalReplacer) ? _c('div', {
+    staticClass: "material-icons"
+  }, [_vm._v("close")]), _vm._v(" I can't\r\n          ")])], 1)]) : _vm._e(), _vm._v(" "), (_vm.UserIsApprovalReplacer) ? _c('div', {
     staticClass: "Request-manager-replace"
   }, [_c('h6', {
     staticClass: "mirs-managerreplace-info"
@@ -2806,8 +2810,8 @@ module.exports={render:function (){var _vm=this;var _h=_vm.$createElement;var _c
       "action-text": "Loading . . ."
     }
   }, [_c('i', {
-    staticClass: "fa fa-pencil"
-  }), _vm._v(" Signature\r\n          ")]), _vm._v(" "), _c('longpress', {
+    staticClass: "material-icons"
+  }, [_vm._v("edit")]), _vm._v(" Signature\r\n          ")]), _vm._v(" "), _c('longpress', {
     attrs: {
       "duration": "3",
       "id": "manager-replacer-cant",
@@ -2816,8 +2820,8 @@ module.exports={render:function (){var _vm=this;var _h=_vm.$createElement;var _c
       "action-text": "Loading . . ."
     }
   }, [_c('i', {
-    staticClass: "fa fa-pencil"
-  }), _vm._v(" I can't\r\n          ")])], 1)]) : _vm._e(), _vm._v(" "), (((_vm.ManagerCansignature) && (_vm.NoManagerReplacerSignature) || ((_vm.GMCanSignature) && (_vm.NoApprovalReplacerSignature)) || (_vm.RequisitionerCanSignature))) ? _c('span', [_c('div', {
+    staticClass: "material-icons"
+  }, [_vm._v("close")]), _vm._v(" I can't\r\n          ")])], 1)]) : _vm._e(), _vm._v(" "), (((_vm.ManagerCansignature) && (_vm.NoManagerReplacerSignature) || ((_vm.GMCanSignature) && (_vm.NoApprovalReplacerSignature)) || (_vm.RequisitionerCanSignature))) ? _c('span', [_c('div', {
     staticClass: "middle-status",
     class: {
       'hide': _vm.SignatureBtnHide
@@ -2831,8 +2835,8 @@ module.exports={render:function (){var _vm=this;var _h=_vm.$createElement;var _c
       "action-text": "Loading . . ."
     }
   }, [_c('i', {
-    staticClass: "fa fa-pencil"
-  }), _vm._v(" Signature\r\n          ")]), _vm._v(" "), _c('longpress', {
+    staticClass: "material-icons"
+  }, [_vm._v("edit")]), _vm._v(" Signature\r\n          ")]), _vm._v(" "), _c('longpress', {
     attrs: {
       "id": "not-accepted",
       "duration": "3",
@@ -2841,8 +2845,8 @@ module.exports={render:function (){var _vm=this;var _h=_vm.$createElement;var _c
       "action-text": "Loading . . ."
     }
   }, [_c('i', {
-    staticClass: "fa fa-times"
-  }), _vm._v(" Decline\r\n          ")])], 1)]) : _vm._e(), _vm._v(" "), (_vm.approved) ? _c('div', {
+    staticClass: "material-icons"
+  }, [_vm._v("close")]), _vm._v(" Decline\r\n          ")])], 1)]) : _vm._e(), _vm._v(" "), (_vm.approved) ? _c('div', {
     staticClass: "mct-create-mct-list"
   }, [(((_vm.user.Role == 4) || (_vm.user.Role == 3))) ? _c('a', {
     attrs: {
@@ -3015,9 +3019,9 @@ module.exports={render:function (){var _vm=this;var _h=_vm.$createElement;var _c
     attrs: {
       "type": "submit"
     }
-  }, [_vm._v("PDF "), _c('i', {
-    staticClass: "fa fa-file-pdf-o"
-  })])
+  }, [_c('i', {
+    staticClass: "material-icons"
+  }, [_vm._v("print")])])
 },function (){var _vm=this;var _h=_vm.$createElement;var _c=_vm._self._c||_h;
   return _c('button', {
     attrs: {
@@ -3041,18 +3045,18 @@ module.exports={render:function (){var _vm=this;var _h=_vm.$createElement;var _c
   return _c('h1', {
     staticClass: "deny-sign"
   }, [_c('i', {
-    staticClass: "fa fa-times"
-  }), _c('br'), _vm._v("Declined")])
+    staticClass: "material-icons"
+  }, [_vm._v("close")]), _c('br'), _vm._v("Declined")])
 },function (){var _vm=this;var _h=_vm.$createElement;var _c=_vm._self._c||_h;
   return _c('h1', {
     staticClass: "approved-sign"
   }, [_c('i', {
-    staticClass: "fa fa-thumbs-up"
-  }), _vm._v(" "), _c('br'), _vm._v("Approved")])
+    staticClass: "material-icons"
+  }, [_vm._v("thumb_up")]), _vm._v(" "), _c('br'), _vm._v("Approved")])
 },function (){var _vm=this;var _h=_vm.$createElement;var _c=_vm._self._c||_h;
   return _c('h1', [_c('i', {
-    staticClass: "fa fa-clock-o"
-  }), _c('br'), _vm._v("Pending")])
+    staticClass: "material-icons"
+  }, [_vm._v("access_time")]), _c('br'), _vm._v("Pending")])
 },function (){var _vm=this;var _h=_vm.$createElement;var _c=_vm._self._c||_h;
   return _c('p', [_vm._v("\r\n          TO: The General Manager "), _c('br'), _vm._v("\r\n          Please furnish the following materials for :\r\n        ")])
 },function (){var _vm=this;var _h=_vm.$createElement;var _c=_vm._self._c||_h;

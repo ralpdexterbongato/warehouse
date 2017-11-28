@@ -2036,30 +2036,30 @@ module.exports={render:function (){var _vm=this;var _h=_vm.$createElement;var _c
     staticClass: "mr-index-table"
   }, [_c('table', [_vm._m(1), _vm._v(" "), _vm._l((_vm.MRindexData), function(data) {
     return (data.users[0] != null) ? _c('tr', [_c('td', [_vm._v(_vm._s(data.MRNo))]), _vm._v(" "), _c('td', [_vm._v(_vm._s(data.MRDate))]), _vm._v(" "), _c('td', [_vm._v(_vm._s(data.RVNo))]), _vm._v(" "), _c('td', [_vm._v(_vm._s(data.RRNo))]), _vm._v(" "), (data.PONo != null) ? _c('td', [_vm._v(_vm._s(data.PONo))]) : _c('td', [_vm._v("N/A")]), _vm._v(" "), _c('td', [_vm._v(_vm._s(data.Supplier))]), _vm._v(" "), _c('td', [_vm._v("\n          " + _vm._s(data.users[0].FullName)), _c('br'), _vm._v(" "), (data.users[0].pivot.Signature == '0') ? _c('i', {
-      staticClass: "fa fa-check"
-    }) : (data.users[0].pivot.Signature == '1') ? _c('i', {
-      staticClass: "fa fa-times decliner"
-    }) : _vm._e()]), _vm._v(" "), _c('td', [_vm._v("\n          " + _vm._s(data.users[1].FullName)), _c('br'), _vm._v(" "), (((data.users[1].pivot.Signature == '0') || (data.users[3] != null && data.users[3].pivot.Signature == '0'))) ? _c('i', {
-      staticClass: "fa fa-check"
-    }) : (data.users[1].pivot.Signature == '1') ? _c('i', {
-      staticClass: "fa fa-times decliner"
-    }) : _vm._e()]), _vm._v(" "), _c('td', [_vm._v("\n          " + _vm._s(data.users[2].FullName)), _c('br'), _vm._v(" "), (data.users[2].pivot.Signature == '0') ? _c('i', {
-      staticClass: "fa fa-check"
-    }) : (data.users[2].pivot.Signature == '1') ? _c('i', {
-      staticClass: "fa fa-times decliner"
-    }) : _vm._e()]), _vm._v(" "), _c('td', [(data.Status == '0') ? _c('i', {
-      staticClass: "fa fa-thumbs-up"
-    }) : (data.Status == '1') ? _c('i', {
-      staticClass: "fa fa-times decliner"
-    }) : _c('i', {
-      staticClass: "fa fa-clock-o darker-blue"
-    })]), _vm._v(" "), _c('td', [_c('a', {
+      staticClass: "material-icons"
+    }, [_vm._v("check")]) : (data.users[0].pivot.Signature == '1') ? _c('i', {
+      staticClass: "material-icons decliner"
+    }, [_vm._v("close")]) : _vm._e()]), _vm._v(" "), _c('td', [_vm._v("\n          " + _vm._s(data.users[1].FullName)), _c('br'), _vm._v(" "), (((data.users[1].pivot.Signature == '0') || (data.users[3] != null && data.users[3].pivot.Signature == '0'))) ? _c('i', {
+      staticClass: "material-icons"
+    }, [_vm._v("check")]) : (data.users[1].pivot.Signature == '1') ? _c('i', {
+      staticClass: "material-icons decliner"
+    }, [_vm._v("close")]) : _vm._e()]), _vm._v(" "), _c('td', [_vm._v("\n          " + _vm._s(data.users[2].FullName)), _c('br'), _vm._v(" "), (data.users[2].pivot.Signature == '0') ? _c('i', {
+      staticClass: "material-icons"
+    }, [_vm._v("check")]) : (data.users[2].pivot.Signature == '1') ? _c('i', {
+      staticClass: "material-icons decliner"
+    }, [_vm._v("close")]) : _vm._e()]), _vm._v(" "), _c('td', [(data.Status == '0') ? _c('i', {
+      staticClass: "material-icons"
+    }, [_vm._v("thumb_up")]) : (data.Status == '1') ? _c('i', {
+      staticClass: "material-icons decliner"
+    }, [_vm._v("close")]) : _c('i', {
+      staticClass: "material-icons"
+    }, [_vm._v("access_time")])]), _vm._v(" "), _c('td', [_c('a', {
       attrs: {
         "href": '/full-preview-MR/' + data.MRNo
       }
     }, [_c('i', {
-      staticClass: "fa fa-eye"
-    })])])]) : _vm._e()
+      staticClass: "material-icons"
+    }, [_vm._v("remove_red_eye")])])])]) : _vm._e()
   })], 2), _vm._v(" "), _c('div', {
     staticClass: "paginate-container"
   }, [_c('ul', {
@@ -2105,8 +2105,8 @@ module.exports={render:function (){var _vm=this;var _h=_vm.$createElement;var _c
   })])]) : _vm._e()], 2)])])])
 },staticRenderFns: [function (){var _vm=this;var _h=_vm.$createElement;var _c=_vm._self._c||_h;
   return _c('h1', [_c('i', {
-    staticClass: "fa fa-th-large"
-  }), _vm._v(" Memorandum Receipt index")])
+    staticClass: "material-icons"
+  }, [_vm._v("show_chart")]), _vm._v(" Memorandum Receipt index")])
 },function (){var _vm=this;var _h=_vm.$createElement;var _c=_vm._self._c||_h;
   return _c('tr', [_c('th', [_vm._v("MR #")]), _vm._v(" "), _c('th', [_vm._v("MR Date")]), _vm._v(" "), _c('th', [_vm._v("RV #")]), _vm._v(" "), _c('th', [_vm._v("RR #")]), _vm._v(" "), _c('th', [_vm._v("PO #")]), _vm._v(" "), _c('th', [_vm._v("Supplier")]), _vm._v(" "), _c('th', [_vm._v("Recommended by")]), _vm._v(" "), _c('th', [_vm._v("Approved by")]), _vm._v(" "), _c('th', [_vm._v("Received by")]), _vm._v(" "), _c('th', [_vm._v("Status")]), _vm._v(" "), _c('th', [_vm._v("View")])])
 }]}
@@ -2174,8 +2174,8 @@ module.exports={render:function (){var _vm=this;var _h=_vm.$createElement;var _c
       "action-text": "Loading . . ."
     }
   }, [_c('i', {
-    staticClass: "fa fa-pencil"
-  }), _vm._v(" Signature\r\n        ")]), _vm._v(" "), _c('longpress', {
+    staticClass: "material-icons"
+  }, [_vm._v("edit")]), _vm._v(" Signature\r\n        ")]), _vm._v(" "), _c('longpress', {
     staticClass: "RVdeclineBtn",
     attrs: {
       "duration": "3",
@@ -2184,8 +2184,8 @@ module.exports={render:function (){var _vm=this;var _h=_vm.$createElement;var _c
       "action-text": "Loading . . ."
     }
   }, [_c('i', {
-    staticClass: "fa fa-times"
-  }), _vm._v(" I can't\r\n        ")])], 1) : _vm._e(), _vm._v(" "), (_vm.UserCanSignature) ? _c('span', {
+    staticClass: "material-icons"
+  }, [_vm._v("close")]), _vm._v(" I can't\r\n        ")])], 1) : _vm._e(), _vm._v(" "), (_vm.UserCanSignature) ? _c('span', {
     class: {
       'hide': _vm.SignatureBtnHide
     }
@@ -2198,8 +2198,8 @@ module.exports={render:function (){var _vm=this;var _h=_vm.$createElement;var _c
       "action-text": "Loading . . ."
     }
   }, [_c('i', {
-    staticClass: "fa fa-pencil"
-  }), _vm._v(" Signature\r\n        ")]), _vm._v(" "), _c('longpress', {
+    staticClass: "material-icons"
+  }, [_vm._v("edit")]), _vm._v(" Signature\r\n        ")]), _vm._v(" "), _c('longpress', {
     attrs: {
       "id": "declineMRbtn",
       "duration": "3",
@@ -2208,8 +2208,8 @@ module.exports={render:function (){var _vm=this;var _h=_vm.$createElement;var _c
       "action-text": "Loading . . ."
     }
   }, [_c('i', {
-    staticClass: "fa fa-times"
-  }), _vm._v(" Decline\r\n        ")])], 1) : _vm._e()])]), _vm._v(" "), _c('div', {
+    staticClass: "material-icons"
+  }, [_vm._v("close")]), _vm._v(" Decline\r\n        ")])], 1) : _vm._e()])]), _vm._v(" "), _c('div', {
     staticClass: "mr-full-bondpaper"
   }, [_vm._m(1), _vm._v(" "), _c('div', {
     staticClass: "list-number-dates"
@@ -2247,8 +2247,8 @@ module.exports={render:function (){var _vm=this;var _h=_vm.$createElement;var _c
       "alt": "signature"
     }
   })]) : _vm._e(), _vm._v(" "), _c('h3', [_vm._v("\r\n            " + _vm._s(_vm.MRMaster.users[0].FullName) + "\r\n              "), ((_vm.MRMaster.users[0].pivot.Signature == '1')) ? _c('i', {
-    staticClass: "fa fa-times decliner"
-  }) : _vm._e()]), _vm._v(" "), _c('p', [_vm._v(_vm._s(_vm.MRMaster.users[0].Position))])]), _vm._v(" "), _c('div', {
+    staticClass: "material-icons decliner"
+  }, [_vm._v("close")]) : _vm._e()]), _vm._v(" "), _c('p', [_vm._v(_vm._s(_vm.MRMaster.users[0].Position))])]), _vm._v(" "), _c('div', {
     staticClass: "signature-mr-box"
   }, [_c('label', [_vm._v("APPROVED:")]), _vm._v(" "), (_vm.MRMaster.users[1].pivot.Signature == '0') ? _c('h5', [_c('img', {
     attrs: {
@@ -2261,8 +2261,8 @@ module.exports={render:function (){var _vm=this;var _h=_vm.$createElement;var _c
       "alt": "signature"
     }
   })]) : _vm._e(), _vm._v(" "), _c('h3', [_vm._v("\r\n            " + _vm._s(_vm.MRMaster.users[1].FullName) + "\r\n              "), (_vm.MRMaster.users[1].pivot.Signature == '1') ? _c('i', {
-    staticClass: "fa fa-times decliner"
-  }) : _vm._e()]), _vm._v(" "), _c('p', [_vm._v(_vm._s(_vm.MRMaster.users[1].Position))])]), _vm._v(" "), _c('div', {
+    staticClass: "material-icons decliner"
+  }, [_vm._v("close")]) : _vm._e()]), _vm._v(" "), _c('p', [_vm._v(_vm._s(_vm.MRMaster.users[1].Position))])]), _vm._v(" "), _c('div', {
     staticClass: "signature-mr-box"
   }, [_c('label', [_vm._v("RECEIVED:")]), _vm._v(" "), (_vm.MRMaster.users[2].pivot.Signature == '0') ? _c('h5', [_c('img', {
     attrs: {
@@ -2270,8 +2270,8 @@ module.exports={render:function (){var _vm=this;var _h=_vm.$createElement;var _c
       "alt": "signature"
     }
   })]) : _vm._e(), _vm._v(" "), _c('h3', [_vm._v(_vm._s(_vm.MRMaster.users[2].FullName)), (_vm.MRMaster.users[2].pivot.Signature == '1') ? _c('i', {
-    staticClass: "fa fa-times decliner"
-  }) : _vm._e()]), _vm._v(" "), _c('p', [_vm._v(_vm._s(_vm.MRMaster.users[2].Position))])])])])])]) : _vm._e()
+    staticClass: "material-icons decliner"
+  }, [_vm._v("close")]) : _vm._e()]), _vm._v(" "), _c('p', [_vm._v(_vm._s(_vm.MRMaster.users[2].Position))])])])])])]) : _vm._e()
 },staticRenderFns: [function (){var _vm=this;var _h=_vm.$createElement;var _c=_vm._self._c||_h;
   return _c('button', {
     attrs: {
@@ -2280,8 +2280,8 @@ module.exports={render:function (){var _vm=this;var _h=_vm.$createElement;var _c
       "value": "mrnohere"
     }
   }, [_c('i', {
-    staticClass: "fa fa-print"
-  }), _vm._v(" Print")])
+    staticClass: "material-icons"
+  }, [_vm._v("print")])])
 },function (){var _vm=this;var _h=_vm.$createElement;var _c=_vm._self._c||_h;
   return _c('div', {
     staticClass: "mr-top-titles"

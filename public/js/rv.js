@@ -1193,12 +1193,6 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
 //
 //
 //
-//
-//
-//
-//
-//
-//
 
 
 
@@ -1630,6 +1624,8 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
 //
 //
 //
+//
+//
 
 
 
@@ -1665,6 +1661,8 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
       var vm = this;
       __WEBPACK_IMPORTED_MODULE_0_axios___default.a.get('/search-rv-forstock?Description=' + this.findDescription + '&page=' + page).then(function (response) {
         console.log(response);
+        vm.QuantityForWHouse = [];
+        vm.RemarksForWHouse = [];
         Vue.set(vm.$data, 'findResults', response.data.MasterResults.data);
         Vue.set(vm.$data, 'pagination', response.data.MasterResults);
       });
@@ -1830,6 +1828,15 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
 Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_0_axios__ = __webpack_require__(3);
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_0_axios___default = __webpack_require__.n(__WEBPACK_IMPORTED_MODULE_0_axios__);
+//
+//
+//
+//
+//
+//
+//
+//
+//
 //
 //
 //
@@ -6075,8 +6082,8 @@ module.exports={render:function (){var _vm=this;var _h=_vm.$createElement;var _c
       }
     }
   }, [(_vm.user.Role == 3 || _vm.user.Role == 4) ? _c('i', {
-    staticClass: "fa fa-cubes"
-  }) : _vm._e(), _vm._v(" For stocks")]) : _vm._e(), _vm._v(" "), _c('button', {
+    staticClass: "material-icons"
+  }, [_vm._v("widgets")]) : _vm._e(), _vm._v(" For stocks")]) : _vm._e(), _vm._v(" "), _c('button', {
     staticClass: "bttn-unite bttn-sm bttn-primary",
     attrs: {
       "type": "button",
@@ -6088,16 +6095,16 @@ module.exports={render:function (){var _vm=this;var _h=_vm.$createElement;var _c
       }
     }
   }, [_c('i', {
-    staticClass: "fa fa-ban"
-  }), _vm._v(" Not in warehouse")])]), _vm._v(" "), _c('table', [_vm._m(1), _vm._v(" "), _vm._l((_vm.SessionStored), function(sessionrv, key) {
+    staticClass: "material-icons"
+  }, [_vm._v("shopping_cart")]), _vm._v(" Not in warehouse")])]), _vm._v(" "), _c('table', [_vm._m(1), _vm._v(" "), _vm._l((_vm.SessionStored), function(sessionrv, key) {
     return _c('tr', [_c('td', [_vm._v(_vm._s(sessionrv.Description))]), _vm._v(" "), _c('td', [_vm._v(_vm._s(sessionrv.Unit))]), _vm._v(" "), _c('td', [_vm._v(_vm._s(sessionrv.Quantity))]), _vm._v(" "), _c('td', [_vm._v(_vm._s(sessionrv.Remarks))]), _vm._v(" "), _c('td', [_c('i', {
-      staticClass: "fa fa-trash",
+      staticClass: "material-icons",
       on: {
         "click": function($event) {
           _vm.deleteSession(key)
         }
       }
-    })])])
+    }, [_vm._v("close")])])])
   })], 2)]), _vm._v(" "), _c('div', {
     staticClass: "RVMaster-form"
   }, [_c('div', {
@@ -6307,8 +6314,10 @@ module.exports={render:function (){var _vm=this;var _h=_vm.$createElement;var _c
       }
     }
   }, [_c('i', {
-    staticClass: "fa fa-arrow-down"
-  }), _vm._v(" Qty items")])]), _vm._v(" "), _c('span', [_c('input', {
+    staticClass: "material-icons"
+  }, [_vm._v("arrow_downward")]), _vm._v(" Qty items")])]), _vm._v(" "), _c('div', {
+    staticClass: "search-input-item"
+  }, [_c('input', {
     directives: [{
       name: "model",
       rawName: "v-model",
@@ -6344,8 +6353,8 @@ module.exports={render:function (){var _vm=this;var _h=_vm.$createElement;var _c
       }
     }
   }, [_c('i', {
-    staticClass: "fa fa-search"
-  })])])]), _vm._v(" "), _c('div', {
+    staticClass: "material-icons"
+  }, [_vm._v("search")])])])]), _vm._v(" "), _c('div', {
     staticClass: "searchResults-forstock"
   }, [_c('table', [_vm._m(2), _vm._v(" "), _vm._l((_vm.findResults), function(result, count) {
     return _c('tr', [_c('td', [_vm._v(_vm._s(result.ItemCode))]), _vm._v(" "), _c('td', [_vm._v(_vm._s(result.Description))]), _vm._v(" "), _c('td', [_vm._v(_vm._s(result.Unit))]), _vm._v(" "), _c('td', [_c('input', {
@@ -6409,8 +6418,8 @@ module.exports={render:function (){var _vm=this;var _h=_vm.$createElement;var _c
         }
       }
     }, [_c('i', {
-      staticClass: "fa fa-plus-circle"
-    })])])])
+      staticClass: "material-icons"
+    }, [_vm._v("add_circle")])])])])
   })], 2), _vm._v(" "), _c('div', {
     staticClass: "paginate-container"
   }, [_c('ul', {
@@ -6461,9 +6470,9 @@ module.exports={render:function (){var _vm=this;var _h=_vm.$createElement;var _c
     staticClass: "empty-right"
   })])
 },function (){var _vm=this;var _h=_vm.$createElement;var _c=_vm._self._c||_h;
-  return _c('tr', [_c('th', [_vm._v("Articles")]), _vm._v(" "), _c('th', [_vm._v("Unit")]), _vm._v(" "), _c('th', [_vm._v("Qty")]), _vm._v(" "), _c('th', [_vm._v("Remarks")]), _vm._v(" "), _c('th', [_vm._v("Action")])])
+  return _c('tr', [_c('th', [_vm._v("Articles")]), _vm._v(" "), _c('th', [_vm._v("Unit")]), _vm._v(" "), _c('th', [_vm._v("Qty")]), _vm._v(" "), _c('th', [_vm._v("Remarks")]), _vm._v(" "), _c('th', [_vm._v("Remove")])])
 },function (){var _vm=this;var _h=_vm.$createElement;var _c=_vm._self._c||_h;
-  return _c('tr', [_c('th', [_vm._v("Item Code")]), _vm._v(" "), _c('th', [_vm._v("Article")]), _vm._v(" "), _c('th', [_vm._v("Unit")]), _vm._v(" "), _c('th', [_vm._v("Qty")]), _vm._v(" "), _c('th', [_vm._v("Current Balance")]), _vm._v(" "), _c('th', [_vm._v("Minimum balance")]), _vm._v(" "), _c('th', [_vm._v("Remarks")]), _vm._v(" "), _c('th', [_vm._v("Action")])])
+  return _c('tr', [_c('th', [_vm._v("Item Code")]), _vm._v(" "), _c('th', [_vm._v("Article")]), _vm._v(" "), _c('th', [_vm._v("Unit")]), _vm._v(" "), _c('th', [_vm._v("Qty")]), _vm._v(" "), _c('th', [_vm._v("Current Balance")]), _vm._v(" "), _c('th', [_vm._v("Minimum balance")]), _vm._v(" "), _c('th', [_vm._v("Remarks")]), _vm._v(" "), _c('th', [_vm._v("Add")])])
 }]}
 module.exports.render._withStripped = true
 if (false) {
@@ -6604,8 +6613,8 @@ module.exports={render:function (){var _vm=this;var _h=_vm.$createElement;var _c
       }
     }
   }, [_c('i', {
-    staticClass: "fa fa-clock-o"
-  }), _vm._v(" remarks")]) : _vm._e(), _vm._v(" "), ((_vm.pendingRemarksShow != null) && (_vm.RVMaster.users[2].pivot.Signature == null) && ((_vm.user.id == _vm.RVMaster.users[0].id) || (_vm.user.id == _vm.RVMaster.users[2].id))) ? _c('div', {
+    staticClass: "material-icons"
+  }, [_vm._v("access_time")]), _vm._v(" remarks")]) : _vm._e(), _vm._v(" "), ((_vm.pendingRemarksShow != null) && (_vm.RVMaster.users[2].pivot.Signature == null) && ((_vm.user.id == _vm.RVMaster.users[0].id) || (_vm.user.id == _vm.RVMaster.users[2].id))) ? _c('div', {
     staticClass: "BudgetRemarkShow"
   }, [_c('div', {
     staticClass: "remarks-box animated",
@@ -6671,8 +6680,8 @@ module.exports={render:function (){var _vm=this;var _h=_vm.$createElement;var _c
   }, [_c('h6', {
     staticClass: "approve-managerreplace-note"
   }, [_c('i', {
-    staticClass: "fa fa-info-circle color-blue"
-  }), _vm._v(" "), _c('span', {
+    staticClass: "material-icons color-blue"
+  }, [_vm._v("info")]), _vm._v(" "), _c('span', {
     staticClass: "color-blue"
   }, [_vm._v(_vm._s(_vm.RVMaster.users[0].FullName))]), _vm._v(" is asking for your signature b/c the " + _vm._s(_vm.RVMaster.users[1].Position) + " is not available\r\n      ")]), _vm._v(" "), _c('span', {
     class: {
@@ -6688,8 +6697,8 @@ module.exports={render:function (){var _vm=this;var _h=_vm.$createElement;var _c
       "action-text": "Loading . . ."
     }
   }, [_c('i', {
-    staticClass: "fa fa-pencil"
-  }), _vm._v(" Signature\r\n        ")]), _vm._v(" "), _c('longpress', {
+    staticClass: "material-icons"
+  }, [_vm._v("edit")]), _vm._v(" Signature\r\n        ")]), _vm._v(" "), _c('longpress', {
     staticClass: "RVdeclineBtn",
     attrs: {
       "duration": "3",
@@ -6699,14 +6708,14 @@ module.exports={render:function (){var _vm=this;var _h=_vm.$createElement;var _c
       "action-text": "Loading . . ."
     }
   }, [_c('i', {
-    staticClass: "fa fa-times"
-  }), _vm._v(" I can't\r\n        ")])], 1)]) : _vm._e(), _vm._v(" "), (((_vm.RVMaster.users[2].pivot.Signature == '0') && (_vm.ApprovalReplacerData != null) && (_vm.user.id == _vm.ApprovalReplacerData.id) && (_vm.ApprovalReplacerData.pivot.Signature == null))) ? _c('div', {
+    staticClass: "material-icons"
+  }, [_vm._v("close")]), _vm._v(" I can't\r\n        ")])], 1)]) : _vm._e(), _vm._v(" "), (((_vm.RVMaster.users[2].pivot.Signature == '0') && (_vm.ApprovalReplacerData != null) && (_vm.user.id == _vm.ApprovalReplacerData.id) && (_vm.ApprovalReplacerData.pivot.Signature == null))) ? _c('div', {
     staticClass: "Approve-replacer-accept-cant Request-manager-replace"
   }, [_c('h6', {
     staticClass: "approve-managerreplace-note"
   }, [_c('i', {
-    staticClass: "fa fa-info-circle color-blue"
-  }), _vm._v(" "), _c('span', {
+    staticClass: "material-icons color-blue"
+  }, [_vm._v("info")]), _vm._v(" "), _c('span', {
     staticClass: "color-blue"
   }, [_vm._v(_vm._s(_vm.RVMaster.users[0].FullName))]), _vm._v(" is asking for your signature b/c the General Manager is not available\r\n      ")]), _vm._v(" "), _c('span', {
     class: {
@@ -6722,8 +6731,8 @@ module.exports={render:function (){var _vm=this;var _h=_vm.$createElement;var _c
       "action-text": "Loading . . ."
     }
   }, [_c('i', {
-    staticClass: "fa fa-pencil"
-  }), _vm._v(" Signature\r\n        ")]), _vm._v(" "), _c('longpress', {
+    staticClass: "material-icons"
+  }, [_vm._v("edit")]), _vm._v(" Signature\r\n        ")]), _vm._v(" "), _c('longpress', {
     staticClass: "RVdeclineBtn",
     attrs: {
       "duration": "3",
@@ -6733,8 +6742,8 @@ module.exports={render:function (){var _vm=this;var _h=_vm.$createElement;var _c
       "action-text": "Loading . . ."
     }
   }, [_c('i', {
-    staticClass: "fa fa-times"
-  }), _vm._v(" I can't\r\n        ")])], 1)]) : _vm._e(), _vm._v(" "), _c('div', {
+    staticClass: "material-icons"
+  }, [_vm._v("close")]), _vm._v(" I can't\r\n        ")])], 1)]) : _vm._e(), _vm._v(" "), _c('div', {
     staticClass: "declineOrSignatureBtn"
   }, [(((_vm.RequisitionerCanSignature) || (_vm.RecommendedByCanSignature) || (_vm.BudgetOfficerCanSignature) || (_vm.GMCanSignature))) ? _c('span', {
     class: {
@@ -6751,8 +6760,8 @@ module.exports={render:function (){var _vm=this;var _h=_vm.$createElement;var _c
       "action-text": "Loading . . ."
     }
   }, [_c('i', {
-    staticClass: "fa fa-pencil"
-  }), _vm._v(" Signature\r\n              ")])], 1), _vm._v(" "), _c('div', {
+    staticClass: "material-icons"
+  }, [_vm._v("edit")]), _vm._v(" Signature\r\n              ")])], 1), _vm._v(" "), _c('div', {
     staticClass: "RVdecline"
   }, [_c('longpress', {
     staticClass: "RVdeclineBtn",
@@ -6763,8 +6772,8 @@ module.exports={render:function (){var _vm=this;var _h=_vm.$createElement;var _c
       "action-text": "Loading . . ."
     }
   }, [_c('i', {
-    staticClass: "fa fa-times"
-  }), _vm._v(" Decline\r\n              ")])], 1)]) : _vm._e(), _vm._v(" "), (_vm.checkPO != null) ? _c('span', [_c('div', {
+    staticClass: "material-icons"
+  }, [_vm._v("close")]), _vm._v(" Decline\r\n              ")])], 1)]) : _vm._e(), _vm._v(" "), (_vm.checkPO != null) ? _c('span', [_c('div', {
     staticClass: "viewPObtn"
   }, [((_vm.RVMaster.IfPurchased != null)) ? _c('div', {
     staticClass: "status-po-wrapper"
@@ -6774,37 +6783,29 @@ module.exports={render:function (){var _vm=this;var _h=_vm.$createElement;var _c
     attrs: {
       "href": '/po-list-view-of-rv/' + _vm.rvno.RVNo
     }
-  }, [_c('button', {
-    attrs: {
-      "type": "button"
-    }
-  }, [_vm._v("Show P.O.")])])])]) : _vm._e(), _vm._v(" "), (_vm.AlreadyApproved) ? _c('span', [((_vm.RVMaster.IfPurchased == null) && (_vm.checkPO == null)) ? _c('div', {
+  }, [_vm._m(3)])])]) : _vm._e(), _vm._v(" "), (_vm.AlreadyApproved) ? _c('span', [((_vm.RVMaster.IfPurchased == null) && (_vm.checkPO == null)) ? _c('div', {
     staticClass: "status-po-wrapper"
-  }, [_vm._m(3)]) : _vm._e(), _vm._v(" "), (((_vm.RVMaster.IfPurchased) && (_vm.checkPO == null))) ? _c('div', {
+  }, [_vm._m(4)]) : _vm._e(), _vm._v(" "), (((_vm.RVMaster.IfPurchased) && (_vm.checkPO == null))) ? _c('div', {
     staticClass: "status-po-wrapper"
-  }, [_vm._m(4)]) : (((_vm.RVMaster.IfPurchased == null) && (_vm.checkPO == null) && ((_vm.user.Role == 4) || (_vm.user.Role == 3)))) ? _c('div', {
+  }, [_vm._m(5)]) : (((_vm.RVMaster.IfPurchased == null) && (_vm.checkPO == null) && ((_vm.user.Role == 4) || (_vm.user.Role == 3)))) ? _c('div', {
     staticClass: "CreateRRwoPO"
   }, [_c('a', {
     attrs: {
       "href": '/create-rr-wo-po/' + _vm.rvno.RVNo
     }
-  }, [_vm._m(5)])]) : _vm._e(), _vm._v(" "), (_vm.checkPO == null && _vm.checkRR != null) ? _c('span') : _c('span', [(((_vm.user.Role == 3) || (_vm.user.Role == 4)) && (_vm.AlreadyApproved)) ? _c('div', {
+  }, [_vm._m(6)])]) : _vm._e(), _vm._v(" "), (_vm.checkPO == null && _vm.checkRR != null) ? _c('span') : _c('span', [(((_vm.user.Role == 3) || (_vm.user.Role == 4)) && (_vm.AlreadyApproved)) ? _c('div', {
     staticClass: "CanvasBtn"
   }, [_c('a', {
     attrs: {
       "href": '/CanvassCreate/' + _vm.rvno.RVNo
     }
-  }, [_vm._m(6)])]) : _vm._e()]), _vm._v(" "), (_vm.checkRR != null) ? _c('div', {
+  }, [_vm._m(7)])]) : _vm._e()]), _vm._v(" "), (_vm.checkRR != null) ? _c('div', {
     staticClass: "show-rr-of-rv"
   }, [_c('a', {
     attrs: {
       "href": '/rr-of-rv-list/' + _vm.rvno.RVNo
     }
-  }, [_c('button', {
-    attrs: {
-      "type": "button"
-    }
-  }, [_vm._v("R.R. history")])])]) : _vm._e()]) : _vm._e()])]), _vm._v(" "), (_vm.laravelerrors != '') ? _c('ul', {
+  }, [_vm._m(8)])]) : _vm._e()]) : _vm._e()])]), _vm._v(" "), (_vm.laravelerrors != '') ? _c('ul', {
     staticClass: "error-tab",
     on: {
       "click": function($event) {
@@ -6822,16 +6823,16 @@ module.exports={render:function (){var _vm=this;var _h=_vm.$createElement;var _c
   }, [((_vm.RVMaster.Status == '0')) ? _c('div', {
     staticClass: "status-rv approved"
   }, [_c('i', {
-    staticClass: "fa fa-thumbs-up"
-  }), _vm._v(" "), _c('h1', [_vm._v("Approved")])]) : ((_vm.RVMaster.Status == null)) ? _c('div', {
+    staticClass: "material-icons"
+  }, [_vm._v("thumb_up")]), _vm._v(" "), _c('h1', [_vm._v("Approved")])]) : ((_vm.RVMaster.Status == null)) ? _c('div', {
     staticClass: "status-rv"
   }, [_c('i', {
-    staticClass: "fa fa-clock-o"
-  }), _vm._v(" "), _c('h1', [_vm._v("Pending")])]) : (_vm.RVMaster.Status == '1') ? _c('div', {
+    staticClass: "material-icons"
+  }, [_vm._v("access_time")]), _vm._v(" "), _c('h1', [_vm._v("Pending")])]) : (_vm.RVMaster.Status == '1') ? _c('div', {
     staticClass: "status-rv declined"
   }, [_c('i', {
-    staticClass: "fa fa-times"
-  }), _vm._v(" "), _c('h1', [_vm._v("Declined")])]) : _vm._e(), _vm._v(" "), _vm._m(7), _vm._v(" "), _c('div', {
+    staticClass: "material-icons"
+  }, [_vm._v("close")]), _vm._v(" "), _c('h1', [_vm._v("Declined")])]) : _vm._e(), _vm._v(" "), _vm._m(9), _vm._v(" "), _c('div', {
     staticClass: "RVdate-RVNo-container"
   }, [_c('ul', [_c('li', [_c('label', [_vm._v("RV No.")]), _c('p', [_vm._v(_vm._s(_vm.RVMaster.RVNo))])]), _vm._v(" "), _c('li', [_c('label', [_vm._v("DATE:")]), _c('p', [_vm._v(_vm._s(_vm.RVMaster.RVDate))])])])]), _vm._v(" "), _c('div', {
     staticClass: "to-gm-container"
@@ -6839,9 +6840,9 @@ module.exports={render:function (){var _vm=this;var _h=_vm.$createElement;var _c
     staticClass: "toGM-parag"
   }, [_c('p', [_vm._v("Please furnish the following Materials/Supplies for")]), _c('h3', [_vm._v(_vm._s(_vm.RVMaster.Purpose))])])]), _vm._v(" "), _c('div', {
     staticClass: "full-RVtable"
-  }, [_c('table', [_vm._m(8), _vm._v(" "), _vm._l((_vm.RVDetails), function(rvdata) {
+  }, [_c('table', [_vm._m(10), _vm._v(" "), _vm._l((_vm.RVDetails), function(rvdata) {
     return _c('tr', [_c('td', [_vm._v(_vm._s(rvdata.Particulars))]), _vm._v(" "), _c('td', [_vm._v(_vm._s(rvdata.Unit))]), _vm._v(" "), _c('td', [_vm._v(_vm._s(rvdata.Quantity))]), _vm._v(" "), _c('td', [_vm._v(_vm._s(rvdata.Remarks))])])
-  }), _vm._v(" "), _vm._m(9)], 2), _vm._v(" "), _vm._m(10), _vm._v(" "), _c('div', {
+  })], 2), _vm._v(" "), _vm._m(11), _vm._v(" "), _c('div', {
     staticClass: "RVsignatures-container"
   }, [_c('div', {
     staticClass: "top-signature-RV"
@@ -6855,8 +6856,8 @@ module.exports={render:function (){var _vm=this;var _h=_vm.$createElement;var _c
       "alt": "signature"
     }
   })]) : _vm._e(), _vm._v(" "), _c('p', [_vm._v("\r\n                    " + _vm._s(_vm.RVMaster.users[0].FullName) + "\r\n                    "), (_vm.RVMaster.users[0].pivot.Signature == '1') ? _c('i', {
-    staticClass: "fa fa-times decliner"
-  }) : _vm._e()]), _vm._v(" "), _c('label', [_vm._v(_vm._s(_vm.RVMaster.users[0].Position))])])]), _vm._v(" "), _c('div', {
+    staticClass: "material-icons decliner"
+  }, [_vm._v("close")]) : _vm._e()]), _vm._v(" "), _c('label', [_vm._v(_vm._s(_vm.RVMaster.users[0].Position))])])]), _vm._v(" "), _c('div', {
     staticClass: "RV-top-RightSignature"
   }, [_c('h5', [_vm._v("Recommended by:")]), _vm._v(" "), _c('div', {
     staticClass: "requestRV-content"
@@ -6875,8 +6876,8 @@ module.exports={render:function (){var _vm=this;var _h=_vm.$createElement;var _c
   }, [((_vm.user.id) == (_vm.RVMaster.users[0].id) && (this.ManagerBehalfActive == true) && ((_vm.ManagerReplacerData == null) || (_vm.ManagerReplacerData.pivot.Signature == null)) && (_vm.RVMaster.users[1].pivot.Signature == null)) ? _c('div', {
     staticClass: "mini-menu-managers"
   }, [(_vm.ManagerReplacerData == null) ? _c('h1', [_vm._v("Request signature to")]) : _c('h1', [_vm._v("Request pending "), _c('i', {
-    staticClass: "fa fa-clock-o color-white"
-  })]), _vm._v(" "), (_vm.ManagerReplacerData == null) ? _c('div', {
+    staticClass: "material-icons color-white"
+  }, [_vm._v("access_time")])]), _vm._v(" "), (_vm.ManagerReplacerData == null) ? _c('div', {
     staticClass: "manager-list-menu"
   }, [_c('select', {
     directives: [{
@@ -6940,17 +6941,17 @@ module.exports={render:function (){var _vm=this;var _h=_vm.$createElement;var _c
       }
     }
   }, [_c('i', {
-    staticClass: "fa fa-times color-red"
-  }), _vm._v("cancel")])])]) : _vm._e(), _vm._v(" "), (((_vm.user.id == _vm.RVMaster.users[0].id) && ((_vm.ManagerReplacerData == null) || (_vm.ManagerReplacerData.pivot.Signature == null)) && (_vm.RVMaster.users[1].pivot.Signature == null) && (_vm.RVMaster.users[0].pivot.Signature == '0'))) ? _c('i', {
-    staticClass: "fa fa-users color-blue",
+    staticClass: "material-icons color-red"
+  }, [_vm._v("close")]), _vm._v("cancel")])])]) : _vm._e(), _vm._v(" "), (((_vm.user.id == _vm.RVMaster.users[0].id) && ((_vm.ManagerReplacerData == null) || (_vm.ManagerReplacerData.pivot.Signature == null)) && (_vm.RVMaster.users[1].pivot.Signature == null) && (_vm.RVMaster.users[0].pivot.Signature == '0'))) ? _c('i', {
+    staticClass: "material-icons color-blue",
     on: {
       "click": function($event) {
         _vm.ManagerBehalfActive = !_vm.ManagerBehalfActive, [_vm.activemanager[0] != null ? '' : _vm.fetchAllManager()]
       }
     }
-  }) : _vm._e()]), _vm._v(" "), (_vm.RVMaster.users[1].pivot.Signature == '1') ? _c('i', {
-    staticClass: "fa fa-times decliner"
-  }) : _vm._e()]), _vm._v(" "), _c('label', [_vm._v(_vm._s(_vm.RVMaster.users[1].Position))])])])]), _vm._v(" "), _c('div', {
+  }, [_vm._v("people")]) : _vm._e()]), _vm._v(" "), (_vm.RVMaster.users[1].pivot.Signature == '1') ? _c('i', {
+    staticClass: "material-icons decliner"
+  }, [_vm._v("close")]) : _vm._e()]), _vm._v(" "), _c('label', [_vm._v(_vm._s(_vm.RVMaster.users[1].Position))])])])]), _vm._v(" "), _c('div', {
     staticClass: "bottom-RV-signatures"
   }, [_c('div', {
     staticClass: "RVbottom-left-signature"
@@ -7020,8 +7021,8 @@ module.exports={render:function (){var _vm=this;var _h=_vm.$createElement;var _c
       }
     }
   }, [_c('i', {
-    staticClass: "fa fa-check"
-  })]), _vm._v(" "), _c('button', {
+    staticClass: "material-icons"
+  }, [_vm._v("check")])]), _vm._v(" "), _c('button', {
     staticClass: "editbudget cancel-edit",
     attrs: {
       "type": "button"
@@ -7032,8 +7033,8 @@ module.exports={render:function (){var _vm=this;var _h=_vm.$createElement;var _c
       }
     }
   }, [_c('i', {
-    staticClass: "fa fa-times"
-  })])])]) : _vm._e(), _vm._v(" "), (_vm.editbudgetActive == false) ? _c('button', {
+    staticClass: "material-icons"
+  }, [_vm._v("close")])])])]) : _vm._e(), _vm._v(" "), (_vm.editbudgetActive == false) ? _c('button', {
     staticClass: "edit-budget-opener",
     attrs: {
       "type": "button"
@@ -7046,8 +7047,8 @@ module.exports={render:function (){var _vm=this;var _h=_vm.$createElement;var _c
   }, [_c('i', {
     staticClass: "fa fa-pencil-square-o"
   })]) : _vm._e()]) : _vm._e()]), _vm._v(" "), _c('p', [_vm._v("\r\n                  " + _vm._s(_vm.RVMaster.users[2].FullName) + "\r\n                  "), (_vm.RVMaster.users[2].pivot.Signature == '1') ? _c('i', {
-    staticClass: "fa fa-times decliner"
-  }) : _vm._e()]), _vm._v(" "), _c('label', [_vm._v(_vm._s(_vm.RVMaster.users[2].Position))])]), _vm._v(" "), _c('div', {
+    staticClass: "material-icons decliner"
+  }, [_vm._v("close")]) : _vm._e()]), _vm._v(" "), _c('label', [_vm._v(_vm._s(_vm.RVMaster.users[2].Position))])]), _vm._v(" "), _c('div', {
     staticClass: "RVbottom-right-signature"
   }, [_c('h3', [_vm._v("Approved:")]), _vm._v(" "), _c('div', {
     staticClass: "requestRV-content"
@@ -7062,8 +7063,8 @@ module.exports={render:function (){var _vm=this;var _h=_vm.$createElement;var _c
       "alt": "signature"
     }
   })]) : _vm._e(), _vm._v(" "), _c('p', [_vm._v("\r\n                  " + _vm._s(_vm.RVMaster.users[3].FullName) + "\r\n                  "), (_vm.RVMaster.users[3].pivot.Signature == '1') ? _c('i', {
-    staticClass: "fa fa-times decliner"
-  }) : _vm._e()]), _vm._v(" "), _c('label', [_vm._v(_vm._s(_vm.RVMaster.users[3].Position))])])])])])])])])]) : _vm._e()
+    staticClass: "material-icons decliner"
+  }, [_vm._v("close")]) : _vm._e()]), _vm._v(" "), _c('label', [_vm._v(_vm._s(_vm.RVMaster.users[3].Position))])])])])])])])])]) : _vm._e()
 },staticRenderFns: [function (){var _vm=this;var _h=_vm.$createElement;var _c=_vm._self._c||_h;
   return _c('button', {
     attrs: {
@@ -7072,18 +7073,26 @@ module.exports={render:function (){var _vm=this;var _h=_vm.$createElement;var _c
       "value": "RVNohere"
     }
   }, [_c('i', {
-    staticClass: "fa fa-print"
-  }), _vm._v(" Print")])
+    staticClass: "material-icons"
+  }, [_vm._v("print")])])
 },function (){var _vm=this;var _h=_vm.$createElement;var _c=_vm._self._c||_h;
   return _c('h1', [_vm._v("Status : "), _c('span', {
     staticClass: "underline"
   }, [_vm._v("Already Purchased")]), _vm._v(" "), _c('i', {
-    staticClass: "fa fa-check"
-  })])
+    staticClass: "material-icons"
+  }, [_vm._v("check")])])
 },function (){var _vm=this;var _h=_vm.$createElement;var _c=_vm._self._c||_h;
   return _c('h1', [_vm._v("Status: "), _c('span', {
     staticClass: "underline"
   }, [_vm._v("Waiting for RR")])])
+},function (){var _vm=this;var _h=_vm.$createElement;var _c=_vm._self._c||_h;
+  return _c('button', {
+    attrs: {
+      "type": "button"
+    }
+  }, [_c('i', {
+    staticClass: "material-icons"
+  }, [_vm._v("history")]), _vm._v(" PO history")])
 },function (){var _vm=this;var _h=_vm.$createElement;var _c=_vm._self._c||_h;
   return _c('h1', {
     staticClass: "no-PO"
@@ -7096,32 +7105,38 @@ module.exports={render:function (){var _vm=this;var _h=_vm.$createElement;var _c
   }, [_vm._v("Status : "), _c('span', {
     staticClass: "underline"
   }, [_vm._v("Already purchased "), _c('i', {
-    staticClass: "fa fa-check"
-  }), _vm._v(" without P.O.")])])
+    staticClass: "material-icons"
+  }, [_vm._v("check")]), _vm._v(" without P.O.")])])
 },function (){var _vm=this;var _h=_vm.$createElement;var _c=_vm._self._c||_h;
   return _c('button', {
     attrs: {
       "type": "button"
     }
   }, [_c('i', {
-    staticClass: "fa fa-plus"
-  }), _vm._v(" RR")])
+    staticClass: "material-icons"
+  }, [_vm._v("add")]), _vm._v(" RR")])
 },function (){var _vm=this;var _h=_vm.$createElement;var _c=_vm._self._c||_h;
   return _c('button', {
     attrs: {
       "type": "submit"
     }
   }, [_c('i', {
-    staticClass: "fa fa-building"
-  }), _vm._v(" Canvass")])
+    staticClass: "material-icons"
+  }, [_vm._v("store")]), _vm._v(" Canvass")])
+},function (){var _vm=this;var _h=_vm.$createElement;var _c=_vm._self._c||_h;
+  return _c('button', {
+    attrs: {
+      "type": "button"
+    }
+  }, [_c('i', {
+    staticClass: "material-icons"
+  }, [_vm._v("history")]), _vm._v(" R.R. history")])
 },function (){var _vm=this;var _h=_vm.$createElement;var _c=_vm._self._c||_h;
   return _c('div', {
     staticClass: "top-rv-contents"
   }, [_c('h5', [_vm._v("BOHOL I ELECTRIC COOPERATIVE")]), _vm._v(" "), _c('h6', [_vm._v("Cabulijan, Tubigon, Bohol")]), _vm._v(" "), _c('h4', [_vm._v("REQUISITION VOUCHER")])])
 },function (){var _vm=this;var _h=_vm.$createElement;var _c=_vm._self._c||_h;
   return _c('tr', [_c('th', [_vm._v("Articles")]), _vm._v(" "), _c('th', [_vm._v("Unit")]), _vm._v(" "), _c('th', [_vm._v("Qty")]), _vm._v(" "), _c('th', [_vm._v("Remarks")])])
-},function (){var _vm=this;var _h=_vm.$createElement;var _c=_vm._self._c||_h;
-  return _c('tr', [_c('td'), _vm._v(" "), _c('td'), _vm._v(" "), _c('td'), _vm._v(" "), _c('td', [_vm._v(".")])])
 },function (){var _vm=this;var _h=_vm.$createElement;var _c=_vm._self._c||_h;
   return _c('div', {
     staticClass: "certify-RV"
@@ -7172,35 +7187,35 @@ module.exports={render:function (){var _vm=this;var _h=_vm.$createElement;var _c
       }
     }
   })])]), _vm._v(" "), _c('table', [_vm._m(1), _vm._v(" "), _vm._l((_vm.RVs), function(rvdata) {
-    return (rvdata.users[0] != null) ? _c('tr', [_c('td', [_vm._v(_vm._s(rvdata.RVNo))]), _vm._v(" "), _c('td', [_vm._v(_vm._s(rvdata.RVDate))]), _vm._v(" "), _c('td', [_vm._v(_vm._s(rvdata.Purpose))]), _vm._v(" "), _c('td', [_vm._v(_vm._s(rvdata.users[0].FullName)), _c('br'), (rvdata.users[0].pivot.Signature == '0') ? _c('i', {
-      staticClass: "fa fa-check"
-    }) : (rvdata.users[0].pivot.Signature == '1') ? _c('i', {
-      staticClass: "fa fa-times decliner"
-    }) : _vm._e()]), _vm._v(" "), _c('td', [_vm._v(_vm._s(rvdata.users[1].FullName)), _c('br'), (((rvdata.users[1].pivot.Signature == '0') || ((rvdata.users[4] != null) && (rvdata.users[4].pivot.Signature == '0') && (rvdata.users[4].pivot.SignatureType == 'ManagerReplacer')) || ((rvdata.users[5] != null) && (rvdata.users[5].pivot.Signature == '0') && (rvdata.users[5].pivot.SignatureType == 'ManagerReplacer')))) ? _c('i', {
-      staticClass: "fa fa-check"
-    }) : (rvdata.users[1].pivot.Signature == '1') ? _c('i', {
-      staticClass: "fa fa-times decliner"
-    }) : _vm._e()]), _vm._v(" "), _c('td', [_vm._v(_vm._s(rvdata.users[2].FullName)), _c('br'), (rvdata.users[2].pivot.Signature == '0') ? _c('i', {
-      staticClass: "fa fa-check"
-    }) : (rvdata.users[2].pivot.Signature == '1') ? _c('i', {
-      staticClass: "fa fa-times decliner"
-    }) : _vm._e()]), _vm._v(" "), _c('td', [_vm._v(_vm._s(rvdata.users[3].FullName)), _c('br'), (((rvdata.users[3].pivot.Signature == '0') || ((rvdata.users[4] != null) && (rvdata.users[4].pivot.Signature == '0') && (rvdata.users[4].pivot.SignatureType == 'ApprovalReplacer')) || ((rvdata.users[5] != null) && (rvdata.users[5].pivot.Signature == '0') && (rvdata.users[5].pivot.SignatureType == 'ApprovalReplacer')))) ? _c('i', {
-      staticClass: "fa fa-check"
-    }) : (rvdata.users[3].pivot.Signature == '1') ? _c('i', {
-      staticClass: "fa fa-times decliner"
-    }) : _vm._e()]), _vm._v(" "), (rvdata.Status == '0') ? _c('td', [_c('i', {
-      staticClass: "fa fa-thumbs-up"
-    })]) : (rvdata.Status == null) ? _c('td', [_c('i', {
-      staticClass: "fa fa-clock-o"
-    })]) : (rvdata.Status == '1') ? _c('td', [_c('i', {
-      staticClass: "fa fa-times decliner"
-    })]) : _vm._e(), _vm._v(" "), _c('td', [_c('a', {
+    return (rvdata.users[0] != null) ? _c('tr', [_c('td', [_vm._v(_vm._s(rvdata.RVNo))]), _vm._v(" "), _c('td', [_vm._v(_vm._s(rvdata.RVDate))]), _vm._v(" "), _c('td', [_vm._v(_vm._s(rvdata.Purpose))]), _vm._v(" "), _c('td', [_vm._v(_vm._s(rvdata.users[0].FullName)), _c('br'), _vm._v(" "), (rvdata.users[0].pivot.Signature == '0') ? _c('i', {
+      staticClass: "material-icons"
+    }, [_vm._v("check")]) : (rvdata.users[0].pivot.Signature == '1') ? _c('i', {
+      staticClass: "material-icons decliner"
+    }, [_vm._v("close")]) : _vm._e()]), _vm._v(" "), _c('td', [_vm._v(_vm._s(rvdata.users[1].FullName)), _c('br'), _vm._v(" "), (((rvdata.users[1].pivot.Signature == '0') || ((rvdata.users[4] != null) && (rvdata.users[4].pivot.Signature == '0') && (rvdata.users[4].pivot.SignatureType == 'ManagerReplacer')) || ((rvdata.users[5] != null) && (rvdata.users[5].pivot.Signature == '0') && (rvdata.users[5].pivot.SignatureType == 'ManagerReplacer')))) ? _c('i', {
+      staticClass: "material-icons"
+    }, [_vm._v("check")]) : (rvdata.users[1].pivot.Signature == '1') ? _c('i', {
+      staticClass: "material-icons decliner"
+    }, [_vm._v("close")]) : _vm._e()]), _vm._v(" "), _c('td', [_vm._v(_vm._s(rvdata.users[2].FullName)), _c('br'), _vm._v(" "), (rvdata.users[2].pivot.Signature == '0') ? _c('i', {
+      staticClass: "material-icons"
+    }, [_vm._v("check")]) : (rvdata.users[2].pivot.Signature == '1') ? _c('i', {
+      staticClass: "material-icons decliner"
+    }, [_vm._v("close")]) : _vm._e()]), _vm._v(" "), _c('td', [_vm._v(_vm._s(rvdata.users[3].FullName)), _c('br'), _vm._v(" "), (((rvdata.users[3].pivot.Signature == '0') || ((rvdata.users[4] != null) && (rvdata.users[4].pivot.Signature == '0') && (rvdata.users[4].pivot.SignatureType == 'ApprovalReplacer')) || ((rvdata.users[5] != null) && (rvdata.users[5].pivot.Signature == '0') && (rvdata.users[5].pivot.SignatureType == 'ApprovalReplacer')))) ? _c('i', {
+      staticClass: "material-icons"
+    }, [_vm._v("check")]) : (rvdata.users[3].pivot.Signature == '1') ? _c('i', {
+      staticClass: "material-icons decliner"
+    }, [_vm._v("close")]) : _vm._e()]), _vm._v(" "), (rvdata.Status == '0') ? _c('td', [_c('i', {
+      staticClass: "material-icons"
+    }, [_vm._v("thumb_up")])]) : (rvdata.Status == null) ? _c('td', [_c('i', {
+      staticClass: "material-icons"
+    }, [_vm._v("access_time")])]) : (rvdata.Status == '1') ? _c('td', [_c('i', {
+      staticClass: "material-icons decliner"
+    }, [_vm._v("close")])]) : _vm._e(), _vm._v(" "), _c('td', [_c('a', {
       attrs: {
         "href": 'RVfullview/' + rvdata.RVNo
       }
     }, [_c('i', {
-      staticClass: "fa fa-eye"
-    })])])]) : _vm._e()
+      staticClass: "material-icons"
+    }, [_vm._v("remove_red_eye")])])])]) : _vm._e()
   })], 2), _vm._v(" "), _c('div', {
     staticClass: "paginate-container"
   }, [_c('ul', {
@@ -7248,8 +7263,8 @@ module.exports={render:function (){var _vm=this;var _h=_vm.$createElement;var _c
   return _c('div', {
     staticClass: "rv-index-title"
   }, [_c('h1', [_c('i', {
-    staticClass: "fa fa-th-large"
-  }), _vm._v(" Requisition Voucher index")])])
+    staticClass: "material-icons"
+  }, [_vm._v("show_chart")]), _vm._v(" Requisition Voucher index")])])
 },function (){var _vm=this;var _h=_vm.$createElement;var _c=_vm._self._c||_h;
   return _c('tr', [_c('th', [_vm._v("RV No.")]), _vm._v(" "), _c('th', [_vm._v("RV Date")]), _vm._v(" "), _c('th', [_vm._v("Purpose")]), _vm._v(" "), _c('th', [_vm._v("Requisitioner")]), _vm._v(" "), _c('th', [_vm._v("Recommended by")]), _vm._v(" "), _c('th', [_vm._v("Budget Officer")]), _vm._v(" "), _c('th', [_vm._v("Approved by")]), _vm._v(" "), _c('th', [_vm._v("Status")]), _vm._v(" "), _c('th', [_vm._v("View")])])
 }]}

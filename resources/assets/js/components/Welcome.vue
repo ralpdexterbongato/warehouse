@@ -4,7 +4,7 @@
     <div class="search-box" :class="[latestFound.MTNo!=null?'SearchItemSuccess':'']">
       <div class="text-left">
         <p v-if="latestFound.MTNo==null">
-          <span class="big"><i class="fa fa-search"></i> Search</span> & <span class="big">check</span> item's latest & previous data here.
+          <span class="big"><i class="material-icons">search</i> Search</span> & <span class="big">check</span> item's latest & previous data here.
         </p>
         <h1 v-else>
           <i class="fa fa-th-large"></i> Item # {{ItemCodeSearch}} data
@@ -12,7 +12,7 @@
       </div>
       <div class="Search-item-box">
         <input id="search-code-input" autocomplete="off" type="text" v-on:keyup.enter="SearchItemHistory(1),Searching=true" v-model="ItemCodeSearch" placeholder="Item code" required>
-        <button id="search-go" type="submit" v-on:click="SearchItemHistory(1),Searching=true"><i class="fa fa-search"></i></button>
+        <button id="search-go" type="submit" v-on:click="SearchItemHistory(1),Searching=true"><i class="material-icons">search</i></button>
       </div>
     </div>
   </div>
@@ -20,7 +20,7 @@
     <div v-if="latestFound.MTNo!=null" class="animated bounceInUp">
       <div class="search-welcome-title">
         <div class="Current-title">
-          <h1><i class="fa fa-fire"></i> Latest info</h1>
+          <h1><i class="material-icons">whatshot</i> Latest info</h1>
         </div>
       </div>
       <div class="latest-data">
@@ -58,7 +58,7 @@
         </table>
       </div>
       <div class="history-found">
-        <h1><i class="fa fa-history"></i> Previous info</h1>
+        <h1><i class="material-icons">history</i> Previous info</h1>
         <table>
           <tr>
             <th>MT type</th>
@@ -111,7 +111,7 @@
     </div>
   </div>
   <div class="not-found-msg" v-else :class="Searching==true?'hide':'flex'">
-    <h2><i class="fa fa-search"></i> {{NotFoundSearch}}</h2>
+    <h2><i class="material-icons">search</i> {{NotFoundSearch}}</h2>
   </div>
   <div :class="Searching==true?'flex':'hide'" class="loading-spin">
     <i class="fa fa-spinner fa-spin fa-pulse"></i>

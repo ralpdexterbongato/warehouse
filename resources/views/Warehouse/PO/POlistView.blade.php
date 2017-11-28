@@ -10,11 +10,11 @@ PO|Generated PO's
           <div class="PO-box">
             <h1>{{$POrder->Supplier}} purchase order</h1>
             @if($POrder->Status=='0')
-              <h4><i class="fa fa-check"></i></h4>
+              <h4><i class="material-icons">check</i></h4>
             @elseif ($POrder->Status=='1')
-              <h2><i class="fa fa-times"></i></h2>
+              <h2><i class="material-icons">close</i></h2>
             @else
-              <h3><i class="fa fa-clock-o"></i></h3>
+              <h3><i class="material-icons">access_time</i></h3>
             @endif
           </div>
         </a>

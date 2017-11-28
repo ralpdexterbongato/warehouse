@@ -2802,8 +2802,8 @@ module.exports={render:function (){var _vm=this;var _h=_vm.$createElement;var _c
       "action-text": "Loading . . ."
     }
   }, [_c('i', {
-    staticClass: "fa fa-pencil"
-  }), _vm._v(" Signature\r\n    ")]), _vm._v(" "), _c('longpress', {
+    staticClass: "material-icons"
+  }, [_vm._v("edit")]), _vm._v(" Signature\r\n    ")]), _vm._v(" "), _c('longpress', {
     attrs: {
       "id": "RRdecline",
       "duration": "3",
@@ -2812,8 +2812,8 @@ module.exports={render:function (){var _vm=this;var _h=_vm.$createElement;var _c
       "action-text": "Loading . . ."
     }
   }, [_c('i', {
-    staticClass: "fa fa-times"
-  }), _vm._v(" Decline\r\n    ")])], 1) : ((_vm.RRMaster.Status == '0')) ? _c('div', {
+    staticClass: "material-icons"
+  }, [_vm._v("close")]), _vm._v(" Decline\r\n    ")])], 1) : ((_vm.RRMaster.Status == '0')) ? _c('div', {
     staticClass: "print-RR-btn"
   }, [_c('a', {
     attrs: {
@@ -2869,8 +2869,8 @@ module.exports={render:function (){var _vm=this;var _h=_vm.$createElement;var _c
       "alt": "signature"
     }
   })]) : _vm._e(), _vm._v(" "), _c('h4', [_vm._v(_vm._s(_vm.RRMaster.users[0].FullName) + "\r\n                "), (_vm.RRMaster.users[0].pivot.Signature == '1') ? _c('i', {
-    staticClass: "fa fa-times"
-  }) : _vm._e()]), _vm._v(" "), _c('p', [_vm._v(_vm._s(_vm.RRMaster.users[0].Position))])])]), _vm._v(" "), _c('div', {
+    staticClass: "material-icons"
+  }, [_vm._v("close")]) : _vm._e()]), _vm._v(" "), _c('p', [_vm._v(_vm._s(_vm.RRMaster.users[0].Position))])])]), _vm._v(" "), _c('div', {
     staticClass: "signature-rr-right"
   }, [(_vm.RRMaster.users[2].pivot.Signature == '0') ? _c('h2', [_c('img', {
     attrs: {
@@ -2880,8 +2880,8 @@ module.exports={render:function (){var _vm=this;var _h=_vm.$createElement;var _c
   })]) : _vm._e(), _vm._v(" "), _c('label', [_vm._v("RECEIVED ORIGINAL BY:")]), _vm._v(" "), _c('div', {
     staticClass: "signatureRR-content"
   }, [_c('h4', [_vm._v(_vm._s(_vm.RRMaster.users[2].FullName) + "\r\n                "), (_vm.RRMaster.users[2].pivot.Signature == '1') ? _c('i', {
-    staticClass: "fa fa-times"
-  }) : _vm._e()]), _vm._v(" "), _c('p', [_vm._v(_vm._s(_vm.RRMaster.users[2].Position))])])])]), _vm._v(" "), _c('div', {
+    staticClass: "material-icons"
+  }, [_vm._v("close")]) : _vm._e()]), _vm._v(" "), _c('p', [_vm._v(_vm._s(_vm.RRMaster.users[2].Position))])])])]), _vm._v(" "), _c('div', {
     staticClass: "bottom-signatures-rr"
   }, [_c('div', {
     staticClass: "signature-rr-left"
@@ -2893,8 +2893,8 @@ module.exports={render:function (){var _vm=this;var _h=_vm.$createElement;var _c
       "alt": "signature"
     }
   })]) : _vm._e(), _vm._v(" "), _c('h4', [_vm._v("\r\n                " + _vm._s(_vm.RRMaster.users[1].FullName) + "\r\n                "), (_vm.RRMaster.users[1].pivot.Signature == '1') ? _c('i', {
-    staticClass: "fa fa-times"
-  }) : _vm._e()]), _vm._v(" "), _c('p', [_vm._v(_vm._s(_vm.RRMaster.users[1].Position))])])]), _vm._v(" "), _c('div', {
+    staticClass: "material-icons"
+  }, [_vm._v("close")]) : _vm._e()]), _vm._v(" "), _c('p', [_vm._v(_vm._s(_vm.RRMaster.users[1].Position))])])]), _vm._v(" "), _c('div', {
     staticClass: "signature-rr-right"
   }, [(_vm.RRMaster.users[3].pivot.Signature == '0') ? _c('h2', [_c('img', {
     attrs: {
@@ -2904,8 +2904,8 @@ module.exports={render:function (){var _vm=this;var _h=_vm.$createElement;var _c
   })]) : _vm._e(), _vm._v(" "), _c('label', [_vm._v("POSTED TO BIN CARD BY:")]), _vm._v(" "), _c('div', {
     staticClass: "signatureRR-content"
   }, [_c('h4', [_vm._v("\r\n                " + _vm._s(_vm.RRMaster.users[3].FullName) + "\r\n                "), (_vm.RRMaster.users[3].pivot.Signature == '1') ? _c('i', {
-    staticClass: "fa fa-times"
-  }) : _vm._e()]), _vm._v(" "), _c('p', [_vm._v(_vm._s(_vm.RRMaster.users[3].Position))])])])])])])]) : _vm._e()
+    staticClass: "material-icons"
+  }, [_vm._v("close")]) : _vm._e()]), _vm._v(" "), _c('p', [_vm._v(_vm._s(_vm.RRMaster.users[3].Position))])])])])])])]) : _vm._e()
 },staticRenderFns: [function (){var _vm=this;var _h=_vm.$createElement;var _c=_vm._self._c||_h;
   return _c('button', {
     attrs: {
@@ -2914,8 +2914,8 @@ module.exports={render:function (){var _vm=this;var _h=_vm.$createElement;var _c
       "value": "RRNohere"
     }
   }, [_c('i', {
-    staticClass: "fa fa-file-pdf-o"
-  }), _vm._v(" print")])
+    staticClass: "material-icons"
+  }, [_vm._v("print")])])
 },function (){var _vm=this;var _h=_vm.$createElement;var _c=_vm._self._c||_h;
   return _c('button', {
     attrs: {
@@ -2923,8 +2923,8 @@ module.exports={render:function (){var _vm=this;var _h=_vm.$createElement;var _c
       "id": "full-mr-preview-btn"
     }
   }, [_c('i', {
-    staticClass: "fa fa-folder"
-  }), _vm._v(" M.R. list")])
+    staticClass: "material-icons"
+  }, [_vm._v("history")]), _vm._v(" MR")])
 },function (){var _vm=this;var _h=_vm.$createElement;var _c=_vm._self._c||_h;
   return _c('button', {
     staticClass: "make-mr",
@@ -2932,8 +2932,8 @@ module.exports={render:function (){var _vm=this;var _h=_vm.$createElement;var _c
       "type": "button"
     }
   }, [_c('i', {
-    staticClass: "fa fa-plus"
-  }), _vm._v(" Make M.R.")])
+    staticClass: "material-icons"
+  }, [_vm._v("add")]), _vm._v("M.R.")])
 },function (){var _vm=this;var _h=_vm.$createElement;var _c=_vm._self._c||_h;
   return _c('div', {
     staticClass: "top-title-rr"
@@ -3410,34 +3410,34 @@ module.exports={render:function (){var _vm=this;var _h=_vm.$createElement;var _c
     staticClass: "index-RR-table-container"
   }, [_c('table', [_vm._m(1), _vm._v(" "), _vm._l((_vm.RRDataResults), function(result) {
     return (result.users[0] != null && result.users[1] != null && result.users[2] != null && result.users[3] != null) ? _c('tr', [_c('td', [_vm._v(_vm._s(result.RRNo))]), _vm._v(" "), _c('td', [_vm._v(_vm._s(result.RRDate))]), _vm._v(" "), _c('td', [_vm._v(_vm._s(result.Supplier))]), _vm._v(" "), _c('td', [_vm._v("\r\n            " + _vm._s(result.users[0].FullName)), _c('br'), _vm._v(" "), (result.users[0].pivot.Signature == '0') ? _c('i', {
-      staticClass: "fa fa-check"
-    }) : (result.users[0].pivot.Signature == '1') ? _c('i', {
-      staticClass: "fa fa-times index-decline"
-    }) : _vm._e()]), _vm._v(" "), _c('td', [_vm._v("\r\n            " + _vm._s(result.users[1].FullName)), _c('br'), _vm._v(" "), (result.users[1].pivot.Signature == '0') ? _c('i', {
-      staticClass: "fa fa-check"
-    }) : (result.users[1].pivot.Signature == '1') ? _c('i', {
-      staticClass: "fa fa-times index-decline"
-    }) : _vm._e()]), _vm._v(" "), _c('td', [_vm._v("\r\n            " + _vm._s(result.users[2].FullName)), _c('br'), _vm._v(" "), (result.users[2].pivot.Signature == '0') ? _c('i', {
-      staticClass: "fa fa-check"
-    }) : (result.users[2].pivot.Signature == '1') ? _c('i', {
-      staticClass: "fa fa-times index-decline"
-    }) : _vm._e()]), _vm._v(" "), _c('td', [_vm._v("\r\n            " + _vm._s(result.users[3].FullName)), _c('br'), _vm._v(" "), (result.users[3].pivot.Signature == '0') ? _c('i', {
-      staticClass: "fa fa-check"
-    }) : _vm._e(), _vm._v(" "), (result.users[3].pivot.Signature == '1') ? _c('i', {
-      staticClass: "fa fa-times index-decline"
-    }) : _vm._e()]), _vm._v(" "), _c('td', [(result.Status == '0') ? _c('i', {
-      staticClass: "fa fa-thumbs-up"
-    }) : (result.Status == '1') ? _c('i', {
-      staticClass: "fa fa-times decliner"
-    }) : _c('i', {
-      staticClass: "fa fa-clock-o"
-    })]), _vm._v(" "), _c('td', [_c('a', {
+      staticClass: "material-icons"
+    }, [_vm._v("check")]) : (result.users[0].pivot.Signature == '1') ? _c('i', {
+      staticClass: "material-icons index-decline"
+    }, [_vm._v("close")]) : _vm._e()]), _vm._v(" "), _c('td', [_vm._v("\r\n            " + _vm._s(result.users[1].FullName)), _c('br'), _vm._v(" "), (result.users[1].pivot.Signature == '0') ? _c('i', {
+      staticClass: "material-icons"
+    }, [_vm._v("check")]) : (result.users[1].pivot.Signature == '1') ? _c('i', {
+      staticClass: "material-icons index-decline"
+    }, [_vm._v("close")]) : _vm._e()]), _vm._v(" "), _c('td', [_vm._v("\r\n            " + _vm._s(result.users[2].FullName)), _c('br'), _vm._v(" "), (result.users[2].pivot.Signature == '0') ? _c('i', {
+      staticClass: "material-icons"
+    }, [_vm._v("check")]) : (result.users[2].pivot.Signature == '1') ? _c('i', {
+      staticClass: "material-icons index-decline"
+    }, [_vm._v("close")]) : _vm._e()]), _vm._v(" "), _c('td', [_vm._v("\r\n            " + _vm._s(result.users[3].FullName)), _c('br'), _vm._v(" "), (result.users[3].pivot.Signature == '0') ? _c('i', {
+      staticClass: "material-icons"
+    }, [_vm._v("check")]) : _vm._e(), _vm._v(" "), (result.users[3].pivot.Signature == '1') ? _c('i', {
+      staticClass: "material-icons index-decline"
+    }, [_vm._v("close")]) : _vm._e()]), _vm._v(" "), _c('td', [(result.Status == '0') ? _c('i', {
+      staticClass: "material-icons"
+    }, [_vm._v("thumb_up")]) : (result.Status == '1') ? _c('i', {
+      staticClass: "material-icons decliner"
+    }, [_vm._v("close")]) : _c('i', {
+      staticClass: "material-icons"
+    }, [_vm._v("access_time")])]), _vm._v(" "), _c('td', [_c('a', {
       attrs: {
         "href": '/RR-fullpreview/' + result.RRNo
       }
     }, [_c('i', {
-      staticClass: "fa fa-eye"
-    })])])]) : _vm._e()
+      staticClass: "material-icons"
+    }, [_vm._v("remove_red_eye")])])])]) : _vm._e()
   })], 2), _vm._v(" "), _c('div', {
     staticClass: "paginate-container"
   }, [_c('ul', {
@@ -3483,8 +3483,8 @@ module.exports={render:function (){var _vm=this;var _h=_vm.$createElement;var _c
   })])]) : _vm._e()], 2)])])])
 },staticRenderFns: [function (){var _vm=this;var _h=_vm.$createElement;var _c=_vm._self._c||_h;
   return _c('h1', [_c('i', {
-    staticClass: "fa fa-th-large"
-  }), _vm._v(" Receiving Report index")])
+    staticClass: "material-icons"
+  }, [_vm._v("show_chart")]), _vm._v(" Receiving Report index")])
 },function (){var _vm=this;var _h=_vm.$createElement;var _c=_vm._self._c||_h;
   return _c('tr', [_c('th', [_vm._v("RR No.")]), _vm._v(" "), _c('th', [_vm._v("RR Date")]), _vm._v(" "), _c('th', [_vm._v("Supplier")]), _vm._v(" "), _c('th', [_vm._v("Received by")]), _vm._v(" "), _c('th', [_vm._v("Verified by")]), _vm._v(" "), _c('th', [_vm._v("ReceivedOriginal")]), _vm._v(" "), _c('th', [_vm._v("PostedToBIN by")]), _vm._v(" "), _c('th', [_vm._v("Status")]), _vm._v(" "), _c('th', [_vm._v("View")])])
 }]}

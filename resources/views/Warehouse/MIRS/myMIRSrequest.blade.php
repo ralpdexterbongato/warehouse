@@ -19,7 +19,7 @@ MIRS signature request list
             <td>{{$mirsRequest->MIRSNo}}</td>
             <td>{{$mirsRequest->MIRSDate->format('M d, Y')}}</td>
             <td>{{$mirsRequest->Purpose}}</td>
-            <td><a href="{{route('full-mirs',[$mirsRequest->MIRSNo])}}"><i class="fa fa-eye"></i></a></td>
+            <td><a href="{{route('full-mirs',[$mirsRequest->MIRSNo])}}"><i class="material-icons">remove_red_eye</i></a></td>
           </tr>
           @endforeach
       </table>

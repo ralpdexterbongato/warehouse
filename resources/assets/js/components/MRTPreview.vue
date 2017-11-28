@@ -2,7 +2,7 @@
   <span v-if="MRTMaster.users!=null">
     <div class="top-MRT-buttons">
       <span class="edit-mrt-container" v-if="StillEditable">
-        <button v-on:click="Editbtn=true" :class="{'hide':Editbtn}"><i class="fa fa-edit"></i> Edit</button>
+        <button v-on:click="Editbtn=true" :class="{'hide':Editbtn}"><i class="material-icons">edit</i> Edit</button>
         <span class="edit-mrt-btns" :class="{'active':Editbtn}">
           <p class="color-blue">Save?</p>
           <button type="button" name="button" v-on:click="Editbtn=false,fetchdata()">Cancel</button>
@@ -13,10 +13,10 @@
       </span>
       <span class="signature-decline-mrt" :class="{'hide':SignatureBtnHide}" v-if="UserCanSignature">
         <longpress id="signature-mrt" duration="3" :on-confirm="signatureMRT" pressing-text="confirm in {$rcounter}" action-text="Loading . . .">
-        <i class="fa fa-pencil"></i> Signature
+        <i class="material-icons">edit</i> Signature
         </longpress>
         <longpress id="decline-mrt" duration="3" :on-confirm="declineMRT" pressing-text="confirm in {$rcounter}" action-text="Loading . . .">
-        <i class="fa fa-times"></i> Decline
+        <i class="material-icons">close</i> Decline
         </longpress>
       </span>
     </div>
@@ -73,7 +73,7 @@
             <p>Returned by:</p>
             <div class="mrt-bottom-data">
               <h3 v-if="MRTMaster.users[1].pivot.Signature=='0'"><img :src="'/storage/signatures/'+MRTMaster.users[1].Signature" alt="signature"></h3>
-              <p>{{MRTMaster.users[1].FullName}} <i class="fa fa-times decliner" v-if="MRTMaster.users[1].pivot.Signature=='1'"></i></p>
+              <p>{{MRTMaster.users[1].FullName}} <i class="material-icons decliner" v-if="MRTMaster.users[1].pivot.Signature=='1'">close</i></p>
               <p>{{MRTMaster.users[1].Position}}</p>
             </div>
         </div>
@@ -81,7 +81,7 @@
           <p>Recieved by:</p>
           <div class="mrt-bottom-data">
             <h3 v-if="MRTMaster.users[0].pivot.Signature=='0'"><img :src="'/storage/signatures/'+MRTMaster.users[0].Signature" alt="signature"></h3>
-            <p>{{MRTMaster.users[0].FullName}}<i class="fa fa-times decliner" v-if="MRTMaster.users[0].pivot.Signature=='1'"></i></p>
+            <p>{{MRTMaster.users[0].FullName}}<i class="material-icons decliner" v-if="MRTMaster.users[0].pivot.Signature=='1'">close</i></p>
             <p>{{MRTMaster.users[0].Position}}</p>
           </div>
         </div>

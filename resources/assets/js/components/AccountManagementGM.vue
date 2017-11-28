@@ -2,8 +2,7 @@
   <div class="setting-accounts-table">
     <div class="title-account-manager">
       <h1>
-        <span>List of accounts</span>
-        <i class="fa fa-group color-blue"></i>
+        <i class="material-icons">people</i><span> List of accounts</span>
       </h1>
     </div>
     <div class="top-right-menu-accounts">
@@ -25,11 +24,11 @@
         </select>
         <li>
           <button type="button" v-on:click="createAccMenu=!createAccMenu">
-            <i class="fa fa-user-plus" v-if="createAccMenu==false"></i>
-            <i class="fa fa-times"v-else></i>
+            <i class="material-icons" v-if="createAccMenu==false">person_add</i>
+            <i class="material-icons"v-else>close</i>
           </button>
           <div class="create-acc-minimenu" :class="[createAccMenu==true?'active':'']">
-            <h1><i class="fa fa-user-plus"></i> Create Account</h1>
+            <h1><i class="material-icons">person_add</i> Create Account</h1>
             <h2>
               <input type="button" v-on:click="ManagerCreateModal=true" value="manager">
               <input type="button" v-on:click="newusermodal=true,[ManagerChoices[0]==null?fetchManagerChoices():'']" value="user">
@@ -65,10 +64,13 @@
         <td v-else>N/A</td>
         <td><h1><img :src="'/storage/signatures/'+account.Signature" alt="signature"></h1></td>
         <td class="userstatus">
-          <i v-if="account.IsActive!=null" class="fa fa-circle active"></i>
-          <i v-else class="fa fa-circle"></i>
+          <i v-if="account.IsActive!=null" class="material-icons active">person</i>
+          <i v-else class="material-icons">person</i>
         </td>
-        <td class="settingActions"><i class="fa fa-edit" v-on:click="modalUpdate=!modalUpdate,fetchselecteduser(account.id),fetchManagerChoices()"></i> <i class="fa fa-trash" v-on:click="deleteAccount(account.id)"></i></td>
+        <td class="settingActions">
+          <i class="material-icons" v-on:click="modalUpdate=!modalUpdate,fetchselecteduser(account.id),fetchManagerChoices()">edit</i>
+          <i class="material-icons" v-on:click="deleteAccount(account.id)">delete_forever</i>
+        </td>
       </tr>
     </table>
     <div class="paginate-container">
@@ -155,7 +157,7 @@
     <div class="CreateManagerAccount-Modal" :class="{'active':ManagerCreateModal}" v-on:click="ManagerCreateModal=!ManagerCreateModal">
       <div class="center-manager-create-form" v-on:click="ManagerCreateModal=!ManagerCreateModal">
         <h1>
-          <i class="fa fa-user-plus"></i> Manager Account
+          <i class="material-icons">person_add</i> Manager Account
         </h1>
         <div class="manager-form-inputs">
           <div class="doubleform">
@@ -178,7 +180,7 @@
     </div>
     <div class="CreateNEwUserModal" :class="{'active':newusermodal}" v-on:click="newusermodal=!newusermodal">
       <div class="center-form-newuser" v-on:click="newusermodal=!newusermodal">
-        <h1><i class="fa fa-user-plus"></i> New account</h1>
+        <h1><i class="material-icons">person_add</i> New account</h1>
         <div class="newuserinputs">
           <input type="text" placeholder="FullName" v-model="RegisterFullName" autocomplete="off">
           <div class="doubleform">

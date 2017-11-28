@@ -3,7 +3,7 @@
   <div class="printable-paper">
     <div class="print-btn-container">
       <div class="download-form" v-if="approved">
-        <a :href="'/MIRS.pdf/'+mirsno.MIRSNo"><button type="submit">PDF <i class="fa fa-file-pdf-o"></i></button></a>
+        <a :href="'/MIRS.pdf/'+mirsno.MIRSNo"><button type="submit"><i class="material-icons">print</i></button></a>
         unclaimed:<span class="color-blue">{{unclaimed}}</span>
       </div>
       <div class="empty-left" v-else>
@@ -14,10 +14,10 @@
         </h6>
         <span class="manager-replacer-accept-cant" :class="{'hide':SignatureManagerRelacerBtnHide}">
           <longpress  duration="3" id="manager-replacer-accept" :on-confirm="AcceptrequestReplacer"  pressing-text="confirm in {$rcounter}" action-text="Loading . . .">
-          <i class="fa fa-pencil"></i> Signature
+          <i class="material-icons">edit</i> Signature
           </longpress>
           <longpress  duration="3" id="manager-replacer-cant" :on-confirm="cancelrequestReplacer"  pressing-text="confirm in {$rcounter}" action-text="Loading . . .">
-          <i class="fa fa-pencil"></i> I can't
+          <i class="material-icons">close</i> I can't
           </longpress>
         </span>
       </div>
@@ -27,20 +27,20 @@
         </h6>
         <span class="Approve-replacer-accept-cant" :class="{'hide':SignatureApproveBtnHide}">
           <longpress  duration="3" id="manager-replacer-accept" :on-confirm="AcceptApprovalReplacerequest"  pressing-text="confirm in {$rcounter}" action-text="Loading . . .">
-          <i class="fa fa-pencil"></i> Signature
+          <i class="material-icons">edit</i> Signature
           </longpress>
           <longpress  duration="3" id="manager-replacer-cant" :on-confirm="cancelRequestApprovalReplacer"  pressing-text="confirm in {$rcounter}" action-text="Loading . . .">
-          <i class="fa fa-pencil"></i> I can't
+          <i class="material-icons">close</i> I can't
           </longpress>
         </span>
       </div>
       <span v-if="((ManagerCansignature)&&(NoManagerReplacerSignature)||((GMCanSignature)&&(NoApprovalReplacerSignature))||(RequisitionerCanSignature))">
         <div class="middle-status" :class="{'hide':SignatureBtnHide}">
           <longpress id="accepted" duration="3" :on-confirm="SignatureMIRS"  pressing-text="confirm in {$rcounter}" action-text="Loading . . .">
-            <i class="fa fa-pencil"></i> Signature
+            <i class="material-icons">edit</i> Signature
           </longpress>
           <longpress id="not-accepted" duration="3" :on-confirm="DeclineMIRS"  pressing-text="confirm in {$rcounter}" action-text="Loading . . .">
-            <i class="fa fa-times"></i> Decline
+            <i class="material-icons">close</i> Decline
           </longpress>
         </div>
       </span>
@@ -57,13 +57,13 @@
         <h4>Cabulijan, Tubigon, Bohol</h4>
         <h2>MATERIALS ISSUANCE REQUISITION SLIP</h2>
         <div class="status-mirs declined" v-if="declinedistrue">
-          <h1 class="deny-sign"><i class="fa fa-times"></i><br>Declined</h1>
+          <h1 class="deny-sign"><i class="material-icons">close</i><br>Declined</h1>
         </div>
         <div class="status-mirs approved" v-else-if="approved">
-          <h1 class="approved-sign"><i class="fa fa-thumbs-up"></i> <br>Approved</h1>
+          <h1 class="approved-sign"><i class="material-icons">thumb_up</i> <br>Approved</h1>
         </div>
         <div class="status-mirs" v-else>
-          <h1><i class="fa fa-clock-o"></i><br>Pending</h1>
+          <h1><i class="material-icons">access_time</i><br>Pending</h1>
         </div>
       </div>
       <div class="top-part-box2">

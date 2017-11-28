@@ -2,7 +2,7 @@
   <span>
     <div class="top-nav-container">
       <div class="left-nav-content">
-          <button type="button" class="burger-button" v-on:click="modalOpen=true"><i class="fa fa-navicon"></i></button>
+          <button type="button" class="burger-button" v-on:click="modalOpen=true"><i class="material-icons">menu</i></button>
         <h1><a href="/"><img src="/DesignIMG/logo.png" alt="logo"></a></h1>
       </div>
       <div class="right-nav-content">
@@ -12,174 +12,174 @@
       </div>
     </div>
     <div class="Account-modal" :class="[modalOpen==true?'active':'']" v-on:click="modalOpen=!modalOpen">
-      <div class="middle-account-modal animated" :class="[modalOpen==true?'slideInLeft':'slideOutleft']" v-on:click="modalOpen=!modalOpen">
-        <ul>
-          <a>
-            <li class="sidebar-title CurrentUser">
-              <span>
-                <i class="fa fa-user-circle"></i> {{user.FullName}}
-              </span>
-            </li>
-          </a>
-          <a>
-            <li class="sidebar-title">
-              <span>
-                Notifications
-              </span>
-            </li>
-          </a>
-          <a href="/mirs-signature-list">
-            <li class="clickable">
-              <span>
-                <i class="fa fa-bell-o" :class="[MIRSNew==true?'animated swing':'']"></i>MIRS
-              </span>
-              <span class="notif" :class="[MIRSNotif!=0?'active':'']">
-                {{MIRSNotif}}
-                <small class="new-notif" v-if="MIRSNew==true">new !</small>
-              </span>
-            </li>
-          </a>
-          <a href="/mct-signature-request">
-            <li class="clickable">
-              <span>
-                <i class="fa fa-bell-o" :class="[MCTNew==true?'animated swing':'']"></i>MCT
-              </span>
-              <span class="notif" :class="[NewlyCreatedMCT!=0?'active':'']">{{NewlyCreatedMCT}}
-                <small class="new-notif" v-if="MCTNew==true">new !</small>
-              </span>
-            </li>
-          </a>
-          <a href="/my-mrt-signature-request">
-            <li class="clickable">
-              <span>
-                <i class="fa fa-bell-o" :class="[MRTNew==true?'animated swing':'']"></i> MRT
-              </span>
-              <span class="notif" :class="[NewlyCreatedMRT!=0?'active':'']">{{NewlyCreatedMRT}}
-                <small class="new-notif" v-if="MRTNew==true">new !</small>
-              </span>
-            </li>
-          </a>
-          <a href="/checkout-rr-request">
-            <li class="clickable">
-              <span>
-                <i class="fa fa-bell-o" :class="[RRNew==true?'animated swing':'']"></i> RR
-              </span>
-              <span class="notif" :class="[RRRequestCount!=0?'active':'']">{{RRRequestCount}}
-                <small class="new-notif" v-if="RRNew==true">new !
-                </small>
-              </span>
-            </li>
-          </a>
-          <a href="/myRVrequest">
-            <li class="clickable">
-              <span>
-                <i class="fa fa-bell-o" :class="[RVNew==true?'animated swing':'']"></i> RV
-              </span>
-              <span class="notif" :class="[NewlyCreatedRV!=0?'active':'']">{{NewlyCreatedRV}}
-                <small class="new-notif" v-if="RVNew==true">new !
-                </small>
-              </span>
-            </li>
-          </a>
-          <a href="/my-mr-request">
-            <li class="clickable">
-              <span>
-                <i class="fa fa-bell-o" :class="[MRNew==true?'animated swing':'']"></i> MR
-              </span>
-              <span class="notif" :class="[CountMRRequest!=0?'active':'']">{{CountMRRequest}}
-                <small class="new-notif" v-if="MRNew==true">new !
-                </small>
-              </span>
-            </li>
-          </a>
-          <a v-if="user.Role==0||user.Role==2" href="/my-PO-request">
-            <li class="clickable">
-              <span>
-          <i class="fa fa-bell-o" :class="[PONew==true?'animated swing':'']"></i>PO
-              </span>
-              <span class="notif" :class="[CountPOrequest!=0?'active':'']">{{CountPOrequest}}
-                <small class="new-notif" v-if="PONew==true">new !
-                </small>
-              </span>
-            </li>
-          </a>
-          <span v-if="user.Role==3||user.Role==4">
-            <a href="/ready-mirs">
-              <li class="clickable">
-                <span>
-                  <i class="fa fa-bell-o" :class="[ApproveMIRSNew==true?'animated swing':'']"></i>Approved mirs
-                </span>
-                <span class="notif" :class="[NewlyApprovedMIRS!=0?'active':'']">{{NewlyApprovedMIRS}}
-                  <small class="new-notif" v-if="ApproveMIRSNew==true">new !
-                  </small>
-                </span>
-              </li>
-            </a>
-            <a href="/waiting-to-be-purchased-rv">
-              <li class="clickable">
-                <span>
-                  <i class="fa fa-bell-o" :class="[RVwaitingRRNew==true?'animated swing':'']"></i>Approved rv
-                </span>
-                <span class="notif" :class="[RVWaitingRRCount!=0?'active':'']">{{RVWaitingRRCount}}
-                  <small class="new-notif" v-if="RVwaitingRRNew==true">new !
-                  </small>
-                </span>
-              </li>
-            </a>
-          </span>
-            <a v-if="user.Role==2 || user.Role==1">
-              <li class="sidebar-title">
-                <span>
-                  Settings
-                </span>
-              </li>
-            </a>
-            <a v-if="user.Role==2" href="/manager-take-placer-setting">
-              <li class="clickable">
-                <span>
-                  <i class="fa fa-user"></i>Assign a Manager
-                </span>
-              </li>
-            </a>
-          <span v-if="user.Role==1">
-            <a href="/create-non-existing-item-in-warehouse">
-              <li class="clickable">
-                <span>
-                  <i class="fa fa-plus"></i> Add new item
-                </span>
-              </li>
-            </a>
-            <a href="/settings-accounts-list">
-              <li class="clickable">
-                <span>
-                  <i class="fa fa-cog"></i> Manage accounts
-                </span>
-              </li>
-            </a>
-          </span>
-          <a>
-            <li class="sidebar-title">
-              <span>
-                History
-              </span>
-            </li>
-          </a>
-          <a href="/show-my-history">
-            <li class="clickable">
-              <span>
-                <i class="fa fa-history"></i> My history
-              </span>
-            </li>
-          </a>
-          <a>
-            <li v-on:click="logout()" class="logout-btn clickable">
+    </div>
+    <div class="middle-account-modal" :class="[modalOpen==true?'active':'']">
+      <ul>
+        <a>
+          <li class="sidebar-title CurrentUser">
             <span>
-            <i class="fa fa-sign-out"></i> Logout
+              <i class="material-icons">person</i> {{user.FullName}}
             </span>
+          </li>
+        </a>
+        <a>
+          <li class="sidebar-title">
+            <span>
+              Notifications
+            </span>
+          </li>
+        </a>
+        <a href="/mirs-signature-list">
+          <li class="clickable">
+            <span>
+              <i class="material-icons">notifications_none</i>MIRS
+            </span>
+            <span class="notif" :class="[MIRSNotif!=0?'active':'']">
+              {{MIRSNotif}}
+              <small class="new-notif" v-if="MIRSNew==true">new !</small>
+            </span>
+          </li>
+        </a>
+        <a href="/mct-signature-request">
+          <li class="clickable">
+            <span>
+              <i class="material-icons">notifications_none</i>MCT
+            </span>
+            <span class="notif" :class="[NewlyCreatedMCT!=0?'active':'']">{{NewlyCreatedMCT}}
+              <small class="new-notif" v-if="MCTNew==true">new !</small>
+            </span>
+          </li>
+        </a>
+        <a href="/my-mrt-signature-request">
+          <li class="clickable">
+            <span>
+              <i class="material-icons">notifications_none</i> MRT
+            </span>
+            <span class="notif" :class="[NewlyCreatedMRT!=0?'active':'']">{{NewlyCreatedMRT}}
+              <small class="new-notif" v-if="MRTNew==true">new !</small>
+            </span>
+          </li>
+        </a>
+        <a href="/checkout-rr-request">
+          <li class="clickable">
+            <span>
+              <i class="material-icons">notifications_none</i> RR
+            </span>
+            <span class="notif" :class="[RRRequestCount!=0?'active':'']">{{RRRequestCount}}
+              <small class="new-notif" v-if="RRNew==true">new !
+              </small>
+            </span>
+          </li>
+        </a>
+        <a href="/myRVrequest">
+          <li class="clickable">
+            <span>
+              <i class="material-icons">notifications_none</i> RV
+            </span>
+            <span class="notif" :class="[NewlyCreatedRV!=0?'active':'']">{{NewlyCreatedRV}}
+              <small class="new-notif" v-if="RVNew==true">new !
+              </small>
+            </span>
+          </li>
+        </a>
+        <a href="/my-mr-request">
+          <li class="clickable">
+            <span>
+              <i class="material-icons">notifications_none</i> MR
+            </span>
+            <span class="notif" :class="[CountMRRequest!=0?'active':'']">{{CountMRRequest}}
+              <small class="new-notif" v-if="MRNew==true">new !
+              </small>
+            </span>
+          </li>
+        </a>
+        <a v-if="user.Role==0||user.Role==2" href="/my-PO-request">
+          <li class="clickable">
+            <span>
+        <i class="material-icons">notifications_none</i>PO
+            </span>
+            <span class="notif" :class="[CountPOrequest!=0?'active':'']">{{CountPOrequest}}
+              <small class="new-notif" v-if="PONew==true">new !
+              </small>
+            </span>
+          </li>
+        </a>
+        <span v-if="user.Role==3||user.Role==4">
+          <a href="/ready-mirs">
+            <li class="clickable">
+              <span>
+                <i class="material-icons">notifications_none</i>Approved mirs
+              </span>
+              <span class="notif" :class="[NewlyApprovedMIRS!=0?'active':'']">{{NewlyApprovedMIRS}}
+                <small class="new-notif" v-if="ApproveMIRSNew==true">new !
+                </small>
+              </span>
             </li>
           </a>
-        </ul>
-      </div>
+          <a href="/waiting-to-be-purchased-rv">
+            <li class="clickable">
+              <span>
+                <i class="material-icons">notifications_none</i>Approved rv
+              </span>
+              <span class="notif" :class="[RVWaitingRRCount!=0?'active':'']">{{RVWaitingRRCount}}
+                <small class="new-notif" v-if="RVwaitingRRNew==true">new !
+                </small>
+              </span>
+            </li>
+          </a>
+        </span>
+          <a v-if="user.Role==2 || user.Role==1">
+            <li class="sidebar-title">
+              <span>
+                Settings
+              </span>
+            </li>
+          </a>
+          <a v-if="user.Role==2" href="/manager-take-placer-setting">
+            <li class="clickable">
+              <span>
+                <i class="material-icons">face</i>Assign a Manager
+              </span>
+            </li>
+          </a>
+        <span v-if="user.Role==1">
+          <a href="/create-non-existing-item-in-warehouse">
+            <li class="clickable">
+              <span>
+                <i class="material-icons">fiber_new</i> Add new item
+              </span>
+            </li>
+          </a>
+          <a href="/settings-accounts-list">
+            <li class="clickable">
+              <span>
+                <i class="material-icons">people</i> Manage accounts
+              </span>
+            </li>
+          </a>
+        </span>
+        <a>
+          <li class="sidebar-title">
+            <span>
+              History
+            </span>
+          </li>
+        </a>
+        <a href="/show-my-history">
+          <li class="clickable">
+            <span>
+              <i class="material-icons">history</i> My history
+            </span>
+          </li>
+        </a>
+        <a>
+          <li v-on:click="logout()" class="logout-btn clickable">
+          <span>
+          <i class="material-icons">exit_to_app</i> Logout
+          </span>
+          </li>
+        </a>
+      </ul>
     </div>
     <audio ref="audioElm" src="/audio/NotificationSound.mp3">
     </audio>

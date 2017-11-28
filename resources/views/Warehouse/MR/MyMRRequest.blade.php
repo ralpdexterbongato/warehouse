@@ -29,7 +29,7 @@
               <td>N/A</td>
             @endif
             <td>{{$mrRequest->WarehouseMan}}</td>
-            <td><a href="{{route('fullMR',[$mrRequest->MRNo])}}"><i class="fa fa-eye"></i></a></td>
+            <td><a href="{{route('fullMR',[$mrRequest->MRNo])}}"><i class="material-icons">remove_red_eye</i></a></td>
           </tr>
         @endforeach
       </table>

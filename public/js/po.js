@@ -1871,18 +1871,18 @@ module.exports={render:function (){var _vm=this;var _h=_vm.$createElement;var _c
     staticClass: "po-index-table"
   }, [_c('table', [_vm._m(1), _vm._v(" "), _vm._l((_vm.POindexData), function(data) {
     return (data.users[0] != null) ? _c('tr', [_c('td', [_vm._v(_vm._s(data.PONo))]), _vm._v(" "), _c('td', [_vm._v(_vm._s(data.PODate))]), _vm._v(" "), _c('td', [_vm._v(_vm._s(data.RVNo))]), _vm._v(" "), _c('td', [_vm._v(_vm._s(data.RVDate))]), _vm._v(" "), _c('td', [_vm._v(_vm._s(data.Supplier))]), _vm._v(" "), _c('td', [_vm._v(_vm._s(data.Purpose))]), _vm._v(" "), _c('td', [_vm._v(_vm._s(data.users[0].FullName))]), _vm._v(" "), _c('td', [(data.Status == '0') ? _c('i', {
-      staticClass: "fa fa-thumbs-up"
-    }) : (data.Status == '1') ? _c('i', {
-      staticClass: "fa fa-times decliner"
-    }) : _c('i', {
-      staticClass: "fa fa-clock-o darker-blue"
-    })]), _vm._v(" "), _c('td', [_c('a', {
+      staticClass: "material-icons"
+    }, [_vm._v("thumb_up")]) : (data.Status == '1') ? _c('i', {
+      staticClass: "material-icons decliner"
+    }, [_vm._v("close")]) : _c('i', {
+      staticClass: "material-icons"
+    }, [_vm._v("access_time")])]), _vm._v(" "), _c('td', [_c('a', {
       attrs: {
         "href": '/po-full-preview/' + data.PONo
       }
     }, [_c('i', {
-      staticClass: "fa fa-eye"
-    })])])]) : _vm._e()
+      staticClass: "material-icons darker-blue"
+    }, [_vm._v("remove_red_eye")])])])]) : _vm._e()
   })], 2), _vm._v(" "), _c('div', {
     staticClass: "paginate-container"
   }, [_c('ul', {
@@ -1928,8 +1928,8 @@ module.exports={render:function (){var _vm=this;var _h=_vm.$createElement;var _c
   })])]) : _vm._e()], 2)])])])
 },staticRenderFns: [function (){var _vm=this;var _h=_vm.$createElement;var _c=_vm._self._c||_h;
   return _c('h1', [_c('i', {
-    staticClass: "fa fa-th-large"
-  }), _vm._v(" Purchase Order index")])
+    staticClass: "material-icons"
+  }, [_vm._v("show_chart")]), _vm._v(" Purchase Order index")])
 },function (){var _vm=this;var _h=_vm.$createElement;var _c=_vm._self._c||_h;
   return _c('tr', [_c('th', [_vm._v("PO #")]), _vm._v(" "), _c('th', [_vm._v("PO Date")]), _vm._v(" "), _c('th', [_vm._v("RV #")]), _vm._v(" "), _c('th', [_vm._v("RV Date")]), _vm._v(" "), _c('th', [_vm._v("Supplier")]), _vm._v(" "), _c('th', [_vm._v("Purpose")]), _vm._v(" "), _c('th', [_vm._v("General Manager")]), _vm._v(" "), _c('th', [_vm._v("Status")]), _vm._v(" "), _c('th', [_vm._v("Show")])])
 }]}
@@ -2043,8 +2043,8 @@ module.exports={render:function (){var _vm=this;var _h=_vm.$createElement;var _c
       "action-text": "please wait . ."
     }
   }, [_c('i', {
-    staticClass: "fa fa-pencil"
-  }), _vm._v(" Signature\n        ")]), _vm._v(" "), _c('longpress', {
+    staticClass: "material-icons"
+  }, [_vm._v("edit")]), _vm._v(" Signature\n        ")]), _vm._v(" "), _c('longpress', {
     staticClass: "declinePObtn",
     attrs: {
       "duration": "3",
@@ -2053,8 +2053,8 @@ module.exports={render:function (){var _vm=this;var _h=_vm.$createElement;var _c
       "action-text": "please wait . ."
     }
   }, [_c('i', {
-    staticClass: "fa fa-times"
-  }), _vm._v(" I Can't\n        ")])], 1)]) : _vm._e(), _vm._v(" "), (_vm.AlreadyApproved) ? _c('span', {
+    staticClass: "material-icons"
+  }, [_vm._v("close")]), _vm._v(" I Can't\n        ")])], 1)]) : _vm._e(), _vm._v(" "), (_vm.AlreadyApproved) ? _c('span', {
     staticClass: "make-rr-and-print"
   }, [_c('div', {
     staticClass: "left-detail-po"
@@ -2088,8 +2088,8 @@ module.exports={render:function (){var _vm=this;var _h=_vm.$createElement;var _c
       "action-text": "please wait . ."
     }
   }, [_c('i', {
-    staticClass: "fa fa-pencil"
-  }), _vm._v(" Signature\n      ")]), _vm._v(" "), _c('longpress', {
+    staticClass: "material-icons"
+  }, [_vm._v("edit")]), _vm._v(" Signature\n      ")]), _vm._v(" "), _c('longpress', {
     staticClass: "declinePObtn",
     attrs: {
       "duration": "3",
@@ -2098,8 +2098,8 @@ module.exports={render:function (){var _vm=this;var _h=_vm.$createElement;var _c
       "action-text": "please wait . ."
     }
   }, [_c('i', {
-    staticClass: "fa fa-times"
-  }), _vm._v(" Decline\n      ")])], 1) : _vm._e()]), _vm._v(" "), _c('div', {
+    staticClass: "material-icons"
+  }, [_vm._v("close")]), _vm._v(" Decline\n      ")])], 1) : _vm._e()]), _vm._v(" "), _c('div', {
     staticClass: "PO-bondpaper"
   }, [_vm._m(3), _vm._v(" "), _c('div', {
     staticClass: "po-master-data"
@@ -2130,27 +2130,26 @@ module.exports={render:function (){var _vm=this;var _h=_vm.$createElement;var _c
       "alt": "signature"
     }
   })]) : _vm._e(), _vm._v(" "), _c('h3', [_vm._v("\n          " + _vm._s(_vm.OrderMaster.users[0].FullName) + "\n          "), (_vm.OrderMaster.users[0].pivot.Signature == '1') ? _c('i', {
-    staticClass: "fa fa-times decliner"
-  }) : _vm._e()]), _vm._v(" "), _c('label', [_vm._v(_vm._s(_vm.OrderMaster.users[0].Position))])])])])])]) : _vm._e()
+    staticClass: "material-icons decliner"
+  }, [_vm._v("close")]) : _vm._e()]), _vm._v(" "), _c('label', [_vm._v(_vm._s(_vm.OrderMaster.users[0].Position))])])])])])]) : _vm._e()
 },staticRenderFns: [function (){var _vm=this;var _h=_vm.$createElement;var _c=_vm._self._c||_h;
   return _c('h6', {
     staticClass: "approve-managerreplace-note"
   }, [_c('i', {
-    staticClass: "fa fa-info-circle color-blue"
-  }), _vm._v("\n        The "), _c('span', {
+    staticClass: "material-icons color-blue"
+  }, [_vm._v("info")]), _vm._v("\n        The "), _c('span', {
     staticClass: "color-blue"
   }, [_vm._v("Warehouse section")]), _vm._v(" is asking for your signature b/c the General Manager is not available\n      ")])
 },function (){var _vm=this;var _h=_vm.$createElement;var _c=_vm._self._c||_h;
   return _c('button', {
-    staticClass: "bttn-unite bttn-xs bttn-primary",
     attrs: {
       "type": "submit",
       "name": "PONo",
       "value": "ponohere"
     }
   }, [_c('i', {
-    staticClass: "fa fa-print"
-  }), _vm._v(" Print")])
+    staticClass: "material-icons"
+  }, [_vm._v("print")])])
 },function (){var _vm=this;var _h=_vm.$createElement;var _c=_vm._self._c||_h;
   return _c('button', {
     staticClass: "bttn-unite bttn-xs bttn-primary",

@@ -2,7 +2,7 @@
 <div class="mirs-index-vue">
   <div class="top-wrap-index-mirs">
     <div class="Title-MIRS-Index">
-    <i class="fa fa-th-large"></i>  Materials Issuance Requisition Slip index
+    <i class="material-icons">show_chart</i> Materials Issuance Requisition Slip index
     </div>
     <div class="search-mirs-container">
       <input type="text" autocomplete="off" v-on:keyup="SearchAndFetch()" v-model="SearchInput"  placeholder="Enter MIRS #">
@@ -24,24 +24,24 @@
           <td>{{result.MIRSNo}}</td>
           <td>{{result.Purpose}}</td>
           <td>{{result.users[0].FullName}}
-            <i class="fa fa-check" v-if="(result.users[0].pivot.Signature=='0')"></i> <!-- zero means true -->
-            <i class="fa fa-times decliner" v-else-if="result.users[0].pivot.Signature=='1'"></i>  <!--one is false -->
+            <i class="material-icons" v-if="(result.users[0].pivot.Signature=='0')">check</i> <!-- zero means true -->
+            <i class="material-icons decliner" v-else-if="result.users[0].pivot.Signature=='1'">close</i>  <!--one is false -->
           </td>
           <td>{{result.users[1].FullName}}
-             <i class="fa fa-check" v-if="((result.users[1].pivot.Signature=='0')||((result.users[3]!=null)&&(result.users[3].pivot.Signature=='0')&&(result.users[3].pivot.SignatureType=='ManagerReplacer'))||((result.users[4]!=null)&&(result.users[4].pivot.Signature=='0')&&(result.users[4].pivot.SignatureType=='ManagerReplacer')))"></i> <!-- zero means true -->
-             <i class="fa fa-times decliner" v-else-if="result.users[1].pivot.Signature=='1'"></i>  <!--one is false -->
+             <i class="material-icons" v-if="((result.users[1].pivot.Signature=='0')||((result.users[3]!=null)&&(result.users[3].pivot.Signature=='0')&&(result.users[3].pivot.SignatureType=='ManagerReplacer'))||((result.users[4]!=null)&&(result.users[4].pivot.Signature=='0')&&(result.users[4].pivot.SignatureType=='ManagerReplacer')))">check</i> <!-- zero means true -->
+             <i class="material-icons decliner" v-else-if="result.users[1].pivot.Signature=='1'">close</i>  <!--one is false -->
           </td>
           <td>{{result.users[2].FullName}}
-            <i class="fa fa-check" v-if="((result.users[2].pivot.Signature=='0')||((result.users[3]!=null)&&(result.users[3].pivot.Signature=='0')&&(result.users[3].pivot.SignatureType=='ApprovalReplacer'))||((result.users[4]!=null)&&(result.users[4].pivot.Signature=='0')&&(result.users[4].pivot.SignatureType=='ApprovalReplacer')))"></i> <!-- zero means true -->
-            <i class="fa fa-times decliner" v-else-if="result.users[2].pivot.Signature=='1'"></i>  <!--one is false -->
+            <i class="material-icons" v-if="((result.users[2].pivot.Signature=='0')||((result.users[3]!=null)&&(result.users[3].pivot.Signature=='0')&&(result.users[3].pivot.SignatureType=='ApprovalReplacer'))||((result.users[4]!=null)&&(result.users[4].pivot.Signature=='0')&&(result.users[4].pivot.SignatureType=='ApprovalReplacer')))">check</i> <!-- zero means true -->
+            <i class="material-icons decliner" v-else-if="result.users[2].pivot.Signature=='1'">close</i>  <!--one is false -->
           </td>
           <td>{{result.MIRSDate}}</td>
             <td>
-              <i class="fa fa-thumbs-up" v-if="((result.users[0].pivot.Signature=='0')&&((result.users[1].pivot.Signature=='0')||(result.users[3]!=null)&&(result.users[3].pivot.Signature=='0')&&(result.users[3].pivot.SignatureType=='ManagerReplacer')||(result.users[4]!=null)&&(result.users[4].pivot.Signature=='0')&&(result.users[4].pivot.SignatureType=='ManagerReplacer'))&&((result.users[2].pivot.Signature=='0')||(result.users[3]!=null)&&(result.users[3].pivot.Signature=='0')&&(result.users[3].pivot.SignatureType=='ApprovalReplacer')||(result.users[4]!=null)&&(result.users[4].pivot.Signature=='0')&&(result.users[4].pivot.SignatureType=='ApprovalReplacer')))"></i>
-              <i class="fa fa-times decliner" v-else-if="((result.users[0].pivot.Signature=='1')||(result.users[1].pivot.Signature=='1')||(result.users[2].pivot.Signature=='1'))"></i>
-              <i class="fa fa-clock-o" v-else></i>
+              <i class="material-icons" v-if="((result.users[0].pivot.Signature=='0')&&((result.users[1].pivot.Signature=='0')||(result.users[3]!=null)&&(result.users[3].pivot.Signature=='0')&&(result.users[3].pivot.SignatureType=='ManagerReplacer')||(result.users[4]!=null)&&(result.users[4].pivot.Signature=='0')&&(result.users[4].pivot.SignatureType=='ManagerReplacer'))&&((result.users[2].pivot.Signature=='0')||(result.users[3]!=null)&&(result.users[3].pivot.Signature=='0')&&(result.users[3].pivot.SignatureType=='ApprovalReplacer')||(result.users[4]!=null)&&(result.users[4].pivot.Signature=='0')&&(result.users[4].pivot.SignatureType=='ApprovalReplacer')))">thumb_up</i>
+              <i class="material-icons decliner" v-else-if="((result.users[0].pivot.Signature=='1')||(result.users[1].pivot.Signature=='1')||(result.users[2].pivot.Signature=='1'))">close</i>
+              <i class="material-icons" v-else>access_time</i>
             </td>
-          <td class="fullmirsClick"><a :href="'/previewFullMIRS/'+result.MIRSNo"><i class="fa fa-eye"></i></a></td>
+          <td class="fullmirsClick"><a :href="'/previewFullMIRS/'+result.MIRSNo"><i class="material-icons">remove_red_eye</i></a></td>
         </tr>
     </table>
     <div class="paginate-container">
