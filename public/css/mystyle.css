@@ -232,7 +232,7 @@ input[type='radio']:after {
 }
 .body-container
 {
-min-height: 100vh;
+min-height: 70vh;
 }
 .new-search-container
 {
@@ -643,6 +643,7 @@ min-height: 100vh;
 	padding: 0px 40px 10px 40px;
   margin-top: 50px;
 	min-height: 50vh;
+	display: flex;
 }
 .not-found-msg h2
 {
@@ -825,27 +826,6 @@ filter: drop-shadow(0 6px 3px #C3C3C3);
 {
 margin:auto;
 font-size: 16px;
-}
-/*welcome searching load icon*/
-.loading-spin
-{
-	padding: 0px 40px 10px 40px;
-	min-height: 70vh;
-  margin-top: 50px;
-	display: flex;
-}
-.loading-spin i
-{
-	margin:auto;
-	font-size: 30px;
-	color: #102B55;
-}
-@media (max-width:400px)
-{
-	.loading-spin
-	{
-		min-height:0;
-	}
 }
 /*MAKE MIRS*/
 .mirs-container h1
@@ -1243,6 +1223,7 @@ only screen and (max-width: 1050px),
 	display: flex;
 	flex-direction: column;
 	padding:20px;
+	width: 80vw;
 }
 @media (max-width:750px)
 {

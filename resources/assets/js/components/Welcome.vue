@@ -11,12 +11,12 @@
         </h1>
       </div>
       <div class="Search-item-box">
-        <input id="search-code-input" autocomplete="off" type="text" v-on:keyup.enter="SearchItemHistory(1),Searching=true" v-model="ItemCodeSearch" placeholder="Item code" required>
-        <button id="search-go" type="submit" v-on:click="SearchItemHistory(1),Searching=true"><i class="material-icons">search</i></button>
+        <input id="search-code-input" autocomplete="off" type="text" v-on:keyup.enter="SearchItemHistory(1)" v-model="ItemCodeSearch" placeholder="Item code" required>
+        <button id="search-go" type="submit" v-on:click="SearchItemHistory(1)"><i class="material-icons">search</i></button>
       </div>
     </div>
   </div>
-  <div class="data-results-container" :class="[Searching==true?'hide':'show']" v-if="NotFoundSearch==''">
+  <div class="data-results-container" v-if="NotFoundSearch==''">
     <div v-if="latestFound.MTNo!=null" class="animated bounceInUp">
       <div class="search-welcome-title">
         <div class="Current-title">
@@ -110,18 +110,18 @@
       <img src="/DesignIMG/truck.jpg" alt="img">
     </div>
   </div>
-  <div class="not-found-msg" v-else :class="Searching==true?'hide':'flex'">
+  <div class="not-found-msg" v-if="NotFoundSearch!=''">
     <h2><i class="material-icons">search</i> {{NotFoundSearch}}</h2>
-  </div>
-  <div :class="Searching==true?'flex':'hide'" class="loading-spin">
-    <i class="fa fa-spinner fa-spin fa-pulse"></i>
   </div>
 </div>
 </template>
 
 <script>
-import axios from 'axios'
-import moment from 'moment'
+import axios from 'axios';
+import moment from 'moment';
+import 'vue2-toast/lib/toast.css';
+import Toast from 'vue2-toast';
+Vue.use(Toast);
   export default {
     data () {
       return {
@@ -130,7 +130,6 @@ import moment from 'moment'
         offset: 4,
         latestFound: [],
         historiesfound: [],
-        Searching: false,
         NotFoundSearch: ''
       }
     },
@@ -138,19 +137,20 @@ import moment from 'moment'
     methods: {
       SearchItemHistory(page)
       {
+        this.$loading('Searching...');
         var vm=this;
         axios.get(`/search-item-code?ItemCode=`+this.ItemCodeSearch+`&page=`+page).then(function(response)
         {
           console.log(response);
           if (response.data.latestFound[0]==null) {
+            vm.$loading.close();
             Vue.set(vm.$data,'NotFoundSearch','No results found.');
-            Vue.set(vm.$data,'Searching',false);
           }else
           {
+            vm.$loading.close();
             Vue.set(vm.$data,'latestFound',response.data.latestFound[0]);
             Vue.set(vm.$data,'historiesfound',response.data.historiesfound.data);
             Vue.set(vm.$data,'pagination',response.data.historiesfound);
-            Vue.set(vm.$data,'Searching',false);
             Vue.set(vm.$data,'NotFoundSearch','');
           }
 
