@@ -6,17 +6,6 @@
           <button type="button" name="button" v-on:click="isActive = !isActive"><i class="material-icons">add</i>item</button>
       </div>
       <div class="added-table-wrapper">
-        <ul class="error-tab" v-if="laravelerrors!=''" v-on:click="laravelerrors=''">
-          <span v-for="errors in laravelerrors">
-            <li v-for="error in errors">{{error}}</li>
-          </span>
-        </ul>
-        <ul class="error-tab" v-if="ownerrors!=''" v-on:click="ownerrors=''">
-          <li>{{ownerrors}}</li>
-        </ul>
-        <div class="successAlertRRsession" v-if="successAlerts!=''" v-on:click="successAlerts=''">
-          <p>{{successAlerts}}</p>
-        </div>
         <table>
           <tr>
             <th>Item Code</th>
@@ -53,9 +42,6 @@
         <longpress id="go-btn"  class="submitMCT-btn" :class="{'hide':HideButton}" duration="3" :on-confirm="submitWholePage" pressing-text="Submit confirmed in {$rcounter}" action-text="Please wait...">
           Submit
         </longpress>
-        <li :class="[HideButton==true?'show':'hide']">
-          <h3 id="loading-submit"><i class="fa fa-spinner fa-spin fa-pulse"></i></h3>
-        </li>
       </ul>
     </div>
   </div>
@@ -88,7 +74,7 @@
                   <td><input type="number" min="1" v-model="Quantity[count]"></td>
                   <td>{{itemcoderesult.Unit}}</td>
                   <td><input type="text" autocomplete="off" min="1"  name="Remarks[]" v-model="Remarks[count]"></td>
-                  <td><button type="button" class="bttn-unite bttn-xs bttn-primary" v-on:click="submitTosession(itemcoderesult,count),isActive=!isActive"><i class="fa fa-plus"></i></button></td>
+                  <td><button type="button" class="bttn-unite bttn-xs bttn-primary" v-on:click="submitTosession(itemcoderesult,count)"><i class="material-icons">add</i></button></td>
                 </tr>
               </table>
               <div class="pagination-container">
@@ -124,6 +110,10 @@
 <script>
 import Longpress from 'vue-longpress';
 import axios from 'axios';
+import moment from 'moment';
+import 'vue2-toast/lib/toast.css';
+import Toast from 'vue2-toast';
+Vue.use(Toast);
   export default {
      data () {
        return{
@@ -137,9 +127,6 @@ import axios from 'axios';
          Pagination:[],
          Quantity:[],
          Remarks:[],
-         laravelerrors:[],
-         successAlerts:[],
-         ownerrors:[],
          SessionItems:[],
          offset:4,
          HideButton:false,
@@ -189,19 +176,20 @@ import axios from 'axios';
           if (response.data.error==null)
           {
             vm.fetchAddedSession();
-            Vue.set(vm.$data,'successAlerts','Successfully added !');
-            Vue.set(vm.$data,'ownerrors','');
-            Vue.set(vm.$data,'laravelerrors','');
+            vm.$toast.top('Added successfully');
+            vm.Remarks=[];
+            vm.Quantity=[];
           }else
           {
-            Vue.set(vm.$data,'ownerrors',response.data.error);
-            Vue.set(vm.$data,'successAlerts','');
-            Vue.set(vm.$data,'laravelerrors','');
+            vm.$toast.top(response.data.error);
+            vm.Remarks=[];
+            vm.Quantity=[];
           }
       },function(error)
       {
-          console.log(error);
-          Vue.set(vm.$data,'laravelerrors',error.response.data);
+          vm.$toast.top(error.response.data.Quantity[0]);
+          vm.Remarks=[];
+          vm.Quantity=[];
       });
       },
       deleteSession(code)
@@ -211,9 +199,7 @@ import axios from 'axios';
         {
           console.log(response);
           vm.fetchAddedSession();
-          Vue.set(vm.$data,'ownerrors','');
-          Vue.set(vm.$data,'laravelerrors','');
-          Vue.set(vm.$data,'successAlerts','Successfully removed.');
+          vm.$toast.top('Successfully removed');
         },function(error)
         {
           console.log(error);
@@ -231,19 +217,27 @@ import axios from 'axios';
          submitWholePage()
         {
           this.HideButton=true;
+          this.$loading('Please wait...');
           var vm=this;
           axios.post(`/mirs-storedata`,{
             Purpose:this.purpose,
             Approvedby:this.gm[0].id,
           }).then(function(response)
           {
-            console.log(response);
-            window.location=response.data.redirect;
+            if (response.data.error==null)
+            {
+              window.location=response.data.redirect;
+            }else
+            {
+              vm.$toast.top(response.data.error);
+              vm.HideButton=false;
+              vm.$loading.close();
+            }
           },function(error)
           {
-            console.log(error);
-            Vue.set(vm.$data,'HideButton',false);
-            Vue.set(vm.$data,'laravelerrors',error.response.data);
+            vm.$loading.close();
+            vm.HideButton=false;
+            vm.$toast.top(error.response.data.Purpose[0]);
           });
         },
         changePageCode(page){

@@ -194,3 +194,4 @@ Route::get('/rv-new-created-mr-notify','MRController@MyMRrequestCount');
 Route::get('/po-count-notification','POController@MyPORequestCount');
 Route::post('/saving-account-manager','AccountController@SaveManagerAcc');
 Route::post('/save-account-user','AccountController@SaveNewUser');
+Route::get('/my-own-account-settings-page','AccountController@MyAccountSettingsPage');

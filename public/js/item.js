@@ -63,7 +63,7 @@
 /******/ 	__webpack_require__.p = "";
 /******/
 /******/ 	// Load entry module and return exports
-/******/ 	return __webpack_require__(__webpack_require__.s = 262);
+/******/ 	return __webpack_require__(__webpack_require__.s = 267);
 /******/ })
 /************************************************************************/
 /******/ ([
@@ -2205,7 +2205,7 @@ function loadLocale(name) {
             module && module.exports) {
         try {
             oldLocale = globalLocale._abbr;
-            __webpack_require__(196)("./" + name);
+            __webpack_require__(201)("./" + name);
             // because defineLocale currently also sets the global locale, we
             // want to undo that for lazy loaded locales
             getSetGlobalLocale(oldLocale);
@@ -4840,7 +4840,7 @@ return hooks;
 
 })));
 
-/* WEBPACK VAR INJECTION */}.call(exports, __webpack_require__(32)(module)))
+/* WEBPACK VAR INJECTION */}.call(exports, __webpack_require__(37)(module)))
 
 /***/ }),
 /* 2 */
@@ -16422,10 +16422,447 @@ module.exports = Vue$3;
 /* 31 */
 /***/ (function(module, exports, __webpack_require__) {
 
-!function(n,e){ true?module.exports=e():"function"==typeof define&&define.amd?define("VueNumeric",[],e):"object"==typeof exports?exports.VueNumeric=e():n.VueNumeric=e()}(this,function(){return function(n){function e(t){if(l[t])return l[t].exports;var o=l[t]={i:t,l:!1,exports:{}};return n[t].call(o.exports,o,o.exports,e),o.l=!0,o.exports}var l={};return e.m=n,e.c=l,e.d=function(n,l,t){e.o(n,l)||Object.defineProperty(n,l,{configurable:!1,enumerable:!0,get:t})},e.n=function(n){var l=n&&n.__esModule?function(){return n.default}:function(){return n};return e.d(l,"a",l),l},e.o=function(n,e){return Object.prototype.hasOwnProperty.call(n,e)},e.p="",e(e.s=0)}([function(n,e,l){"use strict";Object.defineProperty(e,"__esModule",{value:!0});var t=function(){var n="/Users/kevin/Code/javascript/vue-numeric/src/index.js",e="15653907452f7941a2d8fad183469410751f452b",l=new Function("return this")(),t="__coverage__",o={path:"/Users/kevin/Code/javascript/vue-numeric/src/index.js",statementMap:{0:{start:{line:3,column:15},end:{line:7,column:1}},1:{start:{line:5,column:4},end:{line:5,column:44}},2:{start:{line:9,column:0},end:{line:9,column:34}}},fnMap:{0:{name:"(anonymous_0)",decl:{start:{line:4,column:11},end:{line:4,column:12}},loc:{start:{line:4,column:18},end:{line:6,column:3}},line:4}},branchMap:{},s:{0:0,1:0,2:0},f:{0:0},b:{},_coverageSchema:"332fd63041d2c1bcb487cc26dd0d5f7d97098a6c"},i=l[t]||(l[t]={});return i[n]&&i[n].hash===e?i[n]:(o.hash=e,i[n]=o)}(),o=l(1),i=function(n){return n&&n.__esModule?n:{default:n}}(o),r=(++t.s[0],{install:function(n){++t.f[0],++t.s[1],n.component(i.default.name,i.default)}});++t.s[2],i.default.install=r.install,e.default=i.default},function(n,e,l){"use strict";Object.defineProperty(e,"__esModule",{value:!0});var t=l(3),o=l.n(t),i=l(5),r=l(2),u=r(o.a,i.a,null,null,null);e.default=u.exports},function(n,e){n.exports=function(n,e,l,t,o){var i,r=n=n||{},u=typeof n.default;"object"!==u&&"function"!==u||(i=n,r=n.default);var c="function"==typeof r?r.options:r;e&&(c.render=e.render,c.staticRenderFns=e.staticRenderFns),t&&(c._scopeId=t);var a;if(o?(a=function(n){n=n||this.$vnode&&this.$vnode.ssrContext||this.parent&&this.parent.$vnode&&this.parent.$vnode.ssrContext,n||"undefined"==typeof __VUE_SSR_CONTEXT__||(n=__VUE_SSR_CONTEXT__),l&&l.call(this,n),n&&n._registeredComponents&&n._registeredComponents.add(o)},c._ssrRegister=a):l&&(a=l),a){var s=c.functional,m=s?c.render:c.beforeCreate;s?c.render=function(n,e){return a.call(e),m(n,e)}:c.beforeCreate=m?[].concat(m,a):[a]}return{esModule:i,exports:r,options:c}}},function(n,e,l){"use strict";Object.defineProperty(e,"__esModule",{value:!0});var t=function(){var n="/Users/kevin/Code/javascript/vue-numeric/src/vue-numeric.vue",e="a585c59c5f43b76b0e589c7c3abf098e449e92fe",l=new Function("return this")(),t="__coverage__",o={path:"/Users/kevin/Code/javascript/vue-numeric/src/vue-numeric.vue",statementMap:{0:{start:{line:122,column:15},end:{line:124,column:3}},1:{start:{line:132,column:6},end:{line:132,column:45}},2:{start:{line:140,column:6},end:{line:140,column:44}},3:{start:{line:148,column:6},end:{line:148,column:56}},4:{start:{line:148,column:20},end:{line:148,column:56}},5:{start:{line:149,column:6},end:{line:149,column:14}},6:{start:{line:157,column:6},end:{line:157,column:56}},7:{start:{line:157,column:20},end:{line:157,column:56}},8:{start:{line:158,column:6},end:{line:158,column:22}},9:{start:{line:166,column:6},end:{line:166,column:44}},10:{start:{line:166,column:34},end:{line:166,column:44}},11:{start:{line:167,column:6},end:{line:167,column:16}},12:{start:{line:175,column:6},end:{line:175,column:44}},13:{start:{line:175,column:34},end:{line:175,column:44}},14:{start:{line:176,column:6},end:{line:176,column:16}},15:{start:{line:184,column:6},end:{line:184,column:73}},16:{start:{line:195,column:6},end:{line:198,column:7}},17:{start:{line:196,column:8},end:{line:196,column:48}},18:{start:{line:196,column:36},end:{line:196,column:48}},19:{start:{line:197,column:8},end:{line:197,column:19}},20:{start:{line:199,column:6},end:{line:199,column:18}},21:{start:{line:208,column:6},end:{line:211,column:7}},22:{start:{line:209,column:8},end:{line:209,column:48}},23:{start:{line:209,column:36},end:{line:209,column:48}},24:{start:{line:210,column:8},end:{line:210,column:19}},25:{start:{line:212,column:6},end:{line:212,column:18}},26:{start:{line:221,column:19},end:{line:221,column:20}},27:{start:{line:223,column:6},end:{line:231,column:7}},28:{start:{line:224,column:25},end:{line:224,column:30}},29:{start:{line:225,column:8},end:{line:227,column:9}},30:{start:{line:226,column:10},end:{line:226,column:49}},31:{start:{line:228,column:8},end:{line:228,column:87}},32:{start:{line:230,column:8},end:{line:230,column:64}},33:{start:{line:233,column:6},end:{line:233,column:46}},34:{start:{line:233,column:23},end:{line:233,column:46}},35:{start:{line:234,column:6},end:{line:234,column:19}},36:{start:{line:242,column:6},end:{line:250,column:7}},37:{start:{line:243,column:8},end:{line:243,column:39}},38:{start:{line:244,column:13},end:{line:250,column:7}},39:{start:{line:245,column:8},end:{line:245,column:39}},40:{start:{line:246,column:13},end:{line:250,column:7}},41:{start:{line:247,column:8},end:{line:247,column:39}},42:{start:{line:249,column:8},end:{line:249,column:31}},43:{start:{line:257,column:6},end:{line:263,column:8}},44:{start:{line:271,column:6},end:{line:271,column:76}},45:{start:{line:279,column:6},end:{line:284,column:8}},46:{start:{line:292,column:6},end:{line:292,column:46}},47:{start:{line:304,column:6},end:{line:309,column:7}},48:{start:{line:305,column:8},end:{line:305,column:33}},49:{start:{line:306,column:8},end:{line:308,column:9}},50:{start:{line:307,column:10},end:{line:307,column:31}},51:{start:{line:319,column:6},end:{line:323,column:7}},52:{start:{line:320,column:8},end:{line:322,column:10}},53:{start:{line:321,column:10},end:{line:321,column:60}},54:{start:{line:329,column:4},end:{line:332,column:5}},55:{start:{line:330,column:6},end:{line:330,column:56}},56:{start:{line:331,column:6},end:{line:331,column:34}},57:{start:{line:335,column:4},end:{line:337,column:5}},58:{start:{line:336,column:6},end:{line:336,column:56}},59:{start:{line:340,column:4},end:{line:343,column:11}},60:{start:{line:341,column:6},end:{line:341,column:56}},61:{start:{line:342,column:6},end:{line:342,column:34}}},fnMap:{0:{name:"(anonymous_0)",decl:{start:{line:122,column:8},end:{line:122,column:9}},loc:{start:{line:122,column:15},end:{line:124,column:3}},line:122},1:{name:"(anonymous_1)",decl:{start:{line:320,column:23},end:{line:320,column:24}},loc:{start:{line:320,column:29},end:{line:322,column:9}},line:320},2:{name:"(anonymous_2)",decl:{start:{line:340,column:15},end:{line:340,column:16}},loc:{start:{line:340,column:21},end:{line:343,column:5}},line:340}},branchMap:{0:{loc:{start:{line:148,column:6},end:{line:148,column:56}},type:"if",locations:[{start:{line:148,column:6},end:{line:148,column:56}},{start:{line:148,column:6},end:{line:148,column:56}}],line:148},1:{loc:{start:{line:157,column:6},end:{line:157,column:56}},type:"if",locations:[{start:{line:157,column:6},end:{line:157,column:56}},{start:{line:157,column:6},end:{line:157,column:56}}],line:157},2:{loc:{start:{line:166,column:6},end:{line:166,column:44}},type:"if",locations:[{start:{line:166,column:6},end:{line:166,column:44}},{start:{line:166,column:6},end:{line:166,column:44}}],line:166},3:{loc:{start:{line:175,column:6},end:{line:175,column:44}},type:"if",locations:[{start:{line:175,column:6},end:{line:175,column:44}},{start:{line:175,column:6},end:{line:175,column:44}}],line:175},4:{loc:{start:{line:184,column:13},end:{line:184,column:73}},type:"cond-expr",locations:[{start:{line:184,column:56},end:{line:184,column:63}},{start:{line:184,column:66},end:{line:184,column:73}}],line:184},5:{loc:{start:{line:195,column:6},end:{line:198,column:7}},type:"if",locations:[{start:{line:195,column:6},end:{line:198,column:7}},{start:{line:195,column:6},end:{line:198,column:7}}],line:195},6:{loc:{start:{line:196,column:8},end:{line:196,column:48}},type:"if",locations:[{start:{line:196,column:8},end:{line:196,column:48}},{start:{line:196,column:8},end:{line:196,column:48}}],line:196},7:{loc:{start:{line:208,column:6},end:{line:211,column:7}},type:"if",locations:[{start:{line:208,column:6},end:{line:211,column:7}},{start:{line:208,column:6},end:{line:211,column:7}}],line:208},8:{loc:{start:{line:209,column:8},end:{line:209,column:48}},type:"if",locations:[{start:{line:209,column:8},end:{line:209,column:48}},{start:{line:209,column:8},end:{line:209,column:48}}],line:209},9:{loc:{start:{line:223,column:6},end:{line:231,column:7}},type:"if",locations:[{start:{line:223,column:6},end:{line:231,column:7}},{start:{line:223,column:6},end:{line:231,column:7}}],line:223},10:{loc:{start:{line:225,column:8},end:{line:227,column:9}},type:"if",locations:[{start:{line:225,column:8},end:{line:227,column:9}},{start:{line:225,column:8},end:{line:227,column:9}}],line:225},11:{loc:{start:{line:233,column:6},end:{line:233,column:46}},type:"if",locations:[{start:{line:233,column:6},end:{line:233,column:46}},{start:{line:233,column:6},end:{line:233,column:46}}],line:233},12:{loc:{start:{line:242,column:6},end:{line:250,column:7}},type:"if",locations:[{start:{line:242,column:6},end:{line:250,column:7}},{start:{line:242,column:6},end:{line:250,column:7}}],line:242},13:{loc:{start:{line:244,column:13},end:{line:250,column:7}},type:"if",locations:[{start:{line:244,column:13},end:{line:250,column:7}},{start:{line:244,column:13},end:{line:250,column:7}}],line:244},14:{loc:{start:{line:246,column:13},end:{line:250,column:7}},type:"if",locations:[{start:{line:246,column:13},end:{line:250,column:7}},{start:{line:246,column:13},end:{line:250,column:7}}],line:246},15:{loc:{start:{line:304,column:6},end:{line:309,column:7}},type:"if",locations:[{start:{line:304,column:6},end:{line:309,column:7}},{start:{line:304,column:6},end:{line:309,column:7}}],line:304},16:{loc:{start:{line:304,column:10},end:{line:304,column:65}},type:"binary-expr",locations:[{start:{line:304,column:10},end:{line:304,column:34}},{start:{line:304,column:38},end:{line:304,column:65}}],line:304},17:{loc:{start:{line:306,column:8},end:{line:308,column:9}},type:"if",locations:[{start:{line:306,column:8},end:{line:308,column:9}},{start:{line:306,column:8},end:{line:308,column:9}}],line:306},18:{loc:{start:{line:319,column:6},end:{line:323,column:7}},type:"if",locations:[{start:{line:319,column:6},end:{line:323,column:7}},{start:{line:319,column:6},end:{line:323,column:7}}],line:319},19:{loc:{start:{line:319,column:10},end:{line:319,column:42}},type:"binary-expr",locations:[{start:{line:319,column:10},end:{line:319,column:26}},{start:{line:319,column:30},end:{line:319,column:42}}],line:319},20:{loc:{start:{line:329,column:4},end:{line:332,column:5}},type:"if",locations:[{start:{line:329,column:4},end:{line:332,column:5}},{start:{line:329,column:4},end:{line:332,column:5}}],line:329},21:{loc:{start:{line:335,column:4},end:{line:337,column:5}},type:"if",locations:[{start:{line:335,column:4},end:{line:337,column:5}},{start:{line:335,column:4},end:{line:337,column:5}}],line:335}},s:{0:0,1:0,2:0,3:0,4:0,5:0,6:0,7:0,8:0,9:0,10:0,11:0,12:0,13:0,14:0,15:0,16:0,17:0,18:0,19:0,20:0,21:0,22:0,23:0,24:0,25:0,26:0,27:0,28:0,29:0,30:0,31:0,32:0,33:0,34:0,35:0,36:0,37:0,38:0,39:0,40:0,41:0,42:0,43:0,44:0,45:0,46:0,47:0,48:0,49:0,50:0,51:0,52:0,53:0,54:0,55:0,56:0,57:0,58:0,59:0,60:0,61:0},f:{0:0,1:0,2:0},b:{0:[0,0],1:[0,0],2:[0,0],3:[0,0],4:[0,0],5:[0,0],6:[0,0],7:[0,0],8:[0,0],9:[0,0],10:[0,0],11:[0,0],12:[0,0],13:[0,0],14:[0,0],15:[0,0],16:[0,0],17:[0,0],18:[0,0],19:[0,0],20:[0,0],21:[0,0]},_coverageSchema:"332fd63041d2c1bcb487cc26dd0d5f7d97098a6c"},i=l[t]||(l[t]={});return i[n]&&i[n].hash===e?i[n]:(o.hash=e,i[n]=o)}(),o=l(4),i=function(n){return n&&n.__esModule?n:{default:n}}(o);e.default={name:"vue-numeric",props:{currency:{default:"",required:!1,type:String},max:{required:!1,type:[Number,String]},min:{default:0,required:!1,type:[Number,String]},minus:{default:!1,required:!1,type:Boolean},placeholder:{required:!1,type:String},precision:{required:!1,type:[Number,String]},separator:{default:",",required:!1,type:String},value:{required:!0,type:[Number,String]},readOnly:{default:!1,required:!1,type:Boolean},readOnlyClass:{default:"",required:!1,type:String},currencySymbolPosition:{default:"prefix",required:!1,type:String}},data:function(){return++t.f[0],++t.s[0],{amount:""}},computed:{amountValue:function(){return++t.s[1],this.formatToNumber(this.amount)},numberValue:function(){return++t.s[2],this.formatToNumber(this.value)},minValue:function(){return++t.s[3],this.min?(++t.b[0][0],++t.s[4],this.formatToNumber(this.min)):(++t.b[0][1],++t.s[5],0)},maxValue:function(){if(++t.s[6],this.max)return++t.b[1][0],++t.s[7],this.formatToNumber(this.max);++t.b[1][1],++t.s[8]},decimalSeparator:function(){return++t.s[9],"."===this.separator?(++t.b[2][0],++t.s[10],","):(++t.b[2][1],++t.s[11],".")},thousandSeparator:function(){return++t.s[12],"."===this.separator?(++t.b[3][0],++t.s[13],"."):(++t.b[3][1],++t.s[14],",")},formatString:function(){return++t.s[15],"suffix"===this.currencySymbolPosition?(++t.b[4][0],"%v %s"):(++t.b[4][1],"%s %v")}},methods:{checkMaxValue:function(n){return++t.s[16],this.max?(++t.b[5][0],++t.s[17],n<=this.maxValue?(++t.b[6][0],++t.s[18],!1):(++t.b[6][1],++t.s[19],!0)):(++t.b[5][1],++t.s[20],!1)},checkMinValue:function(n){return++t.s[21],this.min?(++t.b[7][0],++t.s[22],n>=this.minValue?(++t.b[8][0],++t.s[23],!1):(++t.b[8][1],++t.s[24],!0)):(++t.b[7][1],++t.s[25],!1)},formatToNumber:function(n){var e=(++t.s[26],0);if(++t.s[27],"."===this.separator){++t.b[9][0];var l=(++t.s[28],n);++t.s[29],"string"!=typeof n?(++t.b[10][0],++t.s[30],l=this.numberToString(n)):++t.b[10][1],++t.s[31],e=Number(String(l).replace(/[^0-9-,]+/g,"").replace(",","."))}else++t.b[9][1],++t.s[32],e=Number(String(n).replace(/[^0-9-.]+/g,""));return++t.s[33],this.minus?(++t.b[11][1],++t.s[35],e):(++t.b[11][0],++t.s[34],Math.abs(e))},processValue:function(n){++t.s[36],isNaN(n)?(++t.b[12][0],++t.s[37],this.updateValue(this.minValue)):(++t.b[12][1],++t.s[38],this.checkMaxValue(n)?(++t.b[13][0],++t.s[39],this.updateValue(this.maxValue)):(++t.b[13][1],++t.s[40],this.checkMinValue(n)?(++t.b[14][0],++t.s[41],this.updateValue(this.minValue)):(++t.b[14][1],++t.s[42],this.updateValue(n))))},formatValue:function(){++t.s[43],this.amount=i.default.formatMoney(this.numberValue,{symbol:this.currency,format:this.formatString,precision:Number(this.precision),decimal:this.decimalSeparator,thousand:this.thousandSeparator})},updateValue:function(n){++t.s[44],this.$emit("input",Number(i.default.toFixed(n,this.precision)))},numberToString:function(n){return++t.s[45],i.default.formatMoney(n,{symbol:"",precision:Number(this.precision),decimal:this.decimalSeparator,thousand:""})},convertToNumber:function(n){++t.s[46],this.amount=this.numberToString(n)}},watch:{numberValue:function(n,e){++t.s[47],++t.b[16][0],this.amountValue!==n&&(++t.b[16][1],this.amountValue===e)?(++t.b[15][0],++t.s[48],this.convertToNumber(n),++t.s[49],this.$refs.numeric!==document.activeElement?(++t.b[17][0],++t.s[50],this.formatValue(n)):++t.b[17][1]):++t.b[15][1]},readOnly:function(n,e){var l=this;++t.s[51],++t.b[19][0],!1===e&&(++t.b[19][1],!0===n)?(++t.b[18][0],++t.s[52],this.$nextTick(function(){++t.f[1],++t.s[53],l.$refs.readOnly.className=l.readOnlyClass})):++t.b[18][1]}},mounted:function(){var n=this;++t.s[54],this.value?(++t.b[20][0],++t.s[55],this.processValue(this.formatToNumber(this.value)),++t.s[56],this.formatValue(this.value)):++t.b[20][1],++t.s[57],this.readOnly?(++t.b[21][0],++t.s[58],this.$refs.readOnly.className=this.readOnlyClass):++t.b[21][1],++t.s[59],setTimeout(function(){++t.f[2],++t.s[60],n.processValue(n.formatToNumber(n.value)),++t.s[61],n.formatValue(n.value)},500)}}},function(n,e,l){!function(n,l){l(e)}(0,function(n){"use strict";function e(n,e){return e={exports:{}},n(e,e.exports),e.exports}function l(n){var e=arguments.length<=1||void 0===arguments[1]?s.decimal:arguments[1],t=arguments.length<=2||void 0===arguments[2]?s.fallback:arguments[2];if(Array.isArray(n))return n.map(function(n){return l(n,e,t)});if("number"==typeof n)return n;var o=new RegExp("[^0-9-(-)-"+e+"]",["g"]),i=(""+n).replace(o,"").replace(e,".").replace(/\(([-]*\d*[^)]?\d+)\)/g,"-$1").replace(/\((.*)\)/,""),r=(i.match(/-/g)||2).length%2,u=parseFloat(i.replace(/-/g,"")),c=u*(r?-1:1);return isNaN(c)?t:c}function t(n,e){return n=Math.round(Math.abs(n)),isNaN(n)?e:n}function o(n,e){e=t(e,s.precision);var l=Math.pow(10,e);return(Math.round((n+1e-8)*l)/l).toFixed(e)}function i(n,e){var l=n.split(e),t=l[0],o=l[1].replace(/0+$/,"");return o.length>0?t+e+o:t}function r(n){var e=arguments.length<=1||void 0===arguments[1]?{}:arguments[1];if(Array.isArray(n))return n.map(function(n){return r(n,e)});e=d({},s,e);var l=n<0?"-":"",t=parseInt(o(Math.abs(n),e.precision),10)+"",u=t.length>3?t.length%3:0,c=l+(u?t.substr(0,u)+e.thousand:"")+t.substr(u).replace(/(\d{3})(?=\d)/g,"$1"+e.thousand)+(e.precision>0?e.decimal+o(Math.abs(n),e.precision).split(".")[1]:"");return e.stripZeros?i(c,e.decimal):c}function u(n){return p(n)&&n.match("%v")?{pos:n,neg:n.replace("-","").replace("%v","-%v"),zero:n}:n}function c(n){var e=arguments.length<=1||void 0===arguments[1]?{}:arguments[1];if(Array.isArray(n))return n.map(function(n){return c(n,e)});e=d({},s,e);var l=u(e.format),t=void 0;return t=n>0?l.pos:n<0?l.neg:l.zero,t.replace("%s",e.symbol).replace("%v",r(Math.abs(n),e))}function a(n){var e=arguments.length<=1||void 0===arguments[1]?{}:arguments[1];if(!n)return[];e=d({},s,e);var t=u(e.format),o=t.pos.indexOf("%s")<t.pos.indexOf("%v"),i=0;return n.map(function(n){if(Array.isArray(n))return a(n,e);n=l(n,e.decimal);var o=void 0;o=n>0?t.pos:n<0?t.neg:t.zero;var u=o.replace("%s",e.symbol).replace("%v",r(Math.abs(n),e));return u.length>i&&(i=u.length),u}).map(function(n){return p(n)&&n.length<i?o?n.replace(e.symbol,e.symbol+new Array(i-n.length+1).join(" ")):new Array(i-n.length+1).join(" ")+n:n})}var s={symbol:"$",format:"%s%v",decimal:".",thousand:",",precision:2,grouping:3,stripZeros:!1,fallback:0},m=e(function(n){function e(n){if(null===n||void 0===n)throw new TypeError("Object.assign cannot be called with null or undefined");return Object(n)}var l=Object.prototype.hasOwnProperty,t=Object.prototype.propertyIsEnumerable;n.exports=Object.assign||function(n,o){for(var i,r,u=e(n),c=1;c<arguments.length;c++){i=Object(arguments[c]);for(var a in i)l.call(i,a)&&(u[a]=i[a]);if(Object.getOwnPropertySymbols){r=Object.getOwnPropertySymbols(i);for(var s=0;s<r.length;s++)t.call(i,r[s])&&(u[r[s]]=i[r[s]])}}return u}}),d=m&&"object"==typeof m&&"default"in m?m.default:m,f=e(function(n){var e=String.prototype.valueOf,l=function(n){try{return e.call(n),!0}catch(n){return!1}},t=Object.prototype.toString,o="function"==typeof Symbol&&"symbol"==typeof Symbol.toStringTag;n.exports=function(n){return"string"==typeof n||"object"==typeof n&&(o?l(n):"[object String]"===t.call(n))}}),p=f&&"object"==typeof f&&"default"in f?f.default:f;n.settings=s,n.unformat=l,n.toFixed=o,n.formatMoney=c,n.formatNumber=r,n.formatColumn=a,n.format=c,n.parse=l})},function(n,e,l){"use strict";var t=function(){var n=this,e=n.$createElement,l=n._self._c||e;return n.readOnly?l("span",{ref:"readOnly"},[n._v(n._s(n.amount))]):l("input",{directives:[{name:"model",rawName:"v-model",value:n.amount,expression:"amount"}],ref:"numeric",attrs:{placeholder:n.placeholder,type:"tel"},domProps:{value:n.value,value:n.amount},on:{blur:n.formatValue,input:[function(e){e.target.composing||(n.amount=e.target.value)},function(e){n.processValue(n.amountValue)}],focus:function(e){n.convertToNumber(n.numberValue)}}})},o=[];e.a={render:t,staticRenderFns:o}}])});
+exports = module.exports = __webpack_require__(32)();
+exports.push([module.i, ".lx-toast {\r\n    position: fixed;\r\n    bottom: 100px;\r\n    left: 50%;\r\n    box-sizing: border-box;\r\n    max-width: 80%;\r\n    height: 40px;\r\n    line-height: 20px;\r\n    padding: 10px 20px;\r\n    transform: translateX(-50%);\r\n    -webkit-transform: translateX(-50%);\r\n    text-align: center;\r\n    z-index: 9999;\r\n    font-size: 14px;\r\n    color: #fff;\r\n    border-radius: 5px;\r\n    background: rgba(0, 0, 0, 0.7);\r\n    animation: show-toast .5s;\r\n    -webkit-animation: show-toast .5s;\r\n    overflow: hidden;\r\n    text-overflow: ellipsis;\r\n    white-space: nowrap;\r\n}\r\n\r\n.lx-toast.lx-word-wrap {\r\n    width: 80%;\r\n    white-space: inherit;\r\n    height: auto;\r\n}\r\n\r\n.lx-toast.lx-toast-top {\r\n    top: 50px;\r\n    bottom: inherit;\r\n}\r\n\r\n.lx-toast.lx-toast-center {\r\n    top: 50%;\r\n    margin-top: -20px;\r\n    bottom: inherit;\r\n}\r\n\r\n@keyframes show-toast {\r\n    from {\r\n        opacity: 0;\r\n        transform: translate(-50%, -10px);\r\n        -webkit-transform: translate(-50%, -10px);\r\n    }\r\n    to {\r\n        opacity: 1;\r\n        transform: translate(-50%, 0);\r\n        -webkit-transform: translate(-50%, 0);\r\n    }\r\n}\r\n\r\n.lx-load-mark {\r\n    position: fixed;\r\n    left: 0;\r\n    top: 0;\r\n    width: 100%;\r\n    height: 100%;\r\n    z-index: 9999;\r\n}\r\n\r\n.lx-load-box {\r\n    position: fixed;\r\n    z-index: 3;\r\n    width: 7.6em;\r\n    min-height: 7.6em;\r\n    top: 180px;\r\n    left: 50%;\r\n    margin-left: -3.8em;\r\n    background: rgba(0, 0, 0, 0.7);\r\n    text-align: center;\r\n    border-radius: 5px;\r\n    color: #FFFFFF;\r\n}\r\n\r\n.lx-load-content {\r\n    margin-top: 64%;\r\n    font-size: 14px;\r\n}\r\n\r\n.lx-loading {\r\n    position: absolute;\r\n    width: 0px;\r\n    left: 50%;\r\n    top: 38%;\r\n}\r\n\r\n.loading_leaf {\r\n    position: absolute;\r\n    top: -1px;\r\n    opacity: 0.25;\r\n}\r\n\r\n.loading_leaf:before {\r\n    content: \" \";\r\n    position: absolute;\r\n    width: 9.14px;\r\n    height: 3.08px;\r\n    background: #d1d1d5;\r\n    box-shadow: rgba(0, 0, 0, 0.0980392) 0px 0px 1px;\r\n    border-radius: 1px;\r\n    -webkit-transform-origin: left 50% 0px;\r\n    transform-origin: left 50% 0px;\r\n}\r\n\r\n.loading_leaf_0 {\r\n    -webkit-animation: opacity-0 1.25s linear infinite;\r\n    animation: opacity-0 1.25s linear infinite;\r\n}\r\n\r\n.loading_leaf_0:before {\r\n    -webkit-transform: rotate(0deg) translate(7.92px, 0px);\r\n    transform: rotate(0deg) translate(7.92px, 0px);\r\n}\r\n\r\n.loading_leaf_1 {\r\n    -webkit-animation: opacity-1 1.25s linear infinite;\r\n    animation: opacity-1 1.25s linear infinite;\r\n}\r\n\r\n.loading_leaf_1:before {\r\n    -webkit-transform: rotate(30deg) translate(7.92px, 0px);\r\n    transform: rotate(30deg) translate(7.92px, 0px);\r\n}\r\n\r\n.loading_leaf_2 {\r\n    -webkit-animation: opacity-2 1.25s linear infinite;\r\n    animation: opacity-2 1.25s linear infinite;\r\n}\r\n\r\n.loading_leaf_2:before {\r\n    -webkit-transform: rotate(60deg) translate(7.92px, 0px);\r\n    transform: rotate(60deg) translate(7.92px, 0px);\r\n}\r\n\r\n.loading_leaf_3 {\r\n    -webkit-animation: opacity-3 1.25s linear infinite;\r\n    animation: opacity-3 1.25s linear infinite;\r\n}\r\n\r\n.loading_leaf_3:before {\r\n    -webkit-transform: rotate(90deg) translate(7.92px, 0px);\r\n    transform: rotate(90deg) translate(7.92px, 0px);\r\n}\r\n\r\n.loading_leaf_4 {\r\n    -webkit-animation: opacity-4 1.25s linear infinite;\r\n    animation: opacity-4 1.25s linear infinite;\r\n}\r\n\r\n.loading_leaf_4:before {\r\n    -webkit-transform: rotate(120deg) translate(7.92px, 0px);\r\n    transform: rotate(120deg) translate(7.92px, 0px);\r\n}\r\n\r\n.loading_leaf_5 {\r\n    -webkit-animation: opacity-5 1.25s linear infinite;\r\n    animation: opacity-5 1.25s linear infinite;\r\n}\r\n\r\n.loading_leaf_5:before {\r\n    -webkit-transform: rotate(150deg) translate(7.92px, 0px);\r\n    transform: rotate(150deg) translate(7.92px, 0px);\r\n}\r\n\r\n.loading_leaf_6 {\r\n    -webkit-animation: opacity-6 1.25s linear infinite;\r\n    animation: opacity-6 1.25s linear infinite;\r\n}\r\n\r\n.loading_leaf_6:before {\r\n    -webkit-transform: rotate(180deg) translate(7.92px, 0px);\r\n    transform: rotate(180deg) translate(7.92px, 0px);\r\n}\r\n\r\n.loading_leaf_7 {\r\n    -webkit-animation: opacity-7 1.25s linear infinite;\r\n    animation: opacity-7 1.25s linear infinite;\r\n}\r\n\r\n.loading_leaf_7:before {\r\n    -webkit-transform: rotate(210deg) translate(7.92px, 0px);\r\n    transform: rotate(210deg) translate(7.92px, 0px);\r\n}\r\n\r\n.loading_leaf_8 {\r\n    -webkit-animation: opacity-8 1.25s linear infinite;\r\n    animation: opacity-8 1.25s linear infinite;\r\n}\r\n\r\n.loading_leaf_8:before {\r\n    -webkit-transform: rotate(240deg) translate(7.92px, 0px);\r\n    transform: rotate(240deg) translate(7.92px, 0px);\r\n}\r\n\r\n.loading_leaf_9 {\r\n    -webkit-animation: opacity-9 1.25s linear infinite;\r\n    animation: opacity-9 1.25s linear infinite;\r\n}\r\n\r\n.loading_leaf_9:before {\r\n    -webkit-transform: rotate(270deg) translate(7.92px, 0px);\r\n    transform: rotate(270deg) translate(7.92px, 0px);\r\n}\r\n\r\n.loading_leaf_10 {\r\n    -webkit-animation: opacity-10 1.25s linear infinite;\r\n    animation: opacity-10 1.25s linear infinite;\r\n}\r\n\r\n.loading_leaf_10:before {\r\n    -webkit-transform: rotate(300deg) translate(7.92px, 0px);\r\n    transform: rotate(300deg) translate(7.92px, 0px);\r\n}\r\n\r\n.loading_leaf_11 {\r\n    -webkit-animation: opacity-11 1.25s linear infinite;\r\n    animation: opacity-11 1.25s linear infinite;\r\n}\r\n\r\n.loading_leaf_11:before {\r\n    -webkit-transform: rotate(330deg) translate(7.92px, 0px);\r\n    transform: rotate(330deg) translate(7.92px, 0px);\r\n}\r\n\r\n@-webkit-keyframes opacity-0 {\r\n    0% {\r\n        opacity: 0.25;\r\n    }\r\n    0.01% {\r\n        opacity: 0.25;\r\n    }\r\n    0.02% {\r\n        opacity: 1;\r\n    }\r\n    60.01% {\r\n        opacity: 0.25;\r\n    }\r\n    100% {\r\n        opacity: 0.25;\r\n    }\r\n}\r\n\r\n@-webkit-keyframes opacity-1 {\r\n    0% {\r\n        opacity: 0.25;\r\n    }\r\n    8.34333% {\r\n        opacity: 0.25;\r\n    }\r\n    8.35333% {\r\n        opacity: 1;\r\n    }\r\n    68.3433% {\r\n        opacity: 0.25;\r\n    }\r\n    100% {\r\n        opacity: 0.25;\r\n    }\r\n}\r\n\r\n@-webkit-keyframes opacity-2 {\r\n    0% {\r\n        opacity: 0.25;\r\n    }\r\n    16.6767% {\r\n        opacity: 0.25;\r\n    }\r\n    16.6867% {\r\n        opacity: 1;\r\n    }\r\n    76.6767% {\r\n        opacity: 0.25;\r\n    }\r\n    100% {\r\n        opacity: 0.25;\r\n    }\r\n}\r\n\r\n@-webkit-keyframes opacity-3 {\r\n    0% {\r\n        opacity: 0.25;\r\n    }\r\n    25.01% {\r\n        opacity: 0.25;\r\n    }\r\n    25.02% {\r\n        opacity: 1;\r\n    }\r\n    85.01% {\r\n        opacity: 0.25;\r\n    }\r\n    100% {\r\n        opacity: 0.25;\r\n    }\r\n}\r\n\r\n@-webkit-keyframes opacity-4 {\r\n    0% {\r\n        opacity: 0.25;\r\n    }\r\n    33.3433% {\r\n        opacity: 0.25;\r\n    }\r\n    33.3533% {\r\n        opacity: 1;\r\n    }\r\n    93.3433% {\r\n        opacity: 0.25;\r\n    }\r\n    100% {\r\n        opacity: 0.25;\r\n    }\r\n}\r\n\r\n@-webkit-keyframes opacity-5 {\r\n    0% {\r\n        opacity: 0.270958333333333;\r\n    }\r\n    41.6767% {\r\n        opacity: 0.25;\r\n    }\r\n    41.6867% {\r\n        opacity: 1;\r\n    }\r\n    1.67667% {\r\n        opacity: 0.25;\r\n    }\r\n    100% {\r\n        opacity: 0.270958333333333;\r\n    }\r\n}\r\n\r\n@-webkit-keyframes opacity-6 {\r\n    0% {\r\n        opacity: 0.375125;\r\n    }\r\n    50.01% {\r\n        opacity: 0.25;\r\n    }\r\n    50.02% {\r\n        opacity: 1;\r\n    }\r\n    10.01% {\r\n        opacity: 0.25;\r\n    }\r\n    100% {\r\n        opacity: 0.375125;\r\n    }\r\n}\r\n\r\n@-webkit-keyframes opacity-7 {\r\n    0% {\r\n        opacity: 0.479291666666667;\r\n    }\r\n    58.3433% {\r\n        opacity: 0.25;\r\n    }\r\n    58.3533% {\r\n        opacity: 1;\r\n    }\r\n    18.3433% {\r\n        opacity: 0.25;\r\n    }\r\n    100% {\r\n        opacity: 0.479291666666667;\r\n    }\r\n}\r\n\r\n@-webkit-keyframes opacity-8 {\r\n    0% {\r\n        opacity: 0.583458333333333;\r\n    }\r\n    66.6767% {\r\n        opacity: 0.25;\r\n    }\r\n    66.6867% {\r\n        opacity: 1;\r\n    }\r\n    26.6767% {\r\n        opacity: 0.25;\r\n    }\r\n    100% {\r\n        opacity: 0.583458333333333;\r\n    }\r\n}\r\n\r\n@-webkit-keyframes opacity-9 {\r\n    0% {\r\n        opacity: 0.687625;\r\n    }\r\n    75.01% {\r\n        opacity: 0.25;\r\n    }\r\n    75.02% {\r\n        opacity: 1;\r\n    }\r\n    35.01% {\r\n        opacity: 0.25;\r\n    }\r\n    100% {\r\n        opacity: 0.687625;\r\n    }\r\n}\r\n\r\n@-webkit-keyframes opacity-10 {\r\n    0% {\r\n        opacity: 0.791791666666667;\r\n    }\r\n    83.3433% {\r\n        opacity: 0.25;\r\n    }\r\n    83.3533% {\r\n        opacity: 1;\r\n    }\r\n    43.3433% {\r\n        opacity: 0.25;\r\n    }\r\n    100% {\r\n        opacity: 0.791791666666667;\r\n    }\r\n}\r\n\r\n@-webkit-keyframes opacity-11 {\r\n    0% {\r\n        opacity: 0.895958333333333;\r\n    }\r\n    91.6767% {\r\n        opacity: 0.25;\r\n    }\r\n    91.6867% {\r\n        opacity: 1;\r\n    }\r\n    51.6767% {\r\n        opacity: 0.25;\r\n    }\r\n    100% {\r\n        opacity: 0.895958333333333;\r\n    }\r\n}", ""]);
 
 /***/ }),
 /* 32 */
+/***/ (function(module, exports) {
+
+/*
+	MIT License http://www.opensource.org/licenses/mit-license.php
+	Author Tobias Koppers @sokra
+*/
+// css base code, injected by the css-loader
+module.exports = function() {
+	var list = [];
+
+	// return the list of modules as css string
+	list.toString = function toString() {
+		var result = [];
+		for(var i = 0; i < this.length; i++) {
+			var item = this[i];
+			if(item[2]) {
+				result.push("@media " + item[2] + "{" + item[1] + "}");
+			} else {
+				result.push(item[1]);
+			}
+		}
+		return result.join("");
+	};
+
+	// import a list of modules into the list
+	list.i = function(modules, mediaQuery) {
+		if(typeof modules === "string")
+			modules = [[null, modules, ""]];
+		var alreadyImportedModules = {};
+		for(var i = 0; i < this.length; i++) {
+			var id = this[i][0];
+			if(typeof id === "number")
+				alreadyImportedModules[id] = true;
+		}
+		for(i = 0; i < modules.length; i++) {
+			var item = modules[i];
+			// skip already imported module
+			// this implementation is not 100% perfect for weird media query combinations
+			//  when a module is imported multiple times with different media queries.
+			//  I hope this will never occur (Hey this way we have smaller bundles)
+			if(typeof item[0] !== "number" || !alreadyImportedModules[item[0]]) {
+				if(mediaQuery && !item[2]) {
+					item[2] = mediaQuery;
+				} else if(mediaQuery) {
+					item[2] = "(" + item[2] + ") and (" + mediaQuery + ")";
+				}
+				list.push(item);
+			}
+		}
+	};
+	return list;
+};
+
+
+/***/ }),
+/* 33 */
+/***/ (function(module, exports) {
+
+/*
+	MIT License http://www.opensource.org/licenses/mit-license.php
+	Author Tobias Koppers @sokra
+*/
+var stylesInDom = {},
+	memoize = function(fn) {
+		var memo;
+		return function () {
+			if (typeof memo === "undefined") memo = fn.apply(this, arguments);
+			return memo;
+		};
+	},
+	isOldIE = memoize(function() {
+		return /msie [6-9]\b/.test(self.navigator.userAgent.toLowerCase());
+	}),
+	getHeadElement = memoize(function () {
+		return document.head || document.getElementsByTagName("head")[0];
+	}),
+	singletonElement = null,
+	singletonCounter = 0,
+	styleElementsInsertedAtTop = [];
+
+module.exports = function(list, options) {
+	if(typeof DEBUG !== "undefined" && DEBUG) {
+		if(typeof document !== "object") throw new Error("The style-loader cannot be used in a non-browser environment");
+	}
+
+	options = options || {};
+	// Force single-tag solution on IE6-9, which has a hard limit on the # of <style>
+	// tags it will allow on a page
+	if (typeof options.singleton === "undefined") options.singleton = isOldIE();
+
+	// By default, add <style> tags to the bottom of <head>.
+	if (typeof options.insertAt === "undefined") options.insertAt = "bottom";
+
+	var styles = listToStyles(list);
+	addStylesToDom(styles, options);
+
+	return function update(newList) {
+		var mayRemove = [];
+		for(var i = 0; i < styles.length; i++) {
+			var item = styles[i];
+			var domStyle = stylesInDom[item.id];
+			domStyle.refs--;
+			mayRemove.push(domStyle);
+		}
+		if(newList) {
+			var newStyles = listToStyles(newList);
+			addStylesToDom(newStyles, options);
+		}
+		for(var i = 0; i < mayRemove.length; i++) {
+			var domStyle = mayRemove[i];
+			if(domStyle.refs === 0) {
+				for(var j = 0; j < domStyle.parts.length; j++)
+					domStyle.parts[j]();
+				delete stylesInDom[domStyle.id];
+			}
+		}
+	};
+}
+
+function addStylesToDom(styles, options) {
+	for(var i = 0; i < styles.length; i++) {
+		var item = styles[i];
+		var domStyle = stylesInDom[item.id];
+		if(domStyle) {
+			domStyle.refs++;
+			for(var j = 0; j < domStyle.parts.length; j++) {
+				domStyle.parts[j](item.parts[j]);
+			}
+			for(; j < item.parts.length; j++) {
+				domStyle.parts.push(addStyle(item.parts[j], options));
+			}
+		} else {
+			var parts = [];
+			for(var j = 0; j < item.parts.length; j++) {
+				parts.push(addStyle(item.parts[j], options));
+			}
+			stylesInDom[item.id] = {id: item.id, refs: 1, parts: parts};
+		}
+	}
+}
+
+function listToStyles(list) {
+	var styles = [];
+	var newStyles = {};
+	for(var i = 0; i < list.length; i++) {
+		var item = list[i];
+		var id = item[0];
+		var css = item[1];
+		var media = item[2];
+		var sourceMap = item[3];
+		var part = {css: css, media: media, sourceMap: sourceMap};
+		if(!newStyles[id])
+			styles.push(newStyles[id] = {id: id, parts: [part]});
+		else
+			newStyles[id].parts.push(part);
+	}
+	return styles;
+}
+
+function insertStyleElement(options, styleElement) {
+	var head = getHeadElement();
+	var lastStyleElementInsertedAtTop = styleElementsInsertedAtTop[styleElementsInsertedAtTop.length - 1];
+	if (options.insertAt === "top") {
+		if(!lastStyleElementInsertedAtTop) {
+			head.insertBefore(styleElement, head.firstChild);
+		} else if(lastStyleElementInsertedAtTop.nextSibling) {
+			head.insertBefore(styleElement, lastStyleElementInsertedAtTop.nextSibling);
+		} else {
+			head.appendChild(styleElement);
+		}
+		styleElementsInsertedAtTop.push(styleElement);
+	} else if (options.insertAt === "bottom") {
+		head.appendChild(styleElement);
+	} else {
+		throw new Error("Invalid value for parameter 'insertAt'. Must be 'top' or 'bottom'.");
+	}
+}
+
+function removeStyleElement(styleElement) {
+	styleElement.parentNode.removeChild(styleElement);
+	var idx = styleElementsInsertedAtTop.indexOf(styleElement);
+	if(idx >= 0) {
+		styleElementsInsertedAtTop.splice(idx, 1);
+	}
+}
+
+function createStyleElement(options) {
+	var styleElement = document.createElement("style");
+	styleElement.type = "text/css";
+	insertStyleElement(options, styleElement);
+	return styleElement;
+}
+
+function createLinkElement(options) {
+	var linkElement = document.createElement("link");
+	linkElement.rel = "stylesheet";
+	insertStyleElement(options, linkElement);
+	return linkElement;
+}
+
+function addStyle(obj, options) {
+	var styleElement, update, remove;
+
+	if (options.singleton) {
+		var styleIndex = singletonCounter++;
+		styleElement = singletonElement || (singletonElement = createStyleElement(options));
+		update = applyToSingletonTag.bind(null, styleElement, styleIndex, false);
+		remove = applyToSingletonTag.bind(null, styleElement, styleIndex, true);
+	} else if(obj.sourceMap &&
+		typeof URL === "function" &&
+		typeof URL.createObjectURL === "function" &&
+		typeof URL.revokeObjectURL === "function" &&
+		typeof Blob === "function" &&
+		typeof btoa === "function") {
+		styleElement = createLinkElement(options);
+		update = updateLink.bind(null, styleElement);
+		remove = function() {
+			removeStyleElement(styleElement);
+			if(styleElement.href)
+				URL.revokeObjectURL(styleElement.href);
+		};
+	} else {
+		styleElement = createStyleElement(options);
+		update = applyToTag.bind(null, styleElement);
+		remove = function() {
+			removeStyleElement(styleElement);
+		};
+	}
+
+	update(obj);
+
+	return function updateStyle(newObj) {
+		if(newObj) {
+			if(newObj.css === obj.css && newObj.media === obj.media && newObj.sourceMap === obj.sourceMap)
+				return;
+			update(obj = newObj);
+		} else {
+			remove();
+		}
+	};
+}
+
+var replaceText = (function () {
+	var textStore = [];
+
+	return function (index, replacement) {
+		textStore[index] = replacement;
+		return textStore.filter(Boolean).join('\n');
+	};
+})();
+
+function applyToSingletonTag(styleElement, index, remove, obj) {
+	var css = remove ? "" : obj.css;
+
+	if (styleElement.styleSheet) {
+		styleElement.styleSheet.cssText = replaceText(index, css);
+	} else {
+		var cssNode = document.createTextNode(css);
+		var childNodes = styleElement.childNodes;
+		if (childNodes[index]) styleElement.removeChild(childNodes[index]);
+		if (childNodes.length) {
+			styleElement.insertBefore(cssNode, childNodes[index]);
+		} else {
+			styleElement.appendChild(cssNode);
+		}
+	}
+}
+
+function applyToTag(styleElement, obj) {
+	var css = obj.css;
+	var media = obj.media;
+
+	if(media) {
+		styleElement.setAttribute("media", media)
+	}
+
+	if(styleElement.styleSheet) {
+		styleElement.styleSheet.cssText = css;
+	} else {
+		while(styleElement.firstChild) {
+			styleElement.removeChild(styleElement.firstChild);
+		}
+		styleElement.appendChild(document.createTextNode(css));
+	}
+}
+
+function updateLink(linkElement, obj) {
+	var css = obj.css;
+	var sourceMap = obj.sourceMap;
+
+	if(sourceMap) {
+		// http://stackoverflow.com/a/26603875
+		css += "\n/*# sourceMappingURL=data:application/json;base64," + btoa(unescape(encodeURIComponent(JSON.stringify(sourceMap)))) + " */";
+	}
+
+	var blob = new Blob([css], { type: "text/css" });
+
+	var oldSrc = linkElement.href;
+
+	linkElement.href = URL.createObjectURL(blob);
+
+	if(oldSrc)
+		URL.revokeObjectURL(oldSrc);
+}
+
+
+/***/ }),
+/* 34 */
+/***/ (function(module, exports, __webpack_require__) {
+
+// style-loader: Adds some css to the DOM by adding a <style> tag
+
+// load the styles
+var content = __webpack_require__(31);
+if(typeof content === 'string') content = [[module.i, content, '']];
+// add the styles to the DOM
+var update = __webpack_require__(33)(content, {});
+if(content.locals) module.exports = content.locals;
+// Hot Module Replacement
+if(false) {
+	// When the styles change, update the <style> tags
+	if(!content.locals) {
+		module.hot.accept("!!../../css-loader/index.js!./toast.css", function() {
+			var newContent = require("!!../../css-loader/index.js!./toast.css");
+			if(typeof newContent === 'string') newContent = [[module.id, newContent, '']];
+			update(newContent);
+		});
+	}
+	// When the module is disposed, remove the <style> tags
+	module.hot.dispose(function() { update(); });
+}
+
+/***/ }),
+/* 35 */
+/***/ (function(module, exports, __webpack_require__) {
+
+!function(n,e){ true?module.exports=e():"function"==typeof define&&define.amd?define("VueNumeric",[],e):"object"==typeof exports?exports.VueNumeric=e():n.VueNumeric=e()}(this,function(){return function(n){function e(t){if(l[t])return l[t].exports;var o=l[t]={i:t,l:!1,exports:{}};return n[t].call(o.exports,o,o.exports,e),o.l=!0,o.exports}var l={};return e.m=n,e.c=l,e.d=function(n,l,t){e.o(n,l)||Object.defineProperty(n,l,{configurable:!1,enumerable:!0,get:t})},e.n=function(n){var l=n&&n.__esModule?function(){return n.default}:function(){return n};return e.d(l,"a",l),l},e.o=function(n,e){return Object.prototype.hasOwnProperty.call(n,e)},e.p="",e(e.s=0)}([function(n,e,l){"use strict";Object.defineProperty(e,"__esModule",{value:!0});var t=function(){var n="/Users/kevin/Code/javascript/vue-numeric/src/index.js",e="15653907452f7941a2d8fad183469410751f452b",l=new Function("return this")(),t="__coverage__",o={path:"/Users/kevin/Code/javascript/vue-numeric/src/index.js",statementMap:{0:{start:{line:3,column:15},end:{line:7,column:1}},1:{start:{line:5,column:4},end:{line:5,column:44}},2:{start:{line:9,column:0},end:{line:9,column:34}}},fnMap:{0:{name:"(anonymous_0)",decl:{start:{line:4,column:11},end:{line:4,column:12}},loc:{start:{line:4,column:18},end:{line:6,column:3}},line:4}},branchMap:{},s:{0:0,1:0,2:0},f:{0:0},b:{},_coverageSchema:"332fd63041d2c1bcb487cc26dd0d5f7d97098a6c"},i=l[t]||(l[t]={});return i[n]&&i[n].hash===e?i[n]:(o.hash=e,i[n]=o)}(),o=l(1),i=function(n){return n&&n.__esModule?n:{default:n}}(o),r=(++t.s[0],{install:function(n){++t.f[0],++t.s[1],n.component(i.default.name,i.default)}});++t.s[2],i.default.install=r.install,e.default=i.default},function(n,e,l){"use strict";Object.defineProperty(e,"__esModule",{value:!0});var t=l(3),o=l.n(t),i=l(5),r=l(2),u=r(o.a,i.a,null,null,null);e.default=u.exports},function(n,e){n.exports=function(n,e,l,t,o){var i,r=n=n||{},u=typeof n.default;"object"!==u&&"function"!==u||(i=n,r=n.default);var c="function"==typeof r?r.options:r;e&&(c.render=e.render,c.staticRenderFns=e.staticRenderFns),t&&(c._scopeId=t);var a;if(o?(a=function(n){n=n||this.$vnode&&this.$vnode.ssrContext||this.parent&&this.parent.$vnode&&this.parent.$vnode.ssrContext,n||"undefined"==typeof __VUE_SSR_CONTEXT__||(n=__VUE_SSR_CONTEXT__),l&&l.call(this,n),n&&n._registeredComponents&&n._registeredComponents.add(o)},c._ssrRegister=a):l&&(a=l),a){var s=c.functional,m=s?c.render:c.beforeCreate;s?c.render=function(n,e){return a.call(e),m(n,e)}:c.beforeCreate=m?[].concat(m,a):[a]}return{esModule:i,exports:r,options:c}}},function(n,e,l){"use strict";Object.defineProperty(e,"__esModule",{value:!0});var t=function(){var n="/Users/kevin/Code/javascript/vue-numeric/src/vue-numeric.vue",e="a585c59c5f43b76b0e589c7c3abf098e449e92fe",l=new Function("return this")(),t="__coverage__",o={path:"/Users/kevin/Code/javascript/vue-numeric/src/vue-numeric.vue",statementMap:{0:{start:{line:122,column:15},end:{line:124,column:3}},1:{start:{line:132,column:6},end:{line:132,column:45}},2:{start:{line:140,column:6},end:{line:140,column:44}},3:{start:{line:148,column:6},end:{line:148,column:56}},4:{start:{line:148,column:20},end:{line:148,column:56}},5:{start:{line:149,column:6},end:{line:149,column:14}},6:{start:{line:157,column:6},end:{line:157,column:56}},7:{start:{line:157,column:20},end:{line:157,column:56}},8:{start:{line:158,column:6},end:{line:158,column:22}},9:{start:{line:166,column:6},end:{line:166,column:44}},10:{start:{line:166,column:34},end:{line:166,column:44}},11:{start:{line:167,column:6},end:{line:167,column:16}},12:{start:{line:175,column:6},end:{line:175,column:44}},13:{start:{line:175,column:34},end:{line:175,column:44}},14:{start:{line:176,column:6},end:{line:176,column:16}},15:{start:{line:184,column:6},end:{line:184,column:73}},16:{start:{line:195,column:6},end:{line:198,column:7}},17:{start:{line:196,column:8},end:{line:196,column:48}},18:{start:{line:196,column:36},end:{line:196,column:48}},19:{start:{line:197,column:8},end:{line:197,column:19}},20:{start:{line:199,column:6},end:{line:199,column:18}},21:{start:{line:208,column:6},end:{line:211,column:7}},22:{start:{line:209,column:8},end:{line:209,column:48}},23:{start:{line:209,column:36},end:{line:209,column:48}},24:{start:{line:210,column:8},end:{line:210,column:19}},25:{start:{line:212,column:6},end:{line:212,column:18}},26:{start:{line:221,column:19},end:{line:221,column:20}},27:{start:{line:223,column:6},end:{line:231,column:7}},28:{start:{line:224,column:25},end:{line:224,column:30}},29:{start:{line:225,column:8},end:{line:227,column:9}},30:{start:{line:226,column:10},end:{line:226,column:49}},31:{start:{line:228,column:8},end:{line:228,column:87}},32:{start:{line:230,column:8},end:{line:230,column:64}},33:{start:{line:233,column:6},end:{line:233,column:46}},34:{start:{line:233,column:23},end:{line:233,column:46}},35:{start:{line:234,column:6},end:{line:234,column:19}},36:{start:{line:242,column:6},end:{line:250,column:7}},37:{start:{line:243,column:8},end:{line:243,column:39}},38:{start:{line:244,column:13},end:{line:250,column:7}},39:{start:{line:245,column:8},end:{line:245,column:39}},40:{start:{line:246,column:13},end:{line:250,column:7}},41:{start:{line:247,column:8},end:{line:247,column:39}},42:{start:{line:249,column:8},end:{line:249,column:31}},43:{start:{line:257,column:6},end:{line:263,column:8}},44:{start:{line:271,column:6},end:{line:271,column:76}},45:{start:{line:279,column:6},end:{line:284,column:8}},46:{start:{line:292,column:6},end:{line:292,column:46}},47:{start:{line:304,column:6},end:{line:309,column:7}},48:{start:{line:305,column:8},end:{line:305,column:33}},49:{start:{line:306,column:8},end:{line:308,column:9}},50:{start:{line:307,column:10},end:{line:307,column:31}},51:{start:{line:319,column:6},end:{line:323,column:7}},52:{start:{line:320,column:8},end:{line:322,column:10}},53:{start:{line:321,column:10},end:{line:321,column:60}},54:{start:{line:329,column:4},end:{line:332,column:5}},55:{start:{line:330,column:6},end:{line:330,column:56}},56:{start:{line:331,column:6},end:{line:331,column:34}},57:{start:{line:335,column:4},end:{line:337,column:5}},58:{start:{line:336,column:6},end:{line:336,column:56}},59:{start:{line:340,column:4},end:{line:343,column:11}},60:{start:{line:341,column:6},end:{line:341,column:56}},61:{start:{line:342,column:6},end:{line:342,column:34}}},fnMap:{0:{name:"(anonymous_0)",decl:{start:{line:122,column:8},end:{line:122,column:9}},loc:{start:{line:122,column:15},end:{line:124,column:3}},line:122},1:{name:"(anonymous_1)",decl:{start:{line:320,column:23},end:{line:320,column:24}},loc:{start:{line:320,column:29},end:{line:322,column:9}},line:320},2:{name:"(anonymous_2)",decl:{start:{line:340,column:15},end:{line:340,column:16}},loc:{start:{line:340,column:21},end:{line:343,column:5}},line:340}},branchMap:{0:{loc:{start:{line:148,column:6},end:{line:148,column:56}},type:"if",locations:[{start:{line:148,column:6},end:{line:148,column:56}},{start:{line:148,column:6},end:{line:148,column:56}}],line:148},1:{loc:{start:{line:157,column:6},end:{line:157,column:56}},type:"if",locations:[{start:{line:157,column:6},end:{line:157,column:56}},{start:{line:157,column:6},end:{line:157,column:56}}],line:157},2:{loc:{start:{line:166,column:6},end:{line:166,column:44}},type:"if",locations:[{start:{line:166,column:6},end:{line:166,column:44}},{start:{line:166,column:6},end:{line:166,column:44}}],line:166},3:{loc:{start:{line:175,column:6},end:{line:175,column:44}},type:"if",locations:[{start:{line:175,column:6},end:{line:175,column:44}},{start:{line:175,column:6},end:{line:175,column:44}}],line:175},4:{loc:{start:{line:184,column:13},end:{line:184,column:73}},type:"cond-expr",locations:[{start:{line:184,column:56},end:{line:184,column:63}},{start:{line:184,column:66},end:{line:184,column:73}}],line:184},5:{loc:{start:{line:195,column:6},end:{line:198,column:7}},type:"if",locations:[{start:{line:195,column:6},end:{line:198,column:7}},{start:{line:195,column:6},end:{line:198,column:7}}],line:195},6:{loc:{start:{line:196,column:8},end:{line:196,column:48}},type:"if",locations:[{start:{line:196,column:8},end:{line:196,column:48}},{start:{line:196,column:8},end:{line:196,column:48}}],line:196},7:{loc:{start:{line:208,column:6},end:{line:211,column:7}},type:"if",locations:[{start:{line:208,column:6},end:{line:211,column:7}},{start:{line:208,column:6},end:{line:211,column:7}}],line:208},8:{loc:{start:{line:209,column:8},end:{line:209,column:48}},type:"if",locations:[{start:{line:209,column:8},end:{line:209,column:48}},{start:{line:209,column:8},end:{line:209,column:48}}],line:209},9:{loc:{start:{line:223,column:6},end:{line:231,column:7}},type:"if",locations:[{start:{line:223,column:6},end:{line:231,column:7}},{start:{line:223,column:6},end:{line:231,column:7}}],line:223},10:{loc:{start:{line:225,column:8},end:{line:227,column:9}},type:"if",locations:[{start:{line:225,column:8},end:{line:227,column:9}},{start:{line:225,column:8},end:{line:227,column:9}}],line:225},11:{loc:{start:{line:233,column:6},end:{line:233,column:46}},type:"if",locations:[{start:{line:233,column:6},end:{line:233,column:46}},{start:{line:233,column:6},end:{line:233,column:46}}],line:233},12:{loc:{start:{line:242,column:6},end:{line:250,column:7}},type:"if",locations:[{start:{line:242,column:6},end:{line:250,column:7}},{start:{line:242,column:6},end:{line:250,column:7}}],line:242},13:{loc:{start:{line:244,column:13},end:{line:250,column:7}},type:"if",locations:[{start:{line:244,column:13},end:{line:250,column:7}},{start:{line:244,column:13},end:{line:250,column:7}}],line:244},14:{loc:{start:{line:246,column:13},end:{line:250,column:7}},type:"if",locations:[{start:{line:246,column:13},end:{line:250,column:7}},{start:{line:246,column:13},end:{line:250,column:7}}],line:246},15:{loc:{start:{line:304,column:6},end:{line:309,column:7}},type:"if",locations:[{start:{line:304,column:6},end:{line:309,column:7}},{start:{line:304,column:6},end:{line:309,column:7}}],line:304},16:{loc:{start:{line:304,column:10},end:{line:304,column:65}},type:"binary-expr",locations:[{start:{line:304,column:10},end:{line:304,column:34}},{start:{line:304,column:38},end:{line:304,column:65}}],line:304},17:{loc:{start:{line:306,column:8},end:{line:308,column:9}},type:"if",locations:[{start:{line:306,column:8},end:{line:308,column:9}},{start:{line:306,column:8},end:{line:308,column:9}}],line:306},18:{loc:{start:{line:319,column:6},end:{line:323,column:7}},type:"if",locations:[{start:{line:319,column:6},end:{line:323,column:7}},{start:{line:319,column:6},end:{line:323,column:7}}],line:319},19:{loc:{start:{line:319,column:10},end:{line:319,column:42}},type:"binary-expr",locations:[{start:{line:319,column:10},end:{line:319,column:26}},{start:{line:319,column:30},end:{line:319,column:42}}],line:319},20:{loc:{start:{line:329,column:4},end:{line:332,column:5}},type:"if",locations:[{start:{line:329,column:4},end:{line:332,column:5}},{start:{line:329,column:4},end:{line:332,column:5}}],line:329},21:{loc:{start:{line:335,column:4},end:{line:337,column:5}},type:"if",locations:[{start:{line:335,column:4},end:{line:337,column:5}},{start:{line:335,column:4},end:{line:337,column:5}}],line:335}},s:{0:0,1:0,2:0,3:0,4:0,5:0,6:0,7:0,8:0,9:0,10:0,11:0,12:0,13:0,14:0,15:0,16:0,17:0,18:0,19:0,20:0,21:0,22:0,23:0,24:0,25:0,26:0,27:0,28:0,29:0,30:0,31:0,32:0,33:0,34:0,35:0,36:0,37:0,38:0,39:0,40:0,41:0,42:0,43:0,44:0,45:0,46:0,47:0,48:0,49:0,50:0,51:0,52:0,53:0,54:0,55:0,56:0,57:0,58:0,59:0,60:0,61:0},f:{0:0,1:0,2:0},b:{0:[0,0],1:[0,0],2:[0,0],3:[0,0],4:[0,0],5:[0,0],6:[0,0],7:[0,0],8:[0,0],9:[0,0],10:[0,0],11:[0,0],12:[0,0],13:[0,0],14:[0,0],15:[0,0],16:[0,0],17:[0,0],18:[0,0],19:[0,0],20:[0,0],21:[0,0]},_coverageSchema:"332fd63041d2c1bcb487cc26dd0d5f7d97098a6c"},i=l[t]||(l[t]={});return i[n]&&i[n].hash===e?i[n]:(o.hash=e,i[n]=o)}(),o=l(4),i=function(n){return n&&n.__esModule?n:{default:n}}(o);e.default={name:"vue-numeric",props:{currency:{default:"",required:!1,type:String},max:{required:!1,type:[Number,String]},min:{default:0,required:!1,type:[Number,String]},minus:{default:!1,required:!1,type:Boolean},placeholder:{required:!1,type:String},precision:{required:!1,type:[Number,String]},separator:{default:",",required:!1,type:String},value:{required:!0,type:[Number,String]},readOnly:{default:!1,required:!1,type:Boolean},readOnlyClass:{default:"",required:!1,type:String},currencySymbolPosition:{default:"prefix",required:!1,type:String}},data:function(){return++t.f[0],++t.s[0],{amount:""}},computed:{amountValue:function(){return++t.s[1],this.formatToNumber(this.amount)},numberValue:function(){return++t.s[2],this.formatToNumber(this.value)},minValue:function(){return++t.s[3],this.min?(++t.b[0][0],++t.s[4],this.formatToNumber(this.min)):(++t.b[0][1],++t.s[5],0)},maxValue:function(){if(++t.s[6],this.max)return++t.b[1][0],++t.s[7],this.formatToNumber(this.max);++t.b[1][1],++t.s[8]},decimalSeparator:function(){return++t.s[9],"."===this.separator?(++t.b[2][0],++t.s[10],","):(++t.b[2][1],++t.s[11],".")},thousandSeparator:function(){return++t.s[12],"."===this.separator?(++t.b[3][0],++t.s[13],"."):(++t.b[3][1],++t.s[14],",")},formatString:function(){return++t.s[15],"suffix"===this.currencySymbolPosition?(++t.b[4][0],"%v %s"):(++t.b[4][1],"%s %v")}},methods:{checkMaxValue:function(n){return++t.s[16],this.max?(++t.b[5][0],++t.s[17],n<=this.maxValue?(++t.b[6][0],++t.s[18],!1):(++t.b[6][1],++t.s[19],!0)):(++t.b[5][1],++t.s[20],!1)},checkMinValue:function(n){return++t.s[21],this.min?(++t.b[7][0],++t.s[22],n>=this.minValue?(++t.b[8][0],++t.s[23],!1):(++t.b[8][1],++t.s[24],!0)):(++t.b[7][1],++t.s[25],!1)},formatToNumber:function(n){var e=(++t.s[26],0);if(++t.s[27],"."===this.separator){++t.b[9][0];var l=(++t.s[28],n);++t.s[29],"string"!=typeof n?(++t.b[10][0],++t.s[30],l=this.numberToString(n)):++t.b[10][1],++t.s[31],e=Number(String(l).replace(/[^0-9-,]+/g,"").replace(",","."))}else++t.b[9][1],++t.s[32],e=Number(String(n).replace(/[^0-9-.]+/g,""));return++t.s[33],this.minus?(++t.b[11][1],++t.s[35],e):(++t.b[11][0],++t.s[34],Math.abs(e))},processValue:function(n){++t.s[36],isNaN(n)?(++t.b[12][0],++t.s[37],this.updateValue(this.minValue)):(++t.b[12][1],++t.s[38],this.checkMaxValue(n)?(++t.b[13][0],++t.s[39],this.updateValue(this.maxValue)):(++t.b[13][1],++t.s[40],this.checkMinValue(n)?(++t.b[14][0],++t.s[41],this.updateValue(this.minValue)):(++t.b[14][1],++t.s[42],this.updateValue(n))))},formatValue:function(){++t.s[43],this.amount=i.default.formatMoney(this.numberValue,{symbol:this.currency,format:this.formatString,precision:Number(this.precision),decimal:this.decimalSeparator,thousand:this.thousandSeparator})},updateValue:function(n){++t.s[44],this.$emit("input",Number(i.default.toFixed(n,this.precision)))},numberToString:function(n){return++t.s[45],i.default.formatMoney(n,{symbol:"",precision:Number(this.precision),decimal:this.decimalSeparator,thousand:""})},convertToNumber:function(n){++t.s[46],this.amount=this.numberToString(n)}},watch:{numberValue:function(n,e){++t.s[47],++t.b[16][0],this.amountValue!==n&&(++t.b[16][1],this.amountValue===e)?(++t.b[15][0],++t.s[48],this.convertToNumber(n),++t.s[49],this.$refs.numeric!==document.activeElement?(++t.b[17][0],++t.s[50],this.formatValue(n)):++t.b[17][1]):++t.b[15][1]},readOnly:function(n,e){var l=this;++t.s[51],++t.b[19][0],!1===e&&(++t.b[19][1],!0===n)?(++t.b[18][0],++t.s[52],this.$nextTick(function(){++t.f[1],++t.s[53],l.$refs.readOnly.className=l.readOnlyClass})):++t.b[18][1]}},mounted:function(){var n=this;++t.s[54],this.value?(++t.b[20][0],++t.s[55],this.processValue(this.formatToNumber(this.value)),++t.s[56],this.formatValue(this.value)):++t.b[20][1],++t.s[57],this.readOnly?(++t.b[21][0],++t.s[58],this.$refs.readOnly.className=this.readOnlyClass):++t.b[21][1],++t.s[59],setTimeout(function(){++t.f[2],++t.s[60],n.processValue(n.formatToNumber(n.value)),++t.s[61],n.formatValue(n.value)},500)}}},function(n,e,l){!function(n,l){l(e)}(0,function(n){"use strict";function e(n,e){return e={exports:{}},n(e,e.exports),e.exports}function l(n){var e=arguments.length<=1||void 0===arguments[1]?s.decimal:arguments[1],t=arguments.length<=2||void 0===arguments[2]?s.fallback:arguments[2];if(Array.isArray(n))return n.map(function(n){return l(n,e,t)});if("number"==typeof n)return n;var o=new RegExp("[^0-9-(-)-"+e+"]",["g"]),i=(""+n).replace(o,"").replace(e,".").replace(/\(([-]*\d*[^)]?\d+)\)/g,"-$1").replace(/\((.*)\)/,""),r=(i.match(/-/g)||2).length%2,u=parseFloat(i.replace(/-/g,"")),c=u*(r?-1:1);return isNaN(c)?t:c}function t(n,e){return n=Math.round(Math.abs(n)),isNaN(n)?e:n}function o(n,e){e=t(e,s.precision);var l=Math.pow(10,e);return(Math.round((n+1e-8)*l)/l).toFixed(e)}function i(n,e){var l=n.split(e),t=l[0],o=l[1].replace(/0+$/,"");return o.length>0?t+e+o:t}function r(n){var e=arguments.length<=1||void 0===arguments[1]?{}:arguments[1];if(Array.isArray(n))return n.map(function(n){return r(n,e)});e=d({},s,e);var l=n<0?"-":"",t=parseInt(o(Math.abs(n),e.precision),10)+"",u=t.length>3?t.length%3:0,c=l+(u?t.substr(0,u)+e.thousand:"")+t.substr(u).replace(/(\d{3})(?=\d)/g,"$1"+e.thousand)+(e.precision>0?e.decimal+o(Math.abs(n),e.precision).split(".")[1]:"");return e.stripZeros?i(c,e.decimal):c}function u(n){return p(n)&&n.match("%v")?{pos:n,neg:n.replace("-","").replace("%v","-%v"),zero:n}:n}function c(n){var e=arguments.length<=1||void 0===arguments[1]?{}:arguments[1];if(Array.isArray(n))return n.map(function(n){return c(n,e)});e=d({},s,e);var l=u(e.format),t=void 0;return t=n>0?l.pos:n<0?l.neg:l.zero,t.replace("%s",e.symbol).replace("%v",r(Math.abs(n),e))}function a(n){var e=arguments.length<=1||void 0===arguments[1]?{}:arguments[1];if(!n)return[];e=d({},s,e);var t=u(e.format),o=t.pos.indexOf("%s")<t.pos.indexOf("%v"),i=0;return n.map(function(n){if(Array.isArray(n))return a(n,e);n=l(n,e.decimal);var o=void 0;o=n>0?t.pos:n<0?t.neg:t.zero;var u=o.replace("%s",e.symbol).replace("%v",r(Math.abs(n),e));return u.length>i&&(i=u.length),u}).map(function(n){return p(n)&&n.length<i?o?n.replace(e.symbol,e.symbol+new Array(i-n.length+1).join(" ")):new Array(i-n.length+1).join(" ")+n:n})}var s={symbol:"$",format:"%s%v",decimal:".",thousand:",",precision:2,grouping:3,stripZeros:!1,fallback:0},m=e(function(n){function e(n){if(null===n||void 0===n)throw new TypeError("Object.assign cannot be called with null or undefined");return Object(n)}var l=Object.prototype.hasOwnProperty,t=Object.prototype.propertyIsEnumerable;n.exports=Object.assign||function(n,o){for(var i,r,u=e(n),c=1;c<arguments.length;c++){i=Object(arguments[c]);for(var a in i)l.call(i,a)&&(u[a]=i[a]);if(Object.getOwnPropertySymbols){r=Object.getOwnPropertySymbols(i);for(var s=0;s<r.length;s++)t.call(i,r[s])&&(u[r[s]]=i[r[s]])}}return u}}),d=m&&"object"==typeof m&&"default"in m?m.default:m,f=e(function(n){var e=String.prototype.valueOf,l=function(n){try{return e.call(n),!0}catch(n){return!1}},t=Object.prototype.toString,o="function"==typeof Symbol&&"symbol"==typeof Symbol.toStringTag;n.exports=function(n){return"string"==typeof n||"object"==typeof n&&(o?l(n):"[object String]"===t.call(n))}}),p=f&&"object"==typeof f&&"default"in f?f.default:f;n.settings=s,n.unformat=l,n.toFixed=o,n.formatMoney=c,n.formatNumber=r,n.formatColumn=a,n.format=c,n.parse=l})},function(n,e,l){"use strict";var t=function(){var n=this,e=n.$createElement,l=n._self._c||e;return n.readOnly?l("span",{ref:"readOnly"},[n._v(n._s(n.amount))]):l("input",{directives:[{name:"model",rawName:"v-model",value:n.amount,expression:"amount"}],ref:"numeric",attrs:{placeholder:n.placeholder,type:"tel"},domProps:{value:n.value,value:n.amount},on:{blur:n.formatValue,input:[function(e){e.target.composing||(n.amount=e.target.value)},function(e){n.processValue(n.amountValue)}],focus:function(e){n.convertToNumber(n.numberValue)}}})},o=[];e.a={render:t,staticRenderFns:o}}])});
+
+/***/ }),
+/* 36 */
+/***/ (function(module, exports) {
+
+/**
+ * Updated by linxin on 2017/7/27.
+ */
+var Toast = {};
+var showToast = false, // 存储toast显示状态
+    showLoad = false, // 存储loading显示状态
+    toastVM = null, // 存储toast vm
+    loadNode = null; // 存储loading节点元素
+
+Toast.install = function (Vue, options) {
+
+    var opt = {
+        defaultType: 'bottom',
+        duration: '2500',
+        wordWrap: false
+    };
+    for (var property in options) {
+        opt[property] = options[property];
+    }
+
+    Vue.prototype.$toast = function (tips, type) {
+
+        var curType = type ? type : opt.defaultType;
+        var wordWrap = opt.wordWrap ? 'lx-word-wrap' : '';
+        var style = opt.width ? 'style="width: ' + opt.width + '"' : '';
+        var tmp = '<div v-show="show" :class="type" class="lx-toast ' + wordWrap + '" ' + style + '>{{tip}}</div>';
+
+        if (showToast) {
+            // 如果toast还在，则不再执行
+            return;
+        }
+        if (!toastVM) {
+            var toastTpl = Vue.extend({
+                data: function () {
+                    return {
+                        show: showToast,
+                        tip: tips,
+                        type: 'lx-toast-' + curType
+                    }
+                },
+                template: tmp
+            });
+            toastVM = new toastTpl()
+            var tpl = toastVM.$mount().$el;
+            document.body.appendChild(tpl);
+        }
+        toastVM.type = 'lx-toast-' + curType;
+        toastVM.tip = tips;
+        toastVM.show = showToast = true;
+
+        setTimeout(function () {
+            toastVM.show = showToast = false;
+        }, opt.duration)
+    };
+    ['bottom', 'center', 'top'].forEach(function (type) {
+        Vue.prototype.$toast[type] = function (tips) {
+            return Vue.prototype.$toast(tips, type)
+        }
+    });
+
+    Vue.prototype.$loading = function (tips, type) {
+        if (type == 'close') {
+            loadNode.show = showLoad = false;
+        } else {
+            if (showLoad) {
+                // 如果loading还在，则不再执行
+                return;
+            }
+            var loadTpl = Vue.extend({
+                data: function () {
+                    return {
+                        show: showLoad
+                    }
+                },
+                template: '<div v-show="show" class="lx-load-mark"><div class="lx-load-box"><div class="lx-loading"><div class="loading_leaf loading_leaf_0"></div><div class="loading_leaf loading_leaf_1"></div><div class="loading_leaf loading_leaf_2"></div><div class="loading_leaf loading_leaf_3"></div><div class="loading_leaf loading_leaf_4"></div><div class="loading_leaf loading_leaf_5"></div><div class="loading_leaf loading_leaf_6"></div><div class="loading_leaf loading_leaf_7"></div><div class="loading_leaf loading_leaf_8"></div><div class="loading_leaf loading_leaf_9"></div><div class="loading_leaf loading_leaf_10"></div><div class="loading_leaf loading_leaf_11"></div></div><div class="lx-load-content">' + tips + '</div></div></div>'
+            });
+            loadNode = new loadTpl();
+            var tpl = loadNode.$mount().$el;
+
+            document.body.appendChild(tpl);
+            loadNode.show = showLoad = true;
+        }
+    };
+
+    ['open', 'close'].forEach(function (type) {
+        Vue.prototype.$loading[type] = function (tips) {
+            return Vue.prototype.$loading(tips, type)
+        }
+    });
+}
+module.exports = Toast;
+
+/***/ }),
+/* 37 */
 /***/ (function(module, exports) {
 
 module.exports = function(module) {
@@ -16453,7 +16890,7 @@ module.exports = function(module) {
 
 
 /***/ }),
-/* 33 */
+/* 38 */
 /***/ (function(module, exports, __webpack_require__) {
 
 //! moment.js locale configuration
@@ -16531,7 +16968,7 @@ return af;
 
 
 /***/ }),
-/* 34 */
+/* 39 */
 /***/ (function(module, exports, __webpack_require__) {
 
 //! moment.js locale configuration
@@ -16595,7 +17032,7 @@ return arDz;
 
 
 /***/ }),
-/* 35 */
+/* 40 */
 /***/ (function(module, exports, __webpack_require__) {
 
 //! moment.js locale configuration
@@ -16659,7 +17096,7 @@ return arKw;
 
 
 /***/ }),
-/* 36 */
+/* 41 */
 /***/ (function(module, exports, __webpack_require__) {
 
 //! moment.js locale configuration
@@ -16790,7 +17227,7 @@ return arLy;
 
 
 /***/ }),
-/* 37 */
+/* 42 */
 /***/ (function(module, exports, __webpack_require__) {
 
 //! moment.js locale configuration
@@ -16855,7 +17292,7 @@ return arMa;
 
 
 /***/ }),
-/* 38 */
+/* 43 */
 /***/ (function(module, exports, __webpack_require__) {
 
 //! moment.js locale configuration
@@ -16965,7 +17402,7 @@ return arSa;
 
 
 /***/ }),
-/* 39 */
+/* 44 */
 /***/ (function(module, exports, __webpack_require__) {
 
 //! moment.js locale configuration
@@ -17029,7 +17466,7 @@ return arTn;
 
 
 /***/ }),
-/* 40 */
+/* 45 */
 /***/ (function(module, exports, __webpack_require__) {
 
 //! moment.js locale configuration
@@ -17176,7 +17613,7 @@ return ar;
 
 
 /***/ }),
-/* 41 */
+/* 46 */
 /***/ (function(module, exports, __webpack_require__) {
 
 //! moment.js locale configuration
@@ -17286,7 +17723,7 @@ return az;
 
 
 /***/ }),
-/* 42 */
+/* 47 */
 /***/ (function(module, exports, __webpack_require__) {
 
 //! moment.js locale configuration
@@ -17425,7 +17862,7 @@ return be;
 
 
 /***/ }),
-/* 43 */
+/* 48 */
 /***/ (function(module, exports, __webpack_require__) {
 
 //! moment.js locale configuration
@@ -17520,7 +17957,7 @@ return bg;
 
 
 /***/ }),
-/* 44 */
+/* 49 */
 /***/ (function(module, exports, __webpack_require__) {
 
 //! moment.js locale configuration
@@ -17644,7 +18081,7 @@ return bn;
 
 
 /***/ }),
-/* 45 */
+/* 50 */
 /***/ (function(module, exports, __webpack_require__) {
 
 //! moment.js locale configuration
@@ -17768,7 +18205,7 @@ return bo;
 
 
 /***/ }),
-/* 46 */
+/* 51 */
 /***/ (function(module, exports, __webpack_require__) {
 
 //! moment.js locale configuration
@@ -17881,7 +18318,7 @@ return br;
 
 
 /***/ }),
-/* 47 */
+/* 52 */
 /***/ (function(module, exports, __webpack_require__) {
 
 //! moment.js locale configuration
@@ -18029,7 +18466,7 @@ return bs;
 
 
 /***/ }),
-/* 48 */
+/* 53 */
 /***/ (function(module, exports, __webpack_require__) {
 
 //! moment.js locale configuration
@@ -18122,7 +18559,7 @@ return ca;
 
 
 /***/ }),
-/* 49 */
+/* 54 */
 /***/ (function(module, exports, __webpack_require__) {
 
 //! moment.js locale configuration
@@ -18299,7 +18736,7 @@ return cs;
 
 
 /***/ }),
-/* 50 */
+/* 55 */
 /***/ (function(module, exports, __webpack_require__) {
 
 //! moment.js locale configuration
@@ -18367,7 +18804,7 @@ return cv;
 
 
 /***/ }),
-/* 51 */
+/* 56 */
 /***/ (function(module, exports, __webpack_require__) {
 
 //! moment.js locale configuration
@@ -18453,7 +18890,7 @@ return cy;
 
 
 /***/ }),
-/* 52 */
+/* 57 */
 /***/ (function(module, exports, __webpack_require__) {
 
 //! moment.js locale configuration
@@ -18518,7 +18955,7 @@ return da;
 
 
 /***/ }),
-/* 53 */
+/* 58 */
 /***/ (function(module, exports, __webpack_require__) {
 
 //! moment.js locale configuration
@@ -18602,7 +19039,7 @@ return deAt;
 
 
 /***/ }),
-/* 54 */
+/* 59 */
 /***/ (function(module, exports, __webpack_require__) {
 
 //! moment.js locale configuration
@@ -18685,7 +19122,7 @@ return deCh;
 
 
 /***/ }),
-/* 55 */
+/* 60 */
 /***/ (function(module, exports, __webpack_require__) {
 
 //! moment.js locale configuration
@@ -18768,7 +19205,7 @@ return de;
 
 
 /***/ }),
-/* 56 */
+/* 61 */
 /***/ (function(module, exports, __webpack_require__) {
 
 //! moment.js locale configuration
@@ -18873,7 +19310,7 @@ return dv;
 
 
 /***/ }),
-/* 57 */
+/* 62 */
 /***/ (function(module, exports, __webpack_require__) {
 
 //! moment.js locale configuration
@@ -18978,7 +19415,7 @@ return el;
 
 
 /***/ }),
-/* 58 */
+/* 63 */
 /***/ (function(module, exports, __webpack_require__) {
 
 //! moment.js locale configuration
@@ -19050,7 +19487,7 @@ return enAu;
 
 
 /***/ }),
-/* 59 */
+/* 64 */
 /***/ (function(module, exports, __webpack_require__) {
 
 //! moment.js locale configuration
@@ -19118,7 +19555,7 @@ return enCa;
 
 
 /***/ }),
-/* 60 */
+/* 65 */
 /***/ (function(module, exports, __webpack_require__) {
 
 //! moment.js locale configuration
@@ -19190,7 +19627,7 @@ return enGb;
 
 
 /***/ }),
-/* 61 */
+/* 66 */
 /***/ (function(module, exports, __webpack_require__) {
 
 //! moment.js locale configuration
@@ -19262,7 +19699,7 @@ return enIe;
 
 
 /***/ }),
-/* 62 */
+/* 67 */
 /***/ (function(module, exports, __webpack_require__) {
 
 //! moment.js locale configuration
@@ -19334,7 +19771,7 @@ return enNz;
 
 
 /***/ }),
-/* 63 */
+/* 68 */
 /***/ (function(module, exports, __webpack_require__) {
 
 //! moment.js locale configuration
@@ -19412,7 +19849,7 @@ return eo;
 
 
 /***/ }),
-/* 64 */
+/* 69 */
 /***/ (function(module, exports, __webpack_require__) {
 
 //! moment.js locale configuration
@@ -19499,7 +19936,7 @@ return esDo;
 
 
 /***/ }),
-/* 65 */
+/* 70 */
 /***/ (function(module, exports, __webpack_require__) {
 
 //! moment.js locale configuration
@@ -19587,7 +20024,7 @@ return es;
 
 
 /***/ }),
-/* 66 */
+/* 71 */
 /***/ (function(module, exports, __webpack_require__) {
 
 //! moment.js locale configuration
@@ -19672,7 +20109,7 @@ return et;
 
 
 /***/ }),
-/* 67 */
+/* 72 */
 /***/ (function(module, exports, __webpack_require__) {
 
 //! moment.js locale configuration
@@ -19743,7 +20180,7 @@ return eu;
 
 
 /***/ }),
-/* 68 */
+/* 73 */
 /***/ (function(module, exports, __webpack_require__) {
 
 //! moment.js locale configuration
@@ -19855,7 +20292,7 @@ return fa;
 
 
 /***/ }),
-/* 69 */
+/* 74 */
 /***/ (function(module, exports, __webpack_require__) {
 
 //! moment.js locale configuration
@@ -19967,7 +20404,7 @@ return fi;
 
 
 /***/ }),
-/* 70 */
+/* 75 */
 /***/ (function(module, exports, __webpack_require__) {
 
 //! moment.js locale configuration
@@ -20032,7 +20469,7 @@ return fo;
 
 
 /***/ }),
-/* 71 */
+/* 76 */
 /***/ (function(module, exports, __webpack_require__) {
 
 //! moment.js locale configuration
@@ -20111,7 +20548,7 @@ return frCa;
 
 
 /***/ }),
-/* 72 */
+/* 77 */
 /***/ (function(module, exports, __webpack_require__) {
 
 //! moment.js locale configuration
@@ -20194,7 +20631,7 @@ return frCh;
 
 
 /***/ }),
-/* 73 */
+/* 78 */
 /***/ (function(module, exports, __webpack_require__) {
 
 //! moment.js locale configuration
@@ -20282,7 +20719,7 @@ return fr;
 
 
 /***/ }),
-/* 74 */
+/* 79 */
 /***/ (function(module, exports, __webpack_require__) {
 
 //! moment.js locale configuration
@@ -20362,7 +20799,7 @@ return fy;
 
 
 /***/ }),
-/* 75 */
+/* 80 */
 /***/ (function(module, exports, __webpack_require__) {
 
 //! moment.js locale configuration
@@ -20443,7 +20880,7 @@ return gd;
 
 
 /***/ }),
-/* 76 */
+/* 81 */
 /***/ (function(module, exports, __webpack_require__) {
 
 //! moment.js locale configuration
@@ -20525,7 +20962,7 @@ return gl;
 
 
 /***/ }),
-/* 77 */
+/* 82 */
 /***/ (function(module, exports, __webpack_require__) {
 
 //! moment.js locale configuration
@@ -20652,7 +21089,7 @@ return gomLatn;
 
 
 /***/ }),
-/* 78 */
+/* 83 */
 /***/ (function(module, exports, __webpack_require__) {
 
 //! moment.js locale configuration
@@ -20756,7 +21193,7 @@ return he;
 
 
 /***/ }),
-/* 79 */
+/* 84 */
 /***/ (function(module, exports, __webpack_require__) {
 
 //! moment.js locale configuration
@@ -20885,7 +21322,7 @@ return hi;
 
 
 /***/ }),
-/* 80 */
+/* 85 */
 /***/ (function(module, exports, __webpack_require__) {
 
 //! moment.js locale configuration
@@ -21035,7 +21472,7 @@ return hr;
 
 
 /***/ }),
-/* 81 */
+/* 86 */
 /***/ (function(module, exports, __webpack_require__) {
 
 //! moment.js locale configuration
@@ -21149,7 +21586,7 @@ return hu;
 
 
 /***/ }),
-/* 82 */
+/* 87 */
 /***/ (function(module, exports, __webpack_require__) {
 
 //! moment.js locale configuration
@@ -21249,7 +21686,7 @@ return hyAm;
 
 
 /***/ }),
-/* 83 */
+/* 88 */
 /***/ (function(module, exports, __webpack_require__) {
 
 //! moment.js locale configuration
@@ -21337,7 +21774,7 @@ return id;
 
 
 /***/ }),
-/* 84 */
+/* 89 */
 /***/ (function(module, exports, __webpack_require__) {
 
 //! moment.js locale configuration
@@ -21469,7 +21906,7 @@ return is;
 
 
 /***/ }),
-/* 85 */
+/* 90 */
 /***/ (function(module, exports, __webpack_require__) {
 
 //! moment.js locale configuration
@@ -21544,7 +21981,7 @@ return it;
 
 
 /***/ }),
-/* 86 */
+/* 91 */
 /***/ (function(module, exports, __webpack_require__) {
 
 //! moment.js locale configuration
@@ -21629,7 +22066,7 @@ return ja;
 
 
 /***/ }),
-/* 87 */
+/* 92 */
 /***/ (function(module, exports, __webpack_require__) {
 
 //! moment.js locale configuration
@@ -21717,7 +22154,7 @@ return jv;
 
 
 /***/ }),
-/* 88 */
+/* 93 */
 /***/ (function(module, exports, __webpack_require__) {
 
 //! moment.js locale configuration
@@ -21811,7 +22248,7 @@ return ka;
 
 
 /***/ }),
-/* 89 */
+/* 94 */
 /***/ (function(module, exports, __webpack_require__) {
 
 //! moment.js locale configuration
@@ -21903,7 +22340,7 @@ return kk;
 
 
 /***/ }),
-/* 90 */
+/* 95 */
 /***/ (function(module, exports, __webpack_require__) {
 
 //! moment.js locale configuration
@@ -21966,7 +22403,7 @@ return km;
 
 
 /***/ }),
-/* 91 */
+/* 96 */
 /***/ (function(module, exports, __webpack_require__) {
 
 //! moment.js locale configuration
@@ -22097,7 +22534,7 @@ return kn;
 
 
 /***/ }),
-/* 92 */
+/* 97 */
 /***/ (function(module, exports, __webpack_require__) {
 
 //! moment.js locale configuration
@@ -22171,7 +22608,7 @@ return ko;
 
 
 /***/ }),
-/* 93 */
+/* 98 */
 /***/ (function(module, exports, __webpack_require__) {
 
 //! moment.js locale configuration
@@ -22264,7 +22701,7 @@ return ky;
 
 
 /***/ }),
-/* 94 */
+/* 99 */
 /***/ (function(module, exports, __webpack_require__) {
 
 //! moment.js locale configuration
@@ -22406,7 +22843,7 @@ return lb;
 
 
 /***/ }),
-/* 95 */
+/* 100 */
 /***/ (function(module, exports, __webpack_require__) {
 
 //! moment.js locale configuration
@@ -22481,7 +22918,7 @@ return lo;
 
 
 /***/ }),
-/* 96 */
+/* 101 */
 /***/ (function(module, exports, __webpack_require__) {
 
 //! moment.js locale configuration
@@ -22603,7 +23040,7 @@ return lt;
 
 
 /***/ }),
-/* 97 */
+/* 102 */
 /***/ (function(module, exports, __webpack_require__) {
 
 //! moment.js locale configuration
@@ -22705,7 +23142,7 @@ return lv;
 
 
 /***/ }),
-/* 98 */
+/* 103 */
 /***/ (function(module, exports, __webpack_require__) {
 
 //! moment.js locale configuration
@@ -22821,7 +23258,7 @@ return me;
 
 
 /***/ }),
-/* 99 */
+/* 104 */
 /***/ (function(module, exports, __webpack_require__) {
 
 //! moment.js locale configuration
@@ -22890,7 +23327,7 @@ return mi;
 
 
 /***/ }),
-/* 100 */
+/* 105 */
 /***/ (function(module, exports, __webpack_require__) {
 
 //! moment.js locale configuration
@@ -22985,7 +23422,7 @@ return mk;
 
 
 /***/ }),
-/* 101 */
+/* 106 */
 /***/ (function(module, exports, __webpack_require__) {
 
 //! moment.js locale configuration
@@ -23071,7 +23508,7 @@ return ml;
 
 
 /***/ }),
-/* 102 */
+/* 107 */
 /***/ (function(module, exports, __webpack_require__) {
 
 //! moment.js locale configuration
@@ -23235,7 +23672,7 @@ return mr;
 
 
 /***/ }),
-/* 103 */
+/* 108 */
 /***/ (function(module, exports, __webpack_require__) {
 
 //! moment.js locale configuration
@@ -23323,7 +23760,7 @@ return msMy;
 
 
 /***/ }),
-/* 104 */
+/* 109 */
 /***/ (function(module, exports, __webpack_require__) {
 
 //! moment.js locale configuration
@@ -23410,7 +23847,7 @@ return ms;
 
 
 /***/ }),
-/* 105 */
+/* 110 */
 /***/ (function(module, exports, __webpack_require__) {
 
 //! moment.js locale configuration
@@ -23511,7 +23948,7 @@ return my;
 
 
 /***/ }),
-/* 106 */
+/* 111 */
 /***/ (function(module, exports, __webpack_require__) {
 
 //! moment.js locale configuration
@@ -23579,7 +24016,7 @@ return nb;
 
 
 /***/ }),
-/* 107 */
+/* 112 */
 /***/ (function(module, exports, __webpack_require__) {
 
 //! moment.js locale configuration
@@ -23707,7 +24144,7 @@ return ne;
 
 
 /***/ }),
-/* 108 */
+/* 113 */
 /***/ (function(module, exports, __webpack_require__) {
 
 //! moment.js locale configuration
@@ -23800,7 +24237,7 @@ return nlBe;
 
 
 /***/ }),
-/* 109 */
+/* 114 */
 /***/ (function(module, exports, __webpack_require__) {
 
 //! moment.js locale configuration
@@ -23893,7 +24330,7 @@ return nl;
 
 
 /***/ }),
-/* 110 */
+/* 115 */
 /***/ (function(module, exports, __webpack_require__) {
 
 //! moment.js locale configuration
@@ -23958,7 +24395,7 @@ return nn;
 
 
 /***/ }),
-/* 111 */
+/* 116 */
 /***/ (function(module, exports, __webpack_require__) {
 
 //! moment.js locale configuration
@@ -24087,7 +24524,7 @@ return paIn;
 
 
 /***/ }),
-/* 112 */
+/* 117 */
 /***/ (function(module, exports, __webpack_require__) {
 
 //! moment.js locale configuration
@@ -24199,7 +24636,7 @@ return pl;
 
 
 /***/ }),
-/* 113 */
+/* 118 */
 /***/ (function(module, exports, __webpack_require__) {
 
 //! moment.js locale configuration
@@ -24265,7 +24702,7 @@ return ptBr;
 
 
 /***/ }),
-/* 114 */
+/* 119 */
 /***/ (function(module, exports, __webpack_require__) {
 
 //! moment.js locale configuration
@@ -24335,7 +24772,7 @@ return pt;
 
 
 /***/ }),
-/* 115 */
+/* 120 */
 /***/ (function(module, exports, __webpack_require__) {
 
 //! moment.js locale configuration
@@ -24415,7 +24852,7 @@ return ro;
 
 
 /***/ }),
-/* 116 */
+/* 121 */
 /***/ (function(module, exports, __webpack_require__) {
 
 //! moment.js locale configuration
@@ -24603,7 +25040,7 @@ return ru;
 
 
 /***/ }),
-/* 117 */
+/* 122 */
 /***/ (function(module, exports, __webpack_require__) {
 
 //! moment.js locale configuration
@@ -24706,7 +25143,7 @@ return sd;
 
 
 /***/ }),
-/* 118 */
+/* 123 */
 /***/ (function(module, exports, __webpack_require__) {
 
 //! moment.js locale configuration
@@ -24772,7 +25209,7 @@ return se;
 
 
 /***/ }),
-/* 119 */
+/* 124 */
 /***/ (function(module, exports, __webpack_require__) {
 
 //! moment.js locale configuration
@@ -24848,7 +25285,7 @@ return si;
 
 
 /***/ }),
-/* 120 */
+/* 125 */
 /***/ (function(module, exports, __webpack_require__) {
 
 //! moment.js locale configuration
@@ -25003,7 +25440,7 @@ return sk;
 
 
 /***/ }),
-/* 121 */
+/* 126 */
 /***/ (function(module, exports, __webpack_require__) {
 
 //! moment.js locale configuration
@@ -25170,7 +25607,7 @@ return sl;
 
 
 /***/ }),
-/* 122 */
+/* 127 */
 /***/ (function(module, exports, __webpack_require__) {
 
 //! moment.js locale configuration
@@ -25245,7 +25682,7 @@ return sq;
 
 
 /***/ }),
-/* 123 */
+/* 128 */
 /***/ (function(module, exports, __webpack_require__) {
 
 //! moment.js locale configuration
@@ -25360,7 +25797,7 @@ return srCyrl;
 
 
 /***/ }),
-/* 124 */
+/* 129 */
 /***/ (function(module, exports, __webpack_require__) {
 
 //! moment.js locale configuration
@@ -25475,7 +25912,7 @@ return sr;
 
 
 /***/ }),
-/* 125 */
+/* 130 */
 /***/ (function(module, exports, __webpack_require__) {
 
 //! moment.js locale configuration
@@ -25569,7 +26006,7 @@ return ss;
 
 
 /***/ }),
-/* 126 */
+/* 131 */
 /***/ (function(module, exports, __webpack_require__) {
 
 //! moment.js locale configuration
@@ -25643,7 +26080,7 @@ return sv;
 
 
 /***/ }),
-/* 127 */
+/* 132 */
 /***/ (function(module, exports, __webpack_require__) {
 
 //! moment.js locale configuration
@@ -25707,7 +26144,7 @@ return sw;
 
 
 /***/ }),
-/* 128 */
+/* 133 */
 /***/ (function(module, exports, __webpack_require__) {
 
 //! moment.js locale configuration
@@ -25842,7 +26279,7 @@ return ta;
 
 
 /***/ }),
-/* 129 */
+/* 134 */
 /***/ (function(module, exports, __webpack_require__) {
 
 //! moment.js locale configuration
@@ -25936,7 +26373,7 @@ return te;
 
 
 /***/ }),
-/* 130 */
+/* 135 */
 /***/ (function(module, exports, __webpack_require__) {
 
 //! moment.js locale configuration
@@ -26009,7 +26446,7 @@ return tet;
 
 
 /***/ }),
-/* 131 */
+/* 136 */
 /***/ (function(module, exports, __webpack_require__) {
 
 //! moment.js locale configuration
@@ -26081,7 +26518,7 @@ return th;
 
 
 /***/ }),
-/* 132 */
+/* 137 */
 /***/ (function(module, exports, __webpack_require__) {
 
 //! moment.js locale configuration
@@ -26148,7 +26585,7 @@ return tlPh;
 
 
 /***/ }),
-/* 133 */
+/* 138 */
 /***/ (function(module, exports, __webpack_require__) {
 
 //! moment.js locale configuration
@@ -26273,7 +26710,7 @@ return tlh;
 
 
 /***/ }),
-/* 134 */
+/* 139 */
 /***/ (function(module, exports, __webpack_require__) {
 
 //! moment.js locale configuration
@@ -26368,7 +26805,7 @@ return tr;
 
 
 /***/ }),
-/* 135 */
+/* 140 */
 /***/ (function(module, exports, __webpack_require__) {
 
 //! moment.js locale configuration
@@ -26464,7 +26901,7 @@ return tzl;
 
 
 /***/ }),
-/* 136 */
+/* 141 */
 /***/ (function(module, exports, __webpack_require__) {
 
 //! moment.js locale configuration
@@ -26527,7 +26964,7 @@ return tzmLatn;
 
 
 /***/ }),
-/* 137 */
+/* 142 */
 /***/ (function(module, exports, __webpack_require__) {
 
 //! moment.js locale configuration
@@ -26590,7 +27027,7 @@ return tzm;
 
 
 /***/ }),
-/* 138 */
+/* 143 */
 /***/ (function(module, exports, __webpack_require__) {
 
 //! moment.js locale configuration
@@ -26746,7 +27183,7 @@ return uk;
 
 
 /***/ }),
-/* 139 */
+/* 144 */
 /***/ (function(module, exports, __webpack_require__) {
 
 //! moment.js locale configuration
@@ -26850,7 +27287,7 @@ return ur;
 
 
 /***/ }),
-/* 140 */
+/* 145 */
 /***/ (function(module, exports, __webpack_require__) {
 
 //! moment.js locale configuration
@@ -26913,7 +27350,7 @@ return uzLatn;
 
 
 /***/ }),
-/* 141 */
+/* 146 */
 /***/ (function(module, exports, __webpack_require__) {
 
 //! moment.js locale configuration
@@ -26976,7 +27413,7 @@ return uz;
 
 
 /***/ }),
-/* 142 */
+/* 147 */
 /***/ (function(module, exports, __webpack_require__) {
 
 //! moment.js locale configuration
@@ -27060,7 +27497,7 @@ return vi;
 
 
 /***/ }),
-/* 143 */
+/* 148 */
 /***/ (function(module, exports, __webpack_require__) {
 
 //! moment.js locale configuration
@@ -27133,7 +27570,7 @@ return xPseudo;
 
 
 /***/ }),
-/* 144 */
+/* 149 */
 /***/ (function(module, exports, __webpack_require__) {
 
 //! moment.js locale configuration
@@ -27198,7 +27635,7 @@ return yo;
 
 
 /***/ }),
-/* 145 */
+/* 150 */
 /***/ (function(module, exports, __webpack_require__) {
 
 //! moment.js locale configuration
@@ -27314,7 +27751,7 @@ return zhCn;
 
 
 /***/ }),
-/* 146 */
+/* 151 */
 /***/ (function(module, exports, __webpack_require__) {
 
 //! moment.js locale configuration
@@ -27424,7 +27861,7 @@ return zhHk;
 
 
 /***/ }),
-/* 147 */
+/* 152 */
 /***/ (function(module, exports, __webpack_require__) {
 
 //! moment.js locale configuration
@@ -27533,37 +27970,37 @@ return zhTw;
 
 
 /***/ }),
-/* 148 */,
-/* 149 */,
-/* 150 */
+/* 153 */,
+/* 154 */,
+/* 155 */
 /***/ (function(module, exports, __webpack_require__) {
 
 window.Vue = __webpack_require__(30);
-Vue.component('additemtolist', __webpack_require__(199));
-Vue.component('itemhistorytable', __webpack_require__(226));
+Vue.component('additemtolist', __webpack_require__(204));
+Vue.component('itemhistorytable', __webpack_require__(231));
 new Vue({
    el: '#items'
 });
 
 /***/ }),
-/* 151 */,
-/* 152 */,
-/* 153 */,
-/* 154 */,
-/* 155 */,
 /* 156 */,
 /* 157 */,
 /* 158 */,
 /* 159 */,
 /* 160 */,
-/* 161 */
+/* 161 */,
+/* 162 */,
+/* 163 */,
+/* 164 */,
+/* 165 */,
+/* 166 */
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
 "use strict";
 Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_0_axios__ = __webpack_require__(3);
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_0_axios___default = __webpack_require__.n(__WEBPACK_IMPORTED_MODULE_0_axios__);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_1_vue_numeric__ = __webpack_require__(31);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_1_vue_numeric__ = __webpack_require__(35);
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_1_vue_numeric___default = __webpack_require__.n(__WEBPACK_IMPORTED_MODULE_1_vue_numeric__);
 //
 //
@@ -27878,11 +28315,6 @@ Vue.use(__WEBPACK_IMPORTED_MODULE_1_vue_numeric___default.a);
 });
 
 /***/ }),
-/* 162 */,
-/* 163 */,
-/* 164 */,
-/* 165 */,
-/* 166 */,
 /* 167 */,
 /* 168 */,
 /* 169 */,
@@ -27904,7 +28336,12 @@ Vue.use(__WEBPACK_IMPORTED_MODULE_1_vue_numeric___default.a);
 /* 185 */,
 /* 186 */,
 /* 187 */,
-/* 188 */
+/* 188 */,
+/* 189 */,
+/* 190 */,
+/* 191 */,
+/* 192 */,
+/* 193 */
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
 "use strict";
@@ -27913,9 +28350,9 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_0_axios___default = __webpack_require__.n(__WEBPACK_IMPORTED_MODULE_0_axios__);
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_1_moment__ = __webpack_require__(1);
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_1_moment___default = __webpack_require__.n(__WEBPACK_IMPORTED_MODULE_1_moment__);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_2_vue2_toast_lib_toast_css__ = __webpack_require__(280);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_2_vue2_toast_lib_toast_css__ = __webpack_require__(34);
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_2_vue2_toast_lib_toast_css___default = __webpack_require__.n(__WEBPACK_IMPORTED_MODULE_2_vue2_toast_lib_toast_css__);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_3_vue2_toast__ = __webpack_require__(281);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_3_vue2_toast__ = __webpack_require__(36);
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_3_vue2_toast___default = __webpack_require__.n(__WEBPACK_IMPORTED_MODULE_3_vue2_toast__);
 //
 //
@@ -28056,7 +28493,7 @@ Vue.use(__WEBPACK_IMPORTED_MODULE_3_vue2_toast___default.a);
   props: [],
   methods: {
     SearchItemHistory: function SearchItemHistory(page) {
-      this.$loading('Searching...');
+      this.$loading('Please wait');
       var vm = this;
       __WEBPACK_IMPORTED_MODULE_0_axios___default.a.get('/search-item-code?ItemCode=' + this.ItemCodeSearch + '&page=' + page).then(function (response) {
         console.log(response);
@@ -28114,247 +28551,247 @@ Vue.use(__WEBPACK_IMPORTED_MODULE_3_vue2_toast___default.a);
 });
 
 /***/ }),
-/* 189 */,
-/* 190 */,
-/* 191 */,
-/* 192 */,
-/* 193 */,
 /* 194 */,
 /* 195 */,
-/* 196 */
+/* 196 */,
+/* 197 */,
+/* 198 */,
+/* 199 */,
+/* 200 */,
+/* 201 */
 /***/ (function(module, exports, __webpack_require__) {
 
 var map = {
-	"./af": 33,
-	"./af.js": 33,
-	"./ar": 40,
-	"./ar-dz": 34,
-	"./ar-dz.js": 34,
-	"./ar-kw": 35,
-	"./ar-kw.js": 35,
-	"./ar-ly": 36,
-	"./ar-ly.js": 36,
-	"./ar-ma": 37,
-	"./ar-ma.js": 37,
-	"./ar-sa": 38,
-	"./ar-sa.js": 38,
-	"./ar-tn": 39,
-	"./ar-tn.js": 39,
-	"./ar.js": 40,
-	"./az": 41,
-	"./az.js": 41,
-	"./be": 42,
-	"./be.js": 42,
-	"./bg": 43,
-	"./bg.js": 43,
-	"./bn": 44,
-	"./bn.js": 44,
-	"./bo": 45,
-	"./bo.js": 45,
-	"./br": 46,
-	"./br.js": 46,
-	"./bs": 47,
-	"./bs.js": 47,
-	"./ca": 48,
-	"./ca.js": 48,
-	"./cs": 49,
-	"./cs.js": 49,
-	"./cv": 50,
-	"./cv.js": 50,
-	"./cy": 51,
-	"./cy.js": 51,
-	"./da": 52,
-	"./da.js": 52,
-	"./de": 55,
-	"./de-at": 53,
-	"./de-at.js": 53,
-	"./de-ch": 54,
-	"./de-ch.js": 54,
-	"./de.js": 55,
-	"./dv": 56,
-	"./dv.js": 56,
-	"./el": 57,
-	"./el.js": 57,
-	"./en-au": 58,
-	"./en-au.js": 58,
-	"./en-ca": 59,
-	"./en-ca.js": 59,
-	"./en-gb": 60,
-	"./en-gb.js": 60,
-	"./en-ie": 61,
-	"./en-ie.js": 61,
-	"./en-nz": 62,
-	"./en-nz.js": 62,
-	"./eo": 63,
-	"./eo.js": 63,
-	"./es": 65,
-	"./es-do": 64,
-	"./es-do.js": 64,
-	"./es.js": 65,
-	"./et": 66,
-	"./et.js": 66,
-	"./eu": 67,
-	"./eu.js": 67,
-	"./fa": 68,
-	"./fa.js": 68,
-	"./fi": 69,
-	"./fi.js": 69,
-	"./fo": 70,
-	"./fo.js": 70,
-	"./fr": 73,
-	"./fr-ca": 71,
-	"./fr-ca.js": 71,
-	"./fr-ch": 72,
-	"./fr-ch.js": 72,
-	"./fr.js": 73,
-	"./fy": 74,
-	"./fy.js": 74,
-	"./gd": 75,
-	"./gd.js": 75,
-	"./gl": 76,
-	"./gl.js": 76,
-	"./gom-latn": 77,
-	"./gom-latn.js": 77,
-	"./he": 78,
-	"./he.js": 78,
-	"./hi": 79,
-	"./hi.js": 79,
-	"./hr": 80,
-	"./hr.js": 80,
-	"./hu": 81,
-	"./hu.js": 81,
-	"./hy-am": 82,
-	"./hy-am.js": 82,
-	"./id": 83,
-	"./id.js": 83,
-	"./is": 84,
-	"./is.js": 84,
-	"./it": 85,
-	"./it.js": 85,
-	"./ja": 86,
-	"./ja.js": 86,
-	"./jv": 87,
-	"./jv.js": 87,
-	"./ka": 88,
-	"./ka.js": 88,
-	"./kk": 89,
-	"./kk.js": 89,
-	"./km": 90,
-	"./km.js": 90,
-	"./kn": 91,
-	"./kn.js": 91,
-	"./ko": 92,
-	"./ko.js": 92,
-	"./ky": 93,
-	"./ky.js": 93,
-	"./lb": 94,
-	"./lb.js": 94,
-	"./lo": 95,
-	"./lo.js": 95,
-	"./lt": 96,
-	"./lt.js": 96,
-	"./lv": 97,
-	"./lv.js": 97,
-	"./me": 98,
-	"./me.js": 98,
-	"./mi": 99,
-	"./mi.js": 99,
-	"./mk": 100,
-	"./mk.js": 100,
-	"./ml": 101,
-	"./ml.js": 101,
-	"./mr": 102,
-	"./mr.js": 102,
-	"./ms": 104,
-	"./ms-my": 103,
-	"./ms-my.js": 103,
-	"./ms.js": 104,
-	"./my": 105,
-	"./my.js": 105,
-	"./nb": 106,
-	"./nb.js": 106,
-	"./ne": 107,
-	"./ne.js": 107,
-	"./nl": 109,
-	"./nl-be": 108,
-	"./nl-be.js": 108,
-	"./nl.js": 109,
-	"./nn": 110,
-	"./nn.js": 110,
-	"./pa-in": 111,
-	"./pa-in.js": 111,
-	"./pl": 112,
-	"./pl.js": 112,
-	"./pt": 114,
-	"./pt-br": 113,
-	"./pt-br.js": 113,
-	"./pt.js": 114,
-	"./ro": 115,
-	"./ro.js": 115,
-	"./ru": 116,
-	"./ru.js": 116,
-	"./sd": 117,
-	"./sd.js": 117,
-	"./se": 118,
-	"./se.js": 118,
-	"./si": 119,
-	"./si.js": 119,
-	"./sk": 120,
-	"./sk.js": 120,
-	"./sl": 121,
-	"./sl.js": 121,
-	"./sq": 122,
-	"./sq.js": 122,
-	"./sr": 124,
-	"./sr-cyrl": 123,
-	"./sr-cyrl.js": 123,
-	"./sr.js": 124,
-	"./ss": 125,
-	"./ss.js": 125,
-	"./sv": 126,
-	"./sv.js": 126,
-	"./sw": 127,
-	"./sw.js": 127,
-	"./ta": 128,
-	"./ta.js": 128,
-	"./te": 129,
-	"./te.js": 129,
-	"./tet": 130,
-	"./tet.js": 130,
-	"./th": 131,
-	"./th.js": 131,
-	"./tl-ph": 132,
-	"./tl-ph.js": 132,
-	"./tlh": 133,
-	"./tlh.js": 133,
-	"./tr": 134,
-	"./tr.js": 134,
-	"./tzl": 135,
-	"./tzl.js": 135,
-	"./tzm": 137,
-	"./tzm-latn": 136,
-	"./tzm-latn.js": 136,
-	"./tzm.js": 137,
-	"./uk": 138,
-	"./uk.js": 138,
-	"./ur": 139,
-	"./ur.js": 139,
-	"./uz": 141,
-	"./uz-latn": 140,
-	"./uz-latn.js": 140,
-	"./uz.js": 141,
-	"./vi": 142,
-	"./vi.js": 142,
-	"./x-pseudo": 143,
-	"./x-pseudo.js": 143,
-	"./yo": 144,
-	"./yo.js": 144,
-	"./zh-cn": 145,
-	"./zh-cn.js": 145,
-	"./zh-hk": 146,
-	"./zh-hk.js": 146,
-	"./zh-tw": 147,
-	"./zh-tw.js": 147
+	"./af": 38,
+	"./af.js": 38,
+	"./ar": 45,
+	"./ar-dz": 39,
+	"./ar-dz.js": 39,
+	"./ar-kw": 40,
+	"./ar-kw.js": 40,
+	"./ar-ly": 41,
+	"./ar-ly.js": 41,
+	"./ar-ma": 42,
+	"./ar-ma.js": 42,
+	"./ar-sa": 43,
+	"./ar-sa.js": 43,
+	"./ar-tn": 44,
+	"./ar-tn.js": 44,
+	"./ar.js": 45,
+	"./az": 46,
+	"./az.js": 46,
+	"./be": 47,
+	"./be.js": 47,
+	"./bg": 48,
+	"./bg.js": 48,
+	"./bn": 49,
+	"./bn.js": 49,
+	"./bo": 50,
+	"./bo.js": 50,
+	"./br": 51,
+	"./br.js": 51,
+	"./bs": 52,
+	"./bs.js": 52,
+	"./ca": 53,
+	"./ca.js": 53,
+	"./cs": 54,
+	"./cs.js": 54,
+	"./cv": 55,
+	"./cv.js": 55,
+	"./cy": 56,
+	"./cy.js": 56,
+	"./da": 57,
+	"./da.js": 57,
+	"./de": 60,
+	"./de-at": 58,
+	"./de-at.js": 58,
+	"./de-ch": 59,
+	"./de-ch.js": 59,
+	"./de.js": 60,
+	"./dv": 61,
+	"./dv.js": 61,
+	"./el": 62,
+	"./el.js": 62,
+	"./en-au": 63,
+	"./en-au.js": 63,
+	"./en-ca": 64,
+	"./en-ca.js": 64,
+	"./en-gb": 65,
+	"./en-gb.js": 65,
+	"./en-ie": 66,
+	"./en-ie.js": 66,
+	"./en-nz": 67,
+	"./en-nz.js": 67,
+	"./eo": 68,
+	"./eo.js": 68,
+	"./es": 70,
+	"./es-do": 69,
+	"./es-do.js": 69,
+	"./es.js": 70,
+	"./et": 71,
+	"./et.js": 71,
+	"./eu": 72,
+	"./eu.js": 72,
+	"./fa": 73,
+	"./fa.js": 73,
+	"./fi": 74,
+	"./fi.js": 74,
+	"./fo": 75,
+	"./fo.js": 75,
+	"./fr": 78,
+	"./fr-ca": 76,
+	"./fr-ca.js": 76,
+	"./fr-ch": 77,
+	"./fr-ch.js": 77,
+	"./fr.js": 78,
+	"./fy": 79,
+	"./fy.js": 79,
+	"./gd": 80,
+	"./gd.js": 80,
+	"./gl": 81,
+	"./gl.js": 81,
+	"./gom-latn": 82,
+	"./gom-latn.js": 82,
+	"./he": 83,
+	"./he.js": 83,
+	"./hi": 84,
+	"./hi.js": 84,
+	"./hr": 85,
+	"./hr.js": 85,
+	"./hu": 86,
+	"./hu.js": 86,
+	"./hy-am": 87,
+	"./hy-am.js": 87,
+	"./id": 88,
+	"./id.js": 88,
+	"./is": 89,
+	"./is.js": 89,
+	"./it": 90,
+	"./it.js": 90,
+	"./ja": 91,
+	"./ja.js": 91,
+	"./jv": 92,
+	"./jv.js": 92,
+	"./ka": 93,
+	"./ka.js": 93,
+	"./kk": 94,
+	"./kk.js": 94,
+	"./km": 95,
+	"./km.js": 95,
+	"./kn": 96,
+	"./kn.js": 96,
+	"./ko": 97,
+	"./ko.js": 97,
+	"./ky": 98,
+	"./ky.js": 98,
+	"./lb": 99,
+	"./lb.js": 99,
+	"./lo": 100,
+	"./lo.js": 100,
+	"./lt": 101,
+	"./lt.js": 101,
+	"./lv": 102,
+	"./lv.js": 102,
+	"./me": 103,
+	"./me.js": 103,
+	"./mi": 104,
+	"./mi.js": 104,
+	"./mk": 105,
+	"./mk.js": 105,
+	"./ml": 106,
+	"./ml.js": 106,
+	"./mr": 107,
+	"./mr.js": 107,
+	"./ms": 109,
+	"./ms-my": 108,
+	"./ms-my.js": 108,
+	"./ms.js": 109,
+	"./my": 110,
+	"./my.js": 110,
+	"./nb": 111,
+	"./nb.js": 111,
+	"./ne": 112,
+	"./ne.js": 112,
+	"./nl": 114,
+	"./nl-be": 113,
+	"./nl-be.js": 113,
+	"./nl.js": 114,
+	"./nn": 115,
+	"./nn.js": 115,
+	"./pa-in": 116,
+	"./pa-in.js": 116,
+	"./pl": 117,
+	"./pl.js": 117,
+	"./pt": 119,
+	"./pt-br": 118,
+	"./pt-br.js": 118,
+	"./pt.js": 119,
+	"./ro": 120,
+	"./ro.js": 120,
+	"./ru": 121,
+	"./ru.js": 121,
+	"./sd": 122,
+	"./sd.js": 122,
+	"./se": 123,
+	"./se.js": 123,
+	"./si": 124,
+	"./si.js": 124,
+	"./sk": 125,
+	"./sk.js": 125,
+	"./sl": 126,
+	"./sl.js": 126,
+	"./sq": 127,
+	"./sq.js": 127,
+	"./sr": 129,
+	"./sr-cyrl": 128,
+	"./sr-cyrl.js": 128,
+	"./sr.js": 129,
+	"./ss": 130,
+	"./ss.js": 130,
+	"./sv": 131,
+	"./sv.js": 131,
+	"./sw": 132,
+	"./sw.js": 132,
+	"./ta": 133,
+	"./ta.js": 133,
+	"./te": 134,
+	"./te.js": 134,
+	"./tet": 135,
+	"./tet.js": 135,
+	"./th": 136,
+	"./th.js": 136,
+	"./tl-ph": 137,
+	"./tl-ph.js": 137,
+	"./tlh": 138,
+	"./tlh.js": 138,
+	"./tr": 139,
+	"./tr.js": 139,
+	"./tzl": 140,
+	"./tzl.js": 140,
+	"./tzm": 142,
+	"./tzm-latn": 141,
+	"./tzm-latn.js": 141,
+	"./tzm.js": 142,
+	"./uk": 143,
+	"./uk.js": 143,
+	"./ur": 144,
+	"./ur.js": 144,
+	"./uz": 146,
+	"./uz-latn": 145,
+	"./uz-latn.js": 145,
+	"./uz.js": 146,
+	"./vi": 147,
+	"./vi.js": 147,
+	"./x-pseudo": 148,
+	"./x-pseudo.js": 148,
+	"./yo": 149,
+	"./yo.js": 149,
+	"./zh-cn": 150,
+	"./zh-cn.js": 150,
+	"./zh-hk": 151,
+	"./zh-hk.js": 151,
+	"./zh-tw": 152,
+	"./zh-tw.js": 152
 };
 function webpackContext(req) {
 	return __webpack_require__(webpackContextResolve(req));
@@ -28370,19 +28807,19 @@ webpackContext.keys = function webpackContextKeys() {
 };
 webpackContext.resolve = webpackContextResolve;
 module.exports = webpackContext;
-webpackContext.id = 196;
+webpackContext.id = 201;
 
 /***/ }),
-/* 197 */,
-/* 198 */,
-/* 199 */
+/* 202 */,
+/* 203 */,
+/* 204 */
 /***/ (function(module, exports, __webpack_require__) {
 
 var Component = __webpack_require__(4)(
   /* script */
-  __webpack_require__(161),
+  __webpack_require__(166),
   /* template */
-  __webpack_require__(249),
+  __webpack_require__(254),
   /* scopeId */
   null,
   /* cssModules */
@@ -28409,11 +28846,6 @@ module.exports = Component.exports
 
 
 /***/ }),
-/* 200 */,
-/* 201 */,
-/* 202 */,
-/* 203 */,
-/* 204 */,
 /* 205 */,
 /* 206 */,
 /* 207 */,
@@ -28435,14 +28867,19 @@ module.exports = Component.exports
 /* 223 */,
 /* 224 */,
 /* 225 */,
-/* 226 */
+/* 226 */,
+/* 227 */,
+/* 228 */,
+/* 229 */,
+/* 230 */,
+/* 231 */
 /***/ (function(module, exports, __webpack_require__) {
 
 var Component = __webpack_require__(4)(
   /* script */
-  __webpack_require__(188),
+  __webpack_require__(193),
   /* template */
-  __webpack_require__(259),
+  __webpack_require__(264),
   /* scopeId */
   null,
   /* cssModules */
@@ -28469,11 +28906,6 @@ module.exports = Component.exports
 
 
 /***/ }),
-/* 227 */,
-/* 228 */,
-/* 229 */,
-/* 230 */,
-/* 231 */,
 /* 232 */,
 /* 233 */,
 /* 234 */,
@@ -28491,7 +28923,12 @@ module.exports = Component.exports
 /* 246 */,
 /* 247 */,
 /* 248 */,
-/* 249 */
+/* 249 */,
+/* 250 */,
+/* 251 */,
+/* 252 */,
+/* 253 */,
+/* 254 */
 /***/ (function(module, exports, __webpack_require__) {
 
 module.exports={render:function (){var _vm=this;var _h=_vm.$createElement;var _c=_vm._self._c||_h;
@@ -28948,16 +29385,16 @@ if (false) {
 }
 
 /***/ }),
-/* 250 */,
-/* 251 */,
-/* 252 */,
-/* 253 */,
-/* 254 */,
 /* 255 */,
 /* 256 */,
 /* 257 */,
 /* 258 */,
-/* 259 */
+/* 259 */,
+/* 260 */,
+/* 261 */,
+/* 262 */,
+/* 263 */,
+/* 264 */
 /***/ (function(module, exports, __webpack_require__) {
 
 module.exports={render:function (){var _vm=this;var _h=_vm.$createElement;var _c=_vm._self._c||_h;
@@ -29111,464 +29548,13 @@ if (false) {
 }
 
 /***/ }),
-/* 260 */,
-/* 261 */,
-/* 262 */
-/***/ (function(module, exports, __webpack_require__) {
-
-module.exports = __webpack_require__(150);
-
-
-/***/ }),
-/* 263 */,
-/* 264 */,
 /* 265 */,
 /* 266 */,
-/* 267 */,
-/* 268 */,
-/* 269 */,
-/* 270 */,
-/* 271 */,
-/* 272 */
-/***/ (function(module, exports) {
-
-/*
-	MIT License http://www.opensource.org/licenses/mit-license.php
-	Author Tobias Koppers @sokra
-*/
-// css base code, injected by the css-loader
-module.exports = function() {
-	var list = [];
-
-	// return the list of modules as css string
-	list.toString = function toString() {
-		var result = [];
-		for(var i = 0; i < this.length; i++) {
-			var item = this[i];
-			if(item[2]) {
-				result.push("@media " + item[2] + "{" + item[1] + "}");
-			} else {
-				result.push(item[1]);
-			}
-		}
-		return result.join("");
-	};
-
-	// import a list of modules into the list
-	list.i = function(modules, mediaQuery) {
-		if(typeof modules === "string")
-			modules = [[null, modules, ""]];
-		var alreadyImportedModules = {};
-		for(var i = 0; i < this.length; i++) {
-			var id = this[i][0];
-			if(typeof id === "number")
-				alreadyImportedModules[id] = true;
-		}
-		for(i = 0; i < modules.length; i++) {
-			var item = modules[i];
-			// skip already imported module
-			// this implementation is not 100% perfect for weird media query combinations
-			//  when a module is imported multiple times with different media queries.
-			//  I hope this will never occur (Hey this way we have smaller bundles)
-			if(typeof item[0] !== "number" || !alreadyImportedModules[item[0]]) {
-				if(mediaQuery && !item[2]) {
-					item[2] = mediaQuery;
-				} else if(mediaQuery) {
-					item[2] = "(" + item[2] + ") and (" + mediaQuery + ")";
-				}
-				list.push(item);
-			}
-		}
-	};
-	return list;
-};
-
-
-/***/ }),
-/* 273 */,
-/* 274 */,
-/* 275 */,
-/* 276 */,
-/* 277 */,
-/* 278 */
-/***/ (function(module, exports) {
-
-/*
-	MIT License http://www.opensource.org/licenses/mit-license.php
-	Author Tobias Koppers @sokra
-*/
-var stylesInDom = {},
-	memoize = function(fn) {
-		var memo;
-		return function () {
-			if (typeof memo === "undefined") memo = fn.apply(this, arguments);
-			return memo;
-		};
-	},
-	isOldIE = memoize(function() {
-		return /msie [6-9]\b/.test(self.navigator.userAgent.toLowerCase());
-	}),
-	getHeadElement = memoize(function () {
-		return document.head || document.getElementsByTagName("head")[0];
-	}),
-	singletonElement = null,
-	singletonCounter = 0,
-	styleElementsInsertedAtTop = [];
-
-module.exports = function(list, options) {
-	if(typeof DEBUG !== "undefined" && DEBUG) {
-		if(typeof document !== "object") throw new Error("The style-loader cannot be used in a non-browser environment");
-	}
-
-	options = options || {};
-	// Force single-tag solution on IE6-9, which has a hard limit on the # of <style>
-	// tags it will allow on a page
-	if (typeof options.singleton === "undefined") options.singleton = isOldIE();
-
-	// By default, add <style> tags to the bottom of <head>.
-	if (typeof options.insertAt === "undefined") options.insertAt = "bottom";
-
-	var styles = listToStyles(list);
-	addStylesToDom(styles, options);
-
-	return function update(newList) {
-		var mayRemove = [];
-		for(var i = 0; i < styles.length; i++) {
-			var item = styles[i];
-			var domStyle = stylesInDom[item.id];
-			domStyle.refs--;
-			mayRemove.push(domStyle);
-		}
-		if(newList) {
-			var newStyles = listToStyles(newList);
-			addStylesToDom(newStyles, options);
-		}
-		for(var i = 0; i < mayRemove.length; i++) {
-			var domStyle = mayRemove[i];
-			if(domStyle.refs === 0) {
-				for(var j = 0; j < domStyle.parts.length; j++)
-					domStyle.parts[j]();
-				delete stylesInDom[domStyle.id];
-			}
-		}
-	};
-}
-
-function addStylesToDom(styles, options) {
-	for(var i = 0; i < styles.length; i++) {
-		var item = styles[i];
-		var domStyle = stylesInDom[item.id];
-		if(domStyle) {
-			domStyle.refs++;
-			for(var j = 0; j < domStyle.parts.length; j++) {
-				domStyle.parts[j](item.parts[j]);
-			}
-			for(; j < item.parts.length; j++) {
-				domStyle.parts.push(addStyle(item.parts[j], options));
-			}
-		} else {
-			var parts = [];
-			for(var j = 0; j < item.parts.length; j++) {
-				parts.push(addStyle(item.parts[j], options));
-			}
-			stylesInDom[item.id] = {id: item.id, refs: 1, parts: parts};
-		}
-	}
-}
-
-function listToStyles(list) {
-	var styles = [];
-	var newStyles = {};
-	for(var i = 0; i < list.length; i++) {
-		var item = list[i];
-		var id = item[0];
-		var css = item[1];
-		var media = item[2];
-		var sourceMap = item[3];
-		var part = {css: css, media: media, sourceMap: sourceMap};
-		if(!newStyles[id])
-			styles.push(newStyles[id] = {id: id, parts: [part]});
-		else
-			newStyles[id].parts.push(part);
-	}
-	return styles;
-}
-
-function insertStyleElement(options, styleElement) {
-	var head = getHeadElement();
-	var lastStyleElementInsertedAtTop = styleElementsInsertedAtTop[styleElementsInsertedAtTop.length - 1];
-	if (options.insertAt === "top") {
-		if(!lastStyleElementInsertedAtTop) {
-			head.insertBefore(styleElement, head.firstChild);
-		} else if(lastStyleElementInsertedAtTop.nextSibling) {
-			head.insertBefore(styleElement, lastStyleElementInsertedAtTop.nextSibling);
-		} else {
-			head.appendChild(styleElement);
-		}
-		styleElementsInsertedAtTop.push(styleElement);
-	} else if (options.insertAt === "bottom") {
-		head.appendChild(styleElement);
-	} else {
-		throw new Error("Invalid value for parameter 'insertAt'. Must be 'top' or 'bottom'.");
-	}
-}
-
-function removeStyleElement(styleElement) {
-	styleElement.parentNode.removeChild(styleElement);
-	var idx = styleElementsInsertedAtTop.indexOf(styleElement);
-	if(idx >= 0) {
-		styleElementsInsertedAtTop.splice(idx, 1);
-	}
-}
-
-function createStyleElement(options) {
-	var styleElement = document.createElement("style");
-	styleElement.type = "text/css";
-	insertStyleElement(options, styleElement);
-	return styleElement;
-}
-
-function createLinkElement(options) {
-	var linkElement = document.createElement("link");
-	linkElement.rel = "stylesheet";
-	insertStyleElement(options, linkElement);
-	return linkElement;
-}
-
-function addStyle(obj, options) {
-	var styleElement, update, remove;
-
-	if (options.singleton) {
-		var styleIndex = singletonCounter++;
-		styleElement = singletonElement || (singletonElement = createStyleElement(options));
-		update = applyToSingletonTag.bind(null, styleElement, styleIndex, false);
-		remove = applyToSingletonTag.bind(null, styleElement, styleIndex, true);
-	} else if(obj.sourceMap &&
-		typeof URL === "function" &&
-		typeof URL.createObjectURL === "function" &&
-		typeof URL.revokeObjectURL === "function" &&
-		typeof Blob === "function" &&
-		typeof btoa === "function") {
-		styleElement = createLinkElement(options);
-		update = updateLink.bind(null, styleElement);
-		remove = function() {
-			removeStyleElement(styleElement);
-			if(styleElement.href)
-				URL.revokeObjectURL(styleElement.href);
-		};
-	} else {
-		styleElement = createStyleElement(options);
-		update = applyToTag.bind(null, styleElement);
-		remove = function() {
-			removeStyleElement(styleElement);
-		};
-	}
-
-	update(obj);
-
-	return function updateStyle(newObj) {
-		if(newObj) {
-			if(newObj.css === obj.css && newObj.media === obj.media && newObj.sourceMap === obj.sourceMap)
-				return;
-			update(obj = newObj);
-		} else {
-			remove();
-		}
-	};
-}
-
-var replaceText = (function () {
-	var textStore = [];
-
-	return function (index, replacement) {
-		textStore[index] = replacement;
-		return textStore.filter(Boolean).join('\n');
-	};
-})();
-
-function applyToSingletonTag(styleElement, index, remove, obj) {
-	var css = remove ? "" : obj.css;
-
-	if (styleElement.styleSheet) {
-		styleElement.styleSheet.cssText = replaceText(index, css);
-	} else {
-		var cssNode = document.createTextNode(css);
-		var childNodes = styleElement.childNodes;
-		if (childNodes[index]) styleElement.removeChild(childNodes[index]);
-		if (childNodes.length) {
-			styleElement.insertBefore(cssNode, childNodes[index]);
-		} else {
-			styleElement.appendChild(cssNode);
-		}
-	}
-}
-
-function applyToTag(styleElement, obj) {
-	var css = obj.css;
-	var media = obj.media;
-
-	if(media) {
-		styleElement.setAttribute("media", media)
-	}
-
-	if(styleElement.styleSheet) {
-		styleElement.styleSheet.cssText = css;
-	} else {
-		while(styleElement.firstChild) {
-			styleElement.removeChild(styleElement.firstChild);
-		}
-		styleElement.appendChild(document.createTextNode(css));
-	}
-}
-
-function updateLink(linkElement, obj) {
-	var css = obj.css;
-	var sourceMap = obj.sourceMap;
-
-	if(sourceMap) {
-		// http://stackoverflow.com/a/26603875
-		css += "\n/*# sourceMappingURL=data:application/json;base64," + btoa(unescape(encodeURIComponent(JSON.stringify(sourceMap)))) + " */";
-	}
-
-	var blob = new Blob([css], { type: "text/css" });
-
-	var oldSrc = linkElement.href;
-
-	linkElement.href = URL.createObjectURL(blob);
-
-	if(oldSrc)
-		URL.revokeObjectURL(oldSrc);
-}
-
-
-/***/ }),
-/* 279 */
+/* 267 */
 /***/ (function(module, exports, __webpack_require__) {
 
-exports = module.exports = __webpack_require__(272)();
-exports.push([module.i, ".lx-toast {\r\n    position: fixed;\r\n    bottom: 100px;\r\n    left: 50%;\r\n    box-sizing: border-box;\r\n    max-width: 80%;\r\n    height: 40px;\r\n    line-height: 20px;\r\n    padding: 10px 20px;\r\n    transform: translateX(-50%);\r\n    -webkit-transform: translateX(-50%);\r\n    text-align: center;\r\n    z-index: 9999;\r\n    font-size: 14px;\r\n    color: #fff;\r\n    border-radius: 5px;\r\n    background: rgba(0, 0, 0, 0.7);\r\n    animation: show-toast .5s;\r\n    -webkit-animation: show-toast .5s;\r\n    overflow: hidden;\r\n    text-overflow: ellipsis;\r\n    white-space: nowrap;\r\n}\r\n\r\n.lx-toast.lx-word-wrap {\r\n    width: 80%;\r\n    white-space: inherit;\r\n    height: auto;\r\n}\r\n\r\n.lx-toast.lx-toast-top {\r\n    top: 50px;\r\n    bottom: inherit;\r\n}\r\n\r\n.lx-toast.lx-toast-center {\r\n    top: 50%;\r\n    margin-top: -20px;\r\n    bottom: inherit;\r\n}\r\n\r\n@keyframes show-toast {\r\n    from {\r\n        opacity: 0;\r\n        transform: translate(-50%, -10px);\r\n        -webkit-transform: translate(-50%, -10px);\r\n    }\r\n    to {\r\n        opacity: 1;\r\n        transform: translate(-50%, 0);\r\n        -webkit-transform: translate(-50%, 0);\r\n    }\r\n}\r\n\r\n.lx-load-mark {\r\n    position: fixed;\r\n    left: 0;\r\n    top: 0;\r\n    width: 100%;\r\n    height: 100%;\r\n    z-index: 9999;\r\n}\r\n\r\n.lx-load-box {\r\n    position: fixed;\r\n    z-index: 3;\r\n    width: 7.6em;\r\n    min-height: 7.6em;\r\n    top: 180px;\r\n    left: 50%;\r\n    margin-left: -3.8em;\r\n    background: rgba(0, 0, 0, 0.7);\r\n    text-align: center;\r\n    border-radius: 5px;\r\n    color: #FFFFFF;\r\n}\r\n\r\n.lx-load-content {\r\n    margin-top: 64%;\r\n    font-size: 14px;\r\n}\r\n\r\n.lx-loading {\r\n    position: absolute;\r\n    width: 0px;\r\n    left: 50%;\r\n    top: 38%;\r\n}\r\n\r\n.loading_leaf {\r\n    position: absolute;\r\n    top: -1px;\r\n    opacity: 0.25;\r\n}\r\n\r\n.loading_leaf:before {\r\n    content: \" \";\r\n    position: absolute;\r\n    width: 9.14px;\r\n    height: 3.08px;\r\n    background: #d1d1d5;\r\n    box-shadow: rgba(0, 0, 0, 0.0980392) 0px 0px 1px;\r\n    border-radius: 1px;\r\n    -webkit-transform-origin: left 50% 0px;\r\n    transform-origin: left 50% 0px;\r\n}\r\n\r\n.loading_leaf_0 {\r\n    -webkit-animation: opacity-0 1.25s linear infinite;\r\n    animation: opacity-0 1.25s linear infinite;\r\n}\r\n\r\n.loading_leaf_0:before {\r\n    -webkit-transform: rotate(0deg) translate(7.92px, 0px);\r\n    transform: rotate(0deg) translate(7.92px, 0px);\r\n}\r\n\r\n.loading_leaf_1 {\r\n    -webkit-animation: opacity-1 1.25s linear infinite;\r\n    animation: opacity-1 1.25s linear infinite;\r\n}\r\n\r\n.loading_leaf_1:before {\r\n    -webkit-transform: rotate(30deg) translate(7.92px, 0px);\r\n    transform: rotate(30deg) translate(7.92px, 0px);\r\n}\r\n\r\n.loading_leaf_2 {\r\n    -webkit-animation: opacity-2 1.25s linear infinite;\r\n    animation: opacity-2 1.25s linear infinite;\r\n}\r\n\r\n.loading_leaf_2:before {\r\n    -webkit-transform: rotate(60deg) translate(7.92px, 0px);\r\n    transform: rotate(60deg) translate(7.92px, 0px);\r\n}\r\n\r\n.loading_leaf_3 {\r\n    -webkit-animation: opacity-3 1.25s linear infinite;\r\n    animation: opacity-3 1.25s linear infinite;\r\n}\r\n\r\n.loading_leaf_3:before {\r\n    -webkit-transform: rotate(90deg) translate(7.92px, 0px);\r\n    transform: rotate(90deg) translate(7.92px, 0px);\r\n}\r\n\r\n.loading_leaf_4 {\r\n    -webkit-animation: opacity-4 1.25s linear infinite;\r\n    animation: opacity-4 1.25s linear infinite;\r\n}\r\n\r\n.loading_leaf_4:before {\r\n    -webkit-transform: rotate(120deg) translate(7.92px, 0px);\r\n    transform: rotate(120deg) translate(7.92px, 0px);\r\n}\r\n\r\n.loading_leaf_5 {\r\n    -webkit-animation: opacity-5 1.25s linear infinite;\r\n    animation: opacity-5 1.25s linear infinite;\r\n}\r\n\r\n.loading_leaf_5:before {\r\n    -webkit-transform: rotate(150deg) translate(7.92px, 0px);\r\n    transform: rotate(150deg) translate(7.92px, 0px);\r\n}\r\n\r\n.loading_leaf_6 {\r\n    -webkit-animation: opacity-6 1.25s linear infinite;\r\n    animation: opacity-6 1.25s linear infinite;\r\n}\r\n\r\n.loading_leaf_6:before {\r\n    -webkit-transform: rotate(180deg) translate(7.92px, 0px);\r\n    transform: rotate(180deg) translate(7.92px, 0px);\r\n}\r\n\r\n.loading_leaf_7 {\r\n    -webkit-animation: opacity-7 1.25s linear infinite;\r\n    animation: opacity-7 1.25s linear infinite;\r\n}\r\n\r\n.loading_leaf_7:before {\r\n    -webkit-transform: rotate(210deg) translate(7.92px, 0px);\r\n    transform: rotate(210deg) translate(7.92px, 0px);\r\n}\r\n\r\n.loading_leaf_8 {\r\n    -webkit-animation: opacity-8 1.25s linear infinite;\r\n    animation: opacity-8 1.25s linear infinite;\r\n}\r\n\r\n.loading_leaf_8:before {\r\n    -webkit-transform: rotate(240deg) translate(7.92px, 0px);\r\n    transform: rotate(240deg) translate(7.92px, 0px);\r\n}\r\n\r\n.loading_leaf_9 {\r\n    -webkit-animation: opacity-9 1.25s linear infinite;\r\n    animation: opacity-9 1.25s linear infinite;\r\n}\r\n\r\n.loading_leaf_9:before {\r\n    -webkit-transform: rotate(270deg) translate(7.92px, 0px);\r\n    transform: rotate(270deg) translate(7.92px, 0px);\r\n}\r\n\r\n.loading_leaf_10 {\r\n    -webkit-animation: opacity-10 1.25s linear infinite;\r\n    animation: opacity-10 1.25s linear infinite;\r\n}\r\n\r\n.loading_leaf_10:before {\r\n    -webkit-transform: rotate(300deg) translate(7.92px, 0px);\r\n    transform: rotate(300deg) translate(7.92px, 0px);\r\n}\r\n\r\n.loading_leaf_11 {\r\n    -webkit-animation: opacity-11 1.25s linear infinite;\r\n    animation: opacity-11 1.25s linear infinite;\r\n}\r\n\r\n.loading_leaf_11:before {\r\n    -webkit-transform: rotate(330deg) translate(7.92px, 0px);\r\n    transform: rotate(330deg) translate(7.92px, 0px);\r\n}\r\n\r\n@-webkit-keyframes opacity-0 {\r\n    0% {\r\n        opacity: 0.25;\r\n    }\r\n    0.01% {\r\n        opacity: 0.25;\r\n    }\r\n    0.02% {\r\n        opacity: 1;\r\n    }\r\n    60.01% {\r\n        opacity: 0.25;\r\n    }\r\n    100% {\r\n        opacity: 0.25;\r\n    }\r\n}\r\n\r\n@-webkit-keyframes opacity-1 {\r\n    0% {\r\n        opacity: 0.25;\r\n    }\r\n    8.34333% {\r\n        opacity: 0.25;\r\n    }\r\n    8.35333% {\r\n        opacity: 1;\r\n    }\r\n    68.3433% {\r\n        opacity: 0.25;\r\n    }\r\n    100% {\r\n        opacity: 0.25;\r\n    }\r\n}\r\n\r\n@-webkit-keyframes opacity-2 {\r\n    0% {\r\n        opacity: 0.25;\r\n    }\r\n    16.6767% {\r\n        opacity: 0.25;\r\n    }\r\n    16.6867% {\r\n        opacity: 1;\r\n    }\r\n    76.6767% {\r\n        opacity: 0.25;\r\n    }\r\n    100% {\r\n        opacity: 0.25;\r\n    }\r\n}\r\n\r\n@-webkit-keyframes opacity-3 {\r\n    0% {\r\n        opacity: 0.25;\r\n    }\r\n    25.01% {\r\n        opacity: 0.25;\r\n    }\r\n    25.02% {\r\n        opacity: 1;\r\n    }\r\n    85.01% {\r\n        opacity: 0.25;\r\n    }\r\n    100% {\r\n        opacity: 0.25;\r\n    }\r\n}\r\n\r\n@-webkit-keyframes opacity-4 {\r\n    0% {\r\n        opacity: 0.25;\r\n    }\r\n    33.3433% {\r\n        opacity: 0.25;\r\n    }\r\n    33.3533% {\r\n        opacity: 1;\r\n    }\r\n    93.3433% {\r\n        opacity: 0.25;\r\n    }\r\n    100% {\r\n        opacity: 0.25;\r\n    }\r\n}\r\n\r\n@-webkit-keyframes opacity-5 {\r\n    0% {\r\n        opacity: 0.270958333333333;\r\n    }\r\n    41.6767% {\r\n        opacity: 0.25;\r\n    }\r\n    41.6867% {\r\n        opacity: 1;\r\n    }\r\n    1.67667% {\r\n        opacity: 0.25;\r\n    }\r\n    100% {\r\n        opacity: 0.270958333333333;\r\n    }\r\n}\r\n\r\n@-webkit-keyframes opacity-6 {\r\n    0% {\r\n        opacity: 0.375125;\r\n    }\r\n    50.01% {\r\n        opacity: 0.25;\r\n    }\r\n    50.02% {\r\n        opacity: 1;\r\n    }\r\n    10.01% {\r\n        opacity: 0.25;\r\n    }\r\n    100% {\r\n        opacity: 0.375125;\r\n    }\r\n}\r\n\r\n@-webkit-keyframes opacity-7 {\r\n    0% {\r\n        opacity: 0.479291666666667;\r\n    }\r\n    58.3433% {\r\n        opacity: 0.25;\r\n    }\r\n    58.3533% {\r\n        opacity: 1;\r\n    }\r\n    18.3433% {\r\n        opacity: 0.25;\r\n    }\r\n    100% {\r\n        opacity: 0.479291666666667;\r\n    }\r\n}\r\n\r\n@-webkit-keyframes opacity-8 {\r\n    0% {\r\n        opacity: 0.583458333333333;\r\n    }\r\n    66.6767% {\r\n        opacity: 0.25;\r\n    }\r\n    66.6867% {\r\n        opacity: 1;\r\n    }\r\n    26.6767% {\r\n        opacity: 0.25;\r\n    }\r\n    100% {\r\n        opacity: 0.583458333333333;\r\n    }\r\n}\r\n\r\n@-webkit-keyframes opacity-9 {\r\n    0% {\r\n        opacity: 0.687625;\r\n    }\r\n    75.01% {\r\n        opacity: 0.25;\r\n    }\r\n    75.02% {\r\n        opacity: 1;\r\n    }\r\n    35.01% {\r\n        opacity: 0.25;\r\n    }\r\n    100% {\r\n        opacity: 0.687625;\r\n    }\r\n}\r\n\r\n@-webkit-keyframes opacity-10 {\r\n    0% {\r\n        opacity: 0.791791666666667;\r\n    }\r\n    83.3433% {\r\n        opacity: 0.25;\r\n    }\r\n    83.3533% {\r\n        opacity: 1;\r\n    }\r\n    43.3433% {\r\n        opacity: 0.25;\r\n    }\r\n    100% {\r\n        opacity: 0.791791666666667;\r\n    }\r\n}\r\n\r\n@-webkit-keyframes opacity-11 {\r\n    0% {\r\n        opacity: 0.895958333333333;\r\n    }\r\n    91.6767% {\r\n        opacity: 0.25;\r\n    }\r\n    91.6867% {\r\n        opacity: 1;\r\n    }\r\n    51.6767% {\r\n        opacity: 0.25;\r\n    }\r\n    100% {\r\n        opacity: 0.895958333333333;\r\n    }\r\n}", ""]);
+module.exports = __webpack_require__(155);
 
-/***/ }),
-/* 280 */
-/***/ (function(module, exports, __webpack_require__) {
-
-// style-loader: Adds some css to the DOM by adding a <style> tag
-
-// load the styles
-var content = __webpack_require__(279);
-if(typeof content === 'string') content = [[module.i, content, '']];
-// add the styles to the DOM
-var update = __webpack_require__(278)(content, {});
-if(content.locals) module.exports = content.locals;
-// Hot Module Replacement
-if(false) {
-	// When the styles change, update the <style> tags
-	if(!content.locals) {
-		module.hot.accept("!!../../css-loader/index.js!./toast.css", function() {
-			var newContent = require("!!../../css-loader/index.js!./toast.css");
-			if(typeof newContent === 'string') newContent = [[module.id, newContent, '']];
-			update(newContent);
-		});
-	}
-	// When the module is disposed, remove the <style> tags
-	module.hot.dispose(function() { update(); });
-}
-
-/***/ }),
-/* 281 */
-/***/ (function(module, exports) {
-
-/**
- * Updated by linxin on 2017/7/27.
- */
-var Toast = {};
-var showToast = false, // 存储toast显示状态
-    showLoad = false, // 存储loading显示状态
-    toastVM = null, // 存储toast vm
-    loadNode = null; // 存储loading节点元素
-
-Toast.install = function (Vue, options) {
-
-    var opt = {
-        defaultType: 'bottom',
-        duration: '2500',
-        wordWrap: false
-    };
-    for (var property in options) {
-        opt[property] = options[property];
-    }
-
-    Vue.prototype.$toast = function (tips, type) {
-
-        var curType = type ? type : opt.defaultType;
-        var wordWrap = opt.wordWrap ? 'lx-word-wrap' : '';
-        var style = opt.width ? 'style="width: ' + opt.width + '"' : '';
-        var tmp = '<div v-show="show" :class="type" class="lx-toast ' + wordWrap + '" ' + style + '>{{tip}}</div>';
-
-        if (showToast) {
-            // 如果toast还在，则不再执行
-            return;
-        }
-        if (!toastVM) {
-            var toastTpl = Vue.extend({
-                data: function () {
-                    return {
-                        show: showToast,
-                        tip: tips,
-                        type: 'lx-toast-' + curType
-                    }
-                },
-                template: tmp
-            });
-            toastVM = new toastTpl()
-            var tpl = toastVM.$mount().$el;
-            document.body.appendChild(tpl);
-        }
-        toastVM.type = 'lx-toast-' + curType;
-        toastVM.tip = tips;
-        toastVM.show = showToast = true;
-
-        setTimeout(function () {
-            toastVM.show = showToast = false;
-        }, opt.duration)
-    };
-    ['bottom', 'center', 'top'].forEach(function (type) {
-        Vue.prototype.$toast[type] = function (tips) {
-            return Vue.prototype.$toast(tips, type)
-        }
-    });
-
-    Vue.prototype.$loading = function (tips, type) {
-        if (type == 'close') {
-            loadNode.show = showLoad = false;
-        } else {
-            if (showLoad) {
-                // 如果loading还在，则不再执行
-                return;
-            }
-            var loadTpl = Vue.extend({
-                data: function () {
-                    return {
-                        show: showLoad
-                    }
-                },
-                template: '<div v-show="show" class="lx-load-mark"><div class="lx-load-box"><div class="lx-loading"><div class="loading_leaf loading_leaf_0"></div><div class="loading_leaf loading_leaf_1"></div><div class="loading_leaf loading_leaf_2"></div><div class="loading_leaf loading_leaf_3"></div><div class="loading_leaf loading_leaf_4"></div><div class="loading_leaf loading_leaf_5"></div><div class="loading_leaf loading_leaf_6"></div><div class="loading_leaf loading_leaf_7"></div><div class="loading_leaf loading_leaf_8"></div><div class="loading_leaf loading_leaf_9"></div><div class="loading_leaf loading_leaf_10"></div><div class="loading_leaf loading_leaf_11"></div></div><div class="lx-load-content">' + tips + '</div></div></div>'
-            });
-            loadNode = new loadTpl();
-            var tpl = loadNode.$mount().$el;
-
-            document.body.appendChild(tpl);
-            loadNode.show = showLoad = true;
-        }
-    };
-
-    ['open', 'close'].forEach(function (type) {
-        Vue.prototype.$loading[type] = function (tips) {
-            return Vue.prototype.$loading(tips, type)
-        }
-    });
-}
-module.exports = Toast;
 
 /***/ })
 /******/ ]);

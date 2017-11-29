@@ -9,7 +9,7 @@
       <div class="empty-left" v-else>
       </div>
       <div class="Request-manager-replace" v-if="managerReplaceistrue">
-        <h6 class="mirs-managerreplace-info"><i class="fa fa-info-circle color-blue"></i>
+        <h6 class="mirs-managerreplace-info"><i class="material-icons color-blue">info</i>
           <span class="color-blue">{{MIRSMaster.users[0].FullName}}</span> is asking for your signature b/c the {{MIRSMaster.users[1].Position}} is not available
         </h6>
         <span class="manager-replacer-accept-cant" :class="{'hide':SignatureManagerRelacerBtnHide}">
@@ -22,7 +22,7 @@
         </span>
       </div>
       <div class="Request-manager-replace"  v-if="UserIsApprovalReplacer">
-        <h6 class="mirs-managerreplace-info"><i class="fa fa-info-circle color-blue"></i>
+        <h6 class="mirs-managerreplace-info"><i class="material-icons color-blue">info</i>
           <span class="color-blue">{{MIRSMaster.users[0].FullName}}</span> is asking for your signature b/c the General Manager is not available
         </h6>
         <span class="Approve-replacer-accept-cant" :class="{'hide':SignatureApproveBtnHide}">
@@ -45,9 +45,9 @@
         </div>
       </span>
       <div class="mct-create-mct-list" v-if="approved">
-        <a :href="'/create-mct/'+mirsno.MIRSNo" v-if="((user.Role==4)||(user.Role==3))"><button type="button" id="mct-modal-btn" name="button"><i class="fa fa-plus"></i> Record MCT</button></a>
+        <a :href="'/create-mct/'+mirsno.MIRSNo" v-if="((user.Role==4)||(user.Role==3))"><button type="button" id="mct-modal-btn" name="button"><i class="material-icons">add</i> Record MCT</button></a>
         <h1 v-if="((user.Role!=3)&&(user.Role!=4)&&(MCTNumber==null))">Empty MCT</h1>
-        <a :href="'/MCTofMIRS/'+mirsno.MIRSNo" v-else-if="MCTNumber!=null"><button type="button" name="button"><i class="fa fa-table"></i> M.C.T. list</button></a>
+        <a :href="'/MCTofMIRS/'+mirsno.MIRSNo" v-else-if="MCTNumber!=null"><button type="button" name="button"><i class="material-icons">show_chart</i> M.C.T. list</button></a>
       </div>
     </div>
   </div>
@@ -118,7 +118,7 @@
                 </h3>
               <h2>
                 {{MIRSMaster.users[0].FullName}}
-                  <i v-if="(MIRSMaster.users[0].pivot.Signature=='1')"class="fa fa-times decliner"></i>
+                  <i v-if="(MIRSMaster.users[0].pivot.Signature=='1')"class="material-icons decliner">close</i>
                   <br>
                 {{MIRSMaster.users[0].Position}}
               </h2>
@@ -141,7 +141,7 @@
              <span class="opener-manager-replace">
                <div class="mini-menu-managers" v-if="user.id==MIRSMaster.users[0].id && this.ManagerBehalfActive==true">
                  <h1 v-if="ManagerReplacerData==null">Request signature to</h1>
-                 <h1 v-else>Request pending <i class="fa fa-clock-o color-white"></i></h1>
+                 <h1 v-else>Request pending <i class="material-icons color-white">access_time</i></h1>
                  <div class="manager-list-menu"v-if="ManagerReplacerData==null">
                    <select v-model="ManagerReplacerID">
                      <option :value="null">Choose a manager</option>
@@ -155,12 +155,15 @@
                  </div>
                  <div class="manager-replacer-sent" v-else>
                    <p>Your request has been sent to<br> <span class="underline">{{ManagerReplacerData.FullName}}</span></p>
-                   <span class="cancel-manager-replace" v-on:click="cancelrequestReplacer()"><i class="fa fa-times color-red"></i>cancel</span>
+                   <span class="cancel-manager-replace" v-on:click="cancelrequestReplacer()"><i class="material-icons color-red">close</i>cancel</span>
                  </div>
                </div>
-               <i v-if="((RecommendedBySignatureNull)&&(RequisitionerAlreadySignatured))" class="color-blue" :class="[MIRSMaster.ManagerReplacer==null?'fa fa-users':'fa fa-clock-o']" v-on:click="ManagerBehalfActive=!ManagerBehalfActive,[allManager[0]==null?fetchAllManager():'']" ></i>
+               <span v-if="((RecommendedBySignatureNull)&&(RequisitionerAlreadySignatured))">
+                 <i v-if="this.ManagerReplacerData==null" class="color-blue material-icons"  v-on:click="ManagerBehalfActive=!ManagerBehalfActive,[allManager[0]==null?fetchAllManager():'']" >people</i>
+                 <i v-else-if="this.ManagerReplacerData!=null" class="color-blue material-icons"  v-on:click="ManagerBehalfActive=!ManagerBehalfActive,[allManager[0]==null?fetchAllManager():'']" >access_time</i>
+               </span>
              </span>
-             <i class="fa fa-times decliner" v-if="(MIRSMaster.users[1].pivot.Signature=='1')"></i>
+             <i class="material-icons decliner" v-if="(MIRSMaster.users[1].pivot.Signature=='1')">close</i>
              </span><br>
               {{MIRSMaster.users[1].Position}}
             </h2>
@@ -177,7 +180,7 @@
             <h2>
             <span class="gm-info-box bold">
               {{MIRSMaster.users[2].FullName}}
-              <i class="fa fa-times decliner" v-if="(MIRSMaster.users[2].pivot.Signature=='1')"></i>
+              <i class="material-icons decliner" v-if="(MIRSMaster.users[2].pivot.Signature=='1')">close</i>
             </span><br>
               {{MIRSMaster.users[2].Position}}
             </h2>
@@ -193,6 +196,9 @@
 <script>
 import axios from 'axios';
 import Longpress from 'vue-longpress';
+import 'vue2-toast/lib/toast.css';
+import Toast from 'vue2-toast';
+Vue.use(Toast);
   export default {
      data () {
         return {
@@ -227,21 +233,25 @@ import Longpress from 'vue-longpress';
        SignatureMIRS()
        {
          this.SignatureBtnHide=true;
+         this.$loading('Signaturing');
          var vm=this;
          axios.put(`/MIRS-Signature/`+this.mirsno.MIRSNo).then(function(response)
         {
           console.log(response);
           vm.fetchMIRSData();
+          vm.$loading.close();
         });
       },
       DeclineMIRS()
       {
         this.SignatureBtnHide=true;
+        this.$loading('Declining');
         var vm=this;
         axios.put(`/deniedmirs/`+this.mirsno.MIRSNo).then(function(response)
         {
           console.log(response);
           vm.fetchMIRSData();
+          vm.$loading.close();
         })
       },
       ApproveinBehalf()
@@ -273,6 +283,7 @@ import Longpress from 'vue-longpress';
       },
       sendrequestReplacer()
       {
+        this.$loading('Sending...');
         var vm=this;
         axios.post(`/send-request-manager-replacer/`+this.mirsno.MIRSNo,{
           ManagerReplacerID:this.ManagerReplacerID,
@@ -281,14 +292,17 @@ import Longpress from 'vue-longpress';
           if (response.data.error!=null)
           {
             Vue.set(vm.$data,'error',response.data.error);
+            vm.this.$loading.close();
           }else
           {
             vm.fetchMIRSData();
+            vm.$loading.close();
           }
         });
       },
       cancelrequestReplacer()
       {
+        this.$loading('Canceling...');
         this.SignatureManagerRelacerBtnHide=true;
         var vm=this;
         axios.delete(`/cancel-request-manager-replacer/` + this.mirsno.MIRSNo).then(function(response)
@@ -296,6 +310,7 @@ import Longpress from 'vue-longpress';
           Vue.set(vm.$data,'ManagerBehalfActive',false);
           console.log(response);
           vm.fetchMIRSData();
+          vm.$loading.close();
         });
       },
       AcceptrequestReplacer()

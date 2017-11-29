@@ -18,7 +18,7 @@ class AccountController extends Controller
 {
     public function __construct()
     {
-      $this->middleware('IsAdmin',['except'=>['getSelectedRoleAndSearch','loginpage','sendsms','getCurrentAssigned','UpdateManagerTakePlace','getActiveManager','toManagerTakePlacePage','fetchDataofSelectedUser','MyRVHistoryandSearch','MyMRHistoryandSearch','MyMRTHistoryandSearch','MyMCTHistoryandSearch','MyMIRSHistoryandSearch','ShowMyHistoryPage','loginSubmit','logoutAccount']]);
+      $this->middleware('IsAdmin',['except'=>['getSelectedRoleAndSearch','MyAccountSettingsPage','loginpage','sendsms','getCurrentAssigned','UpdateManagerTakePlace','getActiveManager','toManagerTakePlacePage','fetchDataofSelectedUser','MyRVHistoryandSearch','MyMRHistoryandSearch','MyMRTHistoryandSearch','MyMCTHistoryandSearch','MyMIRSHistoryandSearch','ShowMyHistoryPage','loginSubmit','logoutAccount']]);
     }
     // public function sendsms()
     // {
@@ -302,5 +302,9 @@ class AccountController extends Controller
       $userDB->Password=bcrypt($request->Password);
       $userDB->Signature=$fileName;
       $userDB->save();
+    }
+    public function MyAccountSettingsPage()
+    {
+      return view('Warehouse.Account.MyAccountSettings');
     }
 }

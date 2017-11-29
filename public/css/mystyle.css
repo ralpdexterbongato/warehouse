@@ -25,7 +25,7 @@ footer, header, hgroup, menu, nav, section {
 	display: block;
 }
 html{
-	font-family:sans-serif;
+	font-family:'Comfortaa', sans-serif;
 }
 body {
 	line-height: 1;
@@ -46,13 +46,22 @@ table {
 	border-spacing: 0;
 }
 /*end reset*/
-@import url('https://fonts.googleapis.com/css?family=Roboto|Kaushan+Script');
+@import url('https://fonts.googleapis.com/css?family=Roboto|Kaushan+Script|Comfortaa');
 /*GLOBAL*/
+
 tr{
 	background: #fff;
 }
 *{
   outline:none;
+}
+.main-master-container
+{
+	min-height: 100vh;
+}
+.material-icons
+{
+	vertical-align: middle;
 }
 .uppercase
 {
@@ -187,6 +196,14 @@ input[type='radio']:after {
   display: flex;
   justify-content: space-between;
   background-color:#3367D6;
+	-webkit-box-shadow: 0 2px 4px -1px rgba(0,0,0,0.06), 0 4px 5px 0 rgba(0,0,0,0.06), 0 1px 10px 0 rgba(0,0,0,0.08);
+  box-shadow: 0 2px 4px -1px rgba(0,0,0,0.06), 0 4px 5px 0 rgba(0,0,0,0.06), 0 1px 10px 0 rgba(0,0,0,0.08);
+	position: fixed;
+	top: 0;
+	left: 0;
+	right: 0;
+	z-index:15;
+
 }
 @media (max-width:750px)
 {
@@ -224,15 +241,8 @@ input[type='radio']:after {
 {
   color: #fff;
   font-size: 25px;
-  font-family:Roboto, 'Segoe UI', Tahoma, sans-serif;
+  font-family: 'Comfortaa', cursive;
 	margin:auto;
-	-ms-filter: "progid:DXImageTransform.Microsoft.Shadow(Strength=5, Direction=0, Color=#2E3A40)";/*IE 8*/
-	text-shadow: 0 4px 5px #2E3A40;/* FF3.5+, Opera 9+, Saf1+, Chrome, IE10 */
-	filter: progid:DXImageTransform.Microsoft.Shadow(Strength=5, Direction=135, Color=#2E3A40);
-}
-.body-container
-{
-min-height: 70vh;
 }
 .new-search-container
 {
@@ -422,11 +432,11 @@ min-height: 70vh;
   width: 40px;
   padding-top:12px;
   box-sizing: border-box;
-  -ms-filter: drop-shadow(0px 7px 3px rgba(61, 61, 61, 0.4));
-	-webkit-filter: drop-shadow(0px 7px 3px rgba(61, 61, 61, 0.4));
-	-moz-filter: drop-shadow(0px 7px 3px rgba(61, 61, 61, 0.4));
-	-o-filter: drop-shadow(0px 7px 3px rgba(61, 61, 61, 0.4));
-	filter: drop-shadow(0px 7px 3px rgba(61, 61, 61, 0.4));
+  -ms-filter: drop-shadow(0px 4px 3px rgba(61, 61, 61, 0.4));
+	-webkit-filter: drop-shadow(0px 4px 3px rgba(61, 61, 61, 0.4));
+	-moz-filter: drop-shadow(0px 4px 3px rgba(61, 61, 61, 0.4));
+	-o-filter: drop-shadow(0px 4px 3px rgba(61, 61, 61, 0.4));
+	filter: drop-shadow(0px 4px 3px rgba(61, 61, 61, 0.4));
 }
 .empty-left-btn > ul > li h1 i
 {
@@ -525,7 +535,7 @@ min-height: 70vh;
 {
   color: #fff;
   font-size: 18px;
-  font-family:Roboto, 'Segoe UI', Tahoma, sans-serif;
+  font-family:'Comfortaa', sans-serif;
 }
 .text-left span i
 {
@@ -963,14 +973,7 @@ font-size: 16px;
 }
 #go-btn:hover
 {
-background-color:#002C4E;
-}
-#loading-submit
-{
-  text-align: center;
-  font-size: 25px;
-  color: #fff;
-  height: 40px
+	background-color:#002C4E;
 }
 .submitMCT-btn
 {
@@ -1319,8 +1322,8 @@ only screen and (max-width: 1050px),
 .modal-search-results td > button
 {
   border-radius: 50%;
-  height: 34px;
-  width: 34px;
+  height: 43px;
+  width: 43px;
 }
 .modal-search-results td input
 {
@@ -3463,7 +3466,7 @@ filter: drop-shadow(1px 1px 3px #1D1A33);
 {
 	flex:1;
 	display: flex;
-	background: #22448E;
+	background: #fff;
 }
 @media (max-width:570px)
 {
@@ -3504,24 +3507,29 @@ filter: drop-shadow(1px 1px 3px #1D1A33);
 }
 .login-placeholder-container input:focus
 {
-	border-bottom-color:#BBCCF1;
+	border-bottom-color:#7799E3;
+}
+.login-placeholder-container input.active
+{
+	border-bottom:2px solid #7799E3;
+	margin-bottom: 50px;
 }
 .login-placeholder-container input
 {
-	margin-bottom: 50px;
-	color: #fff;
+	margin-bottom: 51px;
+	color: #282C34;
 	font-size: 15px;
 	background: transparent;
-	border-style: none;
-	border-bottom:1.1px solid #7799E3;
-	width: 100%;
+	border-style:  none;
+	border-bottom:1px solid #ccc;
+	width:100%;
 	margin-left: 10px;
 	padding-bottom: 11px;
 	letter-spacing:1px;
 }
 .login-placeholder-container input[type="password"]
 {
-	letter-spacing: 4px;
+	letter-spacing: 3px;
 }
 .login-placeholder-container
 {
@@ -3532,7 +3540,7 @@ filter: drop-shadow(1px 1px 3px #1D1A33);
 {
 	position: absolute;
 	pointer-events: none;
-	color: #fff;
+	color:#aaa;
 	top: 3px;
 	left: 35px;
 	font-size: 15px;
@@ -3541,7 +3549,7 @@ filter: drop-shadow(1px 1px 3px #1D1A33);
 .login-placeholder-container h5.active
 {
 	top: -22px;
-	font-size:12.5px;
+	font-size:12px;
 	color: #7799E3;
 }
 .submit-btn-login-container
@@ -3558,7 +3566,8 @@ filter: drop-shadow(1px 1px 3px #1D1A33);
 	font-weight: 700;
 	border-style: none;
 	color: #fff;
-	font-size:19px;
+	font-size:14px;
+	cursor: pointer;
 	-webkit-transition: box-shadow .28s cubic-bezier(0.4,0.0,0.2,1);
   transition: box-shadow .28s cubic-bezier(0.4,0.0,0.2,1);
   -webkit-box-shadow: 0 2px 2px 0 rgba(0,0,0,0.14), 0 3px 1px -2px rgba(0,0,0,0.12), 0 1px 5px 0 rgba(0,0,0,0.2);
@@ -3581,15 +3590,6 @@ filter: drop-shadow(1px 1px 3px #1D1A33);
 		display: block;
 		margin-top: 20px;
 	}
-	.login-placeholder-container input
-	{
-		margin-bottom: 30px;
-	}
-}
-.submit-btn-login-container button i
-{
-	vertical-align: middle;
-	margin-right: 7px;
 }
 .icon-and-input
 {
@@ -3597,9 +3597,12 @@ filter: drop-shadow(1px 1px 3px #1D1A33);
 }
 .icon-and-input i
 {
-	vertical-align: middle;
-	color: #fff;
+	color:gray;
 	font-size:26px;
+}
+.icon-and-input i.active
+{
+	color: #3367D6;
 }
 /*REGISTRAION CSS*/
 #signaturePreview,#signatureUpdate
@@ -3753,10 +3756,10 @@ filter: drop-shadow(1px 1px 3px #1D1A33);
 {
   position: relative;
   font-family:Roboto, 'Segoe UI', Tahoma, sans-serif;
-  background:#AAAAAA;
+  background:#b7b7b7;
   color:#fff;
   font-size: 13px;
-  border-radius:20px;
+  border-radius:4px;
   padding:3px 3px 5px 3px;
   min-width: 28px;
   text-align: center;
@@ -8756,14 +8759,10 @@ filter: drop-shadow(-2px 1px 5px #1D1A33);
 {
   display: flex;
 }
-.update-modal-center:hover
-{
-  overflow-y: auto;
-}
 .update-modal-center
 {
   width: 530px;
-  overflow: hidden;
+	overflow-y:scroll;
   margin:0 auto;
   height: 100%;
   background: #fff;
@@ -9492,7 +9491,7 @@ only screen and (max-width: 1050px),
 .top-nav-boxes
 {
   height: 54px;
-  padding:25px 90px;
+  padding:55px 90px 25px 90px;
 }
 /*CREATE NEW USER ACCOUNT*/
 .CreateNEwUserModal
@@ -10209,4 +10208,105 @@ only screen and (max-width: 1050px),
 .pagination-sm > li:last-child > span {
   border-bottom-right-radius: 3px;
   border-top-right-radius: 3px;
+}
+/*my account settings css*/
+.my-account-settings-vue
+{
+	display: flex;
+	min-height: 100vh;
+	width:100%;
+}
+.my-account-page-left
+{
+	flex:1;
+}
+.my-account-page-middle
+{
+	flex:3;
+}
+.my-account-page-right
+{
+	flex:1;
+}
+.my-account-page-middle > .myacctitle > i
+{
+	color: #3367D6;
+}
+.my-account-page-middle > .myacctitle
+{
+	width: 100%;
+	padding:20px 0;
+	border-bottom: 1px solid #AAAAAA;
+}
+.contact-settings
+{
+	border-bottom:0px !important;
+}
+.myaccount-settings-table-container
+{
+	border-bottom: 1px solid  #AAAAAA;
+}
+.myaccount-settings-table-container table
+{
+		width: 100%;
+		color: #282C34;
+		text-align: left;
+		font-family: Roboto, 'Segoe UI', Tahoma, sans-serif;
+}
+.myaccount-settings-table-container tr:hover
+{
+	background: #f3f3f3;
+}
+.myaccount-settings-table-container tr
+{
+	border-bottom: 1px solid #e5e5e5;
+}
+.myaccount-settings-table-container td
+{
+	padding:12px;
+	font-size: 13px;
+	font-weight:600;
+	color: #6F7177;
+	position: relative;
+}
+.myaccount-settings-table-container th
+{
+	padding:12px;
+	font-weight: 600;
+	font-size: 12.6px;
+}
+.myaccount-settings-table-container td span
+{
+	text-decoration: none;
+	color: #3367D6;
+}
+.myaccount-settings-table-container td img
+{
+	width:60px;
+	position: absolute;
+	top: 0;
+}
+.myaccount-settings-table-container td i:hover
+{
+	cursor: pointer;
+}
+.myaccount-settings-table-container td i
+{
+	color:#3367D6;
+	font-size: 24px;
+	right: 10px;
+}
+.myaccount-settings-table-container td button
+{
+	background: transparent;
+	border-style: none;
+}
+.myaccount-settings-table-container td input
+{
+	border-style: none;
+	background: transparent;
+}
+.myaccount-settings-table-container td.active
+{
+	height: 100px;
 }

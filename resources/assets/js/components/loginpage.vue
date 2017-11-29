@@ -8,20 +8,20 @@
         <div class="login-placeholder-container">
           <h5 :class="{'active':usernameForm}">Username</h5>
           <div class="icon-and-input">
-            <i class="material-icons">person</i>
-            <input type="text" v-model="Username" @focus="usernameForm=true" @blur="[Username!=''?usernameForm=true:usernameForm=false]">
+            <i class="material-icons" :class="{'active':usernameForm}">person</i>
+            <input type="text" :class="{'active':usernameForm}" v-model="Username" @focus="usernameForm=true" @blur="[Username!=''?usernameForm=true:usernameForm=false]">
           </div>
         </div>
         <div class="login-placeholder-container">
           <h5 :class="{'active':passForm}">Password</h5>
           <div class="icon-and-input">
-            <i class="material-icons">vpn_key</i>
-            <input type="password" v-on:keyup.enter="submitCredentials" v-model="Password" @focus="passForm=true" @blur="[Password!=''?passForm=true:passForm=false]">
+            <i class="material-icons" :class="{'active':passForm}">vpn_key</i>
+            <input type="password" :class="{'active':passForm}" v-on:keyup.enter="submitCredentials" v-model="Password" @focus="passForm=true" @blur="[Password!=''?passForm=true:passForm=false]">
           </div>
         </div>
         <div class="submit-btn-login-container">
           <p>Forgot password?<br>-please contact the administrator.</p>
-          <button type="button" name="button" v-on:click="submitCredentials"><i class="material-icons">send</i> Login</button>
+          <button type="button" name="button" v-on:click="submitCredentials">LOGIN</button>
         </div>
       </div>
     </div>
@@ -61,7 +61,7 @@ export default {
          }else
          {
            vm.$loading.close();
-           vm.$toast.bottom('Welcome !');
+           vm.$toast.top('Welcome !');
            window.location=response.data.redirect;
          }
        });

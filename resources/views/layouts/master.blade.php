@@ -11,8 +11,7 @@
     <link rel="stylesheet" href="/css/animate.min.css">
     <link rel="stylesheet" href="/css/bttn.min.css">
     <link rel="stylesheet" href="/css/font-awesome.min.css">
-    <link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
-    <link href="https://fonts.googleapis.com/css?family=Kaushan+Script" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/icon?family=Material+Icons|Comfortaa|Kaushan+Script" rel="stylesheet">
     <title>@yield('title')</title>
     <script>
       window.Laravel = <?php echo json_encode([
@@ -77,8 +76,10 @@
       </div>
       @endif
     </header>
-        @section('body')
-        @show
+        <div class="main-master-container">
+          @section('body')
+          @show
+        </div>
     <footer>
       @Auth
       <div class="footer-container">

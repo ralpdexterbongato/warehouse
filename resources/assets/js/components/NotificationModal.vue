@@ -128,7 +128,7 @@
             </li>
           </a>
         </span>
-          <a v-if="user.Role==2 || user.Role==1">
+          <a>
             <li class="sidebar-title">
               <span>
                 Settings
@@ -154,6 +154,15 @@
             <li class="clickable">
               <span>
                 <i class="material-icons">people</i> Manage accounts
+              </span>
+            </li>
+          </a>
+        </span>
+        <span v-else>
+          <a href="/my-own-account-settings-page">
+            <li class="clickable">
+              <span>
+                <i class="material-icons">build</i>My account
               </span>
             </li>
           </a>

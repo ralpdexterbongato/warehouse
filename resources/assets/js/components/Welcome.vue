@@ -137,7 +137,7 @@ Vue.use(Toast);
     methods: {
       SearchItemHistory(page)
       {
-        this.$loading('Searching...');
+        this.$loading('Please wait');
         var vm=this;
         axios.get(`/search-item-code?ItemCode=`+this.ItemCodeSearch+`&page=`+page).then(function(response)
         {
