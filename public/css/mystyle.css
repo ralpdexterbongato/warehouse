@@ -2198,13 +2198,11 @@ filter: drop-shadow(0 0 3px #969696);
 }
 
 /*Button to MRT form*/
-.Create-MRT-btn form button i
-{
-  font-size: 17px;
-}
 .Create-MRT-btn button
 {
   padding:5px!important;
+	font-size: 12px;
+	color: #162D5E;
 }
 .mrt-done
 {
@@ -2444,6 +2442,7 @@ display: flex;
   text-align: center;
   border-style: none;
   border-bottom: 1px solid gray;
+	margin:0 auto;
 }
 .total-result
 {
@@ -2663,6 +2662,11 @@ display: flex;
   font-size: 20px!important;
   color: #004276;
 }
+.items-from-mct td i:hover
+{
+	color: #F05133;
+	cursor: pointer;
+}
 .items-from-mct tr:nth-child(odd)
 {
   background: #f2f2f2;
@@ -2690,6 +2694,14 @@ display: flex;
 {
   padding:6px 12px;
   margin-bottom: 5px;
+	background: #22448E;
+	color: #fff;
+	border-style: none;
+	border-radius: 3px;
+}
+.pick-from-items button:hover
+{
+	background: #162E5F;
 }
 .mrt-items-modal
 {
@@ -2740,8 +2752,8 @@ display: flex;
 .mrt-items td button
 {
   border-radius:50%;
-  height: 30px;
-  width: 30px;
+  height: 43px;
+  width: 43px;
   border-style: none;
   background: transparent;
 }
@@ -3676,7 +3688,10 @@ filter: drop-shadow(1px 1px 3px #1D1A33);
  border-bottom-right-radius: 5px;
  box-shadow: 0 2px 4px -1px rgba(0,0,0,0.06), 0 4px 5px 0 rgba(0,0,0,0.06), 0 1px 10px 0 rgba(0,0,0,0.08);
  z-index: 17;
- transition: left .4s;
+ transition: left .6s cubic-bezier(.4,0,.2,1);
+ transform-style: preserve-3d;
+ transition-delay: .1s;
+ transition-duration: .2s;
 }
 .middle-account-modal.active
 {
@@ -8635,16 +8650,17 @@ filter: drop-shadow(-2px 1px 5px #1D1A33);
   min-height: 100vh;
   padding:60px;
 }
+@media (max-width:700px)
+{
+	.history-vue-container
+	{
+		padding:10px;
+	}
+}
 .top-history-setting
 {
   display: flex;
   flex-wrap: wrap;
-}
-.top-history-setting ul
-{
-  display: flex;
-  justify-content: flex-end;
-  flex:1;
 }
 .monthsearch-history
 {
@@ -8658,15 +8674,14 @@ filter: drop-shadow(-2px 1px 5px #1D1A33);
   color: #112A53;
   font-family:Roboto, 'Segoe UI', Tahoma, sans-serif;
 }
-.top-history-setting li button
+.history-choices
 {
-  padding:8px 15px;
-  border-radius: 5px;
-}
-.top-history-setting li
-{
-  margin-left: 10px;
-  font-family:Roboto, 'Segoe UI', Tahoma, sans-serif;
+	min-width: 70px!important;
+	font-size:14px;
+	padding:5px 10px;
+	font-family: 'Comfortaa',sans-serif;
+	border-style: none;
+	border-bottom: 1px solid #3367D6;
 }
 .table-history-container
 {
@@ -8679,6 +8694,7 @@ filter: drop-shadow(-2px 1px 5px #1D1A33);
   text-align: center;
   font-family:Roboto, 'Segoe UI', Tahoma, sans-serif;
 }
+
 .table-history-container th
 {
   background: #3367D6;
@@ -8698,6 +8714,44 @@ filter: drop-shadow(-2px 1px 5px #1D1A33);
   font-size: 25px;
   color: #112A53;
 }
+@media
+only screen and (max-width: 1050px),
+(min-device-width: 768px) and (max-device-width: 1050px)  {
+	/* Force table to not be like tables anymore */
+	.table-history-container table, .table-history-container thead,.table-history-container th, .table-history-container tbody, .table-history-container td, .table-history-container tr {
+		display: block;
+		font-size: 14px;
+	}
+	.table-history-container tr
+	{
+		border:1px solid #e5e5e5;
+		margin-top: 20px;
+	}
+	.table-history-container th
+	{
+		text-align: left;
+	}
+	.table-history-container td {
+		/* Behave  like a "row" */
+		border: none!important;
+		border-bottom: 1px solid #e5e5e5!important;
+		position: relative!important;
+		text-align: left!important;
+		word-wrap: break-word;
+		padding:10px 20px;
+	}
+
+	.table-history-container td:before {
+		/* Now like a table header */
+		position: absolute!important;
+		/* Top/left values mimic padding */
+		top: 6px!important;
+		left: 6px!important;
+		width: 45%!important;
+		padding-right: 20px!important;
+		white-space: nowrap!important;
+	}
+}
 .searchbar-month-history
 {
   display: flex;
@@ -8705,43 +8759,55 @@ filter: drop-shadow(-2px 1px 5px #1D1A33);
   margin-top: 20px;
   font-family:Roboto, 'Segoe UI', Tahoma, sans-serif;
 }
+@media (max-width:800px)
+{
+	.searchbar-month-history
+	{
+		flex-direction: column;
+	}
+}
 .searchbar-month-history button
 {
-  border-top-right-radius: 5px;
-  border-bottom-right-radius: 5px;
   padding:6px;
-  font-size: 14px;
-  color: #fff;
-  background: #3367D6;
+  color: #3367D6;
+	background:#fff;
   border-style: none;
+	border-bottom: 1px solid #3367D6;
 }
+
 .searchbar-month-history input
 {
-  border-top-left-radius: 5px;
-  border-bottom-left-radius: 5px;
-  padding:5px;
-  font-size: 14px;
   border-style: none;
-  border:1px solid #3367D6;
+  padding:5px;
+  font-size: 16px;
+  border-style: none;
+  border-bottom:1px solid #3367D6;
+}
+.searchbox-for-admin-warehouse
+{
+	border-bottom: 1.4px solid #3367D6;
+	font-size: 14px;
 }
 .searchbox-for-admin-warehouse select
 {
   min-width: 200px;
   padding:5px;
-  font-size: 16px;
+  font-size: 14px;
   border-style: none;
-  border-bottom: 1px solid gray;
   font-family:Roboto, 'Segoe UI', Tahoma, sans-serif;
 }
-.monthsearch-history h1
+@media (max-width:800px)
 {
-  margin:auto;
-  margin-right: 4px;
+	.searchbox-for-admin-warehouse select
+	{
+		width: 100%;
+	}
 }
 .monthsearch-history input
 {
   font-family:Roboto, 'Segoe UI', Tahoma, sans-serif;
   text-align: center;
+	width: 100%;
 }
 .update-account-modal
 {
@@ -10228,6 +10294,17 @@ only screen and (max-width: 1050px),
 {
 	flex:1;
 }
+@media (max-width:750px)
+{
+	.my-account-page-left
+	{
+		display: none;
+	}
+	.my-account-page-right
+	{
+		display:none;
+	}
+}
 .my-account-page-middle > .myacctitle > i
 {
 	color: #3367D6;
@@ -10238,9 +10315,27 @@ only screen and (max-width: 1050px),
 	padding:20px 0;
 	border-bottom: 1px solid #AAAAAA;
 }
-.contact-settings
+.password-settings
 {
 	border-bottom:0px !important;
+	min-height: 200px;
+}
+.password-settings .change-pass-form
+{
+	display: flex;
+	flex-direction: column;
+}
+.change-pass-form p
+{
+	color:#F05133;
+	position: absolute;
+	bottom: 0;
+	left: 0;
+}
+.change-pass-form input
+{
+	padding:5px 0px;
+	margin-bottom: 30px;
 }
 .myaccount-settings-table-container
 {
@@ -10275,7 +10370,7 @@ only screen and (max-width: 1050px),
 	font-weight: 600;
 	font-size: 12.6px;
 }
-.myaccount-settings-table-container td span
+.myaccount-settings-table-container td button
 {
 	text-decoration: none;
 	color: #3367D6;
@@ -10305,8 +10400,35 @@ only screen and (max-width: 1050px),
 {
 	border-style: none;
 	background: transparent;
+	border-bottom: 1px solid #e5e5e5;
+	width:150px;
+	height: 12px;
+	font-size: 12px;
+	color: #484643;
+	font-weight: 600;
 }
 .myaccount-settings-table-container td.active
 {
 	height: 100px;
+}
+.save-new-pass-btn
+{
+	background: #3367D6;
+	border-radius: 3px;
+	width:150px;
+	text-align: center;
+	padding:8px 0px;
+	color: #fff;
+	cursor: pointer;
+}
+@media (max-width:750px)
+{
+	.myaccount-settings-table-container td input
+	{
+		width: 100px;
+	}
+	.save-new-pass-btn
+	{
+		width: 100px;
+	}
 }

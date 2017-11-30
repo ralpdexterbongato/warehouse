@@ -4,27 +4,38 @@
     <div class="title-history">
       History
     </div>
-    <ul>
-      <li><button type="button" class="bttn-fill bttn-sm bttn-primary":class="[mirsbtn==true?'active':'']" v-on:click="mirsbtn=true,mctbtn=false,mrtbtn=false,mrbtn=false,rvbtn=false,rrbtn=false,searchMIRS(1)">MIRS</button></li>
-      <li><button type="button" class="bttn-fill bttn-sm bttn-primary":class="[mctbtn==true?'active':'']" v-on:click="mirsbtn=false,mctbtn=true,mrtbtn=false,mrbtn=false,rvbtn=false,rrbtn=false,searchMCT(1)">MCT</button></li>
-      <li><button type="button" class="bttn-fill bttn-sm bttn-primary":class="[mrtbtn==true?'active':'']"v-on:click="mirsbtn=false,mctbtn=false,mrtbtn=true,mrbtn=false,rvbtn=false,rrbtn=false,searchMRT(1)" >MRT</button></li>
-      <li><button type="button" class="bttn-fill bttn-sm bttn-primary":class="[mrbtn==true?'active':'']" v-on:click="mirsbtn=false,mctbtn=false,mrtbtn=false,mrbtn=true,rvbtn=false,rrbtn=false,searchMR(1)">MR</button></li>
-      <li><button type="button" class="bttn-fill bttn-sm bttn-primary":class="[rvbtn==true?'active':'']" v-on:click="mirsbtn=false,mctbtn=false,mrtbtn=false,mrbtn=false,rvbtn=true,rrbtn=false,searchRV(1)">RV</button></li>
-      <li><button type="button" class="bttn-fill bttn-sm bttn-primary":class="[rrbtn==true?'active':'']" v-on:click="mirsbtn=false,mctbtn=false,mrtbtn=false,mrbtn=false,rvbtn=false,rrbtn=true,searchRR(1)">RR</button></li>
-    </ul>
   </div>
   <div class="searchbar-month-history">
     <div class="searchbox-for-admin-warehouse" v-if="user.Role==4||user.Role==3||user.Role==1">
-      Histories of
+      <select class="history-choices" v-model="Selected" @change="ChangeTheActive()">
+        <option value="0"> MIRS</option>
+        <option value="1"> MCT</option>
+        <option value="2"> MRT</option>
+        <option value="3"> MR</option>
+        <option value="4"> RV</option>
+        <option value="5"> RR</option>
+      </select>
       <select v-model="searchID" v-on:change="NewNameSelected()">
         <option :value="null">{{user.FullName}}</option>
         <option :value="data.id" v-for="data in activeuser">{{data.FullName}}</option>
       </select>
     </div>
     <div v-else>
-      <!-- empty -->
+      <select class="history-choices" v-model="Selected" @change="ChangeTheActive()">
+        <option value="0"> MIRS</option>
+        <option value="1"> MCT</option>
+        <option value="2"> MRT</option>
+        <option value="3"> MR</option>
+        <option value="4"> RV</option>
+        <option value="5"> RR</option>
+      </select>
     </div>
-    <span class="monthsearch-history"><h1>Sort by date</h1><input type="text" placeholder="y y y y - m m" v-model="searchmonth" v-on:keypress.enter.prevent="[mirsbtn==true?searchMIRS():'',mctbtn==true?searchMCT():'',mrtbtn==true?searchMRT():'',mrbtn==true?searchMR():'',rvbtn==true?searchRV():'']"><button type="button" v-on:click="[mirsbtn==true?searchMIRS():'',mctbtn==true?searchMCT():'',mrtbtn==true?searchMRT():'',mrbtn==true?searchMR():'',rvbtn==true?searchRV():'']" name="button"><i class="fa fa-search"></i></button></span>
+    <span class="monthsearch-history">
+      <input type="text" placeholder="y y y y - m m" v-model="searchmonth" v-on:keypress.enter.prevent="[mirsbtn==true?searchMIRS():'',mctbtn==true?searchMCT():'',mrtbtn==true?searchMRT():'',mrbtn==true?searchMR():'',rvbtn==true?searchRV():'']">
+      <button type="button" v-on:click="[mirsbtn==true?searchMIRS():'',mctbtn==true?searchMCT():'',mrtbtn==true?searchMRT():'',mrbtn==true?searchMR():'',rvbtn==true?searchRV():'']" name="button">
+        <i class="material-icons">search</i>
+      </button>
+    </span>
   </div>
   <div class="table-history-container">
     <table v-if="mirsbtn==true">
@@ -168,6 +179,9 @@
 
 <script>
   import axios from 'axios';
+  import 'vue2-toast/lib/toast.css';
+  import Toast from 'vue2-toast';
+  Vue.use(Toast);
   export default {
     props:['user','activeuser'],
      data () {
@@ -188,11 +202,13 @@
           rrbtn:false,
           pagination:[],
           offset:4,
+          Selected:0
         }
       },
      methods: {
        searchMIRS(page)
        {
+         this.$loading('Loading');
          if (this.searchID==null)
          {
            var IDofuser=this.user.id;
@@ -208,10 +224,12 @@
            console.log(response);
            Vue.set(vm.$data,'mirsResults',response.data.data);
            Vue.set(vm.$data,'pagination',response.data);
+           vm.$loading.close();
          });
        },
        searchMCT(page)
        {
+         this.$loading('Loading');
          if (this.searchID==null)
          {
            var receiverId=this.user.id;
@@ -226,10 +244,12 @@
            console.log(response);
            Vue.set(vm.$data,'mctResults',response.data.data);
            Vue.set(vm.$data,'pagination',response.data);
+           vm.$loading.close();
          });
        },
        searchMRT(page)
        {
+         this.$loading('Loading');
          if (this.searchID==null)
          {
            var returnerId=this.user.id;
@@ -244,10 +264,12 @@
            console.log(response);
            Vue.set(vm.$data,'mrtResults',response.data.data);
            Vue.set(vm.$data,'pagination',response.data);
+           vm.$loading.close();
          });
        },
        searchMR(page)
        {
+         this.$loading('Loading');
          if (this.searchID==null)
          {
            var UserId=this.user.id;
@@ -262,10 +284,12 @@
            console.log(response);
            Vue.set(vm.$data,'mrResults',response.data.data);
            Vue.set(vm.$data,'pagination',response.data);
+           vm.$loading.close();
          });
        },
        searchRV(page)
        {
+         this.$loading('Loading');
          if (this.searchID==null)
          {
            var RequisitionerId=this.user.id;
@@ -280,10 +304,12 @@
            console.log(response);
            Vue.set(vm.$data,'rvResults',response.data.data);
            Vue.set(vm.$data,'pagination',response.data);
+           vm.$loading.close();
          });
        },
        searchRR(page)
        {
+         this.$loading('Loading');
          if (this.searchID==null)
          {
            var ReceiverId=this.user.id;
@@ -298,6 +324,7 @@
            console.log(response);
            Vue.set(vm.$data,'rrResults',response.data.data);
            Vue.set(vm.$data,'pagination',response.data);
+           vm.$loading.close();
          });
        },
        changepage(next)
@@ -333,7 +360,7 @@
            this.searchMCT(1);
          }else if (this.mrtbtn==true)
          {
-           this.searchMRT(1)
+           this.searchMRT(1);
          }else if (this.mrbtn==true)
          {
            this.searchMR(1);
@@ -344,6 +371,65 @@
          {
            this.searchRR(1);
          }
+       },
+       ChangeTheActive()
+       {
+         if (this.Selected==0)
+         {
+           this.mirsbtn=true;
+           this.mctbtn=false;
+           this.mrtbtn=false;
+           this.mrbtn=false;
+           this.rvbtn=false;
+           this.rrbtn=false;
+           this.searchMIRS(1);
+         }else if (this.Selected=='1')
+         {
+           this.mirsbtn=false;
+           this.mctbtn=true;
+           this.mrtbtn=false;
+           this.mrbtn=false;
+           this.rvbtn=false;
+           this.rrbtn=false;
+           this.searchMCT(1);
+         }else if (this.Selected=='2')
+         {
+           this.mirsbtn=false;
+           this.mctbtn=false;
+           this.mrtbtn=true;
+           this.mrbtn=false;
+           this.rvbtn=false;
+           this.rrbtn=false;
+           this.searchMRT(1);
+         }else if (this.Selected=='3')
+         {
+           this.mirsbtn=false;
+           this.mctbtn=false;
+           this.mrtbtn=false;
+           this.mrbtn=true;
+           this.rvbtn=false;
+           this.rrbtn=false;
+           this.searchMR(1);
+         }else if (this.Selected=='4')
+         {
+           this.mirsbtn=false;
+           this.mctbtn=false;
+           this.mrtbtn=false;
+           this.mrbtn=false;
+           this.rvbtn=true;
+           this.rrbtn=false;
+           this.searchRV(1);
+         }else if (this.Selected=='5')
+         {
+           this.mirsbtn=false;
+           this.mctbtn=false;
+           this.mrtbtn=false;
+           this.mrbtn=false;
+           this.rvbtn=false;
+           this.rrbtn=true;
+           this.searchRR(1);
+         }
+
        }
 
      },

@@ -15,7 +15,8 @@ class AlreadyHaveMRT
      */
     public function handle($request, Closure $next)
     {
-        $MRT=MRTMaster::where('MCTNo',$request->id)->value('MRTNo');
+        $MRT=MRTMaster::where('MCTNo',$request->id)->whereNull('Status')
+        ->orWhere('Status','0')->where('MCTNo',$request->id)->value('MRTNo');
         if ($MRT==null)
         {
           return $next($request);

@@ -18,12 +18,8 @@ class AccountController extends Controller
 {
     public function __construct()
     {
-      $this->middleware('IsAdmin',['except'=>['getSelectedRoleAndSearch','MyAccountSettingsPage','loginpage','sendsms','getCurrentAssigned','UpdateManagerTakePlace','getActiveManager','toManagerTakePlacePage','fetchDataofSelectedUser','MyRVHistoryandSearch','MyMRHistoryandSearch','MyMRTHistoryandSearch','MyMCTHistoryandSearch','MyMIRSHistoryandSearch','ShowMyHistoryPage','loginSubmit','logoutAccount']]);
+      $this->middleware('IsAdmin',['except'=>['getSelectedRoleAndSearch','loginpage','sendsms','getCurrentAssigned','UpdateManagerTakePlace','getActiveManager','toManagerTakePlacePage','fetchDataofSelectedUser','loginSubmit','logoutAccount']]);
     }
-    // public function sendsms()
-    // {
-    //    return $mirs=MIRSMaster::with('users')->paginate(4);
-    // }
     public function loginpage()
     {
       return view('Warehouse.Account.login-page');
@@ -70,42 +66,6 @@ class AccountController extends Controller
       {
         return User::orderBy('id','DESC')->where('Role', $request->Role)->where('FullName', 'LIKE','%'.$request->FullName.'%')->paginate(5,['id','FullName','Username','Signature','IsActive','Mobile']);
       }
-    }
-    public function ShowMyHistoryPage(Request $request)
-    {
-      $ActiveUser=User::whereNotNull('IsActive')->get(['id','FullName']);
-      return view('Warehouse.Account.MyHistory',compact('ActiveUser'));
-    }
-    public function MyMIRSHistoryandSearch(Request $request)
-    {
-       $user = User::find($request->PreparedById);
-       return $mirshistory = $user->MIRSHistory($request->YearMonth)->paginate(5);
-
-    }
-    public function MyMCTHistoryandSearch(Request $request)
-    {
-      $user = User::find($request->ReceivedById);
-      return $mcthistory = $user->MCTHistory($request->YearMonth)->paginate(5);
-    }
-    public function MyMRTHistoryandSearch(Request $request)
-    {
-      $user = User::find($request->ReturnedById);
-      return $mrthistory = $user->MRTHistory($request->YearMonth)->paginate(5);
-    }
-    public function MyMRHistoryandSearch(Request $request)
-    {
-      $user = User::find($request->ReceivedById);
-      return $mrhistory=$user->MRHistory($request->YearMonth)->paginate(5);
-    }
-    public function MyRVHistoryandSearch(Request $request)
-    {
-      $user = User::find($request->Requisitioner);
-      return $rvhistory=$user->RVHistory($request->YearMonth)->paginate(5);
-    }
-    public function MyRRHistoryandSearch(Request $request)
-    {
-      $user = User::find($request->ReceivedById);
-      return $rrhistory=$user->RRHistory($request->YearMonth)->paginate(5);
     }
     public function fetchDataofSelectedUser($id)
     {
@@ -302,9 +262,5 @@ class AccountController extends Controller
       $userDB->Password=bcrypt($request->Password);
       $userDB->Signature=$fileName;
       $userDB->save();
-    }
-    public function MyAccountSettingsPage()
-    {
-      return view('Warehouse.Account.MyAccountSettings');
     }
 }

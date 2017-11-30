@@ -10,20 +10,19 @@
 | contains the "web" middleware group. Now create something great!
 |
 */
-Route::get('/sendsms','AccountController@sendsms');
 Route::get('/settings-accounts-list','AccountController@AccountsList')->name('AccountsListGM');
 Route::get('/get-all-managers','AccountController@getallManagers');
 Route::get('/sort-by-role-and-search','AccountController@getSelectedRoleAndSearch');
 Route::get('/fetchDataofSelectedUser/{id}','AccountController@fetchDataofSelectedUser')->name('fetchDataUser');
 Route::put('/update-user-data/{id}','AccountController@updateUser');
 Route::delete('/deleteAccount/{id}','AccountController@deleteAccount');
-Route::get('/show-my-history','AccountController@ShowMyHistoryPage')->name('ViewMyHistory');
-Route::get('/search-my-mirs-history','AccountController@MyMIRSHistoryandSearch');
-Route::get('/search-my-mct-history','AccountController@MyMCTHistoryandSearch');
-Route::get('/search-my-mrt-history','AccountController@MyMRTHistoryandSearch');
-Route::get('/search-my-mr-history','AccountController@MyMRHistoryandSearch');
-Route::get('/search-my-rv-history','AccountController@MyRVHistoryandSearch');
-Route::get('/search-my-rr-history','AccountController@MyRRHistoryandSearch');
+Route::get('/show-my-history','AccountHistoryController@ShowMyHistoryPage')->name('ViewMyHistory');
+Route::get('/search-my-mirs-history','AccountHistoryController@MyMIRSHistoryandSearch');
+Route::get('/search-my-mct-history','AccountHistoryController@MyMCTHistoryandSearch');
+Route::get('/search-my-mrt-history','AccountHistoryController@MyMRTHistoryandSearch');
+Route::get('/search-my-mr-history','AccountHistoryController@MyMRHistoryandSearch');
+Route::get('/search-my-rv-history','AccountHistoryController@MyRVHistoryandSearch');
+Route::get('/search-my-rr-history','AccountHistoryController@MyRRHistoryandSearch');
 Route::get('/login','AccountController@loginpage')->name('login')->middleware('guest');
 Route::post('/logout','AccountController@logoutAccount')->name('Logging.out');
 Route::post('/login-submit','AccountController@loginSubmit')->name('login-submit');
@@ -194,4 +193,8 @@ Route::get('/rv-new-created-mr-notify','MRController@MyMRrequestCount');
 Route::get('/po-count-notification','POController@MyPORequestCount');
 Route::post('/saving-account-manager','AccountController@SaveManagerAcc');
 Route::post('/save-account-user','AccountController@SaveNewUser');
-Route::get('/my-own-account-settings-page','AccountController@MyAccountSettingsPage');
+Route::get('/my-own-account-settings-page','MyAccountSettings@MyAccountSettingsPage');
+Route::get('/my-own-account-fetch-data','MyAccountSettings@FetchMyData');
+Route::put('/update-account-contact', 'MyAccountSettings@updateContact');
+Route::put('/update-account-username','MyAccountSettings@updateUserName');
+Route::put('/update-account-password','MyAccountSettings@changeMyPassword');

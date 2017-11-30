@@ -2,21 +2,10 @@
 <div class="MRTCreate-vue">
   <div class="MRT-container">
     <div class="List-items-mrt">
-      <ul class="error-tab" v-if="laravelerrors!=''" v-on:click="laravelerrors=''">
-        <span v-for="errors in laravelerrors">
-          <li v-for="error in errors">{{error}}</li>
-        </span>
-      </ul>
-      <ul class="error-tab" v-if="ownerrors!=''" v-on:click="ownerrors=''">
-        <li>{{ownerrors}}</li>
-      </ul>
-      <div class="successAlertRRsession" v-if="successAlerts!=''" v-on:click="successAlerts=''">
-        <p>{{successAlerts}}</p>
+      <div class="pick-from-items">
+        <h1>Create Materials Returned Ticket</h1>
+        <button type="button" v-on:click="ModalIsActive=!ModalIsActive"><i class="material-icons">add</i> Item</button>
       </div>
-        <div class="pick-from-items">
-          <h1>Create Materials Returned Ticket</h1>
-          <button type="button" class="bttn-unite bttn-xs bttn-primary" v-on:click="ModalIsActive=!ModalIsActive"><i class="fa fa-plus"></i> Item</button>
-        </div>
       <div class="items-form">
           <div class="items-from-mct">
             <table>
@@ -25,14 +14,14 @@
                 <th>Description</th>
                 <th>Unit</th>
                 <th>Summary</th>
-                <th>Action</th>
+                <th>Remove</th>
               </tr>
                 <tr v-for="session in SessionSelected">
                   <td>{{session.ItemCode}}</td>
                   <td>{{session.Description}}</td>
                   <td>{{session.Unit}}</td>
                   <td>{{session.Summary}}</td>
-                  <td><i v-on:click="deleteSession(session.ItemCode)" class="fa fa-trash"></i></td>
+                  <td><i v-on:click="deleteSession(session.ItemCode)" class="material-icons">close</i></td>
                 </tr>
             </table>
           </div>
@@ -48,9 +37,6 @@
         <longpress duration="3" class="mrt-gobtn" :class="{'hide':HideSubmitBtn}"  :on-confirm="SubmitMRT" pressing-text="Confirm in {$rcounter}" action-text="Please wait">
         Submit
         </longpress>
-        <div id="loading-submit" :class="[HideSubmitBtn==true?'show':'hide']">
-          <i class="fa fa-spinner fa-spin fa-pulse"></i>
-        </div>
       </div>
     </div>
   </div>
@@ -69,7 +55,7 @@
           <td>{{mtdata.master_items.Description}}</td>
           <td>{{mtdata.master_items.Unit}}</td>
           <td><input type="number" v-model="Summary[count]" autocomplete="off" min="1"></td>
-          <td><button type="submit" v-on:click="AddItemToSession(mtdata,count),ModalIsActive=false" class="bttn-unite bttn-xs bttn-primary"><i class="fa fa-plus"></i></button></td>
+          <td><button type="submit" v-on:click="AddItemToSession(mtdata,count)" class="bttn-unite bttn-xs bttn-primary"><i class="material-icons">add</i></button></td>
         </tr>
       </table>
       <div class="paginate-container">
@@ -93,6 +79,9 @@
 <script>
 import axios from 'axios';
 import Longpress from 'vue-longpress';
+import 'vue2-toast/lib/toast.css';
+import Toast from 'vue2-toast';
+Vue.use(Toast);
   export default {
     data () {
       return {
@@ -123,6 +112,7 @@ import Longpress from 'vue-longpress';
       },
       AddItemToSession(data,count)
       {
+        this.$loading('please wait');
         var vm=this;
         axios.post(`/MRT-session`,{
           ItemCode:data.ItemCode,
@@ -136,33 +126,30 @@ import Longpress from 'vue-longpress';
           if (response.data.error==null)
           {
             vm.fetchSelectedSession();
-            Vue.set(vm.$data,'ownerrors','');
-            Vue.set(vm.$data,'successAlerts','Added successfully !');
-            Vue.set(vm.$data,'laravelerrors','');
+            vm.$toast.top('Added successfully');
+            vm.$loading.close();
           }else
           {
-            Vue.set(vm.$data,'ownerrors',response.data.error);
-            Vue.set(vm.$data,'successAlerts','');
-            Vue.set(vm.$data,'laravelerrors','');
+            vm.$toast.top(response.data.error);
+            vm.$loading.close();
           }
         },function(error)
         {
-          Vue.set(vm.$data,'ownerrors','');
-          Vue.set(vm.$data,'successAlerts','');
-          Vue.set(vm.$data,'laravelerrors',error.response.data);
+          vm.$toast.top(error.response.data.Summary[0]);
+          vm.$loading.close();
         });
 
       },
       deleteSession(ItemCode)
       {
+          this.$loading('Removing');
           var vm=this;
           axios.delete(`/MRT-delete/`+ItemCode).then(function(response)
           {
             console.log(response);
             vm.fetchSelectedSession();
-            Vue.set(vm.$data,'successAlerts','Deleted successfully !');
-            Vue.set(vm.$data,'ownerrors','');
-            Vue.set(vm.$data,'laravelerrors','');
+            vm.$toast.top('Removed successfully.');
+            vm.$loading.close();
           });
       },
       changepage(next){
@@ -181,6 +168,7 @@ import Longpress from 'vue-longpress';
       SubmitMRT()
       {
         this.HideSubmitBtn=true;
+        this.$loading('Submitting');
         var vm=this;
         axios.post(`/MRT-store/`+this.mctno.MCTNo,{
           Particulars:this.mctdata[0].Particulars,
@@ -191,21 +179,13 @@ import Longpress from 'vue-longpress';
           console.log(response);
           if (response.data.error!=null)
           {
-            Vue.set(vm.$data,'ownerrors',response.data.error);
-            Vue.set(vm.$data,'successAlerts','');
-            Vue.set(vm.$data,'laravelerrors','');
+            vm.$loading.close();
+            vm.$toast.top(response.data.error);
             Vue.set(vm.$data,'HideSubmitBtn',false);
           }else
           {
             window.location=response.data.redirect;
           }
-        },function(error)
-        {
-          console.log(error);
-          Vue.set(vm.$data,'laravelerrors',error.response.data);
-          Vue.set(vm.$data,'ownerrors','');
-          Vue.set(vm.$data,'successAlerts','');
-          Vue.set(vm.$data,'HideSubmitBtn',false);
         });
       }
     },

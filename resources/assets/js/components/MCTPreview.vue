@@ -15,7 +15,7 @@
     <span v-if="AlreadySignatured">
       <span v-if="(((MRTCheck==null)&&(user.Role==4))||((MRTCheck==null)&&(user.Role==3)))">
         <div class="Create-MRT-btn">
-          <a :href="'/MRT-create/'+this.mctno.MCTNo"><button type="submit" class="bttn-unite bttn-xs bttn-primary"><i class="fa fa-plus"></i> Make MRT</button></a>
+          <a :href="'/MRT-create/'+this.mctno.MCTNo"><button type="submit"><i class="material-icons">add</i> MRT</button></a>
         </div>
       </span>
       <span v-else-if="MRTCheck!=null">

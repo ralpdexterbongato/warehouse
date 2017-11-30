@@ -83,7 +83,8 @@ class MCTController extends Controller
     Session::forget('MCTSelected');//to refresh the session that is not submited
     $MCTMast=MCTMaster::with('users')->where('MCTNo',$id)->get();
     $MCTConfirmDetails=MCTConfirmationDetail::where('MCTNo',$id)->get();
-    $MRTcheck=MRTMaster::where('MCTNo',$id)->value('MRTNo');
+    $MRTcheck=MRTMaster::where('MCTNo',$id)->whereNull('Status')
+    ->orWhere('Status','0')->where('MCTNo',$id)->value('MRTNo');
     $AccountCodeGroup = DB::table("MCTConfirmationDetails")
 	    ->select(DB::raw("SUM(Amount) as totals"),DB::raw("AccountCode as AccountCode"))
       ->where('MCTNo', $id)

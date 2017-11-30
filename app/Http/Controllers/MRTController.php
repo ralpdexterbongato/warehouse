@@ -38,6 +38,10 @@ class MRTController extends Controller
     public function DisplaySessionMRT()
     {
       $SelectedSession=Session::get('MCTSelected');
+      if (isset($SelectedSession))
+      {
+        $SelectedSession=array_reverse($SelectedSession);
+      }
       return response()->json(['SelectedSession'=>$SelectedSession]);
     }
     public function summaryMRT()
@@ -102,7 +106,7 @@ class MRTController extends Controller
         {
           if ($Alreadyhere->ItemCode === $request->ItemCode)
           {
-            return ['error'=>'Sorry duplicate is not allowed'];
+            return ['error'=>'Item is already added'];
           }
         }
       }
