@@ -4,21 +4,10 @@
     <h1 class="title-create-mct">Materials charge ticket recording</h1>
     <h2 class="mirs-num">Materials from MIRS No. <span class="color-blue">{{mirsno.MIRSNo}}</span></h2>
     <div class="button-find-item-container">
-      <button type="button" v-on:click="ModalActive=!ModalActive">Select items</button>
+      <button type="button" v-on:click="ModalActive=!ModalActive"><i class="material-icons">add</i> items</button>
     </div>
     <div class="session-and-formContainer">
       <div class="selected-items-session-mct">
-        <ul class="error-tab" v-if="laravelerrors!=''">
-          <span v-for="errors in laravelerrors">
-            <li v-for="error in errors">{{error}}</li>
-          </span>
-        </ul>
-        <ul class="error-tab" v-if="ownerrors!=''">
-          <li>{{ownerrors}}</li>
-        </ul>
-        <div class="successAlertRRsession" v-if="successAlerts!=''">
-          <p>{{successAlerts}}</p>
-        </div>
         <table>
           <tr>
             <th>Item Code</th>
@@ -26,16 +15,17 @@
             <th>Unit</th>
             <th>Quantity</th>
             <th>Remarks</th>
-            <th>Delete</th>
+            <th>Remove</th>
           </tr>
           <tr v-for="list in SessionList">
             <td>{{list.ItemCode}}</td>
             <td>{{list.Particulars}}</td>
             <td>{{list.Unit}}</td>
             <td>{{list.Quantity}}</td>
-            <td>{{list.Remarks}}</td>
+            <td v-if="list.Remarks!=null">{{list.Remarks}}</td>
+            <td v-else>No remarks</td>
             <td>
-              <button class="deleteMCT-session-button" v-on:click="deleteSession(list.ItemCode)"><i class="fa fa-trash"></i></button>
+              <button class="deleteMCT-session-button" v-on:click="deleteSession(list.ItemCode)"><i class="material-icons">close</i></button>
             </td>
           </tr>
         </table>
@@ -46,9 +36,6 @@
           <longpress :class="{'hide':HideBtn}" duration="3" class="SubmitMCTButton" :on-confirm="SavingMCT" pressing-text="Submitting in {$rcounter} seconds" action-text="Please wait">
             Submit
           </longpress>
-          <div id="loading-submit" :class="[HideBtn==true?'show':'hide']">
-            <i class="fa fa-spinner fa-spin fa-pulse"></i>
-          </div>
         </div>
       </div>
     </div>
@@ -63,7 +50,7 @@
             <th>Particulars</th>
             <th>Unit</th>
             <th>Qty</th>
-            <th>Unclaimed</th>
+            <th>Not claimed</th>
             <th>Remarks</th>
             <th>Select</th>
           </tr>
@@ -75,7 +62,7 @@
               <td><input type="number" v-model="InputQty[count]" name="Quantity" min="1" autocomplete="off"></td>
               <td>{{validator.QuantityValidator}}</td>
               <td>{{validator.Remarks}}</td>
-              <td><button v-on:click="SaveToSession(validator,count),ModalActive=false"><i class="fa fa-plus-circle"></i></button></td>
+              <td><button v-on:click="SaveToSession(validator,count),ModalActive=false"><i class="material-icons">add</i></button></td>
           </tr>
         </table>
         <div class="paginate-container">
@@ -100,6 +87,9 @@
 <script>
 import axios from 'axios';
 import Longpress from 'vue-longpress';
+import 'vue2-toast/lib/toast.css';
+import Toast from 'vue2-toast';
+Vue.use(Toast);
   export default {
     data () {
       return {
@@ -110,9 +100,6 @@ import Longpress from 'vue-longpress';
         SessionList:[],
         ModalActive:false,
         AddressTo:'',
-        successAlerts:'',
-        laravelerrors:'',
-        ownerrors:'',
         HideBtn:false,
     }
   },
@@ -134,6 +121,7 @@ import Longpress from 'vue-longpress';
       },
       SaveToSession(validator,count)
       {
+        this.$loading('Loading');
         var vm=this;
         axios.post(`/mct-session-saving`,{
           ItemCode:validator.ItemCode,
@@ -148,20 +136,13 @@ import Longpress from 'vue-longpress';
           if (response.data.error==null)
           {
             vm.fetchSessionData();
-            Vue.set(vm.$data,'successAlerts','Success');
-            Vue.set(vm.$data,'ownerrors','');
-            Vue.set(vm.$data,'laravelerrors','');
+            vm.$toast.top('Item added successfully');
+            vm.$loading.close();
           }else
           {
-            Vue.set(vm.$data,'ownerrors',response.data.error);
-            Vue.set(vm.$data,'successAlerts','');
-            Vue.set(vm.$data,'laravelerrors','');
+            vm.$toast.top(response.data.error);
+            vm.$loading.close();
           }
-        },function(error)
-        {
-          Vue.set(vm.$data,'laravelerrors',error.response.data);
-          Vue.set(vm.$data,'ownerrors','');
-          Vue.set(vm.$data,'successAlerts','');
         });
       },
       fetchSessionData()
@@ -175,18 +156,19 @@ import Longpress from 'vue-longpress';
       },
       deleteSession(ItemCode)
       {
+        this.$loading('removing');
         var vm=this;
         axios.delete(`/delete-session-mct/`+ItemCode).then(function(response)
         {
           console.log(response);
           vm.fetchSessionData();
-          Vue.set(vm.$data,'ownerrors','');
-          Vue.set(vm.$data,'successAlerts','Deleted successfully');
-          Vue.set(vm.$data,'laravelerrors','');
+          vm.$toast.top('1 item is removed.');
+          vm.$loading.close();
         });
       },
       SavingMCT()
       {
+        this.$loading('Submitting');
         this.HideBtn=true;
         var vm=this;
         axios.post(`/MCTstore`,{
@@ -198,20 +180,13 @@ import Longpress from 'vue-longpress';
           console.log(response);
           if (response.data.error!=null)
           {
-            Vue.set(vm.$data,'ownerrors',response.data.error);
-            Vue.set(vm.$data,'successAlerts','');
-            Vue.set(vm.$data,'laravelerrors','');
+            vm.$toast.top(response.data.error);
             Vue.set(vm.$data,'HideBtn',false);
+            vm.$loading.close();
           }else
           {
             window.location=response.data.redirect;
           }
-        },function(error)
-        {
-          Vue.set(vm.$data,'ownerrors','');
-          Vue.set(vm.$data,'successAlerts','');
-          Vue.set(vm.$data,'laravelerrors',error.response.data);
-          Vue.set(vm.$data,'HideBtn',false);
         });
       }
     },

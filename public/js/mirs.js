@@ -28870,6 +28870,8 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
 //
 //
 //
+//
+//
 
 
 
@@ -29854,9 +29856,11 @@ module.exports={render:function (){var _vm=this;var _h=_vm.$createElement;var _c
     attrs: {
       "href": '/MIRS.pdf/' + _vm.mirsno.MIRSNo
     }
-  }, [_vm._m(0)]), _vm._v("\r\n        unclaimed:"), _c('span', {
+  }, [_vm._m(0)]), _vm._v(" "), _c('div', {
+    staticClass: "not-claimed-qty"
+  }, [_vm._v("\r\n          Not-claimed:"), _c('span', {
     staticClass: "color-blue"
-  }, [_vm._v(_vm._s(_vm.unclaimed))])]) : _c('div', {
+  }, [_vm._v(_vm._s(_vm.unclaimed))])])]) : _c('div', {
     staticClass: "empty-left"
   }), _vm._v(" "), (_vm.managerReplaceistrue) ? _c('div', {
     staticClass: "Request-manager-replace"
@@ -29900,7 +29904,7 @@ module.exports={render:function (){var _vm=this;var _h=_vm.$createElement;var _c
   }, [_vm._v("info")]), _vm._v(" "), _c('span', {
     staticClass: "color-blue"
   }, [_vm._v(_vm._s(_vm.MIRSMaster.users[0].FullName))]), _vm._v(" is asking for your signature b/c the General Manager is not available\r\n        ")]), _vm._v(" "), _c('span', {
-    staticClass: "Approve-replacer-accept-cant",
+    staticClass: "MIRS-Approve-Replacer-Btn",
     class: {
       'hide': _vm.SignatureApproveBtnHide
     }
@@ -29924,7 +29928,9 @@ module.exports={render:function (){var _vm=this;var _h=_vm.$createElement;var _c
     }
   }, [_c('i', {
     staticClass: "material-icons"
-  }, [_vm._v("close")]), _vm._v(" I can't\r\n          ")])], 1)]) : _vm._e(), _vm._v(" "), (((_vm.ManagerCansignature) && (_vm.NoManagerReplacerSignature) || ((_vm.GMCanSignature) && (_vm.NoApprovalReplacerSignature)) || (_vm.RequisitionerCanSignature))) ? _c('span', [_c('div', {
+  }, [_vm._v("close")]), _vm._v(" I can't\r\n          ")])], 1)]) : _vm._e(), _vm._v(" "), (((_vm.ManagerCansignature) && (_vm.NoManagerReplacerSignature) || ((_vm.GMCanSignature) && (_vm.NoApprovalReplacerSignature)) || (_vm.RequisitionerCanSignature))) ? _c('span', {
+    staticClass: "signature-span"
+  }, [_c('div', {
     staticClass: "middle-status",
     class: {
       'hide': _vm.SignatureBtnHide
@@ -30130,7 +30136,7 @@ module.exports={render:function (){var _vm=this;var _h=_vm.$createElement;var _c
     }
   }, [_c('i', {
     staticClass: "material-icons"
-  }, [_vm._v("print")])])
+  }, [_vm._v("print")]), _vm._v(" Print")])
 },function (){var _vm=this;var _h=_vm.$createElement;var _c=_vm._self._c||_h;
   return _c('button', {
     attrs: {

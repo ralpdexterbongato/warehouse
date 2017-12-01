@@ -135,6 +135,7 @@ Route::put('/cancelrequestsentReplacer/{id}','RVController@cancelrequestsentRepl
 Route::put('/AcceptManagerReplacer/{id}','RVController@AcceptManagerReplacer');
 Route::put('/save-budget-officer-pending-remarks/{id}','RVController@savePendingRemark');
 Route::get('/show-budget-officer-pending-remarks/{id}','RVController@showBORemarks');
+Route::put('/budget-officer-pending-remarks/{id}','RVController@PedingRemarkRemove');
 Route::get('/CanvassCreate/{id}','CanvassController@TocanvassPage')->name('TocanvassPage')->middleware('RRWithoutPO');
 Route::get('/canvass-suppliers/{id}','CanvassController@getSupplierRecords');
 Route::delete('/deleteCanvassRecord/{id}','CanvassController@deleteCanvassRecord');

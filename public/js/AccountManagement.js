@@ -1003,8 +1003,6 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
 //
 //
 //
-//
-//
 
 
 /* harmony default export */ __webpack_exports__["default"] = ({
@@ -1514,7 +1512,7 @@ Vue.use(__WEBPACK_IMPORTED_MODULE_2_vue2_toast___default.a);
       contactEdit: false,
       passwordEdit: false,
       MyData: [],
-      oldPass: '',
+      currentPass: '',
       newPass: '',
       newPassConfirm: '',
       NewContact: '',
@@ -1574,7 +1572,7 @@ Vue.use(__WEBPACK_IMPORTED_MODULE_2_vue2_toast___default.a);
     changeMyPass: function changeMyPass() {
       var vm = this;
       __WEBPACK_IMPORTED_MODULE_0_axios___default.a.put('/update-account-password', {
-        oldPass: this.oldPass,
+        currentPass: this.currentPass,
         Password: this.newPass,
         Password_confirmation: this.newPassConfirm
       }).then(function (response) {
@@ -1583,7 +1581,7 @@ Vue.use(__WEBPACK_IMPORTED_MODULE_2_vue2_toast___default.a);
           vm.$toast.top(response.data.error);
         } else {
           vm.$toast.top('Password changed');
-          vm.oldPass = '';
+          vm.currentPass = '';
           vm.newPass = '';
           vm.newPassConfirm = '';
         }
@@ -1597,9 +1595,9 @@ Vue.use(__WEBPACK_IMPORTED_MODULE_2_vue2_toast___default.a);
   computed: {
     passwordValidation: function passwordValidation() {
 
-      if (this.oldPass == '' && (this.newPass != '' || this.newPassConfirm != '')) {
-        return 'Please input your old-password';
-      } else if (this.oldPass == '' && this.newPass == '' && this.newPassConfirm == '') {
+      if (this.currentPass == '' && (this.newPass != '' || this.newPassConfirm != '')) {
+        return 'Please input your current password';
+      } else if (this.currentPass == '' && this.newPass == '' && this.newPassConfirm == '') {
         return '';
       } else if (this.newPass.length < 10 && this.newPass != '') {
         return 'Your new password must be atleast 10 characters';
@@ -1607,7 +1605,7 @@ Vue.use(__WEBPACK_IMPORTED_MODULE_2_vue2_toast___default.a);
         return 'Your new password must match';
       } else if (this.newPass.length > 50) {
         return 'Your new password is too long';
-      } else if (this.oldPass != '' && this.newPassConfirm != '' && this.newPass != '' && this.newPassConfirm == this.newPass) {
+      } else if (this.currentPass != '' && this.newPassConfirm != '' && this.newPass != '' && this.newPassConfirm == this.newPass) {
         return true;
       }
     }
@@ -2757,21 +2755,21 @@ module.exports={render:function (){var _vm=this;var _h=_vm.$createElement;var _c
     directives: [{
       name: "model",
       rawName: "v-model",
-      value: (_vm.oldPass),
-      expression: "oldPass"
+      value: (_vm.currentPass),
+      expression: "currentPass"
     }],
     attrs: {
       "type": "password",
-      "placeholder": "Old password",
+      "placeholder": "Current password",
       "autofocus": ""
     },
     domProps: {
-      "value": (_vm.oldPass)
+      "value": (_vm.currentPass)
     },
     on: {
       "input": function($event) {
         if ($event.target.composing) { return; }
-        _vm.oldPass = $event.target.value
+        _vm.currentPass = $event.target.value
       }
     }
   }), _vm._v(" "), _c('input', {
@@ -3950,8 +3948,6 @@ module.exports={render:function (){var _vm=this;var _h=_vm.$createElement;var _c
     }
   }, [_vm._m(3), _vm._v(" "), _c('div', {
     staticClass: "manager-form-inputs"
-  }, [_c('div', {
-    staticClass: "doubleform"
   }, [_c('input', {
     directives: [{
       name: "model",
@@ -3973,7 +3969,7 @@ module.exports={render:function (){var _vm=this;var _h=_vm.$createElement;var _c
         _vm.ManagerRegisterFullName = $event.target.value
       }
     }
-  })]), _vm._v(" "), _c('div', {
+  }), _vm._v(" "), _c('div', {
     staticClass: "doubleform"
   }, [_c('input', {
     directives: [{
@@ -4108,8 +4104,8 @@ module.exports={render:function (){var _vm=this;var _h=_vm.$createElement;var _c
       }
     }
   }, [_c('i', {
-    staticClass: "fa fa-user"
-  }), _vm._v(" Save Account")])])])]), _vm._v(" "), _c('div', {
+    staticClass: "material-icons"
+  }, [_vm._v("person_add")]), _vm._v(" Save Account")])])])]), _vm._v(" "), _c('div', {
     staticClass: "CreateNEwUserModal",
     class: {
       'active': _vm.newusermodal

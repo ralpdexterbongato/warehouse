@@ -55,7 +55,7 @@
             <th>Change-password</th>
             <td>
               <div class="change-pass-form">
-                <input type="password" v-model="oldPass" placeholder="Old password" autofocus>
+                <input type="password" v-model="currentPass" placeholder="Current password" autofocus>
                 <input type="password" v-model="newPass" placeholder="New password">
                 <input type="password" v-model="newPassConfirm" placeholder="Confirm-password">
                 <div class="save-new-pass-btn" v-if="passwordValidation==true" v-on:click="changeMyPass()">Save</div>
@@ -85,7 +85,7 @@ Vue.use(Toast);
         contactEdit:false,
         passwordEdit:false,
         MyData:[],
-        oldPass:'',
+        currentPass:'',
         newPass:'',
         newPassConfirm:'',
         NewContact:'',
@@ -162,7 +162,7 @@ Vue.use(Toast);
         var vm=this;
         axios.put(`/update-account-password`,
         {
-          oldPass:this.oldPass,
+          currentPass:this.currentPass,
           Password:this.newPass,
           Password_confirmation:this.newPassConfirm
         }).then(function(response)
@@ -174,7 +174,7 @@ Vue.use(Toast);
           }else
           {
             vm.$toast.top('Password changed');
-            vm.oldPass='';
+            vm.currentPass='';
             vm.newPass='';
             vm.newPassConfirm='';
           }
@@ -189,10 +189,10 @@ Vue.use(Toast);
       passwordValidation:function()
       {
 
-        if((this.oldPass=='')&&((this.newPass!='')||(this.newPassConfirm!='')))
+        if((this.currentPass=='')&&((this.newPass!='')||(this.newPassConfirm!='')))
         {
-          return 'Please input your old-password';
-        }else if((this.oldPass=='')&&(this.newPass=='')&&(this.newPassConfirm==''))
+          return 'Please input your current password';
+        }else if((this.currentPass=='')&&(this.newPass=='')&&(this.newPassConfirm==''))
         {
           return '';
         }else if((this.newPass.length < 10)&&(this.newPass!=''))
@@ -204,7 +204,7 @@ Vue.use(Toast);
         }else if(this.newPass.length > 50)
         {
           return 'Your new password is too long';
-        }else if ((this.oldPass!='')&&(this.newPassConfirm!='')&&(this.newPass!='')&&(this.newPassConfirm==this.newPass))
+        }else if ((this.currentPass!='')&&(this.newPassConfirm!='')&&(this.newPass!='')&&(this.newPassConfirm==this.newPass))
         {
           return true;
         }

@@ -1363,6 +1363,13 @@ Vue.use(__WEBPACK_IMPORTED_MODULE_1_vue_numeric___default.a);
         Vue.set(vm.$data, 'RemarksIsActive', false);
       });
     },
+    RemovePendingRemarks: function RemovePendingRemarks() {
+      var vm = this;
+      __WEBPACK_IMPORTED_MODULE_0_axios___default.a.put('/budget-officer-pending-remarks/' + this.rvno.RVNo).then(function (response) {
+        console.log(response);
+        vm.displayRemarks();
+      });
+    },
     displayRemarks: function displayRemarks() {
       var vm = this;
       __WEBPACK_IMPORTED_MODULE_0_axios___default.a.get('/show-budget-officer-pending-remarks/' + this.rvno.RVNo).then(function (response) {
@@ -6644,18 +6651,15 @@ module.exports={render:function (){var _vm=this;var _h=_vm.$createElement;var _c
   }, [_vm._v("access_time")]), _vm._v(" remarks")]) : _vm._e(), _vm._v(" "), ((_vm.pendingRemarksShow != null) && (_vm.RVMaster.users[2].pivot.Signature == null) && ((_vm.user.id == _vm.RVMaster.users[0].id) || (_vm.user.id == _vm.RVMaster.users[2].id))) ? _c('div', {
     staticClass: "BudgetRemarkShow"
   }, [_c('div', {
-    staticClass: "remarks-box animated",
-    class: {
-      'hinge': _vm.drop
-    }
+    staticClass: "remarks-box"
   }, [_c('h1', [_vm._v(" budget officer: "), _c('i', {
-    staticClass: "fa fa-thumb-tack animated",
+    staticClass: "material-icons",
     on: {
       "click": function($event) {
-        _vm.drop = true
+        _vm.RemovePendingRemarks()
       }
     }
-  })]), _vm._v(" "), _c('p', [_vm._v(_vm._s(_vm.pendingRemarksShow))])])]) : _vm._e(), _vm._v(" "), (_vm.RemarksIsActive == true) ? _c('div', {
+  }, [_vm._v("close")])]), _vm._v(" "), _c('p', [_vm._v(_vm._s(_vm.pendingRemarksShow))])])]) : _vm._e(), _vm._v(" "), (_vm.RemarksIsActive == true) ? _c('div', {
     staticClass: "pending-remarks-input"
   }, [_c('h1', [_vm._v("Input pending remarks")]), _vm._v(" "), _c('textarea', {
     directives: [{
@@ -6666,8 +6670,6 @@ module.exports={render:function (){var _vm=this;var _h=_vm.$createElement;var _c
     }],
     attrs: {
       "name": "name",
-      "rows": "4",
-      "cols": "30",
       "maxlength": "100",
       "placeholder": "max:(100characters)"
     },

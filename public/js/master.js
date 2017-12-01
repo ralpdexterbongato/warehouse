@@ -32464,7 +32464,7 @@ module.exports={render:function (){var _vm=this;var _h=_vm.$createElement;var _c
     staticClass: "clickable"
   }, [_c('span', [_c('i', {
     staticClass: "material-icons"
-  }, [_vm._v("build")]), _vm._v("My account\n            ")])])])
+  }, [_vm._v("account_circle")]), _vm._v("My account\n            ")])])])
 },function (){var _vm=this;var _h=_vm.$createElement;var _c=_vm._self._c||_h;
   return _c('a', [_c('li', {
     staticClass: "sidebar-title"

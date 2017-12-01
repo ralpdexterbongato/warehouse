@@ -160,9 +160,7 @@
           <i class="material-icons">person_add</i> Manager Account
         </h1>
         <div class="manager-form-inputs">
-          <div class="doubleform">
-            <input type="text" v-model="ManagerRegisterFullName" placeholder="Full Name" autocomplete="off">
-          </div>
+          <input type="text" v-model="ManagerRegisterFullName" placeholder="Full Name" autocomplete="off">
           <div class="doubleform">
             <input type="text" v-model="ManagerRegisterUsername" placeholder="Username" autocomplete="off">
             <input type="text" v-model="ManagerRegisterPosition" placeholder="Position" autocomplete="off">
@@ -174,7 +172,7 @@
           <input type="text" v-model="ManagerRegisterMobile" placeholder="Mobile #" autocomplete="off">
           <input type="file" @change="onFileChange2" accept="image/PNG">
           <h3 class="signature-preview"><img :src="image2" alt="your signature"></h3>
-          <button type="button" class="save-btn-manager" v-on:click="saveManagerAccount()"><i class="fa fa-user"></i> Save Account</button>
+          <button type="button" class="save-btn-manager" v-on:click="saveManagerAccount()"><i class="material-icons">person_add</i> Save Account</button>
         </div>
       </div>
     </div>

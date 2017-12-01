@@ -28373,6 +28373,12 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
 //
 //
 //
+//
+//
+//
+//
+//
+//
 
 
 
@@ -28966,7 +28972,7 @@ module.exports={render:function (){var _vm=this;var _h=_vm.$createElement;var _c
     staticClass: "Adding-items-form"
   }, [_c('div', {
     staticClass: "left-item-adding-form"
-  }, [_c('h2', [_vm._v("Recently added")]), _c('span', {
+  }, [_c('h2', [_vm._v("Recently added")]), _vm._v(" "), _c('span', {
     staticClass: "search-added-master"
   }, [_c('input', {
     directives: [{
@@ -28992,7 +28998,7 @@ module.exports={render:function (){var _vm=this;var _h=_vm.$createElement;var _c
         _vm.ItemCodeSearch = $event.target.value
       }
     }
-  }), _c('button', {
+  }), _vm._v(" "), _c('button', {
     attrs: {
       "type": "button"
     },

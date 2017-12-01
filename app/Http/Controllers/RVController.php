@@ -343,6 +343,10 @@ class RVController extends Controller
       ]);
       RVMaster::where('RVNo',$id)->update(['PendingRemarks'=>$request->PendingRemarks]);
     }
+    public function PedingRemarkRemove($id)
+    {
+      RVMaster::where('RVNo',$id)->update(['PendingRemarks'=>NULL]);
+    }
     public function showBORemarks($id)
     {
       return RVMaster::where('RVNo',$id)->get(['PendingRemarks']);

@@ -10,14 +10,14 @@
     <div v-if="((RVMaster.users[2].pivot.Signature==null)&&((RVMaster.users[1].pivot.Signature=='0')||(ManagerReplacerData!=null && ManagerReplacerData.pivot.Signature=='0')))" class="empty-left relative">
       <button v-on:click="RemarksIsActive=true" class="pending-remarks" type="button" v-if="((RVMaster.users[2].id==user.id)&&(pendingRemarksShow==null))"><i class="material-icons">access_time</i> remarks</button>
       <div v-if="(pendingRemarksShow!=null)&&(RVMaster.users[2].pivot.Signature==null)&&((user.id==RVMaster.users[0].id)||(user.id==RVMaster.users[2].id))" class="BudgetRemarkShow">
-        <div class="remarks-box animated" :class="{'hinge':drop}">
-          <h1> budget officer: <i class="fa fa-thumb-tack animated" v-on:click="drop=true"></i></h1>
+        <div class="remarks-box">
+          <h1> budget officer: <i class="material-icons" v-on:click="RemovePendingRemarks()">close</i></h1>
           <p>{{pendingRemarksShow}}</p>
         </div>
       </div>
       <div class="pending-remarks-input" v-if="RemarksIsActive==true">
         <h1>Input pending remarks</h1>
-        <textarea v-model="pendingremarks" name="name" rows="4" cols="30" maxlength="100" placeholder="max:(100characters)"></textarea>
+        <textarea v-model="pendingremarks" name="name" maxlength="100" placeholder="max:(100characters)"></textarea>
         <span class="pending-remarks-btn">
           <button type="button" name="button" v-on:click="RemarksIsActive=false">cancel</button>
           <button type="button" name="button" v-on:click="PendingRemarksSubmit()">save</button>
@@ -406,6 +406,15 @@ Vue.use(VueNumeric);
           vm.displayRemarks();
           Vue.set(vm.$data,'RemarksIsActive',false);
         })
+      },
+      RemovePendingRemarks()
+      {
+        var vm=this;
+        axios.put(`/budget-officer-pending-remarks/`+this.rvno.RVNo).then(function(response)
+        {
+          console.log(response);
+          vm.displayRemarks();
+        });
       },
       displayRemarks()
       {

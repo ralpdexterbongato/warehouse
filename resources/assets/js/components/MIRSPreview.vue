@@ -3,8 +3,10 @@
   <div class="printable-paper">
     <div class="print-btn-container">
       <div class="download-form" v-if="approved">
-        <a :href="'/MIRS.pdf/'+mirsno.MIRSNo"><button type="submit"><i class="material-icons">print</i></button></a>
-        unclaimed:<span class="color-blue">{{unclaimed}}</span>
+        <a :href="'/MIRS.pdf/'+mirsno.MIRSNo"><button type="submit"><i class="material-icons">print</i> Print</button></a>
+        <div class="not-claimed-qty">
+          Not-claimed:<span class="color-blue">{{unclaimed}}</span>
+        </div>
       </div>
       <div class="empty-left" v-else>
       </div>
@@ -25,7 +27,7 @@
         <h6 class="mirs-managerreplace-info"><i class="material-icons color-blue">info</i>
           <span class="color-blue">{{MIRSMaster.users[0].FullName}}</span> is asking for your signature b/c the General Manager is not available
         </h6>
-        <span class="Approve-replacer-accept-cant" :class="{'hide':SignatureApproveBtnHide}">
+        <span class="MIRS-Approve-Replacer-Btn" :class="{'hide':SignatureApproveBtnHide}">
           <longpress  duration="3" id="manager-replacer-accept" :on-confirm="AcceptApprovalReplacerequest"  pressing-text="confirm in {$rcounter}" action-text="Loading . . .">
           <i class="material-icons">edit</i> Signature
           </longpress>
@@ -34,7 +36,7 @@
           </longpress>
         </span>
       </div>
-      <span v-if="((ManagerCansignature)&&(NoManagerReplacerSignature)||((GMCanSignature)&&(NoApprovalReplacerSignature))||(RequisitionerCanSignature))">
+      <span class="signature-span" v-if="((ManagerCansignature)&&(NoManagerReplacerSignature)||((GMCanSignature)&&(NoApprovalReplacerSignature))||(RequisitionerCanSignature))">
         <div class="middle-status" :class="{'hide':SignatureBtnHide}">
           <longpress id="accepted" duration="3" :on-confirm="SignatureMIRS"  pressing-text="confirm in {$rcounter}" action-text="Loading . . .">
             <i class="material-icons">edit</i> Signature

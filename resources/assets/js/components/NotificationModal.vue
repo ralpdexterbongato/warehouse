@@ -162,7 +162,7 @@
           <a href="/my-own-account-settings-page">
             <li class="clickable">
               <span>
-                <i class="material-icons">build</i>My account
+                <i class="material-icons">account_circle</i>My account
               </span>
             </li>
           </a>

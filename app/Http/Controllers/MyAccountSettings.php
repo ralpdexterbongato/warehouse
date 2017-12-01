@@ -42,9 +42,9 @@ class MyAccountSettings extends Controller
       return ['error'=>'New pass did not match'];
     }
    $user = User::find(auth()->user()->id);
-   if(!Hash::check($request->oldPass, $user->password))
+   if(!Hash::check($request->currentPass, $user->password))
    {
-     return ['error'=>'Old password is incorrect'];
+     return ['error'=>'Please retype your current password'];
    }else
    {
      User::where('id', Auth::user()->id)->update(['Password'=>bcrypt($request->Password)]);

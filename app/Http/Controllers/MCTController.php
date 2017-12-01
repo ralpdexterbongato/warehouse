@@ -21,9 +21,10 @@ class MCTController extends Controller
 {
   public function StoreMCT(Request $request)
   {
-    $this->validate($request,[
-      'AddressTo'=>'required',
-    ]);
+    if ($request->AddressTo==null)
+    {
+      return ['error'=>'Address to where?'];
+    }
     if (empty(Session::get('MCTSessionItems')))
     {
       return response()->json(['error'=>'Items is required']);
@@ -178,9 +179,10 @@ class MCTController extends Controller
   }
   public function MCTSessionSaving(Request $request)
   {
-    $this->validate($request,[
-      'Quantity'=>'required|min:1',
-    ]);
+    if ($request->Quantity==null)
+    {
+        return response()->json(['error'=>'Quantity is required']);
+    }
     $StockinWarehouse=MaterialsTicketDetail::where('ItemCode',$request->ItemCode)->orderBy('id','DESC')->get(['CurrentQuantity']);
     if ($StockinWarehouse[0]->CurrentQuantity<$request->Quantity)
     {
@@ -189,7 +191,7 @@ class MCTController extends Controller
     $ItemRemaining=MIRSDetail::where('MIRSNo', $request->MIRSNo)->where('ItemCode',$request->ItemCode)->get(['QuantityValidator']);
     if ($ItemRemaining[0]->QuantityValidator < $request->Quantity)
     {
-      return response()->json(['error'=>'Sorry only '.$ItemRemaining[0]->QuantityValidator.' left']);
+      return response()->json(['error'=>'Sorry '.$ItemRemaining[0]->QuantityValidator.' left']);
     }
     if (Session::has('MCTSessionItems'))
     {
@@ -208,6 +210,10 @@ class MCTController extends Controller
   public function displayMCTSessionStored()
   {
     $SessionData=Session::get('MCTSessionItems');
+    if (isset($SessionData))
+    {
+      $SessionData=array_reverse($SessionData);
+    }
     return response()->json(['SessionData'=>$SessionData]);
   }
   public function deleteASession($id)

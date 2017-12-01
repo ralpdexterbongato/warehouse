@@ -5,7 +5,7 @@
 @section('body')
   <div class="mct-of-mirs-container">
     <div class="title-of-page-container">
-      <h1><i class="fa fa-table"></i> M.C.T. list of MIRS No. {{$MCTMaster[0]->MIRSNo}}</h1>
+      <h1><i class="material-icons">list</i> M.C.T. list of MIRS No. <span class="color-blue">{{$MCTMaster[0]->MIRSNo}}</span></h1>
     </div>
     <div class="table-mct-of-mirs">
       @if (isset($MCTMaster[0]))

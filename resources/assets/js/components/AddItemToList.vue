@@ -15,7 +15,13 @@
     </div>
     <div class="Adding-items-form">
       <div class="left-item-adding-form">
-        <h2>Recently added</h2><span class="search-added-master"><input type="text"placeholder="Search by item code" v-model="ItemCodeSearch" v-on:keyup.enter="RecentAddedAndSearch()"><button type="button" v-on:click=RecentAddedAndSearch()><i class="fa fa-search"></i></button></span>
+        <h2>Recently added</h2>
+        <span class="search-added-master">
+          <input type="text"placeholder="Search by item code" v-model="ItemCodeSearch" v-on:keyup.enter="RecentAddedAndSearch()">
+          <button type="button" v-on:click="RecentAddedAndSearch()">
+            <i class="fa fa-search"></i>
+          </button>
+        </span>
         <table>
           <tr>
             <th>Account Code</th>
