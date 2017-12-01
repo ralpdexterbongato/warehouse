@@ -89,7 +89,7 @@
               <button type="button" v-on:click="[lowqtyactive==false?FetchLowQtyItems():searchDescription()],lowqtyactive=!lowqtyactive" :class="{'lowqtyactive':lowqtyactive}"><i class="material-icons">arrow_downward</i> Qty items</button>
             </div>
             <div class="search-input-item">
-              <input type="text" autocomplete="off" name="Description" placeholder="Article/Description" v-model="findDescription" v-on:keyup.enter="searchDescription(),lowqtyactive=false"><button type="submit"v-on:click="searchDescription(),lowqtyactive=false"><i class="material-icons">search</i></button>
+              <input type="text" autocomplete="off" name="Description" placeholder="Article/Code" v-model="findDescription" v-on:keyup.enter="searchDescription(),lowqtyactive=false"><button type="submit"v-on:click="searchDescription(),lowqtyactive=false"><i class="material-icons">search</i></button>
             </div>
           </div>
           <div class="searchResults-forstock">
@@ -168,7 +168,7 @@ import Longpress from 'vue-longpress';
        searchDescription(page)
        {
          var vm=this;
-         axios.get(`/search-rv-forstock?Description=`+this.findDescription+`&page=`+page).then(function(response)
+         axios.get(`/search-rv-forstock?Search=`+this.findDescription+`&page=`+page).then(function(response)
          {
             console.log(response);
             vm.QuantityForWHouse=[];

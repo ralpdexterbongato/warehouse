@@ -1338,7 +1338,7 @@ only screen and (max-width: 1050px),
 .search-item-bar
 {
   display: flex;
-  justify-content: space-between;
+  justify-content:flex-start;
   padding: 20px 20px 0px 20px;
 }
 .search-item-bar form
@@ -6698,6 +6698,7 @@ only screen and (max-width: 1050px),
 }
 .searchResults-forstock table
 {
+	color: #505050;
   width: 100%;
   font-size: 14px;
   font-family:Roboto, 'Segoe UI', Tahoma, sans-serif;
@@ -6705,10 +6706,9 @@ only screen and (max-width: 1050px),
 }
 .searchResults-forstock th
 {
-  background: #3367D6;
   text-align: center;
   font-size: 15px;
-  color: #fff;
+	font-weight: 600;
   padding:10px 10px;
 }
 .searchResults-forstock td i
@@ -6739,7 +6739,6 @@ only screen and (max-width: 1050px),
 {
   text-align: center;
   padding:10px;
-  color: #505050;
 }
 @media
 only screen and (max-width: 1050px),
@@ -10884,7 +10883,8 @@ only screen and (max-width: 1050px),
   margin: 20px 0;
   border-radius: 4px;
 }
-.pagination > li {
+.pagination > li
+{
   display: inline;
 }
 .pagination > li > a,
@@ -10898,6 +10898,7 @@ only screen and (max-width: 1050px),
   background-color: #ffffff;
   border: 1px solid #dddddd;
   margin-left: -1px;
+	font-size: 14px;
 }
 .pagination > li:first-child > a,
 .pagination > li:first-child > span {

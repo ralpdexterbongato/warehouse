@@ -20,7 +20,7 @@ class ItemsController extends Controller
      public function __construct()
      {
       $this->middleware('auth');
-      $this->middleware('IsWarehouse',['except'=>['index','UpdateItem','FetchItemToEdit','SearchDescriptionAndRecentAdded','SaveNewItem','addNonexistinwarehouseItem','ItemMasterbyDescription','FetchAndsearchItemCode','searchItemMaster']]);
+      $this->middleware('IsWarehouse',['except'=>['index','UpdateItem','FetchItemToEdit','SearchDescriptionAndRecentAdded','SaveNewItem','addNonexistinwarehouseItem','ItemMasterSearch','FetchAndsearchItemCode','searchItemMaster']]);
      }
 
     public function index()
@@ -42,9 +42,10 @@ class ItemsController extends Controller
     {
        return $itemMasters=MasterItem::where('ItemCode','LIKE','%'.$request->ItemCode.'%')->paginate(5);
     }
-    public function ItemMasterbyDescription(Request $request)
+    public function ItemMasterSearch(Request $request)
     {
-       return $itemMasters=MasterItem::where('Description','LIKE','%'.$request->search.'%')->paginate(5);
+       return $itemMasters=MasterItem::where('Description','LIKE','%'.$request->search.'%')
+       ->orWhere('ItemCode','LIKE','%'.$request->search.'%')->paginate(5);
     }
 
     public function addNonexistinwarehouseItem()
@@ -115,7 +116,7 @@ class ItemsController extends Controller
       if ($request->ItemCode==null)
       {
         $MasterItem=MaterialsTicketDetail::where('MTNo', 'Init')->orderBy('id','DESC')->paginate(10,['AccountCode','ItemCode','CurrentCost','CurrentQuantity','id']);
-      }else 
+      }else
       {
         $MasterItem=MaterialsTicketDetail::where('ItemCode',$request->ItemCode)->where('MTNo', 'Init')->orderBy('id','DESC')->paginate(10,['AccountCode','ItemCode','CurrentCost','CurrentQuantity','id']);
       }

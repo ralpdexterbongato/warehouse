@@ -1701,7 +1701,7 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
   methods: {
     searchDescription: function searchDescription(page) {
       var vm = this;
-      __WEBPACK_IMPORTED_MODULE_0_axios___default.a.get('/search-rv-forstock?Description=' + this.findDescription + '&page=' + page).then(function (response) {
+      __WEBPACK_IMPORTED_MODULE_0_axios___default.a.get('/search-rv-forstock?Search=' + this.findDescription + '&page=' + page).then(function (response) {
         console.log(response);
         vm.QuantityForWHouse = [];
         vm.RemarksForWHouse = [];
@@ -6364,7 +6364,7 @@ module.exports={render:function (){var _vm=this;var _h=_vm.$createElement;var _c
       "type": "text",
       "autocomplete": "off",
       "name": "Description",
-      "placeholder": "Article/Description"
+      "placeholder": "Article/Code"
     },
     domProps: {
       "value": (_vm.findDescription)

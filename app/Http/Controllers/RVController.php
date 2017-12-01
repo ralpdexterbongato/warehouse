@@ -218,7 +218,10 @@ class RVController extends Controller
     }
     public function searchRVforStock(Request $request)
     {
-       $MasterResults=MasterItem::orderBy('ItemCode','DESC')->where('Description','LIKE','%'.$request->Description.'%')->paginate(8,['AccountCode','ItemCode','Description','Unit','CurrentQuantity','AlertIfBelow']);
+       $MasterResults=MasterItem::orderBy('ItemCode','DESC')
+       ->where('Description','LIKE','%'.$request->Search.'%')
+       ->orWhere('ItemCode','LIKE','%'.$request->Search.'%')
+       ->paginate(8,['AccountCode','ItemCode','Description','Unit','CurrentQuantity','AlertIfBelow']);
        return response()->json(['MasterResults'=>$MasterResults]);
     }
     public function addtoStockSession(Request $request)

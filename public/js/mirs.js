@@ -28392,22 +28392,6 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_3_vue2_toast_lib_toast_css___default = __webpack_require__.n(__WEBPACK_IMPORTED_MODULE_3_vue2_toast_lib_toast_css__);
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_4_vue2_toast__ = __webpack_require__(32);
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_4_vue2_toast___default = __webpack_require__.n(__WEBPACK_IMPORTED_MODULE_4_vue2_toast__);
-function _defineProperty(obj, key, value) { if (key in obj) { Object.defineProperty(obj, key, { value: value, enumerable: true, configurable: true, writable: true }); } else { obj[key] = value; } return obj; }
-
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
 //
 //
 //
@@ -28512,37 +28496,26 @@ function _defineProperty(obj, key, value) { if (key in obj) { Object.definePrope
 Vue.use(__WEBPACK_IMPORTED_MODULE_4_vue2_toast___default.a);
 /* harmony default export */ __webpack_exports__["default"] = ({
   data: function data() {
-    var _ref;
-
-    return _ref = {
+    return {
       isActive: false,
       purpose: '',
-      ItemCodeSearch: '',
-      SearchDescription: '',
-      DescriptionSearch: '',
+      ItemSearch: '',
       SearchResults: [],
-      Pagination: []
-    }, _defineProperty(_ref, 'Pagination', []), _defineProperty(_ref, 'Quantity', []), _defineProperty(_ref, 'Remarks', []), _defineProperty(_ref, 'SessionItems', []), _defineProperty(_ref, 'offset', 4), _defineProperty(_ref, 'HideButton', false), _ref;
+      Pagination: [],
+      Quantity: [],
+      Remarks: [],
+      SessionItems: [],
+      offset: 4,
+      HideButton: false
+    };
   },
 
   props: ['manager', 'gm'],
 
   methods: {
-    searchbyItemCode: function searchbyItemCode(page) {
-      this.SearchDescription = '';
+    searchItem: function searchItem(page) {
       var vm = this;
-      __WEBPACK_IMPORTED_MODULE_1_axios___default.a.get('/findMasterItem?ItemCode=' + this.ItemCodeSearch + '&page=' + page).then(function (response) {
-        console.log(response);
-        Vue.set(vm.$data, 'SearchResults', response.data.data);
-        Vue.set(vm.$data, 'Pagination', response.data);
-        vm.Quantity = [];
-        vm.Remarks = [];
-      });
-    },
-    searchbyDescriptionMIRS: function searchbyDescriptionMIRS(page) {
-      this.ItemCodeSearch = '';
-      var vm = this;
-      __WEBPACK_IMPORTED_MODULE_1_axios___default.a.get('/Items-ByDescription?search=' + this.SearchDescription + '&page=' + page).then(function (response) {
+      __WEBPACK_IMPORTED_MODULE_1_axios___default.a.get('/item-search?search=' + this.ItemSearch + '&page=' + page).then(function (response) {
         console.log(response);
         Vue.set(vm.$data, 'SearchResults', response.data.data);
         Vue.set(vm.$data, 'Pagination', response.data);
@@ -28614,22 +28587,16 @@ Vue.use(__WEBPACK_IMPORTED_MODULE_4_vue2_toast___default.a);
         vm.$toast.top(error.response.data.Purpose[0]);
       });
     },
-    changePageCode: function changePageCode(page) {
-      this.Pagination.current_page = page;
-      this.searchbyItemCode(page);
-      this.Quantity = [];
-      this.Remarks = [];
-    },
     changePage: function changePage(page) {
       this.Pagination.current_page = page;
-      this.searchbyDescriptionMIRS(page);
+      this.searchItem(page);
       this.Quantity = [];
       this.Remarks = [];
     }
   },
   created: function created() {
-    this.searchbyItemCode();
     this.fetchAddedSession();
+    this.searchItem();
   },
   computed: {
     PageActive: function PageActive() {
@@ -29507,52 +29474,25 @@ module.exports={render:function (){var _vm=this;var _h=_vm.$createElement;var _c
     directives: [{
       name: "model",
       rawName: "v-model",
-      value: (_vm.SearchDescription),
-      expression: "SearchDescription"
+      value: (_vm.ItemSearch),
+      expression: "ItemSearch"
     }],
     attrs: {
       "type": "text",
       "autocomplete": "off",
       "name": "Description",
-      "placeholder": "Find by description"
+      "placeholder": "Search Name/Code"
     },
     domProps: {
-      "value": (_vm.SearchDescription)
+      "value": (_vm.ItemSearch)
     },
     on: {
       "keyup": function($event) {
-        _vm.searchbyDescriptionMIRS()
+        _vm.searchItem()
       },
       "input": function($event) {
         if ($event.target.composing) { return; }
-        _vm.SearchDescription = $event.target.value
-      }
-    }
-  })]), _vm._v(" "), _c('div', {
-    staticClass: "search-mirs-modal"
-  }, [_c('input', {
-    directives: [{
-      name: "model",
-      rawName: "v-model",
-      value: (_vm.ItemCodeSearch),
-      expression: "ItemCodeSearch"
-    }],
-    attrs: {
-      "type": "text",
-      "autocomplete": "off",
-      "name": "ItemCode",
-      "placeholder": "Find by item-code"
-    },
-    domProps: {
-      "value": (_vm.ItemCodeSearch)
-    },
-    on: {
-      "keyup": function($event) {
-        _vm.searchbyItemCode()
-      },
-      "input": function($event) {
-        if ($event.target.composing) { return; }
-        _vm.ItemCodeSearch = $event.target.value
+        _vm.ItemSearch = $event.target.value
       }
     }
   })])]), _vm._v(" "), _c('div', {
@@ -29615,47 +29555,7 @@ module.exports={render:function (){var _vm=this;var _h=_vm.$createElement;var _c
     }, [_vm._v("add")])])])])
   })], 2), _vm._v(" "), _c('div', {
     staticClass: "pagination-container"
-  }, [(_vm.ItemCodeSearch != '') ? _c('ul', {
-    staticClass: "pagination"
-  }, [(_vm.Pagination.current_page > 1) ? _c('li', [_c('a', {
-    attrs: {
-      "href": "#"
-    },
-    on: {
-      "click": function($event) {
-        $event.preventDefault();
-        _vm.changePageCode(_vm.Pagination.current_page - 1)
-      }
-    }
-  }, [_c('i', {
-    staticClass: "fa fa-angle-left"
-  })])]) : _vm._e(), _vm._v(" "), _vm._l((_vm.pagesNumber), function(page) {
-    return _c('li', {
-      class: [page == _vm.PageActive ? 'active' : '']
-    }, [_c('a', {
-      attrs: {
-        "href": "#"
-      },
-      on: {
-        "click": function($event) {
-          $event.preventDefault();
-          _vm.changePageCode(page)
-        }
-      }
-    }, [_vm._v(_vm._s(page))])])
-  }), _vm._v(" "), (_vm.Pagination.current_page < _vm.Pagination.last_page) ? _c('li', [_c('a', {
-    attrs: {
-      "href": "#"
-    },
-    on: {
-      "click": function($event) {
-        $event.preventDefault();
-        _vm.changePageCode(_vm.Pagination.current_page + 1)
-      }
-    }
-  }, [_c('i', {
-    staticClass: "fa fa-angle-right"
-  })])]) : _vm._e()], 2) : _c('ul', {
+  }, [_c('ul', {
     staticClass: "pagination"
   }, [(_vm.Pagination.current_page > 1) ? _c('li', [_c('a', {
     attrs: {

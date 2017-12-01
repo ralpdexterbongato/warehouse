@@ -51,10 +51,7 @@
         <div class="table-mirs-modalcontain">
           <div class="search-item-bar">
               <div class="search-mirs-modal">
-                <input type="text" autocomplete="off" v-model="SearchDescription" name="Description" @keyup="searchbyDescriptionMIRS()" placeholder="Find by description">
-              </div>
-              <div class="search-mirs-modal">
-                <input type="text" autocomplete="off" name="ItemCode" @keyup="searchbyItemCode()" v-model="ItemCodeSearch" placeholder="Find by item-code">
+                <input type="text" autocomplete="off" v-model="ItemSearch" name="Description" @keyup="searchItem()" placeholder="Search Name/Code">
               </div>
           </div>
           <div class="modal-search-results">
@@ -78,18 +75,7 @@
                 </tr>
               </table>
               <div class="pagination-container">
-                <ul class="pagination" v-if="ItemCodeSearch!=''">
-                  <li v-if="Pagination.current_page > 1">
-                    <a href="#" @click.prevent="changePageCode(Pagination.current_page - 1)"><i class="fa fa-angle-left"></i></a>
-                  </li>
-                  <li v-for="page in pagesNumber" v-bind:class="[ page == PageActive ? 'active':'']">
-                    <a href="#" @click.prevent="changePageCode(page)">{{page}}</a>
-                  </li>
-                  <li v-if="Pagination.current_page < Pagination.last_page">
-                    <a href="#" @click.prevent="changePageCode(Pagination.current_page+1)"><i class="fa fa-angle-right"></i></a>
-                  </li>
-                </ul>
-                <ul class="pagination" v-else="SearchDescription!=''">
+                <ul class="pagination" >
                   <li v-if="Pagination.current_page > 1">
                     <a href="#" @click.prevent="changePage(Pagination.current_page - 1)"><i class="fa fa-angle-left"></i></a>
                   </li>
@@ -119,11 +105,8 @@ Vue.use(Toast);
        return{
          isActive:false,
          purpose:'',
-         ItemCodeSearch:'',
-         SearchDescription:'',
-         DescriptionSearch:'',
+         ItemSearch:'',
          SearchResults:[],
-         Pagination:[],
          Pagination:[],
          Quantity:[],
          Remarks:[],
@@ -135,24 +118,10 @@ Vue.use(Toast);
      props: ['manager','gm'],
 
      methods: {
-       searchbyItemCode(page)
-       {
-         this.SearchDescription='';
-         var vm=this;
-         axios.get(`/findMasterItem?ItemCode=`+this.ItemCodeSearch+`&page=`+page).then(function(response)
-        {
-          console.log(response);
-          Vue.set(vm.$data,'SearchResults',response.data.data);
-          Vue.set(vm.$data,'Pagination',response.data);
-          vm.Quantity=[];
-          vm.Remarks=[];
-        });
-      },
-      searchbyDescriptionMIRS(page)
+      searchItem(page)
       {
-        this.ItemCodeSearch='';
         var vm=this;
-        axios.get(`/Items-ByDescription?search=`+this.SearchDescription+`&page=`+page).then(function(response)
+        axios.get(`/item-search?search=`+this.ItemSearch+`&page=`+page).then(function(response)
         {
           console.log(response);
           Vue.set(vm.$data,'SearchResults',response.data.data);
@@ -240,22 +209,16 @@ Vue.use(Toast);
             vm.$toast.top(error.response.data.Purpose[0]);
           });
         },
-        changePageCode(page){
-         this.Pagination.current_page = page;
-         this.searchbyItemCode(page);
-         this.Quantity=[];
-         this.Remarks=[];
-       },
        changePage(page){
         this.Pagination.current_page = page;
-        this.searchbyDescriptionMIRS(page);
+        this.searchItem(page);
         this.Quantity=[];
         this.Remarks=[];
       },
      },
      created:function(){
-       this.searchbyItemCode();
        this.fetchAddedSession();
+       this.searchItem();
      },
      computed: {
        PageActive:function(){

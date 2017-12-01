@@ -32,7 +32,6 @@ Route::get('/fetchData-of-item-to-be-edited/{id}','ItemsController@FetchItemToEd
 Route::put('/update-changes-item/{id}','ItemsController@UpdateItem');
 Route::get('/search-item-code','ItemsController@FetchAndsearchItemCode')->name('search.code');
 Route::get('/MIRS-add','MIRSController@MIRScreate')->name('mirs.add')->middleware('MustNotGMorManager');
-Route::get('/findMasterItem','ItemsController@searchItemMaster')->name('searchItemMaster');
 Route::get('/fetchSessionMIRS','MIRSController@fetchSessionMIRS');
 Route::post('/sessionMIRSitem','MIRSController@addingSessionItem')->name('selecting.item');
 Route::delete('/removeSessions/{id}','MIRSController@deletePartSession')->name('delete.session');
@@ -78,7 +77,7 @@ Route::get('/my-mrt-signature-request','MRTController@myMRTSignatureRequest')->n
 Route::get('/my-mrt-signature-request-fetchdata','MRTController@myMRTSignatureFetchData');
 Route::get('mct-summary','MCTController@summaryMCT')->name('mct-summary')->middleware('IsWarehouseAndAdmin');
 Route::put('/MIRS-Signature/{id}','MIRSController@MIRSSignature')->name('MIRSSign');
-Route::get('/Items-ByDescription','ItemsController@ItemMasterbyDescription')->name('ItemsearchDescription');
+Route::get('/item-search','ItemsController@ItemMasterSearch')->name('ItemsearchDescription');
 Route::put('/Signature-for-mct/{id}','MCTController@SignatureMCT')->name('MCTsignature');
 Route::put('/decline-mct/{id}','MCTController@declineMCT')->name('MCTDecline');
 Route::get('/mirs-signature-list','MIRSController@mirsRequestcheck')->name('checkmyMIRSrequest');
