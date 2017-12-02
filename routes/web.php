@@ -198,3 +198,4 @@ Route::get('/my-own-account-fetch-data','MyAccountSettings@FetchMyData');
 Route::put('/update-account-contact', 'MyAccountSettings@updateContact');
 Route::put('/update-account-username','MyAccountSettings@updateUserName');
 Route::put('/update-account-password','MyAccountSettings@changeMyPassword');
+Route::get('/show-data','dashBoardController@show');

@@ -5,7 +5,7 @@ warehouse | BOHECO 1
 @section('body')
   <div class="body-container">
     <div id="items">
-      <itemhistorytable></itemhistorytable>
+      <itemhistorytable :user="{{Auth::user()}}"></itemhistorytable>
     </div>
   </div>
   <script type="text/javascript" src="/js/item.js">

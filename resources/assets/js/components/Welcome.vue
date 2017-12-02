@@ -4,7 +4,7 @@
     <div class="search-box" :class="[latestFound.MTNo!=null?'SearchItemSuccess':'']">
       <div class="text-left">
         <p v-if="latestFound.MTNo==null">
-          <span class="big"><i class="material-icons">search</i> Search</span> & <span class="big">check</span> item's latest & previous data here.
+          <span class="big"><i class="material-icons">dashboard</i> Search</span> & <span class="big">check</span> item's latest & previous data here.
         </p>
         <h1 v-else>
           <i class="fa fa-th-large"></i> Item # {{ItemCodeSearch}} data
@@ -106,8 +106,84 @@
         </div>
       </div>
     </div><!--  end of v-if result is not empty -->
-    <div class="background-pic" v-else>
+    <div class="background-pic" v-else-if="((user.Role!=1)&&(user.Role!=3)&&(user.Role!=4))">
       <img src="/DesignIMG/truck.jpg" alt="img">
+    </div>
+    <div class="dash-home" v-else>
+      <div class="dashbox" style="background:#3367D6">
+        <div class="left-dash">
+          <h1 class="circle-dash-icon">
+            <i class="material-icons">account_balance</i>
+          </h1>
+          <h2 class="dash-labels">High</h2>
+        </div>
+        <div class="right-dash">
+          <span>
+            <h1 class="dash-totals">
+              <animate-number
+                  from="0"
+                  :to="DashGood"
+                  duration="1000"
+                  easing="easeOutQuad" v-if="DashGood>0">
+              </animate-number>
+              <span v-else>
+                0
+              </span>
+            </h1>
+            <p>Items</p>
+          </span>
+          <h2><i class="material-icons">equalizer</i></h2>
+        </div>
+      </div>
+      <div class="dashbox" style="background:#ff9800">
+        <div class="left-dash">
+          <h1 class="circle-dash-icon">
+            <i class="material-icons">trending_down</i>
+          </h1>
+          <h2 class="dash-labels">Low</h2>
+        </div>
+        <div class="right-dash">
+          <span>
+            <h1 class="dash-totals">
+              <animate-number
+                  from="0"
+                  :to="DashWarn"
+                  duration="2000"
+                  easing="easeOutQuad" v-if="DashWarn>0">
+              </animate-number>
+              <span v-else>
+                0
+              </span>
+            </h1>
+            <p>Items</p>
+          </span>
+          <h2><i class="material-icons">equalizer</i></h2>
+        </div>
+      </div>
+      <div class="dashbox" style="background:#f44336">
+        <div class="left-dash">
+          <h1 class="circle-dash-icon">
+            <i class="material-icons">shop</i>
+          </h1>
+          <h2 class="dash-labels">Empty</h2>
+        </div>
+        <div class="right-dash">
+          <span>
+            <h1 class="dash-totals">
+              <animate-number
+                  from="0"
+                  :to="DashEmpty"
+                  duration="3000"
+                  easing="easeOutQuad"
+                  v-if="DashEmpty>0"
+                  >
+              </animate-number>
+            </h1>
+            <p>Items</p>
+          </span>
+          <h2><i class="material-icons">equalizer</i></h2>
+        </div>
+      </div>
     </div>
   </div>
   <div class="not-found-msg" v-if="NotFoundSearch!=''">
@@ -115,13 +191,14 @@
   </div>
 </div>
 </template>
-
 <script>
 import axios from 'axios';
 import moment from 'moment';
 import 'vue2-toast/lib/toast.css';
 import Toast from 'vue2-toast';
 Vue.use(Toast);
+import VueAnimateNumber from 'vue-animate-number';
+Vue.use(VueAnimateNumber);
   export default {
     data () {
       return {
@@ -130,11 +207,31 @@ Vue.use(Toast);
         offset: 4,
         latestFound: [],
         historiesfound: [],
-        NotFoundSearch: ''
+        NotFoundSearch: '',
+        DashGood:0,
+        DashWarn:0,
+        DashEmpty:0,
       }
     },
-    props: [],
+    props: ['user'],
+    created() {
+      if (this.user.Role==1||this.user.Role==3||this.user.Role==4)
+      {
+        this.DashData();
+      }
+    },
     methods: {
+      DashData()
+      {
+        var vm=this;
+        axios.get(`/show-data`).then(function(response)
+        {
+          console.log(response);
+          vm.DashGood=response.data.good;
+          vm.DashWarn=response.data.warn;
+          vm.DashEmpty=response.data.empty;
+        });
+      },
       SearchItemHistory(page)
       {
         this.$loading('Please wait');
