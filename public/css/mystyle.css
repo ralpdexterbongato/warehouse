@@ -59,6 +59,7 @@ body
 {
 	max-width: 1920px;
 	margin:0 auto;
+	box-shadow: 0 2px 4px -1px rgba(0,0,0,0.06), 0 4px 5px 0 rgba(0,0,0,0.06), 0 1px 10px 0 rgba(0,0,0,0.08);
 }
 .main-master-container
 {
@@ -210,6 +211,7 @@ input[type='radio']:after {
 	z-index:15;
 	margin:0 auto;
 	max-width: 1920px;
+	box-sizing: border-box;
 }
 @media (max-width:760px)
 {
@@ -647,14 +649,13 @@ input[type='radio']:after {
 .simple-footer
 {
   background: #3367D6;
-	padding:20px 100px;
+	padding:15px 100px;
 }
 
 .simple-footer h1
 {
   text-align:right;
-  font-size: 13px;
-	font-family: sans-serif;
+  font-size: 15px;
   color: #fff;
 }
 @media (max-width:760px)
@@ -674,6 +675,7 @@ input[type='radio']:after {
 	width: 60%;
 	margin: 0 auto;
 	display: flex;
+	overflow: hidden;
 }
 .background-pic img
 {
@@ -681,6 +683,7 @@ input[type='radio']:after {
 	margin:auto;
 	white-space:nowrap;
 }
+
 @media (max-width:700px)
 {
 	.background-pic
@@ -769,6 +772,7 @@ filter: drop-shadow(0 6px 3px #C3C3C3);
 
 		.data-results-container td {
 			/* Behave  like a "row" */
+			padding:10px!important;
 			border: none!important;
 			border-top: 1px solid #e5e5e5!important;
 			position: relative!important;
@@ -788,19 +792,19 @@ filter: drop-shadow(0 6px 3px #C3C3C3);
 			white-space: nowrap!important;
 		}
 
-		.data-results-container td:nth-of-type(1):before { content: "MT type"; }
-		.data-results-container td:nth-of-type(2):before { content: "MT No."; }
-		.data-results-container td:nth-of-type(3):before { content: "Account code"; }
-		.data-results-container td:nth-of-type(4):before { content: "Item code"; }
-		.data-results-container td:nth-of-type(5):before { content: "Description"; }
-		.data-results-container td:nth-of-type(6):before { content: "Unit cost"; }
-		.data-results-container td:nth-of-type(7):before { content: "Quantity"; }
-		.data-results-container td:nth-of-type(8):before { content: "Unit"; }
-		.data-results-container td:nth-of-type(9):before { content: "Amount"; }
-		.data-results-container td:nth-of-type(10):before { content: "Current cost"; }
-		.data-results-container td:nth-of-type(11):before { content: "Current qty"; }
-		.data-results-container td:nth-of-type(12):before { content: "Current amt"; }
-		.data-results-container td:nth-of-type(13):before { content: "Month"; }
+		.latest-data td:nth-of-type(1):before { content: "MT type"; }
+		.latest-data td:nth-of-type(2):before { content: "MT No."; }
+		.latest-data td:nth-of-type(3):before { content: "Account code"; }
+		.latest-data td:nth-of-type(4):before { content: "Item code"; }
+		.latest-data td:nth-of-type(5):before { content: "Description"; }
+		.latest-data td:nth-of-type(6):before { content: "Unit cost"; }
+		.latest-data td:nth-of-type(7):before { content: "Quantity"; }
+		.latest-data td:nth-of-type(8):before { content: "Unit"; }
+		.latest-data td:nth-of-type(9):before { content: "Amount"; }
+		.latest-data td:nth-of-type(10):before { content: "Current cost"; }
+		.latest-data td:nth-of-type(11):before { content: "Current qty"; }
+		.latest-data td:nth-of-type(12):before { content: "Current amt"; }
+		.latest-data td:nth-of-type(13):before { content: "Month"; }
 
 		.search-box
 		{
@@ -832,6 +836,7 @@ filter: drop-shadow(0 6px 3px #C3C3C3);
 {
   color: #383B44;
 	text-align: center;
+	padding:20px 10px;
 }
 .history-found table
 {
@@ -852,7 +857,7 @@ filter: drop-shadow(0 6px 3px #C3C3C3);
   background: #f4f4f4;
 }
 .history-found td {
-    padding: 10px 20px;
+    padding: 20px 10px;
 		text-align:center;
 
 }
@@ -866,6 +871,19 @@ filter: drop-shadow(0 6px 3px #C3C3C3);
   margin-bottom: 25px;
   text-align: center;
   color: #2A2D37;
+}
+@media (max-width:1050px)
+{
+	.history-found td:nth-of-type(1):before { content: "MT type"; }
+	.history-found td:nth-of-type(2):before { content: "MT No."; }
+	.history-found td:nth-of-type(3):before { content: "Unit cost"; }
+	.history-found td:nth-of-type(4):before { content: "Quantity"; }
+	.history-found td:nth-of-type(5):before { content: "Unit"; }
+	.history-found td:nth-of-type(6):before { content: "Amount"; }
+	.history-found td:nth-of-type(7):before { content: "Current cost"; }
+	.history-found td:nth-of-type(8):before { content: "Current qty"; }
+	.history-found td:nth-of-type(9):before { content: "Current amt"; }
+	.history-found td:nth-of-type(10):before { content: "Month"; }
 }
 /*add or take*/
 .search-welcome-title
@@ -1294,6 +1312,7 @@ only screen and (max-width: 1050px),
   background:rgba(0, 0, 0, 0.6);
   height: 100vh;
   top:0;
+	left: 0;
   width: 100%;
   display: none;
 }
@@ -1350,7 +1369,6 @@ only screen and (max-width: 1050px),
 	.middle-modal-search
 	{
 	 position: absolute;
-	 right: 40px!important;
 	 left: 0!important;
 	}
 	.table-mirs-modalcontain
@@ -1444,10 +1462,12 @@ only screen and (max-width: 1050px),
 }
 .modal-search-results td input
 {
-  border-radius: 3px;
 	width: 100%;
-	border:1px solid #ccc;
-	font-size: 14px;
+	border-style: none;
+	background: transparent;
+	border-bottom:1px solid #ccc;
+	font-size: 15px;
+	padding:5px 10px;
 }
 .modal-search-results td input[type="number"]
 {
@@ -4076,6 +4096,7 @@ filter: drop-shadow(1px 1px 3px #1D1A33);
 	margin-left: 10px;
 	padding-bottom: 11px;
 	letter-spacing:1px;
+	font-family: 'Comfortaa',sans-serif;
 }
 .login-placeholder-container input[type="password"]
 {

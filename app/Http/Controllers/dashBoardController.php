@@ -6,6 +6,11 @@ use Illuminate\Http\Request;
 use App\MasterItem;
 class dashBoardController extends Controller
 {
+    public function __construct()
+    {
+      $this->middleware('auth');
+      $this->middleware('IsWarehouseAndAdmin');
+    }
     public function show()
     {
       $good=MasterItem::whereColumn('CurrentQuantity','>=','AlertIfBelow')->count();

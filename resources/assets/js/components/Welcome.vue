@@ -63,9 +63,6 @@
           <tr>
             <th>MT type</th>
             <th>MT No.</th>
-            <th>Account code</th>
-            <th>Item code</th>
-            <th>Description</th>
             <th>Unit cost</th>
             <th>Quantity</th>
             <th>Unit</th>
@@ -78,9 +75,9 @@
           <tr v-for="history in historiesfound" v-if="history.id!=latestFound.id">
             <td>{{history.MTType}}</td>
             <td>{{history.MTNo}}</td>
-            <td>{{history.AccountCode}}</td>
+            <!-- <td>{{history.AccountCode}}</td>
             <td>{{history.ItemCode}}</td>
-            <td>{{latestFound.master_items.Description}}</td>
+            <td>{{latestFound.master_items.Description}}</td> -->
             <td>{{formatPrice(history.UnitCost)}}</td>
             <td>{{history.Quantity}}</td>
             <td>{{latestFound.master_items.Unit}}</td>
@@ -113,7 +110,7 @@
       <div class="dashbox" style="background:#3367D6">
         <div class="left-dash">
           <h1 class="circle-dash-icon">
-            <i class="material-icons">account_balance</i>
+            <i class="material-icons">filter_hdr</i>
           </h1>
           <h2 class="dash-labels">High</h2>
         </div>
@@ -148,7 +145,7 @@
               <animate-number
                   from="0"
                   :to="DashWarn"
-                  duration="2000"
+                  duration="1500"
                   easing="easeOutQuad" v-if="DashWarn>0">
               </animate-number>
               <span v-else>
@@ -163,7 +160,7 @@
       <div class="dashbox" style="background:#f44336">
         <div class="left-dash">
           <h1 class="circle-dash-icon">
-            <i class="material-icons">shop</i>
+            <i class="material-icons">shopping_basket</i>
           </h1>
           <h2 class="dash-labels">Empty</h2>
         </div>
@@ -173,7 +170,7 @@
               <animate-number
                   from="0"
                   :to="DashEmpty"
-                  duration="3000"
+                  duration="2000"
                   easing="easeOutQuad"
                   v-if="DashEmpty>0"
                   >
