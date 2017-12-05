@@ -2,7 +2,7 @@
 <div class="print-MCT-wrap" v-if="(this.MCTMaster.users!=null)">
   <div class="MCT-title">
     <span v-if="AlreadySignatured">
-      <form action="/MCT.pdf" method="get">
+      <form action="/MCT.pdf" method="get" class="mct-print-form">
         <button type="submit" :value="this.mctno.MCTNo" name="MCTNo"><i class="material-icons">print</i></button>
       </form>
     </span>
@@ -112,10 +112,10 @@
         </div>
       </div>
       <div class="mct-signature-right">
-        <div class="recievedby-label">
+        <div class="receivedby-label">
           Recieved by:
         </div>
-        <div class="recievedby-data">
+        <div class="receivedby-data">
           <div class="signature-recievedmct">
             <img :src="'/storage/signatures/'+MCTMaster.users[1].Signature" v-if="MCTMaster.users[1].pivot.Signature=='0'" alt="signature">
           </div>
@@ -129,8 +129,11 @@
 </template>
 
 <script>
-import axios from 'axios'
-import Longpress from 'vue-longpress'
+import axios from 'axios';
+import Longpress from 'vue-longpress';
+import 'vue2-toast/lib/toast.css';
+import Toast from 'vue2-toast';
+Vue.use(Toast);
   export default {
 
      data () {
@@ -164,6 +167,7 @@ import Longpress from 'vue-longpress'
       },
       signatureMCT()
       {
+        this.$loading('Signaturing...');
         this.SignatureMCTBtnHide=true;
         var vm=this;
         axios.put(`/Signature-for-mct/`+this.mctno.MCTNo).then(function(response)
@@ -171,16 +175,19 @@ import Longpress from 'vue-longpress'
           console.log(response);
           vm.fetchData();
           vm.SignatureMCTBtnHide=false;
+          vm.$loading.close();
         });
       },
       declineMCT()
       {
+        this.$loading('Declining...');
         this.SignatureMCTBtnHide=true;
         var vm=this;
         axios.put(`/decline-mct/`+this.mctno.MCTNo).then(function(response)
         {
           console.log(response);
           vm.fetchData();
+          vm.$loading.close();
         });
       },
       formatPrice(value) {
@@ -189,6 +196,7 @@ import Longpress from 'vue-longpress'
       },
       editMCTSave()
       {
+        this.$loading('Updating');
         var vm=this;
         axios.put(`/update-mct/`+this.mctno.MCTNo,{
           NewQuantity:this.QuantityArray,
@@ -198,11 +206,14 @@ import Longpress from 'vue-longpress'
           console.log(response);
           if (response.data.error!=null)
           {
-            window.alert(response.data.error);
+            vm.$toast.top(response.data.error);
             vm.fetchData();
+            vm.$loading.close();
           }else
           {
             vm.fetchData();
+            vm.$toast.top('Updated Successfully');
+            vm.$loading.close();
           }
         });
       },

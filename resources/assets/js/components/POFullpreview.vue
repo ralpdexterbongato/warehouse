@@ -20,7 +20,7 @@
           <li class="pending-delivery-number"><h1>waiting for: <span class="color-blue">{{remaining}}</span> items</h1></li>
         </div>
          <div class="rr-with-po-btn" v-if="user.Role==4||user.Role==3">
-            <a :href="'/create-rr-w-po/'+pono.PONo"><button type="button" class="bttn-unite bttn-xs bttn-primary"><i class="fa fa-plus"></i> RR</button></a>
+            <a :href="'/create-rr-w-po/'+pono.PONo"><button type="button" class="bttn-unite bttn-xs bttn-primary"><i class="material-icons">add</i> RR</button></a>
          </div>
       </span>
       <div v-else class="empty-left">

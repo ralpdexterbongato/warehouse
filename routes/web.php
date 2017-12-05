@@ -111,7 +111,7 @@ Route::get('/create-rr-w-po/{id}','RRController@CreateRRWithPO')->name('Createin
 Route::get('/rr-of-rv-list/{id}','RRController@RRofRVlist')->name('showRR-ofRV');
 Route::get('RV-create','RVController@RVcreate')->name('Creating.RV')->middleware('MustNotGMorManager');
 Route::get('/fetch-rv-session','RVController@fetchSessionRV');
-Route::post('/SessionSave','RVController@SaveSession')->name('SavingSessionRV');
+Route::post('/session-saving-rv','RVController@SaveSession')->name('SavingSessionRV');
 Route::delete('DeleteSession/{id}','RVController@DeleteSession')->name('DeletingSessionRV');
 Route::post('/SavetoDBRV','RVController@savingToTable')->name('SavingRVtoDB');
 Route::get('RVindex','RVController@RVindexView')->name('RVindexView');

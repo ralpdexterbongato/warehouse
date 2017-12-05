@@ -172,17 +172,23 @@ class MRTController extends Controller
     }
     public function signatureMRT($id)
     {
+      $SignatureTurn=MRTMaster::where('MRTNo', $id)->value('SignatureTurn');
+      //receiver \/
       $ReceiverID=Signatureable::where('signatureable_id',$id)->where('signatureable_type', 'App\MRTMaster')->where('SignatureType', 'ReceivedBy')->get(['user_id']);
+      //returner \/
       $ReturnerID=Signatureable::where('signatureable_id',$id)->where('signatureable_type', 'App\MRTMaster')->where('SignatureType', 'ReturnedBy')->get(['user_id']);
-      if (Auth::user()->id==$ReceiverID[0]->user_id)
+      if ((Auth::user()->id==$ReceiverID[0]->user_id)&&($SignatureTurn=='0'))
       {
         Signatureable::where('signatureable_id',$id)->where('signatureable_type', 'App\MRTMaster')->where('SignatureType', 'ReceivedBy')->where('user_id', Auth::user()->id)->update(['Signature'=>'0']);
         MRTMaster::where('MRTNo', $id)->update(['SignatureTurn'=>'1']);
-        $notifythis = array('tobeNotify'=>$ReturnerID[0]->user_id);
-        $notifythis=(object)$notifythis;
-        $job = (new NewCreatedMRTJob($notifythis))->delay(Carbon::now()->addSeconds(5));
-        dispatch($job);
-      }else
+        if (Auth::user()->id!=$ReturnerID[0]->user_id)
+        {
+          $notifythis = array('tobeNotify'=>$ReturnerID[0]->user_id);
+          $notifythis=(object)$notifythis;
+          $job = (new NewCreatedMRTJob($notifythis))->delay(Carbon::now()->addSeconds(5));
+          dispatch($job);
+        }
+      }elseif((Auth::user()->id==$ReturnerID[0]->user_id)&&($SignatureTurn=='1'))
       {
         $datenow=MRTMaster::where('MRTNo',$id)->get(['ReturnDate']);
         $FromConfirmation=MRTConfirmationDetail::where('MRTNo',$id)->get();

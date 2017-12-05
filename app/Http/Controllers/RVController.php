@@ -36,8 +36,16 @@ class RVController extends Controller
       $this->validate($request,[
         'Description'=>'required|unique:MasterItems',
         'Unit'=>'required',
-        'Quantity'=>'required',
+        'Quantity'=>'required'
       ]);
+
+      foreach (Session::get('ItemSessionList') as $items)
+      {
+        if ($items->Description==$request->Description)
+        {
+          return ['error'=>'Items cannot have thesame description'];
+        }
+      }
       $itemDetails = array('Description' =>$request->Description ,'Unit'=>$request->Unit,'Quantity'=>$request->Quantity,'Remarks'=>$request->Remarks,'AccountCode'=>null,'ItemCode'=>null);
       $itemDetails=(object)$itemDetails;
       Session::push('ItemSessionList',$itemDetails);
@@ -283,11 +291,11 @@ class RVController extends Controller
     }
     public function fetchSessionRV()
     {
-      $items=Session::get('ItemSessionList');
-      if (isset($items))
-      {
-        return array_reverse($items);
-      }
+      return $items=Session::get('ItemSessionList');
+      // if (isset($items))
+      // {
+      //   return array_reverse($items);
+      // }
     }
     public function getBelowminimumItems()
     {

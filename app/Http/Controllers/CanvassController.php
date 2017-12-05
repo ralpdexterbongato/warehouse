@@ -32,7 +32,7 @@ class CanvassController extends Controller
        'RVNo'=>'required',
        'Supplier'=>'required',
        'Address'=>'required',
-       'Telephone'=>'required|numeric|max:99999999999',
+       'Telephone'=>'required|max:11',
        'Particulars.*'=>'required',
        'Price.*'=>'required|numeric|min:0',
        'Qty.*'=>'required|max:18',

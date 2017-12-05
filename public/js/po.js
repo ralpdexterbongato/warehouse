@@ -900,7 +900,7 @@ module.exports = function dispatchRequest(config) {
 /***/ (function(module, exports, __webpack_require__) {
 
 
-window.Vue = __webpack_require__(30);
+window.Vue = __webpack_require__(32);
 Vue.component('example', __webpack_require__(212));
 Vue.component('pofullpreview', __webpack_require__(228));
 Vue.component('poindex', __webpack_require__(229));
@@ -1697,7 +1697,7 @@ var Component = __webpack_require__(4)(
   /* script */
   __webpack_require__(190),
   /* template */
-  __webpack_require__(255),
+  __webpack_require__(256),
   /* scopeId */
   null,
   /* cssModules */
@@ -1912,7 +1912,7 @@ module.exports = (
 
 /***/ }),
 
-/***/ 255:
+/***/ 256:
 /***/ (function(module, exports, __webpack_require__) {
 
 module.exports={render:function (){var _vm=this;var _h=_vm.$createElement;var _c=_vm._self._c||_h;
@@ -2177,8 +2177,8 @@ module.exports={render:function (){var _vm=this;var _h=_vm.$createElement;var _c
       "type": "button"
     }
   }, [_c('i', {
-    staticClass: "fa fa-plus"
-  }), _vm._v(" RR")])
+    staticClass: "material-icons"
+  }, [_vm._v("add")]), _vm._v(" RR")])
 },function (){var _vm=this;var _h=_vm.$createElement;var _c=_vm._self._c||_h;
   return _c('div', {
     staticClass: "PO-top-titles"
@@ -2494,7 +2494,7 @@ module.exports = __webpack_require__(12);
 
 /***/ }),
 
-/***/ 30:
+/***/ 32:
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";

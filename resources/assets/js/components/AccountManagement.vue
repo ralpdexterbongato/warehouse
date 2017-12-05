@@ -37,17 +37,6 @@
         </li>
       </ul>
     </div>
-    <ul class="error-tab" v-if="laravelerrors!=''">
-      <span v-for="errors in laravelerrors">
-        <li v-for="error in errors">{{error}}</li>
-      </span>
-    </ul>
-    <ul class="error-tab" v-if="ownerrors!=''">
-      <h5>{{ownerrors}}</h5>
-    </ul>
-    <div class="successAlertRRsession" v-if="successAlerts!=''">
-      <p>{{successAlerts}}</p>
-    </div>
     <table>
       <tr>
         <th>FullName</th>
@@ -231,9 +220,6 @@ import axios from 'axios';
        Password:'',
        Password_confirmation:'',
        image:'',
-       laravelerrors:[],
-       ownerrors:'',
-       successAlerts:'',
        createAccMenu:false,
        ManagerCreateModal:false,
        //managerregistration
@@ -263,12 +249,14 @@ import axios from 'axios';
       methods: {
         getSelectedAndSearch(page)
         {
+          this.$loading('Loading');
           var vm=this;
           axios.get(`/sort-by-role-and-search?Role=`+this.SelectedRole+`&FullName=`+this.FullNameSearch+`&page=`+page).then(function(response)
           {
             console.log(response);
             Vue.set(vm.$data,'AccountResults',response.data.data);
             Vue.set(vm.$data,'pagination',response.data);
+            vm.$loading.close();
           },function(error)
           {
             console.log(error)
@@ -343,6 +331,7 @@ import axios from 'axios';
             var vm=this;
           if (confirm("Save Changes?")==true)
           {
+            this.$loading('Updating');
             axios.put(`/update-user-data/`+id,
             {
               emulateJSON: true,
@@ -361,22 +350,24 @@ import axios from 'axios';
               console.log(response);
               if (response.data.error!=null)
               {
-                Vue.set(vm.$data,'ownerrors',response.data.error);
-                Vue.set(vm.$data,'successAlerts','');
-                Vue.set(vm.$data,'laravelerrors','');
+                vm.$toast.top(response.data.error);
               }else
               {
-                Vue.set(vm.$data,'successAlerts','Updated Successfully');
-                Vue.set(vm.$data,'laravelerrors','');
-                Vue.set(vm.$data,'ownerrors','');
                 vm.getSelectedAndSearch(vm.Activepage);
+                vm.$toast.top('Updated successfully');
                 vm.image='';
               }
+              vm.$loading.close();
             },function(error)
             {
-              Vue.set(vm.$data,'laravelerrors',error.response.data);
-              Vue.set(vm.$data,'successAlerts','');
-              Vue.set(vm.$data,'ownerrors','');
+              if (error.response.data.FullName!=null)
+              {
+                vm.$toast.top(error.response.data.FullName[0]);
+              }else if(error.response.data.Username!=null)
+              {
+                vm.$toast.top(error.response.data.Username[0]);
+              }
+              vm.$loading.close();
             });
           }
         },
@@ -385,14 +376,13 @@ import axios from 'axios';
           var vm=this;
           if (confirm("Are you sure to delete this account?")==true)
           {
+            this.$loading('Deleting');
             axios.delete(`/deleteAccount/`+id).then(function(response)
             {
               console.log(response);
               vm.getSelectedAndSearch(vm.Activepage);
-              Vue.set(vm.$data,'successAlerts','Account removed successfully');
-            },function(error)
-            {
-              console.log(error);
+              vm.$loading.close();
+              vm.$toast.top('Account deleted');
             });
           }
         },
@@ -401,6 +391,7 @@ import axios from 'axios';
           var vm=this;
           if (confirm("Save this manager account?")==true)
           {
+            this.$loading('Saving');
             axios.post(`/saving-account-manager`,{
               FullName:this.ManagerRegisterFullName,
               Username:this.ManagerRegisterUsername,
@@ -413,19 +404,34 @@ import axios from 'axios';
             {
               console.log(response);
               vm.getSelectedAndSearch(vm.Activepage);
-              Vue.set(vm.$data,'successAlerts','Success');
-              Vue.set(vm.$data,'laravelerrors','');
-              Vue.set(vm.$data,'ManagerRegisterFullName','');
-              Vue.set(vm.$data,'ManagerRegisterUsername','');
-              Vue.set(vm.$data,'ManagerRegisterPosition','');
-              Vue.set(vm.$data,'ManagerRegisterPassword',null);
-              Vue.set(vm.$data,'ManagerPwordConfirm',null);
-              Vue.set(vm.$data,'ManagerRegisterMobile',null);
-              Vue.set(vm.$data,'image2',null);
+              vm.ManagerRegisterFullName='';
+              vm.ManagerRegisterUsername='';
+              vm.ManagerRegisterPosition='';
+              vm.ManagerRegisterPassword=null;
+              vm.ManagerPwordConfirm=null;
+              vm.ManagerRegisterMobile=null;
+              vm.image2=null;
+              vm.$loading.close();
+              vm.$toast.top('Account saved');
             },function(error)
             {
-              Vue.set(vm.$data,'laravelerrors',error.response.data);
-              Vue.set(vm.$data,'successAlerts','');
+              if (error.response.data.FullName!=null)
+              {
+                vm.$toast.top(error.response.data.FullName[0]);
+              }else if(error.response.data.Username!=null)
+              {
+                vm.$toast.top(error.response.data.Username[0]);
+              }else if(error.response.data.Position!=null)
+              {
+                vm.$toast.top(error.response.data.Position[0]);
+              }else if(error.response.data.Password!=null)
+              {
+                vm.$toast.top(error.response.data.Password[0]);
+              }else if(error.response.data.Signature!=null)
+              {
+                vm.$toast.top(error.response.data.Signature[0]);
+              }
+              vm.$loading.close();
             });
           }
         },
@@ -434,6 +440,7 @@ import axios from 'axios';
           var vm=this;
           if (confirm("Save this new account?")==true)
           {
+            this.$loading('Saving');
             axios.post(`/save-account-user`,{
               FullName:this.RegisterFullName,
               Username:this.RegisterUsername,
@@ -448,14 +455,9 @@ import axios from 'axios';
               console.log(response);
               if (response.data.error!=null)
               {
-                Vue.set(vm.$data,'ownerrors',response.data.error);
-                Vue.set(vm.$data,'laravelerrors','');
-                Vue.set(vm.$data,'successAlerts','');
+                vm.$toast.top(response.data.error);
               }else
               {
-                vm.successAlerts='Success';
-                vm.ownerrors='';
-                vm.laravelerrors='';
                 vm.RegisterFullName='';
                 vm.RegisterUsername='';
                 vm.RegisterRole='';
@@ -465,12 +467,31 @@ import axios from 'axios';
                 vm.image3=null;
                 vm.RegisterMobile=null;
                 vm.getSelectedAndSearch(vm.Activepage)
+                vm.$toast.top('Account saved');
               }
+              vm.$loading.close();
             },function(error)
             {
-              Vue.set(vm.$data,'laravelerrors',error.response.data);
-              Vue.set(vm.$data,'successAlerts','');
-              Vue.set(vm.$data,'ownerrors','');
+              if (error.response.data.FullName!=null)
+              {
+                vm.$toast.top(error.response.data.FullName[0]);
+              }else if(error.response.data.Username!=null)
+              {
+                vm.$toast.top(error.response.data.Username[0]);
+              }else if(error.response.data.Password!=null)
+              {
+                vm.$toast.top(error.response.data.Password[0]);
+              }else if(error.response.data.Role!=null)
+              {
+                vm.$toast.top(error.response.data.Role[0]);
+              }else if(error.response.data.Manager!=null)
+              {
+                vm.$toast.top(error.response.data.Manager[0]);
+              }else if(error.response.data.Signature!=null)
+              {
+                vm.$toast.top(error.response.data.Signature[0]);
+              }
+              vm.$loading.close();
             });
           }
         },

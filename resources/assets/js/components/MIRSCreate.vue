@@ -132,6 +132,7 @@ Vue.use(Toast);
       },
       submitTosession(datas,count)
       {
+        this.$loading('adding...');
         var vm=this;
         axios.post(`/sessionMIRSitem`,{
         ItemCode:datas.ItemCode,
@@ -148,30 +149,36 @@ Vue.use(Toast);
             vm.$toast.top('Added successfully');
             vm.Remarks=[];
             vm.Quantity=[];
+            vm.$loading.close();
           }else
           {
             vm.$toast.top(response.data.error);
             vm.Remarks=[];
             vm.Quantity=[];
+            vm.$loading.close();
           }
       },function(error)
       {
           vm.$toast.top(error.response.data.Quantity[0]);
           vm.Remarks=[];
           vm.Quantity=[];
+          vm.$loading.close();
       });
       },
       deleteSession(code)
       {
+        this.$loading('removing...')
         var vm=this;
         axios.delete(`/removeSessions/`+code,{}).then(function(response)
         {
           console.log(response);
           vm.fetchAddedSession();
           vm.$toast.top('Successfully removed');
+          vm.$loading.close();
         },function(error)
         {
           console.log(error);
+          vm.$loading.close();
         });
       },
         fetchAddedSession()

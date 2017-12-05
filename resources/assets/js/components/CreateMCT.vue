@@ -62,7 +62,7 @@
               <td><input type="number" v-model="InputQty[count]" name="Quantity" min="1" autocomplete="off"></td>
               <td>{{validator.QuantityValidator}}</td>
               <td>{{validator.Remarks}}</td>
-              <td><button v-on:click="SaveToSession(validator,count),ModalActive=false"><i class="material-icons">add</i></button></td>
+              <td><button v-on:click="SaveToSession(validator,count)"><i class="material-icons">add</i></button></td>
           </tr>
         </table>
         <div class="paginate-container">

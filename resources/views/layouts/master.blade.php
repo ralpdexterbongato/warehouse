@@ -84,7 +84,7 @@
       @Auth
       <div class="footer-container">
         <div class="simple-footer">
-          <h1><i class="material-icons">copyright</i> 2017 All rights reserved BOHECO 1</h1>
+          <h1><i class="material-icons">copyright</i> 2017 All rights reserved BOHECO I</h1>
         </div>
       </div>
       @endAuth

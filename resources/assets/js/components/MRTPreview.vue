@@ -92,7 +92,10 @@
 
 <script>
 import axios from 'axios';
-import Longpress from 'vue-longpress'
+import Longpress from 'vue-longpress';
+import 'vue2-toast/lib/toast.css';
+import Toast from 'vue2-toast';
+Vue.use(Toast);
   export default {
      data () {
         return {
@@ -125,26 +128,32 @@ import Longpress from 'vue-longpress'
       },
       signatureMRT()
       {
+        this.$loading('Signaturing...');
         this.SignatureBtnHide=true;
         var vm=this;
         axios.put(`/signatureMRT/`+this.mrtno.MRTNo).then(function(response)
         {
           console.log(response);
           vm.fetchdata();
+          vm.SignatureBtnHide=false;
+          vm.$loading.close();
         });
       },
       declineMRT()
       {
+        this.$loading('Declining...');
         this.SignatureBtnHide=true;
         var vm=this;
         axios.put(`/declineMRT/`+this.mrtno.MRTNo).then(function(response)
         {
           console.log(response);
           vm.fetchdata();
+          vm.$loading.close();
         });
       },
       updateQty()
       {
+        this.$loading('Updating');
         var vm=this;
         axios.put(`/updateMRTQty/`+this.mrtno.MRTNo,{UpdatedQty:this.EditedQty}).then(function(response)
         {
@@ -152,12 +161,12 @@ import Longpress from 'vue-longpress'
           vm.fetchdata();
           if (response.data.error!=null)
           {
-            alert(response.data.error);
+            vm.$toast.top(response.data.error);
+          }else
+          {
+            vm.$toast.top('Updated');
           }
-        },function(error)
-        {
-          console.log(error);
-          vm.fetchdata();
+          vm.$loading.close();
         });
       }
      },

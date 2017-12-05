@@ -317,32 +317,38 @@ Vue.use(Toast);
       },
       AcceptrequestReplacer()
       {
+        this.$loading('Signaturing...');
         this.SignatureManagerRelacerBtnHide=true;
         var vm=this;
         axios.put(`/signature-replacer-accepted/`+this.mirsno.MIRSNo).then(function(response)
         {
           console.log(response);
           vm.fetchMIRSData();
+          vm.$loading.close();
         });
       },
       cancelRequestApprovalReplacer()
       {
+        this.$loading('Canceling...');
         this.SignatureApproveBtnHide=true;
         var vm=this;
         axios.put(`/cancel-request-approval/`+this.mirsno.MIRSNo).then(function(response)
         {
           console.log(response);
           vm.fetchMIRSData();
+          vm.$loading.close();
         })
       },
       AcceptApprovalReplacerequest()
       {
+        this.$loading('Signaturing...');
         this.SignatureApproveBtnHide=true;
         var vm=this;
         axios.put(`/confirm-manager-toreplace-gm-signature/`+this.mirsno.MIRSNo).then(function(response)
         {
           console.log(response);
           vm.fetchMIRSData();
+          vm.$loading.close();
         });
       }
      },

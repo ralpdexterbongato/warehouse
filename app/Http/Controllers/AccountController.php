@@ -79,7 +79,7 @@ class AccountController extends Controller
         'Username'=>'required|max:30',
         'Mobile'=>'max:11',
         'Password'=>'confirmed',
-        'Manager'=>'numeric',
+        'Manager'=>'required',
         'IsActive'=>'max:1',
       ]);
       if ($request->Signature!=null)
@@ -213,10 +213,9 @@ class AccountController extends Controller
         'Username'=>'required',
         'Mobile'=>'max:11',
         'Role'=>'required',
-        'Manager'=>'max:50',
+        'Manager'=>'required',
         'Password'=>'required|confirmed',
-        'Signature'=>'required',
-        'Manager'=>'numeric',
+        'Signature'=>'required'
       ]);
       if (($request->Manager==null)&&($request->Role!=2))
       {

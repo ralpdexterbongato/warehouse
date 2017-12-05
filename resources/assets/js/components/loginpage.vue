@@ -9,14 +9,14 @@
           <h5 :class="{'active':usernameForm}">Username</h5>
           <div class="icon-and-input">
             <i class="material-icons" :class="{'active':usernameForm}">person</i>
-            <input type="text" autofocus :class="{'active':usernameForm}" v-model="Username" @focus="usernameForm=true" @blur="[Username!=''?usernameForm=true:usernameForm=false]">
+            <input type="text" autofocus :class="{'active':usernameForm}"v-on:keyup.enter="submitCredentials()" v-model="Username" @focus="usernameForm=true" @blur="[Username!=''?usernameForm=true:usernameForm=false]">
           </div>
         </div>
         <div class="login-placeholder-container">
           <h5 :class="{'active':passForm}">Password</h5>
           <div class="icon-and-input">
             <i class="material-icons" :class="{'active':passForm}">vpn_key</i>
-            <input type="password" :class="{'active':passForm}" v-on:keyup.enter="submitCredentials" v-model="Password" @focus="passForm=true" @blur="[Password!=''?passForm=true:passForm=false]">
+            <input type="password" :class="{'active':passForm}" v-on:keyup.enter="submitCredentials()" v-model="Password" @focus="passForm=true" @blur="[Password!=''?passForm=true:passForm=false]">
           </div>
         </div>
         <div class="submit-btn-login-container">

@@ -4,19 +4,8 @@
       <div class="top-title-canvass">
         <h1>Record your canvass</h1>
       </div>
-      <ul class="error-tab" v-if="laravelerrors!=''">
-        <span v-for="errors in laravelerrors">
-          <li v-for="error in errors">{{error}}</li>
-        </span>
-      </ul>
-      <ul class="error-tab" v-if="ownerrors!=''">
-        <li>{{ownerrors}}</li>
-      </ul>
-      <div class="successAlertRRsession" v-if="successAlerts!=''">
-        <p>{{successAlerts}}</p>
-      </div>
       <div class="add-supplier-canvass">
-        <button type="button" name="button" @click.prevent="IsActive = !IsActive" v-on:click="Update=false"><i class="fa fa-plus-circle"></i>New supplier</button>
+        <button type="button" name="button" @click.prevent="IsActive = !IsActive" v-on:click="Update=false"><i class="material-icons">add</i>New supplier</button>
       </div>
       <div class="items-from-rv-table">
         <table>
@@ -25,15 +14,15 @@
             <th>Unit</th>
             <th>Qty</th>
             <th v-for="supplier in Suppliers">{{supplier.Supplier}}<br><br>
-                <button type="button" @click.prevent="IsActive=!IsActive" v-on:click="Update=true,fetchSupplierUpdate(supplier.id)"><i class="fa fa-refresh"></i></button>
-                <button type="button" name="button" v-on:click="deleteCanvass(supplier.id)"><i class="fa fa-trash"></i></button>
+                <button type="button" @click.prevent="IsActive=!IsActive" v-on:click="Update=true,fetchSupplierUpdate(supplier.id)"><i class="material-icons">loop</i></button>
+                <button type="button" name="button" v-on:click="deleteCanvass(supplier.id)"><i class="material-icons">close</i></button>
             </th>
           </tr>
             <tr v-for="(rvdata, index) in RVdata">
               <td>{{rvdata.Particulars}}</td>
               <td>{{rvdata.Unit}}</td>
               <td v-if="rvdata.QuantityValidator!=0">{{rvdata.QuantityValidator}}</td>
-              <td v-else><i class="fa fa-check color-blue"></i></td>
+              <td v-else><i class="material-icons color-blue">check</i></td>
               <td v-for="supplier in Suppliers">
                 <input type="radio" @click.prevents="changeValue([index],supplier.Supplier)" v-bind:name="'SupplierChoice['+[index]+']'" v-if="supplier.canvass_detail[index].Price>0&&rvdata.QuantityValidator!=0">
                 {{formatPrice(supplier.canvass_detail[index].Price)}}
@@ -43,14 +32,13 @@
       </div>
       <div class="GeneratePO-btn">
         <longpress duration="3" class="generate-po-btn" :class="{'hide':HideSubmitBtn}" :on-confirm="generatePO" pressing-text="Submitting in {$rcounter}" action-text="Loading . . .">
-          Submit <i class="fa fa-check-circle"></i>
+          Submit <i class="material-icons">check</i>
         </longpress>
-        <i class="fa fa-spinner fa-spin fa-pulse" :class="[HideSubmitBtn==true?'show':'hide']" id="generating-po-loading"></i>
       </div>
     </div>
-    <div class="modal-canvass" :class="{'active':IsActive}">
-      <div class="canvass-center-form">
-        <h1>Record Supplier</h1>
+    <div class="modal-canvass" :class="{'active':IsActive}" v-on:click="IsActive=!IsActive">
+      <div class="canvass-center-form" v-on:click="IsActive=!IsActive">
+        <h1><i class="material-icons">store</i> Record Supplier</h1>
         <div class="canvass-form">
           <div class="suppliersInfoForm" v-if="Update==true">
             <input type="text" name="UpdateformSupplier" v-model="UpdateformSupplier"  placeholder="Supplier">
@@ -92,7 +80,7 @@
             </table>
           </div>
           <div class="modal-canvass-buttons">
-            <button type="button"id="cancel-canvass" @click.prevent="IsActive= !IsActive">Cancel</button>
+            <button type="button"id="cancel-canvass" @click.prevent="IsActive=false">Cancel</button>
             <button v-if="Update==false" type="submit" class="done-canvass" @click="saveSupplier()" v-on:click="IsActive= !IsActive">Done</button>
             <button v-if="Update==true" type="submit" class="done-canvass" v-on:click="IsActive= !IsActive,saveUpdate()">Update</button>
           </div>
@@ -106,6 +94,9 @@
 import axios from 'axios';
 import Longpress from 'vue-longpress';
 import VueNumeric from 'vue-numeric';
+import 'vue2-toast/lib/toast.css';
+import Toast from 'vue2-toast';
+Vue.use(Toast);
 Vue.use(VueNumeric);
   export default {
     data () {
@@ -129,9 +120,6 @@ Vue.use(VueNumeric);
         Particulars:[],
         Unit:[],
         Qty:[],
-        laravelerrors:[],
-        ownerrors:'',
-        successAlerts:'',
         selectedValue:'',
         fetchUpdatedata:[],
         HideSubmitBtn:false,
@@ -166,6 +154,7 @@ Vue.use(VueNumeric);
            var vm=this;
            if (confirm("Confirm this new supplier data?"))
            {
+             this.$loading('Saving...');
              axios.post(`/supplier-save-canvass`,{
                RVNo:this.RVdata[0].RVNo,
                AccountCode:this.AccountCode,
@@ -180,25 +169,34 @@ Vue.use(VueNumeric);
              }).then(function(response)
              {
               console.log(response);
-              Vue.set(vm.$data,'successAlerts','Saved successfully');
-              Vue.set(vm.$data,'ownerrors','');
-              Vue.set(vm.$data,'laravelerrors','');
               Vue.set(vm.$data,'formSupplier','');
               Vue.set(vm.$data,'formAddress','');
               Vue.set(vm.$data,'PriceNew',[]);
               Vue.set(vm.$data,'formTelephone','');
               vm.getSuppliers();
+              vm.$toast.top('Supplier saved');
+              vm.$loading.close();
             },function(error)
             {
               console.log(error);
-              Vue.set(vm.$data,'ownerrors','');
-              Vue.set(vm.$data,'successAlerts','');
-              Vue.set(vm.$data,'laravelerrors',error.response.data);
+              if (error.response.data.Supplier!=null)
+              {
+                vm.$toast.top(error.response.data.Supplier[0]);
+              }else if(error.response.data.Address)
+              {
+                vm.$toast.top(error.response.data.Address[0]);
+              }else if(error.response.data.Telephone)
+              {
+                vm.$toast.top(error.response.data.Telephone[0]);
+              }
+              vm.$toast.top(error.response.data);
+              vm.$loading.close();
             });
            }
          },
         generatePO()
         {
+          this.$loading('Generating purchase orders');
           this.HideSubmitBtn=true;
           var vm=this;
           axios.post(`/generate-po`,{
@@ -212,17 +210,10 @@ Vue.use(VueNumeric);
                window.location=response.data.redirect;
              }else
              {
-               Vue.set(vm.$data,'ownerrors',response.data.error);
-               Vue.set(vm.$data,'laravelerrors','');
-               Vue.set(vm.$data,'successAlerts','');
+               vm.$toast.top(response.data.error);
                Vue.set(vm.$data,'HideSubmitBtn',false);
              }
-          },function(error)
-          {
-            Vue.set(vm.$data,'laravelerrors',error.response.data);
-            Vue.set(vm.$data,'successAlerts','');
-            Vue.set(vm.$data,'ownerrors','');
-            Vue.set(vm.$data,'HideSubmitBtn',false);
+             vm.$loading.close();
           });
         },
         changeValue(count,newValue) {
@@ -245,9 +236,6 @@ Vue.use(VueNumeric);
             Vue.set(vm.$data,'UpdateformSupplier',response.data[0].Supplier);
             Vue.set(vm.$data,'UpdateformAddress',response.data[0].Address);
             Vue.set(vm.$data,'UpdateformTelephone',response.data[0].Telephone);
-          },function(error)
-          {
-            Vue.set(vm.$data,'laravelerrors',error.response.data)
           });
         },
 
@@ -256,6 +244,7 @@ Vue.use(VueNumeric);
           var vm=this;
           if (confirm("Confirm save changes?")==true)
           {
+            this.$loading('Updating');
             var id=this.fetchUpdatedata.id;
             axios.put(`/update-canvass/`+id,{
                 Prices:this.UpdatePrice,
@@ -266,13 +255,22 @@ Vue.use(VueNumeric);
             {
               console.log(response);
               vm.getSuppliers();
-              Vue.set(vm.$data,'laravelerrors','');
-              Vue.set(vm.$data,'successAlerts','Successfully updated !');
-
+              vm.$toast.top('Successfully updated');
+              vm.$loading.close();
             },function(error){
               console.log(error);
-              Vue.set(vm.$data,'laravelerrors',error.response.data);
-              Vue.set(vm.$data,'successAlerts','');
+              if (error.response.data.Supplier!=null)
+              {
+                vm.$toast.top(error.response.data.Supplier[0]);
+              }else if(error.response.data.Address)
+              {
+                vm.$toast.top(error.response.data.Address[0]);
+              }else if(error.response.data.Telephone)
+              {
+                vm.$toast.top(error.response.data.Telephone[0]);
+              }
+              vm.$toast.top(error.response.data);
+              vm.$loading.close();
             });
           }
         },
@@ -281,12 +279,12 @@ Vue.use(VueNumeric);
           var vm=this;
           if (confirm("Are you sure to delete this permanently?")==true)
           {
+            this.$loading('Deleting');
             axios.delete(`/deleteCanvassRecord/`+id,{}).then(function(response){
               console.log(response);
               vm.getSuppliers()
-            },function(error)
-            {
-              console.log(error);
+              vm.$loading.close();
+              vm.$toast.top('Deleted successfully');
             });
           }
         },

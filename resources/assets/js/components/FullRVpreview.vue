@@ -98,11 +98,6 @@
 
     </div>
   </div>
-  <ul class="error-tab" v-if="laravelerrors!=''" @click="laravelerrors=[]">
-    <span v-for="errors in laravelerrors">
-      <li v-for="error in errors">{{error}}</li>
-    </span>
-  </ul>
   <div class="bondpaper-RV-container">
     <div class="bondpaper-RV">
 
@@ -251,6 +246,9 @@
 import axios from 'axios';
 import VueNumeric from 'vue-numeric';
 import Longpress from 'vue-longpress';
+import 'vue2-toast/lib/toast.css';
+import Toast from 'vue2-toast';
+Vue.use(Toast);
 Vue.use(VueNumeric);
   export default {
      data () {
@@ -262,7 +260,6 @@ Vue.use(VueNumeric);
           undeliveredTotal:null,
           BudgetAvail:'',
           btndisabled:false,
-          laravelerrors:[],
           editbudgetActive:false,
           ManagerBehalfActive:false,
           activemanager:[],
@@ -296,6 +293,7 @@ Vue.use(VueNumeric);
       },
       Signature()
       {
+        this.$loading('Signaturing...');
         this.SignatureRVBtnHide=true;
         var vm=this;
         axios.put(`/RVsignature/`+this.rvno.RVNo,{
@@ -304,20 +302,19 @@ Vue.use(VueNumeric);
         {
           console.log(response);
           vm.fetchData();
-        },function(error)
-        {
-          console.log(error);
-          Vue.set(vm.$data,'laravelerrors',error.response.data)
+          vm.$loading.close();
         });
       },
       declineRV()
       {
+        this.$loading('Declining');
         this.SignatureRVBtnHide=true;
         var vm=this;
         axios.put(`/declineRV/`+this.rvno.RVNo).then(function(response)
         {
           console.log(response);
           vm.fetchData();
+          vm.$loading.close();
         });
       },
       formatPrice(value) {
@@ -326,6 +323,7 @@ Vue.use(VueNumeric);
       },
       UpdateBudget()
       {
+        this.$loading('updating...');
         var vm=this;
         axios.put(`/update-budget/`+this.rvno.RVNo,{
           BudgetUpdate:this.BudgetUpdate,
@@ -333,23 +331,9 @@ Vue.use(VueNumeric);
         {
           console.log(response);
           vm.fetchData();
+          vm.$loading.close();
+          vm.$toast.top('Budget updated');
         })
-      },
-      ApproveInBehalf()
-      {
-        var vm=this;
-        axios.put(`/rv-signature-in-behalf/`+this.rvno.RVNo).then(function(response)
-        {
-          vm.fetchData();
-        });
-      },
-      ApproveInBehalfCanceled()
-      {
-        var vm=this;
-        axios.put(`/rv-signature-in-behalf-cancel/`+this.rvno.RVNo).then(function(response)
-        {
-          vm.fetchData();
-        });
       },
       fetchAllManager()
       {
@@ -363,6 +347,7 @@ Vue.use(VueNumeric);
       },
       sendRequestManagerReplacer()
       {
+        this.$loading('Sending...');
         var vm=this;
         axios.put(`/send-request-to-manager-replacer/`+this.rvno.RVNo,{
           ManagerID:this.ManagerID,
@@ -372,48 +357,59 @@ Vue.use(VueNumeric);
           if (response.data.error!=null)
           {
             Vue.set(vm.$data,'error',response.data.error);
+            vm.$loading.close();
           }else
           {
             vm.fetchAllManager();
+            vm.$loading.close();
+            vm.$toast.top('Request sent.');
           }
         });
       },
       cancelRequestManagerReplacer()
       {
+        this.$loading('Canceling...');
         this.SignatureManagerReplacerHide=true;
         var vm=this;
         axios.put(`/cancelrequestsentReplacer/`+this.rvno.RVNo).then(function(response)
         {
           console.log(response);
           vm.fetchAllManager();
+          vm.$loading.close();
         })
       },
       signatureRequestManagerReplacer()
       {
+        this.$loading('Signaturing...');
         this.SignatureManagerReplacerHide=true;
         var vm=this;
         axios.put(`/AcceptManagerReplacer/`+this.rvno.RVNo).then(function(response)
         {
           vm.fetchData();
+          vm.$loading.close();
         });
       },
       PendingRemarksSubmit()
       {
+        this.$loading('Saving remarks...');
         var vm=this;
         axios.put(`/save-budget-officer-pending-remarks/`+this.rvno.RVNo,{PendingRemarks:this.pendingremarks}).then(function(response)
         {
           console.log(response);
           vm.displayRemarks();
           Vue.set(vm.$data,'RemarksIsActive',false);
+          vm.$loading.close();
         })
       },
       RemovePendingRemarks()
       {
+        this.$loading('Removing remarks...');
         var vm=this;
         axios.put(`/budget-officer-pending-remarks/`+this.rvno.RVNo).then(function(response)
         {
           console.log(response);
           vm.displayRemarks();
+          vm.$loading.close();
         });
       },
       displayRemarks()
@@ -427,22 +423,26 @@ Vue.use(VueNumeric);
       },
       cancelApprovalRequest()
       {
+        this.$loading('Please wait...');
         this.SignatureApprovalReplacerHide=true;
         var vm=this;
         axios.put(`/rv-signature-in-behalf-cancel/`+this.rvno.RVNo).then(function(response)
         {
           console.log(response);
           vm.fetchData();
+          vm.$loading.close();
         })
       },
       acceptApproveRequest()
       {
+        this.$loading('Signaturing...');
         this.SignatureApprovalReplacerHide=true;
         var vm=this;
         axios.put(`/rv-approve-behalf-accept/`+this.rvno.RVNo).then(function(response)
         {
           console.log(response);
           vm.fetchData();
+          vm.$loading.close();
         });
       }
      },

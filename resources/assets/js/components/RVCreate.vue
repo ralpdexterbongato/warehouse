@@ -6,17 +6,6 @@
     </div>
     <div class="RV-wrapper">
       <div class="added-items-table">
-          <ul class="error-tab" v-if="laravelerrors!=''" v-on:click="laravelerrors=[]">
-            <span v-for="errors in laravelerrors">
-              <li v-for="error in errors">{{error}}</li>
-            </span>
-          </ul>
-          <ul class="error-tab" v-if="ownerrors!=''" v-on:click="ownerrors=''">
-            <li>{{ownerrors}}</li>
-          </ul>
-          <div class="successAlertRRsession" v-if="successAlerts!=''" v-on:click="successAlerts=''">
-            <p>{{successAlerts}}</p>
-          </div>
         <div class="add-item-RV">
           <button type="button" v-if="user.Role==3||user.Role==4" name="button" id="forstock-ItemRV" v-on:click="forstock=!forstock"><i class="material-icons" v-if="user.Role==3||user.Role==4">widgets</i> For stocks</button>
           <button type="button" class="bttn-unite bttn-sm bttn-primary" id="none-existing-itemRV" v-on:click="notforstock=!notforstock"><i class="material-icons">shopping_cart</i> Not in warehouse</button>
@@ -59,9 +48,6 @@
           <longpress class="submit-button-RV" duration="3" :class="{'hide':HideBtn}" :on-confirm="SubmitWholeRV" pressing-text="Submitting in {$rcounter}" action-text="Loading . . .">
             Submit
           </longpress>
-          <div id="loading-submit" :class="[HideBtn==true?'show':'hide']">
-            <i class="fa fa-spinner fa-spin fa-pulse"></i>
-          </div>
         </div>
       </div>
     </div>
@@ -112,7 +98,7 @@
                   <td class="bold" :class="{'color-red':lowqtyactive}">{{result.CurrentQuantity}}</td>
                   <td class="bold">{{result.AlertIfBelow}}</td>
                   <td><input type="text" autocomplete="off" v-model="RemarksForWHouse[count]" name="Remarks"></td>
-                  <td><button type="submit" v-on:click="AddtoSessionForWarehouse(result,count),forstock=!forstock"><i class="material-icons">add_circle</i></button></td>
+                  <td><button type="submit" v-on:click="AddtoSessionForWarehouse(result,count)"><i class="material-icons">add_circle</i></button></td>
               </tr>
             </table>
             <div class="paginate-container">
@@ -138,6 +124,9 @@
 <script>
 import axios from 'axios';
 import Longpress from 'vue-longpress';
+import 'vue2-toast/lib/toast.css';
+import Toast from 'vue2-toast';
+Vue.use(Toast);
   export default {
      data () {
         return {
@@ -153,9 +142,6 @@ import Longpress from 'vue-longpress';
           Remarks:'',
           SessionStored:[],
           purpose:'',
-          laravelerrors:[],
-          ownerrors:'',
-          successAlerts:'',
           QuantityForWHouse:[],
           RemarksForWHouse:[],
           lowqtyactive:false,
@@ -167,6 +153,7 @@ import Longpress from 'vue-longpress';
      methods: {
        searchDescription(page)
        {
+         this.$loading('Please Wait...');
          var vm=this;
          axios.get(`/search-rv-forstock?Search=`+this.findDescription+`&page=`+page).then(function(response)
          {
@@ -175,6 +162,7 @@ import Longpress from 'vue-longpress';
             vm.RemarksForWHouse=[];
             Vue.set(vm.$data,'findResults',response.data.MasterResults.data);
             Vue.set(vm.$data,'pagination',response.data.MasterResults);
+            vm.$loading.close();
          });
        },
        changepage(next){
@@ -191,8 +179,9 @@ import Longpress from 'vue-longpress';
       },
       addToSession()
       {
+        this.$loading('Please Wait...');
         var vm=this;
-        axios.post(`/SessionSave`,{
+        axios.post(`/session-saving-rv`,{
           Description:this.Description,
           Unit:this.Unit,
           Quantity:this.Quantity,
@@ -200,22 +189,38 @@ import Longpress from 'vue-longpress';
         }).then(function(response)
         {
           console.log(response);
-          vm.FetchSessionStored();
-          Vue.set(vm.$data,'laravelerrors','');
-          Vue.set(vm.$data,'ownerrors','');
-          Vue.set(vm.$data,'successAlerts','Added successfully');
-          Vue.set(vm.$data,'Description','');
-          Vue.set(vm.$data,'Unit','');
-          Vue.set(vm.$data,'Quantity','');
-          Vue.set(vm.$data,'Remarks','');
+          if (response.data.error==null)
+          {
+            vm.FetchSessionStored();
+            vm.$toast.top('Added successfully');
+            Vue.set(vm.$data,'Description','');
+            Vue.set(vm.$data,'Unit','');
+            Vue.set(vm.$data,'Quantity','');
+            Vue.set(vm.$data,'Remarks','');
+          }else
+          {
+            vm.$toast.top(response.data.error);
+          }
+          vm.$loading.close();
         },function(error)
         {
-          Vue.set(vm.$data,'laravelerrors',error.response.data);
+          if (error.response.data.Description!=null)
+          {
+            vm.$toast.top(error.response.data.Description[0]);
+          }else if (error.response.data.Unit!=null)
+          {
+            vm.$toast.top(error.response.data.Unit[0]);
+          }else if (error.response.data.Quantity!=null)
+          {
+            vm.$toast.top(error.response.data.Quantity[0]);
+          }
           console.log(error);
+          vm.$loading.close();
         });
       },
       AddtoSessionForWarehouse(data,count)
       {
+        this.$loading('Adding...');
         var vm=this;
         axios.post(`/addtoStockSession`,{
           AccountCode:data.AccountCode,
@@ -230,20 +235,17 @@ import Longpress from 'vue-longpress';
           vm.FetchSessionStored();
           if (response.data.error!=null)
           {
-            Vue.set(vm.$data,'ownerrors',response.data.error);
-            Vue.set(vm.$data,'laravelerrors','');
-            Vue.set(vm.$data,'successAlerts','');
+            vm.$toast.top(response.data.error);
+            vm.$loading.close();
           }else
           {
-            Vue.set(vm.$data,'successAlerts','Successfully added.');
-            Vue.set(vm.$data,'laravelerrors','');
-            Vue.set(vm.$data,'ownerrors','');
+            vm.$toast.top('Added successfully');
+            vm.$loading.close();
           }
         },function(error)
         {
-          Vue.set(vm.$data,'laravelerrors',error.response.data);
-          Vue.set(vm.$data,'ownerrors','');
-          Vue.set(vm.$data,'successAlerts','');
+          vm.$toast.top(error.response.data.Quantity[0]);
+          vm.$loading.close();
         });
       },
       FetchSessionStored()
@@ -257,24 +259,26 @@ import Longpress from 'vue-longpress';
       },
       FetchLowQtyItems(page)
       {
+        this.$loading('Please wait..')
         var vm=this;
         axios.get(`/get-low-qty-items?page=`+page).then(function(response)
         {
           console.log(response);
           Vue.set(vm.$data,'findResults',response.data.data)
           Vue.set(vm.$data,'pagination',response.data)
+          vm.$loading.close();
         })
       },
       deleteSession(key)
       {
+        this.$loading('removing...');
         var vm=this;
         axios.delete(`DeleteSession/`+key).then(function(response)
         {
           console.log(response);
           vm.FetchSessionStored();
-          Vue.set(vm.$data,'successAlerts','Removed successfully.');
-          Vue.set(vm.$data,'laravelerrors','');
-          Vue.set(vm.$data,'ownerrors','');
+          vm.$toast.top('Removed successfully');
+          vm.$loading.close();
         });
       },
       fetchallUnit()
@@ -288,6 +292,7 @@ import Longpress from 'vue-longpress';
       },
       SubmitWholeRV()
       {
+        this.$loading('Submitting...');
         this.HideBtn=true;
         var vm=this;
         axios.post(`/SavetoDBRV`,{
@@ -296,19 +301,17 @@ import Longpress from 'vue-longpress';
         {
           console.log(response);
           if (response.data.error!=null) {
-            Vue.set(vm.$data,'ownerrors',response.data.error);
-            Vue.set(vm.$data,'laravelerrors','');
-            Vue.set(vm.$data,'successAlerts','');
+            vm.$toast.top(response.data.error);
             Vue.set(vm.$data,'HideBtn',false);
+            vm.$loading.close();
           }else
           {
             window.location=response.data.redirect;
           }
         },function(error){
-          Vue.set(vm.$data,'laravelerrors',error.response.data);
-          Vue.set(vm.$data,'successAlerts','');
-          Vue.set(vm.$data,'ownerrors','');
+          vm.$toast.top(error.response.data.Purpose[0]);
           Vue.set(vm.$data,'HideBtn',false);
+          vm.$loading.close();
         });
       },
      },
