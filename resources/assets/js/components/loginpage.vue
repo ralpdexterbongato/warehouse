@@ -21,7 +21,7 @@
         </div>
         <div class="submit-btn-login-container">
           <p>Forgot password?<br>-please contact the administrator.</p>
-          <button type="button" name="button" v-on:click="submitCredentials">LOGIN</button>
+          <button type="button" name="button" v-on:click="submitCredentials"> <i class="material-icons">send</i> Login</button>
         </div>
       </div>
     </div>

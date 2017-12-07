@@ -1,23 +1,12 @@
 <template lang="html">
   <div class="containerRR-noPO">
     <div class="top-title-rr-nopo">
-      <i class="fa fa-plus"></i> Create receiving report w/o PO.
+      <i class="material-icons">add</i> Create receiving report w/o PO.
     </div>
     <div class="flexible-container">
       <div class="selected-items-rrnopo">
         <div class="btn-add-item-rrnopo">
-          <button type="button" v-on:click="ModalIsActive=!ModalIsActive"><i class="fa fa-plus-circle"></i> Items</button>
-        </div>
-        <ul class="error-tab" v-if="laravelerrors!=''" v-on:click="laravelerrors=''">
-          <span v-for="errors in laravelerrors">
-            <li v-for="error in errors">{{error}}</li>
-          </span>
-        </ul>
-        <ul class="error-tab" v-if="ownerrors!=''" v-on:click="ownerrors=''">
-          <li>{{ownerrors}}</li>
-        </ul>
-        <div class="successAlertRRsession" v-if="successAlerts!=''" v-on:click="successAlerts=''">
-          <p>{{successAlerts}}</p>
+          <button type="button" v-on:click="ModalIsActive=!ModalIsActive"><i class="material-icons">add</i> Items</button>
         </div>
         <div class="selected-received-items-table">
           <table>
@@ -30,20 +19,20 @@
               <th>Quantity accepted</th>
               <th>Unit</th>
               <th>Amount</th>
-              <th>Delete</th>
+              <th>Remove</th>
             </tr>
-            <tr v-if="ItemsInSession[0]!=null" v-for="(sessionItem,count) in ItemsInSession">
+            <tr v-for="(sessionItem,count) in ItemsInSession">
               <td v-if="sessionItem.ItemCode!=null">{{sessionItem.ItemCode}}</td>
-              <td v-else><i class="fa fa-ban decliner"></i></td>
+              <td v-else><i class="material-icons color-red">do_not_disturb</i></td>
               <td v-if="sessionItem.AccountCode!=null">{{sessionItem.AccountCode}}</td>
-              <td v-else><i class="fa fa-ban decliner"></i></td>
+              <td v-else><i class="material-icons color-red">do_not_disturb</i></td>
               <td>{{sessionItem.Description}}</td>
               <td>₱{{formatPrice(sessionItem.UnitCost)}}</td>
               <td>{{sessionItem.QuantityDelivered}}</td>
               <td>{{sessionItem.QuantityAccepted}}</td>
               <td>{{sessionItem.Unit}}</td>
               <td>₱{{formatPrice(sessionItem.Amount)}}</td>
-              <td><i class="fa fa-trash" v-on:click="deleteSession(count)"></i></td>
+              <td><i class="material-icons" v-on:click="deleteSession(count)">close</i></td>
             </tr>
           </table>
         </div>
@@ -55,28 +44,25 @@
         <input autocomplete="off" type="text" name="Carrier" v-model="Carrier" placeholder="Carrier (optional)">
         <input autocomplete="off" type="text" name="DeliveryReceiptNo" v-model="DeliveryReceiptNo" placeholder="Delivery Receipt No. (optional)">
         <input autocomplete="off" type="text" name="Note" v-model="Note" placeholder="Note (optional)">
-        <select name="ReceivedBy" v-model="ReceivedBy" :class="[ReceivedBy!=null ?'black':'']">
-          <option value="null" class="gray">Received by</option>
+        <select name="ReceivedBy" v-model="ReceivedBy" :class="[ReceivedBy!='' ?'black':'']">
+          <option value="" class="gray">Received by</option>
           <option class="black" v-for="user in allusers" v-bind:value="user.id">{{user.FullName}}</option>
         </select>
-        <select name="Verifiedby" v-model="Verifiedby" :class="[Verifiedby!=null ?'black':'']">
-          <option value="null" class="gray">Verified by</option>
+        <select name="Verifiedby" v-model="Verifiedby" :class="[Verifiedby!='' ?'black':'']">
+          <option value="" class="gray">Verified by</option>
           <option class="black" v-for="manager in managers" v-bind:value="manager.id">{{manager.FullName}}</option>
         </select>
-        <select name="ReceivedOriginalby" v-model="ReceivedOriginalby" :class="[ReceivedOriginalby!=null ?'black':'']">
-          <option value="null" class="gray">Received originaly by</option>
+        <select name="ReceivedOriginalby" v-model="ReceivedOriginalby" :class="[ReceivedOriginalby!='' ?'black':'']">
+          <option value="" class="gray">Received originaly by</option>
           <option class="black" v-for="auditor in auditors" v-bind:value="auditor.id" >{{auditor.FullName}}</option>
         </select>
-        <select name="PostedtoBINby" v-model="PostedtoBINby" :class="[PostedtoBINby!=null ?'black':'']">
-          <option value="null" class="gray">Posted to B.I.N. by</option>
+        <select name="PostedtoBINby" v-model="PostedtoBINby" :class="[PostedtoBINby!='' ?'black':'']">
+          <option value="" class="gray">Posted to B.I.N. by</option>
           <option class="black" v-for="clerk in clerks" v-bind:value="clerk.id">{{clerk.FullName}}</option>
         </select>
         <longpress  duration="3" id="submitNoPO" :class="{'hide':HideBtn}" :on-confirm="submitToDB" pressing-text="submitting in {$rcounter}" action-text="Loading . . .">
          Submit
         </longpress>
-        <div id="loading-submit" :class="[HideBtn==true?'show':'hide']">
-          <i class="fa fa-spinner fa-spin fa-pulse"></i>
-        </div>
       </div>
     </div>
     <div @click.prevent="ModalIsActive=!ModalIsActive" class="modal-rr-no-po" :class="{'active' : ModalIsActive}">
@@ -84,26 +70,24 @@
         <div class="items-from-rv-nopo-table">
           <table>
             <tr>
-              <th class="left-part">AccountCode</th>
               <th>Item Code</th>
               <th>Name/Description</th>
               <th>UnitCost</th>
               <th>Quantity delivered</th>
               <th>Quantity accepted</th>
               <th>Unit</th>
-              <th class="right-part"></th>
+              <th class="right-part">Add</th>
             </tr>
-            <tr v-for="(rvdetail, count) in fromrvdetail">
-              <td v-if="rvdetail.AccountCode!=null" v-model="AccountCode[count]=rvdetail.AccountCode">{{rvdetail.AccountCode}}</td>
-              <td v-else><i class="fa fa-ban decliner"></i> For Warehouse</td>
-              <td v-if="rvdetail.ItemCode!=null" v-model="ItemCode[count]=rvdetail.ItemCode">{{rvdetail.ItemCode}}</td>
-              <td v-else><i class="fa fa-ban decliner"></i> For Warehouse</td>
+            <tr v-for="(rvdetail, loop) in fromrvdetail">
+              <input type="text" v-if="rvdetail.AccountCode!=null" v-model="AccountCode[loop]=rvdetail.AccountCode" class="hide">
+              <td v-if="rvdetail.ItemCode!=null" v-model="ItemCode[loop]=rvdetail.ItemCode">{{rvdetail.ItemCode}}</td>
+              <td v-else><i class="material-icons color-red">do_not_disturb</i></td>
               <td>{{rvdetail.Particulars}}</td>
-              <td><input autocomplete="off" type="text" name="UnitCost" v-model="UnitCost[count]"></td>
-              <td><input autocomplete="off" min="1" type="number" name="delivered" v-model="QuantityDelivered[count]" v-on:change="isDisabled=false" ></td>
-              <td><input autocomplete="off" min="0" type="number" :max="QuantityDelivered[count]" name="accepted" v-model="QuantityAccepted[count]" :disabled="isDisabled"></td>
+              <td><input autocomplete="off" type="text" name="UnitCost" v-model="UnitCost[loop]"></td>
+              <td><input autocomplete="off" min="1" type="number" name="delivered" v-model="QuantityDelivered[loop]" ></td>
+              <td><input autocomplete="off" min="0" type="number" :max="QuantityDelivered[loop]" name="accepted" v-model="QuantityAccepted[loop]"></td>
               <td>{{rvdetail.Unit}}</td>
-              <td><button class="bttn-unite bttn-xs bttn-primary" type="submit" v-on:click="submitTosession(rvdetail.Particulars,rvdetail.Unit,count),ModalIsActive=!ModalIsActive"><i class="fa fa-plus"></i></button></td>
+              <td><button type="submit" v-on:click="submitTosession(rvdetail.Particulars,rvdetail.Unit,loop)"><i class="material-icons">add</i></button></td>
             </tr>
           </table>
         </div>
@@ -113,8 +97,11 @@
 </template>
 
 <script>
-import axios from 'axios'
-import Longpress from 'vue-longpress'
+import axios from 'axios';
+import Longpress from 'vue-longpress';
+import 'vue2-toast/lib/toast.css';
+import Toast from 'vue2-toast';
+Vue.use(Toast);
   export default {
 
     data ()
@@ -126,14 +113,10 @@ import Longpress from 'vue-longpress'
         QuantityDelivered:[],
         QuantityAccepted:[],
         ItemsInSession:[],
-        isDisabled:true,
-        laravelerrors:[],
-        ownerrors:'',
-        successAlerts:'',
-        ReceivedBy:null,
-        Verifiedby:null,
-        ReceivedOriginalby:null,
-        PostedtoBINby:null,
+        ReceivedBy:'',
+        Verifiedby:'',
+        ReceivedOriginalby:'',
+        PostedtoBINby:'',
         Supplier:'',
         Address:'',
         InvoiceNo:'',
@@ -147,6 +130,7 @@ import Longpress from 'vue-longpress'
      methods: {
        submitTosession(particular,unit,count)
        {
+         this.$loading('Adding');
          var vm=this;
          axios.post(`/rr-storing-session-no-po`,{
            AccountCode:this.AccountCode[count],
@@ -162,43 +146,49 @@ import Longpress from 'vue-longpress'
            console.log(response);
            if (response.data.error!=null)
            {
-             Vue.set(vm.$data,'ownerrors',response.data.error);
-             Vue.set(vm.$data,'laravelerrors','');
-             Vue.set(vm.$data,'successAlerts','');
+             vm.$toast.top(response.data.error);
+             vm.$loading.close();
            }else
            {
              vm.fetchDataofSession();
-             Vue.set(vm.$data,'ownerrors','');
-             Vue.set(vm.$data,'laravelerrors','');
-             Vue.set(vm.$data,'successAlerts','Successfully added !');
+             vm.$toast.top('Added successfully');
+             vm.$loading.close();
            }
          },function(error)
          {
-           console.log(error)
-           Vue.set(vm.$data,'laravelerrors',error.response.data);
-           Vue.set(vm.$data,'ownerrors','');
-           Vue.set(vm.$data,'successAlerts','');
+           console.log(error.response.data);
+           if (error.response.data.UnitCost!=null)
+           {
+             vm.$toast.top(error.response.data.UnitCost[0]);
+           }else if (error.response.data.QuantityDelivered!=null)
+           {
+             vm.$toast.top(error.response.data.QuantityDelivered[0]);
+           }else if (error.response.data.QuantityAccepted!=null)
+           {
+             vm.$toast.top(error.response.data.QuantityAccepted[0]);
+           }
+           vm.$loading.close();
          });
        },
        fetchDataofSession()
        {
          var vm=this;
-         axios.get(`/show-rr-session-data`).then(function(response)
+         axios.get(`/show-rr-session-data-no-po`).then(function(response)
          {
            console.log(response);
-            Vue.set(vm.$data,'ItemsInSession',response.data);
+            vm.ItemsInSession=response.data;
          });
        },
        deleteSession(count)
        {
+         this.$loading('Removing');
          var vm=this;
-         axios.delete(`/DeleteSession-RR/`+count).then(function(response)
+         axios.delete(`/delete-session-no-po/`+count).then(function(response)
          {
            console.log(response);
            vm.fetchDataofSession();
-           Vue.set(vm.$data,'successAlerts','Deleted successfully !');
-           Vue.set(vm.$data,'ownerrors','');
-           Vue.set(vm.$data,'laravelerrors','');
+           vm.$toast.top('Removed');
+           vm.$loading.close();
          });
        },
        formatPrice(value) {
@@ -207,6 +197,7 @@ import Longpress from 'vue-longpress'
        },
        submitToDB()
        {
+         this.$loading('Submitting');
          this.HideBtn=true;
          var vm=this;
          axios.post(`/save-rr-no-po-to-db`,{
@@ -229,14 +220,34 @@ import Longpress from 'vue-longpress'
              window.location=response.data.redirect;
            }else
            {
-             Vue.set(vm.$data,'ownerrors',response.data.error);
+             vm.$toast.top(response.data.error);
              Vue.set(vm.$data,'HideBtn',false);
            }
+            vm.$loading.close();
          },function(error)
          {
-           console.log(error)
-           Vue.set(vm.$data,'laravelerrors',error.response.data);
+          //  vm.$toast.top(error.response.data);
            Vue.set(vm.$data,'HideBtn',false);
+           vm.$loading.close();
+           if (error.response.data.Supplier!=null)
+           {
+             vm.$toast.top(error.response.data.Supplier[0]);
+           }else if (error.response.data.Address!=null)
+           {
+             vm.$toast.top(error.response.data.Address[0]);
+           }else if (error.response.data.Receivedby!=null)
+           {
+             vm.$toast.top(error.response.data.Receivedby[0]);
+           }else if (error.response.data.Verifiedby!=null)
+           {
+             vm.$toast.top(error.response.data.Verifiedby[0]);
+           }else if (error.response.data.ReceivedOriginalby!=null)
+           {
+             vm.$toast.top(error.response.data.ReceivedOriginalby[0]);
+           }else if (error.response.data.PostedtoBINby!=null)
+           {
+             vm.$toast.top(error.response.data.PostedtoBINby[0]);
+           }
          });
        }
      },

@@ -39,11 +39,14 @@ class RVController extends Controller
         'Quantity'=>'required'
       ]);
 
-      foreach (Session::get('ItemSessionList') as $items)
+      if (Session::get('ItemSessionList'))
       {
-        if ($items->Description==$request->Description)
+        foreach (Session::get('ItemSessionList') as $items)
         {
-          return ['error'=>'Items cannot have thesame description'];
+          if ($items->Description==$request->Description)
+          {
+            return ['error'=>'Items cannot have thesame description'];
+          }
         }
       }
       $itemDetails = array('Description' =>$request->Description ,'Unit'=>$request->Unit,'Quantity'=>$request->Quantity,'Remarks'=>$request->Remarks,'AccountCode'=>null,'ItemCode'=>null);

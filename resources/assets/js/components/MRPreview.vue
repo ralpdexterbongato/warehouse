@@ -47,9 +47,9 @@
       </div>
     </div>
     <div class="acknowledgeParagraph">
-      <p class="align-center">I HEREBY ACKNOWLEGE to have received from
+      <p>I HEREBY ACKNOWLEGE to have received from
         <span class="bold">{{MRMaster.WarehouseMan}}</span> Warehouseman,
-        the following</p><p> property
+        the following<br> property
         for which I am responsible, subject to the provision of the usual accounting and auditing rules and regulations
         and which will be used for General Services.
       </p>
@@ -73,16 +73,6 @@
           <td>{{formatPrice(mrdata.UnitValue)}}</td>
           <td>{{formatPrice(mrdata.TotalValue)}}</td>
           <td>{{mrdata.Remarks}}</td>
-        </tr>
-        <!-- @endforeach -->
-        <tr>
-          <td>.</td>
-          <td></td>
-          <td></td>
-          <td></td>
-          <td></td>
-          <td></td>
-          <td></td>
         </tr>
       </table>
     </div>

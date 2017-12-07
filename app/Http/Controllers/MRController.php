@@ -25,8 +25,8 @@ class MRController extends Controller
     {
      $this->validate($request,[
        'Note'=>'max:50',
-       'ManagerID'=>'required|max:2',
-       'Receivedby'=>'required|max:2',
+       'RecommendedBy'=>'required|max:2',
+       'ReceivedBy'=>'required|max:2',
        'RRNo'=>'required'
      ]);
      if (Session::get('MRSession')==null)
@@ -62,9 +62,9 @@ class MRController extends Controller
      }
      $RRMasterData=RRMaster::where('RRNo',$request->RRNo)->get();
      $RVDate=RVMaster::where('RVNo',$RRMasterData[0]->RVNo)->value('RVDate');
-     $Recommended=User::where('id', $request->ManagerID)->whereNotNull('IsActive')->get(['id']);
+     $Recommended=User::where('id', $request->RecommendedBy)->whereNotNull('IsActive')->get(['id']);
      $GM=User::orderBy('id','DESC')->where('Role', '2')->whereNotNull('IsActive')->take(1)->get(['id']);
-     $Receiver=User::where('id',$request->Receivedby)->get(['id']);
+     $Receiver=User::where('id',$request->ReceivedBy)->get(['id']);
      $MRMasterDB= new MRMaster;
      $MRMasterDB->MRNo=$incremented;
      $MRMasterDB->MRDate=Carbon::now();

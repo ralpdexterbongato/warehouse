@@ -19,7 +19,7 @@
           <th>Status</th>
           <th>View</th>
         </tr>
-        <tr v-for="data in MRindexData" v-if="data.users[0]!=null">
+        <tr v-for="data in MRindexData" v-if="data.users[0].pivot!=null">
           <td>{{data.MRNo}}</td>
           <td>{{data.MRDate}}</td>
           <td>{{data.RVNo}}</td>
@@ -85,8 +85,8 @@ import axios from 'axios';
         axios.get(`/mr-index-fetch-and-search?MRNo=`+this.MRNoSearch+`&page=`+page).then(function(response)
         {
           console.log(response);
-          Vue.set(vm.$data,'MRindexData',response.data.data);
-          Vue.set(vm.$data,'pagination',response.data);
+          vm.MRindexData=response.data.data;
+          vm.pagination=response.data;
         })
       },
       changepage(next){

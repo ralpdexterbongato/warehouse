@@ -63,6 +63,12 @@ class RRController extends Controller
       Session::put('RR-Items-Added',$SelectedRRitems);
     }
   }
+  public function deleteSessionNoPo($id)
+  {
+    $itemList=Session::get('RRSessionDataNoPO');
+    unset($itemList[$id]);
+    Session::put('RRSessionDataNoPO',$itemList);
+  }
   public function searchbyItemMasterCode(Request $request)
   {
     $itemMasters=MasterItem::where('ItemCode','LIKE','%'.$request->searchcode.'%')->paginate(5,['AccountCode','ItemCode','Description','Unit']);
@@ -91,9 +97,9 @@ class RRController extends Controller
       {
         return response()->json(['error'=>'UnitCost must be atleast 0.1']);
       }
-      if (Session::has('RR-Items-Added'))
+      if (Session::has('RRSessionDataNoPO'))
       {
-        foreach (Session::get('RR-Items-Added') as $items)
+        foreach (Session::get('RRSessionDataNoPO') as $items)
         {
           if ($items->ItemCode!=null)
           {
@@ -115,7 +121,7 @@ class RRController extends Controller
         $AMT=$Ucost*$request->QuantityAccepted;
         $DataFromUserToArray = array('ItemCode'=>$request->ItemCode,'AccountCode'=>$request->AccountCode,'Description'=>$request->Description,'UnitCost'=>$Ucost,'Unit'=>$request->Unit,'QuantityDelivered'=>$request->QuantityDelivered,'QuantityAccepted'=>$request->QuantityAccepted,'Amount'=>$AMT);
         $DataFromUserToArray=(object)$DataFromUserToArray;
-        Session::push('RR-Items-Added',$DataFromUserToArray);
+        Session::push('RRSessionDataNoPO',$DataFromUserToArray);
   }
   public function StoreSessionRRWithPO(Request $request)
   {
@@ -145,10 +151,14 @@ class RRController extends Controller
   {
     return Session::get('RR-Items-Added');
   }
+  public function showSessionRRDataNoPO()
+  {
+    return Session::get('RRSessionDataNoPO');
+  }
   public function StoreRRtoTableNoPO(Request $request)
   {
     $this->StoringRRTableNoPOValidator($request);
-    if (empty(Session::get('RR-Items-Added')))
+    if (empty(Session::get('RRSessionDataNoPO')))
     {
      return response()->json(['error'=>'Selecting item is required']);
     }
@@ -184,7 +194,7 @@ class RRController extends Controller
     );
     $ForRRconfirmItemsDB = array();
     $RVDetail=RVDetail::where('RVNo',$request->RVNo)->get(['Particulars','QuantityValidator']);
-    foreach (Session::get('RR-Items-Added') as $forconfirmDetail)
+    foreach (Session::get('RRSessionDataNoPO') as $forconfirmDetail)
     {
       $ForRRconfirmItemsDB[] = array('ItemCode' =>$forconfirmDetail->ItemCode ,'RRNo' =>$incremented ,
       'AccountCode' =>$forconfirmDetail->AccountCode ,'Description' =>$forconfirmDetail->Description ,'UnitCost' =>$forconfirmDetail->UnitCost ,'RRQuantityDelivered' =>$forconfirmDetail->QuantityDelivered,
@@ -200,7 +210,7 @@ class RRController extends Controller
     }
     Signatureable::insert($forSignatures);
     RRconfirmationDetails::insert($ForRRconfirmItemsDB);
-    Session::forget('RR-Items-Added');
+    Session::forget('RRSessionDataNoPO');
     $NotifableName = array('first' =>$request->Verifiedby,'second'=>$request->ReceivedOriginalby,'third'=>$request->PostedtoBINby);
     $NotifableName=(object)$NotifableName;
     $job = (new NewCreatedRRJob($NotifableName))->delay(Carbon::now()->addSeconds(5));
@@ -294,6 +304,7 @@ class RRController extends Controller
       'Carrier'=>'max:30',
       'DeliveryReceiptNo'=>'max:12',
       'Note'=>'max:50',
+      'Receivedby'=>'required',
       'Verifiedby'=>'required',
       'ReceivedOriginalby'=>'required',
       'PostedtoBINby'=>'required',
@@ -306,6 +317,7 @@ class RRController extends Controller
       'Carrier'=>'max:30',
       'DeliveryReceiptNo'=>'max:12|required',
       'Note'=>'max:50',
+      'Receivedby'=>'required',
       'Verifiedby'=>'required',
       'ReceivedOriginalby'=>'required',
       'PostedtoBINby'=>'required',

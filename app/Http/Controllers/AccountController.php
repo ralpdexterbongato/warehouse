@@ -73,15 +73,28 @@ class AccountController extends Controller
     }
     public function updateUser(Request $request,$id)
     {
-      $this->validate($request,[
-        'FullName'=>'required|max:30',
-        'Role'=>'required',
-        'Username'=>'required|max:30',
-        'Mobile'=>'max:11',
-        'Password'=>'confirmed',
-        'Manager'=>'required',
-        'IsActive'=>'max:1',
-      ]);
+      if ($request->Role=='0'||$request->Role=='2')
+      {
+        $this->validate($request,[
+          'FullName'=>'required|max:30',
+          'Role'=>'required',
+          'Username'=>'required|max:30',
+          'Mobile'=>'max:11',
+          'Password'=>'confirmed',
+          'IsActive'=>'max:1',
+        ]);
+      }else
+      {
+        $this->validate($request,[
+          'FullName'=>'required|max:30',
+          'Role'=>'required',
+          'Username'=>'required|max:30',
+          'Mobile'=>'max:11',
+          'Password'=>'confirmed',
+          'Manager'=>'required',
+          'IsActive'=>'max:1',
+        ]);
+      }
       if ($request->Signature!=null)
       {
         $imageData = $request->get('Signature');
@@ -101,7 +114,10 @@ class AccountController extends Controller
         $userDB= User::find($id);
         $userDB->FullName=$request->FullName;
         $userDB->Role=$request->Role;
-        $userDB->Manager=$request->Manager;
+        if ($request->Manager!=null)
+        {
+          $userDB->Manager=$request->Manager;
+        }
         $userDB->Mobile=$request->Mobile;
         if ($request->Position)
         {

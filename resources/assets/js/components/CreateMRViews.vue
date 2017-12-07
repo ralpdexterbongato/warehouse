@@ -7,18 +7,7 @@
       <div class="create-mr-container">
         <div class="selected-mr-session">
           <div class="addfromrr-btn">
-            <button type="button"  v-on:click="isActive = !isActive"> Select item</button>
-          </div>
-          <ul class="error-tab" v-if="laravelerrors!=''">
-            <span v-for="errors in laravelerrors">
-              <li v-for="error in errors">{{error}}</li>
-            </span>
-          </ul>
-          <ul class="error-tab" v-if="ownerrors!=''">
-            <li>{{ownerrors}}</li>
-          </ul>
-          <div class="successAlertRRsession" v-if="successAlerts!=''">
-            <p>{{successAlerts}}</p>
+            <button type="button"  v-on:click="isActive = !isActive"> <i class="material-icons">add</i> item</button>
           </div>
           <table>
             <tr>
@@ -35,11 +24,13 @@
               <td>{{session.Quantity}}</td>
               <td>{{session.Unit}}</td>
               <td>{{session.Description}}</td>
-              <td>{{session.ItemCode}}</td>
+              <td v-if="session.ItemCode!=null">{{session.ItemCode}}</td>
+              <td v-else>N/A</td>
               <td>{{formatPrice(session.UnitCost)}}</td>
               <td>{{formatPrice(session.Amount)}}</td>
-              <td>{{session.Remarks}}</td>
-              <td><a @click.prevent="deleteSession(count)"><i class="fa fa-trash"></i></a></td>
+              <td v-if="session.Remarks!=null">{{session.Remarks}}</td>
+              <td v-else>N/A</td>
+              <td><a @click.prevent="deleteSession(count)"><i class="material-icons">close</i></a></td>
             </tr>
           </table>
         </div>
@@ -55,18 +46,15 @@
             </select>
             <textarea name="Note" v-model="Note" placeholder="Note" autocomplete="none"></textarea>
             <longpress id="submitMRbtn" :class="{'hide':HideSubmitBtn}" duration="3" :on-confirm="submitMR"  pressing-text="Submitting in {$rcounter}" action-text="Loading . . .">
-              <i class="fa fa-check-square"></i> Submit
+              Submit
             </longpress>
-            <div id="loading-submit" :class="HideSubmitBtn==true?'show':'hide'">
-              <i class="fa fa-spinner fa-spin fa-pulse"></i>
-            </div>
           </div>
         </div>
       </div>
     </div>
     <div class="items-table-from-RR" :class="{ 'active': isActive }"  v-on:click="isActive=!isActive">
       <div class="center-white-fromrr" v-on:click="isActive=!isActive">
-        <h1>Select Items from RR <i class="fa fa-times" v-on:click="isActive=!isActive"></i></h1>
+        <h1>Select Items from RR</h1>
         <div class="table-container-mr-form">
           <table>
             <tr>
@@ -82,10 +70,11 @@
                   <td><input type="number" name="Quantity" v-model="Quantity[rritem.ItemCode]" min="1" autocomplete="off" required ></td>
                   <td>{{rritem.Unit}}</td>
                   <td>{{rritem.Description}}</td>
-                  <td>{{rritem.ItemCode}}</td>
+                  <td v-if="rritem.ItemCode!=null">{{rritem.ItemCode}}</td>
+                  <td v-else>N/A</td>
                   <td>{{formatPrice(rritem.UnitCost)}}</td>
                   <td><input type="text" name="Remarks" placeholder="remarks" v-model="Remarks[rritem.ItemCode]" autocomplete="off"></td>
-                  <td><button @click.prevent="addtoSession(rritem)" v-on:click="isActive=!isActive"><i class="fa fa-plus-circle"></i></button></td>
+                  <td><button @click.prevent="addtoSession(rritem)"><i class="material-icons">add</i></button></td>
               </tr>
           </table>
         </div>
@@ -94,8 +83,11 @@
   </span>
 </template>
 <script>
-import axios from 'axios'
-import Longpress from 'vue-longpress'
+import axios from 'axios';
+import Longpress from 'vue-longpress';
+import 'vue2-toast/lib/toast.css';
+import Toast from 'vue2-toast';
+Vue.use(Toast);
 export default {
   props:['rritems','allmanager','allactive'],
   data(){
@@ -122,6 +114,7 @@ export default {
 
     addtoSession(datas)
     {
+      this.$loading('Adding');
      var vm=this
      axios.post(`/addSession-MR`,{
        id:datas.id,
@@ -134,21 +127,19 @@ export default {
        RRNo:this.rritems[0].RRNo,
      }).then(function(response){
        console.log(response);
-       Vue.set(vm.$data,'laravelerrors','');
-       Vue.set(vm.$data,'successAlerts','');
-       Vue.set(vm.$data,'ownerrors','');
        if (response.data.error) {
-         Vue.set(vm.$data,'ownerrors',response.data.error);
+         vm.$toast.top(response.data.error);
        }else
        {
          vm.fetchSessionDatas();
          vm.Quantity=[];
          vm.Remarks=[];
-         Vue.set(vm.$data,'successAlerts','Successfully added !');
+         vm.$toast.top('Successfully added');
        }
+       vm.$loading.close();
      },function(error){
-       Vue.set(vm.$data,'successAlerts','');
-       Vue.set(vm.$data,'laravelerrors',error.response.data);
+       vm.$toast.top(error.response.data.Quantity[0]);
+       vm.$loading.close();
      });
    },
    fetchSessionDatas()
@@ -162,17 +153,14 @@ export default {
 
   deleteSession(count)
   {
+    this.$loading('Removing');
     var vm=this
     axios.delete(`/deletemrSession/`+count).then(function(response)
   {
     vm.fetchSessionDatas();
-    Vue.set(vm.$data,'ownerrors','')
-    Vue.set(vm.$data,'laravelerrors','');
-    Vue.set(vm.$data,'successAlerts','Removed successfully !')
-  },function(error)
-    {
-      console.log(error);
-    });
+    vm.$toast.top('Removed');
+    vm.$loading.close();
+  });
   },
   formatPrice(value) {
         let val = (value/1).toFixed(2).replace('.', '.')
@@ -180,30 +168,35 @@ export default {
     },
   submitMR()
   {
+    this.$loading('Submitting');
     this.HideSubmitBtn=true;
     var vm=this
     axios.post(`/save-mr`,{
       Note:this.Note,
-      ManagerID:this.ManagerID,
-      Receivedby:this.Receivedby,
+      RecommendedBy:this.ManagerID,
+      ReceivedBy:this.Receivedby,
       RRNo:this.rritems[0].RRNo,
     }).then(function(response)
     {
       console.log(response);
       if (response.data.error!=null){
-        Vue.set(vm.$data,'ownerrors',response.data.error)
-        Vue.set(vm.$data,'successAlerts','');
-        Vue.set(vm.$data,'laravelerrors','');
+        vm.$toast.top(response.data.error);
         Vue.set(vm.$data,'HideSubmitBtn',false);
       }else
       {
         window.location= response.data.redirect;
       }
+      vm.$loading.close();
     },function(error){
-      Vue.set(vm.$data,'ownerrors','')
-      Vue.set(vm.$data,'successAlerts','');
-      Vue.set(vm.$data,'laravelerrors',error.response.data);
+      if (error.response.data.ReceivedBy!=null)
+      {
+        vm.$toast.top(error.response.data.ReceivedBy[0]);
+      }else if (error.response.data.RecommendedBy!=null)
+      {
+        vm.$toast.top(error.response.data.RecommendedBy[0]);
+      }
       Vue.set(vm.$data,'HideSubmitBtn',false);
+      vm.$loading.close();
     });
   }
 },

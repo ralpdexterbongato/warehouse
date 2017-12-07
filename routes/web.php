@@ -90,11 +90,13 @@ Route::post('/send-request-manager-replacer/{id}','MIRSController@SendRequestMan
 Route::delete('/cancel-request-manager-replacer/{id}','MIRSController@CancelRequestManagerReplacer');
 Route::put('/signature-replacer-accepted/{id}','MIRSController@SignatureManagerReplacer');
 Route::get('/mct-summary-search','MCTController@searchMCTsummary')->name('mct-search-date')->middleware('IsWarehouseAndAdmin');
-Route::delete('DeleteSession-RR/{id}','RRController@deleteSessionStored')->name('RRDeleteSession');
+Route::delete('/delete-session-with-po/{id}','RRController@deleteSessionStored')->name('RRDeleteSession');
+Route::delete('/delete-session-no-po/{id}','RRController@deleteSessionNoPo');
 Route::get('RRsearchitembyCode','RRController@searchbyItemMasterCode')->name('RRSearchItemCode');
 Route::post('/rr-storing-session-no-po','RRController@StoreSessionRRNoPO')->name('storeSessionRR');
 Route::post('/rr-storing-session-with-po','RRController@StoreSessionRRWithPO');
 Route::get('/show-rr-session-data','RRController@showSessionRRData')->name('showing.currentsession.rr');
+Route::get('/show-rr-session-data-no-po','RRController@showSessionRRDataNoPO');
 Route::post('/save-rr-no-po-to-db','RRController@StoreRRtoTableNoPO')->name('SaveRRNoPO');
 Route::post('/save-rr-with-po-to-db','RRController@StoreRRtoTableWithPO')->name('SaveRRWithPO');
 Route::get('/displayRRcreateSession','RRController@displayRRcurrentSession');
@@ -112,7 +114,7 @@ Route::get('/rr-of-rv-list/{id}','RRController@RRofRVlist')->name('showRR-ofRV')
 Route::get('RV-create','RVController@RVcreate')->name('Creating.RV')->middleware('MustNotGMorManager');
 Route::get('/fetch-rv-session','RVController@fetchSessionRV');
 Route::post('/session-saving-rv','RVController@SaveSession')->name('SavingSessionRV');
-Route::delete('DeleteSession/{id}','RVController@DeleteSession')->name('DeletingSessionRV');
+Route::delete('/DeleteSession/{id}','RVController@DeleteSession')->name('DeletingSessionRV');
 Route::post('/SavetoDBRV','RVController@savingToTable')->name('SavingRVtoDB');
 Route::get('RVindex','RVController@RVindexView')->name('RVindexView');
 Route::get('indexRVVUE','RVController@RVIndexSearch');

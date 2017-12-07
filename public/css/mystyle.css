@@ -126,11 +126,6 @@ body
 {
   border-top-right-radius: 3px!important;
 }
-.longpress-button i
-{
-	vertical-align: middle!important;
-	font-size: 19px;
-}
 input[type='radio']:after {
       width: 15px;
       height: 15px;
@@ -4515,7 +4510,7 @@ filter: drop-shadow(1px 1px 3px #1D1A33);
 .login-vue
 {
 	display: flex;
-	height: 100vh;
+	min-height: 110vh;
 }
 .left-login
 {
@@ -4544,15 +4539,16 @@ filter: drop-shadow(1px 1px 3px #1D1A33);
 	display: flex;
 	background: #fff;
 }
-@media (max-width:870px)
+@media (max-width:800px)
 {
 	.left-login h1
 	{
-		font-size: 60px;
+		font-size: 50px;
+		padding:20px;
 	}
 	.right-login
 	{
-		flex:3;
+		flex:2;
 	}
 }
 .form-login-container
@@ -4567,6 +4563,8 @@ filter: drop-shadow(1px 1px 3px #1D1A33);
 	.form-login-container
 	{
 		width: 80%;
+		padding-top: 40px;
+		padding-bottom: 30px;
 	}
 }
 @media (max-width:540px)
@@ -4587,14 +4585,15 @@ filter: drop-shadow(1px 1px 3px #1D1A33);
 }
 .login-placeholder-container input
 {
-	margin-bottom: 51px;
 	color: #282C34;
 	font-size: 15px;
 	background: transparent;
 	border-style:  none;
 	border-bottom:1px solid #ccc;
-	width:100%;
+	margin-bottom: 51px;
 	margin-left: 10px;
+	margin-right: 26px;
+	width: 100%;
 	padding-bottom: 11px;
 	letter-spacing:1px;
 	font-family: 'Comfortaa',sans-serif;
@@ -4631,7 +4630,6 @@ filter: drop-shadow(1px 1px 3px #1D1A33);
 }
 .submit-btn-login-container button
 {
-	display: flex;
 	background: #3367D6;
 	border-radius: 3px;
 	padding:7px 14px;
@@ -5418,32 +5416,6 @@ only screen and (max-width: 1050px),
 {
   height: 30px;
 }
-.error-tab li
-{
-  margin-left: 20px;
-  margin-right: 20px;
-}
-.error-tab
-{
-  background-color: #F2DEDE;
-  border-radius: 8px;
-  padding:10px;
-  color: #A94442;
-  margin-bottom: 10px;
-  display: flex;
-  justify-content: center;
-	font-family: sans-serif;
-}
-.successAlertRRsession
-{
-  background-color: #DFF0D8;
-  border-radius: 8px;
-  padding:10px;
-  color: #3C763D;
-  margin-bottom: 10px;
-  text-align: center;
-	font-family: sans-serif;
-}
 /*PREVIEW RR CSS*/
 .previewRR-Container
 {
@@ -5466,6 +5438,18 @@ only screen and (max-width: 1050px),
   -o-filter: drop-shadow(0px 3px 5px #A1A1A1);
   filter: drop-shadow(0px 3px 5px #A1A1A1);
 }
+@media (max-width:928px)
+{
+	.previewRR-Container
+	{
+		padding:10px;
+	}
+	.bondpaper-RR
+	{
+		width: auto;
+		padding:40px 5px 5px 5px;
+	}
+}
 .signature-btn
 {
   width: 816px;
@@ -5474,6 +5458,20 @@ only screen and (max-width: 1050px),
   justify-content: flex-end;
   margin-bottom:5px;
   font-family:Roboto, 'Segoe UI', Tahoma, sans-serif;
+}
+@media (max-width:928px)
+{
+	.signature-btn
+	{
+		width: auto;
+	}
+}
+@media (max-width:670px)
+{
+	.signature-btn
+	{
+		justify-content: center;
+	}
 }
 #RRsignature:hover
 {
@@ -5520,6 +5518,13 @@ only screen and (max-width: 1050px),
   justify-content: space-between;
 	font-family: sans-serif;
 }
+@media (max-width:928px)
+{
+	.print-RR-btn
+	{
+		width: auto;
+	}
+}
 .print-RR-btn button:focus
 {
 	-ms-filter: drop-shadow(0 1px 1px #888);
@@ -5560,6 +5565,17 @@ only screen and (max-width: 1050px),
   padding: 4px;
   font-weight: 600;
 }
+@media (max-width:600px)
+{
+	.top-title-rr
+	{
+		font-size: 13px;
+	}
+	.rr-titlebox
+	{
+		font-size: 13px;
+	}
+}
 .right-date-rr
 {
   font-size: 14px;
@@ -5588,6 +5604,17 @@ only screen and (max-width: 1050px),
   display: flex;
   justify-content: space-between;
 }
+@media (max-width:672px)
+{
+	.RRmasters-details
+	{
+		flex-direction: column;
+	}
+	.right-date-rr
+	{
+		justify-content: flex-start;
+	}
+}
 .RRmaster-left ul li,.RRmaster-right ul li
 {
   display: flex;
@@ -5604,6 +5631,18 @@ only screen and (max-width: 1050px),
 .RRmaster-left ul li h4,.RRmaster-right h4
 {
   min-width: 120px;
+}
+@media (max-width:700px)
+{
+	.RRmaster-right label
+	{
+		min-width: 90px;
+	}
+	.RRmaster-left ul li h4,.RRmaster-right h4
+	{
+		min-width: 0px;
+		word-wrap: break-word;
+	}
 }
 .RR-table-container
 {
@@ -5637,6 +5676,64 @@ only screen and (max-width: 1050px),
   font-size: 13px;
   padding:2px 3px;
 }
+@media
+only screen and (max-width: 1050px),
+(min-device-width: 768px) and (max-device-width: 1050px)  {
+	/* Force table to not be like tables anymore */
+	.RR-table-container table, .RR-table-container thead,.RR-table-container th, .RR-table-container tbody, .RR-table-container td, .RR-table-container tr {
+		display: block;
+		font-size: 14px;
+	}
+
+	.RR-table-container th
+	{
+		display: none;
+	}
+	.RR-table-container tr:first-child
+	{
+		display: none;
+	}
+	.RR-table-container tr:last-child td::before
+	{
+		content: '';
+	}
+	.RR-table-container tr
+	{
+		border:1px solid #e5e5e5;
+		margin-top: 20px;
+	}
+
+	.RR-table-container td {
+		/* Behave  like a "row" */
+		border: none!important;
+		position: relative!important;
+		padding-left: 50%!important;
+		text-align: left!important;
+		word-wrap: break-word;
+		padding:10px 20px;
+	}
+	.RR-table-container tr:last-child td
+	{
+		padding-left: 5px!important;
+	}
+	.RR-table-container td:before {
+		/* Now like a table header */
+		position: absolute!important;
+		/* Top/left values mimic padding */
+		top: 6px!important;
+		left: 6px!important;
+		width: 45%!important;
+		padding-right: 20px!important;
+		white-space: nowrap!important;
+	}
+	.RR-table-container td:nth-of-type(1):before { content: "Code No"; }
+	.RR-table-container td:nth-of-type(2):before { content: "Article"; }
+	.RR-table-container td:nth-of-type(3):before { content: "Unit"; }
+	.RR-table-container td:nth-of-type(4):before { content: "Qty delivered"; }
+	.RR-table-container td:nth-of-type(5):before { content: "Qty Accepted"; }
+	.RR-table-container td:nth-of-type(6):before { content: "U-cost"; }
+	.RR-table-container td:nth-of-type(7):before { content: "Amount"; }
+}
 .RRNetsales-Total
 {
   font-size: 15px;
@@ -5653,6 +5750,17 @@ only screen and (max-width: 1050px),
   display: flex;
   justify-content: flex-end;
 }
+@media (max-width:700px)
+{
+	.RRNetsales-Total
+	{
+		justify-content:center;
+	}
+	.netsales-total-content li
+	{
+		justify-content:center;
+	}
+}
 .netsales-total-content li h4
 {
   min-width: 100px;
@@ -5665,6 +5773,19 @@ only screen and (max-width: 1050px),
   width: 200px;
   border:1px solid black;
   padding:4px 8px;
+}
+@media (max-width:700px)
+{
+	.netsales-total-content li h5
+	{
+		min-width:0px;
+		margin-right: 20px;
+		text-align:left;
+	}
+	.netsales-total-content li label
+	{
+		width:130px;
+	}
 }
 .RRadded-VAT
 {
@@ -5693,6 +5814,13 @@ only screen and (max-width: 1050px),
   display: flex;
   margin-bottom: 40px;
 }
+@media (max-width:810px)
+{
+	.bottom-signatures-rr
+	{
+		flex-direction: column;
+	}
+}
 .signature-rr-left,.signature-rr-right
 {
   flex:1;
@@ -5712,21 +5840,35 @@ only screen and (max-width: 1050px),
 }
 .signatureRR-content
 {
-  margin-top: 40px;
+  margin-top: 70px;
   text-align: center;
   position: relative;
+}
+@media (max-width:810px)
+{
+	.signatureRR-content
+	{
+		margin-bottom:50px;
+	}
 }
 .RRSignatures-container
 {
   margin-top: 50px;
   font-size: 15px;
 }
+@media (max-width:600px)
+{
+	.RRSignatures-container
+	{
+		font-size: 14px;
+	}
+}
 .signatureRR-content h2
 {
   position: absolute;
   width: 150px;
   height: 50px;
-  top:-55px;
+  top:-75px;
   left: 115px;
 }
 .signatureRR-content h2 img,.signature-rr-right h2 img
@@ -5739,7 +5881,24 @@ only screen and (max-width: 1050px),
   height:50px;
   position: absolute;
   right: 115px;
-  top:-5px;
+  top:15px;
+}
+@media (max-width:810px)
+{
+	.signatureRR-content h2
+	{
+		position:relative;
+		top:-30px;
+	  left:auto;
+		margin:0 auto;
+	}
+	.signature-rr-right h2
+	{
+		position: relative;
+		margin:0 auto;
+		right: 0;
+		top: 60px;
+	}
 }
 .RRoptions
 {
@@ -6424,6 +6583,10 @@ text-align: center;
 	.print-and-unreceved a button
 	{
 		flex:1;
+	}
+	.print-and-unreceved
+	{
+		flex-direction: column;
 	}
 }
 .RV-signature-print-container
@@ -7905,6 +8068,13 @@ button.done-canvass:hover
 {
   margin:auto;
 }
+@media (max-width:845px)
+{
+	.pending-delivery-number h1
+	{
+		margin-top: 10px;
+	}
+}
 .left-detail-po
 {
   display: flex;
@@ -8595,6 +8765,25 @@ only screen and (max-width: 1050px),
   display: flex;
   justify-content: space-between;
 }
+@media (max-width:600px)
+{
+	.btns-mr-full
+	{
+		justify-content: center;
+		flex-direction: column;
+	}
+	.signature-MR-btns > span
+	{
+		justify-content: center;
+	}
+}
+@media (max-width:928px)
+{
+	.btns-mr-full
+	{
+		width: auto;
+	}
+}
 #signatureMRbtn
 {
   background:#004276;
@@ -8684,6 +8873,17 @@ only screen and (max-width: 1050px),
   font-size: 15px;
   text-align: center;
 }
+@media (max-width:928px)
+{
+	.MR-full-container
+	{
+		padding:10px;
+	}
+	.mr-top-titles
+	{
+		font-size: 13px;
+	}
+}
 .mr-top-titles h1
 {
   font-weight: 600;
@@ -8693,6 +8893,7 @@ only screen and (max-width: 1050px),
   font-size: 14px;
   margin-top: 20px;
   text-decoration: underline;
+	line-height: 19px;
 }
 .mr-full-bondpaper
 {
@@ -8708,9 +8909,18 @@ only screen and (max-width: 1050px),
   -o-filter: drop-shadow(0px 0px 2px #9F9F9F);
   filter: drop-shadow(0px 0px 2px #9F9F9F);
 }
+@media (max-width:928px)
+{
+	.mr-full-bondpaper
+	{
+		width: auto;
+		padding:50px 10px 20px 10px;
+	}
+}
 .list-number-dates
 {
   display: flex;
+	flex-wrap: wrap;
   margin-top: 20px;
   font-size: 14px;
 }
@@ -8719,11 +8929,32 @@ only screen and (max-width: 1050px),
   flex:1;
   text-align: center;
 }
+
 .acknowledgeParagraph
 {
   font-size: 14px;
   margin-top: 20px;
   line-height:19px;
+}
+.acknowledgeParagraph p
+{
+	text-indent: 50px;
+}
+@media (max-width:928px)
+{
+	.DateNumBox
+	{
+		margin-bottom: 20px;
+		min-width: 140px;
+	}
+	.acknowledgeParagraph br
+	{
+		display: none;
+	}
+	.acknowledgeParagraph p
+	{
+		text-indent: 20px;
+	}
 }
 .table-mr-list-container table
 {
@@ -8752,6 +8983,60 @@ only screen and (max-width: 1050px),
   font-size: 14px;
   text-align: center;
 }
+@media
+only screen and (max-width: 1050px),
+(min-device-width: 768px) and (max-device-width: 1050px)  {
+	/* Force table to not be like tables anymore */
+	.table-mr-list-container table, .table-mr-list-container thead,.table-mr-list-container th, .table-mr-list-container tbody, .table-mr-list-container td, .table-mr-list-container tr {
+		display: block;
+	}
+	.table-mr-list-container table
+	{
+		border-style: none;
+	}
+	.table-mr-list-container th
+	{
+		display: none;
+	}
+	.table-mr-list-container tr:first-child
+	{
+		display: none;
+	}
+	.table-mr-list-container tr
+	{
+		border:1px solid #e5e5e5;
+		margin-top: 20px;
+	}
+
+	.table-mr-list-container td {
+		/* Behave  like a "row" */
+		border: none!important;
+		position: relative!important;
+		padding-left: 50%!important;
+		text-align: left!important;
+		word-wrap: break-word;
+		padding:10px 20px;
+	}
+
+	.table-mr-list-container td:before {
+		/* Now like a table header */
+		position: absolute!important;
+		/* Top/left values mimic padding */
+		top: 6px!important;
+		left: 6px!important;
+		width: 45%!important;
+		padding-right: 20px!important;
+		white-space: nowrap!important;
+	}
+
+	.table-mr-list-container td:nth-of-type(1):before { content: "Qty"; }
+	.table-mr-list-container td:nth-of-type(2):before { content: "Unit"; }
+	.table-mr-list-container td:nth-of-type(3):before { content: "Name"; }
+	.table-mr-list-container td:nth-of-type(4):before { content: "Property No."; }
+	.table-mr-list-container td:nth-of-type(5):before { content: "Unit value"; }
+	.table-mr-list-container td:nth-of-type(6):before { content: "Total value"; }
+	.table-mr-list-container td:nth-of-type(7):before { content: "Remarks"; }
+}
 .note-mr-container
 {
   margin-top: 10px;
@@ -8763,6 +9048,17 @@ only screen and (max-width: 1050px),
   font-size: 14px;
   display: flex;
   justify-content: space-between;
+}
+@media (max-width:700px)
+{
+	.bottom-mr-bondpaper
+	{
+		flex-direction: column;
+	}
+	.MR-Signatures-container
+	{
+		margin-top: 20px;
+	}
 }
 .reference-box p
 {
@@ -8781,6 +9077,17 @@ only screen and (max-width: 1050px),
   text-indent: 40px;
   line-height: 16px;
 }
+@media (max-width:700px)
+{
+	.instruction-for-mr p br
+	{
+		display: none;
+	}
+	.instruction-for-mr p
+	{
+		text-indent: 20px;
+	}
+}
 .signature-mr-box h3,.signature-mr-box p
 {
   text-align: center;
@@ -8788,6 +9095,13 @@ only screen and (max-width: 1050px),
 .MR-Signatures-container
 {
   margin-right: 40px;
+}
+@media (max-width:700px)
+{
+	.MR-Signatures-container
+	{
+		margin-right: 0px;
+	}
 }
 .MR-Signatures-container h4
 {
@@ -8819,6 +9133,15 @@ only screen and (max-width: 1050px),
   top:1px;
   left:40px;
 }
+@media(max-width:700px)
+{
+	.signature-mr-box h5
+	{
+		position:inherit;
+		left: auto;
+		margin:0 auto;
+	}
+}
 .signature-mr-box h5 p
 {
   position: absolute;
@@ -8834,6 +9157,17 @@ only screen and (max-width: 1050px),
 .selected-mr-session
 {
   flex:3;
+}
+@media (max-width:1200px)
+{
+	.create-mr-container
+	{
+		flex-direction: column;
+	}
+	.selected-mr-session
+	{
+	  flex:0;
+	}
 }
 .form-left-box-mr
 {
@@ -8875,11 +9209,19 @@ only screen and (max-width: 1050px),
   flex:1;
   background: #3367D6;
   margin-left: 20px;
+	margin-bottom: 20px;
   -ms-filter: drop-shadow(-2px 1px 5px #1D1A33);
--webkit-filter: drop-shadow(-2px 1px 5px #1D1A33);
--moz-filter: drop-shadow(-2px 1px 5px #1D1A33);
--o-filter: drop-shadow(-2px 1px 5px #1D1A33);
-filter: drop-shadow(-2px 1px 5px #1D1A33);
+	-webkit-filter: drop-shadow(-2px 1px 5px #1D1A33);
+	-moz-filter: drop-shadow(-2px 1px 5px #1D1A33);
+	-o-filter: drop-shadow(-2px 1px 5px #1D1A33);
+	filter: drop-shadow(-2px 1px 5px #1D1A33);
+}
+@media (max-width:1200px)
+{
+	.form-left-mr
+	{
+		margin-left: 0px;
+	}
 }
 .title-mr
 {
@@ -8889,18 +9231,34 @@ filter: drop-shadow(-2px 1px 5px #1D1A33);
   color: #002C4E;
   font-family: sans-serif;
 }
+@media (max-width:700px)
+{
+	.title-mr
+	{
+		margin-left: 10px;
+		font-size: 16px;
+		margin-bottom: 20px;
+	}
+}
 .create-mr-bigcontainer
 {
   padding:20px;
 }
-
+@media (max-width:900px)
+{
+	.create-mr-bigcontainer
+	{
+		padding:10px;
+	}
+}
 .selected-mr-session table
 {
   width: 100%;
   text-align: center;
   margin-top: 10px;
   font-family:Roboto, 'Segoe UI', Tahoma, sans-serif;
-  font-size: 15px;
+  font-size: 14px;
+	margin-bottom: 20px;
 }
 .selected-mr-session th
 {
@@ -8915,7 +9273,8 @@ filter: drop-shadow(-2px 1px 5px #1D1A33);
 }
 .selected-mr-session td a:hover
 {
-  color: #001D34;
+	color: #F05133;
+	cursor: pointer;
 }
 .selected-mr-session tr:nth-child(odd)
 {
@@ -8924,6 +9283,54 @@ filter: drop-shadow(-2px 1px 5px #1D1A33);
 .selected-mr-session td
 {
   padding:10px;
+}
+@media
+only screen and (max-width: 1310px),
+(min-device-width: 768px) and (max-device-width: 1050px)  {
+	/* Force table to not be like tables anymore */
+
+	.selected-mr-session table, .selected-mr-session thead,.selected-mr-session th, .selected-mr-session tbody, .selected-mr-session td, .selected-mr-session tr {
+		display: block!important;
+	}
+	.selected-mr-session tr:first-child
+	{
+		display: none!important;
+	}
+	.selected-mr-session tr
+	{
+		border:1px solid #e5e5e5!important;
+		margin-top: 20px!important;
+	}
+
+	.selected-mr-session td {
+		/* Behave  like a "row" */
+		border: none!important;
+		border-bottom: 1px solid #e5e5e5!important;
+		position: relative!important;
+		padding-left: 50%!important;
+		text-align: left!important;
+		word-wrap: break-word!important;
+	}
+
+	.selected-mr-session td:before {
+		/* Now like a table header */
+		position: absolute!important;
+		/* Top/left values mimic padding */
+		top: 6px!important;
+		left: 6px!important;
+		width: 45%!important;
+		padding-right: 20px!important;
+		white-space: nowrap!important;
+	}
+
+	.selected-mr-session td:nth-of-type(1):before { content: "Quantity"; }
+	.selected-mr-session td:nth-of-type(2):before { content: "Unit"; }
+	.selected-mr-session td:nth-of-type(3):before { content: "Name"; }
+	.selected-mr-session td:nth-of-type(4):before { content: "Property No."; }
+	.selected-mr-session td:nth-of-type(5):before { content: "Unit value"; }
+	.selected-mr-session td:nth-of-type(6):before { content: "Total value"; }
+	.selected-mr-session td:nth-of-type(7):before { content: "Remarks"; }
+	.selected-mr-session td:nth-of-type(8):before { content: "Remove"; }
 }
 .addfromrr-btn
 {
@@ -8940,6 +9347,13 @@ filter: drop-shadow(-2px 1px 5px #1D1A33);
   background: #004276;
   outline: none;
   margin-bottom: 6px;
+}
+@media (max-width:400px)
+{
+	.addfromrr-btn button
+	{
+		width: 100%;
+	}
 }
 .items-table-from-RR
 {
@@ -8959,30 +9373,40 @@ filter: drop-shadow(-2px 1px 5px #1D1A33);
 }
 .center-white-fromrr
 {
-  min-height: 500px;
-  min-width: 900px;
+	height: 100vh;
+	width: 900px;
   background: #fff;
   margin:auto;
   border-radius: 4px;
+	overflow-x:hidden;
+	overflow-y: auto;
 }
+@media (max-width:1000px)
+{
+	.center-white-fromrr
+	{
+		margin-left:0;
+		margin-right: 40px;
+	}
+}
+
 .center-white-fromrr h1
 {
   border-top-right-radius: 4px;
   border-top-left-radius:4px;
-  position:relative;
   background:#3367D6;
   padding:20px;
   text-align: center;
   color: #fff;
-  font-weight: 600;
   font-size: 18px;
 	font-family: sans-serif;
 }
-.center-white-fromrr h1 i
+@media (max-width:600px)
 {
-  position: absolute;
-  top: 4px;
-  right: 4px;
+	.center-white-fromrr h3
+	{
+		font-size: 15px;
+	}
 }
 .center-white-fromrr table
 {
@@ -9000,8 +9424,6 @@ filter: drop-shadow(-2px 1px 5px #1D1A33);
 {
  padding:5px;
  font-weight: 600;
- background: #3367D6;
- color: #fff;
 }
 .table-container-mr-form tr:nth-child(odd)
 {
@@ -9011,12 +9433,65 @@ filter: drop-shadow(-2px 1px 5px #1D1A33);
 {
   padding:5px;
 }
+.table-container-mr-form td input
+{
+		border-style: none;
+		border-bottom: 1px solid #ccc;
+		width: 100%;
+}
 .table-container-mr-form td button
 {
   border-style: none;
   background-color: transparent;
   color: #002C4E;
   font-size: 25px;
+}
+@media
+only screen and (max-width: 1310px),
+(min-device-width: 768px) and (max-device-width: 1050px)  {
+	/* Force table to not be like tables anymore */
+
+	.center-white-fromrr table, .center-white-fromrr thead,.center-white-fromrr th, .center-white-fromrr tbody, .center-white-fromrr td, .center-white-fromrr tr {
+		display: block!important;
+	}
+	.center-white-fromrr tr:first-child
+	{
+		display: none!important;
+	}
+	.center-white-fromrr tr
+	{
+		border:1px solid #e5e5e5!important;
+		margin-top: 20px!important;
+	}
+
+	.center-white-fromrr td {
+		/* Behave  like a "row" */
+		border: none!important;
+		border-bottom: 1px solid #e5e5e5!important;
+		position: relative!important;
+		padding-left: 50%!important;
+		text-align: left!important;
+		word-wrap: break-word!important;
+	}
+
+	.center-white-fromrr td:before {
+		/* Now like a table header */
+		position: absolute!important;
+		/* Top/left values mimic padding */
+		top: 6px!important;
+		left: 6px!important;
+		width: 45%!important;
+		padding-right: 20px!important;
+		white-space: nowrap!important;
+	}
+
+	.center-white-fromrr td:nth-of-type(1):before { content: "Quantity"; }
+	.center-white-fromrr td:nth-of-type(2):before { content: "Unit"; }
+	.center-white-fromrr td:nth-of-type(3):before { content: "Name"; }
+	.center-white-fromrr td:nth-of-type(4):before { content: "Property No."; }
+	.center-white-fromrr td:nth-of-type(5):before { content: "Unit value"; }
+	.center-white-fromrr td:nth-of-type(6):before { content: "Remarks"; }
+	.center-white-fromrr td:nth-of-type(7):before { content: "Add"; }
 }
 /*List or MR that belongs to that RR*/
 .list-of-boxes-MR
@@ -9091,7 +9566,7 @@ filter: drop-shadow(-2px 1px 5px #1D1A33);
 .big-clock
 {
   color: #3367D6;
-  font-size:200px;
+  font-size:200px!important;
 }
 /*MY MR REQUEST */
 .my-mr-request-container
@@ -9542,10 +10017,16 @@ only screen and (max-width: 1050px),
   padding: 35px;
   min-height: 100vh;
 }
+@media (max-width:800px)
+{
+	.CreateRR-No-PO
+	{
+		padding:10px;
+	}
+}
 .flexible-container
 {
   display: flex;
-  flex-wrap: wrap;
 }
 @media (max-width:1100px) {
   .flexible-container
@@ -9558,11 +10039,18 @@ only screen and (max-width: 1050px),
   font-size: 20px;
   color: #00213B;
 }
+@media (max-width:750px)
+{
+	.top-title-rr-nopo
+	{
+		font-size: 16px;
+		margin-bottom: 20px;
+	}
+}
 .selected-items-rrnopo
 {
   flex:3;
   margin-bottom: 10px;
-  overflow-x: auto;
 }
 .form-input-rrnopo > option
 {
@@ -9571,15 +10059,22 @@ only screen and (max-width: 1050px),
 .form-input-rrnopo
 {
   border-radius: 3px;
-  height: 100vh;
+  height:590px;
   flex:1;
   background: #3367D6;
   margin-left: 20px;
   -ms-filter: drop-shadow(-2px 1px 5px #1D1A33);
--webkit-filter: drop-shadow(-2px 1px 5px #1D1A33);
--moz-filter: drop-shadow(-2px 1px 5px #1D1A33);
--o-filter: drop-shadow(-2px 1px 5px #1D1A33);
-filter: drop-shadow(-2px 1px 5px #1D1A33);
+	-webkit-filter: drop-shadow(-2px 1px 5px #1D1A33);
+	-moz-filter: drop-shadow(-2px 1px 5px #1D1A33);
+	-o-filter: drop-shadow(-2px 1px 5px #1D1A33);
+	filter: drop-shadow(-2px 1px 5px #1D1A33);
+}
+@media (max-width:1050px)
+{
+	.form-input-rrnopo
+	{
+		margin-left: 0px;
+	}
 }
 .btn-add-item-rrnopo
 {
@@ -9596,6 +10091,14 @@ filter: drop-shadow(-2px 1px 5px #1D1A33);
   border-style: none;
   font-size: 16px;
   padding:5px 10px;
+}
+@media (max-width:400px)
+{
+	.btn-add-item-rrnopo button
+	{
+		width: 100%;
+		margin-left:0px;
+	}
 }
 .form-input-rrnopo
 {
@@ -9654,8 +10157,60 @@ filter: drop-shadow(-2px 1px 5px #1D1A33);
 }
 .selected-received-items-table td i
 {
-  font-size: 20px;
   color: #00213B;
+	cursor: pointer;
+}
+.selected-received-items-table td i:hover
+{
+	color: #F05133;
+}
+@media
+only screen and (max-width: 1310px),
+(min-device-width: 768px) and (max-device-width: 1050px)  {
+	/* Force table to not be like tables anymore */
+
+	.selected-received-items-table table, .selected-received-items-table thead,.selected-received-items-table th, .selected-received-items-table tbody, .selected-received-items-table td, .selected-received-items-table tr {
+		display: block!important;
+	}
+	.selected-received-items-table tr:first-child
+	{
+		display: none!important;
+	}
+	.selected-received-items-table tr
+	{
+		border:1px solid #e5e5e5!important;
+		margin-top: 20px!important;
+	}
+
+	.selected-received-items-table td {
+		/* Behave  like a "row" */
+		border: none!important;
+		border-bottom: 1px solid #e5e5e5!important;
+		position: relative!important;
+		padding-left: 50%!important;
+		text-align: left!important;
+		word-wrap: break-word!important;
+	}
+
+	.selected-received-items-table td:before {
+		/* Now like a table header */
+		position: absolute!important;
+		/* Top/left values mimic padding */
+		top: 6px!important;
+		left: 6px!important;
+		width: 45%!important;
+		padding-right: 20px!important;
+		white-space: nowrap!important;
+	}
+	.selected-received-items-table td:nth-of-type(1):before { content: "ItemCode"; }
+	.selected-received-items-table td:nth-of-type(2):before { content: "Account code"; }
+	.selected-received-items-table td:nth-of-type(3):before { content: "Description"; }
+	.selected-received-items-table td:nth-of-type(4):before { content: "Unitcost"; }
+	.selected-received-items-table td:nth-of-type(5):before { content: "Qty Delivered"; }
+	.selected-received-items-table td:nth-of-type(6):before { content: "Qty Accepted"; }
+	.selected-received-items-table td:nth-of-type(7):before { content: "Unit"; }
+	.selected-received-items-table td:nth-of-type(8):before { content: "Amount"; }
+	.selected-received-items-table td:nth-of-type(9):before { content: "Remove"; }
 }
 .modal-rr-no-po.active
 {
@@ -9664,7 +10219,6 @@ filter: drop-shadow(-2px 1px 5px #1D1A33);
 .modal-rr-no-po
 {
   z-index: 16;
-  overflow-x: auto;
   position: fixed;
   background:rgba(0, 0, 0, 0.7);
   top: -500%;
@@ -9679,8 +10233,15 @@ filter: drop-shadow(-2px 1px 5px #1D1A33);
   margin:auto;
   height: 100vh;
   border-radius: 5px;
-  max-width: 900px;
+	width: 1000px;
   background: #fff;
+}
+@media (max-width:1100px)
+{
+	.center-white-modal
+	{
+		margin-right: 40px;
+	}
 }
 .center-white-modal h1
 {
@@ -9691,6 +10252,7 @@ filter: drop-shadow(-2px 1px 5px #1D1A33);
 .items-from-rv-nopo-table table
 {
   width: 100%;
+	text-align:center;
 }
 .items-from-rv-nopo-table
 {
@@ -9708,35 +10270,91 @@ filter: drop-shadow(-2px 1px 5px #1D1A33);
 {
   background: #e3e3e3;
 }
+.items-from-rv-nopo-table td button:focus
+{
+	-ms-filter: drop-shadow(0px 2px 3px rgba(61, 61, 61, 0.4));
+    -webkit-filter: drop-shadow(0px 2px 3px rgba(61, 61, 61, 0.4));
+    -moz-filter: drop-shadow(0px 2px 3px rgba(61, 61, 61, 0.4));
+    -o-filter: drop-shadow(0px 2px 3px rgba(61, 61, 61, 0.4));
+    filter: drop-shadow(0px 2px 3px rgba(61, 61, 61, 0.4));
+}
 .items-from-rv-nopo-table td button
 {
-  height: 30px;
-  width: 30px;
-  border-radius: 50%;
+  background: transparent;
+	border-style: none;
+	background: #fff;
+	border-radius: 50%;
+	height: 35px;
+	-ms-filter: drop-shadow(0px 4px 3px rgba(61, 61, 61, 0.4));
+    -webkit-filter: drop-shadow(0px 4px 3px rgba(61, 61, 61, 0.4));
+    -moz-filter: drop-shadow(0px 4px 3px rgba(61, 61, 61, 0.4));
+    -o-filter: drop-shadow(0px 4px 3px rgba(61, 61, 61, 0.4));
+    filter: drop-shadow(0px 4px 3px rgba(61, 61, 61, 0.4));
 }
 .items-from-rv-nopo-table td
 {
-  text-align: center;
   padding:10px;
 }
-.items-from-rv-nopo-table td i
-{
-  font-size: 15px;
-}
+
 .items-from-rv-nopo-table td input
 {
   text-align: center;
   background-color:transparent;
   padding:5px;
   border-style: none;
-  border-bottom: 1px solid #3367D6;
+  border-bottom: 1px solid #607d8b;
 	width: 100%;
+}
+@media
+only screen and (max-width: 1310px),
+(min-device-width: 768px) and (max-device-width: 1050px)  {
+	/* Force table to not be like tables anymore */
+
+	.items-from-rv-nopo-table table, .items-from-rv-nopo-table thead,.items-from-rv-nopo-table th, .items-from-rv-nopo-table tbody, .items-from-rv-nopo-table td, .items-from-rv-nopo-table tr {
+		display: block!important;
+	}
+	.items-from-rv-nopo-table tr:first-child
+	{
+		display: none!important;
+	}
+	.items-from-rv-nopo-table tr
+	{
+		border:1px solid #e5e5e5!important;
+		margin-top: 20px!important;
+	}
+
+	.items-from-rv-nopo-table td {
+		/* Behave  like a "row" */
+		border: none!important;
+		border-bottom: 1px solid #e5e5e5!important;
+		position: relative!important;
+		padding-left: 50%!important;
+		text-align: left!important;
+		word-wrap: break-word!important;
+	}
+
+	.items-from-rv-nopo-table td:before {
+		/* Now like a table header */
+		position: absolute!important;
+		/* Top/left values mimic padding */
+		top: 6px!important;
+		left: 6px!important;
+		width: 45%!important;
+		padding-right: 20px!important;
+		white-space: nowrap!important;
+	}
+	.items-from-rv-nopo-table td:nth-of-type(1):before { content: "ItemCode"; }
+	.items-from-rv-nopo-table td:nth-of-type(2):before { content: "Name"; }
+	.items-from-rv-nopo-table td:nth-of-type(3):before { content: "Unit cost"; }
+	.items-from-rv-nopo-table td:nth-of-type(4):before { content: "Qty delivered"; }
+	.items-from-rv-nopo-table td:nth-of-type(5):before { content: "Qty accepted"; }
+	.items-from-rv-nopo-table td:nth-of-type(6):before { content: "Unit"; }
+	.items-from-rv-nopo-table td:nth-of-type(7):before { content: "Add"; }
 }
 /* create RR with PO*/
 .vue-rr-create-withpo
 {
   display: flex;
-  flex-wrap: wrap;
   padding:0px 30px 30px 30px;
   min-height: 100vh;
 }
@@ -9746,6 +10364,25 @@ filter: drop-shadow(-2px 1px 5px #1D1A33);
   font-size: 16px;
   color: #00213B;
   font-size: 20px;
+}
+@media (max-width:1200px)
+{
+	.vue-rr-create-withpo
+	{
+		flex-direction: column;
+	}
+}
+@media (max-width:600px)
+{
+	.rr-create-w-po-title
+	{
+		font-size: 16px;
+		margin-bottom: 20px;
+	}
+	.vue-rr-create-withpo
+	{
+		padding:10px;
+	}
 }
 .selected-session-rr-w-po
 {
@@ -9760,6 +10397,13 @@ filter: drop-shadow(-2px 1px 5px #1D1A33);
   display: flex;
   flex-direction: column;
   padding:20px;
+}
+@media (max-width:1200px)
+{
+	.right-form-rr-with-po
+	{
+		margin-left: 0px;
+	}
 }
 .right-form-rr-with-po input,.right-form-rr-with-po select
 {
@@ -9792,10 +10436,33 @@ filter: drop-shadow(-2px 1px 5px #1D1A33);
   justify-content: flex-end;
   margin-bottom: 5px;
 }
+.add-item-rr-w-pobtn button:focus
+{
+	-ms-filter: drop-shadow(0px 2px 1px rgba(61, 61, 61, 0.4));
+	-webkit-filter: drop-shadow(0px 2px 1px rgba(61, 61, 61, 0.4));
+	-moz-filter: drop-shadow(0px 2px 1px rgba(61, 61, 61, 0.4));
+	-o-filter: drop-shadow(0px 2px 1px rgba(61, 61, 61, 0.4));
+	filter: drop-shadow(0px 2px 1px rgba(61, 61, 61, 0.4));
+}
 .add-item-rr-w-pobtn button
 {
   font-size:16px!important;
   border-radius: 4px;
+	background:#fff;
+	padding:4px 10px;
+	border-style: none;
+	-ms-filter: drop-shadow(0px 2px 3px rgba(61, 61, 61, 0.4));
+	-webkit-filter: drop-shadow(0px 2px 3px rgba(61, 61, 61, 0.4));
+	-moz-filter: drop-shadow(0px 2px 3px rgba(61, 61, 61, 0.4));
+	-o-filter: drop-shadow(0px 2px 3px rgba(61, 61, 61, 0.4));
+	filter: drop-shadow(0px 2px 3px rgba(61, 61, 61, 0.4));
+}
+@media (max-width:600px)
+{
+	.add-item-rr-w-pobtn button
+	{
+		width: 100%;
+	}
 }
 .table-rr-w-po table
 {
@@ -9815,12 +10482,70 @@ filter: drop-shadow(-2px 1px 5px #1D1A33);
 }
 .table-rr-w-po td i
 {
-  font-size: 18px;
   color: #004275;
+}
+.table-rr-w-po td i:hover
+{
+	color: #F44336;
+	cursor: pointer;
 }
 .table-rr-w-po td
 {
   padding:15px;
+}
+@media
+only screen and (max-width: 1050px),
+(min-device-width: 768px) and (max-device-width: 1050px)  {
+	/* Force table to not be like tables anymore */
+	.table-rr-w-po table, .table-rr-w-po thead,.table-rr-w-po th, .table-rr-w-po tbody, .table-rr-w-po td, .table-rr-w-po tr {
+		display: block;
+	}
+
+	.table-rr-w-po th
+	{
+		display: none;
+	}
+	.table-rr-w-po tr:first-child
+	{
+		display: none;
+	}
+	.table-rr-w-po tr
+	{
+		border:1px solid #e5e5e5;
+		margin-top: 20px;
+	}
+
+	.table-rr-w-po td {
+		/* Behave  like a "row" */
+		border: none!important;
+		border-bottom: 1px solid #e5e5e5!important;
+		position: relative!important;
+		padding-left: 50%!important;
+		text-align: left!important;
+		word-wrap: break-word;
+		padding:10px 20px;
+	}
+
+	.table-rr-w-po td:before {
+		/* Now like a table header */
+		position: absolute!important;
+		/* Top/left values mimic padding */
+		top: 6px!important;
+		left: 6px!important;
+		width: 45%!important;
+		padding-right: 20px!important;
+		white-space: nowrap!important;
+	}
+
+	.table-rr-w-po td:nth-of-type(1):before { content: "ItemCode"; }
+	.table-rr-w-po td:nth-of-type(2):before { content: "AccountCode"; }
+	.table-rr-w-po td:nth-of-type(3):before { content: "Description"; }
+	.table-rr-w-po td:nth-of-type(4):before { content: "UnitCost"; }
+	.table-rr-w-po td:nth-of-type(5):before { content: "Qty delivered"; }
+	.table-rr-w-po td:nth-of-type(6):before { content: "Qty accepted"; }
+	.table-rr-w-po td:nth-of-type(7):before { content: "Unit"; }
+	.table-rr-w-po td:nth-of-type(8):before { content: "Amount"; }
+	.table-rr-w-po td:nth-of-type(9):before { content: "Remove"; }
 }
 .rr-with-po-modal
 {
@@ -9839,13 +10564,21 @@ filter: drop-shadow(-2px 1px 5px #1D1A33);
 }
 .middle-rr-withpo
 {
-  overflow-x:auto;
+  overflow-x:hidden;
   overflow-y:auto;
   border-radius: 4px;
-  height: 90%;
+  height:100vh;
   margin:auto;
-  width: 80%;
+  width:1000px;
   background: #fff;
+}
+@media (max-width:1100px)
+{
+	.middle-rr-withpo
+	{
+		margin-left: 0px;
+		margin-right: 40px;
+	}
 }
 .middle-rr-withpo::-webkit-scrollbar
 {
@@ -9889,11 +10622,78 @@ filter: drop-shadow(-2px 1px 5px #1D1A33);
   background: transparent;
   border-bottom: 1px solid #3367D6;
 }
+.middle-rr-withpo td button:focus
+{
+	-ms-filter: drop-shadow(0px 2px 3px rgba(61, 61, 61, 0.4));
+	-webkit-filter: drop-shadow(0px 2px 3px rgba(61, 61, 61, 0.4));
+	-moz-filter: drop-shadow(0px 2px 3px rgba(61, 61, 61, 0.4));
+	-o-filter: drop-shadow(0px 2px 3px rgba(61, 61, 61, 0.4));
+	filter: drop-shadow(0px 2px 3px rgba(61, 61, 61, 0.4));
+}
 .middle-rr-withpo td button
 {
-  height: 30px;
-  width: 30px;
+	height: 35px;
+	color: #22448E;
+	background:#fff;
+	border-style: none;
   border-radius: 50%;
+	-ms-filter: drop-shadow(0px 4px 3px rgba(61, 61, 61, 0.4));
+	-webkit-filter: drop-shadow(0px 4px 3px rgba(61, 61, 61, 0.4));
+	-moz-filter: drop-shadow(0px 4px 3px rgba(61, 61, 61, 0.4));
+	-o-filter: drop-shadow(0px 4px 3px rgba(61, 61, 61, 0.4));
+	filter: drop-shadow(0px 4px 3px rgba(61, 61, 61, 0.4));
+}
+@media
+only screen and (max-width: 1050px),
+(min-device-width: 768px) and (max-device-width: 1050px)  {
+	/* Force table to not be like tables anymore */
+	.middle-rr-withpo table, .middle-rr-withpo thead,.middle-rr-withpo th, .middle-rr-withpo tbody, .middle-rr-withpo td, .middle-rr-withpo tr {
+		display: block;
+	}
+
+	.middle-rr-withpo th
+	{
+		display: none;
+	}
+	.middle-rr-withpo tr:first-child
+	{
+		display: none;
+	}
+	.middle-rr-withpo tr
+	{
+		border:1px solid #e5e5e5;
+		margin-top: 20px;
+	}
+
+	.middle-rr-withpo td {
+		/* Behave  like a "row" */
+		border: none!important;
+		border-bottom: 1px solid #e5e5e5!important;
+		position: relative!important;
+		padding-left: 50%!important;
+		text-align: left!important;
+		word-wrap: break-word;
+		padding:10px 20px;
+	}
+
+	.middle-rr-withpo td:before {
+		/* Now like a table header */
+		position: absolute!important;
+		/* Top/left values mimic padding */
+		top: 6px!important;
+		left: 6px!important;
+		width: 45%!important;
+		padding-right: 20px!important;
+		white-space: nowrap!important;
+	}
+
+	.middle-rr-withpo td:nth-of-type(1):before { content: "ItemCode"; }
+	.middle-rr-withpo td:nth-of-type(2):before { content: "Price"; }
+	.middle-rr-withpo td:nth-of-type(3):before { content: "Unit"; }
+	.middle-rr-withpo td:nth-of-type(4):before { content: "Description"; }
+	.middle-rr-withpo td:nth-of-type(5):before { content: "Qty delivered"; }
+	.middle-rr-withpo td:nth-of-type(6):before { content: "Qty accepted"; }
+	.middle-rr-withpo td:nth-of-type(7):before { content: "Add"; }
 }
 .RRlistofRV-container
 {
@@ -9922,26 +10722,24 @@ filter: drop-shadow(-2px 1px 5px #1D1A33);
 {
   position: relative;
   background: #fff;
-  height:500px;
-  width: 400px;
-  margin-bottom:20px;
+  height:360px;
+  width: 280px;
+  margin-bottom:50px;
   box-sizing: border-box;
-  transform: scale(0.9);
   transition: transform .5s;
-  -ms-filter: drop-shadow(0px 0px 2px #1D1A33);
-  -webkit-filter: drop-shadow(0px 0px 2px #1D1A33);
-  -moz-filter: drop-shadow(0px 0px 2px #1D1A33);
-  -o-filter: drop-shadow(0px 0px 2px #1D1A33);
-  filter: drop-shadow(0px 0px 2px #1D1A33);
+  -ms-filter: drop-shadow(0px 0px 2px #a5a5a5);
+  -webkit-filter: drop-shadow(0px 0px 2px #a5a5a5);
+  -moz-filter: drop-shadow(0px 0px 2px #a5a5a5);
+  -o-filter: drop-shadow(0px 0px 2px #a5a5a5);
+  filter: drop-shadow(0px 0px 2px #a5a5a5);
 }
 .box-rr-of-rv:hover
 {
-  transform: scale(1);
-  -ms-filter: drop-shadow(1px 1px 4px #3367D6);
-  -webkit-filter: drop-shadow(1px 1px 4px #3367D6);
-  -moz-filter: drop-shadow(1px 1px 4px #3367D6);
-  -o-filter: drop-shadow(1px 1px 4px #3367D6);
-  filter: drop-shadow(1px 1px 4px #3367D6);
+	-ms-filter: drop-shadow(0px 6px 5px #a5a5a5);
+	-webkit-filter: drop-shadow(0px 6px 5px #a5a5a5);
+	-moz-filter: drop-shadow(0px 6px 5px #a5a5a5);
+	-o-filter: drop-shadow(0px 6px 5px #a5a5a5);
+	filter: drop-shadow(0px 6px 5px #a5a5a5);
 }
 .rr-num-top
 {
@@ -9993,7 +10791,6 @@ filter: drop-shadow(-2px 1px 5px #1D1A33);
 {
   margin: 0 auto;
   text-align: center;
-  margin-top:80px;
 }
 .box-rr-of-rv > h3
 {
@@ -11010,6 +11807,13 @@ only screen and (max-width: 1050px),
   padding:40px;
   justify-content: center;
 }
+@media (max-width:700px)
+{
+	.managertakeplacer-pick-container
+	{
+		padding:0px;
+	}
+}
 .managerbox-container
 {
   padding:10px;
@@ -11029,9 +11833,29 @@ only screen and (max-width: 1050px),
   display: flex;
   justify-content: space-between;
 }
+@media (max-width:700px)
+{
+	.Manager-List
+	{
+		flex-direction: column;
+		min-height: 60px;
+	}
+}
 .Manager-List i
 {
   font-size: 20px;
+	cursor: pointer;
+}
+@media (max-width:700px)
+{
+	.Manager-List i
+	{
+		margin:0 0 auto auto;
+	}
+	.update-manager-btns
+	{
+		text-align: right;
+	}
 }
 .manager-assigned-name
 {
@@ -11051,8 +11875,8 @@ only screen and (max-width: 1050px),
   -o-filter: drop-shadow(0px 0px 3px #4A4A4A);
   filter: drop-shadow(0px 0px 3px #4A4A4A);
   margin:auto;
-  height: 200px;
-  width: 700px;
+  min-height: 400px;
+  max-width: 700px;
   background: #fff;
 }
 /*TOP NAV BARS*/
