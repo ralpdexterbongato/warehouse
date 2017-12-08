@@ -8,7 +8,7 @@
     <div class="search-mrt-summary">
       <h1><i class="fa fa-calendar"></i> Summary of materials returned</h1>
       <form class="searchbox-summary-mrt" action="{{route('mrt.summary.find')}}" method="get">
-        <input type="text" autocomplete="off" name="monthInput"  placeholder="Year-Month (yyyy-mm)"><button type="submit"><i class="fa fa-search"></i></button>
+        <input type="month" autocomplete="off" name="monthInput"  placeholder="Year-Month (yyyy-mm)"><button type="submit"><i class="fa fa-search"></i></button>
       </form>
     </div>
     <div class="results-summary-mrt">

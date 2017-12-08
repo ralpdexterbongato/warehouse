@@ -51,7 +51,6 @@ table {
 /*end reset*/
 @import url('https://fonts.googleapis.com/css?family=Roboto|Kaushan+Script|Comfortaa');
 /*GLOBAL*/
-
 tr{
 	background: #fff;
 }
@@ -63,6 +62,19 @@ body
 	max-width: 1920px;
 	margin:0 auto;
 	box-shadow: 0 2px 4px -1px rgba(0,0,0,0.06), 0 4px 5px 0 rgba(0,0,0,0.06), 0 1px 10px 0 rgba(0,0,0,0.08);
+}
+/*date picker*/
+.cov-date-monthly[data-v-345e1238]
+{
+	background: #3367D6;
+}
+.cov-date-caption
+{
+	color: #fff!important;
+}
+.checked
+{
+	background: #fff!important;
 }
 .main-master-container
 {
@@ -81,6 +93,7 @@ body
   font-size:30px;
   font-weight: bold;
 }
+
 .hide
 {
   display: none!important;
@@ -4585,7 +4598,7 @@ filter: drop-shadow(1px 1px 3px #1D1A33);
 }
 .login-placeholder-container input
 {
-	color: #282C34;
+	color:rgba(0, 0, 0, 0.7);
 	font-size: 15px;
 	background: transparent;
 	border-style:  none;
@@ -4595,13 +4608,10 @@ filter: drop-shadow(1px 1px 3px #1D1A33);
 	margin-right: 26px;
 	width: 100%;
 	padding-bottom: 11px;
-	letter-spacing:1px;
 	font-family: 'Comfortaa',sans-serif;
+	overflow: hidden;
 }
-.login-placeholder-container input[type="password"]
-{
-	letter-spacing: 3px;
-}
+
 .login-placeholder-container
 {
 	position: relative;
@@ -10919,14 +10929,27 @@ only screen and (max-width: 1050px),
 	{
 		flex-direction: column;
 	}
+	.cov-vue-date
+	{
+		width: 100%;
+	}
+	.cov-vue-date input
+	{
+		width: 100%!important;
+	}
 }
 .searchbar-month-history button
 {
-  padding:6px;
-  color: #3367D6;
 	background:#fff;
   border-style: none;
-	border-bottom: 1px solid #3367D6;
+	display: inline-block;
+	padding: 6px;
+	line-height: 22px;
+	font-size: 16px;
+	box-shadow: rgba(0, 0, 0, 0.2) 0px 1px 3px 0px;
+	border-radius: 2px;
+	color: #fff;
+	background:#3367D6;
 }
 
 .searchbar-month-history input
@@ -10939,11 +10962,14 @@ only screen and (max-width: 1050px),
 }
 .searchbox-for-admin-warehouse
 {
-	border-bottom: 1.4px solid #3367D6;
+  border-radius: 2px;
+	color: rgb(95, 95, 95);
 	font-size: 14px;
 }
+
 .searchbox-for-admin-warehouse select
 {
+	box-shadow: rgba(0, 0, 0, 0.2) 0px 1px 3px 0px;
   min-width: 200px;
   padding:5px;
   font-size: 14px;
@@ -10955,13 +10981,8 @@ only screen and (max-width: 1050px),
 	.searchbox-for-admin-warehouse select
 	{
 		width: 100%;
+		margin-bottom: 10px;
 	}
-}
-.monthsearch-history input
-{
-  font-family:Roboto, 'Segoe UI', Tahoma, sans-serif;
-  text-align: center;
-	width: 100%;
 }
 .update-account-modal
 {

@@ -90,6 +90,7 @@
       @endAuth
     </footer>
     @if (Auth::check())
+
     <script src="//{{ Request::getHost() }}:6001/socket.io/socket.io.js"></script>
     @endif
     <script type="text/javascript" src="/js/myjquery.js"></script>

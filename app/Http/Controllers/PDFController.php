@@ -98,7 +98,7 @@ class PDFController extends Controller
     foreach ($MCTsummaryItems as $key=> $items)
     {
     $ForDisplay[$key]=MaterialsTicketDetail::orderBy('id','DESC')->where('ItemCode',$items->ItemCode)->whereDate('MTDate','LIKE',date($datesearch).'%')->take(1)->get(['AccountCode','ItemCode','CurrentQuantity','MTDate']);
-    $UnitCost=MaterialsTicketDetail::orderBy('id','DESC')->where('MTType','RR')->where('ItemCode',$items->ItemCode)->whereDate('MTDate','LIKE',date($datesearch).'%')->take(1)->get(['UnitCost']);
+    $UnitCost=MaterialsTicketDetail::orderBy('id','DESC')->where('MTType','RR')->where('ItemCode',$items->ItemCode)->take(1)->get(['UnitCost']);
     $issued=(object)['totalissued'=>$items->totalissued,'UnitCost'=>$UnitCost[0]->UnitCost];
     $ForDisplay[$key]->push($issued);
     }

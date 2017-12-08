@@ -90,6 +90,7 @@
   {
     text-align: center;
     padding:3px;
+    font-size: 13px;
   }
   .align-left
   {

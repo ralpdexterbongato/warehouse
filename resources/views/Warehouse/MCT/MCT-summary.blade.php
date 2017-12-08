@@ -9,7 +9,7 @@
         <i class="fa fa-calendar"></i>  Summary of Charges
       </div>
       <form class="mct-sum-search" action="{{route('mct-search-date')}}" method="get">
-        <input type="text" autocomplete="off" name="monthInput" placeholder="Year-Month(yyyy-mm)"><button type="submit"><i class="fa fa-search"></i></button>
+        <input type="month" autocomplete="off" name="monthInput" placeholder="Year-Month(yyyy-mm)"><button type="submit"><i class="fa fa-search"></i></button>
       </form>
     </div>
     @if (isset($ForDisplay[0]))
