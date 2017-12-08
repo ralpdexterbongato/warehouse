@@ -117,7 +117,7 @@
     .table-mrt-pdf td
     {
       text-align: left;
-      padding:6px 12px;
+      padding:3px 6px;
       font-size: 13px;
     }
     .align-right
@@ -133,7 +133,7 @@
       width: 150px;
       height: 50px;
       position: absolute;
-      top: -46px;
+      top: -70px;
       left: 30px;
     }
     .name
@@ -185,7 +185,7 @@
       <div class="receiver-container">
         <label>Received By:</label>
         <div class="recieverName">
-          <h1><img src="c:/xampp/htdocs/warehouse/public/DesignIMG/signature1.png" alt="signature"></h1>
+          <h1><img src="c:/xampp/htdocs/warehouse/public/storage/signatures/{{$WarehouseMan[0]->Signature}}" alt="signature"></h1>
           @if (isset($WarehouseMan[0]))
           <p class="name">
               {{$WarehouseMan[0]->FullName}}

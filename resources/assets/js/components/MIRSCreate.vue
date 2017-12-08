@@ -71,7 +71,7 @@
                   <td><input type="number" min="1" v-model="Quantity[count]"></td>
                   <td>{{itemcoderesult.Unit}}</td>
                   <td><input type="text" autocomplete="off" min="1"  name="Remarks[]" v-model="Remarks[count]"></td>
-                  <td><button type="button" class="bttn-unite bttn-xs bttn-primary" v-on:click="submitTosession(itemcoderesult,count)"><i class="material-icons">add</i></button></td>
+                  <td><button type="button" v-on:click="submitTosession(itemcoderesult,count)"><i class="material-icons">add</i></button></td>
                 </tr>
               </table>
               <div class="pagination-container">
@@ -120,6 +120,7 @@ Vue.use(Toast);
      methods: {
       searchItem(page)
       {
+        this.$loading('Loading');
         var vm=this;
         axios.get(`/item-search?search=`+this.ItemSearch+`&page=`+page).then(function(response)
         {
@@ -128,6 +129,7 @@ Vue.use(Toast);
           Vue.set(vm.$data,'Pagination',response.data);
           vm.Quantity=[];
           vm.Remarks=[];
+          vm.$loading.close();
         });
       },
       submitTosession(datas,count)

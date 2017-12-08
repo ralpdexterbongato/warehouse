@@ -29432,10 +29432,13 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
           }
           vm.$loading.close();
         }, function (error) {
+
           if (error.response.data.FullName != null) {
             vm.$toast.top(error.response.data.FullName[0]);
           } else if (error.response.data.Username != null) {
             vm.$toast.top(error.response.data.Username[0]);
+          } else if (error.response.data.Manager != null) {
+            vm.$toast.top(error.response.data.Manager[0]);
           }
           vm.$loading.close();
         });
@@ -31966,8 +31969,8 @@ module.exports={render:function (){var _vm=this;var _h=_vm.$createElement;var _c
       }
     }
   }, [_c('i', {
-    staticClass: "fa fa-user"
-  }), _vm._v(" Save account")])])])])])
+    staticClass: "material-icons"
+  }, [_vm._v("person")]), _vm._v(" Save account")])])])])])
 },staticRenderFns: [function (){var _vm=this;var _h=_vm.$createElement;var _c=_vm._self._c||_h;
   return _c('div', {
     staticClass: "title-account-manager"

@@ -24,6 +24,7 @@ class MIRSController extends Controller
   }
   public function MIRScreate()
   {
+    Session::forget('ItemSelected');
     $GenMan=User::orderBy('id','DESC')->where('Role','2')->whereNotNull('IsActive')->take(1)->get(['FullName','id']);
     $mymanager=User::where('id',Auth::user()->Manager)->get(['FullName']);
     return view('Warehouse.MIRS.MIRSCreate',compact('mymanager','GenMan'));

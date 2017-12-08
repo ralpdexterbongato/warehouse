@@ -24,6 +24,7 @@ class MRTController extends Controller
     }
     public function CreateMRT($id)
     {
+      Session::forget('MCTSelected');
       $MCTdata=MCTMaster::with('ReceiverMCT')->where('MCTNo',$id)->get(['Particulars','AddressTo','MCTNo']);
       $MCTNumber = array('MCTNo' =>$id);
       $MCTNumber=json_encode($MCTNumber);

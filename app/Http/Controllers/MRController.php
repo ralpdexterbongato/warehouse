@@ -124,6 +124,7 @@ class MRController extends Controller
     }
     public function createMR($id)
     {
+      Session::forget('MRSession');
       $RRItemsdetail=RRconfirmationDetails::where('RRNo',$id)->get(['Unit','Description','UnitCost','Amount','ItemCode','RRNo','id']);
       $allmanager=User::where('Role', '0')->whereNotNull('IsActive')->get(['FullName','id']);
       $AllActiveUsers=User::whereNotNull('IsActive')->orderBy('Role')->get(['FullName','id']);

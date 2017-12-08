@@ -452,6 +452,7 @@ class RRController extends Controller
   }
   public function CreateRRNoPO($id)
   {
+    Session::forget('RRSessionDataNoPO');
     $Auditors=User::where('Role', '5')->whereNotNull('IsActive')->get(['id','FullName']);
     $Managers=User::where('Role','0')->whereNotNull('IsActive')->get(['id','FullName']);
     $Clerks=User::where('Role','6')->whereNotNull('IsActive')->get(['id','FullName']);
@@ -461,6 +462,7 @@ class RRController extends Controller
   }
   public function CreateRRWithPO($id)
   {
+    Session::forget('RR-Items-Added');
     $Auditors=User::where('Role', '5')->whereNotNull('IsActive')->get(['id','FullName']);
     $Managers=User::where('Role','0')->whereNotNull('IsActive')->get(['id','FullName']);
     $Clerks=User::where('Role','6')->whereNotNull('IsActive')->get(['id','FullName']);

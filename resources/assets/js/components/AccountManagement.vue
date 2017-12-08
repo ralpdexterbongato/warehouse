@@ -193,7 +193,7 @@
           </select>
           <input type="file" @change="onFileChange3" accept="image/PNG">
           <h3 class="signature-preview"><img :src="image3" alt="your signature"></h3>
-          <button type="button" class="save-btn-user" v-on:click="SubmitNewUser()"> <i class="fa fa-user"></i> Save account</button>
+          <button type="button" class="save-btn-user" v-on:click="SubmitNewUser()"> <i class="material-icons">person</i> Save account</button>
         </div>
       </div>
     </div>
@@ -360,12 +360,16 @@ import axios from 'axios';
               vm.$loading.close();
             },function(error)
             {
+
               if (error.response.data.FullName!=null)
               {
                 vm.$toast.top(error.response.data.FullName[0]);
               }else if(error.response.data.Username!=null)
               {
                 vm.$toast.top(error.response.data.Username[0]);
+              }else if (error.response.data.Manager!=null)
+              {
+                vm.$toast.top(error.response.data.Manager[0]);
               }
               vm.$loading.close();
             });

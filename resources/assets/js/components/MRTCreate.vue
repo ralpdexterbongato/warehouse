@@ -92,9 +92,6 @@ Vue.use(Toast);
         SessionSelected:[],
         remarks:'',
         ModalIsActive:false,
-        ownerrors:'',
-        successAlerts:'',
-        laravelerrors:'',
         HideSubmitBtn:false,
       }
     },

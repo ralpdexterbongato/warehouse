@@ -28255,17 +28255,10 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_0_axios___default = __webpack_require__.n(__WEBPACK_IMPORTED_MODULE_0_axios__);
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_1_vue_numeric__ = __webpack_require__(153);
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_1_vue_numeric___default = __webpack_require__.n(__WEBPACK_IMPORTED_MODULE_1_vue_numeric__);
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_2_vue2_toast_lib_toast_css__ = __webpack_require__(10);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_2_vue2_toast_lib_toast_css___default = __webpack_require__.n(__WEBPACK_IMPORTED_MODULE_2_vue2_toast_lib_toast_css__);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_3_vue2_toast__ = __webpack_require__(11);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_3_vue2_toast___default = __webpack_require__.n(__WEBPACK_IMPORTED_MODULE_3_vue2_toast__);
 //
 //
 //
@@ -28383,6 +28376,9 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
 
 
 
+
+
+Vue.use(__WEBPACK_IMPORTED_MODULE_3_vue2_toast___default.a);
 Vue.use(__WEBPACK_IMPORTED_MODULE_1_vue_numeric___default.a);
 /* harmony default export */ __webpack_exports__["default"] = ({
   data: function data() {
@@ -28394,9 +28390,6 @@ Vue.use(__WEBPACK_IMPORTED_MODULE_1_vue_numeric___default.a);
       CurrentCost: 0,
       Description: '',
       AlertBelow: '',
-      laravelerrors: [],
-      ownerrors: '',
-      successAlerts: '',
       ItemCodeSearch: '',
       pagination: [],
       RecentDataResults: [],
@@ -28413,6 +28406,7 @@ Vue.use(__WEBPACK_IMPORTED_MODULE_1_vue_numeric___default.a);
 
   methods: {
     saveItem: function saveItem() {
+      this.$loading('Saving');
       var vm = this;
       __WEBPACK_IMPORTED_MODULE_0_axios___default.a.post('/save-New-Item-warehouse', {
         AccountCode: this.AccountCode,
@@ -28426,7 +28420,6 @@ Vue.use(__WEBPACK_IMPORTED_MODULE_1_vue_numeric___default.a);
         console.log(response);
         if (response.data.error == null) {
           vm.RecentAddedAndSearch();
-          Vue.set(vm.$data, 'successAlerts', 'Created Successfully');
           Vue.set(vm.$data, 'AccountCode', '');
           Vue.set(vm.$data, 'ItemCode', '');
           Vue.set(vm.$data, 'CurrentQuantity', '');
@@ -28434,17 +28427,32 @@ Vue.use(__WEBPACK_IMPORTED_MODULE_1_vue_numeric___default.a);
           Vue.set(vm.$data, 'CurrentCost', '');
           Vue.set(vm.$data, 'Description', '');
           Vue.set(vm.$data, 'AlertBelow', '');
+          vm.$toast.top('Successfully added');
         } else {
-          Vue.set(vm.$data, 'ownerrors', response.data.error);
+          vm.$toast.top(response.data.error);
         }
+        vm.$loading.close();
       }, function (error) {
-        console.log(error);
-        Vue.set(vm.$data, 'laravelerrors', error.response.data);
+
+        if (error.response.data.AccountCode != null) {
+          vm.$toast.top(error.response.data.AccountCode[0]);
+        } else if (error.response.data.ItemCode != null) {
+          vm.$toast.top(error.response.data.ItemCode[0]);
+        } else if (error.response.data.Description != null) {
+          vm.$toast.top(error.response.data.Description[0]);
+        } else if (error.response.data.Unit != null) {
+          vm.$toast.top(error.response.data.Unit[0]);
+        } else if (error.response.data.CurrentQuantity != null) {
+          vm.$toast.top(error.response.data.CurrentQuantity[0]);
+        } else if (error.response.data.AlertIfBelow != null) {
+          vm.$toast.top(error.response.data.AlertIfBelow[0]);
+        }
+        vm.$loading.close();
       });
     },
     RecentAddedAndSearch: function RecentAddedAndSearch(page) {
       var vm = this;
-      __WEBPACK_IMPORTED_MODULE_0_axios___default.a.get('/search-by-description-and-recently-inits?ItemCode=' + this.ItemCodeSearch + '&page=' + page).then(function (response) {
+      __WEBPACK_IMPORTED_MODULE_0_axios___default.a.get('/search-by-description-and-recently-inits?Search=' + this.ItemCodeSearch + '&page=' + page).then(function (response) {
         console.log(response);
         Vue.set(vm.$data, 'RecentDataResults', response.data.pagination.data);
         Vue.set(vm.$data, 'pagination', response.data.pagination);
@@ -28481,6 +28489,7 @@ Vue.use(__WEBPACK_IMPORTED_MODULE_1_vue_numeric___default.a);
       return val.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ",");
     },
     updateChangesItem: function updateChangesItem() {
+      this.$loading('Updating');
       var vm = this;
       __WEBPACK_IMPORTED_MODULE_0_axios___default.a.put('/update-changes-item/' + this.ToBeEditId, {
         AccountCode: this.AccountCode,
@@ -28501,18 +28510,31 @@ Vue.use(__WEBPACK_IMPORTED_MODULE_1_vue_numeric___default.a);
           Vue.set(vm.$data, 'Unit', '');
           Vue.set(vm.$data, 'Description', '');
           Vue.set(vm.$data, 'AlertBelow', '');
-          Vue.set(vm.$data, 'successAlerts', 'Successfully updated');
-          Vue.set(vm.$data, 'laravelerrors', '');
           Vue.set(vm.$data, 'ToBeEditId', null);
+          vm.$toast.top('Updated');
         } else {
-          Vue.set(vm.$data, 'ownerrors', response.data.error);
+          vm.$toast.top(response.data.error);
         }
+        vm.$loading.close();
       }, function (error) {
-        Vue.set(vm.$data, 'laravelerrors', error.response.data);
-        Vue.set(vm.$data, 'successAlerts', '');
+        if (error.response.data.AccountCode != null) {
+          vm.$toast.top(error.response.data.AccountCode[0]);
+        } else if (error.response.data.ItemCode != null) {
+          vm.$toast.top(error.response.data.ItemCode[0]);
+        } else if (error.response.data.Description != null) {
+          vm.$toast.top(error.response.data.Description[0]);
+        } else if (error.response.data.Unit != null) {
+          vm.$toast.top(error.response.data.Unit[0]);
+        } else if (error.response.data.CurrentQuantity != null) {
+          vm.$toast.top(error.response.data.CurrentQuantity[0]);
+        } else if (error.response.data.AlertIfBelow != null) {
+          vm.$toast.top(error.response.data.AlertIfBelow[0]);
+        }
+        vm.$loading.close();
       });
     },
     addUnitRow: function addUnitRow() {
+      this.$loading('Adding');
       var vm = this;
       __WEBPACK_IMPORTED_MODULE_0_axios___default.a.post('/add-new-unit-to-dropdown', {
         NewUnit: this.UnitNew
@@ -28520,10 +28542,12 @@ Vue.use(__WEBPACK_IMPORTED_MODULE_1_vue_numeric___default.a);
         console.log(response);
         vm.getUnitlist();
         Vue.set(vm.$data, 'UnitIsActive', false);
-        Vue.set(vm.$data, 'successAlerts', 'Successfully added unit.');
+        vm.$toast.top('Successfully added');
+        vm.$loading.close();
       }, function (error) {
         console.log(error);
-        Vue.set(vm.$data, 'laravelerrors', error.response.data);
+        vm.$toast.top(error.response.data.NewUnit[0]);
+        vm.$loading.close();
       });
     },
     getUnitlist: function getUnitlist() {
@@ -28534,12 +28558,13 @@ Vue.use(__WEBPACK_IMPORTED_MODULE_1_vue_numeric___default.a);
       });
     },
     deleteUnit: function deleteUnit() {
+      this.$loading('Removing unit');
       var vm = this;
       __WEBPACK_IMPORTED_MODULE_0_axios___default.a.delete('/delete-unit/' + this.unitdelete).then(function (response) {
-        console.log(response);
         vm.getUnitlist();
         Vue.set(vm.$data, 'deleteunitIsActive', false);
-        Vue.set(vm.$data, 'successAlerts', 'Unit removed.');
+        vm.$toast.top('Unit removed.');
+        vm.$loading.close();
       });
     }
   },
@@ -29055,32 +29080,7 @@ module.exports = Component.exports
 module.exports={render:function (){var _vm=this;var _h=_vm.$createElement;var _c=_vm._self._c||_h;
   return _c('span', [_c('div', {
     staticClass: "message-container"
-  }, [(_vm.laravelerrors != '') ? _c('ul', {
-    staticClass: "error-tab",
-    on: {
-      "click": function($event) {
-        _vm.laravelerrors = []
-      }
-    }
-  }, _vm._l((_vm.laravelerrors), function(errors) {
-    return _c('span', _vm._l((errors), function(error) {
-      return _c('li', [_vm._v(_vm._s(error))])
-    }))
-  })) : _vm._e(), _vm._v(" "), (_vm.successAlerts != '') ? _c('div', {
-    staticClass: "successAlertRRsession",
-    on: {
-      "click": function($event) {
-        _vm.successAlerts = ''
-      }
-    }
-  }, [_c('p', [_vm._v(_vm._s(_vm.successAlerts))])]) : _vm._e(), _vm._v(" "), (_vm.ownerrors != '') ? _c('div', {
-    staticClass: "error-tab",
-    on: {
-      "click": function($event) {
-        _vm.ownerrors = ''
-      }
-    }
-  }, [_c('p', [_vm._v(_vm._s(_vm.ownerrors))])]) : _vm._e()]), _vm._v(" "), _c('div', {
+  }), _vm._v(" "), _c('div', {
     staticClass: "Adding-items-form"
   }, [_c('div', {
     staticClass: "left-item-adding-form"
@@ -29095,7 +29095,7 @@ module.exports={render:function (){var _vm=this;var _h=_vm.$createElement;var _c
     }],
     attrs: {
       "type": "text",
-      "placeholder": "Search by item code"
+      "placeholder": "Search"
     },
     domProps: {
       "value": (_vm.ItemCodeSearch)
@@ -29120,16 +29120,16 @@ module.exports={render:function (){var _vm=this;var _h=_vm.$createElement;var _c
       }
     }
   }, [_c('i', {
-    staticClass: "fa fa-search"
-  })])]), _vm._v(" "), _c('table', [_vm._m(0), _vm._v(" "), _vm._l((_vm.RecentDataResults), function(details) {
+    staticClass: "material-icons"
+  }, [_vm._v("search")])])]), _vm._v(" "), _c('table', [_vm._m(0), _vm._v(" "), _vm._l((_vm.RecentDataResults), function(details) {
     return _c('tr', [_c('td', [_vm._v(_vm._s(details.AccountCode))]), _vm._v(" "), _c('td', [_vm._v(_vm._s(details.ItemCode))]), _vm._v(" "), _c('td', [_vm._v(_vm._s(details.master_items.Description))]), _vm._v(" "), _c('td', [_vm._v(_vm._s(details.master_items.Unit))]), _vm._v(" "), _c('td', [_vm._v(_vm._s(details.CurrentQuantity))]), _vm._v(" "), _c('td', [_vm._v(_vm._s(_vm.formatPrice(details.CurrentCost)))]), _vm._v(" "), _c('td', [_vm._v(_vm._s(details.master_items.AlertIfBelow))]), _vm._v(" "), _c('td', [_c('i', {
-      staticClass: "fa fa-edit",
+      staticClass: "material-icons",
       on: {
         "click": function($event) {
           _vm.ToBeEditId = details.id, _vm.fetchDataToBeEdit(details.id)
         }
       }
-    })])])
+    }, [_vm._v("border_color")])])])
   })], 2), _vm._v(" "), _c('div', {
     staticClass: "paginate-container"
   }, [_c('ul', {
@@ -29295,20 +29295,20 @@ module.exports={render:function (){var _vm=this;var _h=_vm.$createElement;var _c
     staticClass: "mini-unit-menu",
     class: [_vm.minimenu == true ? 'flex' : 'hide']
   }, [_c('i', {
-    staticClass: "fa fa-plus",
+    staticClass: "material-icons",
     on: {
       "click": function($event) {
         _vm.UnitIsActive = true, _vm.minimenu = false
       }
     }
-  }), _vm._v(" "), _c('i', {
-    staticClass: "fa fa-trash",
+  }, [_vm._v("add")]), _vm._v(" "), _c('i', {
+    staticClass: "material-icons",
     on: {
       "click": function($event) {
         _vm.deleteunitIsActive = true, _vm.minimenu = false
       }
     }
-  })]), _vm._v(" "), _c('div', {
+  }, [_vm._v("close")])]), _vm._v(" "), _c('div', {
     staticClass: "delete-unit-form",
     class: [_vm.deleteunitIsActive == true ? 'flex' : 'hide']
   }, [_vm._m(2), _vm._v(" "), _c('select', {
@@ -29347,7 +29347,7 @@ module.exports={render:function (){var _vm=this;var _h=_vm.$createElement;var _c
         _vm.deleteunitIsActive = false
       }
     }
-  }, [_vm._v("Cancel")]), _vm._v(" "), _c('button', {
+  }, [_vm._v("Cancel")]), _vm._v(" "), (_vm.unitdelete != null) ? _c('button', {
     attrs: {
       "type": "button",
       "name": "button"
@@ -29357,14 +29357,14 @@ module.exports={render:function (){var _vm=this;var _h=_vm.$createElement;var _c
         _vm.deleteUnit()
       }
     }
-  }, [_vm._v("Delete")])])]), _vm._v(" "), _c('i', {
-    staticClass: "fa fa-cog New-Unit",
+  }, [_vm._v("Delete")]) : _vm._e()])]), _vm._v(" "), _c('i', {
+    staticClass: "material-icons New-Unit",
     on: {
       "click": function($event) {
         _vm.minimenu = !_vm.minimenu
       }
     }
-  }), _vm._v(" "), _c('select', {
+  }, [_vm._v("settings")]), _vm._v(" "), _c('select', {
     directives: [{
       name: "model",
       rawName: "v-model",
@@ -29473,8 +29473,8 @@ module.exports={render:function (){var _vm=this;var _h=_vm.$createElement;var _c
       }
     }
   }, [_c('i', {
-    staticClass: "fa fa-times"
-  }), _vm._v(" Cancel")]), _vm._v(" "), _c('button', {
+    staticClass: "material-icons"
+  }, [_vm._v("close")]), _vm._v(" Cancel")]), _vm._v(" "), _c('button', {
     attrs: {
       "type": "button"
     },
@@ -29484,18 +29484,18 @@ module.exports={render:function (){var _vm=this;var _h=_vm.$createElement;var _c
       }
     }
   }, [_c('i', {
-    staticClass: "fa fa-refresh"
-  }), _vm._v(" Update")])]) : _vm._e()])])])])])
+    staticClass: "material-icons"
+  }, [_vm._v("update")]), _vm._v(" Update")])]) : _vm._e()])])])])])
 },staticRenderFns: [function (){var _vm=this;var _h=_vm.$createElement;var _c=_vm._self._c||_h;
   return _c('tr', [_c('th', [_vm._v("Account Code")]), _vm._v(" "), _c('th', [_vm._v("ItemCode")]), _vm._v(" "), _c('th', [_vm._v("Name & Description")]), _vm._v(" "), _c('th', [_vm._v("Unit")]), _vm._v(" "), _c('th', [_vm._v("CurrentQuantity")]), _vm._v(" "), _c('th', [_vm._v("CurrentCost")]), _vm._v(" "), _c('th', [_vm._v("Minimum Qty")]), _vm._v(" "), _c('th', [_vm._v("Edit")])])
 },function (){var _vm=this;var _h=_vm.$createElement;var _c=_vm._self._c||_h;
   return _c('h2', [_c('i', {
-    staticClass: "fa fa-plus"
-  }), _vm._v(" New unit")])
+    staticClass: "material-icons"
+  }, [_vm._v("add")]), _vm._v(" New unit")])
 },function (){var _vm=this;var _h=_vm.$createElement;var _c=_vm._self._c||_h;
   return _c('h2', [_c('i', {
-    staticClass: "fa fa-trash"
-  }), _vm._v(" Delete unit")])
+    staticClass: "material-icons"
+  }, [_vm._v("close")]), _vm._v(" Delete unit")])
 }]}
 module.exports.render._withStripped = true
 if (false) {

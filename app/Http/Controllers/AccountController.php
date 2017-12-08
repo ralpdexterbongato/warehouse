@@ -114,12 +114,15 @@ class AccountController extends Controller
         $userDB= User::find($id);
         $userDB->FullName=$request->FullName;
         $userDB->Role=$request->Role;
-        if ($request->Manager!=null)
+        if (($request->Role!=0) && ($request->Role!=2))
         {
           $userDB->Manager=$request->Manager;
+        }else
+        {
+          $userDB->Manager=null;
         }
         $userDB->Mobile=$request->Mobile;
-        if ($request->Position)
+        if (($request->Position!=null)&&($request->Role==0))
         {
           $userDB->Position=$request->Position;
         }elseif($request->Role==0)

@@ -21,6 +21,10 @@ class UnitController extends Controller
   }
   public function DeleteUnit($id)
   {
+    if ($id==null)
+    {
+      return [error=>'Selecting unit is required'];
+    }
     Unit::find($id)->delete();
   }
 }

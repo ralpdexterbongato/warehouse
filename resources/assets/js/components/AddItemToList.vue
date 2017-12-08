@@ -1,25 +1,14 @@
 <template lang="html">
   <span>
     <div class="message-container">
-      <ul class="error-tab" v-if="laravelerrors!=''" @click="laravelerrors=[]">
-        <span v-for="errors in laravelerrors">
-          <li v-for="error in errors">{{error}}</li>
-        </span>
-      </ul>
-      <div class="successAlertRRsession" v-on:click="successAlerts=''" v-if="successAlerts!=''">
-        <p>{{successAlerts}}</p>
-      </div>
-      <div class="error-tab" v-on:click="ownerrors=''" v-if="ownerrors!=''">
-        <p>{{ownerrors}}</p>
-      </div>
     </div>
     <div class="Adding-items-form">
       <div class="left-item-adding-form">
         <h2>Recently added</h2>
         <span class="search-added-master">
-          <input type="text"placeholder="Search by item code" v-model="ItemCodeSearch" v-on:keyup.enter="RecentAddedAndSearch()">
+          <input type="text"placeholder="Search" v-model="ItemCodeSearch" v-on:keyup.enter="RecentAddedAndSearch()">
           <button type="button" v-on:click="RecentAddedAndSearch()">
-            <i class="fa fa-search"></i>
+            <i class="material-icons">search</i>
           </button>
         </span>
         <table>
@@ -41,7 +30,7 @@
             <td>{{details.CurrentQuantity}}</td>
             <td>{{formatPrice(details.CurrentCost)}}</td>
             <td>{{details.master_items.AlertIfBelow}}</td>
-            <td><i class="fa fa-edit" v-on:click="ToBeEditId=details.id,fetchDataToBeEdit(details.id)"></i></td>
+            <td><i class="material-icons" v-on:click="ToBeEditId=details.id,fetchDataToBeEdit(details.id)">border_color</i></td>
           </tr>
         </table>
         <div class="paginate-container">
@@ -76,24 +65,24 @@
               <div class="updateinput-label">
                 <h3 :class="[Unit!=''?'active color-white':'']">Unit</h3>
                 <div class="small-unit-form" :class="[UnitIsActive==true?'flex':'hide']">
-                  <h2><i class="fa fa-plus"></i> New unit</h2>
+                  <h2><i class="material-icons">add</i> New unit</h2>
                   <input type="text" v-model="UnitNew">
                   <h1> <button type="button" v-on:click="UnitIsActive=false">Cancel</button><button type="button" v-on:click="addUnitRow()">Save</button></h1>
                 </div>
                 <div class="mini-unit-menu" :class="[minimenu==true?'flex':'hide']">
-                  <i class="fa fa-plus" v-on:click="UnitIsActive=true,minimenu=false"></i> <i class="fa fa-trash" v-on:click="deleteunitIsActive=true,minimenu=false"></i>
+                  <i class="material-icons" v-on:click="UnitIsActive=true,minimenu=false">add</i> <i class="material-icons" v-on:click="deleteunitIsActive=true,minimenu=false">close</i>
                 </div>
                 <div class="delete-unit-form" :class="[deleteunitIsActive==true?'flex':'hide']">
-                <h2><i class="fa fa-trash"></i> Delete unit</h2>
+                <h2><i class="material-icons">close</i> Delete unit</h2>
                 <select v-model="unitdelete">
                   <option :value="ulist.id" v-for="ulist in UnitList">{{ulist.UnitName}}</option>
                 </select>
                 <div class="delete-unit-btns">
                     <button type="button" name="button" v-on:click="deleteunitIsActive=false">Cancel</button>
-                    <button type="button" name="button" v-on:click="deleteUnit()">Delete</button>
+                    <button type="button" name="button" v-if="unitdelete!=null" v-on:click="deleteUnit()">Delete</button>
                 </div>
                 </div>
-                <i class="fa fa-cog New-Unit" v-on:click="minimenu=!minimenu"></i>
+                <i class="material-icons New-Unit" v-on:click="minimenu=!minimenu">settings</i>
                   <select v-model="Unit">
                     <option value=""></option>
                     <option v-for="ulist in UnitList">{{ulist.UnitName}}</option>
@@ -113,8 +102,8 @@
             </div>
             <button type="button" v-on:click="saveItem()"v-if="ToBeEditId==null" >Save</button>
             <span v-if="ToBeEditId!=null" class="update-item-btns">
-              <button type="button" v-on:click="ToBeEditId=null,clearfields()" ><i class="fa fa-times"></i> Cancel</button>
-              <button type="button" v-on:click="updateChangesItem()" ><i class="fa fa-refresh"></i> Update</button>
+              <button type="button" v-on:click="ToBeEditId=null,clearfields()" ><i class="material-icons">close</i> Cancel</button>
+              <button type="button" v-on:click="updateChangesItem()" ><i class="material-icons">update</i> Update</button>
             </span>
           </div>
         </div>
@@ -126,6 +115,9 @@
 <script>
 import axios from 'axios';
 import VueNumeric from 'vue-numeric';
+import 'vue2-toast/lib/toast.css';
+import Toast from 'vue2-toast';
+Vue.use(Toast);
 Vue.use(VueNumeric)
   export default {
      data () {
@@ -137,9 +129,6 @@ Vue.use(VueNumeric)
           CurrentCost:0,
           Description:'',
           AlertBelow:'',
-          laravelerrors:[],
-          ownerrors:'',
-          successAlerts:'',
           ItemCodeSearch:'',
           pagination:[],
           RecentDataResults:[],
@@ -156,6 +145,7 @@ Vue.use(VueNumeric)
      methods: {
        saveItem()
        {
+         this.$loading('Saving');
          var vm=this;
          axios.post(`/save-New-Item-warehouse`,{
            AccountCode:this.AccountCode,
@@ -171,7 +161,6 @@ Vue.use(VueNumeric)
             if (response.data.error==null)
             {
               vm.RecentAddedAndSearch();
-              Vue.set(vm.$data,'successAlerts','Created Successfully');
               Vue.set(vm.$data,'AccountCode','');
               Vue.set(vm.$data,'ItemCode','');
               Vue.set(vm.$data,'CurrentQuantity','');
@@ -179,20 +168,41 @@ Vue.use(VueNumeric)
               Vue.set(vm.$data,'CurrentCost','');
               Vue.set(vm.$data,'Description','');
               Vue.set(vm.$data,'AlertBelow','');
+              vm.$toast.top('Successfully added');
             }else
             {
-              Vue.set(vm.$data,'ownerrors',response.data.error);
+            vm.$toast.top(response.data.error);
             }
+            vm.$loading.close();
           },function(error)
           {
-            console.log(error);
-            Vue.set(vm.$data,'laravelerrors',error.response.data);
+
+            if (error.response.data.AccountCode!=null)
+            {
+              vm.$toast.top(error.response.data.AccountCode[0]);
+            }else if(error.response.data.ItemCode!=null)
+            {
+              vm.$toast.top(error.response.data.ItemCode[0]);
+            }else if(error.response.data.Description!=null)
+            {
+              vm.$toast.top(error.response.data.Description[0]);
+            }else if(error.response.data.Unit!=null)
+            {
+              vm.$toast.top(error.response.data.Unit[0]);
+            }else if(error.response.data.CurrentQuantity!=null)
+            {
+              vm.$toast.top(error.response.data.CurrentQuantity[0]);
+            }else if(error.response.data.AlertIfBelow!=null)
+            {
+              vm.$toast.top(error.response.data.AlertIfBelow[0]);
+            }
+            vm.$loading.close();
           });
        },
        RecentAddedAndSearch(page)
        {
          var vm=this;
-         axios.get(`/search-by-description-and-recently-inits?ItemCode=`+this.ItemCodeSearch+`&page=`+page).then(function(response)
+         axios.get(`/search-by-description-and-recently-inits?Search=`+this.ItemCodeSearch+`&page=`+page).then(function(response)
          {
            console.log(response);
            Vue.set(vm.$data,'RecentDataResults',response.data.pagination.data);
@@ -234,6 +244,7 @@ Vue.use(VueNumeric)
        },
        updateChangesItem()
        {
+         this.$loading('Updating');
          var vm=this;
          axios.put(`/update-changes-item/`+this.ToBeEditId,{
            AccountCode:this.AccountCode,
@@ -256,21 +267,40 @@ Vue.use(VueNumeric)
              Vue.set(vm.$data,'Unit','');
              Vue.set(vm.$data,'Description','');
              Vue.set(vm.$data,'AlertBelow','');
-             Vue.set(vm.$data,'successAlerts','Successfully updated');
-             Vue.set(vm.$data,'laravelerrors','');
              Vue.set(vm.$data,'ToBeEditId',null);
+             vm.$toast.top('Updated');
            }else
            {
-             Vue.set(vm.$data,'ownerrors',response.data.error);
+             vm.$toast.top(response.data.error);
            }
+           vm.$loading.close();
          },function(error)
           {
-            Vue.set(vm.$data,'laravelerrors',error.response.data);
-            Vue.set(vm.$data,'successAlerts','');
+            if (error.response.data.AccountCode!=null)
+            {
+              vm.$toast.top(error.response.data.AccountCode[0]);
+            }else if(error.response.data.ItemCode!=null)
+            {
+              vm.$toast.top(error.response.data.ItemCode[0]);
+            }else if(error.response.data.Description!=null)
+            {
+              vm.$toast.top(error.response.data.Description[0]);
+            }else if(error.response.data.Unit!=null)
+            {
+              vm.$toast.top(error.response.data.Unit[0]);
+            }else if(error.response.data.CurrentQuantity!=null)
+            {
+              vm.$toast.top(error.response.data.CurrentQuantity[0]);
+            }else if(error.response.data.AlertIfBelow!=null)
+            {
+              vm.$toast.top(error.response.data.AlertIfBelow[0]);
+            }
+            vm.$loading.close();
           });
        },
        addUnitRow()
        {
+         this.$loading('Adding');
          var vm=this;
          axios.post(`/add-new-unit-to-dropdown`,{
            NewUnit:this.UnitNew,
@@ -279,11 +309,13 @@ Vue.use(VueNumeric)
           console.log(response);
           vm.getUnitlist();
           Vue.set(vm.$data,'UnitIsActive',false);
-          Vue.set(vm.$data,'successAlerts','Successfully added unit.');
+          vm.$toast.top('Successfully added');
+          vm.$loading.close();
         },function(error)
         {
           console.log(error);
-          Vue.set(vm.$data,'laravelerrors',error.response.data);
+          vm.$toast.top(error.response.data.NewUnit[0]);
+          vm.$loading.close();
         });
       },
       getUnitlist()
@@ -297,13 +329,14 @@ Vue.use(VueNumeric)
       },
       deleteUnit()
       {
+        this.$loading('Removing unit');
         var vm=this;
         axios.delete(`/delete-unit/`+this.unitdelete).then(function(response)
         {
-          console.log(response);
-          vm.getUnitlist();
-          Vue.set(vm.$data,'deleteunitIsActive',false)
-          Vue.set(vm.$data,'successAlerts','Unit removed.')
+            vm.getUnitlist();
+            Vue.set(vm.$data,'deleteunitIsActive',false);
+            vm.$toast.top('Unit removed.');
+            vm.$loading.close();
         });
       }
      },

@@ -26,6 +26,7 @@ class RVController extends Controller
     }
     public function RVcreate()
     {
+      Session::forget('ItemSessionList');
       $mymanager=User::where('id', Auth::user()->Manager)->get(['FullName']);
       $currentBudgetOfficer=User::orderBy('id','DESC')->whereNotNull('IsActive')->where('Role', '7')->take(1)->get(['FullName']);
       $GM=User::orderBy('id','DESC')->whereNotNull('IsActive')->where('Role', '2')->take(1)->get(['FullName']);

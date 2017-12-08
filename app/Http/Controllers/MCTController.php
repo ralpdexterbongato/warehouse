@@ -167,6 +167,7 @@ class MCTController extends Controller
   }
   public function CreateMCT($id)
   {
+    Session::forget('MCTSessionItems');
     $MIRSMasterPurpose=MIRSMaster::where('MIRSNo', $id)->get(['Purpose']);
     $MIRSNumber = array('MIRSNo' =>$id );
     $MIRSNumber=json_encode($MIRSNumber);

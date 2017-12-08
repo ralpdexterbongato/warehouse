@@ -28515,6 +28515,7 @@ Vue.use(__WEBPACK_IMPORTED_MODULE_4_vue2_toast___default.a);
 
   methods: {
     searchItem: function searchItem(page) {
+      this.$loading('Loading');
       var vm = this;
       __WEBPACK_IMPORTED_MODULE_1_axios___default.a.get('/item-search?search=' + this.ItemSearch + '&page=' + page).then(function (response) {
         console.log(response);
@@ -28522,6 +28523,7 @@ Vue.use(__WEBPACK_IMPORTED_MODULE_4_vue2_toast___default.a);
         Vue.set(vm.$data, 'Pagination', response.data);
         vm.Quantity = [];
         vm.Remarks = [];
+        vm.$loading.close();
       });
     },
     submitTosession: function submitTosession(datas, count) {
@@ -29559,7 +29561,6 @@ module.exports={render:function (){var _vm=this;var _h=_vm.$createElement;var _c
         }
       }
     })]), _vm._v(" "), _c('td', [_c('button', {
-      staticClass: "bttn-unite bttn-xs bttn-primary",
       attrs: {
         "type": "button"
       },

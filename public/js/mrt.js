@@ -1345,9 +1345,6 @@ Vue.use(__WEBPACK_IMPORTED_MODULE_3_vue2_toast___default.a);
       SessionSelected: [],
       remarks: '',
       ModalIsActive: false,
-      ownerrors: '',
-      successAlerts: '',
-      laravelerrors: '',
       HideSubmitBtn: false
     };
   },
