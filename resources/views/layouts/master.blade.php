@@ -37,39 +37,39 @@
       <div class="top-nav-boxes empty-left-btn">
         <ul>
           @if ((Auth::user()->Role!=0)&&(Auth::user()->Role!=2))
-          <li class="dropping-parent">
-            <h1>
+          <li class="dropping-parent drop-add">
+            <h1 class="waves-effect waves-light">
               <i class="material-icons">add</i></i>
-              <ul class="dropping">
-                <a href="{{route('mirs.add')}}"><li class="{{current_page('MIRS-add')?'active':''}}"><i class="material-icons">fiber_new</i> MIRS </li></a>
-                <a href="{{route('Creating.RV')}}"><li class="{{current_page('RV-create')?'active':''}}"><i class="material-icons">fiber_new</i> RV</li></a>
-              </ul>
             </h1>
+            <ul class="dropping">
+              <a href="{{route('mirs.add')}}"><li class="{{current_page('MIRS-add')?'active':''}}"><i class="material-icons">fiber_new</i> MIRS </li></a>
+              <a href="{{route('Creating.RV')}}"><li class="{{current_page('RV-create')?'active':''}}"><i class="material-icons">fiber_new</i> RV</li></a>
+            </ul>
           </li>
           @endif
-          <li class="dropping-parent">
-            <h1>
+          <li class="dropping-parent drop-index">
+            <h1 class="waves-effect waves-light">
               <i class="material-icons">search</i>
-              <ul class="dropping">
-                <a href="{{route('MIRSgridview')}}"><li class="{{current_page('mirs-index-page')?'active':''}}"><i class="material-icons">show_chart</i> MIRS</li></a>
-                <a href="{{route('indexMCT')}}"><li class="{{current_page('mct-index-page')?'active':''}}"><i class="material-icons">show_chart</i> MCT</li></a>
-                <a href="{{route('MRTindexPageonly')}}"><li class="{{current_page('mrt-index-page')?'active':''}}"><i class="material-icons">show_chart</i> MRT</li></a>
-                <a href="{{route('RVindexView')}}"><li class="{{current_page('RVindex')?'active':''}}"><i class="material-icons">show_chart</i> RV</li></a>
-                <a href="{{route('RRindexview')}}"><li class="{{current_page('RR-index')?'active':''}}"><i class="material-icons">show_chart</i> RR</li></a>
-                <a href="{{route('POIndexPage')}}"><li class="{{current_page('po-index-page')?'active':''}}"><i class="material-icons">show_chart</i> PO</li></a>
-                <a href="{{route('MRIndexPage')}}"><li class="{{current_page('mr-index-page')?'active':''}}"><i class="material-icons">show_chart</i> MR</li></a>
-              </ul>
             </h1>
+            <ul class="dropping">
+              <a href="{{route('MIRSgridview')}}"><li class="{{current_page('mirs-index-page')?'active':''}}"><i class="material-icons">show_chart</i> MIRS</li></a>
+              <a href="{{route('indexMCT')}}"><li class="{{current_page('mct-index-page')?'active':''}}"><i class="material-icons">show_chart</i> MCT</li></a>
+              <a href="{{route('MRTindexPageonly')}}"><li class="{{current_page('mrt-index-page')?'active':''}}"><i class="material-icons">show_chart</i> MRT</li></a>
+              <a href="{{route('RVindexView')}}"><li class="{{current_page('RVindex')?'active':''}}"><i class="material-icons">show_chart</i> RV</li></a>
+              <a href="{{route('RRindexview')}}"><li class="{{current_page('RR-index')?'active':''}}"><i class="material-icons">show_chart</i> RR</li></a>
+              <a href="{{route('POIndexPage')}}"><li class="{{current_page('po-index-page')?'active':''}}"><i class="material-icons">show_chart</i> PO</li></a>
+              <a href="{{route('MRIndexPage')}}"><li class="{{current_page('mr-index-page')?'active':''}}"><i class="material-icons">show_chart</i> MR</li></a>
+            </ul>
           </li>
           @if (Auth::user()->Role==1||Auth::user()->Role==3||Auth::user()->Role==4)
-            <li class="dropping-parent">
-              <h1>
+            <li class="dropping-parent drop-summary">
+              <h1 class="waves-effect waves-light">
                 <i class="material-icons">equalizer</i>
-                <ul class="dropping">
-                  <a href="{{route('summary.mrt')}}"><li class="{{current_page('summary-mrt')?'active':''}}"><i class="material-icons">equalizer</i></i> MRT</li></a>
-                  <a href="{{route('mct-summary')}}"><li class="{{current_page('mct-summary')?'active':''}}"><i class="material-icons">equalizer</i></i> MCT</li></a>
-                </ul>
               </h1>
+              <ul class="dropping">
+                <a href="{{route('summary.mrt')}}"><li class="{{current_page('summary-mrt')?'active':''}}"><i class="material-icons">equalizer</i></i> MRT</li></a>
+                <a href="{{route('mct-summary')}}"><li class="{{current_page('mct-summary')?'active':''}}"><i class="material-icons">equalizer</i></i> MCT</li></a>
+              </ul>
             </li>
           @endif
         </ul>
@@ -220,6 +220,24 @@
           }).children().click(function(event) {
             return false;
           });
+
+          $('.drop-add').click(function(event) {
+            $('.drop-add .dropping').toggle();
+            $('.drop-index .dropping').hide();
+            $('.drop-summary .dropping').hide();
+          });
+          $('.drop-index').click(function(event) {
+            $('.drop-index .dropping').toggle();
+            $('.drop-summary .dropping').hide();
+            $('.drop-add .dropping').hide();
+          });
+
+          $('.drop-summary').click(function(event) {
+              $('.drop-summary .dropping').toggle();
+              $('.drop-index .dropping').hide();
+              $('.drop-add .dropping').hide();
+          });
+
         });
       </script>
     @endif
