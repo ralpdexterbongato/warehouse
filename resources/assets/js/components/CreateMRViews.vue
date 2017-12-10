@@ -53,7 +53,7 @@
       </div>
     </div>
     <div class="items-table-from-RR" :class="{ 'active': isActive }"  v-on:click="isActive=!isActive">
-      <div class="center-white-fromrr" v-on:click="isActive=!isActive">
+      <div class="center-white-fromrr">
         <h1>Select Items from RR</h1>
         <div class="table-container-mr-form">
           <table>

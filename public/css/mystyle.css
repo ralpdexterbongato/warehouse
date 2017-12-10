@@ -93,7 +93,10 @@ body
   font-size:30px;
   font-weight: bold;
 }
-
+body.noScroll
+{
+  overflow: hidden;
+}
 .hide
 {
   display: none!important;
@@ -493,9 +496,8 @@ input[type='radio']:after {
 }
 .empty-left-btn > ul > li:hover ul
 {
-  display: block;
+  display: block!important;
 }
-
 .empty-left-btn
 {
   font-family: helvetica;
@@ -1627,6 +1629,7 @@ filter: drop-shadow(0 0 3px #969696);
 	.bondpaper-size
 	{
 		width: auto;
+		margin:10px;
 	}
 }
 .status-mirs
@@ -2002,7 +2005,7 @@ only screen and (max-width: 1050px),
 		position: relative;
 		margin:0 auto;
 		left: auto;
-		bottom: auto;
+		bottom: 30px;
 	}
 }
 .Signatured-in-behalf h1
@@ -2180,7 +2183,7 @@ only screen and (max-width: 1050px),
   width: 150px;
   height: 50px;
   position: absolute;
-  bottom: 60px;
+  bottom: 50px;
   left:3px;
 }
 @media (max-width:1050px)
@@ -2188,7 +2191,7 @@ only screen and (max-width: 1050px),
 	.request-sig h3
 	{
 		position: relative;
-		bottom:auto;
+		bottom:30px;
 	  left:auto;
 		margin:0 auto;
 	}
@@ -2239,7 +2242,7 @@ only screen and (max-width: 1050px),
 	{
 		position: relative;
 		margin:0 auto;
-		bottom:auto;
+		bottom:30px;
 	  left:auto;
 	}
 }
@@ -2264,7 +2267,7 @@ only screen and (max-width: 1050px),
 		justify-content: space-between;
 	}
 }
-@media(max-width:278px)
+@media(max-width:378px)
 {
 	.print-btn-container
 	{
@@ -2892,6 +2895,7 @@ only screen and (max-width: 1050px),
 	{
 		width: auto;
 		padding: 50px 10px 10px 10px;
+		margin:10px;
 	}
 
 }
@@ -3340,6 +3344,7 @@ only screen and (max-width: 1050px),
 	{
 		position:inherit;
 		margin:0 auto;
+		bottom: 25px;
 	}
 }
 .signature-issued
@@ -3380,6 +3385,7 @@ only screen and (max-width: 1050px),
 	{
 		position:inherit;
 		margin:0 auto;
+		bottom: 25px;
 	}
 }
 /*PAGINATION*/
@@ -4156,12 +4162,16 @@ only screen and (max-width: 1050px),
   font-size: 17px;
 	color: #162E5F;
 }
+#signature-mrt i,#decline-mrt i
+{
+	font-size: 20px;
+}
 #signature-mrt
 {
   background: #00345E;
   border-color: #00345E;
   color: #fff;
-  padding:7px 14px;
+  padding:6px 12px;
   font-family:Roboto, 'Segoe UI', Tahoma, sans-serif;
   margin-right: 10px;
   width: 100px;
@@ -4172,10 +4182,9 @@ only screen and (max-width: 1050px),
   background: #AA0000;
   border-color: #AA0000;
   color: #fff;
-  padding:6px;
   font-family:Roboto, 'Segoe UI', Tahoma, sans-serif;
   width: 100px;
-  padding:7px 14px;
+  padding:6px 12px;
   text-align: center;
 }
 .signature-decline-mrt
@@ -4209,6 +4218,8 @@ only screen and (max-width: 1050px),
 	.Bondpaper-mrt-preview
 	{
 		width: auto;
+		margin-left: 10px;
+		margin-right: 10px;
 	}
 }
 .header-mrt-center
@@ -4688,10 +4699,6 @@ filter: drop-shadow(1px 1px 3px #1D1A33);
 	display: flex;
 	justify-content:space-between;
 }
-.submit-btn-login-container button:hover
-{
-	background:#527EDC;
-}
 .submit-btn-login-container button
 {
 	background: #3367D6;
@@ -4804,7 +4811,6 @@ filter: drop-shadow(1px 1px 3px #1D1A33);
 -moz-user-select: none;    /* Firefox */
 -ms-user-select: none;
  position:fixed;
- left: -500vw;
  top: 0;
  overflow-y:scroll;
  background: #fff;
@@ -4815,10 +4821,8 @@ filter: drop-shadow(1px 1px 3px #1D1A33);
  border-bottom-right-radius: 5px;
  box-shadow: 0 2px 4px -1px rgba(0,0,0,0.06), 0 4px 5px 0 rgba(0,0,0,0.06), 0 1px 10px 0 rgba(0,0,0,0.08);
  z-index: 17;
- transition: left .6s cubic-bezier(.4,0,.2,1);
- transform-style: preserve-3d;
- transition-delay: .1s;
- transition-duration: .2s;
+ left: -100vw;
+ transition:all .5s;
 }
 .middle-account-modal.active
 {
@@ -4828,8 +4832,7 @@ filter: drop-shadow(1px 1px 3px #1D1A33);
 {
 	.middle-account-modal.active
 	{
-		right: 40px;
-		width: auto;
+		width:240px;
 	}
 }
 .middle-account-modal > ul >li >i
@@ -4876,7 +4879,6 @@ filter: drop-shadow(1px 1px 3px #1D1A33);
 }
 .middle-account-modal .clickable:hover
 {
-  padding-left: 27px;
 	cursor: pointer;
 	background: #f3f3f3;
 }
@@ -5122,9 +5124,9 @@ only screen and (max-width: 1050px),
   padding: 20px 10px;
 	text-align: center;
 }
-.mct-request-table tr:nth-child(even)
+.mct-request-table tr:nth-child(odd)
 {
-  background: #f2f2f2;
+  background: #f5f5f5;
 }
 .mct-request-table th
 {
@@ -7712,6 +7714,14 @@ only screen and (max-width: 1050px),
 {
   background: #002C4E;
 }
+.options-canvas
+{
+	display: flex;
+}
+.options-canvas button
+{
+	margin-right: 10px;
+}
 .items-from-rv-table
 {
   margin-top: 20px;
@@ -7933,25 +7943,21 @@ only screen and (max-width: 1050px),
 {
   margin-top: 20px;
   display: flex;
-  justify-content: center;
+  justify-content: flex-end;
 }
-button.done-canvass
+.done-canvass
 {
   background: #3367D6;
   border-style: none;
   color: #fff;
   border-radius: 4px;
+	width: 200px;
 }
-button.done-canvass:hover
+.done-canvass:hover
 {
   background: #00508F;
 }
-#cancel-canvass
-{
-  border-radius: 4px;
-  border-style: none;
-  border:1px solid #aaa;
-}
+
 .GeneratePO-btn
 {
   margin-top: 50px;
@@ -10365,7 +10371,7 @@ only screen and (max-width: 1310px),
 }
 .items-from-rv-nopo-table tr:nth-child(odd)
 {
-  background: #e3e3e3;
+  background: #f4f4f4;
 }
 .items-from-rv-nopo-table td button:focus
 {
@@ -10399,7 +10405,8 @@ only screen and (max-width: 1310px),
   background-color:transparent;
   padding:5px;
   border-style: none;
-  border-bottom: 1px solid #607d8b;
+  border: 1px solid #ccc;
+	border-radius: 4px;
 	width: 100%;
 }
 @media
@@ -10500,6 +10507,7 @@ only screen and (max-width: 1310px),
 	.right-form-rr-with-po
 	{
 		margin-left: 0px;
+		margin-top: 20px;
 	}
 }
 .right-form-rr-with-po input,.right-form-rr-with-po select
@@ -12953,4 +12961,82 @@ only screen and (max-width: 1050px),
 	color: #fff;
 	margin:auto;
 	font-size: 36px;
+}
+
+/*materialize waves*/
+.waves-effect {
+  position: relative;
+  cursor: pointer;
+  display: inline-block;
+  overflow: hidden;
+  -webkit-user-select: none;
+     -moz-user-select: none;
+      -ms-user-select: none;
+          user-select: none;
+  -webkit-tap-highlight-color: transparent;
+  vertical-align: middle;
+  z-index: 1;
+  -webkit-transition: .3s ease-out;
+  transition: .3s ease-out;
+}
+
+.waves-effect .waves-ripple {
+  position: absolute;
+  border-radius: 50%;
+  width: 20px;
+  height: 20px;
+  margin-top: -10px;
+  margin-left: -10px;
+  opacity: 0;
+  background: rgba(0, 0, 0, 0.2);
+  -webkit-transition: all 0.7s ease-out;
+  transition: all 0.7s ease-out;
+  -webkit-transition-property: opacity, -webkit-transform;
+  transition-property: opacity, -webkit-transform;
+  transition-property: transform, opacity;
+  transition-property: transform, opacity, -webkit-transform;
+  -webkit-transform: scale(0);
+          transform: scale(0);
+  pointer-events: none;
+}
+
+.waves-effect.waves-light .waves-ripple {
+  background-color: rgba(255, 255, 255, 0.45);
+}
+
+.waves-effect.waves-red .waves-ripple {
+  background-color: rgba(244, 67, 54, 0.7);
+}
+
+.waves-effect.waves-yellow .waves-ripple {
+  background-color: rgba(255, 235, 59, 0.7);
+}
+
+.waves-effect.waves-orange .waves-ripple {
+  background-color: rgba(255, 152, 0, 0.7);
+}
+
+.waves-effect.waves-purple .waves-ripple {
+  background-color: rgba(156, 39, 176, 0.7);
+}
+
+.waves-effect.waves-green .waves-ripple {
+  background-color: rgba(76, 175, 80, 0.7);
+}
+
+.waves-effect.waves-teal .waves-ripple {
+  background-color: rgba(0, 150, 136, 0.7);
+}
+
+.waves-effect input[type="button"], .waves-effect input[type="reset"], .waves-effect input[type="submit"] {
+  border: 0;
+  font-style: normal;
+  font-size: inherit;
+  text-transform: inherit;
+  background: none;
+}
+
+.waves-effect img {
+  position: relative;
+  z-index: -1;
 }

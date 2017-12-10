@@ -29,10 +29,10 @@
         <span class="color-blue">{{RVMaster.users[0].FullName}}</span> is asking for your signature b/c the {{RVMaster.users[1].Position}} is not available
       </h6>
       <span :class="{'hide':SignatureManagerReplacerHide}">
-        <longpress class="rvapprovebtn" duration="3" :on-confirm="signatureRequestManagerReplacer" :disabled="btndisabled" pressing-text="confirm in {$rcounter}" action-text="Loading . . .">
+        <longpress class="rvapprovebtn waves-effect waves-light" duration="3" :on-confirm="signatureRequestManagerReplacer" :disabled="btndisabled" pressing-text="confirm in {$rcounter}" action-text="Loading . . .">
         <i class="material-icons">edit</i> Signature
         </longpress>
-        <longpress class="RVdeclineBtn" duration="3" :on-confirm="cancelRequestManagerReplacer" :disabled="btndisabled" pressing-text="confirm in {$rcounter}" action-text="Loading . . .">
+        <longpress class="RVdeclineBtn waves-effect waves-light" duration="3" :on-confirm="cancelRequestManagerReplacer" :disabled="btndisabled" pressing-text="confirm in {$rcounter}" action-text="Loading . . .">
         <i class="material-icons">close</i> I can't
         </longpress>
       </span>
@@ -42,10 +42,10 @@
         <span class="color-blue">{{RVMaster.users[0].FullName}}</span> is asking for your signature b/c the General Manager is not available
       </h6>
       <span :class="{'hide':SignatureApprovalReplacerHide}">
-        <longpress class="rvapprovebtn" duration="3" :on-confirm="acceptApproveRequest" :disabled="approveBtnReplacer" pressing-text="confirm in {$rcounter}" action-text="Loading . . .">
+        <longpress class="rvapprovebtn waves-effect waves-light" duration="3" :on-confirm="acceptApproveRequest" :disabled="approveBtnReplacer" pressing-text="confirm in {$rcounter}" action-text="Loading . . .">
         <i class="material-icons">edit</i> Signature
         </longpress>
-        <longpress class="RVdeclineBtn" duration="3" :on-confirm="cancelApprovalRequest" :disabled="approveBtnReplacer" pressing-text="confirm in {$rcounter}" action-text="Loading . . .">
+        <longpress class="RVdeclineBtn waves-effect waves-light" duration="3" :on-confirm="cancelApprovalRequest" :disabled="approveBtnReplacer" pressing-text="confirm in {$rcounter}" action-text="Loading . . .">
         <i class="material-icons">close</i> I can't
         </longpress>
       </span>
@@ -53,12 +53,12 @@
     <div class="declineOrSignatureBtn">
           <span class="RVsignatureBtns" :class="{'hide':SignatureRVBtnHide}" v-if="((RequisitionerCanSignature)||(RecommendedByCanSignature)||(BudgetOfficerCanSignature)||(GMCanSignature))">
             <div class="RVapprove">
-              <longpress class="rvapprovebtn" duration="3" :on-confirm="Signature" pressing-text="confirm in {$rcounter}" action-text="Loading . . .">
+              <longpress class="rvapprovebtn waves-effect waves-light" duration="3" :on-confirm="Signature" pressing-text="confirm in {$rcounter}" action-text="Loading . . .">
               <i class="material-icons">edit</i> Signature
               </longpress>
             </div>
             <div class="RVdecline">
-              <longpress class="RVdeclineBtn" duration="3" :on-confirm="declineRV" pressing-text="confirm in {$rcounter}" action-text="Loading . . .">
+              <longpress class="RVdeclineBtn waves-effect waves-light" duration="3" :on-confirm="declineRV" pressing-text="confirm in {$rcounter}" action-text="Loading . . .">
               <i class="material-icons">close</i> Decline
               </longpress>
             </div>

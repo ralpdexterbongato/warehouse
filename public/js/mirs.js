@@ -29470,7 +29470,7 @@ module.exports={render:function (){var _vm=this;var _h=_vm.$createElement;var _c
   }, [_vm._v("\r\n          Submit\r\n        ")])], 1)])]), _vm._v(" "), _c('div', {
     staticClass: "modal-search-item",
     class: {
-      'active animated fadeIn': _vm.isActive
+      'active': _vm.isActive
     },
     on: {
       "click": function($event) {
@@ -29478,12 +29478,7 @@ module.exports={render:function (){var _vm=this;var _h=_vm.$createElement;var _c
       }
     }
   }, [_c('div', {
-    staticClass: "middle-modal-search",
-    on: {
-      "click": function($event) {
-        _vm.isActive = !_vm.isActive
-      }
-    }
+    staticClass: "middle-modal-search"
   }, [_c('h1', [_vm._v("MIRS")]), _vm._v(" "), _c('div', {
     staticClass: "table-mirs-modalcontain"
   }, [_c('div', {
@@ -29796,6 +29791,7 @@ module.exports={render:function (){var _vm=this;var _h=_vm.$createElement;var _c
       'hide': _vm.SignatureManagerRelacerBtnHide
     }
   }, [_c('longpress', {
+    staticClass: "waves-effect waves-light",
     attrs: {
       "duration": "3",
       "id": "manager-replacer-accept",
@@ -29806,6 +29802,7 @@ module.exports={render:function (){var _vm=this;var _h=_vm.$createElement;var _c
   }, [_c('i', {
     staticClass: "material-icons"
   }, [_vm._v("edit")]), _vm._v(" Signature\r\n          ")]), _vm._v(" "), _c('longpress', {
+    staticClass: "waves-effect waves-light",
     attrs: {
       "duration": "3",
       "id": "manager-replacer-cant",
@@ -29829,6 +29826,7 @@ module.exports={render:function (){var _vm=this;var _h=_vm.$createElement;var _c
       'hide': _vm.SignatureApproveBtnHide
     }
   }, [_c('longpress', {
+    staticClass: "waves-effect waves-light",
     attrs: {
       "duration": "3",
       "id": "manager-replacer-accept",
@@ -29839,6 +29837,7 @@ module.exports={render:function (){var _vm=this;var _h=_vm.$createElement;var _c
   }, [_c('i', {
     staticClass: "material-icons"
   }, [_vm._v("edit")]), _vm._v(" Signature\r\n          ")]), _vm._v(" "), _c('longpress', {
+    staticClass: "waves-effect waves-light",
     attrs: {
       "duration": "3",
       "id": "manager-replacer-cant",
@@ -29856,6 +29855,7 @@ module.exports={render:function (){var _vm=this;var _h=_vm.$createElement;var _c
       'hide': _vm.SignatureBtnHide
     }
   }, [_c('longpress', {
+    staticClass: "waves-effect waves-light",
     attrs: {
       "id": "accepted",
       "duration": "3",
@@ -29866,6 +29866,7 @@ module.exports={render:function (){var _vm=this;var _h=_vm.$createElement;var _c
   }, [_c('i', {
     staticClass: "material-icons"
   }, [_vm._v("edit")]), _vm._v(" Signature\r\n          ")]), _vm._v(" "), _c('longpress', {
+    staticClass: "waves-effect waves-light",
     attrs: {
       "id": "not-accepted",
       "duration": "3",

@@ -39,7 +39,7 @@
           @if ((Auth::user()->Role!=0)&&(Auth::user()->Role!=2))
           <li class="dropping-parent">
             <h1>
-              <span><i class="material-icons">add</i></span></i>
+              <i class="material-icons">add</i></i>
               <ul class="dropping">
                 <a href="{{route('mirs.add')}}"><li class="{{current_page('MIRS-add')?'active':''}}"><i class="material-icons">fiber_new</i> MIRS </li></a>
                 <a href="{{route('Creating.RV')}}"><li class="{{current_page('RV-create')?'active':''}}"><i class="material-icons">fiber_new</i> RV</li></a>
@@ -49,7 +49,7 @@
           @endif
           <li class="dropping-parent">
             <h1>
-              <span><i class="material-icons">search</i></span>
+              <i class="material-icons">search</i>
               <ul class="dropping">
                 <a href="{{route('MIRSgridview')}}"><li class="{{current_page('mirs-index-page')?'active':''}}"><i class="material-icons">show_chart</i> MIRS</li></a>
                 <a href="{{route('indexMCT')}}"><li class="{{current_page('mct-index-page')?'active':''}}"><i class="material-icons">show_chart</i> MCT</li></a>
@@ -90,14 +90,137 @@
       @endAuth
     </footer>
     @if (Auth::check())
-
     <script src="//{{ Request::getHost() }}:6001/socket.io/socket.io.js"></script>
     @endif
-    <script type="text/javascript" src="/js/myjquery.js"></script>
-    <script type="text/javascript">
+    <script type="text/javascript" src="/js/jquery.js">
+    </script>
+    <script type="text/javascript" src="/js/materialize.js">
     </script>
     @if (Auth::check())
       <script type="text/javascript" src="/js/master.js">
+      </script>
+      <script type="text/javascript">
+        $(document).ready(function()
+        {
+          $('.burger-button').click(function(event)
+          {
+            $('body').addClass('noScroll');
+          });
+          $('.Account-modal').click(function(event)
+          {
+            $('body').removeClass('noScroll');
+          });
+
+          $('.modal-find-button button').click(function(event)
+          {
+            $('body').addClass('noScroll');
+          });
+          $('.modal-search-item').click(function(event)
+          {
+            $('body').removeClass('noScroll');
+          }).children().click(function(event) {
+            return false;
+          });;
+
+          $('#forstock-ItemRV').click(function(event)
+          {
+            $('body').addClass('noScroll');
+          });
+          $('.for-stock-Modal').click(function(event)
+          {
+            $('body').removeClass('noScroll');
+          }).children().click(function(event) {
+            return false;
+          });
+
+          $('#none-existing-itemRV').click(function(event)
+          {
+            $('body').addClass('noScroll');
+          });
+          $('.add-RV-item-modal').click(function(event)
+          {
+            $('body').removeClass('noScroll');
+          }).children().click(function(event) {
+            return false;
+          });
+
+          $('.button-find-item-container button').click(function(event)
+          {
+            $('body').addClass('noScroll');
+          });
+          $('.mct-modal-ofItems').click(function(event)
+          {
+            $('body').removeClass('noScroll');
+          }).children().click(function(event) {
+            return false;
+          });
+
+          $('.pick-from-items button').click(function(event)
+          {
+            $('body').addClass('noScroll');
+          });
+          $('.mrt-items-modal').click(function(event)
+          {
+            $('body').removeClass('noScroll');
+          }).children().click(function(event) {
+            return false;
+          });
+
+          $('.add-supplier-canvass button').click(function(event)
+          {
+            $('body').addClass('noScroll');
+          });
+          $('.modal-canvass').click(function(event)
+          {
+            $('body').removeClass('noScroll');
+          }).children().click(function(event) {
+            return false;
+          });
+
+          $('.update-canvas-opener').click(function(event)
+          {
+            $('body').addClass('noScroll');
+          });
+          $('.modal-canvass').click(function(event)
+          {
+            $('body').removeClass('noScroll');
+          }).children().click(function(event) {
+            return false;
+          });
+
+          $('.btn-add-item-rrnopo button').click(function(event)
+          {
+            $('body').addClass('noScroll');
+          });
+          $('.modal-rr-no-po').click(function(event)
+          {
+            $('body').removeClass('noScroll');
+          }).children().click(function(event) {
+            return false;
+          });
+
+          $('.add-item-rr-w-pobtn button').click(function(event)
+          {
+            $('body').addClass('noScroll');
+          });
+          $('.rr-with-po-modal').click(function(event)
+          {
+            $('body').removeClass('noScroll');
+          }).children().click(function(event) {
+            return false;
+          });
+
+          $('.addfromrr-btn button').click(function(event)
+          {
+            $('body').addClass('noScroll');
+          });
+          $('.items-table-from-RR').click(function(event)
+          {
+            $('body').removeClass('noScroll');
+          }).children().click(function(event) {
+            return false;
+          });
+        });
       </script>
     @endif
   </body>

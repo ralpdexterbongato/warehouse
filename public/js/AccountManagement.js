@@ -32640,6 +32640,7 @@ module.exports={render:function (){var _vm=this;var _h=_vm.$createElement;var _c
   })])]), _vm._v(" "), _c('div', {
     staticClass: "submit-btn-login-container"
   }, [_vm._m(1), _vm._v(" "), _c('button', {
+    staticClass: "waves-effect waves-light",
     attrs: {
       "type": "button",
       "name": "button"

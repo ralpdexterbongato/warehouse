@@ -30,7 +30,7 @@
           </li>
         </a>
         <a href="/mirs-signature-list">
-          <li class="clickable">
+          <li class="clickable waves-effect waves">
             <span>
               <i class="material-icons">notifications_none</i>MIRS
             </span>
@@ -41,7 +41,7 @@
           </li>
         </a>
         <a href="/mct-signature-request">
-          <li class="clickable">
+          <li class="clickable waves-effect waves">
             <span>
               <i class="material-icons">notifications_none</i>MCT
             </span>
@@ -51,7 +51,7 @@
           </li>
         </a>
         <a href="/my-mrt-signature-request">
-          <li class="clickable">
+          <li class="clickable waves-effect waves">
             <span>
               <i class="material-icons">notifications_none</i> MRT
             </span>
@@ -61,7 +61,7 @@
           </li>
         </a>
         <a href="/checkout-rr-request">
-          <li class="clickable">
+          <li class="clickable waves-effect waves">
             <span>
               <i class="material-icons">notifications_none</i> RR
             </span>
@@ -72,7 +72,7 @@
           </li>
         </a>
         <a href="/myRVrequest">
-          <li class="clickable">
+          <li class="clickable waves-effect waves">
             <span>
               <i class="material-icons">notifications_none</i> RV
             </span>
@@ -83,7 +83,7 @@
           </li>
         </a>
         <a href="/my-mr-request">
-          <li class="clickable">
+          <li class="clickable waves-effect waves">
             <span>
               <i class="material-icons">notifications_none</i> MR
             </span>
@@ -94,7 +94,7 @@
           </li>
         </a>
         <a v-if="user.Role==0||user.Role==2" href="/my-PO-request">
-          <li class="clickable">
+          <li class="clickable waves-effect waves">
             <span>
         <i class="material-icons">notifications_none</i>PO
             </span>
@@ -106,7 +106,7 @@
         </a>
         <span v-if="user.Role==3||user.Role==4">
           <a href="/ready-mirs">
-            <li class="clickable">
+            <li class="clickable waves-effect waves">
               <span>
                 <i class="material-icons">notifications_none</i>Approved mirs
               </span>
@@ -117,7 +117,7 @@
             </li>
           </a>
           <a href="/waiting-to-be-purchased-rv">
-            <li class="clickable">
+            <li class="clickable waves-effect waves">
               <span>
                 <i class="material-icons">notifications_none</i>Approved rv
               </span>
@@ -136,7 +136,7 @@
             </li>
           </a>
           <a v-if="user.Role==2" href="/manager-take-placer-setting">
-            <li class="clickable">
+            <li class="clickable waves-effect waves">
               <span>
                 <i class="material-icons">face</i>Assign a Manager
               </span>
@@ -144,14 +144,14 @@
           </a>
         <span v-if="user.Role==1">
           <a href="/create-non-existing-item-in-warehouse">
-            <li class="clickable">
+            <li class="clickable waves-effect waves">
               <span>
                 <i class="material-icons">fiber_new</i> Add new item
               </span>
             </li>
           </a>
           <a href="/settings-accounts-list">
-            <li class="clickable">
+            <li class="clickable waves-effect waves">
               <span>
                 <i class="material-icons">people</i> Manage accounts
               </span>
@@ -160,7 +160,7 @@
         </span>
         <span v-else>
           <a href="/my-own-account-settings-page">
-            <li class="clickable">
+            <li class="clickable waves-effect waves">
               <span>
                 <i class="material-icons">account_circle</i>My account
               </span>
@@ -175,14 +175,14 @@
           </li>
         </a>
         <a href="/show-my-history">
-          <li class="clickable">
+          <li class="clickable waves-effect waves">
             <span>
               <i class="material-icons">history</i> My history
             </span>
           </li>
         </a>
         <a>
-          <li v-on:click="logout()" class="logout-btn clickable">
+          <li v-on:click="logout()" class="logout-btn clickable waves-effect waves">
           <span>
           <i class="material-icons">exit_to_app</i> Logout
           </span>

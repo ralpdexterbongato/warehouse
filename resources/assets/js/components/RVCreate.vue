@@ -52,7 +52,7 @@
       </div>
     </div>
     <div class="add-RV-item-modal" :class="{'active':notforstock}" v-on:click="notforstock=!notforstock">
-      <div class="rv-modal-centered" v-on:click="notforstock=!notforstock">
+      <div class="rv-modal-centered">
         <h1>Request Item</h1>
         <div class="itemRV-form">
           <textarea name="Description" v-model="Description" placeholder="Articles (max:50 characters)" required></textarea>
@@ -62,13 +62,13 @@
           </select>
           <input type="number" v-model="Quantity" autocomplete="off" name="Quantity" placeholder="Quantity" min="1" required>
           <input type="text" autocomplete="off" v-model="Remarks" name="Remarks" placeholder="Remarks">
-          <button type="submit" id="addtolistRV" v-on:click="notforstock=!notforstock,addToSession()">Add to list</button>
+          <button type="submit" id="addtolistRV" v-on:click="addToSession()">Add to list</button>
         </div>
       </div>
     </div>
     <span v-if="user.Role==3||user.Role==4">
       <div class="for-stock-Modal" :class="{'active':forstock}" v-on:click="forstock=!forstock">
-        <div class="middle-forStock-div" v-on:click="forstock=!forstock">
+        <div class="middle-forStock-div">
           <h1>Request for warehouse stock items</h1>
           <div class="searchboxes-forstock">
             <div class="low-qty-items">

@@ -41,7 +41,7 @@
     </div>
   </div>
   <div class="mct-modal-ofItems" :class="{'active':ModalActive}" v-on:click="ModalActive=!ModalActive">
-    <div class="mct-modal-center" v-on:click="ModalActive=!ModalActive">
+    <div class="mct-modal-center">
       <h1>Pick Items from MIRS No. {{mirsno.MIRSNo}}</h1>
       <div class="table-mct-itemchoices">
         <table>

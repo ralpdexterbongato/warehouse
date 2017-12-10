@@ -2243,12 +2243,7 @@ module.exports={render:function (){var _vm=this;var _h=_vm.$createElement;var _c
       }
     }
   }, [_c('div', {
-    staticClass: "mrt-items",
-    on: {
-      "click": function($event) {
-        _vm.ModalIsActive = !_vm.ModalIsActive
-      }
-    }
+    staticClass: "mrt-items"
   }, [_c('table', [_vm._m(1), _vm._v(" "), _vm._l((_vm.MTDetails), function(mtdata, count) {
     return _c('tr', [_c('td', [_vm._v(_vm._s(mtdata.ItemCode))]), _vm._v(" "), _c('td', [_vm._v(_vm._s(mtdata.master_items.Description))]), _vm._v(" "), _c('td', [_vm._v(_vm._s(mtdata.master_items.Unit))]), _vm._v(" "), _c('td', [_c('input', {
       directives: [{
@@ -2668,6 +2663,7 @@ module.exports={render:function (){var _vm=this;var _h=_vm.$createElement;var _c
       'hide': _vm.SignatureBtnHide
     }
   }, [_c('longpress', {
+    staticClass: "waves-effect waves-light",
     attrs: {
       "id": "signature-mrt",
       "duration": "3",
@@ -2678,6 +2674,7 @@ module.exports={render:function (){var _vm=this;var _h=_vm.$createElement;var _c
   }, [_c('i', {
     staticClass: "material-icons"
   }, [_vm._v("edit")]), _vm._v(" Signature\n      ")]), _vm._v(" "), _c('longpress', {
+    staticClass: "waves-effect waves-light",
     attrs: {
       "id": "decline-mrt",
       "duration": "3",

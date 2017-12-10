@@ -998,6 +998,9 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
 //
 //
 //
+//
+//
+//
 
 
 
@@ -1779,8 +1782,11 @@ module.exports={render:function (){var _vm=this;var _h=_vm.$createElement;var _c
     staticClass: "material-icons"
   }, [_vm._v("add")]), _vm._v("New supplier")])]), _vm._v(" "), _c('div', {
     staticClass: "items-from-rv-table"
-  }, [_c('table', [_c('tr', [_c('th', [_vm._v("Article")]), _vm._v(" "), _c('th', [_vm._v("Unit")]), _vm._v(" "), _c('th', [_vm._v("Qty")]), _vm._v(" "), _vm._l((_vm.Suppliers), function(supplier) {
-    return _c('th', [_vm._v(_vm._s(supplier.Supplier)), _c('br'), _c('br'), _vm._v(" "), _c('button', {
+  }, [_c('table', [_c('tr', [_c('th', [_vm._v("Article")]), _vm._v(" "), _c('th', [_vm._v("Unit")]), _vm._v(" "), _c('th', [_vm._v("Qty")]), _vm._v(" "), _c('th', [_vm._v("N/A")]), _vm._v(" "), _vm._l((_vm.Suppliers), function(supplier) {
+    return _c('th', [_vm._v(_vm._s(supplier.Supplier)), _c('br'), _c('br'), _vm._v(" "), _c('div', {
+      staticClass: "options-canvas"
+    }, [_c('button', {
+      staticClass: "update-canvas-opener",
       attrs: {
         "type": "button"
       },
@@ -1806,11 +1812,22 @@ module.exports={render:function (){var _vm=this;var _h=_vm.$createElement;var _c
       }
     }, [_c('i', {
       staticClass: "material-icons"
-    }, [_vm._v("close")])])])
+    }, [_vm._v("close")])])])])
   })], 2), _vm._v(" "), _vm._l((_vm.RVdata), function(rvdata, index) {
     return _c('tr', [_c('td', [_vm._v(_vm._s(rvdata.Particulars))]), _vm._v(" "), _c('td', [_vm._v(_vm._s(rvdata.Unit))]), _vm._v(" "), (rvdata.QuantityValidator != 0) ? _c('td', [_vm._v(_vm._s(rvdata.QuantityValidator))]) : _c('td', [_c('i', {
       staticClass: "material-icons color-blue"
-    }, [_vm._v("check")])]), _vm._v(" "), _vm._l((_vm.Suppliers), function(supplier) {
+    }, [_vm._v("check")])]), _vm._v(" "), _c('td', [_c('input', {
+      attrs: {
+        "type": "radio",
+        "name": 'SupplierChoice[' + [index] + ']'
+      },
+      on: {
+        "click": function($event) {
+          if (!('button' in $event) && _vm._k($event.keyCode, "prevents")) { return null; }
+          _vm.changeValue([index], null)
+        }
+      }
+    })]), _vm._v(" "), _vm._l((_vm.Suppliers), function(supplier) {
       return _c('td', [(supplier.canvass_detail[index].Price > 0 && rvdata.QuantityValidator != 0) ? _c('input', {
         attrs: {
           "type": "radio",
@@ -1850,12 +1867,7 @@ module.exports={render:function (){var _vm=this;var _h=_vm.$createElement;var _c
       }
     }
   }, [_c('div', {
-    staticClass: "canvass-center-form",
-    on: {
-      "click": function($event) {
-        _vm.IsActive = !_vm.IsActive
-      }
-    }
+    staticClass: "canvass-center-form"
   }, [_vm._m(1), _vm._v(" "), _c('div', {
     staticClass: "canvass-form"
   }, [(_vm.Update == true) ? _c('div', {
@@ -2141,40 +2153,31 @@ module.exports={render:function (){var _vm=this;var _h=_vm.$createElement;var _c
     })], 1)]) : _vm._e()
   })], 2)]), _vm._v(" "), _c('div', {
     staticClass: "modal-canvass-buttons"
-  }, [_c('button', {
-    attrs: {
-      "type": "button",
-      "id": "cancel-canvass"
-    },
-    on: {
-      "click": function($event) {
-        $event.preventDefault();
-        _vm.IsActive = false
-      }
-    }
-  }, [_vm._v("Cancel")]), _vm._v(" "), (_vm.Update == false) ? _c('button', {
+  }, [(_vm.Update == false) ? _c('button', {
     staticClass: "done-canvass",
     attrs: {
       "type": "submit"
     },
     on: {
-      "click": [function($event) {
+      "click": function($event) {
         _vm.saveSupplier()
-      }, function($event) {
-        _vm.IsActive = !_vm.IsActive
-      }]
+      }
     }
-  }, [_vm._v("Done")]) : _vm._e(), _vm._v(" "), (_vm.Update == true) ? _c('button', {
+  }, [_c('i', {
+    staticClass: "material-icons"
+  }, [_vm._v("check")]), _vm._v(" Done")]) : _vm._e(), _vm._v(" "), (_vm.Update == true) ? _c('button', {
     staticClass: "done-canvass",
     attrs: {
       "type": "submit"
     },
     on: {
       "click": function($event) {
-        _vm.IsActive = !_vm.IsActive, _vm.saveUpdate()
+        _vm.saveUpdate()
       }
     }
-  }, [_vm._v("Update")]) : _vm._e()])])])])])
+  }, [_c('i', {
+    staticClass: "material-icons"
+  }, [_vm._v("refresh")]), _vm._v(" Update")]) : _vm._e()])])])])])
 },staticRenderFns: [function (){var _vm=this;var _h=_vm.$createElement;var _c=_vm._self._c||_h;
   return _c('div', {
     staticClass: "top-title-canvass"

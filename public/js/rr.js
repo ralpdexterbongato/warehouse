@@ -2685,13 +2685,7 @@ module.exports={render:function (){var _vm=this;var _h=_vm.$createElement;var _c
       }
     }
   }, [_c('div', {
-    staticClass: "center-white-modal",
-    on: {
-      "click": function($event) {
-        $event.preventDefault();
-        _vm.ModalIsActive = !_vm.ModalIsActive
-      }
-    }
+    staticClass: "center-white-modal"
   }, [_c('div', {
     staticClass: "items-from-rv-nopo-table"
   }, [_c('table', [_vm._m(2), _vm._v(" "), _vm._l((_vm.fromrvdetail), function(rvdetail, loop) {
@@ -2839,6 +2833,7 @@ module.exports={render:function (){var _vm=this;var _h=_vm.$createElement;var _c
       'hide': _vm.SignatureBtnHide
     }
   }, [_c('longpress', {
+    staticClass: "waves-effect waves-light",
     attrs: {
       "id": "RRsignature",
       "duration": "3",
@@ -2849,6 +2844,7 @@ module.exports={render:function (){var _vm=this;var _h=_vm.$createElement;var _c
   }, [_c('i', {
     staticClass: "material-icons"
   }, [_vm._v("edit")]), _vm._v(" Signature\r\n    ")]), _vm._v(" "), _c('longpress', {
+    staticClass: "waves-effect waves-light",
     attrs: {
       "id": "RRdecline",
       "duration": "3",
@@ -3281,12 +3277,7 @@ module.exports={render:function (){var _vm=this;var _h=_vm.$createElement;var _c
       }
     }
   }, [_c('div', {
-    staticClass: "middle-rr-withpo",
-    on: {
-      "click": function($event) {
-        _vm.IsModalActive = !_vm.IsModalActive
-      }
-    }
+    staticClass: "middle-rr-withpo"
   }, [_c('table', [_vm._m(1), _vm._v(" "), _vm._l((_vm.rrvalidatorwpo), function(rrvalidator, count) {
     return _c('tr', [(rrvalidator.ItemCode != null) ? _c('td', [_vm._v(_vm._s(rrvalidator.ItemCode))]) : _c('td', [_c('i', {
       staticClass: "material-icons decliner"

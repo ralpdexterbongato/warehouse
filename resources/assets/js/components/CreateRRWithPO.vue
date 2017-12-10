@@ -59,7 +59,7 @@
     </longpress>
   </div>
   <div class="rr-with-po-modal" :class="{'active':IsModalActive}" v-on:click="IsModalActive=!IsModalActive">
-    <div class="middle-rr-withpo" v-on:click="IsModalActive=!IsModalActive">
+    <div class="middle-rr-withpo">
       <table>
         <tr>
           <th>ItemCode</th>

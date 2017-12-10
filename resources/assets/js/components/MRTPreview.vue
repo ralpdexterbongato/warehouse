@@ -12,10 +12,10 @@
       <span v-else>
       </span>
       <span class="signature-decline-mrt" :class="{'hide':SignatureBtnHide}" v-if="UserCanSignature">
-        <longpress id="signature-mrt" duration="3" :on-confirm="signatureMRT" pressing-text="confirm in {$rcounter}" action-text="Loading . . .">
+        <longpress id="signature-mrt" class="waves-effect waves-light" duration="3" :on-confirm="signatureMRT" pressing-text="confirm in {$rcounter}" action-text="Loading . . .">
         <i class="material-icons">edit</i> Signature
         </longpress>
-        <longpress id="decline-mrt" duration="3" :on-confirm="declineMRT" pressing-text="confirm in {$rcounter}" action-text="Loading . . .">
+        <longpress id="decline-mrt" class="waves-effect waves-light" duration="3" :on-confirm="declineMRT" pressing-text="confirm in {$rcounter}" action-text="Loading . . .">
         <i class="material-icons">close</i> Decline
         </longpress>
       </span>

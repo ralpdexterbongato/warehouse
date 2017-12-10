@@ -41,7 +41,7 @@
     </div>
   </div>
   <div class="mrt-items-modal" :class="{'active':ModalIsActive}" v-on:click="ModalIsActive=!ModalIsActive">
-    <div class="mrt-items" v-on:click="ModalIsActive=!ModalIsActive">
+    <div class="mrt-items">
       <table>
         <tr>
           <th class="left-part">Item Code</th>

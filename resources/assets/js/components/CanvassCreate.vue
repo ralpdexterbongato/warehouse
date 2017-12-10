@@ -13,9 +13,12 @@
             <th>Article</th>
             <th>Unit</th>
             <th>Qty</th>
+            <th>N/A</th>
             <th v-for="supplier in Suppliers">{{supplier.Supplier}}<br><br>
-                <button type="button" @click.prevent="IsActive=!IsActive" v-on:click="Update=true,fetchSupplierUpdate(supplier.id)"><i class="material-icons">loop</i></button>
-                <button type="button" name="button" v-on:click="deleteCanvass(supplier.id)"><i class="material-icons">close</i></button>
+                <div class="options-canvas">
+                  <button class="update-canvas-opener" type="button" @click.prevent="IsActive=!IsActive" v-on:click="Update=true,fetchSupplierUpdate(supplier.id)"><i class="material-icons">loop</i></button>
+                  <button type="button" name="button" v-on:click="deleteCanvass(supplier.id)"><i class="material-icons">close</i></button>
+                </div>
             </th>
           </tr>
             <tr v-for="(rvdata, index) in RVdata">
@@ -23,6 +26,7 @@
               <td>{{rvdata.Unit}}</td>
               <td v-if="rvdata.QuantityValidator!=0">{{rvdata.QuantityValidator}}</td>
               <td v-else><i class="material-icons color-blue">check</i></td>
+              <td><input type="radio" @click.prevents="changeValue([index],null)" v-bind:name="'SupplierChoice['+[index]+']'"></td>
               <td v-for="supplier in Suppliers">
                 <input type="radio" @click.prevents="changeValue([index],supplier.Supplier)" v-bind:name="'SupplierChoice['+[index]+']'" v-if="supplier.canvass_detail[index].Price>0&&rvdata.QuantityValidator!=0">
                 {{formatPrice(supplier.canvass_detail[index].Price)}}
@@ -37,7 +41,7 @@
       </div>
     </div>
     <div class="modal-canvass" :class="{'active':IsActive}" v-on:click="IsActive=!IsActive">
-      <div class="canvass-center-form" v-on:click="IsActive=!IsActive">
+      <div class="canvass-center-form">
         <h1><i class="material-icons">store</i> Record Supplier</h1>
         <div class="canvass-form">
           <div class="suppliersInfoForm" v-if="Update==true">
@@ -80,9 +84,8 @@
             </table>
           </div>
           <div class="modal-canvass-buttons">
-            <button type="button"id="cancel-canvass" @click.prevent="IsActive=false">Cancel</button>
-            <button v-if="Update==false" type="submit" class="done-canvass" @click="saveSupplier()" v-on:click="IsActive= !IsActive">Done</button>
-            <button v-if="Update==true" type="submit" class="done-canvass" v-on:click="IsActive= !IsActive,saveUpdate()">Update</button>
+            <button v-if="Update==false" type="submit" class="done-canvass" @click="saveSupplier()"><i class="material-icons">check</i> Done</button>
+            <button v-if="Update==true" type="submit" class="done-canvass" v-on:click="saveUpdate()"><i class="material-icons">refresh</i> Update</button>
           </div>
         </div>
       </div>

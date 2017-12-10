@@ -32320,7 +32320,7 @@ module.exports={render:function (){var _vm=this;var _h=_vm.$createElement;var _c
       "href": "/mirs-signature-list"
     }
   }, [_c('li', {
-    staticClass: "clickable"
+    staticClass: "clickable waves-effect waves"
   }, [_vm._m(3), _vm._v(" "), _c('span', {
     staticClass: "notif",
     class: [_vm.MIRSNotif != 0 ? 'active' : '']
@@ -32331,7 +32331,7 @@ module.exports={render:function (){var _vm=this;var _h=_vm.$createElement;var _c
       "href": "/mct-signature-request"
     }
   }, [_c('li', {
-    staticClass: "clickable"
+    staticClass: "clickable waves-effect waves"
   }, [_vm._m(4), _vm._v(" "), _c('span', {
     staticClass: "notif",
     class: [_vm.NewlyCreatedMCT != 0 ? 'active' : '']
@@ -32342,7 +32342,7 @@ module.exports={render:function (){var _vm=this;var _h=_vm.$createElement;var _c
       "href": "/my-mrt-signature-request"
     }
   }, [_c('li', {
-    staticClass: "clickable"
+    staticClass: "clickable waves-effect waves"
   }, [_vm._m(5), _vm._v(" "), _c('span', {
     staticClass: "notif",
     class: [_vm.NewlyCreatedMRT != 0 ? 'active' : '']
@@ -32353,7 +32353,7 @@ module.exports={render:function (){var _vm=this;var _h=_vm.$createElement;var _c
       "href": "/checkout-rr-request"
     }
   }, [_c('li', {
-    staticClass: "clickable"
+    staticClass: "clickable waves-effect waves"
   }, [_vm._m(6), _vm._v(" "), _c('span', {
     staticClass: "notif",
     class: [_vm.RRRequestCount != 0 ? 'active' : '']
@@ -32364,7 +32364,7 @@ module.exports={render:function (){var _vm=this;var _h=_vm.$createElement;var _c
       "href": "/myRVrequest"
     }
   }, [_c('li', {
-    staticClass: "clickable"
+    staticClass: "clickable waves-effect waves"
   }, [_vm._m(7), _vm._v(" "), _c('span', {
     staticClass: "notif",
     class: [_vm.NewlyCreatedRV != 0 ? 'active' : '']
@@ -32375,7 +32375,7 @@ module.exports={render:function (){var _vm=this;var _h=_vm.$createElement;var _c
       "href": "/my-mr-request"
     }
   }, [_c('li', {
-    staticClass: "clickable"
+    staticClass: "clickable waves-effect waves"
   }, [_vm._m(8), _vm._v(" "), _c('span', {
     staticClass: "notif",
     class: [_vm.CountMRRequest != 0 ? 'active' : '']
@@ -32386,7 +32386,7 @@ module.exports={render:function (){var _vm=this;var _h=_vm.$createElement;var _c
       "href": "/my-PO-request"
     }
   }, [_c('li', {
-    staticClass: "clickable"
+    staticClass: "clickable waves-effect waves"
   }, [_vm._m(9), _vm._v(" "), _c('span', {
     staticClass: "notif",
     class: [_vm.CountPOrequest != 0 ? 'active' : '']
@@ -32397,7 +32397,7 @@ module.exports={render:function (){var _vm=this;var _h=_vm.$createElement;var _c
       "href": "/ready-mirs"
     }
   }, [_c('li', {
-    staticClass: "clickable"
+    staticClass: "clickable waves-effect waves"
   }, [_vm._m(10), _vm._v(" "), _c('span', {
     staticClass: "notif",
     class: [_vm.NewlyApprovedMIRS != 0 ? 'active' : '']
@@ -32408,7 +32408,7 @@ module.exports={render:function (){var _vm=this;var _h=_vm.$createElement;var _c
       "href": "/waiting-to-be-purchased-rv"
     }
   }, [_c('li', {
-    staticClass: "clickable"
+    staticClass: "clickable waves-effect waves"
   }, [_vm._m(11), _vm._v(" "), _c('span', {
     staticClass: "notif",
     class: [_vm.RVWaitingRRCount != 0 ? 'active' : '']
@@ -32419,7 +32419,7 @@ module.exports={render:function (){var _vm=this;var _h=_vm.$createElement;var _c
       "href": "/manager-take-placer-setting"
     }
   }, [_vm._m(13)]) : _vm._e(), _vm._v(" "), (_vm.user.Role == 1) ? _c('span', [_vm._m(14), _vm._v(" "), _vm._m(15)]) : _c('span', [_vm._m(16)]), _vm._v(" "), _vm._m(17), _vm._v(" "), _vm._m(18), _vm._v(" "), _c('a', [_c('li', {
-    staticClass: "logout-btn clickable",
+    staticClass: "logout-btn clickable waves-effect waves",
     on: {
       "click": function($event) {
         _vm.logout()
@@ -32494,7 +32494,7 @@ module.exports={render:function (){var _vm=this;var _h=_vm.$createElement;var _c
   }, [_c('span', [_vm._v("\n              Settings\n            ")])])])
 },function (){var _vm=this;var _h=_vm.$createElement;var _c=_vm._self._c||_h;
   return _c('li', {
-    staticClass: "clickable"
+    staticClass: "clickable waves-effect waves"
   }, [_c('span', [_c('i', {
     staticClass: "material-icons"
   }, [_vm._v("face")]), _vm._v("Assign a Manager\n            ")])])
@@ -32504,7 +32504,7 @@ module.exports={render:function (){var _vm=this;var _h=_vm.$createElement;var _c
       "href": "/create-non-existing-item-in-warehouse"
     }
   }, [_c('li', {
-    staticClass: "clickable"
+    staticClass: "clickable waves-effect waves"
   }, [_c('span', [_c('i', {
     staticClass: "material-icons"
   }, [_vm._v("fiber_new")]), _vm._v(" Add new item\n            ")])])])
@@ -32514,7 +32514,7 @@ module.exports={render:function (){var _vm=this;var _h=_vm.$createElement;var _c
       "href": "/settings-accounts-list"
     }
   }, [_c('li', {
-    staticClass: "clickable"
+    staticClass: "clickable waves-effect waves"
   }, [_c('span', [_c('i', {
     staticClass: "material-icons"
   }, [_vm._v("people")]), _vm._v(" Manage accounts\n            ")])])])
@@ -32524,7 +32524,7 @@ module.exports={render:function (){var _vm=this;var _h=_vm.$createElement;var _c
       "href": "/my-own-account-settings-page"
     }
   }, [_c('li', {
-    staticClass: "clickable"
+    staticClass: "clickable waves-effect waves"
   }, [_c('span', [_c('i', {
     staticClass: "material-icons"
   }, [_vm._v("account_circle")]), _vm._v("My account\n            ")])])])
@@ -32538,7 +32538,7 @@ module.exports={render:function (){var _vm=this;var _h=_vm.$createElement;var _c
       "href": "/show-my-history"
     }
   }, [_c('li', {
-    staticClass: "clickable"
+    staticClass: "clickable waves-effect waves"
   }, [_c('span', [_c('i', {
     staticClass: "material-icons"
   }, [_vm._v("history")]), _vm._v(" My history\n          ")])])])

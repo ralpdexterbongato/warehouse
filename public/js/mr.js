@@ -2251,7 +2251,7 @@ module.exports={render:function (){var _vm=this;var _h=_vm.$createElement;var _c
       'hide': _vm.SignatureApproveReplacer
     }
   }, [_c('longpress', {
-    staticClass: "rvapprovebtn",
+    staticClass: "rvapprovebtn waves-effect waves-light",
     attrs: {
       "duration": "3",
       "on-confirm": _vm.SignatureApproveInBehalf,
@@ -2261,7 +2261,7 @@ module.exports={render:function (){var _vm=this;var _h=_vm.$createElement;var _c
   }, [_c('i', {
     staticClass: "material-icons"
   }, [_vm._v("edit")]), _vm._v(" Signature\r\n        ")]), _vm._v(" "), _c('longpress', {
-    staticClass: "RVdeclineBtn",
+    staticClass: "RVdeclineBtn waves-effect waves-light",
     attrs: {
       "duration": "3",
       "on-confirm": _vm.refuseApproveInBehalf,
@@ -2275,6 +2275,7 @@ module.exports={render:function (){var _vm=this;var _h=_vm.$createElement;var _c
       'hide': _vm.SignatureBtnHide
     }
   }, [_c('longpress', {
+    staticClass: "waves-effect waves-light",
     attrs: {
       "id": "signatureMRbtn",
       "duration": "3",
@@ -2285,6 +2286,7 @@ module.exports={render:function (){var _vm=this;var _h=_vm.$createElement;var _c
   }, [_c('i', {
     staticClass: "material-icons"
   }, [_vm._v("edit")]), _vm._v(" Signature\r\n        ")]), _vm._v(" "), _c('longpress', {
+    staticClass: "waves-effect waves-light",
     attrs: {
       "id": "declineMRbtn",
       "duration": "3",
@@ -2549,12 +2551,7 @@ module.exports={render:function (){var _vm=this;var _h=_vm.$createElement;var _c
       }
     }
   }, [_c('div', {
-    staticClass: "center-white-fromrr",
-    on: {
-      "click": function($event) {
-        _vm.isActive = !_vm.isActive
-      }
-    }
+    staticClass: "center-white-fromrr"
   }, [_c('h1', [_vm._v("Select Items from RR")]), _vm._v(" "), _c('div', {
     staticClass: "table-container-mr-form"
   }, [_c('table', [_vm._m(2), _vm._v(" "), _vm._l((_vm.rritems), function(rritem) {

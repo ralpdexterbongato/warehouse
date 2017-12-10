@@ -1,10 +1,10 @@
 <template lang="html">
 <div class="rr-preview-vue" v-if="RRMaster.users!=null">
   <div class="signature-btn" :class="{'hide':SignatureBtnHide}" v-if="UserCanSignature">
-    <longpress id="RRsignature" duration="3" :on-confirm="signature"  pressing-text="confirm in {$rcounter}" action-text="Loading . . .">
+    <longpress id="RRsignature" class="waves-effect waves-light" duration="3" :on-confirm="signature"  pressing-text="confirm in {$rcounter}" action-text="Loading . . .">
       <i class="material-icons">edit</i> Signature
     </longpress>
-    <longpress id="RRdecline" duration="3" :on-confirm="declinesignature"  pressing-text="confirm in {$rcounter}" action-text="Loading . . .">
+    <longpress id="RRdecline" class="waves-effect waves-light" duration="3" :on-confirm="declinesignature"  pressing-text="confirm in {$rcounter}" action-text="Loading . . .">
       <i class="material-icons">close</i> Decline
     </longpress>
   </div>

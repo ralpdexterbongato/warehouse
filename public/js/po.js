@@ -2035,7 +2035,7 @@ module.exports={render:function (){var _vm=this;var _h=_vm.$createElement;var _c
       'hide': _vm.SignatureApproveReplacerHide
     }
   }, [_c('longpress', {
-    staticClass: "signaturePObtn",
+    staticClass: "signaturePObtn waves-effect waves-light",
     attrs: {
       "duration": "3",
       "on-confirm": _vm.ApproveAuthorizeInBehalf,
@@ -2045,7 +2045,7 @@ module.exports={render:function (){var _vm=this;var _h=_vm.$createElement;var _c
   }, [_c('i', {
     staticClass: "material-icons"
   }, [_vm._v("edit")]), _vm._v(" Signature\n        ")]), _vm._v(" "), _c('longpress', {
-    staticClass: "declinePObtn",
+    staticClass: "declinePObtn waves-effect waves-light",
     attrs: {
       "duration": "3",
       "on-confirm": _vm.RefuseToAuthorizeInBehalf,
@@ -2152,7 +2152,6 @@ module.exports={render:function (){var _vm=this;var _h=_vm.$createElement;var _c
   }, [_vm._v("print")])])
 },function (){var _vm=this;var _h=_vm.$createElement;var _c=_vm._self._c||_h;
   return _c('button', {
-    staticClass: "bttn-unite bttn-xs bttn-primary",
     attrs: {
       "type": "button"
     }

@@ -15,10 +15,10 @@
           <span class="color-blue">{{MIRSMaster.users[0].FullName}}</span> is asking for your signature b/c the {{MIRSMaster.users[1].Position}} is not available
         </h6>
         <span class="manager-replacer-accept-cant" :class="{'hide':SignatureManagerRelacerBtnHide}">
-          <longpress  duration="3" id="manager-replacer-accept" :on-confirm="AcceptrequestReplacer"  pressing-text="confirm in {$rcounter}" action-text="Loading . . .">
+          <longpress  duration="3" id="manager-replacer-accept" class="waves-effect waves-light" :on-confirm="AcceptrequestReplacer"  pressing-text="confirm in {$rcounter}" action-text="Loading . . .">
           <i class="material-icons">edit</i> Signature
           </longpress>
-          <longpress  duration="3" id="manager-replacer-cant" :on-confirm="cancelrequestReplacer"  pressing-text="confirm in {$rcounter}" action-text="Loading . . .">
+          <longpress  duration="3" id="manager-replacer-cant" class="waves-effect waves-light" :on-confirm="cancelrequestReplacer"  pressing-text="confirm in {$rcounter}" action-text="Loading . . .">
           <i class="material-icons">close</i> I can't
           </longpress>
         </span>
@@ -28,20 +28,20 @@
           <span class="color-blue">{{MIRSMaster.users[0].FullName}}</span> is asking for your signature b/c the General Manager is not available
         </h6>
         <span class="MIRS-Approve-Replacer-Btn" :class="{'hide':SignatureApproveBtnHide}">
-          <longpress  duration="3" id="manager-replacer-accept" :on-confirm="AcceptApprovalReplacerequest"  pressing-text="confirm in {$rcounter}" action-text="Loading . . .">
+          <longpress  duration="3" id="manager-replacer-accept" class="waves-effect waves-light" :on-confirm="AcceptApprovalReplacerequest"  pressing-text="confirm in {$rcounter}" action-text="Loading . . .">
           <i class="material-icons">edit</i> Signature
           </longpress>
-          <longpress  duration="3" id="manager-replacer-cant" :on-confirm="cancelRequestApprovalReplacer"  pressing-text="confirm in {$rcounter}" action-text="Loading . . .">
+          <longpress  duration="3" id="manager-replacer-cant" class="waves-effect waves-light" :on-confirm="cancelRequestApprovalReplacer"  pressing-text="confirm in {$rcounter}" action-text="Loading . . .">
           <i class="material-icons">close</i> I can't
           </longpress>
         </span>
       </div>
       <span class="signature-span" v-if="((ManagerCansignature)&&(NoManagerReplacerSignature)||((GMCanSignature)&&(NoApprovalReplacerSignature))||(RequisitionerCanSignature))">
         <div class="middle-status" :class="{'hide':SignatureBtnHide}">
-          <longpress id="accepted" duration="3" :on-confirm="SignatureMIRS"  pressing-text="confirm in {$rcounter}" action-text="Loading . . .">
+          <longpress id="accepted" class="waves-effect waves-light" duration="3" :on-confirm="SignatureMIRS"  pressing-text="confirm in {$rcounter}" action-text="Loading . . .">
             <i class="material-icons">edit</i> Signature
           </longpress>
-          <longpress id="not-accepted" duration="3" :on-confirm="DeclineMIRS"  pressing-text="confirm in {$rcounter}" action-text="Loading . . .">
+          <longpress id="not-accepted" class="waves-effect waves-light" duration="3" :on-confirm="DeclineMIRS"  pressing-text="confirm in {$rcounter}" action-text="Loading . . .">
             <i class="material-icons">close</i> Decline
           </longpress>
         </div>

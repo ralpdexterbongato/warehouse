@@ -66,7 +66,7 @@
       </div>
     </div>
     <div @click.prevent="ModalIsActive=!ModalIsActive" class="modal-rr-no-po" :class="{'active' : ModalIsActive}">
-      <div class="center-white-modal" @click.prevent="ModalIsActive=!ModalIsActive">
+      <div class="center-white-modal">
         <div class="items-from-rv-nopo-table">
           <table>
             <tr>

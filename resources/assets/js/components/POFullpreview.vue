@@ -6,10 +6,10 @@
           The <span class="color-blue">Warehouse section</span> is asking for your signature b/c the General Manager is not available
         </h6>
         <span class="approval-po-replacer-btn" :class="{'hide':SignatureApproveReplacerHide}">
-          <longpress duration="3" class="signaturePObtn" :on-confirm="ApproveAuthorizeInBehalf"  pressing-text="confirmed in {$rcounter}" action-text="please wait . .">
+          <longpress duration="3" class="signaturePObtn waves-effect waves-light" :on-confirm="ApproveAuthorizeInBehalf"  pressing-text="confirmed in {$rcounter}" action-text="please wait . .">
           <i class="material-icons">edit</i> Signature
           </longpress>
-          <longpress  duration="3" class="declinePObtn" :on-confirm="RefuseToAuthorizeInBehalf"  pressing-text="confirmed in {$rcounter}" action-text="please wait . .">
+          <longpress  duration="3" class="declinePObtn waves-effect waves-light" :on-confirm="RefuseToAuthorizeInBehalf"  pressing-text="confirmed in {$rcounter}" action-text="please wait . .">
           <i class="material-icons">close</i> I Can't
           </longpress>
         </span>
@@ -20,7 +20,7 @@
           <li class="pending-delivery-number"><h1>waiting for: <span class="color-blue">{{remaining}}</span> items</h1></li>
         </div>
          <div class="rr-with-po-btn" v-if="user.Role==4||user.Role==3">
-            <a :href="'/create-rr-w-po/'+pono.PONo"><button type="button" class="bttn-unite bttn-xs bttn-primary"><i class="material-icons">add</i> RR</button></a>
+            <a :href="'/create-rr-w-po/'+pono.PONo"><button type="button"><i class="material-icons">add</i> RR</button></a>
          </div>
       </span>
       <div v-else class="empty-left">

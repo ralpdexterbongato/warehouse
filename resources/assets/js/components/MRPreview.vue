@@ -9,18 +9,18 @@
     </div>
     <div class="signature-MR-btns">
       <span class="Approve-MR-inBehalf-btn" :class="{'hide':SignatureApproveReplacer}" v-if="replacerCanSignature">
-        <longpress class="rvapprovebtn" duration="3" :on-confirm="SignatureApproveInBehalf" pressing-text="confirm in {$rcounter}" action-text="Loading . . .">
+        <longpress class="rvapprovebtn waves-effect waves-light" duration="3" :on-confirm="SignatureApproveInBehalf" pressing-text="confirm in {$rcounter}" action-text="Loading . . .">
           <i class="material-icons">edit</i> Signature
         </longpress>
-        <longpress class="RVdeclineBtn" duration="3" :on-confirm="refuseApproveInBehalf" pressing-text="confirm in {$rcounter}" action-text="Loading . . .">
+        <longpress class="RVdeclineBtn waves-effect waves-light" duration="3" :on-confirm="refuseApproveInBehalf" pressing-text="confirm in {$rcounter}" action-text="Loading . . .">
           <i class="material-icons">close</i> I can't
         </longpress>
       </span>
       <span :class="{'hide':SignatureBtnHide}" v-if="UserCanSignature">
-        <longpress  id="signatureMRbtn" duration="3" :on-confirm="signatureMR" pressing-text="confirm in {$rcounter}" action-text="Loading . . .">
+        <longpress  id="signatureMRbtn" class="waves-effect waves-light" duration="3" :on-confirm="signatureMR" pressing-text="confirm in {$rcounter}" action-text="Loading . . .">
           <i class="material-icons">edit</i> Signature
         </longpress>
-        <longpress  id="declineMRbtn" duration="3" :on-confirm="declineMR" pressing-text="confirm in {$rcounter}" action-text="Loading . . .">
+        <longpress  id="declineMRbtn" class="waves-effect waves-light" duration="3" :on-confirm="declineMR" pressing-text="confirm in {$rcounter}" action-text="Loading . . .">
           <i class="material-icons">close</i> Decline
         </longpress>
       </span>

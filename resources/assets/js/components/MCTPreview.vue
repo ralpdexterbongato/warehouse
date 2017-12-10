@@ -31,10 +31,10 @@
     </span>
     <span v-else-if="((MCTMaster.users[0].pivot.Signature=='0')&&(MCTMaster.users[1].id==user.id)&&(MCTMaster.users[1].pivot.Signature==null)||(MCTMaster.users[0].id==user.id)&&(MCTMaster.users[0].pivot.Signature==null))">
       <div class="signature-mct-btn" :class="{'hide':SignatureMCTBtnHide}">
-        <longpress id="signatureMCT" duration="3" :on-confirm="signatureMCT" :disabled="IsDisabled" pressing-text="confirm in {$rcounter}" action-text="Loading . . .">
+        <longpress id="signatureMCT" class="waves-effect waves-light" duration="3" :on-confirm="signatureMCT" :disabled="IsDisabled" pressing-text="confirm in {$rcounter}" action-text="Loading . . .">
         <i class="material-icons">edit</i> Signature
         </longpress>
-        <longpress id="declineMCT" duration="3" :on-confirm="declineMCT" :disabled="IsDisabled" pressing-text="confirm in {$rcounter}" action-text="Loading . . .">
+        <longpress id="declineMCT" class="waves-effect waves-light" duration="3" :on-confirm="declineMCT" :disabled="IsDisabled" pressing-text="confirm in {$rcounter}" action-text="Loading . . .">
         <i class="material-icons">close</i> Decline
         </longpress>
       </div>

@@ -45,8 +45,8 @@
       </ul>
     </div>
   </div>
-  <div class="modal-search-item":class="{'active animated fadeIn':isActive}" v-on:click="isActive=!isActive">
-    <div class="middle-modal-search" v-on:click="isActive=!isActive">
+  <div class="modal-search-item":class="{'active':isActive}" v-on:click="isActive=!isActive">
+    <div class="middle-modal-search">
       <h1>MIRS</h1>
         <div class="table-mirs-modalcontain">
           <div class="search-item-bar">
