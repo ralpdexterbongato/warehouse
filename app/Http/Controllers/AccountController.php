@@ -61,10 +61,10 @@ class AccountController extends Controller
     {
       if ($request->Role=='')
       {
-        return User::orderBy('id','DESC')->where('FullName','LIKE','%'.$request->FullName.'%')->paginate(5,['id','FullName','Username','Signature','IsActive','Mobile']);
+        return User::orderBy('id','DESC')->where('FullName','LIKE','%'.$request->FullName.'%')->paginate(15,['id','FullName','Username','Signature','IsActive','Mobile']);
       }else
       {
-        return User::orderBy('id','DESC')->where('Role', $request->Role)->where('FullName', 'LIKE','%'.$request->FullName.'%')->paginate(5,['id','FullName','Username','Signature','IsActive','Mobile']);
+        return User::orderBy('id','DESC')->where('Role', $request->Role)->where('FullName', 'LIKE','%'.$request->FullName.'%')->paginate(15,['id','FullName','Username','Signature','IsActive','Mobile']);
       }
     }
     public function fetchDataofSelectedUser($id)

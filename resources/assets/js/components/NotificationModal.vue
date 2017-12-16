@@ -96,7 +96,7 @@
         <a v-if="user.Role==0||user.Role==2" href="/my-PO-request">
           <li class="clickable waves-effect waves">
             <span>
-        <i class="material-icons">notifications_none</i>PO
+              <i class="material-icons">notifications_none</i>PO
             </span>
             <span class="notif" :class="[CountPOrequest!=0?'active':'']">{{CountPOrequest}}
               <small class="new-notif" v-if="PONew==true">new !
