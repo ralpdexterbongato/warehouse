@@ -72,8 +72,8 @@ class User extends Authenticatable
     public function POSignatureTurn()
     {
       return $this->morphedByMany('App\POMaster','Signatureable')->orderBy('PONo','DESC')->withPivot(['SignatureType','Signature'])
-      ->whereNull('Status')->wherePivot('Signature',null)->wherePivot('SignatureType', 'ApprovedBy')
-      ->orWhere('Status',null)->wherePivot('Signature',null)->where('SignatureType', 'ApprovalReplacer');
+      ->whereNull('Status')->wherePivot('Signature',null)->wherePivot('SignatureType', 'ApprovedBy')->wherePivot('user_id', Auth::user()->id)->where('signatureable_type', 'App\POMaster')
+      ->orWhere('Status',null)->wherePivot('Signature',null)->where('SignatureType', 'ApprovalReplacer')->wherePivot('user_id', Auth::user()->id)->where('signatureable_type', 'App\POMaster');
     }
     public function RRSignatureTurn()
     {
