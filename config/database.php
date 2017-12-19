@@ -66,16 +66,15 @@ return [
             'schema' => 'public',
             'sslmode' => 'prefer',
         ],
-
         'sqlsrv' => [
-            'driver' => 'sqlsrv',
-            'host' => env('DB_HOST', 'CODE'),
-            'database' => env('DB_DATABASE', 'WarehouseClone'),
-            'username' => env('DB_USERNAME', 'sa'),
-            'password' => env('DB_PASSWORD', 'godisgood'),
-            'charset' => 'utf8',
-            'prefix' => '',
-        ],
+          'driver' => 'sqlsrv',
+          'host' => env('DB_HOST', 'localhost'),
+          'database' => env('DB_DATABASE', 'forge'),
+          'username' => env('DB_USERNAME', 'forge'),
+          'password' => env('DB_PASSWORD', ''),
+          'charset' => 'utf8',
+          'prefix' => '',
+          ],
 
     ],
 

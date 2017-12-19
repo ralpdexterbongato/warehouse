@@ -2875,8 +2875,6 @@ only screen and (max-width: 1050px),
 }
 .print-MCT-wrap button
 {
-	margin-left: 30px;
-	margin-right: 30px;
   padding:6px 12px;
 	border-radius: 3px;
 	background: #fff;
@@ -3153,9 +3151,6 @@ only screen and (max-width: 1050px),
 .mct-edit-container
 {
   min-height:40px;
-  display: flex;
-  flex-direction: column;
-  justify-content: flex-end;
 	color: #162E5F;
 }
 .mct-edit-container i:hover
