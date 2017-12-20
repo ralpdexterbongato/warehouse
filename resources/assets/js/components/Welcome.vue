@@ -38,7 +38,7 @@
             <th>Current cost</th>
             <th>Current quantity</th>
             <th>Current amount</th>
-            <th>Month</th>
+            <th>Date</th>
           </tr>
           <tr>
             <td>{{latestFound.MTType}}</td>
@@ -53,7 +53,7 @@
             <td>{{formatPrice(latestFound.CurrentCost)}}</td>
             <td>{{latestFound.CurrentQuantity}}</td>
             <td>{{formatPrice(latestFound.CurrentAmount)}}</td>
-            <td>{{FormatMonth(latestFound.MTDate)}}</td>
+            <td>{{latestFound.MTDate}}</td>
           </tr>
         </table>
       </div>
@@ -70,7 +70,7 @@
             <th>Current cost</th>
             <th>Current quantity</th>
             <th>Current amount</th>
-            <th>Month</th>
+            <th>Date</th>
           </tr>
           <tr v-for="history in historiesfound" v-if="history.id!=latestFound.id">
             <td>{{history.MTType}}</td>
@@ -85,7 +85,7 @@
             <td>{{formatPrice(history.CurrentCost)}}</td>
             <td>{{history.CurrentQuantity}}</td>
             <td>{{formatPrice(history.CurrentAmount)}}</td>
-            <td>{{FormatMonth(history.MTDate)}}</td>
+            <td>{{history.MTDate}}</td>
           </tr>
         </table>
         <div class="paginate-container">
@@ -190,7 +190,6 @@
 </template>
 <script>
 import axios from 'axios';
-import moment from 'moment';
 import 'vue2-toast/lib/toast.css';
 import Toast from 'vue2-toast';
 Vue.use(Toast);
@@ -258,12 +257,6 @@ Vue.use(VueAnimateNumber);
         this.pagination.current_page = next;
         this.SearchItemHistory(next);
       },
-      FormatMonth(value)
-      {
-        if (value) {
-        return moment(String(value)).format('MM-YYYY');
-        }
-      }
     },
     computed:{
       isActive:function(){

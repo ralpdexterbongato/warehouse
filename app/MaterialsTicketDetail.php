@@ -9,8 +9,7 @@ class MaterialsTicketDetail extends Model
     protected $dates=['MTDate'];
     protected $table = 'MaterialsTicketDetails';
     public $timestamps = false;
-    protected $primaryKey=['ItemCode'];
-    public $incrementing = false;
+    public $dateFormat = 'M d, Y';
 
     public function MasterItems()
     {
