@@ -56,7 +56,7 @@ class ItemsController extends Controller
     {
       $this->validate($request,[
         'AccountCode'=>'required|max:20',
-        'ItemCode'=>'required|max:20|unique:MaterialsTicketDetails',
+        'ItemCode'=>'required|max:20|unique:MasterItems',
         'CurrentQuantity'=>'required|numeric|min:0',
         'Unit'=>'required|max:10',
         'CurrentCost'=>'required|max:18',
