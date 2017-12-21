@@ -21,7 +21,7 @@
         </div>
         <div class="submit-btn-login-container">
           <p>Forgot password?<br>-please contact the administrator.</p>
-          <button type="button" class="waves-effect waves-light" name="button" v-on:click="submitCredentials"> <i class="material-icons">send</i> Login</button>
+          <button type="button" class="waves-effect waves-light" :class="{'pulse':formValid}" name="button" v-on:click="submitCredentials"> <i class="material-icons">send</i> Login</button>
         </div>
       </div>
     </div>
@@ -67,5 +67,15 @@ export default {
        });
      }
    },
+   computed:
+   {
+     formValid:function()
+     {
+       if (((this.Username!='')&&(this.Password!='')))
+       {
+         return true;
+       }
+     }
+   }
 }
 </script>

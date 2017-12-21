@@ -1899,7 +1899,7 @@ function loadLocale(name) {
             module && module.exports) {
         try {
             oldLocale = globalLocale._abbr;
-            __webpack_require__(152)("./" + name);
+            __webpack_require__(153)("./" + name);
             // because defineLocale currently also sets the global locale, we
             // want to undo that for lazy loaded locales
             getSetGlobalLocale(oldLocale);
@@ -4534,7 +4534,7 @@ return hooks;
 
 })));
 
-/* WEBPACK VAR INJECTION */}.call(exports, __webpack_require__(151)(module)))
+/* WEBPACK VAR INJECTION */}.call(exports, __webpack_require__(152)(module)))
 
 /***/ }),
 /* 1 */
@@ -27936,7 +27936,8 @@ return zhTw;
 
 
 /***/ }),
-/* 151 */
+/* 151 */,
+/* 152 */
 /***/ (function(module, exports) {
 
 module.exports = function(module) {
@@ -27964,7 +27965,7 @@ module.exports = function(module) {
 
 
 /***/ }),
-/* 152 */
+/* 153 */
 /***/ (function(module, exports, __webpack_require__) {
 
 var map = {
@@ -28213,10 +28214,9 @@ webpackContext.keys = function webpackContextKeys() {
 };
 webpackContext.resolve = webpackContextResolve;
 module.exports = webpackContext;
-webpackContext.id = 152;
+webpackContext.id = 153;
 
 /***/ }),
-/* 153 */,
 /* 154 */
 /***/ (function(module, exports, __webpack_require__) {
 
@@ -30452,6 +30452,13 @@ Vue.use(__WEBPACK_IMPORTED_MODULE_2_vue2_toast___default.a);
         }
       });
     }
+  },
+  computed: {
+    formValid: function formValid() {
+      if (this.Username != '' && this.Password != '') {
+        return true;
+      }
+    }
   }
 });
 
@@ -32641,6 +32648,9 @@ module.exports={render:function (){var _vm=this;var _h=_vm.$createElement;var _c
     staticClass: "submit-btn-login-container"
   }, [_vm._m(1), _vm._v(" "), _c('button', {
     staticClass: "waves-effect waves-light",
+    class: {
+      'pulse': _vm.formValid
+    },
     attrs: {
       "type": "button",
       "name": "button"
