@@ -187,7 +187,7 @@
             <option value="7">Budget Officer</option>
             <option value="8">Requisitioner</option>
           </select>
-          <select  v-model="ChoosenManager">
+          <select v-if="RegisterRole!=2" v-model="ChoosenManager">
             <option :value="null">His/Her manager</option>
             <option :value="manager.id" v-for="manager in ManagerChoices">{{manager.FullName}}</option>
           </select>
@@ -482,6 +482,9 @@ import axios from 'axios';
               }else if(error.response.data.Username!=null)
               {
                 vm.$toast.top(error.response.data.Username[0]);
+              }else if(error.response.data.Mobile!=null)
+              {
+                vm.$toast.top(error.response.data.Mobile[0]);
               }else if(error.response.data.Password!=null)
               {
                 vm.$toast.top(error.response.data.Password[0]);

@@ -19,7 +19,13 @@
               <p>Address: {{$rr->Address}}</p>
             </div>
             <div class="rr-box-status">
-              <i class="material-icons darker-blue">access_time</i>
+              @if ($rr->Status=='0')
+                <h3><i class="material-icons color-green">check</i></h3>
+              @elseif ($rr->Status=='1')
+                <h3><i class="material-icons color-red">close</i></h3>
+              @else
+                <h3><i class="material-icons darker-blue">access_time</i></h3>
+              @endif
             </div>
           </div>
         </div>

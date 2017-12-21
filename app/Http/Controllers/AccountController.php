@@ -227,15 +227,28 @@ class AccountController extends Controller
     }
     public function SaveNewUser(Request $request)
     {
-      $this->validate($request,[
-        'FullName'=>'required|max:25',
-        'Username'=>'required',
-        'Mobile'=>'max:11',
-        'Role'=>'required',
-        'Manager'=>'required',
-        'Password'=>'required|confirmed',
-        'Signature'=>'required'
-      ]);
+      if ($request->Role!=2)
+      {
+        $this->validate($request,[
+          'FullName'=>'required|max:25',
+          'Username'=>'required',
+          'Mobile'=>'max:11',
+          'Role'=>'required',
+          'Manager'=>'required',
+          'Password'=>'required|confirmed',
+          'Signature'=>'required'
+        ]);
+      }else
+      {
+        $this->validate($request,[
+          'FullName'=>'required|max:25',
+          'Username'=>'required',
+          'Mobile'=>'max:11',
+          'Role'=>'required',
+          'Password'=>'required|confirmed',
+          'Signature'=>'required'
+        ]);
+      }
       if (($request->Manager==null)&&($request->Role!=2))
       {
         return ['error'=>'The manager is required'];
@@ -276,7 +289,10 @@ class AccountController extends Controller
       {
         $userDB->Position='Requisitioner';
       }
-      $userDB->Manager=$request->Manager;
+      if ($request->Role!=2)
+      {
+        $userDB->Manager=$request->Manager;
+      }
       $userDB->Password=bcrypt($request->Password);
       $userDB->Signature=$fileName;
       $userDB->save();

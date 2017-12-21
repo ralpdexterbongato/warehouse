@@ -126,7 +126,7 @@ Vue.use(VueNumeric)
           ItemCode:'',
           CurrentQuantity:'',
           Unit:'',
-          CurrentCost:0,
+          CurrentCost:'0',
           Description:'',
           AlertBelow:'',
           ItemCodeSearch:'',

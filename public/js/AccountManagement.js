@@ -29531,6 +29531,8 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
             vm.$toast.top(error.response.data.FullName[0]);
           } else if (error.response.data.Username != null) {
             vm.$toast.top(error.response.data.Username[0]);
+          } else if (error.response.data.Mobile != null) {
+            vm.$toast.top(error.response.data.Mobile[0]);
           } else if (error.response.data.Password != null) {
             vm.$toast.top(error.response.data.Password[0]);
           } else if (error.response.data.Role != null) {
@@ -31922,7 +31924,7 @@ module.exports={render:function (){var _vm=this;var _h=_vm.$createElement;var _c
     attrs: {
       "value": "8"
     }
-  }, [_vm._v("Requisitioner")])]), _vm._v(" "), _c('select', {
+  }, [_vm._v("Requisitioner")])]), _vm._v(" "), (_vm.RegisterRole != 2) ? _c('select', {
     directives: [{
       name: "model",
       rawName: "v-model",
@@ -31950,7 +31952,7 @@ module.exports={render:function (){var _vm=this;var _h=_vm.$createElement;var _c
         "value": manager.id
       }
     }, [_vm._v(_vm._s(manager.FullName))])
-  })], 2), _vm._v(" "), _c('input', {
+  })], 2) : _vm._e(), _vm._v(" "), _c('input', {
     attrs: {
       "type": "file",
       "accept": "image/PNG"

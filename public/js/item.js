@@ -905,7 +905,7 @@ Vue.use(__WEBPACK_IMPORTED_MODULE_1_vue_numeric___default.a);
       ItemCode: '',
       CurrentQuantity: '',
       Unit: '',
-      CurrentCost: 0,
+      CurrentCost: '0',
       Description: '',
       AlertBelow: '',
       ItemCodeSearch: '',

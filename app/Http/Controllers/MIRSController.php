@@ -213,7 +213,7 @@ class MIRSController extends Controller
                     ->delay(Carbon::now()->addSeconds(5));
       dispatch($job);
 
-      if ($ApprovalReplacerId[0]!=null)
+      if (!empty($ApprovalReplacerId[0]))
       {
         $tobeNotifycontainer  = array('tobeNotify' =>$ApprovalReplacerId[0]->user_id);
         $tobeNotifycontainer=(object)$tobeNotifycontainer;
