@@ -24,7 +24,7 @@ class RRController extends Controller
   public function __construct()
   {
     $this->middleware('auth');
-    $this->middleware('IsWarehouse',['except'=>['RRofRVlist','previewRRfetchdata','RRindexSearchAndFetch','refreshRRSignatureCount','RRindex','previewRR','signatureRR','declineRR','RRsignatureRequest','displayRRcurrentSession']]);
+    $this->middleware('IsWarehouse',['except'=>['RRofRVlist','RRofPOlist','previewRRfetchdata','RRindexSearchAndFetch','refreshRRSignatureCount','RRindex','previewRR','signatureRR','declineRR','RRsignatureRequest','displayRRcurrentSession']]);
   }
   public function storeRRSessionValidatorNoPO($request)
   {
@@ -475,6 +475,13 @@ class RRController extends Controller
   {
     $RRofRV=RRMaster::where('RVNo',$id)->paginate(9,['RRNo','RVNo','RRDate','Supplier','Address','Status']);
     return view('Warehouse.RR.RRlistOfRV',compact('RRofRV'));
+  }
+  public function RRofPOlist($poNum)
+  {
+    $PONum = array('PONumber' =>$poNum);
+    $PONum=(object)$PONum;
+    $RRofPO=RRMaster::orderBy('RRNo','DESC')->where('PONo',$poNum)->paginate(9,['RRNo','RRDate','Supplier','Address','Status']);
+    return view('Warehouse.RR.RRlistofPO',compact('RRofPO','PONum'));
   }
   public function refreshRRSignatureCount()
   {

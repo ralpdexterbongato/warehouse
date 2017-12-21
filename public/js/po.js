@@ -1099,6 +1099,11 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
 //
 //
 //
+//
+//
+//
+//
+//
 
 
 
@@ -2066,13 +2071,21 @@ module.exports={render:function (){var _vm=this;var _h=_vm.$createElement;var _c
     staticClass: "pending-delivery-number"
   }, [_c('h1', [_vm._v("waiting for: "), _c('span', {
     staticClass: "color-blue"
-  }, [_vm._v(_vm._s(_vm.remaining))]), _vm._v(" items")])])]), _vm._v(" "), (_vm.user.Role == 4 || _vm.user.Role == 3) ? _c('div', {
+  }, [_vm._v(_vm._s(_vm.remaining))]), _vm._v(" items")])])]), _vm._v(" "), _c('div', {
+    staticClass: "right-detail-po"
+  }, [_c('div', {
+    staticClass: "view-rr-of-po-btn"
+  }, [_c('a', {
+    attrs: {
+      "href": '/rr-of-po-list/' + _vm.pono.PONo
+    }
+  }, [_vm._m(2)])]), _vm._v(" "), (_vm.user.Role == 4 || _vm.user.Role == 3) ? _c('div', {
     staticClass: "rr-with-po-btn"
   }, [_c('a', {
     attrs: {
       "href": '/create-rr-w-po/' + _vm.pono.PONo
     }
-  }, [_vm._m(2)])]) : _vm._e()]) : _c('div', {
+  }, [_vm._m(3)])]) : _vm._e()])]) : _c('div', {
     staticClass: "empty-left"
   }), _vm._v(" "), (_vm.GMCanSignature) ? _c('div', {
     staticClass: "signature-btns-wrap-po",
@@ -2101,15 +2114,15 @@ module.exports={render:function (){var _vm=this;var _h=_vm.$createElement;var _c
     staticClass: "material-icons"
   }, [_vm._v("close")]), _vm._v(" Decline\n      ")])], 1) : _vm._e()]), _vm._v(" "), _c('div', {
     staticClass: "PO-bondpaper"
-  }, [_vm._m(3), _vm._v(" "), _c('div', {
+  }, [_vm._m(4), _vm._v(" "), _c('div', {
     staticClass: "po-master-data"
   }, [_c('div', {
     staticClass: "left-data-po"
   }, [_c('ul', [_c('li', [_c('label', [_vm._v("TO: ")]), _vm._v(" "), _c('h1', [_vm._v(_vm._s(_vm.OrderMaster.Supplier))])]), _vm._v(" "), _c('li', [_c('label'), _c('h1', [_vm._v(_vm._s(_vm.OrderMaster.Address))])]), _vm._v(" "), _c('li', [_c('label'), _c('h1', [_vm._v("Tel# " + _vm._s(_vm.OrderMaster.Telephone))])])])]), _vm._v(" "), _c('div', {
     staticClass: "right-data-po"
-  }, [_c('ul', [_c('li', [_c('label', [_vm._v("P.O. No.")]), _c('h1', [_vm._v(_vm._s(_vm.OrderMaster.PONo))])]), _vm._v(" "), _c('li', [_c('label', [_vm._v("DATE:")]), _c('h1', [_vm._v(_vm._s(_vm.OrderMaster.PODate))])]), _vm._v(" "), _vm._m(4), _vm._v(" "), _c('li', [_vm._v("( " + _vm._s(_vm.OrderMaster.Purpose) + " )")])])])]), _vm._v(" "), _vm._m(5), _vm._v(" "), _c('div', {
+  }, [_c('ul', [_c('li', [_c('label', [_vm._v("P.O. No.")]), _c('h1', [_vm._v(_vm._s(_vm.OrderMaster.PONo))])]), _vm._v(" "), _c('li', [_c('label', [_vm._v("DATE:")]), _c('h1', [_vm._v(_vm._s(_vm.OrderMaster.PODate))])]), _vm._v(" "), _vm._m(5), _vm._v(" "), _c('li', [_vm._v("( " + _vm._s(_vm.OrderMaster.Purpose) + " )")])])])]), _vm._v(" "), _vm._m(6), _vm._v(" "), _c('div', {
     staticClass: "PO-Details-table"
-  }, [_c('table', [_vm._m(6), _vm._v(" "), _vm._l((_vm.OrderMaster.p_o_details), function(podetail, index) {
+  }, [_c('table', [_vm._m(7), _vm._v(" "), _vm._l((_vm.OrderMaster.p_o_details), function(podetail, index) {
     return _c('tr', [_c('td', [_vm._v(_vm._s(index + 1))]), _vm._v(" "), _c('td', [_vm._v(_vm._s(podetail.Qty))]), _vm._v(" "), _c('td', [_vm._v(_vm._s(podetail.Unit))]), _vm._v(" "), _c('td', [_vm._v(_vm._s(podetail.Description))]), _vm._v(" "), _c('td', [_vm._v(_vm._s(_vm.formatPrice(podetail.Price)))]), _vm._v(" "), _c('td', [_vm._v(_vm._s(_vm.formatPrice(podetail.Amount)))])])
   }), _vm._v(" "), _c('tr', {
     staticClass: "total-amt-po"
@@ -2117,9 +2130,9 @@ module.exports={render:function (){var _vm=this;var _h=_vm.$createElement;var _c
     staticClass: "RV-data-in-PO"
   }, [_c('h1', [_vm._v("APPROVED RV No." + _vm._s(_vm.OrderMaster.RVNo))]), _c('p', [_vm._v("Dated: " + _vm._s(_vm.OrderMaster.RVDate))])]), _vm._v(" "), _c('div', {
     staticClass: "signatures-po"
-  }, [_vm._m(7), _vm._v(" "), _c('div', {
+  }, [_vm._m(8), _vm._v(" "), _c('div', {
     staticClass: "label-signatures-po"
-  }, [_vm._m(8), _vm._v(" "), _c('li', [(_vm.OrderMaster.users[0].pivot.Signature == '0') ? _c('h6', [_c('img', {
+  }, [_vm._m(9), _vm._v(" "), _c('li', [(_vm.OrderMaster.users[0].pivot.Signature == '0') ? _c('h6', [_c('img', {
     attrs: {
       "src": '/storage/signatures/' + _vm.OrderMaster.users[0].Signature,
       "alt": "signature"
@@ -2150,6 +2163,14 @@ module.exports={render:function (){var _vm=this;var _h=_vm.$createElement;var _c
   }, [_c('i', {
     staticClass: "material-icons"
   }, [_vm._v("print")])])
+},function (){var _vm=this;var _h=_vm.$createElement;var _c=_vm._self._c||_h;
+  return _c('button', {
+    attrs: {
+      "type": "button"
+    }
+  }, [_c('i', {
+    staticClass: "material-icons"
+  }, [_vm._v("remove_red_eye")]), _vm._v(" RR")])
 },function (){var _vm=this;var _h=_vm.$createElement;var _c=_vm._self._c||_h;
   return _c('button', {
     attrs: {

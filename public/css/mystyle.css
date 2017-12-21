@@ -6562,7 +6562,7 @@ text-align: center;
 }
 .RV-signature-print-container button
 {
-  padding:0px 12px;
+  padding:6px 12px;
   font-size: 15px;
 	border:none;
 	background: #fff;
@@ -8027,11 +8027,39 @@ only screen and (max-width: 1050px),
   display: flex;
 	font-family: sans-serif;
 }
+.right-detail-po
+{
+	display: flex;
+}
 .make-rr-and-print
 {
   flex:1;
   display: flex;
   justify-content: space-between;
+}
+@media (max-width:500px)
+{
+	.make-rr-and-print
+	{
+		flex-direction: column;
+	}
+	.view-rr-of-po-btn,.rr-with-po-btn
+	{
+		flex:1;
+	}
+	.rr-with-po-btn button,.view-rr-of-po-btn button
+	{
+		width: 100%;
+	}
+	.right-detail-po
+	{
+		margin-top: 10px;
+		justify-content: center;
+	}
+	.left-detail-po
+	{
+		justify-content: center;
+	}
 }
 .print-po-btn
 {
@@ -8045,6 +8073,10 @@ only screen and (max-width: 1050px),
 	{
 		justify-content: center;
 	}
+}
+.rr-with-po-btn
+{
+	margin-left: 15px;
 }
 .print-po-btn button,.rr-with-po-btn button
 {
@@ -12898,4 +12930,89 @@ only screen and (max-width: 1050px),
     -webkit-transform: scale(1.5);
             transform: scale(1.5);
   }
+}
+
+
+/*list of RR belongs to PO*/
+.RR-list-of-po-container
+{
+	padding:50px;
+}
+@media (max-width:500px)
+{
+	.RR-list-of-po-container
+	{
+		padding:0px;
+	}
+	.RR-list-of-po-container h5
+	{
+		font-size: 14px;
+		margin:0 auto;
+		text-align: center;
+	}
+}
+.RR-box-container a
+{
+	margin:20px;
+	text-decoration: none;
+	color: rgba(0, 0, 0, 0.8);
+}
+.RR-box-container
+{
+	margin-top: 50px;
+	display: flex;
+	flex-wrap: wrap;
+	justify-content: space-around;
+}
+.RR-box
+{
+	height:350px;
+	width: 270px;
+	border:1px solid #ccc;
+	display: flex;
+	flex-direction: column;
+	font-family: 'Comfortaa',sans-serif;
+}
+.RR-box:hover
+{
+	-webkit-box-shadow: 0 2px 4px -1px rgba(0,0,0,0.06), 0 4px 5px 0 rgba(0,0,0,0.06), 0 1px 10px 0 rgba(0,0,0,0.08);
+	box-shadow: 0 2px 4px -1px rgba(0,0,0,0.06), 0 4px 5px 0 rgba(0,0,0,0.06), 0 1px 10px 0 rgba(0,0,0,0.08);
+}
+.rr-box-head
+{
+	height: 30px;
+	background:#3367D6;
+	color: #fff;
+}
+.rr-box-head h5
+{
+	padding-top: 7px;
+	text-align: center;
+}
+.rr-box-content
+{
+	flex:1;
+	display: flex;
+	flex-direction: column;
+}
+.rr-box-top-content
+{
+	flex:1;
+	padding:10px;
+}
+.rr-box-top-content p
+{
+	text-align:left;
+	font-size: 14px;
+	margin-top: 5px;
+}
+.rr-box-status
+{
+	flex:2;
+	display: flex;
+}
+.rr-box-status i
+{
+	margin:auto;
+	font-size: 100px;
 }

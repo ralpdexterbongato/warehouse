@@ -111,6 +111,7 @@ Route::put('/decline-this-RR/{id}','RRController@declineRR')->name('RRdecline');
 Route::get('/create-rr-wo-po/{id}','RRController@CreateRRNoPO')->name('CreatingRR.without.po')->middleware('IfAlreadyHavePO');
 Route::get('/create-rr-w-po/{id}','RRController@CreateRRWithPO')->name('CreateingRR.with.po');
 Route::get('/rr-of-rv-list/{id}','RRController@RRofRVlist')->name('showRR-ofRV');
+Route::get('/rr-of-po-list/{id}','RRController@RRofPOlist');
 Route::get('RV-create','RVController@RVcreate')->name('Creating.RV')->middleware('MustNotGMorManager');
 Route::get('/fetch-rv-session','RVController@fetchSessionRV');
 Route::post('/session-saving-rv','RVController@SaveSession')->name('SavingSessionRV');

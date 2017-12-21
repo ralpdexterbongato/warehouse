@@ -19,9 +19,14 @@
           <a :href="'/PO.pdf/'+pono.PONo"><button type="submit" name="PONo" value="ponohere"><i class="material-icons">print</i></button></a>
           <li class="pending-delivery-number"><h1>waiting for: <span class="color-blue">{{remaining}}</span> items</h1></li>
         </div>
-         <div class="rr-with-po-btn" v-if="user.Role==4||user.Role==3">
-            <a :href="'/create-rr-w-po/'+pono.PONo"><button type="button"><i class="material-icons">add</i> RR</button></a>
-         </div>
+        <div class="right-detail-po">
+          <div class="view-rr-of-po-btn">
+            <a :href="'/rr-of-po-list/'+pono.PONo"><button type="button"><i class="material-icons">remove_red_eye</i> RR</button></a>
+          </div>
+           <div class="rr-with-po-btn" v-if="user.Role==4||user.Role==3">
+              <a :href="'/create-rr-w-po/'+pono.PONo"><button type="button"><i class="material-icons">add</i> RR</button></a>
+           </div>
+        </div>
       </span>
       <div v-else class="empty-left">
       </div>
