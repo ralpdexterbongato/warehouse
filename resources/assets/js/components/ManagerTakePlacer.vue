@@ -1,7 +1,7 @@
 <template lang="html">
 <div class="managerbox-container">
   <div class="manager-box">
-    <h1 class="flex"><i class="material-icons color-blue">info</i><p>This manager will be able to signature any request that belongs to you, whenever you are not available</p></h1>
+    <h1 class="flex"><i class="material-icons color-blue">info</i><p>This manager will be able to signature any request created that needs your approval, whenever you are not available</p></h1>
     <div class="manager-assigned-name">
       <h1 v-if="currentAssigned!=null">{{currentAssigned.FullName}}</h1>
       <h1 v-else>No one was assigned</h1>

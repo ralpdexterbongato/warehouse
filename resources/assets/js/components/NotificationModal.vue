@@ -17,9 +17,9 @@
       <ul>
         <a>
           <li class="sidebar-title CurrentUser">
-            <span>
+            <div class="flex">
               <i class="material-icons">person</i> {{user.FullName}}
-            </span>
+            </div>
           </li>
         </a>
         <a>

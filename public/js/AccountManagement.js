@@ -31035,7 +31035,7 @@ module.exports={render:function (){var _vm=this;var _h=_vm.$createElement;var _c
     staticClass: "flex"
   }, [_c('i', {
     staticClass: "material-icons color-blue"
-  }, [_vm._v("info")]), _c('p', [_vm._v("This manager will be able to signature any request that belongs to you, whenever you are not available")])])
+  }, [_vm._v("info")]), _c('p', [_vm._v("This manager will be able to signature any request created that needs your approval, whenever you are not available")])])
 }]}
 module.exports.render._withStripped = true
 if (false) {

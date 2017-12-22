@@ -4726,7 +4726,7 @@ only screen and (max-width: 1050px),
  background: #fff;
  height:100%;
  margin-right: 10px;
- width: 260px;
+ width: 276px;
  border-bottom-right-radius: 5px;
  z-index: 17;
  left:-400px;
@@ -4739,7 +4739,7 @@ only screen and (max-width: 1050px),
 }
 @media (max-width:400px)
 {
-	.middle-account-modal.active
+	.middle-account-modal
 	{
 		width:240px;
 	}
@@ -4839,7 +4839,7 @@ only screen and (max-width: 1050px),
 {
 	text-transform: uppercase;
 }
-@media (max-width:320px)
+@media (max-width:400px)
 {
 	.CurrentUser i
 	{
