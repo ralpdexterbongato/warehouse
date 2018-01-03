@@ -222,6 +222,10 @@ class RVController extends Controller
     {
       Signatureable::where('signatureable_id', $id)->where('signatureable_type', 'App\RVMaster')->where('user_id', Auth::user()->id)->update(['Signature'=>'1']);
       RVMaster::where('RVNo', $id)->update(['Status'=>'1']);
+      if (Auth::user()->Role==2)
+      {
+        Signatureable::where('signatureable_id', $id)->where('signatureable_type', 'App\RVMaster')->where('SignatureType', 'ApprovalReplacer')->delete();
+      }
     }
     public function searchRV(Request $request)
     {
@@ -281,6 +285,11 @@ class RVController extends Controller
     }
     public function AcceptSignatureBehalf($id)
     {
+      $RVStatus=RVMaster::where('RVNo', $id)->get(['Status']);
+      if ($RVStatus[0]->Status!=null)
+      {
+        return ['success'=>'success'];
+      }
       RVMaster::where('RVNo', $id)->update(['SignatureTurn'=>'4','Status'=>'0']);
       Signatureable::where('signatureable_id', $id)->where('signatureable_type', 'App\RVMaster')->where('SignatureType','ApprovalReplacer')->where('user_id', Auth::user()->id)->update(['Signature'=>'0']);
       $RequisitionerId=Signatureable::where('signatureable_id', $id)->where('signatureable_type', 'App\RVMaster')->where('SignatureType','Requisitioner')->get(['user_id']);
@@ -292,6 +301,7 @@ class RVController extends Controller
       $NotifData=(object)$NotifData;
       $job = (new RVApprovalReplacer($NotifData))->delay(Carbon::now()->addSeconds(5));
       dispatch($job);
+      return ['success'=>'success'];
     }
     public function fetchSessionRV()
     {

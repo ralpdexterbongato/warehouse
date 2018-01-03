@@ -212,6 +212,7 @@ class MRController extends Controller
     public function DeclineMR($id)
     {
       MRMaster::where('MRNo',$id)->update(['Status'=>'1']);
+      Signatureable::where('signatureable_id',$id)->where('signatureable_type', 'App\MRMaster')->where('SignatureType', 'ApprovalReplacer')->delete();
       Signatureable::where('user_id', Auth::user()->id)->where('signatureable_id',$id)->where('signatureable_type', 'App\MRMaster')->update(['Signature'=>'1']);
       $RRNumber=MRMaster::where('MRNo',$id)->get(['RRNo']);
       $MRitemsDeclined=MRDetail::where('MRNo',$id)->get(['Quantity','NameDescription']);
@@ -240,6 +241,10 @@ class MRController extends Controller
     public function confirmApproveinBehalf($id)
     {
       $MRMaster=MRMaster::with('users')->where('MRNo',$id)->get();
+      if ($MRMaster[0]->users[1]->pivot->Signature!=null)
+      {
+        return ['success'=>'success'];
+      }
       if (isset($MRMaster[0]->users[3])&&($MRMaster[0]->users[3]->id==Auth::user()->id))
       {
         MRMaster::where('MRNo',$id)->update(['SignatureTurn'=>'2']);

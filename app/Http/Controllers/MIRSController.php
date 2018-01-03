@@ -183,6 +183,10 @@ class MIRSController extends Controller
   {
     Signatureable::where('signatureable_id', $id)->where('signatureable_type', 'App\MIRSMaster')->where('user_id', Auth::user()->id)->update(['Signature'=>'1']);
     MIRSMaster::where('MIRSNo', $id)->update(['Status'=>'1']);
+    if (Auth::user()->Role==2)
+    {
+      Signatureable::where('signatureable_id',$id)->where('signatureable_type', 'App\MIRSMaster')->where('SignatureType', 'ApprovalReplacer')->delete();
+    }
   }
   public function MIRSSignature($id)
   {
@@ -251,6 +255,11 @@ class MIRSController extends Controller
   }
   public function AcceptApprovalRequest($id)
   {
+    $MIRSStatus=MIRSMaster::where('MIRSNo', $id)->get(['Status']);
+    if ($MIRSStatus[0]->Status!=null)
+    {
+      return ['success'=>'success'];
+    }
     Signatureable::where('signatureable_id',$id)->where('signatureable_type', 'App\MIRSMaster')->where('SignatureType', 'ApprovalReplacer')->update(['Signature'=>'0']);
     MIRSMaster::where('MIRSNo', $id)->update(['Status'=>'0','SignatureTurn'=>'3']);
     $PreparedId=Signatureable::where('signatureable_id', $id)->where('signatureable_type', 'App\MIRSMaster')->where('SignatureType', 'PreparedBy')->get(['user_id']);
@@ -262,6 +271,7 @@ class MIRSController extends Controller
     $NotifData=(object)$NotifData;
     $job=(new MIRSApprovalReplacer($NotifData))->delay(Carbon::now()->addSeconds(5));
     dispatch($job);
+    return ['success'=>'success'];
   }
   public function fetchAllManager()
   {
