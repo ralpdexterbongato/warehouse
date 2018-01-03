@@ -1181,7 +1181,6 @@ Vue.use(__WEBPACK_IMPORTED_MODULE_2_vue2_toast___default.a);
       _this.MIRSNew = true;
       _this.playsound();
     });
-    this.refreshNotifationMIRS();
     if (this.user.Role == 3 || this.user.Role == 4) {
       Echo.private('WarehouseRole').listen('NewApprovedMIRSEvent', function (e) {
         console.log(e);
@@ -1190,8 +1189,6 @@ Vue.use(__WEBPACK_IMPORTED_MODULE_2_vue2_toast___default.a);
         _this.ApproveMIRSNew = true;
         _this.playsound();
       });
-      this.RefreshNewlyApprovedMIRSNotification();
-      this.refreshCountRVWaitingForRR();
       Echo.private('NewRVApprovedchannel').listen('NewRVApprovedEvent', function (e) {
         console.log(e);
         _this.refreshCountRVWaitingForRR();
@@ -1207,9 +1204,6 @@ Vue.use(__WEBPACK_IMPORTED_MODULE_2_vue2_toast___default.a);
       _this.MCTNew = true;
       _this.playsound();
     });
-    this.refreshnewlyCreatedMCT();
-    this.refreshNewlyCreatedMRT();
-    this.refreshNewlyCreatedRV();
     Echo.private('MRTchannel.' + this.user.id).listen('NewMRTEvent', function (e) {
       console.log(e);
       _this.refreshNewlyCreatedMRT();
@@ -1224,8 +1218,6 @@ Vue.use(__WEBPACK_IMPORTED_MODULE_2_vue2_toast___default.a);
       _this.RVNew = true;
       _this.playsound();
     });
-    this.refresCountRRnewCreated();
-    this.refreshCountMRNewlyCreated();
     if (this.user.Role == 2 || this.user.Role == 0) {
       Echo.private('POchannel.' + this.user.id).listen('NewPOEvent', function (e) {
         console.log(e);
@@ -1234,7 +1226,6 @@ Vue.use(__WEBPACK_IMPORTED_MODULE_2_vue2_toast___default.a);
         _this.PONew = true;
         _this.playsound();
       });
-      this.refreshCountNewlyCreatedPO();
     }
     Echo.private('RRchannel.' + this.user.id).listen('NewRREvent', function (e) {
       console.log(e);
@@ -1325,6 +1316,21 @@ Vue.use(__WEBPACK_IMPORTED_MODULE_2_vue2_toast___default.a);
         console.log(response);
         Vue.set(vm.$data, 'CountPOrequest', response.data.PONotifCount);
       });
+    },
+    refreshall: function refreshall() {
+      this.refreshNotifationMIRS();
+      this.refreshnewlyCreatedMCT();
+      this.refreshNewlyCreatedMRT();
+      this.refresCountRRnewCreated();
+      this.refreshNewlyCreatedRV();
+      this.refreshCountMRNewlyCreated();
+      if (this.user.Role == 3 || this.user.Role == 4) {
+        this.RefreshNewlyApprovedMIRSNotification();
+        this.refreshCountRVWaitingForRR();
+      }
+      if (this.user.Role == 2 || this.user.Role == 0) {
+        this.refreshCountNewlyCreatedPO();
+      }
     }
   }
 
@@ -32295,7 +32301,7 @@ module.exports={render:function (){var _vm=this;var _h=_vm.$createElement;var _c
     },
     on: {
       "click": function($event) {
-        _vm.modalOpen = true
+        _vm.modalOpen = true, _vm.refreshall()
       }
     }
   }, [_c('i', {

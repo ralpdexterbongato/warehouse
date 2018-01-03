@@ -2,7 +2,7 @@
   <span>
     <div class="top-nav-container">
       <div class="left-nav-content">
-          <button type="button" class="burger-button" v-on:click="modalOpen=true"><i class="material-icons">menu</i></button>
+          <button type="button" class="burger-button" v-on:click="modalOpen=true,refreshall()"><i class="material-icons">menu</i></button>
         <h1><a href="/"><img src="/DesignIMG/logo.png" alt="logo"></a></h1>
       </div>
       <div class="right-nav-content">
@@ -235,7 +235,6 @@ Vue.use(Toast);
            this.MIRSNew=true;
            this.playsound();
        });
-       this.refreshNotifationMIRS();
        if (this.user.Role==3||this.user.Role==4)
        {
          Echo.private('WarehouseRole')
@@ -246,8 +245,6 @@ Vue.use(Toast);
              this.ApproveMIRSNew=true;
              this.playsound();
          });
-         this.RefreshNewlyApprovedMIRSNotification();
-         this.refreshCountRVWaitingForRR();
          Echo.private('NewRVApprovedchannel')
          .listen('NewRVApprovedEvent', (e) => {
              console.log(e);
@@ -265,9 +262,6 @@ Vue.use(Toast);
            this.MCTNew=true;
            this.playsound();
        });
-       this.refreshnewlyCreatedMCT();
-       this.refreshNewlyCreatedMRT();
-       this.refreshNewlyCreatedRV();
        Echo.private('MRTchannel.'+this.user.id)
        .listen('NewMRTEvent', (e) => {
            console.log(e);
@@ -284,8 +278,6 @@ Vue.use(Toast);
            this.RVNew=true;
            this.playsound();
        });
-       this.refresCountRRnewCreated();
-       this.refreshCountMRNewlyCreated();
        if (this.user.Role==2||this.user.Role==0)
        {
          Echo.private('POchannel.'+this.user.id)
@@ -296,7 +288,6 @@ Vue.use(Toast);
              this.PONew=true;
              this.playsound();
          });
-         this.refreshCountNewlyCreatedPO();
        }
        Echo.private('RRchannel.'+this.user.id)
        .listen('NewRREvent', (e) => {
@@ -409,6 +400,24 @@ Vue.use(Toast);
           console.log(response);
           Vue.set(vm.$data,'CountPOrequest',response.data.PONotifCount);
         });
+      },
+      refreshall()
+      {
+        this.refreshNotifationMIRS();
+        this.refreshnewlyCreatedMCT();
+        this.refreshNewlyCreatedMRT();
+        this.refresCountRRnewCreated();
+        this.refreshNewlyCreatedRV();
+        this.refreshCountMRNewlyCreated();
+        if (this.user.Role==3||this.user.Role==4)
+        {
+           this.RefreshNewlyApprovedMIRSNotification();
+           this.refreshCountRVWaitingForRR();
+        }
+        if (this.user.Role==2||this.user.Role==0)
+        {
+          this.refreshCountNewlyCreatedPO();
+        }
       }
      }
 

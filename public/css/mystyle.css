@@ -57,6 +57,9 @@ tr{
 *{
   outline:none;
 }
+a{
+	text-decoration: none!important;
+}
 body
 {
 	max-width: 1920px;
@@ -2272,6 +2275,7 @@ only screen and (max-width: 1050px),
 	.download-form a
 	{
 		display: flex;
+		text-decoration: none;
 	}
 	.download-form
 	{
@@ -4525,6 +4529,8 @@ only screen and (max-width: 1050px),
 	flex:1;
 	display: flex;
 	background: #fff;
+	overflow-x: hidden;
+	overflow-y: hidden;
 }
 @media (max-width:800px)
 {
@@ -8521,7 +8527,7 @@ only screen and (max-width: 1050px),
 .po-request-table th
 {
   padding:6px;
-  background: #337AB7;
+  background: #3367D6;
   color: #fff;
   font-weight: 600;
 }
@@ -8595,9 +8601,8 @@ only screen and (max-width: 1050px),
 .empty-po
 {
   text-align: center;
-  font-size: 25px;
+  font-size: 20px;
   color: #BFBFBF;
-  font-weight: 600;
   margin-top: 140px;
 }
 /*pending purchase RV CSS*/
@@ -11333,7 +11338,6 @@ only screen and (max-width: 1050px),
 .signature-preview
 {
   width: 200px;
-  height: 100px;
   margin:auto;
   margin-top: 20px;
   font-family:Roboto, 'Segoe UI', Tahoma, sans-serif;
