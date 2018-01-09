@@ -9,7 +9,10 @@
     </longpress>
   </div>
   <div class="print-RR-btn" v-else-if="(RRMaster.Status=='0')">
+    <span>
       <a :href="'/RR.pdf/'+RRMaster.RRNo"><button type="submit"  name="RRNo" value="RRNohere"><i class="material-icons">print</i></button></a>
+      <button type="button" class="undo-btn" name="button">Undo</button>
+    </span>
     <div>
       <a :href="'/view-list-MR-of-RR/'+RRMaster.RRNo" v-if="checkMR!=0"><button type="button" id="full-mr-preview-btn" ><i class="material-icons">history</i> MR</button></a>
       <a :href="'/create-mr/'+RRMaster.RRNo" v-if="(((user.Role==4)||(user.Role==3))&&(RRMaster.Status=='0'))"><button type="button" class="make-mr"><i class="material-icons">add</i>M.R.</button></a>

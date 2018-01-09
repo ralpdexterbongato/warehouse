@@ -29401,6 +29401,7 @@ module.exports={render:function (){var _vm=this;var _h=_vm.$createElement;var _c
   }, [_c('div', {
     staticClass: "modal-find-button"
   }, [_c('button', {
+    staticClass: "z-depth-1",
     attrs: {
       "type": "button",
       "name": "button"
@@ -29426,7 +29427,7 @@ module.exports={render:function (){var _vm=this;var _h=_vm.$createElement;var _c
       }
     }, [_vm._v("close")])])])
   })], 2)])])]), _vm._v(" "), _c('div', {
-    staticClass: "MIRSform-container"
+    staticClass: "MIRSform-container z-depth-0"
   }, [_c('div', {
     staticClass: "form-wrap-mirs"
   }, [_c('ul', [_c('li', [_c('input', {

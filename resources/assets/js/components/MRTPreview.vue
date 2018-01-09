@@ -10,6 +10,7 @@
         </span>
       </span>
       <span v-else>
+        <button type="button" class="undo-btn" name="button">Undo</button>
       </span>
       <span class="signature-decline-mrt" :class="{'hide':SignatureBtnHide}" v-if="UserCanSignature">
         <longpress id="signature-mrt" class="waves-effect waves-light" duration="3" :on-confirm="signatureMRT" pressing-text="confirm in {$rcounter}" action-text="Loading . . .">

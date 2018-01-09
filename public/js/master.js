@@ -32315,7 +32315,7 @@ module.exports={render:function (){var _vm=this;var _h=_vm.$createElement;var _c
       }
     }
   }), _vm._v(" "), _c('div', {
-    staticClass: "middle-account-modal",
+    staticClass: "middle-account-modal z-depth-4",
     class: [_vm.modalOpen == true ? 'active' : '']
   }, [_c('ul', [_c('a', [_c('li', {
     staticClass: "sidebar-title CurrentUser"

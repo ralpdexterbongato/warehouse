@@ -50,6 +50,42 @@ table {
 }
 /*end reset*/
 @import url('https://fonts.googleapis.com/css?family=Roboto|Kaushan+Script|Comfortaa');
+
+/*material shadows*/
+.z-depth-0 {
+  -webkit-box-shadow: none !important;
+          box-shadow: none !important;
+}
+
+.z-depth-1, nav, .card-panel, .card, .toast, .btn, .btn-large, .btn-floating, .dropdown-content, .collapsible, .side-nav {
+  -webkit-box-shadow: 0 2px 2px 0 rgba(0, 0, 0, 0.14), 0 1px 5px 0 rgba(0, 0, 0, 0.12), 0 3px 1px -2px rgba(0, 0, 0, 0.2);
+          box-shadow: 0 2px 2px 0 rgba(0, 0, 0, 0.14), 0 1px 5px 0 rgba(0, 0, 0, 0.12), 0 3px 1px -2px rgba(0, 0, 0, 0.2);
+}
+
+.z-depth-1-half, .btn:hover, .btn-large:hover, .btn-floating:hover {
+  -webkit-box-shadow: 0 3px 3px 0 rgba(0, 0, 0, 0.14), 0 1px 7px 0 rgba(0, 0, 0, 0.12), 0 3px 1px -1px rgba(0, 0, 0, 0.2);
+          box-shadow: 0 3px 3px 0 rgba(0, 0, 0, 0.14), 0 1px 7px 0 rgba(0, 0, 0, 0.12), 0 3px 1px -1px rgba(0, 0, 0, 0.2);
+}
+
+.z-depth-2 {
+  -webkit-box-shadow: 0 4px 5px 0 rgba(0, 0, 0, 0.14), 0 1px 10px 0 rgba(0, 0, 0, 0.12), 0 2px 4px -1px rgba(0, 0, 0, 0.3);
+          box-shadow: 0 4px 5px 0 rgba(0, 0, 0, 0.14), 0 1px 10px 0 rgba(0, 0, 0, 0.12), 0 2px 4px -1px rgba(0, 0, 0, 0.3);
+}
+
+.z-depth-3 {
+  -webkit-box-shadow: 0 6px 10px 0 rgba(0, 0, 0, 0.14), 0 1px 18px 0 rgba(0, 0, 0, 0.12), 0 3px 5px -1px rgba(0, 0, 0, 0.3);
+          box-shadow: 0 6px 10px 0 rgba(0, 0, 0, 0.14), 0 1px 18px 0 rgba(0, 0, 0, 0.12), 0 3px 5px -1px rgba(0, 0, 0, 0.3);
+}
+
+.z-depth-4, .modal {
+  -webkit-box-shadow: 0 8px 10px 1px rgba(0, 0, 0, 0.14), 0 3px 14px 2px rgba(0, 0, 0, 0.12), 0 5px 5px -3px rgba(0, 0, 0, 0.3);
+          box-shadow: 0 8px 10px 1px rgba(0, 0, 0, 0.14), 0 3px 14px 2px rgba(0, 0, 0, 0.12), 0 5px 5px -3px rgba(0, 0, 0, 0.3);
+}
+
+.z-depth-5 {
+  -webkit-box-shadow: 0 16px 24px 2px rgba(0, 0, 0, 0.14), 0 6px 30px 5px rgba(0, 0, 0, 0.12), 0 8px 10px -5px rgba(0, 0, 0, 0.3);
+          box-shadow: 0 16px 24px 2px rgba(0, 0, 0, 0.14), 0 6px 30px 5px rgba(0, 0, 0, 0.12), 0 8px 10px -5px rgba(0, 0, 0, 0.3);
+}
 /*GLOBAL*/
 tr{
 	background: #fff;
@@ -1276,9 +1312,9 @@ only screen and (max-width: 1050px),
 }
 .modal-find-button button
 {
-  background: #004276;
+  background: #fff;
   border-style: none;
-  color: #fff;
+  color: #002C4E;
   padding: 5px 10px;
   font-size:14px;
   margin-bottom: 10px;
@@ -1288,7 +1324,7 @@ only screen and (max-width: 1050px),
 }
 .modal-find-button button:hover
 {
-  background: #002C4E;
+  background: #fafafa;
 }
 @media(max-width:600px)
 {
@@ -2906,7 +2942,7 @@ only screen and (max-width: 1050px),
 }
 .MCT-title button i
 {
-  font-size: 20px;
+  font-size: 15px;
 	color: #22448E;
 }
 @media (max-width:600px)
@@ -4569,11 +4605,11 @@ only screen and (max-width: 1050px),
 }
 .login-placeholder-container input:focus
 {
-	border-bottom-color:#7799E3;
+	border-bottom-color:#6c89c7;
 }
 .login-placeholder-container input.active
 {
-	border-bottom:2px solid #7799E3;
+	border-bottom:2px solid #6c89c7;
 	margin-bottom: 50px;
 }
 .login-placeholder-container input
@@ -4611,7 +4647,7 @@ only screen and (max-width: 1050px),
 {
 	top: -22px;
 	font-size:12px;
-	color: #7799E3;
+	color: #6c89c7;
 }
 .submit-btn-login-container
 {
@@ -4637,7 +4673,7 @@ only screen and (max-width: 1050px),
 .submit-btn-login-container p
 {
 	font-size: 14px;
-	color: #7799E3;
+	color: #6c89c7;
 	line-height: 17px;
 }
 @media (max-width:540px)
@@ -5516,7 +5552,7 @@ only screen and (max-width: 1050px),
 .print-RR-btn button i
 {
   color:#22448E;
-	font-size: 20px;
+	font-size: 16px;
 }
 .top-title-rr
 {
@@ -6177,8 +6213,8 @@ only screen and (max-width: 1050px),
   margin-bottom: 10px;
   border-radius: 3px;
   border-style: none;
-  color: #fff;
-  background:#004276;
+  color: #004276;
+  background:#fff;
   font-size: 14px;
   font-family:Roboto, 'Segoe UI', Tahoma, sans-serif;
   margin-left: 5px;
@@ -13025,4 +13061,23 @@ only screen and (max-width: 1050px),
 {
 	margin:auto;
 	font-size: 100px;
+}
+
+/*undo*/
+.undo-btn:focus
+{
+	box-shadow: none;
+  -webkit-box-shadow: none;
+  border: 1px solid #ccc;
+}
+.undo-btn
+{
+	padding:7px 14px;
+	border-radius: 4px;
+	background: #fff;
+	border: none;
+	font-weight: 600;
+	font-family: helvetica;
+	-webkit-box-shadow: 0 2px 4px -1px rgba(0,0,0,0.06), 0 4px 5px 0 rgba(0,0,0,0.06), 0 1px 10px 0 rgba(0,0,0,0.08);
+	box-shadow: 0 2px 4px -1px rgba(0,0,0,0.06), 0 4px 5px 0 rgba(0,0,0,0.06), 0 1px 10px 0 rgba(0,0,0,0.08);
 }

@@ -1139,6 +1139,7 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
 //
 //
 //
+//
 
 
 
@@ -2657,7 +2658,13 @@ module.exports={render:function (){var _vm=this;var _h=_vm.$createElement;var _c
         _vm.Editbtn = false, _vm.updateQty()
       }
     }
-  }, [_vm._v("Save")])])]) : _c('span'), _vm._v(" "), (_vm.UserCanSignature) ? _c('span', {
+  }, [_vm._v("Save")])])]) : _c('span', [_c('button', {
+    staticClass: "undo-btn",
+    attrs: {
+      "type": "button",
+      "name": "button"
+    }
+  }, [_vm._v("Undo")])]), _vm._v(" "), (_vm.UserCanSignature) ? _c('span', {
     staticClass: "signature-decline-mrt",
     class: {
       'hide': _vm.SignatureBtnHide

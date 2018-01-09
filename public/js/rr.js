@@ -1702,6 +1702,9 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
 //
 //
 //
+//
+//
+//
 
 
 
@@ -2856,11 +2859,17 @@ module.exports={render:function (){var _vm=this;var _h=_vm.$createElement;var _c
     staticClass: "material-icons"
   }, [_vm._v("close")]), _vm._v(" Decline\r\n    ")])], 1) : ((_vm.RRMaster.Status == '0')) ? _c('div', {
     staticClass: "print-RR-btn"
-  }, [_c('a', {
+  }, [_c('span', [_c('a', {
     attrs: {
       "href": '/RR.pdf/' + _vm.RRMaster.RRNo
     }
-  }, [_vm._m(0)]), _vm._v(" "), _c('div', [(_vm.checkMR != 0) ? _c('a', {
+  }, [_vm._m(0)]), _vm._v(" "), _c('button', {
+    staticClass: "undo-btn",
+    attrs: {
+      "type": "button",
+      "name": "button"
+    }
+  }, [_vm._v("Undo")])]), _vm._v(" "), _c('div', [(_vm.checkMR != 0) ? _c('a', {
     attrs: {
       "href": '/view-list-MR-of-RR/' + _vm.RRMaster.RRNo
     }

@@ -6147,7 +6147,7 @@ module.exports={render:function (){var _vm=this;var _h=_vm.$createElement;var _c
   }, [(_vm.user.Role == 3 || _vm.user.Role == 4) ? _c('i', {
     staticClass: "material-icons"
   }, [_vm._v("widgets")]) : _vm._e(), _vm._v(" For stocks")]) : _vm._e(), _vm._v(" "), _c('button', {
-    staticClass: "bttn-unite bttn-sm bttn-primary",
+    staticClass: " z-depth-1",
     attrs: {
       "type": "button",
       "id": "none-existing-itemRV"
@@ -6223,7 +6223,7 @@ module.exports={render:function (){var _vm=this;var _h=_vm.$createElement;var _c
       }
     }
   }, [_c('div', {
-    staticClass: "rv-modal-centered"
+    staticClass: "rv-modal-centered z-depth-5"
   }, [_c('h1', [_vm._v("Request Item")]), _vm._v(" "), _c('div', {
     staticClass: "itemRV-form"
   }, [_c('textarea', {

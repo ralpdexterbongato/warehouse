@@ -3,7 +3,7 @@
   <div class="Search-item-container">
     <div class="Added-Items">
       <div class="modal-find-button" >
-          <button type="button" name="button" v-on:click="isActive = !isActive"><i class="material-icons">add</i>item</button>
+          <button type="button" name="button" class="z-depth-1" v-on:click="isActive = !isActive"><i class="material-icons">add</i>item</button>
       </div>
       <div class="added-table-wrapper">
         <table>
@@ -27,7 +27,7 @@
       </div>
     </div>
   </div>
-  <div class="MIRSform-container">
+  <div class="MIRSform-container z-depth-0">
     <div class="form-wrap-mirs">
       <ul>
         <li><input type="text" autocomplete="off" name="Purpose" v-model="purpose" placeholder="Purpose"></li>

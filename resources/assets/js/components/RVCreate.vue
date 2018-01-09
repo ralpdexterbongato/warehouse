@@ -8,7 +8,7 @@
       <div class="added-items-table">
         <div class="add-item-RV">
           <button type="button" v-if="user.Role==3||user.Role==4" name="button" id="forstock-ItemRV" v-on:click="forstock=!forstock"><i class="material-icons" v-if="user.Role==3||user.Role==4">widgets</i> For stocks</button>
-          <button type="button" class="bttn-unite bttn-sm bttn-primary" id="none-existing-itemRV" v-on:click="notforstock=!notforstock"><i class="material-icons">shopping_cart</i> Not in warehouse</button>
+          <button type="button" class=" z-depth-1" id="none-existing-itemRV" v-on:click="notforstock=!notforstock"><i class="material-icons">shopping_cart</i> Not in warehouse</button>
         </div>
         <table>
           <tr>
@@ -52,7 +52,7 @@
       </div>
     </div>
     <div class="add-RV-item-modal" :class="{'active':notforstock}" v-on:click="notforstock=!notforstock">
-      <div class="rv-modal-centered">
+      <div class="rv-modal-centered z-depth-5">
         <h1>Request Item</h1>
         <div class="itemRV-form">
           <textarea name="Description" v-model="Description" placeholder="Articles (max:50 characters)" required></textarea>
