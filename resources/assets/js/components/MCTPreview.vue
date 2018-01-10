@@ -4,7 +4,8 @@
     <span v-if="AlreadySignatured">
       <form action="/MCT.pdf" method="get" class="mct-print-form">
         <button type="submit" :value="this.mctno.MCTNo" name="MCTNo"><i class="material-icons">print</i></button>
-        <button type="button" class="undo-btn" name="button">Undo</button>
+        <button v-if="MCTMaster.IsRollBack==null||MCTMaster.IsRollBack==1" v-on:click="rollbackMCT()" type="button" class="undo-btn" name="button">reverse</button>
+        <button v-else-if="MCTMaster.IsRollBack==0 && user.Role==1" v-on:click="undoRollbackMCT()"  type="button" class="undo-btn" name="button">Undo reverse</button>
       </form>
     </span>
     <div class="empty-div-left mct-edit-container" v-else-if="((user.id==MCTMaster.users[0].id)&&(MCTMaster.users[1].pivot.Signature==null)&&(MCTMaster.users[0].pivot.Signature!='1'))">
@@ -217,6 +218,44 @@ Vue.use(Toast);
             vm.$loading.close();
           }
         });
+      },
+      rollbackMCT()
+      {
+        var vm=this;
+        if (confirm('Are you sure to rollback this MCT?'))
+        {
+          vm.$loading('Rolling back data');
+          axios.put(`/rollback-mct-history/`+this.mctno.MCTNo).then(function(response)
+          {
+            console.log(response);
+            vm.fetchData();
+            vm.$loading.close();
+            vm.$toast.top('Reversed successfully');
+          }).catch(function(error)
+          {
+            console.log(error);
+            vm.$loading.close();
+          });
+        }
+      },
+      undoRollbackMCT()
+      {
+        var vm=this;
+        if (confirm('Are you sure to undo the rollback of this MCT?'))
+        {
+          vm.$loading('Undoing rollbacked data');
+          axios.put(`/undo-rollback-mct-history/`+this.mctno.MCTNo).then(function(response)
+          {
+            console.log(response);
+            vm.fetchData();
+            vm.$loading.close();
+            vm.$toast.top('undo rollback successful');
+          }).catch(function(error)
+          {
+            console.log(error);
+            vm.$loading.close();
+          });
+        }
       },
      },
      created () {

@@ -13081,3 +13081,49 @@ only screen and (max-width: 1050px),
 	-webkit-box-shadow: 0 2px 4px -1px rgba(0,0,0,0.06), 0 4px 5px 0 rgba(0,0,0,0.06), 0 1px 10px 0 rgba(0,0,0,0.08);
 	box-shadow: 0 2px 4px -1px rgba(0,0,0,0.06), 0 4px 5px 0 rgba(0,0,0,0.06), 0 1px 10px 0 rgba(0,0,0,0.08);
 }
+.rollback-sign
+{
+	display: flex;
+}
+.rollback-sign h2
+{
+	height: 10px;
+	width: 10px;
+	background:#e57373;
+	border-radius: 50%;
+}
+.rollback-sign h3
+{
+	height: 10px;
+	width: 10px;
+	background:#3367D6;
+	border-radius: 50%;
+}
+.rollback-info h2
+{
+	height: 10px;
+	width: 10px;
+	background:#e57373;
+	display: inline-block;
+	margin-right: 5px;
+	border-radius: 50%;
+}
+.rollback-info h3
+{
+	height: 10px;
+	width: 10px;
+	background:#3367D6;
+	display: inline-block;
+	margin-right: 5px;
+	border-radius: 50%;
+}
+.rollback-info
+{
+	margin-bottom: 20px;
+}
+.rollback-info p
+{
+	font-weight: 600;
+	font-size: 14px;
+	margin-bottom: 5px;
+}

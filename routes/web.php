@@ -202,3 +202,6 @@ Route::put('/update-account-contact', 'MyAccountSettings@updateContact');
 Route::put('/update-account-username','MyAccountSettings@updateUserName');
 Route::put('/update-account-password','MyAccountSettings@changeMyPassword');
 Route::get('/show-data','dashBoardController@show');
+
+Route::put('/rollback-mct-history/{mctNo}','MCTController@RollBack');
+Route::put('/undo-rollback-mct-history/{mctNo}','MCTController@UndoRollBack');

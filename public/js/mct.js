@@ -1319,6 +1319,7 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
 //
 //
 //
+//
 
 
 
@@ -1397,6 +1398,36 @@ Vue.use(__WEBPACK_IMPORTED_MODULE_3_vue2_toast___default.a);
           vm.$loading.close();
         }
       });
+    },
+    rollbackMCT: function rollbackMCT() {
+      var vm = this;
+      if (confirm('Are you sure to rollback this MCT?')) {
+        vm.$loading('Rolling back data');
+        __WEBPACK_IMPORTED_MODULE_0_axios___default.a.put('/rollback-mct-history/' + this.mctno.MCTNo).then(function (response) {
+          console.log(response);
+          vm.fetchData();
+          vm.$loading.close();
+          vm.$toast.top('Reversed successfully');
+        }).catch(function (error) {
+          console.log(error);
+          vm.$loading.close();
+        });
+      }
+    },
+    undoRollbackMCT: function undoRollbackMCT() {
+      var vm = this;
+      if (confirm('Are you sure to undo the rollback of this MCT?')) {
+        vm.$loading('Undoing rollbacked data');
+        __WEBPACK_IMPORTED_MODULE_0_axios___default.a.put('/undo-rollback-mct-history/' + this.mctno.MCTNo).then(function (response) {
+          console.log(response);
+          vm.fetchData();
+          vm.$loading.close();
+          vm.$toast.top('undo rollback successful');
+        }).catch(function (error) {
+          console.log(error);
+          vm.$loading.close();
+        });
+      }
     }
   },
   created: function created() {
@@ -2473,13 +2504,29 @@ module.exports={render:function (){var _vm=this;var _h=_vm.$createElement;var _c
     }
   }, [_c('i', {
     staticClass: "material-icons"
-  }, [_vm._v("print")])]), _vm._v(" "), _c('button', {
+  }, [_vm._v("print")])]), _vm._v(" "), (_vm.MCTMaster.IsRollBack == null || _vm.MCTMaster.IsRollBack == 1) ? _c('button', {
     staticClass: "undo-btn",
     attrs: {
       "type": "button",
       "name": "button"
+    },
+    on: {
+      "click": function($event) {
+        _vm.rollbackMCT()
+      }
     }
-  }, [_vm._v("Undo")])])]) : (((_vm.user.id == _vm.MCTMaster.users[0].id) && (_vm.MCTMaster.users[1].pivot.Signature == null) && (_vm.MCTMaster.users[0].pivot.Signature != '1'))) ? _c('div', {
+  }, [_vm._v("reverse")]) : (_vm.MCTMaster.IsRollBack == 0 && _vm.user.Role == 1) ? _c('button', {
+    staticClass: "undo-btn",
+    attrs: {
+      "type": "button",
+      "name": "button"
+    },
+    on: {
+      "click": function($event) {
+        _vm.undoRollbackMCT()
+      }
+    }
+  }, [_vm._v("Undo reverse")]) : _vm._e()])]) : (((_vm.user.id == _vm.MCTMaster.users[0].id) && (_vm.MCTMaster.users[1].pivot.Signature == null) && (_vm.MCTMaster.users[0].pivot.Signature != '1'))) ? _c('div', {
     staticClass: "empty-div-left mct-edit-container"
   }, [_c('span', {
     staticClass: "edit-mct",

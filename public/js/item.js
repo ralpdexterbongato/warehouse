@@ -1495,6 +1495,15 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
 //
 //
 //
+//
+//
+//
+//
+//
+//
+//
+//
+//
 
 
 
@@ -2632,10 +2641,14 @@ module.exports={render:function (){var _vm=this;var _h=_vm.$createElement;var _c
     staticClass: "animated bounceInUp"
   }, [_vm._m(1), _vm._v(" "), _c('div', {
     staticClass: "latest-data"
-  }, [_c('table', [_vm._m(2), _vm._v(" "), _c('tr', [_c('td', [_vm._v(_vm._s(_vm.latestFound.MTType))]), _vm._v(" "), _c('td', [_vm._v(_vm._s(_vm.latestFound.MTNo))]), _vm._v(" "), _c('td', [_vm._v(_vm._s(_vm.latestFound.AccountCode))]), _vm._v(" "), _c('td', [_vm._v(_vm._s(_vm.latestFound.ItemCode))]), _vm._v(" "), _c('td', [_vm._v(_vm._s(_vm.latestFound.master_items.Description))]), _vm._v(" "), _c('td', [_vm._v(_vm._s(_vm.formatPrice(_vm.latestFound.UnitCost)))]), _vm._v(" "), _c('td', [_vm._v(_vm._s(_vm.latestFound.Quantity))]), _vm._v(" "), _c('td', [_vm._v(_vm._s(_vm.latestFound.master_items.Unit))]), _vm._v(" "), _c('td', [_vm._v(_vm._s(_vm.formatPrice(_vm.latestFound.Amount)))]), _vm._v(" "), _c('td', [_vm._v(_vm._s(_vm.formatPrice(_vm.latestFound.CurrentCost)))]), _vm._v(" "), _c('td', [_vm._v(_vm._s(_vm.latestFound.CurrentQuantity))]), _vm._v(" "), _c('td', [_vm._v(_vm._s(_vm.formatPrice(_vm.latestFound.CurrentAmount)))]), _vm._v(" "), _c('td', [_vm._v(_vm._s(_vm.latestFound.MTDate))])])])]), _vm._v(" "), _c('div', {
+  }, [_c('table', [_vm._m(2), _vm._v(" "), _c('tr', [_c('td', {
+    staticClass: "rollback-sign"
+  }, [(_vm.latestFound.IsRollBack == '0') ? _c('h2') : _vm._e(), _vm._v(" "), (_vm.latestFound.IsRollBack == '1') ? _c('h3') : _vm._e(), _vm._v("\r\n              " + _vm._s(_vm.latestFound.MTType) + "\r\n            ")]), _vm._v(" "), _c('td', [_vm._v(_vm._s(_vm.latestFound.MTNo))]), _vm._v(" "), _c('td', [_vm._v(_vm._s(_vm.latestFound.AccountCode))]), _vm._v(" "), _c('td', [_vm._v(_vm._s(_vm.latestFound.ItemCode))]), _vm._v(" "), _c('td', [_vm._v(_vm._s(_vm.latestFound.master_items.Description))]), _vm._v(" "), _c('td', [_vm._v(_vm._s(_vm.formatPrice(_vm.latestFound.UnitCost)))]), _vm._v(" "), _c('td', [_vm._v(_vm._s(_vm.latestFound.Quantity))]), _vm._v(" "), _c('td', [_vm._v(_vm._s(_vm.latestFound.master_items.Unit))]), _vm._v(" "), _c('td', [_vm._v(_vm._s(_vm.formatPrice(_vm.latestFound.Amount)))]), _vm._v(" "), _c('td', [_vm._v(_vm._s(_vm.formatPrice(_vm.latestFound.CurrentCost)))]), _vm._v(" "), _c('td', [_vm._v(_vm._s(_vm.latestFound.CurrentQuantity))]), _vm._v(" "), _c('td', [_vm._v(_vm._s(_vm.formatPrice(_vm.latestFound.CurrentAmount)))]), _vm._v(" "), _c('td', [_vm._v(_vm._s(_vm.latestFound.MTDate))])])])]), _vm._v(" "), _c('div', {
     staticClass: "history-found"
   }, [_vm._m(3), _vm._v(" "), _c('table', [_vm._m(4), _vm._v(" "), _vm._l((_vm.historiesfound), function(history) {
-    return (history.id != _vm.latestFound.id) ? _c('tr', [_c('td', [_vm._v(_vm._s(history.MTType))]), _vm._v(" "), _c('td', [_vm._v(_vm._s(history.MTNo))]), _vm._v(" "), _c('td', [_vm._v(_vm._s(_vm.formatPrice(history.UnitCost)))]), _vm._v(" "), _c('td', [_vm._v(_vm._s(history.Quantity))]), _vm._v(" "), _c('td', [_vm._v(_vm._s(_vm.latestFound.master_items.Unit))]), _vm._v(" "), _c('td', [_vm._v(_vm._s(_vm.formatPrice(history.Amount)))]), _vm._v(" "), _c('td', [_vm._v(_vm._s(_vm.formatPrice(history.CurrentCost)))]), _vm._v(" "), _c('td', [_vm._v(_vm._s(history.CurrentQuantity))]), _vm._v(" "), _c('td', [_vm._v(_vm._s(_vm.formatPrice(history.CurrentAmount)))]), _vm._v(" "), _c('td', [_vm._v(_vm._s(history.MTDate))])]) : _vm._e()
+    return (history.id != _vm.latestFound.id) ? _c('tr', [_c('td', {
+      staticClass: "rollback-sign"
+    }, [(history.IsRollBack == '0') ? _c('h2') : _vm._e(), _vm._v(" "), (history.IsRollBack == '1') ? _c('h3') : _vm._e(), _vm._v("\r\n              " + _vm._s(history.MTType) + "\r\n            ")]), _vm._v(" "), _c('td', [_vm._v(_vm._s(history.MTNo))]), _vm._v(" "), _c('td', [_vm._v(_vm._s(_vm.formatPrice(history.UnitCost)))]), _vm._v(" "), _c('td', [_vm._v(_vm._s(history.Quantity))]), _vm._v(" "), _c('td', [_vm._v(_vm._s(_vm.latestFound.master_items.Unit))]), _vm._v(" "), _c('td', [_vm._v(_vm._s(_vm.formatPrice(history.Amount)))]), _vm._v(" "), _c('td', [_vm._v(_vm._s(_vm.formatPrice(history.CurrentCost)))]), _vm._v(" "), _c('td', [_vm._v(_vm._s(history.CurrentQuantity))]), _vm._v(" "), _c('td', [_vm._v(_vm._s(_vm.formatPrice(history.CurrentAmount)))]), _vm._v(" "), _c('td', [_vm._v(_vm._s(history.MTDate))])]) : _vm._e()
   })], 2), _vm._v(" "), _c('div', {
     staticClass: "paginate-container"
   }, [_c('ul', {
@@ -2678,7 +2691,7 @@ module.exports={render:function (){var _vm=this;var _h=_vm.$createElement;var _c
     }
   }, [_c('i', {
     staticClass: "fa fa-angle-right"
-  })])]) : _vm._e()], 2)])])]) : (((_vm.user.Role != 1) && (_vm.user.Role != 3) && (_vm.user.Role != 4))) ? _c('div', {
+  })])]) : _vm._e()], 2)]), _vm._v(" "), _vm._m(5)])]) : (((_vm.user.Role != 1) && (_vm.user.Role != 3) && (_vm.user.Role != 4))) ? _c('div', {
     staticClass: "background-pic"
   }, [_c('img', {
     attrs: {
@@ -2692,7 +2705,7 @@ module.exports={render:function (){var _vm=this;var _h=_vm.$createElement;var _c
     staticStyle: {
       "background": "#3367D6"
     }
-  }, [_vm._m(5), _vm._v(" "), _c('div', {
+  }, [_vm._m(6), _vm._v(" "), _c('div', {
     staticClass: "right-dash"
   }, [_c('span', [_c('h1', {
     staticClass: "dash-totals"
@@ -2703,12 +2716,12 @@ module.exports={render:function (){var _vm=this;var _h=_vm.$createElement;var _c
       "duration": "1000",
       "easing": "easeOutQuad"
     }
-  }) : _c('span', [_vm._v("\r\n                0\r\n              ")])], 1), _vm._v(" "), _c('p', [_vm._v("Items")])]), _vm._v(" "), _vm._m(6)])]), _vm._v(" "), _c('div', {
+  }) : _c('span', [_vm._v("\r\n                0\r\n              ")])], 1), _vm._v(" "), _c('p', [_vm._v("Items")])]), _vm._v(" "), _vm._m(7)])]), _vm._v(" "), _c('div', {
     staticClass: "dashbox",
     staticStyle: {
       "background": "#ff9800"
     }
-  }, [_vm._m(7), _vm._v(" "), _c('div', {
+  }, [_vm._m(8), _vm._v(" "), _c('div', {
     staticClass: "right-dash"
   }, [_c('span', [_c('h1', {
     staticClass: "dash-totals"
@@ -2719,12 +2732,12 @@ module.exports={render:function (){var _vm=this;var _h=_vm.$createElement;var _c
       "duration": "1500",
       "easing": "easeOutQuad"
     }
-  }) : _c('span', [_vm._v("\r\n                0\r\n              ")])], 1), _vm._v(" "), _c('p', [_vm._v("Items")])]), _vm._v(" "), _vm._m(8)])]), _vm._v(" "), _c('div', {
+  }) : _c('span', [_vm._v("\r\n                0\r\n              ")])], 1), _vm._v(" "), _c('p', [_vm._v("Items")])]), _vm._v(" "), _vm._m(9)])]), _vm._v(" "), _c('div', {
     staticClass: "dashbox",
     staticStyle: {
       "background": "#f44336"
     }
-  }, [_vm._m(9), _vm._v(" "), _c('div', {
+  }, [_vm._m(10), _vm._v(" "), _c('div', {
     staticClass: "right-dash"
   }, [_c('span', [_c('h1', {
     staticClass: "dash-totals"
@@ -2735,7 +2748,7 @@ module.exports={render:function (){var _vm=this;var _h=_vm.$createElement;var _c
       "duration": "2000",
       "easing": "easeOutQuad"
     }
-  }) : _vm._e()], 1), _vm._v(" "), _c('p', [_vm._v("Items")])]), _vm._v(" "), _vm._m(10)])])])]) : _vm._e(), _vm._v(" "), (_vm.NotFoundSearch != '') ? _c('div', {
+  }) : _vm._e()], 1), _vm._v(" "), _c('p', [_vm._v("Items")])]), _vm._v(" "), _vm._m(11)])])])]) : _vm._e(), _vm._v(" "), (_vm.NotFoundSearch != '') ? _c('div', {
     staticClass: "not-found-msg"
   }, [_c('h2', [_c('i', {
     staticClass: "material-icons"
@@ -2762,6 +2775,10 @@ module.exports={render:function (){var _vm=this;var _h=_vm.$createElement;var _c
   }, [_vm._v("history")]), _vm._v(" Previous info")])
 },function (){var _vm=this;var _h=_vm.$createElement;var _c=_vm._self._c||_h;
   return _c('tr', [_c('th', [_vm._v("MT type")]), _vm._v(" "), _c('th', [_vm._v("MT No.")]), _vm._v(" "), _c('th', [_vm._v("Unit cost")]), _vm._v(" "), _c('th', [_vm._v("Quantity")]), _vm._v(" "), _c('th', [_vm._v("Unit")]), _vm._v(" "), _c('th', [_vm._v("Amount")]), _vm._v(" "), _c('th', [_vm._v("Current cost")]), _vm._v(" "), _c('th', [_vm._v("Current quantity")]), _vm._v(" "), _c('th', [_vm._v("Current amount")]), _vm._v(" "), _c('th', [_vm._v("Date")])])
+},function (){var _vm=this;var _h=_vm.$createElement;var _c=_vm._self._c||_h;
+  return _c('div', {
+    staticClass: "rollback-info"
+  }, [_c('p'), _c('h2'), _vm._v("reversed"), _c('p'), _vm._v(" "), _c('p'), _c('h3'), _vm._v("undid reverse"), _c('p')])
 },function (){var _vm=this;var _h=_vm.$createElement;var _c=_vm._self._c||_h;
   return _c('div', {
     staticClass: "left-dash"

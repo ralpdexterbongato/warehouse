@@ -41,7 +41,11 @@
             <th>Date</th>
           </tr>
           <tr>
-            <td>{{latestFound.MTType}}</td>
+            <td class="rollback-sign">
+              <h2 v-if="latestFound.IsRollBack=='0'"></h2>
+              <h3 v-if="latestFound.IsRollBack=='1'"></h3>
+              {{latestFound.MTType}}
+            </td>
             <td>{{latestFound.MTNo}}</td>
             <td>{{latestFound.AccountCode}}</td>
             <td>{{latestFound.ItemCode}}</td>
@@ -73,11 +77,12 @@
             <th>Date</th>
           </tr>
           <tr v-for="history in historiesfound" v-if="history.id!=latestFound.id">
-            <td>{{history.MTType}}</td>
+            <td class="rollback-sign">
+              <h2 v-if="history.IsRollBack=='0'"></h2>
+              <h3 v-if="history.IsRollBack=='1'"></h3>
+              {{history.MTType}}
+            </td>
             <td>{{history.MTNo}}</td>
-            <!-- <td>{{history.AccountCode}}</td>
-            <td>{{history.ItemCode}}</td>
-            <td>{{latestFound.master_items.Description}}</td> -->
             <td>{{formatPrice(history.UnitCost)}}</td>
             <td>{{history.Quantity}}</td>
             <td>{{latestFound.master_items.Unit}}</td>
@@ -100,6 +105,10 @@
               <a href="#" @click.prevent="changepage(pagination.current_page+1)"><i class="fa fa-angle-right"></i></a>
             </li>
           </ul>
+        </div>
+        <div class="rollback-info">
+          <p><h2></h2>reversed</p>
+          <p><h3></h3>undid reverse</p>
         </div>
       </div>
     </div><!--  end of v-if result is not empty -->

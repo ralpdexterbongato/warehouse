@@ -140,10 +140,10 @@ class MCTController extends Controller
         if ($newQTY>0)
         {
          $newcurrentcost=$differenceof2AMT/$newQTY;
-       }else
-       {
-         $newcurrentcost=0;
-       }
+        }else
+        {
+          $newcurrentcost=0;
+        }
          $newAmount= $newQTY * $newcurrentcost;
          MasterItem::where('ItemCode',$itemconfirmed->ItemCode)->update(['CurrentQuantity'=>$newQTY]);
          $forMTDetailstable[]=array('ItemCode' =>$itemconfirmed->ItemCode,'MTType'=>'MCT','MTNo' =>$id,'AccountCode' =>$itemconfirmed->AccountCode ,'UnitCost' =>$latestPriceWhenCreated,'Quantity' =>$itemconfirmed->Quantity,'Amount' =>$minusAmount
@@ -315,5 +315,35 @@ class MCTController extends Controller
   public function fetchSearchIndexMCTlist(Request $request)
   {
     return MCTMaster::with('users')->orderBy('MCTNo','DESC')->where('MCTNo','LIKE','%'.$request->MCTNo.'%')->paginate(10,['MCTNo','MCTDate','MIRSNo','AddressTo','Particulars','Status']);
+  }
+  public function RollBack($mctNo)
+  {
+    $dataToRollBack=MaterialsTicketDetail::where('MTType', 'MCT')->where('MTNo', $mctNo)->whereNull('IsRollBack')->get();
+    $ForMTDetailsTable = array();
+    foreach ($dataToRollBack as $data)
+    {
+      $LatestDataOfItem = MaterialsTicketDetail::orderBy('id','DESC')->where('ItemCode', $data->ItemCode)->take(1)->get(['CurrentAmount','CurrentQuantity']);
+      $newAmount = $LatestDataOfItem[0]->CurrentAmount + $data->Amount;
+      $newQty = $LatestDataOfItem[0]->CurrentQuantity + $data->Quantity;
+      $currentCost= $newAmount / $newQty;
+      $ForMTDetailsTable[] = array('ItemCode' =>$data->ItemCode,'MTType'=>$data->MTType,'MTNo'=>$data->MTNo,'AccountCode'=>$data->AccountCode,'UnitCost'=>$data->UnitCost,'Quantity'=>$data->Quantity,'CurrentCost'=>$currentCost,'Amount'=>$data->Amount,'CurrentQuantity'=>$newQty,'CurrentAmount'=>$newAmount,'MTDate'=>Carbon::now(),'IsRollBack'=>'0');
+    }
+    MaterialsTicketDetail::insert($ForMTDetailsTable);
+    MCTMaster::where('MCTNo',$mctNo)->update(['IsRollBack'=>'0']);
+  }
+  public function UndoRollBack($mctNo)
+  {
+    $dataToUndoRollBack=MaterialsTicketDetail::where('MTType', 'MCT')->where('MTNo', $mctNo)->whereNull('IsRollBack')->get();
+    $ForMTDetailsTable = array();
+    foreach ($dataToUndoRollBack as $data)
+    {
+      $LatestDataOfItem = MaterialsTicketDetail::orderBy('id','DESC')->where('ItemCode', $data->ItemCode)->take(1)->get(['CurrentAmount','CurrentQuantity']);
+      $newAmount = $LatestDataOfItem[0]->CurrentAmount - $data->Amount;
+      $newQty = $LatestDataOfItem[0]->CurrentQuantity - $data->Quantity;
+      $currentCost= $newAmount / $newQty;
+      $ForMTDetailsTable[] = array('ItemCode' =>$data->ItemCode,'MTType'=>$data->MTType,'MTNo'=>$data->MTNo,'AccountCode'=>$data->AccountCode,'UnitCost'=>$data->UnitCost,'Quantity'=>$data->Quantity,'CurrentCost'=>$currentCost,'Amount'=>$data->Amount,'CurrentQuantity'=>$newQty,'CurrentAmount'=>$newAmount,'MTDate'=>Carbon::now(),'IsRollBack'=>'1');
+    }
+    MaterialsTicketDetail::insert($ForMTDetailsTable);
+    MCTMaster::where('MCTNo',$mctNo)->update(['IsRollBack'=>'1']);
   }
 }
