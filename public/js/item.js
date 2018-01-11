@@ -2778,7 +2778,7 @@ module.exports={render:function (){var _vm=this;var _h=_vm.$createElement;var _c
 },function (){var _vm=this;var _h=_vm.$createElement;var _c=_vm._self._c||_h;
   return _c('div', {
     staticClass: "rollback-info"
-  }, [_c('p'), _c('h2'), _vm._v("reversed"), _c('p'), _vm._v(" "), _c('p'), _c('h3'), _vm._v("undid reverse"), _c('p')])
+  }, [_c('h2'), _c('p', [_vm._v("reversed")]), _c('br'), _vm._v(" "), _c('h3'), _c('p', [_vm._v("undid reverse")]), _c('br')])
 },function (){var _vm=this;var _h=_vm.$createElement;var _c=_vm._self._c||_h;
   return _c('div', {
     staticClass: "left-dash"

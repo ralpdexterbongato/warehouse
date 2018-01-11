@@ -250,7 +250,7 @@ class MCTController extends Controller
   {
     $this->validate($request,[
       'NewAddressTo'=>'required',
-      'NewQuantity.*'=>'required|numeric|min:1',
+      'NewQuantity.*'=>'required|numeric|min:0',
     ]);
     $MCTMaster=MCTMaster::where('MCTNo',$id)->get(['MIRSNo']);
     MCTMaster::where('MCTNo',$id)->update(['AddressTo'=>$request->NewAddressTo]);
@@ -273,7 +273,12 @@ class MCTController extends Controller
     foreach ($DetailsToBeUpdated as $key=> $confirmationMCT)
     {
       $currentValidatorQuantity=MIRSDetail::where('MIRSNo',$MCTMaster[0]->MIRSNo)->where('ItemCode',$confirmationMCT->ItemCode)->get(['QuantityValidator']);
-      if ($confirmationMCT->Quantity>$request->NewQuantity[$key])
+      if ($request->NewQuantity[$key] == 0)
+      {
+        $NewValidatorQty = $confirmationMCT->Quantity + $currentValidatorQuantity[0]->QuantityValidator;
+        MIRSDetail::where('MIRSNo',$MCTMaster[0]->MIRSNo)->where('ItemCode',$confirmationMCT->ItemCode)->update(['QuantityValidator'=>$NewValidatorQty]);
+        MCTConfirmationDetail::where('MCTNo', $id)->where('ItemCode', $confirmationMCT->ItemCode)->delete();
+      }elseif ($confirmationMCT->Quantity>$request->NewQuantity[$key])
       {
         $tobeused=$confirmationMCT->Quantity-$request->NewQuantity[$key];
         $NewValidatorQty=$currentValidatorQuantity[0]->QuantityValidator+$tobeused;
@@ -333,7 +338,7 @@ class MCTController extends Controller
   }
   public function UndoRollBack($mctNo)
   {
-    $dataToUndoRollBack=MaterialsTicketDetail::where('MTType', 'MCT')->where('MTNo', $mctNo)->whereNull('IsRollBack')->get();
+    $dataToUndoRollBack=MCTConfirmationDetail::where('MCTNo', $mctNo)->get();
     $ForMTDetailsTable = array();
     foreach ($dataToUndoRollBack as $data)
     {
@@ -341,7 +346,7 @@ class MCTController extends Controller
       $newAmount = $LatestDataOfItem[0]->CurrentAmount - $data->Amount;
       $newQty = $LatestDataOfItem[0]->CurrentQuantity - $data->Quantity;
       $currentCost= $newAmount / $newQty;
-      $ForMTDetailsTable[] = array('ItemCode' =>$data->ItemCode,'MTType'=>$data->MTType,'MTNo'=>$data->MTNo,'AccountCode'=>$data->AccountCode,'UnitCost'=>$data->UnitCost,'Quantity'=>$data->Quantity,'CurrentCost'=>$currentCost,'Amount'=>$data->Amount,'CurrentQuantity'=>$newQty,'CurrentAmount'=>$newAmount,'MTDate'=>Carbon::now(),'IsRollBack'=>'1');
+      $ForMTDetailsTable[] = array('ItemCode' =>$data->ItemCode,'MTType'=>'MCT','MTNo'=>$mctNo,'AccountCode'=>$data->AccountCode,'UnitCost'=>$data->UnitCost,'Quantity'=>$data->Quantity,'CurrentCost'=>$currentCost,'Amount'=>$data->Amount,'CurrentQuantity'=>$newQty,'CurrentAmount'=>$newAmount,'MTDate'=>Carbon::now(),'IsRollBack'=>'1');
     }
     MaterialsTicketDetail::insert($ForMTDetailsTable);
     MCTMaster::where('MCTNo',$mctNo)->update(['IsRollBack'=>'1']);

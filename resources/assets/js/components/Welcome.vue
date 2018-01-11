@@ -107,8 +107,8 @@
           </ul>
         </div>
         <div class="rollback-info">
-          <p><h2></h2>reversed</p>
-          <p><h3></h3>undid reverse</p>
+          <h2></h2><p>reversed</p><br>
+          <h3></h3><p>undid reverse</p><br>
         </div>
       </div>
     </div><!--  end of v-if result is not empty -->

@@ -5,12 +5,16 @@
       <form action="/MCT.pdf" method="get" class="mct-print-form">
         <button type="submit" :value="this.mctno.MCTNo" name="MCTNo"><i class="material-icons">print</i></button>
         <button v-if="MCTMaster.IsRollBack==null||MCTMaster.IsRollBack==1" v-on:click="rollbackMCT()" type="button" class="undo-btn" name="button">reverse</button>
-        <button v-else-if="MCTMaster.IsRollBack==0 && user.Role==1" v-on:click="undoRollbackMCT()"  type="button" class="undo-btn" name="button">Undo reverse</button>
+        <button v-if="MCTMaster.IsRollBack==0 && user.Role==1" v-on:click="undoRollbackMCT()"  type="button" class="undo-btn" name="button">Undo reverse</button>
       </form>
     </span>
-    <div class="empty-div-left mct-edit-container" v-else-if="((user.id==MCTMaster.users[0].id)&&(MCTMaster.users[1].pivot.Signature==null)&&(MCTMaster.users[0].pivot.Signature!='1'))">
+    <div class="empty-div-left mct-edit-container" v-if="(((user.id==MCTMaster.users[0].id)&&(MCTMaster.users[1].pivot.Signature==null)&&(MCTMaster.users[0].pivot.Signature!='1'))||(user.Role==1 && MCTMaster.IsRollBack==0))">
       <span class="edit-mct" :class="ShowEdit==true?'hide':'show'" v-on:click="ShowEdit=true"><i class="material-icons">edit</i>Edit</span>
-      <span class="edit-mct" :class="ShowEdit==false?'hide':'show'"><span class="color-blue">Save?</span> <button type="button" v-on:click="ShowEdit=false,fetchData();">cancel</button> <button v-on:click="ShowEdit=false,editMCTSave()" type="button" name="button">Save</button></span>
+      <span class="edit-mct" :class="ShowEdit==false?'hide':'show'">
+        <span class="color-blue">Save?</span>
+        <button type="button" v-on:click="ShowEdit=false,fetchData();">cancel</button>
+        <button v-on:click="ShowEdit=false,editMCTSave()" type="button" name="button">Save</button>
+        </span>
     </div>
     <span v-else>
     </span>
@@ -150,6 +154,8 @@ Vue.use(Toast);
           QuantityArray:[],
           IsDisabled:false,
           SignatureMCTBtnHide:false,
+          modalIsActive:false,
+          FromMIRSData:[]
         }
       },
      props: ['mctno','user'],
@@ -198,26 +204,35 @@ Vue.use(Toast);
       },
       editMCTSave()
       {
-        this.$loading('Updating');
-        var vm=this;
-        axios.put(`/update-mct/`+this.mctno.MCTNo,{
-          NewQuantity:this.QuantityArray,
-          NewAddressTo:this.AddressToEdit,
-        }).then(function(response)
+        if (confirm('Are you sure?'))
         {
-          console.log(response);
-          if (response.data.error!=null)
+          this.$loading('Updating');
+          var vm=this;
+          axios.put(`/update-mct/`+this.mctno.MCTNo,{
+            NewQuantity:this.QuantityArray,
+            NewAddressTo:this.AddressToEdit,
+          }).then(function(response)
           {
-            vm.$toast.top(response.data.error);
-            vm.fetchData();
-            vm.$loading.close();
-          }else
+            console.log(response);
+            if (response.data.error!=null)
+            {
+              vm.$toast.top(response.data.error);
+              vm.fetchData();
+              vm.$loading.close();
+            }else
+            {
+              vm.fetchData();
+              vm.$toast.top('Updated Successfully');
+              vm.$loading.close();
+            }
+          }).catch(function(error)
           {
+            console.log(error);
             vm.fetchData();
-            vm.$toast.top('Updated Successfully');
+            vm.$toast.top('Invalid input');
             vm.$loading.close();
-          }
-        });
+          });
+        }
       },
       rollbackMCT()
       {
