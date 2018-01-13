@@ -127,82 +127,93 @@
     <div class="background-pic" v-else-if="((user.Role!=1)&&(user.Role!=3)&&(user.Role!=4))">
       <img src="/DesignIMG/truck.jpg" alt="img">
     </div>
-    <div class="dash-home" v-else>
-      <div class="dashbox" style="background:#3367D6">
-        <div class="left-dash">
-          <h1 class="circle-dash-icon">
-            <i class="material-icons">filter_hdr</i>
-          </h1>
-          <h2 class="dash-labels">High</h2>
-        </div>
-        <div class="right-dash">
-          <span>
-            <h1 class="dash-totals">
-              <animate-number
-                  from="0"
-                  :to="DashGood"
-                  duration="1000"
-                  easing="easeOutQuad" v-if="DashGood>0">
-              </animate-number>
-              <span v-else>
-                0
-              </span>
+    <div v-else class="dash-container">
+      <div class="dash-home">
+        <div class="dashbox" style="background:#3367D6">
+          <div class="left-dash">
+            <h1 class="circle-dash-icon">
+              <i class="material-icons">filter_hdr</i>
             </h1>
-            <p>Items</p>
-          </span>
-          <h2><i class="material-icons">equalizer</i></h2>
+            <h2 class="dash-labels">High</h2>
+          </div>
+          <div class="right-dash">
+            <span>
+              <h1 class="dash-totals">
+                <animate-number
+                    from="0"
+                    :to="DashGood"
+                    duration="1000"
+                    easing="easeOutQuad" v-if="DashGood>0">
+                </animate-number>
+                <span v-else>
+                  0
+                </span>
+              </h1>
+              <p>Items</p>
+            </span>
+            <h2><i class="material-icons">equalizer</i></h2>
+          </div>
+        </div>
+        <div class="dashbox" style="background:#f9a825">
+          <div class="left-dash">
+            <h1 class="circle-dash-icon">
+              <i class="material-icons">trending_down</i>
+            </h1>
+            <h2 class="dash-labels">Low</h2>
+          </div>
+          <div class="right-dash">
+            <span>
+              <h1 class="dash-totals">
+                <animate-number
+                    from="0"
+                    :to="DashWarn"
+                    duration="1500"
+                    easing="easeOutQuad" v-if="DashWarn>0">
+                </animate-number>
+                <span v-else>
+                  0
+                </span>
+              </h1>
+              <p>Items</p>
+            </span>
+            <h2><i class="material-icons">equalizer</i></h2>
+          </div>
+        </div>
+        <div class="dashbox" style="background:#f44336">
+          <div class="left-dash">
+            <h1 class="circle-dash-icon">
+              <i class="material-icons">shopping_basket</i>
+            </h1>
+            <h2 class="dash-labels">Empty</h2>
+          </div>
+          <div class="right-dash">
+            <span>
+              <h1 class="dash-totals">
+                <animate-number
+                    from="0"
+                    :to="DashEmpty"
+                    duration="2000"
+                    easing="easeOutQuad"
+                    v-if="DashEmpty>0"
+                    >
+                </animate-number>
+                <span v-else>
+                  0
+                </span>
+              </h1>
+              <p>Items</p>
+            </span>
+            <h2><i class="material-icons">equalizer</i></h2>
+          </div>
         </div>
       </div>
-      <div class="dashbox" style="background:#ff9800">
-        <div class="left-dash">
-          <h1 class="circle-dash-icon">
-            <i class="material-icons">trending_down</i>
-          </h1>
-          <h2 class="dash-labels">Low</h2>
+      <div class="charts-container">
+        <div class="graphbox-left">
+          <vue-chart type="bar" :data="BarchartData"></vue-chart>
         </div>
-        <div class="right-dash">
-          <span>
-            <h1 class="dash-totals">
-              <animate-number
-                  from="0"
-                  :to="DashWarn"
-                  duration="1500"
-                  easing="easeOutQuad" v-if="DashWarn>0">
-              </animate-number>
-              <span v-else>
-                0
-              </span>
-            </h1>
-            <p>Items</p>
-          </span>
-          <h2><i class="material-icons">equalizer</i></h2>
-        </div>
-      </div>
-      <div class="dashbox" style="background:#f44336">
-        <div class="left-dash">
-          <h1 class="circle-dash-icon">
-            <i class="material-icons">shopping_basket</i>
-          </h1>
-          <h2 class="dash-labels">Empty</h2>
-        </div>
-        <div class="right-dash">
-          <span>
-            <h1 class="dash-totals">
-              <animate-number
-                  from="0"
-                  :to="DashEmpty"
-                  duration="2000"
-                  easing="easeOutQuad"
-                  v-if="DashEmpty>0"
-                  >
-              </animate-number>
-              <span v-else>
-                0
-              </span>
-            </h1>
-            <p>Items</p>
-          </span>
-          <h2><i class="material-icons">equalizer</i></h2>
+        <div class="graphbox-right">
+          <vue-chart type="line" :data="LinechartData"></vue-chart>
+          <vue-chart type="doughnut" :data="DoughnutchartData"></vue-chart>
         </div>
       </div>
     </div>
@@ -218,6 +229,9 @@ import 'vue2-toast/lib/toast.css';
 import Toast from 'vue2-toast';
 Vue.use(Toast);
 import VueAnimateNumber from 'vue-animate-number';
+import Vue from 'vue';
+import VueChart from 'vue-chart-js';
+Vue.use(VueChart);
 Vue.use(VueAnimateNumber);
   export default {
     data () {
@@ -231,7 +245,65 @@ Vue.use(VueAnimateNumber);
         DashGood:0,
         DashWarn:0,
         DashEmpty:0,
+        LinechartData: {
+        labels: ['Jan', 'Feb', 'Mar','Apr','May','Jun','Jul','Aug','Sep','Oct','Nov','DEC'],
+        datasets: [
+                {
+                    label:'MIRS',
+                    data: [40, 200,20,500,100,200,100, 20,300,12, 20,23],
+                    borderColor: "#ffeb3b",
+
+                    backgroundColor: ['#ffeb3b'],
+                },
+                {
+                    label:'RV',
+                    data: [90, 29,92,40, 300,200,400, 20,90,109, 19,200],
+                    borderColor: "#3367D6",
+
+                    backgroundColor: ['#3367D6'],
+                }
+            ]
+        },
+        BarchartData: {
+        labels: ['Jan', 'Feb', 'Mar','Apr','May','Jun','Jul','Aug','Sep','Oct','Nov','DEC'],
+        datasets: [
+                {
+                    label:'MCT',
+                    data: [40, 200,20,500,100,200,100, 20,300,12, 20,23],
+                    borderColor: "#ffeb3b",
+
+                    backgroundColor: ['#ffeb3b','#ffeb3b','#ffeb3b','#ffeb3b','#ffeb3b','#ffeb3b','#ffeb3b','#ffeb3b','#ffeb3b','#ffeb3b','#ffeb3b','#ffeb3b'],
+                },
+                {
+                    label:'MRT',
+                    data: [40, 20,45,50, 30,300,200, 20,80,89, 29,10],
+                    borderColor: "#f44336",
+
+                    backgroundColor: ['#f44336','#f44336','#f44336','#f44336','#f44336','#f44336','#f44336','#f44336','#f44336','#f44336','#f44336','#f44336'],
+                },
+                {
+                    label:'RR',
+                    data: [90, 29,92,40, 300,200,400, 20,90,109, 19,200],
+                    borderColor: "#3367D6",
+
+                    backgroundColor: ['#3367D6','#3367D6','#3367D6','#3367D6','#3367D6','#3367D6','#3367D6','#3367D6','#3367D6','#3367D6','#3367D6','#3367D6'],
+                }
+            ]
+        },
+        DoughnutchartData: {
+        labels: ['MCT', 'MRT', 'RR'],
+            datasets: [
+              {
+                  data: [50, 20, 30],
+                  backgroundColor: ['#f44336', '#ffeb3b', '#3367D6'],
+              },
+            ]
+        }
       }
+    },
+    name: 'App',
+    components: {
+      VueChart
     },
     props: ['user'],
     created() {

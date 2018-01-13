@@ -370,7 +370,7 @@ class MCTController extends Controller
     }
     MaterialsTicketDetail::where('MTType', 'MCT')->where('MTNo', $mctNo)->whereNull('IsRollBack')->update(['IsRollBack'=>'0']);
     MaterialsTicketDetail::insert($ForMTDetailsTable);
-    MCTMaster::where('MCTNo',$mctNo)->update(['IsRollBack'=>'1']);
+    MCTMaster::where('MCTNo',$mctNo)->update(['IsRollBack'=>NULL]);
 
     $MCTconfirmation=MCTConfirmationDetail::where('MCTNo',$mctNo)->get(['ItemCode','Quantity']);
     foreach ($MCTconfirmation as $confirmation)

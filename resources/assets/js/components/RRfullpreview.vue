@@ -15,7 +15,7 @@
     <span>
       <a :href="'/RR.pdf/'+RRMaster.RRNo"><button type="submit"  name="RRNo" value="RRNohere"><i class="material-icons">print</i></button></a>
       <span v-if="user.Role==1 && RRMaster.Status =='0'">
-        <button type="button" class="undo-btn" name="button" v-if="RRMaster.IsRollBack==null||RRMaster.IsRollBack==1" v-on:click="RollbackRR()">reverse</button>
+        <button type="button" class="undo-btn" name="button" v-if="RRMaster.IsRollBack==null" v-on:click="RollbackRR()">reverse</button>
         <button type="button" class="undo-btn" name="button" v-if="RRMaster.IsRollBack==0" v-on:click="UndoRollbackRR()">undo reverse</button>
       </span>
     </span>

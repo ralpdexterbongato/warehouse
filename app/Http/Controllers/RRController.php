@@ -571,7 +571,7 @@ class RRController extends Controller
     }
     MaterialsTicketDetail::where('MTType', 'RR')->where('MTNo', $rrNo)->whereNull('IsRollBack')->update(['IsRollBack'=>'0']);
     MaterialsTicketDetail::insert($ForMTDetailsTable);
-    RRMaster::where('RRNo',$rrNo)->update(['IsRollBack'=>'1']);
+    RRMaster::where('RRNo',$rrNo)->update(['IsRollBack'=>NULL]);
 
     // undo the rollback too
     $RRMaster=RRMaster::where('RRNo',$rrNo)->get(['PONo','RVNo']);

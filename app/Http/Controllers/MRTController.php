@@ -305,6 +305,6 @@ class MRTController extends Controller
       }
       MaterialsTicketDetail::where('MTType', 'MRT')->where('MTNo', $mrtNo)->whereNull('IsRollBack')->update(['IsRollBack'=>'0']);
       MaterialsTicketDetail::insert($ForMTDetailsTable);
-      MRTMaster::where('MRTNo',$mrtNo)->update(['IsRollBack'=>'1']);
+      MRTMaster::where('MRTNo',$mrtNo)->update(['IsRollBack'=>NULL]);
     }
 }

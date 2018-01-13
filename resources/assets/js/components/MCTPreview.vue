@@ -8,7 +8,7 @@
       <form action="/MCT.pdf" method="get" class="mct-print-form">
         <button type="submit" :value="this.mctno.MCTNo" name="MCTNo"><i class="material-icons">print</i></button>
         <span v-if="user.Role==1 && MCTMaster.Status=='0'">
-          <button v-if="MCTMaster.IsRollBack==null||MCTMaster.IsRollBack==1" v-on:click="rollbackMCT()" type="button" class="undo-btn" name="button">reverse</button>
+          <button v-if="MCTMaster.IsRollBack==null" v-on:click="rollbackMCT()" type="button" class="undo-btn" name="button">reverse</button>
           <button v-if="MCTMaster.IsRollBack==0" v-on:click="undoRollbackMCT()"  type="button" class="undo-btn" name="button">Undo reverse</button>
         </span>
       </form>

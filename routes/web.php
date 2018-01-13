@@ -211,3 +211,5 @@ Route::put('/undo-rollback-mrt-history/{mrtNo}','MRTController@UndoRollBack');
 
 Route::put('/rollback-this-rr/{rrNo}','RRController@RollBack');
 Route::put('/undo-rollback-this-rr/{rrNo}','RRController@UndoRollBack');
+
+Route::get('/line-chart-data','dashBoardController@lineChart');

@@ -63,7 +63,7 @@
 /******/ 	__webpack_require__.p = "";
 /******/
 /******/ 	// Load entry module and return exports
-/******/ 	return __webpack_require__(__webpack_require__.s = 286);
+/******/ 	return __webpack_require__(__webpack_require__.s = 343);
 /******/ })
 /************************************************************************/
 /******/ ({
@@ -74,7 +74,7 @@
 "use strict";
 
 
-var bind = __webpack_require__(9);
+var bind = __webpack_require__(10);
 
 /*global toString:true*/
 
@@ -378,13 +378,32 @@ module.exports = {
 /***/ 10:
 /***/ (function(module, exports, __webpack_require__) {
 
+"use strict";
+
+
+module.exports = function bind(fn, thisArg) {
+  return function wrap() {
+    var args = new Array(arguments.length);
+    for (var i = 0; i < args.length; i++) {
+      args[i] = arguments[i];
+    }
+    return fn.apply(thisArg, args);
+  };
+};
+
+
+/***/ }),
+
+/***/ 11:
+/***/ (function(module, exports, __webpack_require__) {
+
 // style-loader: Adds some css to the DOM by adding a <style> tag
 
 // load the styles
-var content = __webpack_require__(34);
+var content = __webpack_require__(36);
 if(typeof content === 'string') content = [[module.i, content, '']];
 // add the styles to the DOM
-var update = __webpack_require__(35)(content, {});
+var update = __webpack_require__(37)(content, {});
 if(content.locals) module.exports = content.locals;
 // Hot Module Replacement
 if(false) {
@@ -402,7 +421,7 @@ if(false) {
 
 /***/ }),
 
-/***/ 11:
+/***/ 12:
 /***/ (function(module, exports) {
 
 /**
@@ -499,7 +518,7 @@ module.exports = Toast;
 
 /***/ }),
 
-/***/ 12:
+/***/ 14:
 /***/ (function(module, exports) {
 
 var g;
@@ -527,7 +546,7 @@ module.exports = g;
 
 /***/ }),
 
-/***/ 13:
+/***/ 15:
 /***/ (function(module, exports, __webpack_require__) {
 
 /*!
@@ -655,132 +674,7 @@ function(module,exports){module.exports={render:function(){var _vm=this,_h=_vm.$
 
 /***/ }),
 
-/***/ 14:
-/***/ (function(module, exports, __webpack_require__) {
-
-"use strict";
-
-
-var utils = __webpack_require__(1);
-var bind = __webpack_require__(9);
-var Axios = __webpack_require__(16);
-var defaults = __webpack_require__(2);
-
-/**
- * Create an instance of Axios
- *
- * @param {Object} defaultConfig The default config for the instance
- * @return {Axios} A new instance of Axios
- */
-function createInstance(defaultConfig) {
-  var context = new Axios(defaultConfig);
-  var instance = bind(Axios.prototype.request, context);
-
-  // Copy axios.prototype to instance
-  utils.extend(instance, Axios.prototype, context);
-
-  // Copy context to instance
-  utils.extend(instance, context);
-
-  return instance;
-}
-
-// Create the default instance to be exported
-var axios = createInstance(defaults);
-
-// Expose Axios class to allow class inheritance
-axios.Axios = Axios;
-
-// Factory for creating new instances
-axios.create = function create(instanceConfig) {
-  return createInstance(utils.merge(defaults, instanceConfig));
-};
-
-// Expose Cancel & CancelToken
-axios.Cancel = __webpack_require__(6);
-axios.CancelToken = __webpack_require__(15);
-axios.isCancel = __webpack_require__(7);
-
-// Expose all/spread
-axios.all = function all(promises) {
-  return Promise.all(promises);
-};
-axios.spread = __webpack_require__(30);
-
-module.exports = axios;
-
-// Allow use of default import syntax in TypeScript
-module.exports.default = axios;
-
-
-/***/ }),
-
-/***/ 15:
-/***/ (function(module, exports, __webpack_require__) {
-
-"use strict";
-
-
-var Cancel = __webpack_require__(6);
-
-/**
- * A `CancelToken` is an object that can be used to request cancellation of an operation.
- *
- * @class
- * @param {Function} executor The executor function.
- */
-function CancelToken(executor) {
-  if (typeof executor !== 'function') {
-    throw new TypeError('executor must be a function.');
-  }
-
-  var resolvePromise;
-  this.promise = new Promise(function promiseExecutor(resolve) {
-    resolvePromise = resolve;
-  });
-
-  var token = this;
-  executor(function cancel(message) {
-    if (token.reason) {
-      // Cancellation has already been requested
-      return;
-    }
-
-    token.reason = new Cancel(message);
-    resolvePromise(token.reason);
-  });
-}
-
-/**
- * Throws a `Cancel` if cancellation has been requested.
- */
-CancelToken.prototype.throwIfRequested = function throwIfRequested() {
-  if (this.reason) {
-    throw this.reason;
-  }
-};
-
-/**
- * Returns an object that contains a new `CancelToken` and a function that, when called,
- * cancels the `CancelToken`.
- */
-CancelToken.source = function source() {
-  var cancel;
-  var token = new CancelToken(function executor(c) {
-    cancel = c;
-  });
-  return {
-    token: token,
-    cancel: cancel
-  };
-};
-
-module.exports = CancelToken;
-
-
-/***/ }),
-
-/***/ 151:
+/***/ 158:
 /***/ (function(module, exports, __webpack_require__) {
 
 !function(n,e){ true?module.exports=e():"function"==typeof define&&define.amd?define("VueNumeric",[],e):"object"==typeof exports?exports.VueNumeric=e():n.VueNumeric=e()}(this,function(){return function(n){function e(t){if(l[t])return l[t].exports;var o=l[t]={i:t,l:!1,exports:{}};return n[t].call(o.exports,o,o.exports,e),o.l=!0,o.exports}var l={};return e.m=n,e.c=l,e.d=function(n,l,t){e.o(n,l)||Object.defineProperty(n,l,{configurable:!1,enumerable:!0,get:t})},e.n=function(n){var l=n&&n.__esModule?function(){return n.default}:function(){return n};return e.d(l,"a",l),l},e.o=function(n,e){return Object.prototype.hasOwnProperty.call(n,e)},e.p="",e(e.s=0)}([function(n,e,l){"use strict";Object.defineProperty(e,"__esModule",{value:!0});var t=function(){var n="/Users/kevin/Code/javascript/vue-numeric/src/index.js",e="15653907452f7941a2d8fad183469410751f452b",l=new Function("return this")(),t="__coverage__",o={path:"/Users/kevin/Code/javascript/vue-numeric/src/index.js",statementMap:{0:{start:{line:3,column:15},end:{line:7,column:1}},1:{start:{line:5,column:4},end:{line:5,column:44}},2:{start:{line:9,column:0},end:{line:9,column:34}}},fnMap:{0:{name:"(anonymous_0)",decl:{start:{line:4,column:11},end:{line:4,column:12}},loc:{start:{line:4,column:18},end:{line:6,column:3}},line:4}},branchMap:{},s:{0:0,1:0,2:0},f:{0:0},b:{},_coverageSchema:"332fd63041d2c1bcb487cc26dd0d5f7d97098a6c"},i=l[t]||(l[t]={});return i[n]&&i[n].hash===e?i[n]:(o.hash=e,i[n]=o)}(),o=l(1),i=function(n){return n&&n.__esModule?n:{default:n}}(o),r=(++t.s[0],{install:function(n){++t.f[0],++t.s[1],n.component(i.default.name,i.default)}});++t.s[2],i.default.install=r.install,e.default=i.default},function(n,e,l){"use strict";Object.defineProperty(e,"__esModule",{value:!0});var t=l(3),o=l.n(t),i=l(5),r=l(2),u=r(o.a,i.a,null,null,null);e.default=u.exports},function(n,e){n.exports=function(n,e,l,t,o){var i,r=n=n||{},u=typeof n.default;"object"!==u&&"function"!==u||(i=n,r=n.default);var c="function"==typeof r?r.options:r;e&&(c.render=e.render,c.staticRenderFns=e.staticRenderFns),t&&(c._scopeId=t);var a;if(o?(a=function(n){n=n||this.$vnode&&this.$vnode.ssrContext||this.parent&&this.parent.$vnode&&this.parent.$vnode.ssrContext,n||"undefined"==typeof __VUE_SSR_CONTEXT__||(n=__VUE_SSR_CONTEXT__),l&&l.call(this,n),n&&n._registeredComponents&&n._registeredComponents.add(o)},c._ssrRegister=a):l&&(a=l),a){var s=c.functional,m=s?c.render:c.beforeCreate;s?c.render=function(n,e){return a.call(e),m(n,e)}:c.beforeCreate=m?[].concat(m,a):[a]}return{esModule:i,exports:r,options:c}}},function(n,e,l){"use strict";Object.defineProperty(e,"__esModule",{value:!0});var t=function(){var n="/Users/kevin/Code/javascript/vue-numeric/src/vue-numeric.vue",e="a585c59c5f43b76b0e589c7c3abf098e449e92fe",l=new Function("return this")(),t="__coverage__",o={path:"/Users/kevin/Code/javascript/vue-numeric/src/vue-numeric.vue",statementMap:{0:{start:{line:122,column:15},end:{line:124,column:3}},1:{start:{line:132,column:6},end:{line:132,column:45}},2:{start:{line:140,column:6},end:{line:140,column:44}},3:{start:{line:148,column:6},end:{line:148,column:56}},4:{start:{line:148,column:20},end:{line:148,column:56}},5:{start:{line:149,column:6},end:{line:149,column:14}},6:{start:{line:157,column:6},end:{line:157,column:56}},7:{start:{line:157,column:20},end:{line:157,column:56}},8:{start:{line:158,column:6},end:{line:158,column:22}},9:{start:{line:166,column:6},end:{line:166,column:44}},10:{start:{line:166,column:34},end:{line:166,column:44}},11:{start:{line:167,column:6},end:{line:167,column:16}},12:{start:{line:175,column:6},end:{line:175,column:44}},13:{start:{line:175,column:34},end:{line:175,column:44}},14:{start:{line:176,column:6},end:{line:176,column:16}},15:{start:{line:184,column:6},end:{line:184,column:73}},16:{start:{line:195,column:6},end:{line:198,column:7}},17:{start:{line:196,column:8},end:{line:196,column:48}},18:{start:{line:196,column:36},end:{line:196,column:48}},19:{start:{line:197,column:8},end:{line:197,column:19}},20:{start:{line:199,column:6},end:{line:199,column:18}},21:{start:{line:208,column:6},end:{line:211,column:7}},22:{start:{line:209,column:8},end:{line:209,column:48}},23:{start:{line:209,column:36},end:{line:209,column:48}},24:{start:{line:210,column:8},end:{line:210,column:19}},25:{start:{line:212,column:6},end:{line:212,column:18}},26:{start:{line:221,column:19},end:{line:221,column:20}},27:{start:{line:223,column:6},end:{line:231,column:7}},28:{start:{line:224,column:25},end:{line:224,column:30}},29:{start:{line:225,column:8},end:{line:227,column:9}},30:{start:{line:226,column:10},end:{line:226,column:49}},31:{start:{line:228,column:8},end:{line:228,column:87}},32:{start:{line:230,column:8},end:{line:230,column:64}},33:{start:{line:233,column:6},end:{line:233,column:46}},34:{start:{line:233,column:23},end:{line:233,column:46}},35:{start:{line:234,column:6},end:{line:234,column:19}},36:{start:{line:242,column:6},end:{line:250,column:7}},37:{start:{line:243,column:8},end:{line:243,column:39}},38:{start:{line:244,column:13},end:{line:250,column:7}},39:{start:{line:245,column:8},end:{line:245,column:39}},40:{start:{line:246,column:13},end:{line:250,column:7}},41:{start:{line:247,column:8},end:{line:247,column:39}},42:{start:{line:249,column:8},end:{line:249,column:31}},43:{start:{line:257,column:6},end:{line:263,column:8}},44:{start:{line:271,column:6},end:{line:271,column:76}},45:{start:{line:279,column:6},end:{line:284,column:8}},46:{start:{line:292,column:6},end:{line:292,column:46}},47:{start:{line:304,column:6},end:{line:309,column:7}},48:{start:{line:305,column:8},end:{line:305,column:33}},49:{start:{line:306,column:8},end:{line:308,column:9}},50:{start:{line:307,column:10},end:{line:307,column:31}},51:{start:{line:319,column:6},end:{line:323,column:7}},52:{start:{line:320,column:8},end:{line:322,column:10}},53:{start:{line:321,column:10},end:{line:321,column:60}},54:{start:{line:329,column:4},end:{line:332,column:5}},55:{start:{line:330,column:6},end:{line:330,column:56}},56:{start:{line:331,column:6},end:{line:331,column:34}},57:{start:{line:335,column:4},end:{line:337,column:5}},58:{start:{line:336,column:6},end:{line:336,column:56}},59:{start:{line:340,column:4},end:{line:343,column:11}},60:{start:{line:341,column:6},end:{line:341,column:56}},61:{start:{line:342,column:6},end:{line:342,column:34}}},fnMap:{0:{name:"(anonymous_0)",decl:{start:{line:122,column:8},end:{line:122,column:9}},loc:{start:{line:122,column:15},end:{line:124,column:3}},line:122},1:{name:"(anonymous_1)",decl:{start:{line:320,column:23},end:{line:320,column:24}},loc:{start:{line:320,column:29},end:{line:322,column:9}},line:320},2:{name:"(anonymous_2)",decl:{start:{line:340,column:15},end:{line:340,column:16}},loc:{start:{line:340,column:21},end:{line:343,column:5}},line:340}},branchMap:{0:{loc:{start:{line:148,column:6},end:{line:148,column:56}},type:"if",locations:[{start:{line:148,column:6},end:{line:148,column:56}},{start:{line:148,column:6},end:{line:148,column:56}}],line:148},1:{loc:{start:{line:157,column:6},end:{line:157,column:56}},type:"if",locations:[{start:{line:157,column:6},end:{line:157,column:56}},{start:{line:157,column:6},end:{line:157,column:56}}],line:157},2:{loc:{start:{line:166,column:6},end:{line:166,column:44}},type:"if",locations:[{start:{line:166,column:6},end:{line:166,column:44}},{start:{line:166,column:6},end:{line:166,column:44}}],line:166},3:{loc:{start:{line:175,column:6},end:{line:175,column:44}},type:"if",locations:[{start:{line:175,column:6},end:{line:175,column:44}},{start:{line:175,column:6},end:{line:175,column:44}}],line:175},4:{loc:{start:{line:184,column:13},end:{line:184,column:73}},type:"cond-expr",locations:[{start:{line:184,column:56},end:{line:184,column:63}},{start:{line:184,column:66},end:{line:184,column:73}}],line:184},5:{loc:{start:{line:195,column:6},end:{line:198,column:7}},type:"if",locations:[{start:{line:195,column:6},end:{line:198,column:7}},{start:{line:195,column:6},end:{line:198,column:7}}],line:195},6:{loc:{start:{line:196,column:8},end:{line:196,column:48}},type:"if",locations:[{start:{line:196,column:8},end:{line:196,column:48}},{start:{line:196,column:8},end:{line:196,column:48}}],line:196},7:{loc:{start:{line:208,column:6},end:{line:211,column:7}},type:"if",locations:[{start:{line:208,column:6},end:{line:211,column:7}},{start:{line:208,column:6},end:{line:211,column:7}}],line:208},8:{loc:{start:{line:209,column:8},end:{line:209,column:48}},type:"if",locations:[{start:{line:209,column:8},end:{line:209,column:48}},{start:{line:209,column:8},end:{line:209,column:48}}],line:209},9:{loc:{start:{line:223,column:6},end:{line:231,column:7}},type:"if",locations:[{start:{line:223,column:6},end:{line:231,column:7}},{start:{line:223,column:6},end:{line:231,column:7}}],line:223},10:{loc:{start:{line:225,column:8},end:{line:227,column:9}},type:"if",locations:[{start:{line:225,column:8},end:{line:227,column:9}},{start:{line:225,column:8},end:{line:227,column:9}}],line:225},11:{loc:{start:{line:233,column:6},end:{line:233,column:46}},type:"if",locations:[{start:{line:233,column:6},end:{line:233,column:46}},{start:{line:233,column:6},end:{line:233,column:46}}],line:233},12:{loc:{start:{line:242,column:6},end:{line:250,column:7}},type:"if",locations:[{start:{line:242,column:6},end:{line:250,column:7}},{start:{line:242,column:6},end:{line:250,column:7}}],line:242},13:{loc:{start:{line:244,column:13},end:{line:250,column:7}},type:"if",locations:[{start:{line:244,column:13},end:{line:250,column:7}},{start:{line:244,column:13},end:{line:250,column:7}}],line:244},14:{loc:{start:{line:246,column:13},end:{line:250,column:7}},type:"if",locations:[{start:{line:246,column:13},end:{line:250,column:7}},{start:{line:246,column:13},end:{line:250,column:7}}],line:246},15:{loc:{start:{line:304,column:6},end:{line:309,column:7}},type:"if",locations:[{start:{line:304,column:6},end:{line:309,column:7}},{start:{line:304,column:6},end:{line:309,column:7}}],line:304},16:{loc:{start:{line:304,column:10},end:{line:304,column:65}},type:"binary-expr",locations:[{start:{line:304,column:10},end:{line:304,column:34}},{start:{line:304,column:38},end:{line:304,column:65}}],line:304},17:{loc:{start:{line:306,column:8},end:{line:308,column:9}},type:"if",locations:[{start:{line:306,column:8},end:{line:308,column:9}},{start:{line:306,column:8},end:{line:308,column:9}}],line:306},18:{loc:{start:{line:319,column:6},end:{line:323,column:7}},type:"if",locations:[{start:{line:319,column:6},end:{line:323,column:7}},{start:{line:319,column:6},end:{line:323,column:7}}],line:319},19:{loc:{start:{line:319,column:10},end:{line:319,column:42}},type:"binary-expr",locations:[{start:{line:319,column:10},end:{line:319,column:26}},{start:{line:319,column:30},end:{line:319,column:42}}],line:319},20:{loc:{start:{line:329,column:4},end:{line:332,column:5}},type:"if",locations:[{start:{line:329,column:4},end:{line:332,column:5}},{start:{line:329,column:4},end:{line:332,column:5}}],line:329},21:{loc:{start:{line:335,column:4},end:{line:337,column:5}},type:"if",locations:[{start:{line:335,column:4},end:{line:337,column:5}},{start:{line:335,column:4},end:{line:337,column:5}}],line:335}},s:{0:0,1:0,2:0,3:0,4:0,5:0,6:0,7:0,8:0,9:0,10:0,11:0,12:0,13:0,14:0,15:0,16:0,17:0,18:0,19:0,20:0,21:0,22:0,23:0,24:0,25:0,26:0,27:0,28:0,29:0,30:0,31:0,32:0,33:0,34:0,35:0,36:0,37:0,38:0,39:0,40:0,41:0,42:0,43:0,44:0,45:0,46:0,47:0,48:0,49:0,50:0,51:0,52:0,53:0,54:0,55:0,56:0,57:0,58:0,59:0,60:0,61:0},f:{0:0,1:0,2:0},b:{0:[0,0],1:[0,0],2:[0,0],3:[0,0],4:[0,0],5:[0,0],6:[0,0],7:[0,0],8:[0,0],9:[0,0],10:[0,0],11:[0,0],12:[0,0],13:[0,0],14:[0,0],15:[0,0],16:[0,0],17:[0,0],18:[0,0],19:[0,0],20:[0,0],21:[0,0]},_coverageSchema:"332fd63041d2c1bcb487cc26dd0d5f7d97098a6c"},i=l[t]||(l[t]={});return i[n]&&i[n].hash===e?i[n]:(o.hash=e,i[n]=o)}(),o=l(4),i=function(n){return n&&n.__esModule?n:{default:n}}(o);e.default={name:"vue-numeric",props:{currency:{default:"",required:!1,type:String},max:{required:!1,type:[Number,String]},min:{default:0,required:!1,type:[Number,String]},minus:{default:!1,required:!1,type:Boolean},placeholder:{required:!1,type:String},precision:{required:!1,type:[Number,String]},separator:{default:",",required:!1,type:String},value:{required:!0,type:[Number,String]},readOnly:{default:!1,required:!1,type:Boolean},readOnlyClass:{default:"",required:!1,type:String},currencySymbolPosition:{default:"prefix",required:!1,type:String}},data:function(){return++t.f[0],++t.s[0],{amount:""}},computed:{amountValue:function(){return++t.s[1],this.formatToNumber(this.amount)},numberValue:function(){return++t.s[2],this.formatToNumber(this.value)},minValue:function(){return++t.s[3],this.min?(++t.b[0][0],++t.s[4],this.formatToNumber(this.min)):(++t.b[0][1],++t.s[5],0)},maxValue:function(){if(++t.s[6],this.max)return++t.b[1][0],++t.s[7],this.formatToNumber(this.max);++t.b[1][1],++t.s[8]},decimalSeparator:function(){return++t.s[9],"."===this.separator?(++t.b[2][0],++t.s[10],","):(++t.b[2][1],++t.s[11],".")},thousandSeparator:function(){return++t.s[12],"."===this.separator?(++t.b[3][0],++t.s[13],"."):(++t.b[3][1],++t.s[14],",")},formatString:function(){return++t.s[15],"suffix"===this.currencySymbolPosition?(++t.b[4][0],"%v %s"):(++t.b[4][1],"%s %v")}},methods:{checkMaxValue:function(n){return++t.s[16],this.max?(++t.b[5][0],++t.s[17],n<=this.maxValue?(++t.b[6][0],++t.s[18],!1):(++t.b[6][1],++t.s[19],!0)):(++t.b[5][1],++t.s[20],!1)},checkMinValue:function(n){return++t.s[21],this.min?(++t.b[7][0],++t.s[22],n>=this.minValue?(++t.b[8][0],++t.s[23],!1):(++t.b[8][1],++t.s[24],!0)):(++t.b[7][1],++t.s[25],!1)},formatToNumber:function(n){var e=(++t.s[26],0);if(++t.s[27],"."===this.separator){++t.b[9][0];var l=(++t.s[28],n);++t.s[29],"string"!=typeof n?(++t.b[10][0],++t.s[30],l=this.numberToString(n)):++t.b[10][1],++t.s[31],e=Number(String(l).replace(/[^0-9-,]+/g,"").replace(",","."))}else++t.b[9][1],++t.s[32],e=Number(String(n).replace(/[^0-9-.]+/g,""));return++t.s[33],this.minus?(++t.b[11][1],++t.s[35],e):(++t.b[11][0],++t.s[34],Math.abs(e))},processValue:function(n){++t.s[36],isNaN(n)?(++t.b[12][0],++t.s[37],this.updateValue(this.minValue)):(++t.b[12][1],++t.s[38],this.checkMaxValue(n)?(++t.b[13][0],++t.s[39],this.updateValue(this.maxValue)):(++t.b[13][1],++t.s[40],this.checkMinValue(n)?(++t.b[14][0],++t.s[41],this.updateValue(this.minValue)):(++t.b[14][1],++t.s[42],this.updateValue(n))))},formatValue:function(){++t.s[43],this.amount=i.default.formatMoney(this.numberValue,{symbol:this.currency,format:this.formatString,precision:Number(this.precision),decimal:this.decimalSeparator,thousand:this.thousandSeparator})},updateValue:function(n){++t.s[44],this.$emit("input",Number(i.default.toFixed(n,this.precision)))},numberToString:function(n){return++t.s[45],i.default.formatMoney(n,{symbol:"",precision:Number(this.precision),decimal:this.decimalSeparator,thousand:""})},convertToNumber:function(n){++t.s[46],this.amount=this.numberToString(n)}},watch:{numberValue:function(n,e){++t.s[47],++t.b[16][0],this.amountValue!==n&&(++t.b[16][1],this.amountValue===e)?(++t.b[15][0],++t.s[48],this.convertToNumber(n),++t.s[49],this.$refs.numeric!==document.activeElement?(++t.b[17][0],++t.s[50],this.formatValue(n)):++t.b[17][1]):++t.b[15][1]},readOnly:function(n,e){var l=this;++t.s[51],++t.b[19][0],!1===e&&(++t.b[19][1],!0===n)?(++t.b[18][0],++t.s[52],this.$nextTick(function(){++t.f[1],++t.s[53],l.$refs.readOnly.className=l.readOnlyClass})):++t.b[18][1]}},mounted:function(){var n=this;++t.s[54],this.value?(++t.b[20][0],++t.s[55],this.processValue(this.formatToNumber(this.value)),++t.s[56],this.formatValue(this.value)):++t.b[20][1],++t.s[57],this.readOnly?(++t.b[21][0],++t.s[58],this.$refs.readOnly.className=this.readOnlyClass):++t.b[21][1],++t.s[59],setTimeout(function(){++t.f[2],++t.s[60],n.processValue(n.formatToNumber(n.value)),++t.s[61],n.formatValue(n.value)},500)}}},function(n,e,l){!function(n,l){l(e)}(0,function(n){"use strict";function e(n,e){return e={exports:{}},n(e,e.exports),e.exports}function l(n){var e=arguments.length<=1||void 0===arguments[1]?s.decimal:arguments[1],t=arguments.length<=2||void 0===arguments[2]?s.fallback:arguments[2];if(Array.isArray(n))return n.map(function(n){return l(n,e,t)});if("number"==typeof n)return n;var o=new RegExp("[^0-9-(-)-"+e+"]",["g"]),i=(""+n).replace(o,"").replace(e,".").replace(/\(([-]*\d*[^)]?\d+)\)/g,"-$1").replace(/\((.*)\)/,""),r=(i.match(/-/g)||2).length%2,u=parseFloat(i.replace(/-/g,"")),c=u*(r?-1:1);return isNaN(c)?t:c}function t(n,e){return n=Math.round(Math.abs(n)),isNaN(n)?e:n}function o(n,e){e=t(e,s.precision);var l=Math.pow(10,e);return(Math.round((n+1e-8)*l)/l).toFixed(e)}function i(n,e){var l=n.split(e),t=l[0],o=l[1].replace(/0+$/,"");return o.length>0?t+e+o:t}function r(n){var e=arguments.length<=1||void 0===arguments[1]?{}:arguments[1];if(Array.isArray(n))return n.map(function(n){return r(n,e)});e=d({},s,e);var l=n<0?"-":"",t=parseInt(o(Math.abs(n),e.precision),10)+"",u=t.length>3?t.length%3:0,c=l+(u?t.substr(0,u)+e.thousand:"")+t.substr(u).replace(/(\d{3})(?=\d)/g,"$1"+e.thousand)+(e.precision>0?e.decimal+o(Math.abs(n),e.precision).split(".")[1]:"");return e.stripZeros?i(c,e.decimal):c}function u(n){return p(n)&&n.match("%v")?{pos:n,neg:n.replace("-","").replace("%v","-%v"),zero:n}:n}function c(n){var e=arguments.length<=1||void 0===arguments[1]?{}:arguments[1];if(Array.isArray(n))return n.map(function(n){return c(n,e)});e=d({},s,e);var l=u(e.format),t=void 0;return t=n>0?l.pos:n<0?l.neg:l.zero,t.replace("%s",e.symbol).replace("%v",r(Math.abs(n),e))}function a(n){var e=arguments.length<=1||void 0===arguments[1]?{}:arguments[1];if(!n)return[];e=d({},s,e);var t=u(e.format),o=t.pos.indexOf("%s")<t.pos.indexOf("%v"),i=0;return n.map(function(n){if(Array.isArray(n))return a(n,e);n=l(n,e.decimal);var o=void 0;o=n>0?t.pos:n<0?t.neg:t.zero;var u=o.replace("%s",e.symbol).replace("%v",r(Math.abs(n),e));return u.length>i&&(i=u.length),u}).map(function(n){return p(n)&&n.length<i?o?n.replace(e.symbol,e.symbol+new Array(i-n.length+1).join(" ")):new Array(i-n.length+1).join(" ")+n:n})}var s={symbol:"$",format:"%s%v",decimal:".",thousand:",",precision:2,grouping:3,stripZeros:!1,fallback:0},m=e(function(n){function e(n){if(null===n||void 0===n)throw new TypeError("Object.assign cannot be called with null or undefined");return Object(n)}var l=Object.prototype.hasOwnProperty,t=Object.prototype.propertyIsEnumerable;n.exports=Object.assign||function(n,o){for(var i,r,u=e(n),c=1;c<arguments.length;c++){i=Object(arguments[c]);for(var a in i)l.call(i,a)&&(u[a]=i[a]);if(Object.getOwnPropertySymbols){r=Object.getOwnPropertySymbols(i);for(var s=0;s<r.length;s++)t.call(i,r[s])&&(u[r[s]]=i[r[s]])}}return u}}),d=m&&"object"==typeof m&&"default"in m?m.default:m,f=e(function(n){var e=String.prototype.valueOf,l=function(n){try{return e.call(n),!0}catch(n){return!1}},t=Object.prototype.toString,o="function"==typeof Symbol&&"symbol"==typeof Symbol.toStringTag;n.exports=function(n){return"string"==typeof n||"object"==typeof n&&(o?l(n):"[object String]"===t.call(n))}}),p=f&&"object"==typeof f&&"default"in f?f.default:f;n.settings=s,n.unformat=l,n.toFixed=o,n.formatMoney=c,n.formatNumber=r,n.formatColumn=a,n.format=c,n.parse=l})},function(n,e,l){"use strict";var t=function(){var n=this,e=n.$createElement,l=n._self._c||e;return n.readOnly?l("span",{ref:"readOnly"},[n._v(n._s(n.amount))]):l("input",{directives:[{name:"model",rawName:"v-model",value:n.amount,expression:"amount"}],ref:"numeric",attrs:{placeholder:n.placeholder,type:"tel"},domProps:{value:n.value,value:n.amount},on:{blur:n.formatValue,input:[function(e){e.target.composing||(n.amount=e.target.value)},function(e){n.processValue(n.amountValue)}],focus:function(e){n.convertToNumber(n.numberValue)}}})},o=[];e.a={render:t,staticRenderFns:o}}])});
@@ -788,6947 +682,6 @@ module.exports = CancelToken;
 /***/ }),
 
 /***/ 16:
-/***/ (function(module, exports, __webpack_require__) {
-
-"use strict";
-
-
-var defaults = __webpack_require__(2);
-var utils = __webpack_require__(1);
-var InterceptorManager = __webpack_require__(17);
-var dispatchRequest = __webpack_require__(18);
-var isAbsoluteURL = __webpack_require__(26);
-var combineURLs = __webpack_require__(24);
-
-/**
- * Create a new instance of Axios
- *
- * @param {Object} instanceConfig The default config for the instance
- */
-function Axios(instanceConfig) {
-  this.defaults = instanceConfig;
-  this.interceptors = {
-    request: new InterceptorManager(),
-    response: new InterceptorManager()
-  };
-}
-
-/**
- * Dispatch a request
- *
- * @param {Object} config The config specific for this request (merged with this.defaults)
- */
-Axios.prototype.request = function request(config) {
-  /*eslint no-param-reassign:0*/
-  // Allow for axios('example/url'[, config]) a la fetch API
-  if (typeof config === 'string') {
-    config = utils.merge({
-      url: arguments[0]
-    }, arguments[1]);
-  }
-
-  config = utils.merge(defaults, this.defaults, { method: 'get' }, config);
-
-  // Support baseURL config
-  if (config.baseURL && !isAbsoluteURL(config.url)) {
-    config.url = combineURLs(config.baseURL, config.url);
-  }
-
-  // Hook up interceptors middleware
-  var chain = [dispatchRequest, undefined];
-  var promise = Promise.resolve(config);
-
-  this.interceptors.request.forEach(function unshiftRequestInterceptors(interceptor) {
-    chain.unshift(interceptor.fulfilled, interceptor.rejected);
-  });
-
-  this.interceptors.response.forEach(function pushResponseInterceptors(interceptor) {
-    chain.push(interceptor.fulfilled, interceptor.rejected);
-  });
-
-  while (chain.length) {
-    promise = promise.then(chain.shift(), chain.shift());
-  }
-
-  return promise;
-};
-
-// Provide aliases for supported request methods
-utils.forEach(['delete', 'get', 'head'], function forEachMethodNoData(method) {
-  /*eslint func-names:0*/
-  Axios.prototype[method] = function(url, config) {
-    return this.request(utils.merge(config || {}, {
-      method: method,
-      url: url
-    }));
-  };
-});
-
-utils.forEach(['post', 'put', 'patch'], function forEachMethodWithData(method) {
-  /*eslint func-names:0*/
-  Axios.prototype[method] = function(url, data, config) {
-    return this.request(utils.merge(config || {}, {
-      method: method,
-      url: url,
-      data: data
-    }));
-  };
-});
-
-module.exports = Axios;
-
-
-/***/ }),
-
-/***/ 164:
-/***/ (function(module, __webpack_exports__, __webpack_require__) {
-
-"use strict";
-Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_0_vee_validate__ = __webpack_require__(205);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_0_vee_validate___default = __webpack_require__.n(__WEBPACK_IMPORTED_MODULE_0_vee_validate__);
-
-/**
- * First we will load all of this project's JavaScript dependencies which
- * includes Vue and other libraries. It is a great starting point when
- * building robust, powerful web applications using Vue and Laravel.
- */
-window.Vue = __webpack_require__(32);
-
-Vue.use(__WEBPACK_IMPORTED_MODULE_0_vee_validate___default.a);
-/**
- * Next, we will create a fresh Vue application instance and attach it to
- * the page. Then, you may begin adding components to this application
- * or customize the JavaScript scaffolding to fit your unique needs.
- */
-Vue.component('rvtable', __webpack_require__(236));
-Vue.component('rvpreview', __webpack_require__(216));
-Vue.component('rvcreate', __webpack_require__(235));
-new Vue({
-  el: '#rv'
-});
-
-/***/ }),
-
-/***/ 165:
-/***/ (function(module, exports) {
-
-// removed by extract-text-webpack-plugin
-
-/***/ }),
-
-/***/ 17:
-/***/ (function(module, exports, __webpack_require__) {
-
-"use strict";
-
-
-var utils = __webpack_require__(1);
-
-function InterceptorManager() {
-  this.handlers = [];
-}
-
-/**
- * Add a new interceptor to the stack
- *
- * @param {Function} fulfilled The function to handle `then` for a `Promise`
- * @param {Function} rejected The function to handle `reject` for a `Promise`
- *
- * @return {Number} An ID used to remove interceptor later
- */
-InterceptorManager.prototype.use = function use(fulfilled, rejected) {
-  this.handlers.push({
-    fulfilled: fulfilled,
-    rejected: rejected
-  });
-  return this.handlers.length - 1;
-};
-
-/**
- * Remove an interceptor from the stack
- *
- * @param {Number} id The ID that was returned by `use`
- */
-InterceptorManager.prototype.eject = function eject(id) {
-  if (this.handlers[id]) {
-    this.handlers[id] = null;
-  }
-};
-
-/**
- * Iterate over all the registered interceptors
- *
- * This method is particularly useful for skipping over any
- * interceptors that may have become `null` calling `eject`.
- *
- * @param {Function} fn The function to call for each interceptor
- */
-InterceptorManager.prototype.forEach = function forEach(fn) {
-  utils.forEach(this.handlers, function forEachHandler(h) {
-    if (h !== null) {
-      fn(h);
-    }
-  });
-};
-
-module.exports = InterceptorManager;
-
-
-/***/ }),
-
-/***/ 175:
-/***/ (function(module, __webpack_exports__, __webpack_require__) {
-
-"use strict";
-Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_0_axios__ = __webpack_require__(4);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_0_axios___default = __webpack_require__.n(__WEBPACK_IMPORTED_MODULE_0_axios__);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_1_vue_numeric__ = __webpack_require__(151);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_1_vue_numeric___default = __webpack_require__.n(__WEBPACK_IMPORTED_MODULE_1_vue_numeric__);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_2_vue_longpress__ = __webpack_require__(13);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_2_vue_longpress___default = __webpack_require__.n(__WEBPACK_IMPORTED_MODULE_2_vue_longpress__);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_3_vue2_toast_lib_toast_css__ = __webpack_require__(10);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_3_vue2_toast_lib_toast_css___default = __webpack_require__.n(__WEBPACK_IMPORTED_MODULE_3_vue2_toast_lib_toast_css__);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_4_vue2_toast__ = __webpack_require__(11);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_4_vue2_toast___default = __webpack_require__.n(__WEBPACK_IMPORTED_MODULE_4_vue2_toast__);
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-
-
-
-
-
-
-Vue.use(__WEBPACK_IMPORTED_MODULE_4_vue2_toast___default.a);
-Vue.use(__WEBPACK_IMPORTED_MODULE_1_vue_numeric___default.a);
-/* harmony default export */ __webpack_exports__["default"] = ({
-  data: function data() {
-    return {
-      RVMaster: [],
-      RVDetails: [],
-      checkPO: null,
-      checkRR: null,
-      undeliveredTotal: null,
-      BudgetAvail: '',
-      btndisabled: false,
-      editbudgetActive: false,
-      ManagerBehalfActive: false,
-      activemanager: [],
-      ManagerID: null,
-      error: null,
-      RemarksIsActive: false,
-      pendingremarks: '',
-      pendingRemarksShow: '',
-      drop: false,
-      approveBtnReplacer: false,
-      BudgetUpdate: '',
-      SignatureRVBtnHide: false,
-      SignatureManagerReplacerHide: false,
-      SignatureApprovalReplacerHide: false
-    };
-  },
-
-  props: ['rvno', 'user'],
-  methods: {
-    fetchData: function fetchData() {
-      var vm = this;
-      __WEBPACK_IMPORTED_MODULE_0_axios___default.a.get('/rv-full-preview-fetch/' + this.rvno.RVNo).then(function (response) {
-        console.log(response);
-        Vue.set(vm.$data, 'RVMaster', response.data.RVMaster[0]);
-        Vue.set(vm.$data, 'RVDetails', response.data.RVDetails);
-        Vue.set(vm.$data, 'checkPO', response.data.checkPO);
-        Vue.set(vm.$data, 'checkRR', response.data.checkRR);
-        Vue.set(vm.$data, 'undeliveredTotal', response.data.undeliveredTotal);
-      });
-    },
-    Signature: function Signature() {
-      this.$loading('Signaturing...');
-      this.SignatureRVBtnHide = true;
-      var vm = this;
-      __WEBPACK_IMPORTED_MODULE_0_axios___default.a.put('/RVsignature/' + this.rvno.RVNo, {
-        BudgetAvailable: this.BudgetAvail
-      }).then(function (response) {
-        console.log(response);
-        vm.fetchData();
-        vm.$loading.close();
-      });
-    },
-    declineRV: function declineRV() {
-      this.$loading('Declining');
-      this.SignatureRVBtnHide = true;
-      var vm = this;
-      __WEBPACK_IMPORTED_MODULE_0_axios___default.a.put('/declineRV/' + this.rvno.RVNo).then(function (response) {
-        console.log(response);
-        vm.fetchData();
-        vm.$loading.close();
-      });
-    },
-    formatPrice: function formatPrice(value) {
-      var val = (value / 1).toFixed(2).replace('.', '.');
-      return val.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ",");
-    },
-    UpdateBudget: function UpdateBudget() {
-      this.$loading('updating...');
-      var vm = this;
-      __WEBPACK_IMPORTED_MODULE_0_axios___default.a.put('/update-budget/' + this.rvno.RVNo, {
-        BudgetUpdate: this.BudgetUpdate
-      }).then(function (response) {
-        console.log(response);
-        vm.fetchData();
-        vm.$loading.close();
-        vm.$toast.top('Budget updated');
-      });
-    },
-    fetchAllManager: function fetchAllManager() {
-      var vm = this;
-      __WEBPACK_IMPORTED_MODULE_0_axios___default.a.get('/fetchAllManagerRV').then(function (response) {
-        console.log(response);
-        Vue.set(vm.$data, 'activemanager', response.data);
-        vm.fetchData();
-      });
-    },
-    sendRequestManagerReplacer: function sendRequestManagerReplacer() {
-      this.$loading('Sending...');
-      var vm = this;
-      __WEBPACK_IMPORTED_MODULE_0_axios___default.a.put('/send-request-to-manager-replacer/' + this.rvno.RVNo, {
-        ManagerID: this.ManagerID
-      }).then(function (response) {
-        console.log(response);
-        if (response.data.error != null) {
-          Vue.set(vm.$data, 'error', response.data.error);
-          vm.$loading.close();
-        } else {
-          vm.fetchAllManager();
-          vm.$loading.close();
-          vm.$toast.top('Request sent.');
-        }
-      });
-    },
-    cancelRequestManagerReplacer: function cancelRequestManagerReplacer() {
-      this.$loading('Canceling...');
-      this.SignatureManagerReplacerHide = true;
-      var vm = this;
-      __WEBPACK_IMPORTED_MODULE_0_axios___default.a.put('/cancelrequestsentReplacer/' + this.rvno.RVNo).then(function (response) {
-        console.log(response);
-        vm.fetchAllManager();
-        vm.$loading.close();
-      });
-    },
-    signatureRequestManagerReplacer: function signatureRequestManagerReplacer() {
-      this.$loading('Signaturing...');
-      this.SignatureManagerReplacerHide = true;
-      var vm = this;
-      __WEBPACK_IMPORTED_MODULE_0_axios___default.a.put('/AcceptManagerReplacer/' + this.rvno.RVNo).then(function (response) {
-        vm.fetchData();
-        vm.$loading.close();
-      });
-    },
-    PendingRemarksSubmit: function PendingRemarksSubmit() {
-      this.$loading('Saving remarks...');
-      var vm = this;
-      __WEBPACK_IMPORTED_MODULE_0_axios___default.a.put('/save-budget-officer-pending-remarks/' + this.rvno.RVNo, { PendingRemarks: this.pendingremarks }).then(function (response) {
-        console.log(response);
-        vm.displayRemarks();
-        Vue.set(vm.$data, 'RemarksIsActive', false);
-        vm.$loading.close();
-      });
-    },
-    RemovePendingRemarks: function RemovePendingRemarks() {
-      this.$loading('Removing remarks...');
-      var vm = this;
-      __WEBPACK_IMPORTED_MODULE_0_axios___default.a.put('/budget-officer-pending-remarks/' + this.rvno.RVNo).then(function (response) {
-        console.log(response);
-        vm.displayRemarks();
-        vm.$loading.close();
-      });
-    },
-    displayRemarks: function displayRemarks() {
-      var vm = this;
-      __WEBPACK_IMPORTED_MODULE_0_axios___default.a.get('/show-budget-officer-pending-remarks/' + this.rvno.RVNo).then(function (response) {
-        console.log(response);
-        Vue.set(vm.$data, 'pendingRemarksShow', response.data[0].PendingRemarks);
-      });
-    },
-    cancelApprovalRequest: function cancelApprovalRequest() {
-      this.$loading('Please wait...');
-      this.SignatureApprovalReplacerHide = true;
-      var vm = this;
-      __WEBPACK_IMPORTED_MODULE_0_axios___default.a.put('/rv-signature-in-behalf-cancel/' + this.rvno.RVNo).then(function (response) {
-        console.log(response);
-        vm.fetchData();
-        vm.$loading.close();
-      });
-    },
-    acceptApproveRequest: function acceptApproveRequest() {
-      this.$loading('Signaturing...');
-      this.SignatureApprovalReplacerHide = true;
-      var vm = this;
-      __WEBPACK_IMPORTED_MODULE_0_axios___default.a.put('/rv-approve-behalf-accept/' + this.rvno.RVNo).then(function (response) {
-        console.log(response);
-        vm.fetchData();
-        vm.$loading.close();
-      });
-    }
-  },
-  mounted: function mounted() {
-    this.fetchData();
-    this.displayRemarks();
-  },
-
-  components: {
-    Longpress: __WEBPACK_IMPORTED_MODULE_2_vue_longpress___default.a
-  },
-  computed: {
-    ManagerReplacerData: function ManagerReplacerData() {
-      if (this.RVMaster.users[4] != null && this.RVMaster.users[4].pivot.SignatureType == 'ManagerReplacer') {
-        return this.RVMaster.users[4];
-      } else if (this.RVMaster.users[5] != null && this.RVMaster.users[5].pivot.SignatureType == 'ManagerReplacer') {
-        return this.RVMaster.users[5];
-      } else {
-        return null;
-      }
-    },
-    ApprovalReplacerData: function ApprovalReplacerData() {
-      if (this.RVMaster.users[4] != null && this.RVMaster.users[4].pivot.SignatureType == 'ApprovalReplacer') {
-        return this.RVMaster.users[4];
-      } else if (this.RVMaster.users[5] != null && this.RVMaster.users[5].pivot.SignatureType == 'ApprovalReplacer') {
-        return this.RVMaster.users[5];
-      } else {
-        return null;
-      }
-    },
-    AlreadyApproved: function AlreadyApproved() {
-      if (this.RVMaster.users[0].pivot.Signature == '0' && (this.RVMaster.users[1].pivot.Signature == '0' || this.ManagerReplacerData != null && this.ManagerReplacerData.pivot.Signature == '0') && this.RVMaster.users[2].pivot.Signature == '0' && (this.RVMaster.users[3].pivot.Signature == '0' || this.ApprovalReplacerData != null && this.ApprovalReplacerData.pivot.Signature == '0')) {
-        return true;
-      } else {
-        return false;
-      }
-    },
-    RequisitionerCanSignature: function RequisitionerCanSignature() {
-      if (this.RVMaster.users[0].pivot.Signature == null && this.RVMaster.users[0].id == this.user.id) {
-        return true;
-      } else {
-        return false;
-      }
-    },
-    RecommendedByCanSignature: function RecommendedByCanSignature() {
-      if (this.RVMaster.users[0].pivot.Signature == '0' && this.RVMaster.users[1].pivot.Signature == null && this.user.id == this.RVMaster.users[1].id && (this.ManagerReplacerData == null || this.ManagerReplacerData.pivot.Signature == null)) {
-        return true;
-      } else {
-        return false;
-      }
-    },
-    BudgetOfficerCanSignature: function BudgetOfficerCanSignature() {
-      if (this.RVMaster.users[2].pivot.Signature == null && this.user.id == this.RVMaster.users[2].id && (this.RVMaster.users[1].pivot.Signature == '0' || this.ManagerReplacerData != null && this.ManagerReplacerData.pivot.Signature == '0')) {
-        return true;
-      } else {
-        return false;
-      }
-    },
-    GMCanSignature: function GMCanSignature() {
-      if (this.RVMaster.users[2].pivot.Signature == '0' && this.RVMaster.users[3].pivot.Signature == null && this.user.id == this.RVMaster.users[3].id && (this.ApprovalReplacerData == null || this.ApprovalReplacerData.pivot.Signature == null)) {
-        return true;
-      } else {
-        return false;
-      }
-    }
-  }
-});
-
-/***/ }),
-
-/***/ 18:
-/***/ (function(module, exports, __webpack_require__) {
-
-"use strict";
-
-
-var utils = __webpack_require__(1);
-var transformData = __webpack_require__(21);
-var isCancel = __webpack_require__(7);
-var defaults = __webpack_require__(2);
-
-/**
- * Throws a `Cancel` if cancellation has been requested.
- */
-function throwIfCancellationRequested(config) {
-  if (config.cancelToken) {
-    config.cancelToken.throwIfRequested();
-  }
-}
-
-/**
- * Dispatch a request to the server using the configured adapter.
- *
- * @param {object} config The config that is to be used for the request
- * @returns {Promise} The Promise to be fulfilled
- */
-module.exports = function dispatchRequest(config) {
-  throwIfCancellationRequested(config);
-
-  // Ensure headers exist
-  config.headers = config.headers || {};
-
-  // Transform request data
-  config.data = transformData(
-    config.data,
-    config.headers,
-    config.transformRequest
-  );
-
-  // Flatten headers
-  config.headers = utils.merge(
-    config.headers.common || {},
-    config.headers[config.method] || {},
-    config.headers || {}
-  );
-
-  utils.forEach(
-    ['delete', 'get', 'head', 'post', 'put', 'patch', 'common'],
-    function cleanHeaderConfig(method) {
-      delete config.headers[method];
-    }
-  );
-
-  var adapter = config.adapter || defaults.adapter;
-
-  return adapter(config).then(function onAdapterResolution(response) {
-    throwIfCancellationRequested(config);
-
-    // Transform response data
-    response.data = transformData(
-      response.data,
-      response.headers,
-      config.transformResponse
-    );
-
-    return response;
-  }, function onAdapterRejection(reason) {
-    if (!isCancel(reason)) {
-      throwIfCancellationRequested(config);
-
-      // Transform response data
-      if (reason && reason.response) {
-        reason.response.data = transformData(
-          reason.response.data,
-          reason.response.headers,
-          config.transformResponse
-        );
-      }
-    }
-
-    return Promise.reject(reason);
-  });
-};
-
-
-/***/ }),
-
-/***/ 19:
-/***/ (function(module, exports, __webpack_require__) {
-
-"use strict";
-
-
-/**
- * Update an Error with the specified config, error code, and response.
- *
- * @param {Error} error The error to update.
- * @param {Object} config The config.
- * @param {string} [code] The error code (for example, 'ECONNABORTED').
- @ @param {Object} [response] The response.
- * @returns {Error} The error.
- */
-module.exports = function enhanceError(error, config, code, response) {
-  error.config = config;
-  if (code) {
-    error.code = code;
-  }
-  error.response = response;
-  return error;
-};
-
-
-/***/ }),
-
-/***/ 194:
-/***/ (function(module, __webpack_exports__, __webpack_require__) {
-
-"use strict";
-Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_0_axios__ = __webpack_require__(4);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_0_axios___default = __webpack_require__.n(__WEBPACK_IMPORTED_MODULE_0_axios__);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_1_vue_longpress__ = __webpack_require__(13);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_1_vue_longpress___default = __webpack_require__.n(__WEBPACK_IMPORTED_MODULE_1_vue_longpress__);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_2_vue2_toast_lib_toast_css__ = __webpack_require__(10);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_2_vue2_toast_lib_toast_css___default = __webpack_require__.n(__WEBPACK_IMPORTED_MODULE_2_vue2_toast_lib_toast_css__);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_3_vue2_toast__ = __webpack_require__(11);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_3_vue2_toast___default = __webpack_require__.n(__WEBPACK_IMPORTED_MODULE_3_vue2_toast__);
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-
-
-
-
-
-Vue.use(__WEBPACK_IMPORTED_MODULE_3_vue2_toast___default.a);
-/* harmony default export */ __webpack_exports__["default"] = ({
-  data: function data() {
-    return {
-      forstock: false,
-      notforstock: false,
-      findDescription: '',
-      findResults: [],
-      pagination: [],
-      offset: 4,
-      Description: '',
-      Unit: '',
-      Quantity: '',
-      Remarks: '',
-      SessionStored: [],
-      purpose: '',
-      QuantityForWHouse: [],
-      RemarksForWHouse: [],
-      lowqtyactive: false,
-      UnitsFromDB: [],
-      HideBtn: false
-    };
-  },
-
-  props: ['budgetofficer', 'gm', 'user', 'mymanager'],
-  methods: {
-    searchDescription: function searchDescription(page) {
-      this.$loading('Please Wait...');
-      var vm = this;
-      __WEBPACK_IMPORTED_MODULE_0_axios___default.a.get('/search-rv-forstock?Search=' + this.findDescription + '&page=' + page).then(function (response) {
-        console.log(response);
-        vm.QuantityForWHouse = [];
-        vm.RemarksForWHouse = [];
-        Vue.set(vm.$data, 'findResults', response.data.MasterResults.data);
-        Vue.set(vm.$data, 'pagination', response.data.MasterResults);
-        vm.$loading.close();
-      });
-    },
-    changepage: function changepage(next) {
-      this.pagination.current_page = next;
-      if (this.lowqtyactive) {
-        this.FetchLowQtyItems(next);
-      } else {
-        this.searchDescription(next);
-      }
-      this.QuantityForWHouse = [];
-      this.RemarksForWHouse = [];
-    },
-    addToSession: function addToSession() {
-      this.$loading('Please Wait...');
-      var vm = this;
-      __WEBPACK_IMPORTED_MODULE_0_axios___default.a.post('/session-saving-rv', {
-        Description: this.Description,
-        Unit: this.Unit,
-        Quantity: this.Quantity,
-        Remarks: this.Remarks
-      }).then(function (response) {
-        console.log(response);
-        if (response.data.error == null) {
-          vm.FetchSessionStored();
-          vm.$toast.top('Added successfully');
-          Vue.set(vm.$data, 'Description', '');
-          Vue.set(vm.$data, 'Unit', '');
-          Vue.set(vm.$data, 'Quantity', '');
-          Vue.set(vm.$data, 'Remarks', '');
-        } else {
-          vm.$toast.top(response.data.error);
-        }
-        vm.$loading.close();
-      }, function (error) {
-        if (error.response.data.Description != null) {
-          vm.$toast.top(error.response.data.Description[0]);
-        } else if (error.response.data.Unit != null) {
-          vm.$toast.top(error.response.data.Unit[0]);
-        } else if (error.response.data.Quantity != null) {
-          vm.$toast.top(error.response.data.Quantity[0]);
-        }
-        console.log(error);
-        vm.$loading.close();
-      });
-    },
-    AddtoSessionForWarehouse: function AddtoSessionForWarehouse(data, count) {
-      this.$loading('Adding...');
-      var vm = this;
-      __WEBPACK_IMPORTED_MODULE_0_axios___default.a.post('/addtoStockSession', {
-        AccountCode: data.AccountCode,
-        ItemCode: data.ItemCode,
-        Description: data.Description,
-        Unit: data.Unit,
-        Quantity: this.QuantityForWHouse[count],
-        Remarks: this.RemarksForWHouse[count]
-      }).then(function (response) {
-        console.log(response);
-        vm.FetchSessionStored();
-        if (response.data.error != null) {
-          vm.$toast.top(response.data.error);
-          vm.$loading.close();
-        } else {
-          vm.$toast.top('Added successfully');
-          vm.$loading.close();
-        }
-      }, function (error) {
-        vm.$toast.top(error.response.data.Quantity[0]);
-        vm.$loading.close();
-      });
-    },
-    FetchSessionStored: function FetchSessionStored() {
-      var vm = this;
-      __WEBPACK_IMPORTED_MODULE_0_axios___default.a.get('/fetch-rv-session').then(function (response) {
-        console.log(response);
-        Vue.set(vm.$data, 'SessionStored', response.data);
-      });
-    },
-    FetchLowQtyItems: function FetchLowQtyItems(page) {
-      this.$loading('Please wait..');
-      var vm = this;
-      __WEBPACK_IMPORTED_MODULE_0_axios___default.a.get('/get-low-qty-items?page=' + page).then(function (response) {
-        console.log(response);
-        Vue.set(vm.$data, 'findResults', response.data.data);
-        Vue.set(vm.$data, 'pagination', response.data);
-        vm.$loading.close();
-      });
-    },
-    deleteSession: function deleteSession(key) {
-      this.$loading('removing...');
-      var vm = this;
-      __WEBPACK_IMPORTED_MODULE_0_axios___default.a.delete('DeleteSession/' + key).then(function (response) {
-        console.log(response);
-        vm.FetchSessionStored();
-        vm.$toast.top('Removed successfully');
-        vm.$loading.close();
-      });
-    },
-    fetchallUnit: function fetchallUnit() {
-      var vm = this;
-      __WEBPACK_IMPORTED_MODULE_0_axios___default.a.get('/get-all-units').then(function (response) {
-        console.log(response);
-        Vue.set(vm.$data, 'UnitsFromDB', response.data);
-      });
-    },
-    SubmitWholeRV: function SubmitWholeRV() {
-      this.$loading('Submitting...');
-      this.HideBtn = true;
-      var vm = this;
-      __WEBPACK_IMPORTED_MODULE_0_axios___default.a.post('/SavetoDBRV', {
-        Purpose: this.purpose
-      }).then(function (response) {
-        console.log(response);
-        if (response.data.error != null) {
-          vm.$toast.top(response.data.error);
-          Vue.set(vm.$data, 'HideBtn', false);
-          vm.$loading.close();
-        } else {
-          window.location = response.data.redirect;
-        }
-      }, function (error) {
-        vm.$toast.top(error.response.data.Purpose[0]);
-        Vue.set(vm.$data, 'HideBtn', false);
-        vm.$loading.close();
-      });
-    }
-  },
-  computed: {
-    isActive: function isActive() {
-      return this.pagination.current_page;
-    },
-    pagesNumber: function pagesNumber() {
-      if (!this.pagination.to) {
-        return [];
-      }
-      var from = this.pagination.current_page - this.offset;
-      if (from < 1) {
-        from = 1;
-      }
-      var to = from + this.offset * 2;
-      if (to >= this.pagination.last_page) {
-        to = this.pagination.last_page;
-      }
-      var pagesArray = [];
-      while (from <= to) {
-        pagesArray.push(from);
-        from++;
-      }
-      return pagesArray;
-    }
-  },
-  mounted: function mounted() {
-    this.FetchSessionStored();
-    if (this.user.Role == 3 || this.user.Role == 4) {
-      this.searchDescription();
-    }
-    this.fetchallUnit();
-  },
-
-  components: {
-    Longpress: __WEBPACK_IMPORTED_MODULE_1_vue_longpress___default.a
-  }
-
-});
-
-/***/ }),
-
-/***/ 195:
-/***/ (function(module, __webpack_exports__, __webpack_require__) {
-
-"use strict";
-Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_0_axios__ = __webpack_require__(4);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_0_axios___default = __webpack_require__.n(__WEBPACK_IMPORTED_MODULE_0_axios__);
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-
-
-/* harmony default export */ __webpack_exports__["default"] = ({
-  data: function data() {
-    return {
-      RVs: [],
-      search: '',
-      url: 'indexRVVUE',
-      pagination: {
-        total: 0,
-        per_page: 10,
-        from: 1,
-        to: 1,
-        current_page: 1
-      },
-      offset: 4
-    };
-  },
-
-  computed: {
-    isActive: function isActive() {
-      return this.pagination.current_page;
-    },
-    pagesNumber: function pagesNumber() {
-      if (!this.pagination.to) {
-        return [];
-      }
-      var from = this.pagination.current_page - this.offset;
-      if (from < 1) {
-        from = 1;
-      }
-      var to = from + this.offset * 2;
-      if (to >= this.pagination.last_page) {
-        to = this.pagination.last_page;
-      }
-      var pagesArray = [];
-      while (from <= to) {
-        pagesArray.push(from);
-        from++;
-      }
-      return pagesArray;
-    }
-  },
-
-  created: function created() {
-    this.fetchdataRV(this.pagination.current_page);
-  },
-  methods: {
-    fetchdataRV: function fetchdataRV(page) {
-      var vm = this;
-      __WEBPACK_IMPORTED_MODULE_0_axios___default.a.get(this.url + '?search=' + this.search + '&page=' + page).then(function (response) {
-        console.log(response);
-        Vue.set(vm.$data, 'RVs', response.data.data);
-        Vue.set(vm.$data, 'pagination', response.data);
-      });
-    },
-    changepageRV: function changepageRV(next) {
-      this.pagination.current_page = next;
-      this.fetchdataRV(next);
-    }
-  }
-});
-
-/***/ }),
-
-/***/ 2:
-/***/ (function(module, exports, __webpack_require__) {
-
-"use strict";
-/* WEBPACK VAR INJECTION */(function(process) {
-
-var utils = __webpack_require__(1);
-var normalizeHeaderName = __webpack_require__(28);
-
-var PROTECTION_PREFIX = /^\)\]\}',?\n/;
-var DEFAULT_CONTENT_TYPE = {
-  'Content-Type': 'application/x-www-form-urlencoded'
-};
-
-function setContentTypeIfUnset(headers, value) {
-  if (!utils.isUndefined(headers) && utils.isUndefined(headers['Content-Type'])) {
-    headers['Content-Type'] = value;
-  }
-}
-
-function getDefaultAdapter() {
-  var adapter;
-  if (typeof XMLHttpRequest !== 'undefined') {
-    // For browsers use XHR adapter
-    adapter = __webpack_require__(5);
-  } else if (typeof process !== 'undefined') {
-    // For node use HTTP adapter
-    adapter = __webpack_require__(5);
-  }
-  return adapter;
-}
-
-var defaults = {
-  adapter: getDefaultAdapter(),
-
-  transformRequest: [function transformRequest(data, headers) {
-    normalizeHeaderName(headers, 'Content-Type');
-    if (utils.isFormData(data) ||
-      utils.isArrayBuffer(data) ||
-      utils.isStream(data) ||
-      utils.isFile(data) ||
-      utils.isBlob(data)
-    ) {
-      return data;
-    }
-    if (utils.isArrayBufferView(data)) {
-      return data.buffer;
-    }
-    if (utils.isURLSearchParams(data)) {
-      setContentTypeIfUnset(headers, 'application/x-www-form-urlencoded;charset=utf-8');
-      return data.toString();
-    }
-    if (utils.isObject(data)) {
-      setContentTypeIfUnset(headers, 'application/json;charset=utf-8');
-      return JSON.stringify(data);
-    }
-    return data;
-  }],
-
-  transformResponse: [function transformResponse(data) {
-    /*eslint no-param-reassign:0*/
-    if (typeof data === 'string') {
-      data = data.replace(PROTECTION_PREFIX, '');
-      try {
-        data = JSON.parse(data);
-      } catch (e) { /* Ignore */ }
-    }
-    return data;
-  }],
-
-  timeout: 0,
-
-  xsrfCookieName: 'XSRF-TOKEN',
-  xsrfHeaderName: 'X-XSRF-TOKEN',
-
-  maxContentLength: -1,
-
-  validateStatus: function validateStatus(status) {
-    return status >= 200 && status < 300;
-  }
-};
-
-defaults.headers = {
-  common: {
-    'Accept': 'application/json, text/plain, */*'
-  }
-};
-
-utils.forEach(['delete', 'get', 'head'], function forEachMehtodNoData(method) {
-  defaults.headers[method] = {};
-});
-
-utils.forEach(['post', 'put', 'patch'], function forEachMethodWithData(method) {
-  defaults.headers[method] = utils.merge(DEFAULT_CONTENT_TYPE);
-});
-
-module.exports = defaults;
-
-/* WEBPACK VAR INJECTION */}.call(exports, __webpack_require__(31)))
-
-/***/ }),
-
-/***/ 20:
-/***/ (function(module, exports, __webpack_require__) {
-
-"use strict";
-
-
-var createError = __webpack_require__(8);
-
-/**
- * Resolve or reject a Promise based on response status.
- *
- * @param {Function} resolve A function that resolves the promise.
- * @param {Function} reject A function that rejects the promise.
- * @param {object} response The response.
- */
-module.exports = function settle(resolve, reject, response) {
-  var validateStatus = response.config.validateStatus;
-  // Note: status is not exposed by XDomainRequest
-  if (!response.status || !validateStatus || validateStatus(response.status)) {
-    resolve(response);
-  } else {
-    reject(createError(
-      'Request failed with status code ' + response.status,
-      response.config,
-      null,
-      response
-    ));
-  }
-};
-
-
-/***/ }),
-
-/***/ 205:
-/***/ (function(module, exports, __webpack_require__) {
-
-/**
- * vee-validate v2.0.0-rc.9
- * (c) 2017 Abdelrahman Awad
- * @license MIT
- */
-(function (global, factory) {
-	 true ? module.exports = factory() :
-	typeof define === 'function' && define.amd ? define(factory) :
-	(global.VeeValidate = factory());
-}(this, (function () { 'use strict';
-
-/**
- * Some Alpha Regex helpers.
- * https://github.com/chriso/validator.js/blob/master/src/lib/alpha.js
- */
-
-var alpha$1 = {
-  en: /^[A-Z]*$/i,
-  cs: /^[A-ZÁČĎÉĚÍŇÓŘŠŤÚŮÝŽ]*$/i,
-  da: /^[A-ZÆØÅ]*$/i,
-  de: /^[A-ZÄÖÜß]*$/i,
-  es: /^[A-ZÁÉÍÑÓÚÜ]*$/i,
-  fr: /^[A-ZÀÂÆÇÉÈÊËÏÎÔŒÙÛÜŸ]*$/i,
-  lt: /^[A-ZĄČĘĖĮŠŲŪŽ]*$/i,
-  nl: /^[A-ZÉËÏÓÖÜ]*$/i,
-  hu: /^[A-ZÁÉÍÓÖŐÚÜŰ]*$/i,
-  pl: /^[A-ZĄĆĘŚŁŃÓŻŹ]*$/i,
-  pt: /^[A-ZÃÁÀÂÇÉÊÍÕÓÔÚÜ]*$/i,
-  ru: /^[А-ЯЁ]*$/i,
-  sk: /^[A-ZÁÄČĎÉÍĹĽŇÓŔŠŤÚÝŽ]*$/i,
-  sr: /^[A-ZČĆŽŠĐ]*$/i,
-  tr: /^[A-ZÇĞİıÖŞÜ]*$/i,
-  uk: /^[А-ЩЬЮЯЄІЇҐ]*$/i,
-  ar: /^[ءآأؤإئابةتثجحخدذرزسشصضطظعغفقكلمنهوىيًٌٍَُِّْٰ]*$/
-};
-
-var alphaSpaces = {
-  en: /^[A-Z\s]*$/i,
-  cs: /^[A-ZÁČĎÉĚÍŇÓŘŠŤÚŮÝŽ\s]*$/i,
-  da: /^[A-ZÆØÅ\s]*$/i,
-  de: /^[A-ZÄÖÜß\s]*$/i,
-  es: /^[A-ZÁÉÍÑÓÚÜ\s]*$/i,
-  fr: /^[A-ZÀÂÆÇÉÈÊËÏÎÔŒÙÛÜŸ\s]*$/i,
-  lt: /^[A-ZĄČĘĖĮŠŲŪŽ\s]*$/i,
-  nl: /^[A-ZÉËÏÓÖÜ\s]*$/i,
-  hu: /^[A-ZÁÉÍÓÖŐÚÜŰ\s]*$/i,
-  pl: /^[A-ZĄĆĘŚŁŃÓŻŹ\s]*$/i,
-  pt: /^[A-ZÃÁÀÂÇÉÊÍÕÓÔÚÜ\s]*$/i,
-  ru: /^[А-ЯЁ\s]*$/i,
-  sk: /^[A-ZÁÄČĎÉÍĹĽŇÓŔŠŤÚÝŽ\s]*$/i,
-  sr: /^[A-ZČĆŽŠĐ\s]*$/i,
-  tr: /^[A-ZÇĞİıÖŞÜ\s]*$/i,
-  uk: /^[А-ЩЬЮЯЄІЇҐ\s]*$/i,
-  ar: /^[ءآأؤإئابةتثجحخدذرزسشصضطظعغفقكلمنهوىيًٌٍَُِّْٰ\s]*$/
-};
-
-var alphanumeric = {
-  en: /^[0-9A-Z]*$/i,
-  cs: /^[0-9A-ZÁČĎÉĚÍŇÓŘŠŤÚŮÝŽ]*$/i,
-  da: /^[0-9A-ZÆØÅ]$/i,
-  de: /^[0-9A-ZÄÖÜß]*$/i,
-  es: /^[0-9A-ZÁÉÍÑÓÚÜ]*$/i,
-  fr: /^[0-9A-ZÀÂÆÇÉÈÊËÏÎÔŒÙÛÜŸ]*$/i,
-  lt: /^[0-9A-ZĄČĘĖĮŠŲŪŽ]*$/i,
-  hu: /^[0-9A-ZÁÉÍÓÖŐÚÜŰ]*$/i,
-  nl: /^[0-9A-ZÉËÏÓÖÜ]*$/i,
-  pl: /^[0-9A-ZĄĆĘŚŁŃÓŻŹ]*$/i,
-  pt: /^[0-9A-ZÃÁÀÂÇÉÊÍÕÓÔÚÜ]*$/i,
-  ru: /^[0-9А-ЯЁ]*$/i,
-  sk: /^[0-9A-ZÁÄČĎÉÍĹĽŇÓŔŠŤÚÝŽ]*$/i,
-  sr: /^[0-9A-ZČĆŽŠĐ]*$/i,
-  tr: /^[0-9A-ZÇĞİıÖŞÜ]*$/i,
-  uk: /^[0-9А-ЩЬЮЯЄІЇҐ]*$/i,
-  ar: /^[٠١٢٣٤٥٦٧٨٩0-9ءآأؤإئابةتثجحخدذرزسشصضطظعغفقكلمنهوىيًٌٍَُِّْٰ]*$/
-};
-
-var alphaDash = {
-  en: /^[0-9A-Z_-]*$/i,
-  cs: /^[0-9A-ZÁČĎÉĚÍŇÓŘŠŤÚŮÝŽ_-]*$/i,
-  da: /^[0-9A-ZÆØÅ_-]*$/i,
-  de: /^[0-9A-ZÄÖÜß_-]*$/i,
-  es: /^[0-9A-ZÁÉÍÑÓÚÜ_-]*$/i,
-  fr: /^[0-9A-ZÀÂÆÇÉÈÊËÏÎÔŒÙÛÜŸ_-]*$/i,
-  lt: /^[0-9A-ZĄČĘĖĮŠŲŪŽ_-]*$/i,
-  nl: /^[0-9A-ZÉËÏÓÖÜ_-]*$/i,
-  hu: /^[0-9A-ZÁÉÍÓÖŐÚÜŰ_-]*$/i,
-  pl: /^[0-9A-ZĄĆĘŚŁŃÓŻŹ_-]*$/i,
-  pt: /^[0-9A-ZÃÁÀÂÇÉÊÍÕÓÔÚÜ_-]*$/i,
-  ru: /^[0-9А-ЯЁ_-]*$/i,
-  sk: /^[0-9A-ZÁÄČĎÉÍĹĽŇÓŔŠŤÚÝŽ_-]*$/i,
-  sr: /^[0-9A-ZČĆŽŠĐ_-]*$/i,
-  tr: /^[0-9A-ZÇĞİıÖŞÜ_-]*$/i,
-  uk: /^[0-9А-ЩЬЮЯЄІЇҐ_-]*$/i,
-  ar: /^[٠١٢٣٤٥٦٧٨٩0-9ءآأؤإئابةتثجحخدذرزسشصضطظعغفقكلمنهوىيًٌٍَُِّْٰ_-]*$/
-};
-
-var validate = function (value, ref) {
-  if ( ref === void 0 ) ref = [null];
-  var locale = ref[0];
-
-  if (Array.isArray(value)) {
-    return value.every(function (val) { return validate(val, [locale]); });
-  }
-
-  // Match at least one locale.
-  if (! locale) {
-    return Object.keys(alpha$1).some(function (loc) { return alpha$1[loc].test(value); });
-  }
-
-  return (alpha$1[locale] || alpha$1.en).test(value);
-};
-
-var validate$1 = function (value, ref) {
-  if ( ref === void 0 ) ref = [null];
-  var locale = ref[0];
-
-  if (Array.isArray(value)) {
-    return value.every(function (val) { return validate$1(val, [locale]); });
-  }
-
-  // Match at least one locale.
-  if (! locale) {
-    return Object.keys(alphaDash).some(function (loc) { return alphaDash[loc].test(value); });
-  }
-
-  return (alphaDash[locale] || alphaDash.en).test(value);
-};
-
-var validate$2 = function (value, ref) {
-  if ( ref === void 0 ) ref = [null];
-  var locale = ref[0];
-
-  if (Array.isArray(value)) {
-    return value.every(function (val) { return validate$2(val, [locale]); });
-  }
-
-  // Match at least one locale.
-  if (! locale) {
-    return Object.keys(alphanumeric).some(function (loc) { return alphanumeric[loc].test(value); });
-  }
-
-  return (alphanumeric[locale] || alphanumeric.en).test(value);
-};
-
-var validate$3 = function (value, ref) {
-  if ( ref === void 0 ) ref = [null];
-  var locale = ref[0];
-
-  if (Array.isArray(value)) {
-    return value.every(function (val) { return validate$3(val, [locale]); });
-  }
-
-  // Match at least one locale.
-  if (! locale) {
-    return Object.keys(alphaSpaces).some(function (loc) { return alphaSpaces[loc].test(value); });
-  }
-
-  return (alphaSpaces[locale] || alphaSpaces.en).test(value);
-};
-
-var validate$4 = function (value, ref) {
-  var min = ref[0];
-  var max = ref[1];
-
-  if (Array.isArray(value)) {
-    return value.every(function (val) { return validate$4(val, [min, max]); });
-  }
-
-  return Number(min) <= value && Number(max) >= value;
-};
-
-var confirmed = function (value, other) { return String(value) === String(other); };
-
-function unwrapExports (x) {
-	return x && x.__esModule ? x['default'] : x;
-}
-
-function createCommonjsModule(fn, module) {
-	return module = { exports: {} }, fn(module, module.exports), module.exports;
-}
-
-var assertString_1 = createCommonjsModule(function (module, exports) {
-'use strict';
-
-Object.defineProperty(exports, "__esModule", {
-  value: true
-});
-exports.default = assertString;
-function assertString(input) {
-  var isString = typeof input === 'string' || input instanceof String;
-
-  if (!isString) {
-    throw new TypeError('This library (validator.js) validates strings only');
-  }
-}
-module.exports = exports['default'];
-});
-
-var isCreditCard_1 = createCommonjsModule(function (module, exports) {
-'use strict';
-
-Object.defineProperty(exports, "__esModule", {
-  value: true
-});
-exports.default = isCreditCard;
-
-
-
-var _assertString2 = _interopRequireDefault(assertString_1);
-
-function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
-
-/* eslint-disable max-len */
-var creditCard = /^(?:4[0-9]{12}(?:[0-9]{3})?|5[1-5][0-9]{14}|(222[1-9]|22[3-9][0-9]|2[3-6][0-9]{2}|27[01][0-9]|2720)[0-9]{12}|6(?:011|5[0-9][0-9])[0-9]{12}|3[47][0-9]{13}|3(?:0[0-5]|[68][0-9])[0-9]{11}|(?:2131|1800|35\d{3})\d{11}|62[0-9]{14})$/;
-/* eslint-enable max-len */
-
-function isCreditCard(str) {
-  (0, _assertString2.default)(str);
-  var sanitized = str.replace(/[- ]+/g, '');
-  if (!creditCard.test(sanitized)) {
-    return false;
-  }
-  var sum = 0;
-  var digit = void 0;
-  var tmpNum = void 0;
-  var shouldDouble = void 0;
-  for (var i = sanitized.length - 1; i >= 0; i--) {
-    digit = sanitized.substring(i, i + 1);
-    tmpNum = parseInt(digit, 10);
-    if (shouldDouble) {
-      tmpNum *= 2;
-      if (tmpNum >= 10) {
-        sum += tmpNum % 10 + 1;
-      } else {
-        sum += tmpNum;
-      }
-    } else {
-      sum += tmpNum;
-    }
-    shouldDouble = !shouldDouble;
-  }
-  return !!(sum % 10 === 0 ? sanitized : false);
-}
-module.exports = exports['default'];
-});
-
-var isCreditCard = unwrapExports(isCreditCard_1);
-
-var credit_card = function (value) { return isCreditCard(String(value)); };
-
-var validate$5 = function (value, params) {
-  var decimals = Array.isArray(params) ? (params[0] || '*') : '*';
-  if (Array.isArray(value)) {
-    return value.every(function (val) { return validate$5(val, params); });
-  }
-
-  if (value === null || value === undefined || value === '') {
-    return true;
-  }
-
-  // if is 0.
-  if (Number(decimals) === 0) {
-    return /^-?\d*$/.test(value);
-  }
-
-  var regexPart = decimals === '*' ? '+' : ("{1," + decimals + "}");
-  var regex = new RegExp(("^-?\\d*(\\.\\d" + regexPart + ")?$"));
-
-  if (! regex.test(value)) {
-    return false;
-  }
-
-  var parsedValue = parseFloat(value);
-
-  // eslint-disable-next-line
-    return parsedValue === parsedValue;
-};
-
-var validate$6 = function (value, ref) {
-  var length = ref[0];
-
-  if (Array.isArray(value)) {
-    return value.every(function (val) { return validate$6(val, [length]); });
-  }
-  var strVal = String(value);
-
-  return /^[0-9]*$/.test(strVal) && strVal.length === Number(length);
-};
-
-var validateImage = function (file, width, height) {
-  var URL = window.URL || window.webkitURL;
-  return new Promise(function (resolve) {
-    var image = new Image();
-    image.onerror = function () { return resolve({ valid: false }); };
-    image.onload = function () { return resolve({
-      valid: image.width === Number(width) && image.height === Number(height)
-    }); };
-
-    image.src = URL.createObjectURL(file);
-  });
-};
-
-var dimensions = function (files, ref) {
-  var width = ref[0];
-  var height = ref[1];
-
-  var list = [];
-  for (var i = 0; i < files.length; i++) {
-    // if file is not an image, reject.
-    if (! /\.(jpg|svg|jpeg|png|bmp|gif)$/i.test(files[i].name)) {
-      return false;
-    }
-
-    list.push(files[i]);
-  }
-
-  return Promise.all(list.map(function (file) { return validateImage(file, width, height); }));
-};
-
-var merge_1 = createCommonjsModule(function (module, exports) {
-'use strict';
-
-Object.defineProperty(exports, "__esModule", {
-  value: true
-});
-exports.default = merge;
-function merge() {
-  var obj = arguments.length > 0 && arguments[0] !== undefined ? arguments[0] : {};
-  var defaults = arguments[1];
-
-  for (var key in defaults) {
-    if (typeof obj[key] === 'undefined') {
-      obj[key] = defaults[key];
-    }
-  }
-  return obj;
-}
-module.exports = exports['default'];
-});
-
-var isByteLength_1 = createCommonjsModule(function (module, exports) {
-'use strict';
-
-Object.defineProperty(exports, "__esModule", {
-  value: true
-});
-
-var _typeof = typeof Symbol === "function" && typeof Symbol.iterator === "symbol" ? function (obj) { return typeof obj; } : function (obj) { return obj && typeof Symbol === "function" && obj.constructor === Symbol && obj !== Symbol.prototype ? "symbol" : typeof obj; };
-
-exports.default = isByteLength;
-
-
-
-var _assertString2 = _interopRequireDefault(assertString_1);
-
-function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
-
-/* eslint-disable prefer-rest-params */
-function isByteLength(str, options) {
-  (0, _assertString2.default)(str);
-  var min = void 0;
-  var max = void 0;
-  if ((typeof options === 'undefined' ? 'undefined' : _typeof(options)) === 'object') {
-    min = options.min || 0;
-    max = options.max;
-  } else {
-    // backwards compatibility: isByteLength(str, min [, max])
-    min = arguments[1];
-    max = arguments[2];
-  }
-  var len = encodeURI(str).split(/%..|./).length - 1;
-  return len >= min && (typeof max === 'undefined' || len <= max);
-}
-module.exports = exports['default'];
-});
-
-var isFQDN = createCommonjsModule(function (module, exports) {
-'use strict';
-
-Object.defineProperty(exports, "__esModule", {
-  value: true
-});
-exports.default = isFDQN;
-
-
-
-var _assertString2 = _interopRequireDefault(assertString_1);
-
-
-
-var _merge2 = _interopRequireDefault(merge_1);
-
-function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
-
-var default_fqdn_options = {
-  require_tld: true,
-  allow_underscores: false,
-  allow_trailing_dot: false
-};
-
-function isFDQN(str, options) {
-  (0, _assertString2.default)(str);
-  options = (0, _merge2.default)(options, default_fqdn_options);
-
-  /* Remove the optional trailing dot before checking validity */
-  if (options.allow_trailing_dot && str[str.length - 1] === '.') {
-    str = str.substring(0, str.length - 1);
-  }
-  var parts = str.split('.');
-  if (options.require_tld) {
-    var tld = parts.pop();
-    if (!parts.length || !/^([a-z\u00a1-\uffff]{2,}|xn[a-z0-9-]{2,})$/i.test(tld)) {
-      return false;
-    }
-    // disallow spaces
-    if (/[\s\u2002-\u200B\u202F\u205F\u3000\uFEFF\uDB40\uDC20]/.test(tld)) {
-      return false;
-    }
-  }
-  for (var part, i = 0; i < parts.length; i++) {
-    part = parts[i];
-    if (options.allow_underscores) {
-      part = part.replace(/_/g, '');
-    }
-    if (!/^[a-z\u00a1-\uffff0-9-]+$/i.test(part)) {
-      return false;
-    }
-    // disallow full-width chars
-    if (/[\uff01-\uff5e]/.test(part)) {
-      return false;
-    }
-    if (part[0] === '-' || part[part.length - 1] === '-') {
-      return false;
-    }
-  }
-  return true;
-}
-module.exports = exports['default'];
-});
-
-var isEmail_1 = createCommonjsModule(function (module, exports) {
-'use strict';
-
-Object.defineProperty(exports, "__esModule", {
-  value: true
-});
-exports.default = isEmail;
-
-
-
-var _assertString2 = _interopRequireDefault(assertString_1);
-
-
-
-var _merge2 = _interopRequireDefault(merge_1);
-
-
-
-var _isByteLength2 = _interopRequireDefault(isByteLength_1);
-
-
-
-var _isFQDN2 = _interopRequireDefault(isFQDN);
-
-function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
-
-var default_email_options = {
-  allow_display_name: false,
-  require_display_name: false,
-  allow_utf8_local_part: true,
-  require_tld: true
-};
-
-/* eslint-disable max-len */
-/* eslint-disable no-control-regex */
-var displayName = /^[a-z\d!#\$%&'\*\+\-\/=\?\^_`{\|}~\.\u00A0-\uD7FF\uF900-\uFDCF\uFDF0-\uFFEF]+[a-z\d!#\$%&'\*\+\-\/=\?\^_`{\|}~\.\u00A0-\uD7FF\uF900-\uFDCF\uFDF0-\uFFEF\s]*<(.+)>$/i;
-var emailUserPart = /^[a-z\d!#\$%&'\*\+\-\/=\?\^_`{\|}~]+$/i;
-var quotedEmailUser = /^([\s\x01-\x08\x0b\x0c\x0e-\x1f\x7f\x21\x23-\x5b\x5d-\x7e]|(\\[\x01-\x09\x0b\x0c\x0d-\x7f]))*$/i;
-var emailUserUtf8Part = /^[a-z\d!#\$%&'\*\+\-\/=\?\^_`{\|}~\u00A0-\uD7FF\uF900-\uFDCF\uFDF0-\uFFEF]+$/i;
-var quotedEmailUserUtf8 = /^([\s\x01-\x08\x0b\x0c\x0e-\x1f\x7f\x21\x23-\x5b\x5d-\x7e\u00A0-\uD7FF\uF900-\uFDCF\uFDF0-\uFFEF]|(\\[\x01-\x09\x0b\x0c\x0d-\x7f\u00A0-\uD7FF\uF900-\uFDCF\uFDF0-\uFFEF]))*$/i;
-/* eslint-enable max-len */
-/* eslint-enable no-control-regex */
-
-function isEmail(str, options) {
-  (0, _assertString2.default)(str);
-  options = (0, _merge2.default)(options, default_email_options);
-
-  if (options.require_display_name || options.allow_display_name) {
-    var display_email = str.match(displayName);
-    if (display_email) {
-      str = display_email[1];
-    } else if (options.require_display_name) {
-      return false;
-    }
-  }
-
-  var parts = str.split('@');
-  var domain = parts.pop();
-  var user = parts.join('@');
-
-  var lower_domain = domain.toLowerCase();
-  if (lower_domain === 'gmail.com' || lower_domain === 'googlemail.com') {
-    user = user.replace(/\./g, '').toLowerCase();
-  }
-
-  if (!(0, _isByteLength2.default)(user, { max: 64 }) || !(0, _isByteLength2.default)(domain, { max: 254 })) {
-    return false;
-  }
-
-  if (!(0, _isFQDN2.default)(domain, { require_tld: options.require_tld })) {
-    return false;
-  }
-
-  if (user[0] === '"') {
-    user = user.slice(1, user.length - 1);
-    return options.allow_utf8_local_part ? quotedEmailUserUtf8.test(user) : quotedEmailUser.test(user);
-  }
-
-  var pattern = options.allow_utf8_local_part ? emailUserUtf8Part : emailUserPart;
-
-  var user_parts = user.split('.');
-  for (var i = 0; i < user_parts.length; i++) {
-    if (!pattern.test(user_parts[i])) {
-      return false;
-    }
-  }
-
-  return true;
-}
-module.exports = exports['default'];
-});
-
-var isEmail = unwrapExports(isEmail_1);
-
-var validate$7 = function (value) {
-  if (Array.isArray(value)) {
-    return value.every(function (val) { return isEmail(String(val)); });
-  }
-
-  return isEmail(String(value));
-};
-
-var ext = function (files, extensions) {
-  var regex = new RegExp((".(" + (extensions.join('|')) + ")$"), 'i');
-
-  return files.every(function (file) { return regex.test(file.name); });
-};
-
-var image = function (files) { return files.every(function (file) { return /\.(jpg|svg|jpeg|png|bmp|gif)$/i.test(file.name); }
-); };
-
-var validate$8 = function (value, options) {
-  if (Array.isArray(value)) {
-    return value.every(function (val) { return validate$8(val, options); });
-  }
-
-  // eslint-disable-next-line
-  return !! options.filter(function (option) { return option == value; }).length;
-};
-
-var isIP_1 = createCommonjsModule(function (module, exports) {
-'use strict';
-
-Object.defineProperty(exports, "__esModule", {
-  value: true
-});
-exports.default = isIP;
-
-
-
-var _assertString2 = _interopRequireDefault(assertString_1);
-
-function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
-
-var ipv4Maybe = /^(\d{1,3})\.(\d{1,3})\.(\d{1,3})\.(\d{1,3})$/;
-var ipv6Block = /^[0-9A-F]{1,4}$/i;
-
-function isIP(str) {
-  var version = arguments.length > 1 && arguments[1] !== undefined ? arguments[1] : '';
-
-  (0, _assertString2.default)(str);
-  version = String(version);
-  if (!version) {
-    return isIP(str, 4) || isIP(str, 6);
-  } else if (version === '4') {
-    if (!ipv4Maybe.test(str)) {
-      return false;
-    }
-    var parts = str.split('.').sort(function (a, b) {
-      return a - b;
-    });
-    return parts[3] <= 255;
-  } else if (version === '6') {
-    var blocks = str.split(':');
-    var foundOmissionBlock = false; // marker to indicate ::
-
-    // At least some OS accept the last 32 bits of an IPv6 address
-    // (i.e. 2 of the blocks) in IPv4 notation, and RFC 3493 says
-    // that '::ffff:a.b.c.d' is valid for IPv4-mapped IPv6 addresses,
-    // and '::a.b.c.d' is deprecated, but also valid.
-    var foundIPv4TransitionBlock = isIP(blocks[blocks.length - 1], 4);
-    var expectedNumberOfBlocks = foundIPv4TransitionBlock ? 7 : 8;
-
-    if (blocks.length > expectedNumberOfBlocks) {
-      return false;
-    }
-    // initial or final ::
-    if (str === '::') {
-      return true;
-    } else if (str.substr(0, 2) === '::') {
-      blocks.shift();
-      blocks.shift();
-      foundOmissionBlock = true;
-    } else if (str.substr(str.length - 2) === '::') {
-      blocks.pop();
-      blocks.pop();
-      foundOmissionBlock = true;
-    }
-
-    for (var i = 0; i < blocks.length; ++i) {
-      // test for a :: which can not be at the string start/end
-      // since those cases have been handled above
-      if (blocks[i] === '' && i > 0 && i < blocks.length - 1) {
-        if (foundOmissionBlock) {
-          return false; // multiple :: in address
-        }
-        foundOmissionBlock = true;
-      } else if (foundIPv4TransitionBlock && i === blocks.length - 1) {
-        // it has been checked before that the last
-        // block is a valid IPv4 address
-      } else if (!ipv6Block.test(blocks[i])) {
-        return false;
-      }
-    }
-    if (foundOmissionBlock) {
-      return blocks.length >= 1;
-    }
-    return blocks.length === expectedNumberOfBlocks;
-  }
-  return false;
-}
-module.exports = exports['default'];
-});
-
-var isIP = unwrapExports(isIP_1);
-
-var ip = function (value, ref) {
-  if ( ref === void 0 ) ref = [4];
-  var version = ref[0];
-
-  if (Array.isArray(value)) {
-    return value.every(function (val) { return isIP(val, [version]); });
-  }
-
-  return isIP(value, version);
-};
-
-var max = function (value, ref) {
-  var length = ref[0];
-
-  if (value === undefined || value === null) {
-    return length >= 0;
-  }
-
-  return String(value).length <= length;
-};
-
-var max_value = function (value, ref) {
-  var max = ref[0];
-
-  if (Array.isArray(value) || value === null || value === undefined || value === '') {
-    return false;
-  }
-
-  return Number(value) <= max;
-};
-
-var mimes = function (files, mimes) {
-  var regex = new RegExp(((mimes.join('|').replace('*', '.+')) + "$"), 'i');
-
-  return files.every(function (file) { return regex.test(file.type); });
-};
-
-var min = function (value, ref) {
-  var length = ref[0];
-
-  if (value === undefined || value === null) {
-    return false;
-  }
-  return String(value).length >= length;
-};
-
-var min_value = function (value, ref) {
-  var min = ref[0];
-
-  if (Array.isArray(value) || value === null || value === undefined || value === '') {
-    return false;
-  }
-
-  return Number(value) >= min;
-};
-
-var validate$9 = function (value, options) {
-  if (Array.isArray(value)) {
-    return value.every(function (val) { return validate$9(val, options); });
-  }
-
-  // eslint-disable-next-line
-  return ! options.filter(function (option) { return option == value; }).length;
-};
-
-var numeric = function (value) {
-  if (Array.isArray(value)) {
-    return value.every(function (val) { return /^[0-9]+$/.test(String(val)); });
-  }
-
-  return /^[0-9]+$/.test(String(value));
-};
-
-var regex = function (value, ref) {
-  var regex = ref[0];
-  var flags = ref.slice(1);
-
-  if (regex instanceof RegExp) {
-    return regex.test(value);
-  }
-
-  return new RegExp(regex, flags).test(String(value));
-};
-
-var required = function (value, params) {
-  if ( params === void 0 ) params = [false];
-
-  if (Array.isArray(value)) {
-    return !! value.length;
-  }
-
-  // incase a field considers `false` as an empty value like checkboxes.
-  var invalidateFalse = params[0];
-  if (value === false && invalidateFalse) {
-    return false;
-  }
-
-  if (value === undefined || value === null) {
-    return false;
-  }
-
-  return !! String(value).trim().length;
-};
-
-var size = function (files, ref) {
-  var size = ref[0];
-
-  if (isNaN(size)) {
-    return false;
-  }
-
-  var nSize = Number(size) * 1024;
-  for (var i = 0; i < files.length; i++) {
-    if (files[i].size > nSize) {
-      return false;
-    }
-  }
-
-  return true;
-};
-
-var isURL_1 = createCommonjsModule(function (module, exports) {
-'use strict';
-
-Object.defineProperty(exports, "__esModule", {
-  value: true
-});
-exports.default = isURL;
-
-
-
-var _assertString2 = _interopRequireDefault(assertString_1);
-
-
-
-var _isFQDN2 = _interopRequireDefault(isFQDN);
-
-
-
-var _isIP2 = _interopRequireDefault(isIP_1);
-
-
-
-var _merge2 = _interopRequireDefault(merge_1);
-
-function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
-
-var default_url_options = {
-  protocols: ['http', 'https', 'ftp'],
-  require_tld: true,
-  require_protocol: false,
-  require_host: true,
-  require_valid_protocol: true,
-  allow_underscores: false,
-  allow_trailing_dot: false,
-  allow_protocol_relative_urls: false
-};
-
-var wrapped_ipv6 = /^\[([^\]]+)\](?::([0-9]+))?$/;
-
-function isRegExp(obj) {
-  return Object.prototype.toString.call(obj) === '[object RegExp]';
-}
-
-function checkHost(host, matches) {
-  for (var i = 0; i < matches.length; i++) {
-    var match = matches[i];
-    if (host === match || isRegExp(match) && match.test(host)) {
-      return true;
-    }
-  }
-  return false;
-}
-
-function isURL(url, options) {
-  (0, _assertString2.default)(url);
-  if (!url || url.length >= 2083 || /[\s<>]/.test(url)) {
-    return false;
-  }
-  if (url.indexOf('mailto:') === 0) {
-    return false;
-  }
-  options = (0, _merge2.default)(options, default_url_options);
-  var protocol = void 0,
-      auth = void 0,
-      host = void 0,
-      hostname = void 0,
-      port = void 0,
-      port_str = void 0,
-      split = void 0,
-      ipv6 = void 0;
-
-  split = url.split('#');
-  url = split.shift();
-
-  split = url.split('?');
-  url = split.shift();
-
-  split = url.split('://');
-  if (split.length > 1) {
-    protocol = split.shift();
-    if (options.require_valid_protocol && options.protocols.indexOf(protocol) === -1) {
-      return false;
-    }
-  } else if (options.require_protocol) {
-    return false;
-  } else if (options.allow_protocol_relative_urls && url.substr(0, 2) === '//') {
-    split[0] = url.substr(2);
-  }
-  url = split.join('://');
-
-  split = url.split('/');
-  url = split.shift();
-
-  if (url === '' && !options.require_host) {
-    return true;
-  }
-
-  split = url.split('@');
-  if (split.length > 1) {
-    auth = split.shift();
-    if (auth.indexOf(':') >= 0 && auth.split(':').length > 2) {
-      return false;
-    }
-  }
-  hostname = split.join('@');
-
-  port_str = null;
-  ipv6 = null;
-  var ipv6_match = hostname.match(wrapped_ipv6);
-  if (ipv6_match) {
-    host = '';
-    ipv6 = ipv6_match[1];
-    port_str = ipv6_match[2] || null;
-  } else {
-    split = hostname.split(':');
-    host = split.shift();
-    if (split.length) {
-      port_str = split.join(':');
-    }
-  }
-
-  if (port_str !== null) {
-    port = parseInt(port_str, 10);
-    if (!/^[0-9]+$/.test(port_str) || port <= 0 || port > 65535) {
-      return false;
-    }
-  }
-
-  if (!(0, _isIP2.default)(host) && !(0, _isFQDN2.default)(host, options) && (!ipv6 || !(0, _isIP2.default)(ipv6, 6)) && host !== 'localhost') {
-    return false;
-  }
-
-  host = host || ipv6;
-
-  if (options.host_whitelist && !checkHost(host, options.host_whitelist)) {
-    return false;
-  }
-  if (options.host_blacklist && checkHost(host, options.host_blacklist)) {
-    return false;
-  }
-
-  return true;
-}
-module.exports = exports['default'];
-});
-
-var isURL = unwrapExports(isURL_1);
-
-var url = function (value, ref) {
-  if ( ref === void 0 ) ref = [true];
-  var requireProtocol = ref[0];
-
-  var options = { require_protocol: !!requireProtocol, allow_underscores: true };
-  if (Array.isArray(value)) {
-    return value.every(function (val) { return isURL(val, options); });
-  }
-
-  return isURL(value, options);
-};
-
-/* eslint-disable camelcase */
-var Rules = {
-  alpha_dash: validate$1,
-  alpha_num: validate$2,
-  alpha_spaces: validate$3,
-  alpha: validate,
-  between: validate$4,
-  confirmed: confirmed,
-  credit_card: credit_card,
-  decimal: validate$5,
-  digits: validate$6,
-  dimensions: dimensions,
-  email: validate$7,
-  ext: ext,
-  image: image,
-  in: validate$8,
-  ip: ip,
-  max: max,
-  max_value: max_value,
-  mimes: mimes,
-  min: min,
-  min_value: min_value,
-  not_in: validate$9,
-  numeric: numeric,
-  regex: regex,
-  required: required,
-  size: size,
-  url: url
-};
-
-/**
- * Gets the data attribute. the name must be kebab-case.
- */
-var getDataAttribute = function (el, name) { return el.getAttribute(("data-vv-" + name)); };
-
-/**
- * Sets the data attribute.
- * @param {*} el
- * @param {String} name
- * @param {String} value
- */
-var setDataAttribute = function (el, name, value) { return el.setAttribute(("data-vv-" + name), value); };
-
-/**
- * Determines the input field scope.
- */
-var getScope = function (el) {
-  var scope = getDataAttribute(el, 'scope');
-  if (! scope && el.form) {
-    scope = getDataAttribute(el.form, 'scope');
-  }
-
-  return scope || null;
-};
-
-/**
- * Gets the value in an object safely.
- * @param {String} propPath
- * @param {Object} target
- * @param {*} def
- */
-var getPath = function (propPath, target, def) {
-  if ( def === void 0 ) def = undefined;
-
-  if (!propPath || !target) { return def; }
-  var value = target;
-  propPath.split('.').every(function (prop) {
-    if (! Object.prototype.hasOwnProperty.call(value, prop) && value[prop] === undefined) {
-      value = def;
-
-      return false;
-    }
-
-    value = value[prop];
-
-    return true;
-  });
-
-  return value;
-};
-
-/**
- * Checks if path exists within an object.
- *
- * @param {String} path
- * @param {Object} target
- */
-var hasPath = function (path, target) {
-  var obj = target;
-  return path.split('.').every(function (prop) {
-    if (! Object.prototype.hasOwnProperty.call(obj, prop)) {
-      return false;
-    }
-
-    obj = obj[prop];
-
-    return true;
-  });
-};
-
-/**
- * @param {String} rule
- */
-var parseRule = function (rule) {
-  var params = [];
-  var name = rule.split(':')[0];
-
-  if (~rule.indexOf(':')) {
-    params = rule.split(':').slice(1).join(':').split(',');
-  }
-
-  return { name: name, params: params };
-};
-
-/**
- * Normalizes the given rules expression.
- *
- * @param {Object|String} rules
- */
-var normalizeRules = function (rules) {
-  var validations = {};
-  if (isObject(rules)) {
-    Object.keys(rules).forEach(function (rule) {
-      var params = [];
-      if (rules[rule] === true) {
-        params = [];
-      } else if (Array.isArray(rules[rule])) {
-        params = rules[rule];
-      } else {
-        params = [rules[rule]];
-      }
-
-      if (rules[rule] !== false) {
-        validations[rule] = params;
-      }
-    });
-
-    return validations;
-  }
-
-  rules.split('|').forEach(function (rule) {
-    var parsedRule = parseRule(rule);
-    if (! parsedRule.name) {
-      return;
-    }
-
-    validations[parsedRule.name] = parsedRule.params;
-  });
-
-  return validations;
-};
-
-/**
- * Debounces a function.
- */
-var debounce = function (fn, wait, immediate) {
-  if ( wait === void 0 ) wait = 0;
-  if ( immediate === void 0 ) immediate = false;
-
-  if (wait === 0) {
-    return fn;
-  }
-
-  var timeout;
-
-  return function () {
-    var args = [], len = arguments.length;
-    while ( len-- ) args[ len ] = arguments[ len ];
-
-    var later = function () {
-      timeout = null;
-      if (!immediate) { fn.apply(void 0, args); }
-    };
-    /* istanbul ignore next */
-    var callNow = immediate && !timeout;
-    clearTimeout(timeout);
-    timeout = setTimeout(later, wait);
-    /* istanbul ignore next */
-    if (callNow) { fn.apply(void 0, args); }
-  };
-};
-
-/**
- * Emits a warning to the console.
- */
-var warn = function (message) {
-  console.warn(("[vee-validate] " + message)); // eslint-disable-line
-};
-
-/**
- * Creates a branded error object.
- * @param {String} message
- */
-var createError = function (message) { return new Error(("[vee-validate] " + message)); };
-
-/**
- * Checks if the value is an object.
- */
-var isObject = function (object) { return object !== null && object && typeof object === 'object' && ! Array.isArray(object); };
-
-/**
- * Checks if a function is callable.
- */
-var isCallable = function (func) { return typeof func === 'function'; };
-
-/**
- * Check if element has the css class on it.
- */
-var hasClass = function (el, className) {
-  if (el.classList) {
-    return el.classList.contains(className);
-  }
-
-  return !!el.className.match(new RegExp(("(\\s|^)" + className + "(\\s|$)")));
-};
-
-/**
- * Adds the provided css className to the element.
- */
-var addClass = function (el, className) {
-  if (el.classList) {
-    el.classList.add(className);
-    return;
-  }
-
-  if (!hasClass(el, className)) {
-    el.className += " " + className;
-  }
-};
-
-/**
- * Remove the provided css className from the element.
- */
-var removeClass = function (el, className) {
-  if (el.classList) {
-    el.classList.remove(className);
-    return;
-  }
-
-  if (hasClass(el, className)) {
-    var reg = new RegExp(("(\\s|^)" + className + "(\\s|$)"));
-    el.className = el.className.replace(reg, ' ');
-  }
-};
-
-/**
- * Adds or removes a class name on the input depending on the status flag.
- */
-var toggleClass = function (el, className, status) {
-  if (!el || !className) { return; }
-
-  if (status) {
-    return addClass(el, className);
-  }
-
-  removeClass(el, className);
-};
-
-/**
- * Converts an array-like object to array.
- * Simple polyfill for Array.from
- */
-var toArray = function (arrayLike) {
-  if (isCallable(Array.from)) {
-    return Array.from(arrayLike);
-  }
-
-  var array = [];
-  var length = arrayLike.length;
-  for (var i = 0; i < length; i++) {
-    array.push(arrayLike[i]);
-  }
-
-  return array;
-};
-
-/**
- * Assign polyfill from the mdn.
- * @param {Object} target
- * @return {Object}
- */
-var assign = function (target) {
-  var others = [], len = arguments.length - 1;
-  while ( len-- > 0 ) others[ len ] = arguments[ len + 1 ];
-
-  /* istanbul ignore else */
-  if (isCallable(Object.assign)) {
-    return Object.assign.apply(Object, [ target ].concat( others ));
-  }
-
-  /* istanbul ignore next */
-  if (target == null) {
-    throw new TypeError('Cannot convert undefined or null to object');
-  }
-
-  /* istanbul ignore next */
-  var to = Object(target);
-  /* istanbul ignore next */
-  others.forEach(function (arg) {
-    // Skip over if undefined or null
-    if (arg != null) {
-      Object.keys(arg).forEach(function (key) {
-        to[key] = arg[key];
-      });
-    }
-  });
-  /* istanbul ignore next */
-  return to;
-};
-
-/**
- * Generates a unique id.
- * @return {String}
- */
-var uniqId = function () { return ("_" + (Math.random().toString(36).substr(2, 9))); };
-
-/**
- * polyfills array.find
- * @param {Array} array
- * @param {Function} predicate
- */
-var find = function (array, predicate) {
-  if (isObject(array)) {
-    array = toArray(array);
-  }
-  if (array.find) {
-    return array.find(predicate);
-  }
-  var result;
-  array.some(function (item) {
-    if (predicate(item)) {
-      result = item;
-      return true;
-    }
-
-    return false;
-  });
-
-  return result;
-};
-
-/**
- * Gets the rules from a binding value or the element dataset.
- *
- * @param {Object} binding The binding object.
- * @param {element} el The element.
- * @returns {String|Object}
- */
-var getRules = function (binding, el) {
-  if (!binding || ! binding.expression) {
-    return getDataAttribute(el, 'rules');
-  }
-
-  if (typeof binding.value === 'string') {
-    return binding.value;
-  }
-
-  if (~['string', 'object'].indexOf(typeof binding.value.rules)) {
-    return binding.value.rules;
-  }
-
-  return binding.value;
-};
-
-var getInputEventName = function (el) {
-  if (el && (el.tagName === 'SELECT' || ~['radio', 'checkbox', 'file'].indexOf(el.type))) {
-    return 'change';
-  }
-
-  return 'input';
-};
-
-var ErrorBag = function ErrorBag () {
-  this.items = [];
-};
-
-/**
-   * Adds an error to the internal array.
-   *
-   * @param {Object} error The error object.
-   */
-ErrorBag.prototype.add = function add (error) {
-  // handle old signature.
-  if (arguments.length > 1) {
-    error = {
-      field: arguments[0],
-      msg: arguments[1],
-      rule: arguments[2],
-      scope: arguments[3] || null
-    };
-  }
-
-  error.scope = error.scope || null;
-  this.items.push(error);
-};
-
-/**
- * Updates a field error with the new field scope.
- *
- * @param {String} id 
- * @param {Object} error 
- */
-ErrorBag.prototype.update = function update (id, error) {
-  var item = find(this.items, function (i) { return i.id === id; });
-  if (!item) {
-    return;
-  }
-
-  var idx = this.items.indexOf(item);
-  this.items.splice(idx, 1);
-  item.scope = error.scope;
-  this.items.push(item);
-};
-
-/**
-   * Gets all error messages from the internal array.
-   *
-   * @param {String} scope The Scope name, optional.
-   * @return {Array} errors Array of all error messages.
-   */
-ErrorBag.prototype.all = function all (scope) {
-  if (! scope) {
-    return this.items.map(function (e) { return e.msg; });
-  }
-
-  return this.items.filter(function (e) { return e.scope === scope; }).map(function (e) { return e.msg; });
-};
-
-/**
-   * Checks if there are any errors in the internal array.
-   * @param {String} scope The Scope name, optional.
-   * @return {boolean} result True if there was at least one error, false otherwise.
-   */
-ErrorBag.prototype.any = function any (scope) {
-  if (! scope) {
-    return !! this.items.length;
-  }
-
-  return !! this.items.filter(function (e) { return e.scope === scope; }).length;
-};
-
-/**
-   * Removes all items from the internal array.
-   *
-   * @param {String} scope The Scope name, optional.
-   */
-ErrorBag.prototype.clear = function clear (scope) {
-    var this$1 = this;
-
-  if (! scope) {
-    scope = null;
-  }
-
-  var removeCondition = function (e) { return e.scope === scope; };
-
-  for (var i = 0; i < this.items.length; ++i) {
-    if (removeCondition(this$1.items[i])) {
-      this$1.items.splice(i, 1);
-      --i;
-    }
-  }
-};
-
-/**
-   * Collects errors into groups or for a specific field.
-   *
-   * @param{string} field The field name.
-   * @param{string} scope The scope name.
-   * @param {Boolean} map If it should map the errors to strings instead of objects.
-   * @return {Array} errors The errors for the specified field.
-   */
-ErrorBag.prototype.collect = function collect (field, scope, map) {
-    if ( map === void 0 ) map = true;
-
-  if (! field) {
-    var collection = {};
-    this.items.forEach(function (e) {
-      if (! collection[e.field]) {
-        collection[e.field] = [];
-      }
-
-      collection[e.field].push(map ? e.msg : e);
-    });
-
-    return collection;
-  }
-
-  if (! scope) {
-    return this.items.filter(function (e) { return e.field === field; }).map(function (e) { return (map ? e.msg : e); });
-  }
-
-  return this.items.filter(function (e) { return e.field === field && e.scope === scope; })
-    .map(function (e) { return (map ? e.msg : e); });
-};
-/**
-   * Gets the internal array length.
-   *
-   * @return {Number} length The internal array length.
-   */
-ErrorBag.prototype.count = function count () {
-  return this.items.length;
-};
-
-/**
- * Finds and fetches the first error message for the specified field id.
- *
- * @param {String} id 
- */
-ErrorBag.prototype.firstById = function firstById (id) {
-  var error = find(this.items, function (i) { return i.id === id; });
-
-  return error ? error.msg : null;
-};
-
-/**
-   * Gets the first error message for a specific field.
-   *
-   * @param{string} field The field name.
-   * @return {string|null} message The error message.
-   */
-ErrorBag.prototype.first = function first (field, scope) {
-    var this$1 = this;
-    if ( scope === void 0 ) scope = null;
-
-  var selector = this._selector(field);
-  var scoped = this._scope(field);
-
-  if (scoped) {
-    var result = this.first(scoped.name, scoped.scope);
-    // if such result exist, return it. otherwise it could be a field.
-    // with dot in its name.
-    if (result) {
-      return result;
-    }
-  }
-
-  if (selector) {
-    return this.firstByRule(selector.name, selector.rule, scope);
-  }
-
-  for (var i = 0; i < this.items.length; ++i) {
-    if (this$1.items[i].field === field && (this$1.items[i].scope === scope)) {
-      return this$1.items[i].msg;
-    }
-  }
-
-  return null;
-};
-
-/**
-   * Returns the first error rule for the specified field
-   *
-   * @param {string} field The specified field.
-   * @return {string|null} First error rule on the specified field if one is found, otherwise null
-   */
-ErrorBag.prototype.firstRule = function firstRule (field, scope) {
-  var errors = this.collect(field, scope, false);
-
-  return (errors.length && errors[0].rule) || null;
-};
-
-/**
-   * Checks if the internal array has at least one error for the specified field.
-   *
-   * @param{string} field The specified field.
-   * @return {Boolean} result True if at least one error is found, false otherwise.
-   */
-ErrorBag.prototype.has = function has (field, scope) {
-    if ( scope === void 0 ) scope = null;
-
-  return !! this.first(field, scope);
-};
-
-/**
-   * Gets the first error message for a specific field and a rule.
-   * @param {String} name The name of the field.
-   * @param {String} rule The name of the rule.
-   * @param {String} scope The name of the scope (optional).
-   */
-ErrorBag.prototype.firstByRule = function firstByRule (name, rule, scope) {
-  var error = this.collect(name, scope, false).filter(function (e) { return e.rule === rule; })[0];
-
-  return (error && error.msg) || null;
-};
-
-/**
- * Removes errors by matching against the id.
- * @param {String} id 
- */
-ErrorBag.prototype.removeById = function removeById (id) {
-    var this$1 = this;
-
-  for (var i = 0; i < this.items.length; ++i) {
-    if (this$1.items[i].id === id) {
-      this$1.items.splice(i, 1);
-      --i;
-    }
-  }
-};
-
-/**
-   * Removes all error messages associated with a specific field.
-   *
-   * @param{string} field The field which messages are to be removed.
-   * @param {String} scope The Scope name, optional.
-   */
-ErrorBag.prototype.remove = function remove (field, scope) {
-    var this$1 = this;
-
-  var removeCondition = scope ? function (e) { return e.field === field && e.scope === scope; }
-    : function (e) { return e.field === field && e.scope === null; };
-
-  for (var i = 0; i < this.items.length; ++i) {
-    if (removeCondition(this$1.items[i])) {
-      this$1.items.splice(i, 1);
-      --i;
-    }
-  }
-};
-
-/**
-   * Get the field attributes if there's a rule selector.
-   *
-   * @param{string} field The specified field.
-   * @return {Object|null}
-   */
-ErrorBag.prototype._selector = function _selector (field) {
-  if (field.indexOf(':') > -1) {
-    var ref = field.split(':');
-      var name = ref[0];
-      var rule = ref[1];
-
-    return { name: name, rule: rule };
-  }
-
-  return null;
-};
-
-/**
-   * Get the field scope if specified using dot notation.
-   *
-   * @param {string} field the specifie field.
-   * @return {Object|null}
-   */
-ErrorBag.prototype._scope = function _scope (field) {
-  if (field.indexOf('.') > -1) {
-    var ref = field.split('.');
-      var scope = ref[0];
-      var name = ref[1];
-
-    return { name: name, scope: scope };
-  }
-
-  return null;
-};
-
-var Dictionary = function Dictionary (dictionary) {
-  if ( dictionary === void 0 ) dictionary = {};
-
-  this.container = {};
-  this.merge(dictionary);
-};
-
-Dictionary.prototype.hasLocale = function hasLocale (locale) {
-  return !! this.container[locale];
-};
-
-Dictionary.prototype.setDateFormat = function setDateFormat (locale, format) {
-  if (!this.container[locale]) {
-    this.container[locale] = {};
-  }
-
-  this.container[locale].dateFormat = format;
-};
-
-Dictionary.prototype.getDateFormat = function getDateFormat (locale) {
-  if (!this.container[locale]) {
-    return undefined;
-  }
-
-  return this.container[locale].dateFormat;
-};
-
-Dictionary.prototype.getMessage = function getMessage (locale, key, fallback) {
-  if (! this.hasMessage(locale, key)) {
-    return fallback || this._getDefaultMessage(locale);
-  }
-
-  return this.container[locale].messages[key];
-};
-
-/**
- * Gets a specific message for field. fallsback to the rule message.
- *
- * @param {String} locale
- * @param {String} field
- * @param {String} key
- */
-Dictionary.prototype.getFieldMessage = function getFieldMessage (locale, field, key) {
-  if (! this.hasLocale(locale)) {
-    return this.getMessage(locale, key);
-  }
-
-  var dict = this.container[locale].custom && this.container[locale].custom[field];
-  if (! dict || ! dict[key]) {
-    return this.getMessage(locale, key);
-  }
-
-  return dict[key];
-};
-
-Dictionary.prototype._getDefaultMessage = function _getDefaultMessage (locale) {
-  if (this.hasMessage(locale, '_default')) {
-    return this.container[locale].messages._default;
-  }
-
-  return this.container.en.messages._default;
-};
-
-Dictionary.prototype.getAttribute = function getAttribute (locale, key, fallback) {
-    if ( fallback === void 0 ) fallback = '';
-
-  if (! this.hasAttribute(locale, key)) {
-    return fallback;
-  }
-
-  return this.container[locale].attributes[key];
-};
-
-Dictionary.prototype.hasMessage = function hasMessage (locale, key) {
-  return !! (
-    this.hasLocale(locale) &&
-          this.container[locale].messages &&
-          this.container[locale].messages[key]
-  );
-};
-
-Dictionary.prototype.hasAttribute = function hasAttribute (locale, key) {
-  return !! (
-    this.hasLocale(locale) &&
-          this.container[locale].attributes &&
-          this.container[locale].attributes[key]
-  );
-};
-
-Dictionary.prototype.merge = function merge (dictionary) {
-  this._merge(this.container, dictionary);
-};
-
-Dictionary.prototype.setMessage = function setMessage (locale, key, message) {
-  if (! this.hasLocale(locale)) {
-    this.container[locale] = {
-      messages: {},
-      attributes: {}
-    };
-  }
-
-  this.container[locale].messages[key] = message;
-};
-
-Dictionary.prototype.setAttribute = function setAttribute (locale, key, attribute) {
-  if (! this.hasLocale(locale)) {
-    this.container[locale] = {
-      messages: {},
-      attributes: {}
-    };
-  }
-
-  this.container[locale].attributes[key] = attribute;
-};
-
-Dictionary.prototype._merge = function _merge (target, source) {
-    var this$1 = this;
-
-  if (! (isObject(target) && isObject(source))) {
-    return target;
-  }
-
-  Object.keys(source).forEach(function (key) {
-    if (isObject(source[key])) {
-      if (! target[key]) {
-        assign(target, ( obj = {}, obj[key] = {}, obj ));
-          var obj;
-      }
-
-      this$1._merge(target[key], source[key]);
-      return;
-    }
-
-    assign(target, ( obj$1 = {}, obj$1[key] = source[key], obj$1 ));
-      var obj$1;
-  });
-
-  return target;
-};
-
-var messages = {
-  _default: function (field) { return ("The " + field + " value is not valid."); },
-  alpha_dash: function (field) { return ("The " + field + " field may contain alpha-numeric characters as well as dashes and underscores."); },
-  alpha_num: function (field) { return ("The " + field + " field may only contain alpha-numeric characters."); },
-  alpha_spaces: function (field) { return ("The " + field + " field may only contain alphabetic characters as well as spaces."); },
-  alpha: function (field) { return ("The " + field + " field may only contain alphabetic characters."); },
-  between: function (field, ref) {
-    var min = ref[0];
-    var max = ref[1];
-
-    return ("The " + field + " field must be between " + min + " and " + max + ".");
-},
-  confirmed: function (field) { return ("The " + field + " confirmation does not match."); },
-  credit_card: function (field) { return ("The " + field + " field is invalid."); },
-  decimal: function (field, ref) {
-    if ( ref === void 0 ) ref = ['*'];
-    var decimals = ref[0];
-
-    return ("The " + field + " field must be numeric and may contain " + (!decimals || decimals === '*' ? '' : decimals) + " decimal points.");
-},
-  digits: function (field, ref) {
-    var length = ref[0];
-
-    return ("The " + field + " field must be numeric and exactly contain " + length + " digits.");
-},
-  dimensions: function (field, ref) {
-    var width = ref[0];
-    var height = ref[1];
-
-    return ("The " + field + " field must be " + width + " pixels by " + height + " pixels.");
-},
-  email: function (field) { return ("The " + field + " field must be a valid email."); },
-  ext: function (field) { return ("The " + field + " field must be a valid file."); },
-  image: function (field) { return ("The " + field + " field must be an image."); },
-  in: function (field) { return ("The " + field + " field must be a valid value."); },
-  ip: function (field) { return ("The " + field + " field must be a valid ip address."); },
-  max: function (field, ref) {
-    var length = ref[0];
-
-    return ("The " + field + " field may not be greater than " + length + " characters.");
-},
-  max_value: function (field, ref) {
-    var max = ref[0];
-
-    return ("The " + field + " field must be " + max + " or less.");
-},
-  mimes: function (field) { return ("The " + field + " field must have a valid file type."); },
-  min: function (field, ref) {
-    var length = ref[0];
-
-    return ("The " + field + " field must be at least " + length + " characters.");
-},
-  min_value: function (field, ref) {
-    var min = ref[0];
-
-    return ("The " + field + " field must be " + min + " or more.");
-},
-  not_in: function (field) { return ("The " + field + " field must be a valid value."); },
-  numeric: function (field) { return ("The " + field + " field may only contain numeric characters."); },
-  regex: function (field) { return ("The " + field + " field format is invalid."); },
-  required: function (field) { return ("The " + field + " field is required."); },
-  size: function (field, ref) {
-    var size = ref[0];
-
-    return ("The " + field + " field must be less than " + size + " KB.");
-},
-  url: function (field) { return ("The " + field + " field is not a valid URL."); }
-};
-
-/**
- * Generates the options required to construct a field.
- */
-var Generator = function Generator () {};
-
-Generator.generate = function generate (el, binding, vnode, options) {
-    if ( options === void 0 ) options = {};
-
-  var model = Generator.resolveModel(binding, vnode);
-
-  return {
-    name: Generator.resolveName(el, vnode),
-    el: el,
-    listen: !binding.modifiers.disable,
-    scope: Generator.resolveScope(el, binding, vnode),
-    vm: Generator.makeVM(vnode.context),
-    expression: binding.value,
-    component: vnode.child,
-    classes: options.classes,
-    classNames: options.classNames,
-    getter: Generator.resolveGetter(el, vnode, model),
-    events: Generator.resolveEvents(el, vnode) || options.events,
-    model: model,
-    delay: Generator.resolveDelay(el, vnode, options),
-    rules: getRules(binding, el),
-    initial: !!binding.modifiers.initial,
-    alias: Generator.resolveAlias(el, vnode)
-  };
-};
-
-/**
- * Creates a non-circular partial VM instance from a Vue instance.
- * @param {*} vm 
- */
-Generator.makeVM = function makeVM (vm) {
-  return {
-    $el: vm.$el || null,
-    $refs: vm.$refs || {},
-    $watch: vm.$watch ? vm.$watch.bind(vm) : function () {},
-    $validator: vm.$validator ? {
-      errors: vm.$validator.errors,
-      validate: vm.$validator.validate.bind(vm.$validator)
-    } : null
-  };
-};
-
-/**
- * Resolves the delay value.
- * @param {*} el
- * @param {*} vnode
- * @param {Object} options
- */
-Generator.resolveDelay = function resolveDelay (el, vnode, options) {
-    if ( options === void 0 ) options = {};
-
-  return getDataAttribute(el, 'delay') || (vnode.child && vnode.child.$attrs && vnode.child.$attrs['data-vv-delay']) || options.delay;
-};
-
-/**
- * Resolves the alias for the field.
- * @param {*} el 
- * @param {*} vnode 
- */
-Generator.resolveAlias = function resolveAlias (el, vnode) {
-  return getDataAttribute(el, 'as') || (vnode.child && vnode.child.$attrs && vnode.child.$attrs['data-vv-as']) || el.title || null;
-};
-
-/**
- * Resolves the events to validate in response to.
- * @param {*} el
- * @param {*} vnode
- */
-Generator.resolveEvents = function resolveEvents (el, vnode) {
-  if (vnode.child) {
-    return getDataAttribute(el, 'validate-on') || (vnode.child.$attrs && vnode.child.$attrs['data-vv-validate-on']);
-  }
-
-  return getDataAttribute(el, 'validate-on');
-};
-
-/**
- * Resolves the scope for the field.
- * @param {*} el
- * @param {*} binding
- */
-Generator.resolveScope = function resolveScope (el, binding, vnode) {
-    if ( vnode === void 0 ) vnode = {};
-
-  var scope = null;
-  if (isObject(binding.value)) {
-    scope = binding.value.scope;
-  }
-
-  if (vnode.child && !scope) {
-    scope = vnode.child.$attrs && vnode.child.$attrs['data-vv-scope'];
-  }
-
-  return scope || getScope(el);
-};
-
-/**
- * Checks if the node directives contains a v-model or a specified arg.
- * Args take priority over models.
- *
- * @return {Object}
- */
-Generator.resolveModel = function resolveModel (binding, vnode) {
-  if (binding.arg) {
-    return binding.arg;
-  }
-
-  if (isObject(binding.value) && binding.value.arg) {
-    return binding.value.arg;
-  }
-
-  var model = vnode.data.model || find(vnode.data.directives, function (d) { return d.name === 'model'; });
-  if (!model) {
-    return null;
-  }
-
-  var watchable = /^[a-z_]+[0-9]*(\w*\.[a-z_]\w*)*$/i.test(model.expression) && hasPath(model.expression, vnode.context);
-
-  if (!watchable) {
-    return null;
-  }
-
-  return model.expression;
-};
-
-/**
-   * Resolves the field name to trigger validations.
-   * @return {String} The field name.
-   */
-Generator.resolveName = function resolveName (el, vnode) {
-  if (vnode.child) {
-    return getDataAttribute(el, 'name') || (vnode.child.$attrs && (vnode.child.$attrs['data-vv-name'] || vnode.child.$attrs['name'])) || vnode.child.name;
-  }
-
-  return getDataAttribute(el, 'name') || el.name;
-};
-
-/**
- * Returns a value getter input type.
- */
-Generator.resolveGetter = function resolveGetter (el, vnode, model) {
-  if (model) {
-    return function () {
-      return getPath(model, vnode.context);
-    };
-  }
-
-  if (vnode.child) {
-    return function () {
-      var path = getDataAttribute(el, 'value-path') || (vnode.child.$attrs && vnode.child.$attrs['data-vv-value-path']);
-      if (path) {
-        return getPath(path, vnode.child);
-      }
-      return vnode.child.value;
-    };
-  }
-
-  switch (el.type) {
-  case 'checkbox': return function () {
-    var els = document.querySelectorAll(("input[name=\"" + (el.name) + "\"]"));
-
-    els = toArray(els).filter(function (el) { return el.checked; });
-    if (!els.length) { return undefined; }
-
-    return els.map(function (checkbox) { return checkbox.value; });
-  };
-  case 'radio': return function () {
-    var els = document.querySelectorAll(("input[name=\"" + (el.name) + "\"]"));
-    var elm = find(els, function (el) { return el.checked; });
-
-    return elm && elm.value;
-  };
-  case 'file': return function (context) {
-    return toArray(el.files);
-  };
-  case 'select-multiple': return function () {
-    return toArray(el.options).filter(function (opt) { return opt.selected; }).map(function (opt) { return opt.value; });
-  };
-  default: return function () {
-    return el && el.value;
-  };
-  }
-};
-
-var DEFAULT_OPTIONS = {
-  targetOf: null,
-  initial: false,
-  scope: null,
-  listen: true,
-  name: null,
-  active: true,
-  required: false,
-  rules: {},
-  vm: null,
-  classes: false,
-  events: 'input|blur',
-  delay: 0,
-  classNames: {
-    touched: 'touched', // the control has been blurred
-    untouched: 'untouched', // the control hasn't been blurred
-    valid: 'valid', // model is valid
-    invalid: 'invalid', // model is invalid
-    pristine: 'pristine', // control has not been interacted with
-    dirty: 'dirty' // control has been interacted with
-  }
-};
-
-/**
- * Generates the default flags for the field.
- * @param {Object} options
- */
-var generateFlags = function (options) { return ({
-  untouched: true,
-  touched: false,
-  dirty: false,
-  pristine: true,
-  valid: null,
-  invalid: null,
-  validated: false,
-  pending: false,
-  required: !!options.rules.required
-}); };
-
-var Field = function Field (el, options) {
-  if ( options === void 0 ) options = {};
-
-  this.id = uniqId();
-  this.el = el;
-  this.updated = false;
-  this.expression = null;
-  this.dependencies = [];
-  this.watchers = [];
-  this.events = [];
-  this.rules = {};
-  if (!this.isHeadless && !(this.targetOf || options.targetOf)) {
-    setDataAttribute(this.el, 'id', this.id); // cache field id if it is independent and has a root element.
-  }
-  options = assign({}, DEFAULT_OPTIONS, options);
-  this.flags = generateFlags(options);
-  this.vm = options.vm || this.vm;
-  this.component = options.component || this.component;
-  this.update(options);
-};
-
-var prototypeAccessors$1 = { isVue: {},validator: {},isRequired: {},isDisabled: {},isHeadless: {},displayName: {},value: {},rejectsFalse: {} };
-
-prototypeAccessors$1.isVue.get = function () {
-  return !!this.component;
-};
-
-prototypeAccessors$1.validator.get = function () {
-  if (!this.vm || !this.vm.$validator) {
-    warn('No validator instance detected.');
-    return { validate: function () {} };
-  }
-
-  return this.vm.$validator;
-};
-
-prototypeAccessors$1.isRequired.get = function () {
-  return !!this.rules.required;
-};
-
-prototypeAccessors$1.isDisabled.get = function () {
-  return (this.isVue && this.component.disabled) || (this.el && this.el.disabled);
-};
-
-prototypeAccessors$1.isHeadless.get = function () {
-  return !this.el;
-};
-
-/**
- * Gets the display name (user-friendly name).
- * @return {String}
- */
-prototypeAccessors$1.displayName.get = function () {
-  return this.alias;
-};
-
-/**
- * Gets the input value.
- * @return {*}
- */
-prototypeAccessors$1.value.get = function () {
-  if (!isCallable(this.getter)) {
-    return undefined;
-  }
-
-  return this.getter();
-};
-
-/**
- * If the field rejects false as a valid value for the required rule. 
- */
-prototypeAccessors$1.rejectsFalse.get = function () {
-  if (this.isVue || this.isHeadless) {
-    return false;
-  }
-
-  return this.el.type === 'checkbox';
-};
-
-/**
- * Determines if the instance matches the options provided.
- * @param {Object} options The matching options.
- */
-Field.prototype.matches = function matches (options) {
-  if (options.id) {
-    return this.id === options.id;
-  }
-
-  if (options.name === undefined && options.scope === undefined) {
-    return true;
-  }
-
-  if (options.scope === undefined) {
-    return this.name === options.name;
-  }
-
-  if (options.name === undefined) {
-    return this.scope === options.scope;
-  }
-
-  return options.name === this.name && options.scope === this.scope;
-};
-
-/**
- *
- * @param {Object} options
- */
-Field.prototype.update = function update (options) {
-  this.targetOf = options.targetOf || null;
-  this.initial = options.initial || this.initial || false;
-  this.scope = options.scope || this.scope || null;
-  this.name = options.name || this.name || null;
-  this.rules = options.rules ? normalizeRules(options.rules) : this.rules;
-  this.model = options.model || this.model;
-  this.listen = options.listen !== undefined ? options.listen : this.listen;
-  this.classes = options.classes || this.classes || false;
-  this.classNames = options.classNames || this.classNames || DEFAULT_OPTIONS.classNames;
-  this.expression = JSON.stringify(options.expression);
-  this.alias = options.alias || this.alias;
-  this.getter = isCallable(options.getter) ? options.getter : this.getter;
-  this.delay = options.delay || this.delay || 0;
-  this.events = typeof options.events === 'string' && options.events.length ? options.events.split('|') : this.events;
-  this.updateDependencies();
-  this.addActionListeners();
-  if (this.updated && this.validator.errors && isCallable(this.validator.errors.update)) {
-    this.validator.errors.update(this.id, { scope: this.scope });
-  }
-
-  // validate if it is updated and was validated before and there was a rules mutation.
-  if (this.updated && this.flags.validated && options.rules) {
-    this.validator.validate(("#" + (this.id)));
-  }
-
-  this.updated = true;
-  // no need to continue.
-  if (this.isHeadless) {
-    return;
-  }
-
-  this.updateClasses();
-  this.addValueListeners();
-  this.updateAriaAttrs();
-};
-
-/**
- * Determines if the field requires references to target fields.
-*/
-Field.prototype.updateDependencies = function updateDependencies () {
-    var this$1 = this;
-
-  // reset dependencies.
-  this.dependencies.forEach(function (d) { return d.field.destroy(); });
-  this.dependencies = [];
-
-  // we get the selectors for each field.
-  var fields = Object.keys(this.rules).reduce(function (prev, r) {
-    if (r === 'confirmed') {
-      prev.push({ selector: this$1.rules[r][0] || ((this$1.name) + "_confirmation"), name: r });
-    } else if (/after|before/.test(r)) {
-      prev.push({ selector: this$1.rules[r][0], name: r });
-    }
-
-    return prev;
-  }, []);
-
-  if (!fields.length || !this.vm || !this.vm.$el) { return; }
-
-  // must be contained within the same component, so we use the vm root element constrain our dom search.
-  fields.forEach(function (ref) {
-      var selector = ref.selector;
-      var name = ref.name;
-
-    var el = null;
-    // vue ref selector.
-    if (selector[0] === '$') {
-      el = this$1.vm.$refs[selector.slice(1)];
-    } else {
-      // try a query selection.
-      el = this$1.vm.$el.querySelector(selector);
-    }
-
-    if (!el) {
-      // try a name selector
-      el = this$1.vm.$el.querySelector(("input[name=\"" + selector + "\"]"));
-    }
-
-    if (!el) {
-      return;
-    }
-
-    var options = {
-      vm: this$1.vm,
-      classes: this$1.classes,
-      classNames: this$1.classNames,
-      delay: this$1.delay,
-      scope: this$1.scope,
-      events: this$1.events.join('|'),
-      initial: this$1.initial,
-      targetOf: this$1.id
-    };
-
-    // probably a component.
-    if (isCallable(el.$watch)) {
-      options.component = el;
-      options.el = el.$el;
-      options.getter = Generator.resolveGetter(el.$el, { child: el });
-    } else {
-      options.el = el;
-      options.getter = Generator.resolveGetter(el, {});
-    }
-
-    this$1.dependencies.push({ name: name, field: new Field(options.el, options) });
-  });
-};
-
-/**
- * Removes listeners.
- * @param {RegExp} tag
- */
-Field.prototype.unwatch = function unwatch (tag) {
-  if (!tag) {
-    this.watchers.forEach(function (w) { return w.unwatch(); });
-    this.watchers = [];
-    return;
-  }
-  this.watchers.filter(function (w) { return tag.test(w.tag); }).forEach(function (w) { return w.unwatch(); });
-  this.watchers = this.watchers.filter(function (w) { return !tag.test(w.tag); });
-};
-
-/**
- * Updates the element classes depending on each field flag status.
- */
-Field.prototype.updateClasses = function updateClasses () {
-  if (!this.classes) { return; }
-
-  toggleClass(this.el, this.classNames.dirty, this.flags.dirty);
-  toggleClass(this.el, this.classNames.pristine, this.flags.pristine);
-  toggleClass(this.el, this.classNames.valid, !!this.flags.valid);
-  toggleClass(this.el, this.classNames.invalid, !!this.flags.invalid);
-  toggleClass(this.el, this.classNames.touched, this.flags.touched);
-  toggleClass(this.el, this.classNames.untouched, this.flags.untouched);
-};
-
-/**
- * Adds the listeners required for automatic classes and some flags.
- */
-Field.prototype.addActionListeners = function addActionListeners () {
-    var this$1 = this;
-
-  // remove previous listeners.
-  this.unwatch(/class/);
-
-  var onBlur = function () {
-    this$1.flags.touched = true;
-    this$1.flags.untouched = false;
-    if (this$1.classes) {
-      toggleClass(this$1.el, this$1.classNames.touched, true);
-      toggleClass(this$1.el, this$1.classNames.untouched, false);
-    }
-
-    // only needed once.
-    this$1.unwatch(/^class_blur$/);
-  };
-
-  var inputEvent = getInputEventName(this.el);
-  var onInput = function () {
-    this$1.flags.dirty = true;
-    this$1.flags.pristine = false;
-    if (this$1.classes) {
-      toggleClass(this$1.el, this$1.classNames.pristine, false);
-      toggleClass(this$1.el, this$1.classNames.dirty, true);
-    }
-
-    // only needed once.
-    this$1.unwatch(/^class_input$/);
-  };
-
-  if (this.isVue && isCallable(this.component.$once)) {
-    this.component.$once('input', onInput);
-    this.component.$once('blur', onBlur);
-    this.watchers.push({
-      tag: 'class_input',
-      unwatch: function () {
-        this$1.component.$off('input', onInput);
-      }
-    });
-    this.watchers.push({
-      tag: 'class_blur',
-      unwatch: function () {
-        this$1.component.$off('blur', onBlur);
-      }
-    });
-    return;
-  }
-
-  if (this.isHeadless) { return; }
-
-  this.el.addEventListener(inputEvent, onInput);
-  // Checkboxes and radio buttons on Mac don't emit blur naturally, so we listen on click instead.
-  var blurEvent = ['radio', 'checkbox'].indexOf(this.el.type) === -1 ? 'blur' : 'click';
-  this.el.addEventListener(blurEvent, onBlur);
-  this.watchers.push({
-    tag: 'class_input',
-    unwatch: function () {
-      this$1.el.removeEventListener(inputEvent, onInput);
-    }
-  });
-
-  this.watchers.push({
-    tag: 'class_blur',
-    unwatch: function () {
-      this$1.el.removeEventListener(blurEvent, onBlur);
-    }
-  });
-};
-
-/**
- * Adds the listeners required for validation.
- */
-Field.prototype.addValueListeners = function addValueListeners () {
-    var this$1 = this;
-
-  this.unwatch(/^input_.+/);
-  if (!this.listen) { return; }
-
-  var fn = null;
-  if (this.targetOf) {
-    fn = function () {
-      this$1.validator.validate(("#" + (this$1.targetOf)));
-    };
-  } else {
-    fn = function () {
-        var args = [], len = arguments.length;
-        while ( len-- ) args[ len ] = arguments[ len ];
-
-      if (args.length === 0 || args[0] instanceof Event) {
-        args[0] = this$1.value;
-      }
-      this$1.validator.validate(("#" + (this$1.id)), args[0]);
-    };
-  }
-  var validate = debounce(fn, this.delay);
-
-  var inputEvent = getInputEventName(this.el);
-  // replace input event with suitable one.
-  var events = this.events.map(function (e) {
-    return e === 'input' ? inputEvent : e;
-  });
-
-  // if there is a watchable model and an on input validation is requested.
-  if (this.model && events.indexOf(inputEvent) !== -1) {
-    var unwatch = this.vm.$watch(this.model, validate);
-    this.watchers.push({
-      tag: 'input_model',
-      unwatch: unwatch
-    });
-    // filter out input event as it is already handled by the watcher API.
-    events = events.filter(function (e) { return e !== inputEvent; });
-  }
-
-  // Add events.
-  events.forEach(function (e) {
-    if (this$1.isVue) {
-      this$1.component.$on(e, validate);
-      this$1.watchers.push({
-        tag: 'input_vue',
-        unwatch: function () {
-          this$1.component.$off(e, validate);
-        }
-      });
-      return;
-    }
-
-    if (~['radio', 'checkbox'].indexOf(this$1.el.type)) {
-      var els = document.querySelectorAll(("input[name=\"" + (this$1.el.name) + "\"]"));
-      toArray(els).forEach(function (el) {
-        el.addEventListener(e, validate);
-        this$1.watchers.push({
-          tag: 'input_native',
-          unwatch: function () {
-            el.removeEventListener(e, validate);
-          }
-        });
-      });
-
-      return;
-    }
-
-    this$1.el.addEventListener(e, validate);
-    this$1.watchers.push({
-      tag: 'input_native',
-      unwatch: function () {
-        this$1.el.removeEventListener(e, validate);
-      }
-    });
-  });
-};
-
-/**
- * Updates aria attributes on the element.
- */
-Field.prototype.updateAriaAttrs = function updateAriaAttrs () {
-  if (this.isHeadless || !isCallable(this.el.setAttribute)) { return; }
-
-  this.el.setAttribute('aria-required', this.isRequired ? 'true' : 'false');
-  this.el.setAttribute('aria-invalid', this.flags.invalid ? 'true' : 'false');
-};
-
-/**
- * Updates the custom validity for the field.
- */
-Field.prototype.updateCustomValidity = function updateCustomValidity () {
-  if (this.isHeadless || !isCallable(this.el.setCustomValidity)) { return; }
-
-  this.el.setCustomValidity(this.flags.valid ? '' : (this.validator.errors.firstById(this.id) || ''));
-};
-
-/**
- * Removes all listeners.
- */
-Field.prototype.destroy = function destroy () {
-  this.watchers.forEach(function (w) { return w.unwatch(); });
-  this.watchers = [];
-  this.dependencies.forEach(function (d) { return d.field.destroy(); });
-  this.dependencies = [];
-};
-
-Object.defineProperties( Field.prototype, prototypeAccessors$1 );
-
-var FieldBag = function FieldBag () {
-  this.items = [];
-};
-
-var prototypeAccessors$2 = { length: {} };
-
-/**
- * @return {Number} The current collection length.
- */
-prototypeAccessors$2.length.get = function () {
-  return this.items.length;
-};
-
-/**
- * Finds the first field that matches the provided matcher object.
- * @param {Object} matcher
- * @return {Field|undefined} The first matching item.
- */
-FieldBag.prototype.find = function find$1 (matcher) {
-  return find(this.items, function (item) { return item.matches(matcher); });
-};
-
-/**
- * @param {Object|Array} matcher
- * @return {Array} Array of matching field items.
- */
-FieldBag.prototype.filter = function filter (matcher) {
-  // multiple matchers to be tried.
-  if (Array.isArray(matcher)) {
-    return this.items.filter(function (item) { return matcher.some(function (m) { return item.matches(m); }); });
-  }
-
-  return this.items.filter(function (item) { return item.matches(matcher); });
-};
-
-/**
- * Maps the field items using the mapping function.
- *
- * @param {Function} mapper
- */
-FieldBag.prototype.map = function map (mapper) {
-  return this.items.map(mapper);
-};
-
-/**
- * Finds and removes the first field that matches the provided matcher object, returns the removed item.
- * @param {Object|Field} matcher
- * @return {Field|null}
- */
-FieldBag.prototype.remove = function remove (matcher) {
-  var item = null;
-  if (matcher instanceof Field) {
-    item = matcher;
-  } else {
-    item = this.find(matcher);
-  }
-
-  if (!item) { return null; }
-
-  var index = this.items.indexOf(item);
-  this.items.splice(index, 1);
-
-  return item;
-};
-
-/**
- * Adds a field item to the list.
- *
- * @param {Field} item
- */
-FieldBag.prototype.push = function push (item) {
-  if (! (item instanceof Field)) {
-    throw createError('FieldBag only accepts instances of Field that has an id defined.');
-  }
-
-  if (!item.id) {
-    throw createError('Field id must be defined.');
-  }
-
-  if (this.find({ id: item.id })) {
-    throw createError(("Field with id " + (item.id) + " is already added."));
-  }
-
-  this.items.push(item);
-};
-
-Object.defineProperties( FieldBag.prototype, prototypeAccessors$2 );
-
-var after = function (moment) { return function (value, ref) {
-  var other = ref[0];
-  var inclusion = ref[1];
-  var format = ref[2];
-
-  if (typeof format === 'undefined') {
-    format = inclusion;
-    inclusion = false;
-  }
-
-  var dateValue = moment(value, format, true);
-  var otherValue = moment(other, format, true);
-
-  // if either is not valid.
-  if (! dateValue.isValid() || ! otherValue.isValid()) {
-    return false;
-  }
-
-  return dateValue.isAfter(otherValue) || (inclusion && dateValue.isSame(otherValue));
-}; };
-
-var before = function (moment) { return function (value, ref) {
-  var other = ref[0];
-  var inclusion = ref[1];
-  var format = ref[2];
-
-  if (typeof format === 'undefined') {
-    format = inclusion;
-    inclusion = false;
-  }
-  var dateValue = moment(value, format, true);
-  var otherValue = moment(other, format, true);
-
-  // if either is not valid.
-  if (! dateValue.isValid() || ! otherValue.isValid()) {
-    return false;
-  }
-
-  return dateValue.isBefore(otherValue) || (inclusion && dateValue.isSame(otherValue));
-}; };
-
-var date_format = function (moment) { return function (value, ref) {
-	var format = ref[0];
-
-	return moment(value, format, true).isValid();
- }	};
-
-var date_between = function (moment) { return function (value, params) {
-  var min;
-  var max;
-  var format;
-  var inclusivity = '()';
-
-  if (params.length > 3) {
-    var assign;
-    (assign = params, min = assign[0], max = assign[1], inclusivity = assign[2], format = assign[3]);
-  } else {
-    var assign$1;
-    (assign$1 = params, min = assign$1[0], max = assign$1[1], format = assign$1[2]);
-  }
-
-  var minDate = moment(min, format, true);
-  var maxDate = moment(max, format, true);
-  var dateVal = moment(value, format, true);
-
-  if (! (minDate.isValid() && maxDate.isValid() && dateVal.isValid())) {
-    return false;
-  }
-
-  return dateVal.isBetween(minDate, maxDate, 'days', inclusivity);
-}; };
-
-var messages$1 = {
-  after: function (field, ref) {
-    var target = ref[0];
-    var inclusion = ref[1];
-
-    return ("The " + field + " must be after " + (inclusion ? 'or equal to ' : '') + target + ".");
-},
-  before: function (field, ref) {
-    var target = ref[0];
-    var inclusion = ref[1];
-
-    return ("The " + field + " must be before " + (inclusion ? 'or equal to ' : '') + target + ".");
-},
-  date_between: function (field, ref) {
-    var min = ref[0];
-    var max = ref[1];
-
-    return ("The " + field + " must be between " + min + " and " + max + ".");
-},
-  date_format: function (field, ref) {
-    var format = ref[0];
-
-    return ("The " + field + " must be in the format " + format + ".");
-}
-};
-
-var date = {
-  make: function (moment) { return ({
-    date_format: date_format(moment),
-    after: after(moment),
-    before: before(moment),
-    date_between: date_between(moment)
-  }); },
-  messages: messages$1,
-  installed: false
-};
-
-var LOCALE = 'en';
-var STRICT_MODE = true;
-var DICTIONARY = new Dictionary({
-  en: {
-    messages: messages,
-    attributes: {},
-    custom: {}
-  }
-});
-
-var Validator = function Validator (validations, options) {
-  var this$1 = this;
-  if ( options === void 0 ) options = { vm: null, fastExit: true };
-
-  this.strict = STRICT_MODE;
-  this.errors = new ErrorBag();
-  this.fields = new FieldBag();
-  this.fieldBag = {};
-  this._createFields(validations);
-  this.paused = false;
-  this.fastExit = options.fastExit || false;
-  // create it statically since we don't need constant access to the vm.
-  this.clean = options.vm && isCallable(options.vm.$nextTick) ? function () {
-    options.vm.$nextTick(function () {
-      this$1.errors.clear();
-    });
-  } : function () {
-    this$1.errors.clear();
-  };
-
-  // if momentjs is present, install the validators.
-  if (typeof moment === 'function') {
-    // eslint-disable-next-line
-    this.installDateTimeValidators(moment);
-  }
-};
-
-var prototypeAccessors = { dictionary: {},locale: {},rules: {} };
-var staticAccessors = { dictionary: {},rules: {} };
-
-/**
- * @return {Dictionary}
- */
-prototypeAccessors.dictionary.get = function () {
-  return DICTIONARY;
-};
-
-/**
- * @return {Dictionary}
- */
-staticAccessors.dictionary.get = function () {
-  return DICTIONARY;
-};
-
-/**
- * @return {String}
- */
-prototypeAccessors.locale.get = function () {
-  return LOCALE;
-};
-
-/**
- * @return {Object}
- */
-prototypeAccessors.rules.get = function () {
-  return Rules;
-};
-
-/**
- * @return {Object}
- */
-staticAccessors.rules.get = function () {
-  return Rules;
-};
-
-/**
- * Merges a validator object into the Rules and Messages.
- *
- * @param{string} name The name of the validator.
- * @param{function|object} validator The validator object.
- */
-Validator._merge = function _merge (name, validator) {
-  if (isCallable(validator)) {
-    Rules[name] = validator;
-    return;
-  }
-
-  Rules[name] = validator.validate;
-  if (isCallable(validator.getMessage)) {
-    DICTIONARY.setMessage(LOCALE, name, validator.getMessage);
-  }
-
-  if (validator.messages) {
-    DICTIONARY.merge(
-      Object.keys(validator.messages).reduce(function (prev, curr) {
-        var dict = prev;
-        dict[curr] = {
-          messages: ( obj = {}, obj[name] = validator.messages[curr], obj )
-        };
-          var obj;
-
-        return dict;
-      }, {})
-    );
-  }
-};
-
-/**
- * Guards from extnsion violations.
- *
- * @param{string} name name of the validation rule.
- * @param{object} validator a validation rule object.
- */
-Validator._guardExtend = function _guardExtend (name, validator) {
-  if (isCallable(validator)) {
-    return;
-  }
-
-  if (! isCallable(validator.validate)) {
-    throw createError(
-      // eslint-disable-next-line
-      ("Extension Error: The validator '" + name + "' must be a function or have a 'validate' method.")
-    );
-  }
-
-  if (! isCallable(validator.getMessage) && ! isObject(validator.messages)) {
-    throw createError(
-      // eslint-disable-next-line
-      ("Extension Error: The validator '" + name + "' must have a 'getMessage' method or have a 'messages' object.")
-    );
-  }
-};
-
-/**
- * Static constructor.
- *
- * @param{object} validations The validations object.
- * @return {Validator} validator A validator object.
- */
-Validator.create = function create (validations, options) {
-  return new Validator(validations, options);
-};
-
-/**
- * Adds a custom validator to the list of validation rules.
- *
- * @param{string} name The name of the validator.
- * @param{object|function} validator The validator object/function.
- */
-Validator.extend = function extend (name, validator) {
-  Validator._guardExtend(name, validator);
-  Validator._merge(name, validator);
-};
-
-/**
- * Installs the datetime validators and the messages.
- */
-Validator.installDateTimeValidators = function installDateTimeValidators (moment) {
-  if (typeof moment !== 'function') {
-    warn('To use the date-time validators you must provide moment reference.');
-
-    return false;
-  }
-
-  if (date.installed) {
-    return true;
-  }
-
-  var validators = date.make(moment);
-  Object.keys(validators).forEach(function (name) {
-    Validator.extend(name, validators[name]);
-  });
-
-  Validator.updateDictionary({
-    en: {
-      messages: date.messages
-    }
-  });
-  date.installed = true;
-
-  return true;
-};
-
-/**
- * Removes a rule from the list of validators.
- * @param {String} name The name of the validator/rule.
- */
-Validator.remove = function remove (name) {
-  delete Rules[name];
-};
-
-/**
- * Sets the default locale for all validators.
- *
- * @param {String} language The locale id.
- */
-Validator.setLocale = function setLocale (language) {
-    if ( language === void 0 ) language = 'en';
-
-  /* istanbul ignore if */
-  if (! DICTIONARY.hasLocale(language)) {
-    // eslint-disable-next-line
-    warn('You are setting the validator locale to a locale that is not defined in the dicitionary. English messages may still be generated.');
-  }
-
-  LOCALE = language;
-};
-
-/**
- * Sets the operating mode for all newly created validators.
- * strictMode = true: Values without a rule are invalid and cause failure.
- * strictMode = false: Values without a rule are valid and are skipped.
- * @param {Boolean} strictMode.
- */
-Validator.setStrictMode = function setStrictMode (strictMode) {
-    if ( strictMode === void 0 ) strictMode = true;
-
-  STRICT_MODE = strictMode;
-};
-
-/**
- * Updates the dicitionary, overwriting existing values and adding new ones.
- *
- * @param{object} data The dictionary object.
- */
-Validator.updateDictionary = function updateDictionary (data) {
-  DICTIONARY.merge(data);
-};
-
-Validator.addLocale = function addLocale (locale) {
-  if (! locale.name) {
-    warn('Your locale must have a name property');
-    return;
-  }
-
-  this.updateDictionary(( obj = {}, obj[locale.name] = locale, obj ));
-    var obj;
-};
-
-Validator.prototype.addLocale = function addLocale (locale) {
-  Validator.addLocale(locale);
-};
-
-/**
- * Creates the fields to be validated.
- *
- * @param{object} validations
- * @return {object} Normalized object.
- */
-Validator.prototype._createFields = function _createFields (validations) {
-    var this$1 = this;
-
-  if (! validations) { return; }
-
-  Object.keys(validations).forEach(function (field) {
-    var options = assign({}, { name: field, rules: validations[field] });
-    this$1.attach(options);
-  });
-};
-
-/**
- * Date rules need the existance of a format, so date_format must be supplied.
- * @param {String} name The rule name.
- * @param {Array} validations the field validations.
- */
-Validator.prototype._getDateFormat = function _getDateFormat (validations) {
-  var format = null;
-  if (validations.date_format && Array.isArray(validations.date_format)) {
-    format = validations.date_format[0];
-  }
-
-  return format || this.dictionary.getDateFormat(this.locale);
-};
-
-/**
- * Checks if the passed rule is a date rule.
- */
-Validator.prototype._isADateRule = function _isADateRule (rule) {
-  return !! ~['after', 'before', 'date_between', 'date_format'].indexOf(rule);
-};
-
-/**
- * Formats an error message for field and a rule.
- *
- * @param{Field} field The field object.
- * @param{object} rule Normalized rule object.
- * @param {object} data Additional Information about the validation result.
- * @return {string} Formatted error message.
- */
-Validator.prototype._formatErrorMessage = function _formatErrorMessage (field, rule, data) {
-    if ( data === void 0 ) data = {};
-
-  var name = this._getFieldDisplayName(field);
-  var params = this._getLocalizedParams(rule);
-  // Defaults to english message.
-  if (! this.dictionary.hasLocale(LOCALE)) {
-    var msg$1 = this.dictionary.getFieldMessage('en', field.name, rule.name);
-
-    return isCallable(msg$1) ? msg$1(name, params, data) : msg$1;
-  }
-
-  var msg = this.dictionary.getFieldMessage(LOCALE, field.name, rule.name);
-
-  return isCallable(msg) ? msg(name, params, data) : msg;
-};
-
-/**
- * Translates the parameters passed to the rule (mainly for target fields).
- */
-Validator.prototype._getLocalizedParams = function _getLocalizedParams (rule) {
-  if (~ ['after', 'before', 'confirmed'].indexOf(rule.name) && rule.params && rule.params[0]) {
-    if (rule.params.length > 1) {
-      return [this.dictionary.getAttribute(LOCALE, rule.params[0], rule.params[0]), rule.params[1]];
-    } else {
-      return [this.dictionary.getAttribute(LOCALE, rule.params[0], rule.params[0])];
-    }
-  }
-
-  return rule.params;
-};
-
-/**
- * Resolves an appropiate display name, first checking 'data-as' or the registered 'prettyName'
- * Then the dictionary, then fallsback to field name.
- * @param {Field} field The field object.
- * @return {String} The name to be used in the errors.
- */
-Validator.prototype._getFieldDisplayName = function _getFieldDisplayName (field) {
-  return field.displayName || this.dictionary.getAttribute(LOCALE, field.name, field.name);
-};
-
-/**
- * Tests a single input value against a rule.
- *
- * @param{Field} field The field under validation.
- * @param{*} valuethe value of the field.
- * @param{object} rule the rule object.
- * @return {boolean} Whether it passes the check.
- */
-Validator.prototype._test = function _test (field, value, rule) {
-    var this$1 = this;
-
-  var validator = Rules[rule.name];
-  var params = Array.isArray(rule.params) ? toArray(rule.params) : [];
-  if (! validator || typeof validator !== 'function') {
-    throw createError(("No such validator '" + (rule.name) + "' exists."));
-  }
-
-  // has field depenencies
-  if (/(confirmed|after|before)/.test(rule.name)) {
-    var target = find(field.dependencies, function (d) { return d.name === rule.name; });
-    if (target) {
-      if (params.length > 1) {
-        params = [target.field.value, params[1]];
-      } else {
-        params = [target.field.value];
-      }
-    }
-  } else if (rule.name === 'required' && field.rejectsFalse) {
-    // invalidate false if no args were specified and the field rejects false by default.
-    params = params.length ? params : [true];
-  }
-
-  if (date.installed && this._isADateRule(rule.name)) {
-    var dateFormat = this._getDateFormat(field.rules);
-    if (rule.name !== 'date_format') {
-      params.push(dateFormat);
-    }
-  }
-
-  var result = validator(value, params);
-
-  // If it is a promise.
-  if (isCallable(result.then)) {
-    return result.then(function (values) {
-      var allValid = true;
-      var data = {};
-      if (Array.isArray(values)) {
-        allValid = values.every(function (t) { return (isObject(t) ? t.valid : t); });
-      } else { // Is a single object/boolean.
-        allValid = isObject(values) ? values.valid : values;
-        data = values.data;
-      }
-
-      if (! allValid) {
-        this$1.errors.add({
-          id: field.id,
-          field: field.name,
-          msg: this$1._formatErrorMessage(field, rule, data),
-          rule: rule.name,
-          scope: field.scope
-        });
-      }
-
-      return allValid;
-    });
-  }
-
-  if (! isObject(result)) {
-    result = { valid: result, data: {} };
-  }
-
-  if (! result.valid) {
-    this.errors.add({
-      id: field.id,
-      field: field.name,
-      msg: this._formatErrorMessage(field, rule, result.data),
-      rule: rule.name,
-      scope: field.scope
-    });
-  }
-
-  return result.valid;
-};
-
-/**
- * Registers a field to be validated.
- *
- * @param{Field|Object} name The field name.
- * @return {Field}
- */
-Validator.prototype.attach = function attach (field) {
-  // deprecate: handle old signature.
-  if (arguments.length > 1) {
-    field = assign({}, {
-      name: arguments[0],
-      rules: arguments[1]
-    }, arguments[2] || { vm: { $validator: this } });
-  }
-
-  if (!(field instanceof Field)) {
-    field = new Field(field.el || null, field);
-  }
-
-  this.fields.push(field);
-  // validate if initial.
-  if (field.initial) {
-    this.validate(("#" + (field.id)), field.value);
-  }
-  if (!field.scope) {
-    this.fieldBag = assign({}, this.fieldBag, ( obj = {}, obj[("" + (field.name))] = field.flags, obj ));
-      var obj;
-    return field;
-  }
-
-  var scopeObj = assign({}, this.fieldBag[("$" + (field.scope))] || {}, ( obj$1 = {}, obj$1[("" + (field.name))] = field.flags, obj$1 ));
-    var obj$1;
-  this.fieldBag = assign({}, this.fieldBag, ( obj$2 = {}, obj$2[("$" + (field.scope))] = scopeObj, obj$2 ));
-    var obj$2;
-
-  return field;
-};
-
-/**
- * Sets the flags on a field.
- *
- * @param {String} name
- * @param {Object} flags
- */
-Validator.prototype.flag = function flag (name, flags) {
-  var field = this._resolveField(name);
-  if (! field) {
-    return;
-  }
-
-  Object.keys(field.flags).forEach(function (flag) {
-    field.flags[flag] = flags[flag] !== undefined ? flags[flag] : field.flags[flag];
-  });
-  if (field.classes) {
-    field.updateClasses();
-  }
-};
-
-/**
- * Removes a field from the validator.
- *
- * @param{String} name The name of the field.
- * @param {String} scope The name of the field scope.
- */
-Validator.prototype.detach = function detach (name, scope) {
-  var field = name instanceof Field ? name : this._resolveField(name, scope);
-  if (field) {
-    field.destroy();
-    this.errors.removeById(field.id);
-    this.fields.remove(field);
-  }
-};
-
-/**
- * Adds a custom validator to the list of validation rules.
- *
- * @param{string} name The name of the validator.
- * @param{object|function} validator The validator object/function.
- */
-Validator.prototype.extend = function extend (name, validator) {
-  Validator.extend(name, validator);
-};
-
-/**
- * Just an alias to the static method for convienece.
- */
-Validator.prototype.installDateTimeValidators = function installDateTimeValidators (moment) {
-  Validator.installDateTimeValidators(moment);
-};
-
-/**
- * Removes a rule from the list of validators.
- * @param {String} name The name of the validator/rule.
- */
-Validator.prototype.remove = function remove (name) {
-  Validator.remove(name);
-};
-
-/**
- * Sets the validator current langauge.
- *
- * @param {string} language locale or language id.
- */
-Validator.prototype.setLocale = function setLocale (language) {
-  /* istanbul ignore if */
-  if (! this.dictionary.hasLocale(language)) {
-    // eslint-disable-next-line
-    warn('You are setting the validator locale to a locale that is not defined in the dicitionary. English messages may still be generated.');
-  }
-
-  LOCALE = language;
-};
-
-/**
- * Updates the messages dicitionary, overwriting existing values and adding new ones.
- *
- * @param{object} data The messages object.
- */
-Validator.prototype.updateDictionary = function updateDictionary (data) {
-  Validator.updateDictionary(data);
-};
-
-/**
- * Tries different strategies to find a field.
- * @param {String} name
- * @param {String} scope
- * @return {Field}
- */
-Validator.prototype._resolveField = function _resolveField (name, scope) {
-  if (scope) {
-    return this.fields.find({ name: name, scope: scope });
-  }
-
-  if (name[0] === '#') {
-    return this.fields.find({ id: name.slice(1) });
-  }
-
-  if (name.indexOf('.') > -1) {
-    var parts = name.split('.');
-    var field = this.fields.find({ name: parts[1], scope: parts[0] });
-    if (field) {
-      return field;
-    }
-  }
-
-  return this.fields.find({ name: name, scope: null });
-};
-
-/**
- * Handles when a field is not found depending on the strict flag.
- *
- * @param {String} name
- * @param {String} scope
- */
-Validator.prototype._handleFieldNotFound = function _handleFieldNotFound (name, scope) {
-  if (! this.strict) { return Promise.resolve(true); }
-
-  var fullName = scope ? name : ("" + (scope ? scope + '.' : '') + name);
-  throw createError(
-    ("Validating a non-existant field: \"" + fullName + "\". Use \"attach()\" first.")
-  );
-};
-
-/**
- * Starts the validation process.
- *
- * @param {Field} field
- * @param {Promise} value
- */
-Validator.prototype._validate = function _validate (field, value) {
-    var this$1 = this;
-
-  if (! field.isRequired && ~[null, undefined, ''].indexOf(value)) {
-    return Promise.resolve(true);
-  }
-
-  var promises = [];
-  var isExitEarly = false;
-  // use of '.some()' is to break iteration in middle by returning true
-  Object.keys(field.rules).some(function (rule) {
-    var result = this$1._test(
-      field,
-      value,
-      { name: rule, params: field.rules[rule] }
-    );
-
-    if (isCallable(result.then)) {
-      promises.push(result);
-    } else if (this$1.fastExit && !result) {
-      isExitEarly = true;
-    } else {
-      var resultAsPromise = new Promise(function (resolve) {
-        resolve(result);
-      });
-      promises.push(resultAsPromise);
-    }
-
-    return isExitEarly;
-  });
-
-  if (isExitEarly) { return Promise.resolve(false); }
-
-  return Promise.all(promises).then(function (values) {
-    var valid = values.every(function (t) { return t; });
-    return valid;
-  });
-};
-
-/**
- * Validates a value against a registered field validations.
- *
- * @param{string} name the field name.
- * @param{*} value The value to be validated.
- * @param {String} scope The scope of the field.
- * @return {Promise}
- */
-Validator.prototype.validate = function validate (name, value, scope) {
-    if ( scope === void 0 ) scope = null;
-
-  if (this.paused) { return Promise.resolve(true); }
-
-  // overload to validate all.
-  if (arguments.length === 0) {
-    return this.validateScopes();
-  }
-
-  // overload to validate scopeless fields.
-  if (arguments.length === 1 && arguments[0] === '*') {
-    return this.validateAll();
-  }
-
-  // overload to validate a scope.
-  if (arguments.length === 1 && typeof arguments[0] === 'string' && /^(.+)\.\*$/.test(arguments[0])) {
-    var matched = arguments[0].match(/^(.+)\.\*$/)[1];
-    return this.validateAll(matched);
-  }
-
-  var field = this._resolveField(name, scope);
-  if (!field) {
-    return this._handleFieldNotFound(name, scope);
-  }
-  this.errors.removeById(field.id);
-  if (field.isDisabled) {
-    return Promise.resolve(true);
-  }
-  field.flags.pending = true;
-  if (arguments.length === 1) {
-    value = field.value;
-  }
-
-  return this._validate(field, value).then(function (result) {
-    field.flags.pending = false;
-    field.flags.valid = result;
-    field.flags.invalid = !result;
-    field.flags.validated = true;
-    field.updateAriaAttrs();
-    field.updateCustomValidity();
-    field.updateClasses();
-
-    return result;
-  });
-};
-
-/**
- * Pauses the validator.
- *
- * @return {Validator}
- */
-Validator.prototype.pause = function pause () {
-  this.paused = true;
-
-  return this;
-};
-
-/**
- * Resumes the validator.
- *
- * @return {Validator}
- */
-Validator.prototype.resume = function resume () {
-  this.paused = false;
-
-  return this;
-};
-
-/**
- * Validates each value against the corresponding field validations.
- * @param{Object|String} values The values to be validated.
- * @return {Promise} Returns a promise with the validation result.
- */
-Validator.prototype.validateAll = function validateAll (values) {
-    var arguments$1 = arguments;
-    var this$1 = this;
-
-  if (this.paused) { return Promise.resolve(true); }
-
-  var matcher = null;
-  var providedValues = false;
-
-  if (typeof values === 'string') {
-    matcher = { scope: values };
-  } else if (isObject(values)) {
-    matcher = Object.keys(values).map(function (key) {
-      return { name: key, scope: arguments$1[1] || null };
-    });
-    providedValues = true;
-  } else if (arguments.length === 0) {
-    matcher = { scope: null }; // global scope.
-  }
-
-  var promises = this.fields.filter(matcher).map(function (field) { return this$1.validate(
-    ("#" + (field.id)),
-    providedValues ? values[field.name] : field.value
-  ); });
-
-  return Promise.all(promises).then(function (results) { return results.every(function (t) { return t; }); });
-};
-
-/**
- * Validates all scopes.
- *
- * @returns {Promise} All promises resulted from each scope.
- */
-Validator.prototype.validateScopes = function validateScopes () {
-    var this$1 = this;
-
-  if (this.paused) { return Promise.resolve(true); }
-
-  var promises = this.fields.map(function (field) { return this$1.validate(
-    ("#" + (field.id)),
-    field.value
-  ); });
-
-  return Promise.all(promises).then(function (results) { return results.every(function (t) { return t; }); });
-};
-
-Object.defineProperties( Validator.prototype, prototypeAccessors );
-Object.defineProperties( Validator, staticAccessors );
-
-/**
- * Checks if a parent validator instance was requested.
- * @param {Object|Array} injections
- */
-var requestsValidator = function (injections) {
-  if (! injections) {
-    return false;
-  }
-
-  /* istanbul ignore next */
-  if (Array.isArray(injections) && ~injections.indexOf('$validator')) {
-    return true;
-  }
-
-  if (isObject(injections) && injections.$validator) {
-    return true;
-  }
-
-  return false;
-};
-
-/**
- * Creates a validator instance.
- * @param {Vue} vm
- * @param {Object} options
- */
-var createValidator = function (vm, options) { return new Validator(null, {
-  init: false,
-  vm: vm,
-  fastExit: options.fastExit
-}); };
-
-var makeMixin = function (Vue, options) {
-  if ( options === void 0 ) options = {};
-
-  var mixin = {};
-  mixin.provide = function providesValidator () {
-    if (this.$validator) {
-      return {
-        $validator: this.$validator
-      };
-    }
-
-    return {};
-  };
-
-  mixin.beforeCreate = function beforeCreate () {
-    // if its a root instance, inject anyways, or if it requested a new instance.
-    if (this.$options.$validates || !this.$parent) {
-      this.$validator = createValidator(this, options);
-    }
-
-    var requested = requestsValidator(this.$options.inject);
-
-    // if automatic injection is enabled and no instance was requested.
-    if (! this.$validator && options.inject && !requested) {
-      this.$validator = createValidator(this, options);
-    }
-
-    // don't inject errors or fieldBag as no validator was resolved.
-    if (! requested && ! this.$validator) {
-      return;
-    }
-
-    // There is a validator but it isn't injected, mark as reactive.
-    if (! requested && this.$validator) {
-      Vue.util.defineReactive(this.$validator, 'errors', this.$validator.errors);
-      Vue.util.defineReactive(this.$validator, 'fieldBag', this.$validator.fieldBag);
-    }
-
-    if (! this.$options.computed) {
-      this.$options.computed = {};
-    }
-
-    this.$options.computed[options.errorBagName || 'errors'] = function errorBagGetter () {
-      return this.$validator.errors;
-    };
-    this.$options.computed[options.fieldsBagName || 'fields'] = function fieldBagGetter () {
-      return this.$validator.fieldBag;
-    };
-  };
-
-  return mixin;
-};
-
-var config = {
-  locale: 'en',
-  delay: 0,
-  errorBagName: 'errors',
-  dictionary: null,
-  strict: true,
-  fieldsBagName: 'fields',
-  classes: false,
-  classNames: undefined,
-  events: 'input|blur',
-  inject: true,
-  fastExit: true
-};
-
-/**
- * Finds the requested field by id from the context object.
- * @param {Object} context
- */
-var findField = function (el, context) {
-  if (!context || !context.$validator) {
-    return null;
-  }
-
-  return context.$validator.fields.find({ id: getDataAttribute(el, 'id') });
-};
-
-var createDirective = function (options) {
-  options = assign({}, config, options);
-
-  return {
-    bind: function bind (el, binding, vnode) {
-      var validator = vnode.context.$validator;
-      if (! validator) {
-        warn("No validator instance is present on vm, did you forget to inject '$validator'?");
-        return;
-      }
-      var fieldOptions = Generator.generate(el, binding, vnode, options);
-      validator.attach(fieldOptions);
-    },
-    inserted: function inserted (el, binding, vnode) {
-      var field = findField(el, vnode.context);
-      if (!field) { return; }
-
-      var scope = Generator.resolveScope(el, binding, vnode);
-      field.update({ scope: scope });
-    },
-    update: function update (el, ref, ref$1) {
-      var expression = ref.expression;
-      var value = ref.value;
-      var context = ref$1.context;
-
-      var field = findField(el, context);
-      // make sure we don't do uneccessary work if no expression was passed
-      // nor if the expression value did not change.
-      // TODO: Diffing for other options like delay or scope.
-      if (!field || !expression || field.expression === JSON.stringify(value)) { return; }
-
-      var scope = isObject(value) && value.rules ? value.scope : getScope(el);
-      field.update({
-        expression: value,
-        scope: scope,
-        rules: getRules({ expression: expression, value: value }, el)
-      });
-    },
-    unbind: function unbind (el, binding, ref) {
-      var context = ref.context;
-
-      var field = findField(el, context);
-      if (!field) { return; }
-
-      context.$validator.detach(field);
-    }
-  };
-};
-
-var normalize = function (fields) {
-  if (Array.isArray(fields)) {
-    return fields.reduce(function (prev, curr) {
-      if (~curr.indexOf('.')) {
-        prev[curr.split('.')[1]] = curr;
-      } else {
-        prev[curr] = curr;
-      }
-
-      return prev;
-    }, {});
-  }
-
-  return fields;
-};
-
-/**
- * Maps fields to computed functions.
- *
- * @param {Array|Object} fields
- */
-var mapFields = function (fields) {
-  var normalized = normalize(fields);
-  return Object.keys(normalized).reduce(function (prev, curr) {
-    var field = normalized[curr];
-    prev[curr] = function mappedField () {
-      if (this.$validator.fieldBag[field]) {
-        return this.$validator.fieldBag[field];
-      }
-
-      var index = field.indexOf('.');
-      if (index <= 0) {
-        return {};
-      }
-      var ref = field.split('.');
-      var scope = ref[0];
-      var name = ref[1];
-
-      return getPath(("$" + scope + "." + name), this.$validator.fieldBag, {});
-    };
-
-    return prev;
-  }, {});
-};
-
-var Vue;
-
-var install = function (_Vue, options) {
-  if (Vue) {
-    warn('already installed, Vue.use(VeeValidate) should only be called once.');
-    return;
-  }
-
-  Vue = _Vue;
-  var config$$1 = assign({}, config, options);
-  if (config$$1.dictionary) {
-    Validator.updateDictionary(config$$1.dictionary);
-  }
-
-  Validator.setLocale(config$$1.locale);
-  Validator.setStrictMode(config$$1.strict);
-
-  Vue.mixin(makeMixin(Vue, config$$1));
-  Vue.directive('validate', createDirective(config$$1));
-};
-
-var index = {
-  install: install,
-  mapFields: mapFields,
-  Validator: Validator,
-  ErrorBag: ErrorBag,
-  Rules: Rules,
-  version: '2.0.0-rc.9'
-};
-
-return index;
-
-})));
-
-
-/***/ }),
-
-/***/ 21:
-/***/ (function(module, exports, __webpack_require__) {
-
-"use strict";
-
-
-var utils = __webpack_require__(1);
-
-/**
- * Transform the data for a request or a response
- *
- * @param {Object|String} data The data to be transformed
- * @param {Array} headers The headers for the request or response
- * @param {Array|Function} fns A single function or Array of functions
- * @returns {*} The resulting transformed data
- */
-module.exports = function transformData(data, headers, fns) {
-  /*eslint no-param-reassign:0*/
-  utils.forEach(fns, function transform(fn) {
-    data = fn(data, headers);
-  });
-
-  return data;
-};
-
-
-/***/ }),
-
-/***/ 216:
-/***/ (function(module, exports, __webpack_require__) {
-
-var Component = __webpack_require__(3)(
-  /* script */
-  __webpack_require__(175),
-  /* template */
-  __webpack_require__(266),
-  /* scopeId */
-  null,
-  /* cssModules */
-  null
-)
-Component.options.__file = "C:\\xampp\\htdocs\\warehouse\\resources\\assets\\js\\components\\FullRVpreview.vue"
-if (Component.esModule && Object.keys(Component.esModule).some(function (key) {return key !== "default" && key !== "__esModule"})) {console.error("named exports are not supported in *.vue files.")}
-if (Component.options.functional) {console.error("[vue-loader] FullRVpreview.vue: functional components are not supported with templates, they should use render functions.")}
-
-/* hot reload */
-if (false) {(function () {
-  var hotAPI = require("vue-hot-reload-api")
-  hotAPI.install(require("vue"), false)
-  if (!hotAPI.compatible) return
-  module.hot.accept()
-  if (!module.hot.data) {
-    hotAPI.createRecord("data-v-7c19327a", Component.options)
-  } else {
-    hotAPI.reload("data-v-7c19327a", Component.options)
-  }
-})()}
-
-module.exports = Component.exports
-
-
-/***/ }),
-
-/***/ 22:
-/***/ (function(module, exports, __webpack_require__) {
-
-"use strict";
-
-
-// btoa polyfill for IE<10 courtesy https://github.com/davidchambers/Base64.js
-
-var chars = 'ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789+/=';
-
-function E() {
-  this.message = 'String contains an invalid character';
-}
-E.prototype = new Error;
-E.prototype.code = 5;
-E.prototype.name = 'InvalidCharacterError';
-
-function btoa(input) {
-  var str = String(input);
-  var output = '';
-  for (
-    // initialize result and counter
-    var block, charCode, idx = 0, map = chars;
-    // if the next str index does not exist:
-    //   change the mapping table to "="
-    //   check if d has no fractional digits
-    str.charAt(idx | 0) || (map = '=', idx % 1);
-    // "8 - idx % 1 * 8" generates the sequence 2, 4, 6, 8
-    output += map.charAt(63 & block >> 8 - idx % 1 * 8)
-  ) {
-    charCode = str.charCodeAt(idx += 3 / 4);
-    if (charCode > 0xFF) {
-      throw new E();
-    }
-    block = block << 8 | charCode;
-  }
-  return output;
-}
-
-module.exports = btoa;
-
-
-/***/ }),
-
-/***/ 23:
-/***/ (function(module, exports, __webpack_require__) {
-
-"use strict";
-
-
-var utils = __webpack_require__(1);
-
-function encode(val) {
-  return encodeURIComponent(val).
-    replace(/%40/gi, '@').
-    replace(/%3A/gi, ':').
-    replace(/%24/g, '$').
-    replace(/%2C/gi, ',').
-    replace(/%20/g, '+').
-    replace(/%5B/gi, '[').
-    replace(/%5D/gi, ']');
-}
-
-/**
- * Build a URL by appending params to the end
- *
- * @param {string} url The base of the url (e.g., http://www.google.com)
- * @param {object} [params] The params to be appended
- * @returns {string} The formatted url
- */
-module.exports = function buildURL(url, params, paramsSerializer) {
-  /*eslint no-param-reassign:0*/
-  if (!params) {
-    return url;
-  }
-
-  var serializedParams;
-  if (paramsSerializer) {
-    serializedParams = paramsSerializer(params);
-  } else if (utils.isURLSearchParams(params)) {
-    serializedParams = params.toString();
-  } else {
-    var parts = [];
-
-    utils.forEach(params, function serialize(val, key) {
-      if (val === null || typeof val === 'undefined') {
-        return;
-      }
-
-      if (utils.isArray(val)) {
-        key = key + '[]';
-      }
-
-      if (!utils.isArray(val)) {
-        val = [val];
-      }
-
-      utils.forEach(val, function parseValue(v) {
-        if (utils.isDate(v)) {
-          v = v.toISOString();
-        } else if (utils.isObject(v)) {
-          v = JSON.stringify(v);
-        }
-        parts.push(encode(key) + '=' + encode(v));
-      });
-    });
-
-    serializedParams = parts.join('&');
-  }
-
-  if (serializedParams) {
-    url += (url.indexOf('?') === -1 ? '?' : '&') + serializedParams;
-  }
-
-  return url;
-};
-
-
-/***/ }),
-
-/***/ 235:
-/***/ (function(module, exports, __webpack_require__) {
-
-var Component = __webpack_require__(3)(
-  /* script */
-  __webpack_require__(194),
-  /* template */
-  __webpack_require__(247),
-  /* scopeId */
-  null,
-  /* cssModules */
-  null
-)
-Component.options.__file = "C:\\xampp\\htdocs\\warehouse\\resources\\assets\\js\\components\\RVCreate.vue"
-if (Component.esModule && Object.keys(Component.esModule).some(function (key) {return key !== "default" && key !== "__esModule"})) {console.error("named exports are not supported in *.vue files.")}
-if (Component.options.functional) {console.error("[vue-loader] RVCreate.vue: functional components are not supported with templates, they should use render functions.")}
-
-/* hot reload */
-if (false) {(function () {
-  var hotAPI = require("vue-hot-reload-api")
-  hotAPI.install(require("vue"), false)
-  if (!hotAPI.compatible) return
-  module.hot.accept()
-  if (!module.hot.data) {
-    hotAPI.createRecord("data-v-1f86afab", Component.options)
-  } else {
-    hotAPI.reload("data-v-1f86afab", Component.options)
-  }
-})()}
-
-module.exports = Component.exports
-
-
-/***/ }),
-
-/***/ 236:
-/***/ (function(module, exports, __webpack_require__) {
-
-var Component = __webpack_require__(3)(
-  /* script */
-  __webpack_require__(195),
-  /* template */
-  __webpack_require__(268),
-  /* scopeId */
-  null,
-  /* cssModules */
-  null
-)
-Component.options.__file = "C:\\xampp\\htdocs\\warehouse\\resources\\assets\\js\\components\\RVindex.vue"
-if (Component.esModule && Object.keys(Component.esModule).some(function (key) {return key !== "default" && key !== "__esModule"})) {console.error("named exports are not supported in *.vue files.")}
-if (Component.options.functional) {console.error("[vue-loader] RVindex.vue: functional components are not supported with templates, they should use render functions.")}
-
-/* hot reload */
-if (false) {(function () {
-  var hotAPI = require("vue-hot-reload-api")
-  hotAPI.install(require("vue"), false)
-  if (!hotAPI.compatible) return
-  module.hot.accept()
-  if (!module.hot.data) {
-    hotAPI.createRecord("data-v-9cd6acda", Component.options)
-  } else {
-    hotAPI.reload("data-v-9cd6acda", Component.options)
-  }
-})()}
-
-module.exports = Component.exports
-
-
-/***/ }),
-
-/***/ 24:
-/***/ (function(module, exports, __webpack_require__) {
-
-"use strict";
-
-
-/**
- * Creates a new URL by combining the specified URLs
- *
- * @param {string} baseURL The base URL
- * @param {string} relativeURL The relative URL
- * @returns {string} The combined URL
- */
-module.exports = function combineURLs(baseURL, relativeURL) {
-  return baseURL.replace(/\/+$/, '') + '/' + relativeURL.replace(/^\/+/, '');
-};
-
-
-/***/ }),
-
-/***/ 247:
-/***/ (function(module, exports, __webpack_require__) {
-
-module.exports={render:function (){var _vm=this;var _h=_vm.$createElement;var _c=_vm._self._c||_h;
-  return _c('span', [_vm._m(0), _vm._v(" "), _c('div', {
-    staticClass: "RV-wrapper"
-  }, [_c('div', {
-    staticClass: "added-items-table"
-  }, [_c('div', {
-    staticClass: "add-item-RV"
-  }, [(_vm.user.Role == 3 || _vm.user.Role == 4) ? _c('button', {
-    attrs: {
-      "type": "button",
-      "name": "button",
-      "id": "forstock-ItemRV"
-    },
-    on: {
-      "click": function($event) {
-        _vm.forstock = !_vm.forstock
-      }
-    }
-  }, [(_vm.user.Role == 3 || _vm.user.Role == 4) ? _c('i', {
-    staticClass: "material-icons"
-  }, [_vm._v("widgets")]) : _vm._e(), _vm._v(" For stocks")]) : _vm._e(), _vm._v(" "), _c('button', {
-    staticClass: " z-depth-1",
-    attrs: {
-      "type": "button",
-      "id": "none-existing-itemRV"
-    },
-    on: {
-      "click": function($event) {
-        _vm.notforstock = !_vm.notforstock
-      }
-    }
-  }, [_c('i', {
-    staticClass: "material-icons"
-  }, [_vm._v("shopping_cart")]), _vm._v(" Not in warehouse")])]), _vm._v(" "), _c('table', [_vm._m(1), _vm._v(" "), _vm._l((_vm.SessionStored), function(sessionrv, key) {
-    return _c('tr', [_c('td', [_vm._v(_vm._s(sessionrv.Description))]), _vm._v(" "), _c('td', [_vm._v(_vm._s(sessionrv.Unit))]), _vm._v(" "), _c('td', [_vm._v(_vm._s(sessionrv.Quantity))]), _vm._v(" "), _c('td', [_vm._v(_vm._s(sessionrv.Remarks))]), _vm._v(" "), _c('td', [_c('i', {
-      staticClass: "material-icons",
-      on: {
-        "click": function($event) {
-          _vm.deleteSession(key)
-        }
-      }
-    }, [_vm._v("close")])])])
-  })], 2)]), _vm._v(" "), _c('div', {
-    staticClass: "RVMaster-form"
-  }, [_c('div', {
-    staticClass: "RV-form"
-  }, [_c('input', {
-    directives: [{
-      name: "model",
-      rawName: "v-model",
-      value: (_vm.purpose),
-      expression: "purpose"
-    }],
-    attrs: {
-      "type": "text",
-      "autocomplete": "off",
-      "name": "Purpose",
-      "placeholder": "Purpose",
-      "required": ""
-    },
-    domProps: {
-      "value": (_vm.purpose)
-    },
-    on: {
-      "input": function($event) {
-        if ($event.target.composing) { return; }
-        _vm.purpose = $event.target.value
-      }
-    }
-  }), _vm._v(" "), _c('div', {
-    staticClass: "autoselectedRV"
-  }, [(_vm.mymanager != null) ? _c('h4', [_vm._v(_vm._s(_vm.mymanager.FullName))]) : _c('h4', [_vm._v("No Manager found, please ask the administrator")]), _vm._v(" "), _c('p', [_vm._v("Recommended by")])]), _vm._v(" "), _c('div', {
-    staticClass: "autoselectedRV"
-  }, [(_vm.budgetofficer[0] != null) ? _c('h4', [_vm._v(_vm._s(_vm.budgetofficer[0].FullName))]) : _c('h4', [_vm._v("No Account yet")]), _vm._v(" "), _c('p', [_vm._v("Budget Officer")])]), _vm._v(" "), _c('div', {
-    staticClass: "autoselectedRV space-bottom"
-  }, [(_vm.gm != null) ? _c('h4', [_vm._v(_vm._s(_vm.gm[0].FullName))]) : _c('h4', [_vm._v("No Account yet")]), _vm._v(" "), _c('p', [_vm._v("General Manager")])]), _vm._v(" "), _c('longpress', {
-    staticClass: "submit-button-RV",
-    class: {
-      'hide': _vm.HideBtn
-    },
-    attrs: {
-      "duration": "3",
-      "on-confirm": _vm.SubmitWholeRV,
-      "pressing-text": "Submitting in {$rcounter}",
-      "action-text": "Loading . . ."
-    }
-  }, [_vm._v("\n          Submit\n        ")])], 1)])]), _vm._v(" "), _c('div', {
-    staticClass: "add-RV-item-modal",
-    class: {
-      'active': _vm.notforstock
-    },
-    on: {
-      "click": function($event) {
-        _vm.notforstock = !_vm.notforstock
-      }
-    }
-  }, [_c('div', {
-    staticClass: "rv-modal-centered z-depth-5"
-  }, [_c('h1', [_vm._v("Request Item")]), _vm._v(" "), _c('div', {
-    staticClass: "itemRV-form"
-  }, [_c('textarea', {
-    directives: [{
-      name: "model",
-      rawName: "v-model",
-      value: (_vm.Description),
-      expression: "Description"
-    }],
-    attrs: {
-      "name": "Description",
-      "placeholder": "Articles (max:50 characters)",
-      "required": ""
-    },
-    domProps: {
-      "value": (_vm.Description)
-    },
-    on: {
-      "input": function($event) {
-        if ($event.target.composing) { return; }
-        _vm.Description = $event.target.value
-      }
-    }
-  }), _vm._v(" "), _c('select', {
-    directives: [{
-      name: "model",
-      rawName: "v-model",
-      value: (_vm.Unit),
-      expression: "Unit"
-    }],
-    attrs: {
-      "name": "Unit",
-      "required": ""
-    },
-    on: {
-      "change": function($event) {
-        var $$selectedVal = Array.prototype.filter.call($event.target.options, function(o) {
-          return o.selected
-        }).map(function(o) {
-          var val = "_value" in o ? o._value : o.value;
-          return val
-        });
-        _vm.Unit = $event.target.multiple ? $$selectedVal : $$selectedVal[0]
-      }
-    }
-  }, [_c('option', {
-    attrs: {
-      "value": ""
-    }
-  }, [_vm._v("Select Unit")]), _vm._v(" "), _vm._l((_vm.UnitsFromDB), function(unitdb) {
-    return _c('option', [_vm._v(_vm._s(unitdb.UnitName))])
-  })], 2), _vm._v(" "), _c('input', {
-    directives: [{
-      name: "model",
-      rawName: "v-model",
-      value: (_vm.Quantity),
-      expression: "Quantity"
-    }],
-    attrs: {
-      "type": "number",
-      "autocomplete": "off",
-      "name": "Quantity",
-      "placeholder": "Quantity",
-      "min": "1",
-      "required": ""
-    },
-    domProps: {
-      "value": (_vm.Quantity)
-    },
-    on: {
-      "input": function($event) {
-        if ($event.target.composing) { return; }
-        _vm.Quantity = $event.target.value
-      }
-    }
-  }), _vm._v(" "), _c('input', {
-    directives: [{
-      name: "model",
-      rawName: "v-model",
-      value: (_vm.Remarks),
-      expression: "Remarks"
-    }],
-    attrs: {
-      "type": "text",
-      "autocomplete": "off",
-      "name": "Remarks",
-      "placeholder": "Remarks"
-    },
-    domProps: {
-      "value": (_vm.Remarks)
-    },
-    on: {
-      "input": function($event) {
-        if ($event.target.composing) { return; }
-        _vm.Remarks = $event.target.value
-      }
-    }
-  }), _vm._v(" "), _c('button', {
-    attrs: {
-      "type": "submit",
-      "id": "addtolistRV"
-    },
-    on: {
-      "click": function($event) {
-        _vm.addToSession()
-      }
-    }
-  }, [_vm._v("Add to list")])])])]), _vm._v(" "), (_vm.user.Role == 3 || _vm.user.Role == 4) ? _c('span', [_c('div', {
-    staticClass: "for-stock-Modal",
-    class: {
-      'active': _vm.forstock
-    },
-    on: {
-      "click": function($event) {
-        _vm.forstock = !_vm.forstock
-      }
-    }
-  }, [_c('div', {
-    staticClass: "middle-forStock-div"
-  }, [_c('h1', [_vm._v("Request for warehouse stock items")]), _vm._v(" "), _c('div', {
-    staticClass: "searchboxes-forstock"
-  }, [_c('div', {
-    staticClass: "low-qty-items"
-  }, [_c('button', {
-    class: {
-      'lowqtyactive': _vm.lowqtyactive
-    },
-    attrs: {
-      "type": "button"
-    },
-    on: {
-      "click": function($event) {
-        [_vm.lowqtyactive == false ? _vm.FetchLowQtyItems() : _vm.searchDescription()], _vm.lowqtyactive = !_vm.lowqtyactive
-      }
-    }
-  }, [_c('i', {
-    staticClass: "material-icons"
-  }, [_vm._v("arrow_downward")]), _vm._v(" Qty items")])]), _vm._v(" "), _c('div', {
-    staticClass: "search-input-item"
-  }, [_c('input', {
-    directives: [{
-      name: "model",
-      rawName: "v-model",
-      value: (_vm.findDescription),
-      expression: "findDescription"
-    }],
-    attrs: {
-      "type": "text",
-      "autocomplete": "off",
-      "name": "Description",
-      "placeholder": "Article/Code"
-    },
-    domProps: {
-      "value": (_vm.findDescription)
-    },
-    on: {
-      "keyup": function($event) {
-        if (!('button' in $event) && _vm._k($event.keyCode, "enter", 13)) { return null; }
-        _vm.searchDescription(), _vm.lowqtyactive = false
-      },
-      "input": function($event) {
-        if ($event.target.composing) { return; }
-        _vm.findDescription = $event.target.value
-      }
-    }
-  }), _c('button', {
-    attrs: {
-      "type": "submit"
-    },
-    on: {
-      "click": function($event) {
-        _vm.searchDescription(), _vm.lowqtyactive = false
-      }
-    }
-  }, [_c('i', {
-    staticClass: "material-icons"
-  }, [_vm._v("search")])])])]), _vm._v(" "), _c('div', {
-    staticClass: "searchResults-forstock"
-  }, [_c('table', [_vm._m(2), _vm._v(" "), _vm._l((_vm.findResults), function(result, count) {
-    return _c('tr', [_c('td', [_vm._v(_vm._s(result.ItemCode))]), _vm._v(" "), _c('td', [_vm._v(_vm._s(result.Description))]), _vm._v(" "), _c('td', [_vm._v(_vm._s(result.Unit))]), _vm._v(" "), _c('td', [_c('input', {
-      directives: [{
-        name: "model",
-        rawName: "v-model",
-        value: (_vm.QuantityForWHouse[count]),
-        expression: "QuantityForWHouse[count]"
-      }],
-      attrs: {
-        "type": "number",
-        "autocomplete": "off",
-        "name": "Quantity",
-        "min": "1",
-        "required": ""
-      },
-      domProps: {
-        "value": (_vm.QuantityForWHouse[count])
-      },
-      on: {
-        "input": function($event) {
-          if ($event.target.composing) { return; }
-          _vm.$set(_vm.QuantityForWHouse, count, $event.target.value)
-        }
-      }
-    })]), _vm._v(" "), _c('td', {
-      staticClass: "bold",
-      class: {
-        'color-red': _vm.lowqtyactive
-      }
-    }, [_vm._v(_vm._s(result.CurrentQuantity))]), _vm._v(" "), _c('td', {
-      staticClass: "bold"
-    }, [_vm._v(_vm._s(result.AlertIfBelow))]), _vm._v(" "), _c('td', [_c('input', {
-      directives: [{
-        name: "model",
-        rawName: "v-model",
-        value: (_vm.RemarksForWHouse[count]),
-        expression: "RemarksForWHouse[count]"
-      }],
-      attrs: {
-        "type": "text",
-        "autocomplete": "off",
-        "name": "Remarks"
-      },
-      domProps: {
-        "value": (_vm.RemarksForWHouse[count])
-      },
-      on: {
-        "input": function($event) {
-          if ($event.target.composing) { return; }
-          _vm.$set(_vm.RemarksForWHouse, count, $event.target.value)
-        }
-      }
-    })]), _vm._v(" "), _c('td', [_c('button', {
-      attrs: {
-        "type": "submit"
-      },
-      on: {
-        "click": function($event) {
-          _vm.AddtoSessionForWarehouse(result, count)
-        }
-      }
-    }, [_c('i', {
-      staticClass: "material-icons"
-    }, [_vm._v("add_circle")])])])])
-  })], 2), _vm._v(" "), _c('div', {
-    staticClass: "paginate-container"
-  }, [_c('ul', {
-    staticClass: "pagination"
-  }, [(_vm.pagination.current_page > 1) ? _c('li', [_c('a', {
-    attrs: {
-      "href": "#"
-    },
-    on: {
-      "click": function($event) {
-        $event.preventDefault();
-        _vm.changepage(_vm.pagination.current_page - 1)
-      }
-    }
-  }, [_c('i', {
-    staticClass: "fa fa-angle-left"
-  })])]) : _vm._e(), _vm._v(" "), _vm._l((_vm.pagesNumber), function(page) {
-    return _c('li', {
-      class: [page == _vm.isActive ? 'active' : '']
-    }, [_c('a', {
-      attrs: {
-        "href": "#"
-      },
-      on: {
-        "click": function($event) {
-          $event.preventDefault();
-          _vm.changepage(page)
-        }
-      }
-    }, [_vm._v(_vm._s(page))])])
-  }), _vm._v(" "), (_vm.pagination.current_page < _vm.pagination.last_page) ? _c('li', [_c('a', {
-    attrs: {
-      "href": "#"
-    },
-    on: {
-      "click": function($event) {
-        $event.preventDefault();
-        _vm.changepage(_vm.pagination.current_page + 1)
-      }
-    }
-  }, [_c('i', {
-    staticClass: "fa fa-angle-right"
-  })])]) : _vm._e()], 2)])])])])]) : _vm._e()])
-},staticRenderFns: [function (){var _vm=this;var _h=_vm.$createElement;var _c=_vm._self._c||_h;
-  return _c('div', {
-    staticClass: "title-RV"
-  }, [_c('h3', [_vm._v("Create Requisition Voucher")]), _vm._v(" "), _c('h3', {
-    staticClass: "empty-right"
-  })])
-},function (){var _vm=this;var _h=_vm.$createElement;var _c=_vm._self._c||_h;
-  return _c('tr', [_c('th', [_vm._v("Articles")]), _vm._v(" "), _c('th', [_vm._v("Unit")]), _vm._v(" "), _c('th', [_vm._v("Qty")]), _vm._v(" "), _c('th', [_vm._v("Remarks")]), _vm._v(" "), _c('th', [_vm._v("Remove")])])
-},function (){var _vm=this;var _h=_vm.$createElement;var _c=_vm._self._c||_h;
-  return _c('tr', [_c('th', [_vm._v("Item Code")]), _vm._v(" "), _c('th', [_vm._v("Article")]), _vm._v(" "), _c('th', [_vm._v("Unit")]), _vm._v(" "), _c('th', [_vm._v("Qty")]), _vm._v(" "), _c('th', [_vm._v("Current Balance")]), _vm._v(" "), _c('th', [_vm._v("Minimum balance")]), _vm._v(" "), _c('th', [_vm._v("Remarks")]), _vm._v(" "), _c('th', [_vm._v("Add")])])
-}]}
-module.exports.render._withStripped = true
-if (false) {
-  module.hot.accept()
-  if (module.hot.data) {
-     require("vue-hot-reload-api").rerender("data-v-1f86afab", module.exports)
-  }
-}
-
-/***/ }),
-
-/***/ 25:
-/***/ (function(module, exports, __webpack_require__) {
-
-"use strict";
-
-
-var utils = __webpack_require__(1);
-
-module.exports = (
-  utils.isStandardBrowserEnv() ?
-
-  // Standard browser envs support document.cookie
-  (function standardBrowserEnv() {
-    return {
-      write: function write(name, value, expires, path, domain, secure) {
-        var cookie = [];
-        cookie.push(name + '=' + encodeURIComponent(value));
-
-        if (utils.isNumber(expires)) {
-          cookie.push('expires=' + new Date(expires).toGMTString());
-        }
-
-        if (utils.isString(path)) {
-          cookie.push('path=' + path);
-        }
-
-        if (utils.isString(domain)) {
-          cookie.push('domain=' + domain);
-        }
-
-        if (secure === true) {
-          cookie.push('secure');
-        }
-
-        document.cookie = cookie.join('; ');
-      },
-
-      read: function read(name) {
-        var match = document.cookie.match(new RegExp('(^|;\\s*)(' + name + ')=([^;]*)'));
-        return (match ? decodeURIComponent(match[3]) : null);
-      },
-
-      remove: function remove(name) {
-        this.write(name, '', Date.now() - 86400000);
-      }
-    };
-  })() :
-
-  // Non standard browser env (web workers, react-native) lack needed support.
-  (function nonStandardBrowserEnv() {
-    return {
-      write: function write() {},
-      read: function read() { return null; },
-      remove: function remove() {}
-    };
-  })()
-);
-
-
-/***/ }),
-
-/***/ 26:
-/***/ (function(module, exports, __webpack_require__) {
-
-"use strict";
-
-
-/**
- * Determines whether the specified URL is absolute
- *
- * @param {string} url The URL to test
- * @returns {boolean} True if the specified URL is absolute, otherwise false
- */
-module.exports = function isAbsoluteURL(url) {
-  // A URL is considered absolute if it begins with "<scheme>://" or "//" (protocol-relative URL).
-  // RFC 3986 defines scheme name as a sequence of characters beginning with a letter and followed
-  // by any combination of letters, digits, plus, period, or hyphen.
-  return /^([a-z][a-z\d\+\-\.]*:)?\/\//i.test(url);
-};
-
-
-/***/ }),
-
-/***/ 266:
-/***/ (function(module, exports, __webpack_require__) {
-
-module.exports={render:function (){var _vm=this;var _h=_vm.$createElement;var _c=_vm._self._c||_h;
-  return (_vm.RVMaster.users != null) ? _c('div', [_c('div', {
-    staticClass: "RV-signature-print-container"
-  }, [(_vm.AlreadyApproved) ? _c('div', {
-    staticClass: "print-and-unreceved"
-  }, [_c('a', {
-    attrs: {
-      "href": '/RV.pdf/' + _vm.rvno.RVNo
-    }
-  }, [_vm._m(0)]), _vm._v(" "), (((_vm.RVMaster.IfPurchased == null) && (_vm.checkPO == null) && (_vm.checkRR != null))) ? _c('li', {
-    staticClass: "pending-delivery-number"
-  }, [_c('h1', [_vm._v("pending item: "), _c('span', {
-    staticClass: "color-blue"
-  }, [_vm._v(_vm._s(_vm.undeliveredTotal))])])]) : _vm._e()]) : (_vm.RVMaster.SignatureTurn != '2') ? _c('div', {
-    staticClass: "empty-left"
-  }) : _vm._e(), _vm._v(" "), (((_vm.RVMaster.users[2].pivot.Signature == null) && ((_vm.RVMaster.users[1].pivot.Signature == '0') || (_vm.ManagerReplacerData != null && _vm.ManagerReplacerData.pivot.Signature == '0')))) ? _c('div', {
-    staticClass: "empty-left relative"
-  }, [(((_vm.RVMaster.users[2].id == _vm.user.id) && (_vm.pendingRemarksShow == null))) ? _c('button', {
-    staticClass: "pending-remarks",
-    attrs: {
-      "type": "button"
-    },
-    on: {
-      "click": function($event) {
-        _vm.RemarksIsActive = true
-      }
-    }
-  }, [_c('i', {
-    staticClass: "material-icons"
-  }, [_vm._v("access_time")]), _vm._v(" remarks")]) : _vm._e(), _vm._v(" "), ((_vm.pendingRemarksShow != null) && (_vm.RVMaster.users[2].pivot.Signature == null) && ((_vm.user.id == _vm.RVMaster.users[0].id) || (_vm.user.id == _vm.RVMaster.users[2].id))) ? _c('div', {
-    staticClass: "BudgetRemarkShow"
-  }, [_c('div', {
-    staticClass: "remarks-box"
-  }, [_c('h1', [_vm._v(" budget officer: "), _c('i', {
-    staticClass: "material-icons",
-    on: {
-      "click": function($event) {
-        _vm.RemovePendingRemarks()
-      }
-    }
-  }, [_vm._v("close")])]), _vm._v(" "), _c('p', [_vm._v(_vm._s(_vm.pendingRemarksShow))])])]) : _vm._e(), _vm._v(" "), (_vm.RemarksIsActive == true) ? _c('div', {
-    staticClass: "pending-remarks-input"
-  }, [_c('h1', [_vm._v("Input pending remarks")]), _vm._v(" "), _c('textarea', {
-    directives: [{
-      name: "model",
-      rawName: "v-model",
-      value: (_vm.pendingremarks),
-      expression: "pendingremarks"
-    }],
-    attrs: {
-      "name": "name",
-      "maxlength": "100",
-      "placeholder": "max:(100characters)"
-    },
-    domProps: {
-      "value": (_vm.pendingremarks)
-    },
-    on: {
-      "input": function($event) {
-        if ($event.target.composing) { return; }
-        _vm.pendingremarks = $event.target.value
-      }
-    }
-  }), _vm._v(" "), _c('span', {
-    staticClass: "pending-remarks-btn"
-  }, [_c('button', {
-    attrs: {
-      "type": "button",
-      "name": "button"
-    },
-    on: {
-      "click": function($event) {
-        _vm.RemarksIsActive = false
-      }
-    }
-  }, [_vm._v("cancel")]), _vm._v(" "), _c('button', {
-    attrs: {
-      "type": "button",
-      "name": "button"
-    },
-    on: {
-      "click": function($event) {
-        _vm.PendingRemarksSubmit()
-      }
-    }
-  }, [_vm._v("save")])])]) : _vm._e()]) : _vm._e(), _vm._v(" "), ((_vm.ManagerReplacerData != null && _vm.ManagerReplacerData.id == _vm.user.id && _vm.ManagerReplacerData.pivot.Signature == null)) ? _c('div', {
-    staticClass: "manager-replacer-accept-cant Request-manager-replace"
-  }, [_c('h6', {
-    staticClass: "approve-managerreplace-note"
-  }, [_c('i', {
-    staticClass: "material-icons color-blue"
-  }, [_vm._v("info")]), _vm._v(" "), _c('span', {
-    staticClass: "color-blue"
-  }, [_vm._v(_vm._s(_vm.RVMaster.users[0].FullName))]), _vm._v(" is asking for your signature b/c the " + _vm._s(_vm.RVMaster.users[1].Position) + " is not available\r\n      ")]), _vm._v(" "), _c('span', {
-    class: {
-      'hide': _vm.SignatureManagerReplacerHide
-    }
-  }, [_c('longpress', {
-    staticClass: "rvapprovebtn waves-effect waves-light",
-    attrs: {
-      "duration": "3",
-      "on-confirm": _vm.signatureRequestManagerReplacer,
-      "disabled": _vm.btndisabled,
-      "pressing-text": "confirm in {$rcounter}",
-      "action-text": "Loading . . ."
-    }
-  }, [_c('i', {
-    staticClass: "material-icons"
-  }, [_vm._v("edit")]), _vm._v(" Signature\r\n        ")]), _vm._v(" "), _c('longpress', {
-    staticClass: "RVdeclineBtn waves-effect waves-light",
-    attrs: {
-      "duration": "3",
-      "on-confirm": _vm.cancelRequestManagerReplacer,
-      "disabled": _vm.btndisabled,
-      "pressing-text": "confirm in {$rcounter}",
-      "action-text": "Loading . . ."
-    }
-  }, [_c('i', {
-    staticClass: "material-icons"
-  }, [_vm._v("close")]), _vm._v(" I can't\r\n        ")])], 1)]) : _vm._e(), _vm._v(" "), (((_vm.RVMaster.users[2].pivot.Signature == '0') && (_vm.ApprovalReplacerData != null) && (_vm.user.id == _vm.ApprovalReplacerData.id) && (_vm.ApprovalReplacerData.pivot.Signature == null))) ? _c('div', {
-    staticClass: "Approve-replacer-accept-cant Request-manager-replace"
-  }, [_c('h6', {
-    staticClass: "approve-managerreplace-note"
-  }, [_c('i', {
-    staticClass: "material-icons color-blue"
-  }, [_vm._v("info")]), _vm._v(" "), _c('span', {
-    staticClass: "color-blue"
-  }, [_vm._v(_vm._s(_vm.RVMaster.users[0].FullName))]), _vm._v(" is asking for your signature b/c the General Manager is not available\r\n      ")]), _vm._v(" "), _c('span', {
-    class: {
-      'hide': _vm.SignatureApprovalReplacerHide
-    }
-  }, [_c('longpress', {
-    staticClass: "rvapprovebtn waves-effect waves-light",
-    attrs: {
-      "duration": "3",
-      "on-confirm": _vm.acceptApproveRequest,
-      "disabled": _vm.approveBtnReplacer,
-      "pressing-text": "confirm in {$rcounter}",
-      "action-text": "Loading . . ."
-    }
-  }, [_c('i', {
-    staticClass: "material-icons"
-  }, [_vm._v("edit")]), _vm._v(" Signature\r\n        ")]), _vm._v(" "), _c('longpress', {
-    staticClass: "RVdeclineBtn waves-effect waves-light",
-    attrs: {
-      "duration": "3",
-      "on-confirm": _vm.cancelApprovalRequest,
-      "disabled": _vm.approveBtnReplacer,
-      "pressing-text": "confirm in {$rcounter}",
-      "action-text": "Loading . . ."
-    }
-  }, [_c('i', {
-    staticClass: "material-icons"
-  }, [_vm._v("close")]), _vm._v(" I can't\r\n        ")])], 1)]) : _vm._e(), _vm._v(" "), _c('div', {
-    staticClass: "declineOrSignatureBtn"
-  }, [(((_vm.RequisitionerCanSignature) || (_vm.RecommendedByCanSignature) || (_vm.BudgetOfficerCanSignature) || (_vm.GMCanSignature))) ? _c('span', {
-    staticClass: "RVsignatureBtns",
-    class: {
-      'hide': _vm.SignatureRVBtnHide
-    }
-  }, [_c('div', {
-    staticClass: "RVapprove"
-  }, [_c('longpress', {
-    staticClass: "rvapprovebtn waves-effect waves-light",
-    attrs: {
-      "duration": "3",
-      "on-confirm": _vm.Signature,
-      "pressing-text": "confirm in {$rcounter}",
-      "action-text": "Loading . . ."
-    }
-  }, [_c('i', {
-    staticClass: "material-icons"
-  }, [_vm._v("edit")]), _vm._v(" Signature\r\n              ")])], 1), _vm._v(" "), _c('div', {
-    staticClass: "RVdecline"
-  }, [_c('longpress', {
-    staticClass: "RVdeclineBtn waves-effect waves-light",
-    attrs: {
-      "duration": "3",
-      "on-confirm": _vm.declineRV,
-      "pressing-text": "confirm in {$rcounter}",
-      "action-text": "Loading . . ."
-    }
-  }, [_c('i', {
-    staticClass: "material-icons"
-  }, [_vm._v("close")]), _vm._v(" Decline\r\n              ")])], 1)]) : _vm._e(), _vm._v(" "), (_vm.checkPO != null) ? _c('span', [_c('div', {
-    staticClass: "viewPObtn"
-  }, [((_vm.RVMaster.IfPurchased != null)) ? _c('div', {
-    staticClass: "status-po-wrapper"
-  }, [_vm._m(1)]) : _c('div', {
-    staticClass: "status-po-wrapper"
-  }, [_vm._m(2)]), _vm._v(" "), _c('a', {
-    attrs: {
-      "href": '/po-list-view-of-rv/' + _vm.rvno.RVNo
-    }
-  }, [_vm._m(3)])])]) : _vm._e(), _vm._v(" "), (_vm.AlreadyApproved) ? _c('span', [((_vm.RVMaster.IfPurchased == null) && (_vm.checkPO == null)) ? _c('div', {
-    staticClass: "status-po-wrapper"
-  }, [_vm._m(4)]) : _vm._e(), _vm._v(" "), (((_vm.RVMaster.IfPurchased) && (_vm.checkPO == null))) ? _c('div', {
-    staticClass: "status-po-wrapper"
-  }, [_vm._m(5)]) : (((_vm.RVMaster.IfPurchased == null) && (_vm.checkPO == null) && ((_vm.user.Role == 4) || (_vm.user.Role == 3)))) ? _c('div', {
-    staticClass: "CreateRRwoPO"
-  }, [_c('a', {
-    attrs: {
-      "href": '/create-rr-wo-po/' + _vm.rvno.RVNo
-    }
-  }, [_vm._m(6)])]) : _vm._e(), _vm._v(" "), (_vm.checkPO == null && _vm.checkRR != null) ? _c('span') : _c('span', [(((_vm.user.Role == 3) || (_vm.user.Role == 4)) && (_vm.AlreadyApproved)) ? _c('div', {
-    staticClass: "CanvasBtn"
-  }, [_c('a', {
-    attrs: {
-      "href": '/CanvassCreate/' + _vm.rvno.RVNo
-    }
-  }, [_vm._m(7)])]) : _vm._e()]), _vm._v(" "), (_vm.checkRR != null) ? _c('div', {
-    staticClass: "show-rr-of-rv"
-  }, [_c('a', {
-    attrs: {
-      "href": '/rr-of-rv-list/' + _vm.rvno.RVNo
-    }
-  }, [_vm._m(8)])]) : _vm._e()]) : _vm._e()])]), _vm._v(" "), _c('div', {
-    staticClass: "bondpaper-RV-container"
-  }, [_c('div', {
-    staticClass: "bondpaper-RV"
-  }, [((_vm.RVMaster.Status == '0')) ? _c('div', {
-    staticClass: "status-rv approved"
-  }, [_c('i', {
-    staticClass: "material-icons"
-  }, [_vm._v("thumb_up")]), _vm._v(" "), _c('h1', [_vm._v("Approved")])]) : ((_vm.RVMaster.Status == null)) ? _c('div', {
-    staticClass: "status-rv"
-  }, [_c('i', {
-    staticClass: "material-icons"
-  }, [_vm._v("access_time")]), _vm._v(" "), _c('h1', [_vm._v("Pending")])]) : (_vm.RVMaster.Status == '1') ? _c('div', {
-    staticClass: "status-rv declined"
-  }, [_c('i', {
-    staticClass: "material-icons"
-  }, [_vm._v("close")]), _vm._v(" "), _c('h1', [_vm._v("Declined")])]) : _vm._e(), _vm._v(" "), _vm._m(9), _vm._v(" "), _c('div', {
-    staticClass: "RVdate-RVNo-container"
-  }, [_c('ul', [_c('li', [_c('label', [_vm._v("RV No.")]), _c('p', [_vm._v(_vm._s(_vm.RVMaster.RVNo))])]), _vm._v(" "), _c('li', [_c('label', [_vm._v("DATE:")]), _c('p', [_vm._v(_vm._s(_vm.RVMaster.RVDate))])])])]), _vm._v(" "), _c('div', {
-    staticClass: "to-gm-container"
-  }, [_c('p', [_vm._v("TO: The General Manager")]), _vm._v(" "), _c('div', {
-    staticClass: "toGM-parag"
-  }, [_c('p', [_vm._v("Please furnish the following Materials/Supplies for")]), _c('h3', [_vm._v(_vm._s(_vm.RVMaster.Purpose))])])]), _vm._v(" "), _c('div', {
-    staticClass: "full-RVtable"
-  }, [_c('table', [_vm._m(10), _vm._v(" "), _vm._l((_vm.RVDetails), function(rvdata) {
-    return _c('tr', [_c('td', [_vm._v(_vm._s(rvdata.Particulars))]), _vm._v(" "), _c('td', [_vm._v(_vm._s(rvdata.Unit))]), _vm._v(" "), _c('td', [_vm._v(_vm._s(rvdata.Quantity))]), _vm._v(" "), _c('td', [_vm._v(_vm._s(rvdata.Remarks))])])
-  })], 2), _vm._v(" "), _vm._m(11), _vm._v(" "), _c('div', {
-    staticClass: "RVsignatures-container"
-  }, [_c('div', {
-    staticClass: "top-signature-RV"
-  }, [_c('div', {
-    staticClass: "RV-top-leftSignature"
-  }, [_c('h5', [_vm._v("Requested by:")]), _vm._v(" "), _c('div', {
-    staticClass: "requestRV-content"
-  }, [(_vm.RVMaster.users[0].pivot.Signature == '0') ? _c('h6', [_c('img', {
-    attrs: {
-      "src": '/storage/signatures/' + _vm.RVMaster.users[0].Signature,
-      "alt": "signature"
-    }
-  })]) : _vm._e(), _vm._v(" "), _c('p', [_vm._v("\r\n                    " + _vm._s(_vm.RVMaster.users[0].FullName) + "\r\n                    "), (_vm.RVMaster.users[0].pivot.Signature == '1') ? _c('i', {
-    staticClass: "material-icons decliner"
-  }, [_vm._v("close")]) : _vm._e()]), _vm._v(" "), _c('label', [_vm._v(_vm._s(_vm.RVMaster.users[0].Position))])])]), _vm._v(" "), _c('div', {
-    staticClass: "RV-top-RightSignature"
-  }, [_c('h5', [_vm._v("Recommended by:")]), _vm._v(" "), _c('div', {
-    staticClass: "requestRV-content"
-  }, [(_vm.RVMaster.users[1].pivot.Signature == '0') ? _c('h6', [_c('img', {
-    attrs: {
-      "src": '/storage/signatures/' + _vm.RVMaster.users[1].Signature,
-      "alt": "signature"
-    }
-  })]) : (_vm.ManagerReplacerData != null && _vm.ManagerReplacerData.pivot.Signature == '0') ? _c('h6', [_c('h1', [_vm._v("For :")]), _c('img', {
-    attrs: {
-      "src": '/storage/signatures/' + _vm.ManagerReplacerData.Signature,
-      "alt": "signature"
-    }
-  })]) : _vm._e(), _vm._v(" "), _c('p', [_vm._v("\r\n                  " + _vm._s(_vm.RVMaster.users[1].FullName) + "\r\n                "), _c('span', {
-    staticClass: "opener-manager-replace opener-icon"
-  }, [((_vm.user.id) == (_vm.RVMaster.users[0].id) && (this.ManagerBehalfActive == true) && ((_vm.ManagerReplacerData == null) || (_vm.ManagerReplacerData.pivot.Signature == null)) && (_vm.RVMaster.users[1].pivot.Signature == null)) ? _c('div', {
-    staticClass: "mini-menu-managers"
-  }, [(_vm.ManagerReplacerData == null) ? _c('h1', [_vm._v("Request signature to")]) : _c('h1', [_vm._v("Request pending "), _c('i', {
-    staticClass: "material-icons color-white"
-  }, [_vm._v("access_time")])]), _vm._v(" "), (_vm.ManagerReplacerData == null) ? _c('div', {
-    staticClass: "manager-list-menu"
-  }, [_c('select', {
-    directives: [{
-      name: "model",
-      rawName: "v-model",
-      value: (_vm.ManagerID),
-      expression: "ManagerID"
-    }],
-    on: {
-      "change": function($event) {
-        var $$selectedVal = Array.prototype.filter.call($event.target.options, function(o) {
-          return o.selected
-        }).map(function(o) {
-          var val = "_value" in o ? o._value : o.value;
-          return val
-        });
-        _vm.ManagerID = $event.target.multiple ? $$selectedVal : $$selectedVal[0]
-      }
-    }
-  }, [_c('option', {
-    domProps: {
-      "value": null
-    }
-  }, [_vm._v("Choose a manager")]), _vm._v(" "), _vm._l((_vm.activemanager), function(manager) {
-    return (manager.id != _vm.RVMaster.users[1].id) ? _c('option', {
-      domProps: {
-        "value": manager.id
-      }
-    }, [_vm._v(_vm._s(manager.FullName))]) : _vm._e()
-  })], 2), _vm._v(" "), (_vm.error != null) ? _c('p', {
-    staticClass: "color-red"
-  }, [_vm._v("*" + _vm._s(_vm.error))]) : _vm._e(), _vm._v(" "), _c('span', {
-    staticClass: "send-cancel-btns"
-  }, [_c('button', {
-    attrs: {
-      "type": "button"
-    },
-    on: {
-      "click": function($event) {
-        _vm.ManagerBehalfActive = false
-      }
-    }
-  }, [_vm._v("Cancel")]), _vm._v(" "), _c('button', {
-    attrs: {
-      "type": "button"
-    },
-    on: {
-      "click": function($event) {
-        _vm.sendRequestManagerReplacer()
-      }
-    }
-  }, [_vm._v("Send")])])]) : _c('div', {
-    staticClass: "manager-replacer-sent"
-  }, [_c('p', [_vm._v("Your request has been sent to"), _c('br'), _vm._v(" "), _c('span', {
-    staticClass: "underline"
-  }, [_vm._v(_vm._s(_vm.ManagerReplacerData.FullName))])]), _vm._v(" "), _c('span', {
-    staticClass: "cancel-manager-replace",
-    on: {
-      "click": function($event) {
-        _vm.cancelRequestManagerReplacer()
-      }
-    }
-  }, [_c('i', {
-    staticClass: "material-icons color-red"
-  }, [_vm._v("close")]), _vm._v("cancel")])])]) : _vm._e(), _vm._v(" "), (((_vm.user.id == _vm.RVMaster.users[0].id) && ((_vm.ManagerReplacerData == null) || (_vm.ManagerReplacerData.pivot.Signature == null)) && (_vm.RVMaster.users[1].pivot.Signature == null) && (_vm.RVMaster.users[0].pivot.Signature == '0'))) ? _c('i', {
-    staticClass: "material-icons color-blue",
-    on: {
-      "click": function($event) {
-        _vm.ManagerBehalfActive = !_vm.ManagerBehalfActive, [_vm.activemanager[0] != null ? '' : _vm.fetchAllManager()]
-      }
-    }
-  }, [_vm._v("people")]) : _vm._e()]), _vm._v(" "), (_vm.RVMaster.users[1].pivot.Signature == '1') ? _c('i', {
-    staticClass: "material-icons decliner"
-  }, [_vm._v("close")]) : _vm._e()]), _vm._v(" "), _c('label', [_vm._v(_vm._s(_vm.RVMaster.users[1].Position))])])])]), _vm._v(" "), _c('div', {
-    staticClass: "bottom-RV-signatures"
-  }, [_c('div', {
-    staticClass: "RVbottom-left-signature"
-  }, [(_vm.RVMaster.users[2].pivot.Signature == '0') ? _c('h6', [_c('img', {
-    attrs: {
-      "src": '/storage/signatures/' + _vm.RVMaster.users[2].Signature,
-      "alt": "signature"
-    }
-  })]) : _vm._e(), _vm._v(" "), _c('h3', [_vm._v("BUDGET AVAILABLE ON THIS REQUEST")]), _vm._v(" "), _c('h4', [_c('span', {
-    staticClass: "rv-signature-form"
-  }, [((_vm.user.Role == 7) && (_vm.RVMaster.BudgetAvailable == null) && (_vm.RVMaster.users[2].id == _vm.user.id) && (_vm.RVMaster.users[2].pivot.Signature == null) && ((_vm.RVMaster.users[1].pivot.Signature == '0') || (_vm.ManagerReplacerData != null && _vm.ManagerReplacerData.pivot.Signature == '0'))) ? _c('input', {
-    directives: [{
-      name: "model",
-      rawName: "v-model",
-      value: (_vm.BudgetAvail),
-      expression: "BudgetAvail"
-    }],
-    staticClass: "forBudgetOfficerOnly",
-    attrs: {
-      "type": "text"
-    },
-    domProps: {
-      "value": (_vm.BudgetAvail)
-    },
-    on: {
-      "input": function($event) {
-        if ($event.target.composing) { return; }
-        _vm.BudgetAvail = $event.target.value
-      }
-    }
-  }) : _vm._e()]), _vm._v(" "), ((_vm.editbudgetActive == false)) ? _c('span', {
-    staticClass: "budget-from"
-  }, [_vm._v(_vm._s(_vm.RVMaster.BudgetAvailable))]) : _vm._e(), _vm._v(" "), (((_vm.user.Role == 7) && (_vm.RVMaster.users[2].id == _vm.user.id) && (_vm.RVMaster.users[2].pivot.Signature == '0') && (_vm.RVMaster.users[3].pivot.Signature == null))) ? _c('span', {
-    staticClass: "form-edit-budget"
-  }, [(_vm.editbudgetActive == true) ? _c('span', {
-    staticClass: "flex"
-  }, [_c('input', {
-    directives: [{
-      name: "model",
-      rawName: "v-model",
-      value: (_vm.BudgetUpdate = _vm.RVMaster.BudgetAvailable),
-      expression: "BudgetUpdate=RVMaster.BudgetAvailable"
-    }],
-    staticClass: "editbudget-input",
-    attrs: {
-      "type": "text"
-    },
-    domProps: {
-      "value": (_vm.BudgetUpdate = _vm.RVMaster.BudgetAvailable)
-    },
-    on: {
-      "input": function($event) {
-        if ($event.target.composing) { return; }
-        _vm.BudgetUpdate = _vm.RVMaster.BudgetAvailable = $event.target.value
-      }
-    }
-  }), _vm._v(" "), _c('span', {
-    staticClass: "update-budget-btn"
-  }, [_c('button', {
-    staticClass: "editbudget",
-    attrs: {
-      "type": "submit"
-    },
-    on: {
-      "click": function($event) {
-        _vm.UpdateBudget(), _vm.editbudgetActive = false
-      }
-    }
-  }, [_c('i', {
-    staticClass: "material-icons"
-  }, [_vm._v("check")])]), _vm._v(" "), _c('button', {
-    staticClass: "editbudget cancel-edit",
-    attrs: {
-      "type": "button"
-    },
-    on: {
-      "click": function($event) {
-        _vm.editbudgetActive = false, _vm.fetchData();
-      }
-    }
-  }, [_c('i', {
-    staticClass: "material-icons"
-  }, [_vm._v("close")])])])]) : _vm._e(), _vm._v(" "), (_vm.editbudgetActive == false) ? _c('button', {
-    staticClass: "edit-budget-opener",
-    attrs: {
-      "type": "button"
-    },
-    on: {
-      "click": function($event) {
-        _vm.editbudgetActive = true
-      }
-    }
-  }, [_c('i', {
-    staticClass: "fa fa-pencil-square-o"
-  })]) : _vm._e()]) : _vm._e()]), _vm._v(" "), _c('p', [_vm._v("\r\n                  " + _vm._s(_vm.RVMaster.users[2].FullName) + "\r\n                  "), (_vm.RVMaster.users[2].pivot.Signature == '1') ? _c('i', {
-    staticClass: "material-icons decliner"
-  }, [_vm._v("close")]) : _vm._e()]), _vm._v(" "), _c('label', [_vm._v(_vm._s(_vm.RVMaster.users[2].Position))])]), _vm._v(" "), _c('div', {
-    staticClass: "RVbottom-right-signature"
-  }, [_c('h3', [_vm._v("Approved:")]), _vm._v(" "), _c('div', {
-    staticClass: "requestRV-content"
-  }, [(_vm.RVMaster.users[3].pivot.Signature == '0') ? _c('h6', [_c('img', {
-    attrs: {
-      "src": '/storage/signatures/' + _vm.RVMaster.users[3].Signature,
-      "alt": "signature"
-    }
-  })]) : (((_vm.ApprovalReplacerData != null) && (_vm.ApprovalReplacerData.pivot.Signature == '0'))) ? _c('h6', [_c('h2', [_vm._v("For :")]), _c('img', {
-    attrs: {
-      "src": '/storage/signatures/' + _vm.ApprovalReplacerData.Signature,
-      "alt": "signature"
-    }
-  })]) : _vm._e(), _vm._v(" "), _c('p', [_vm._v("\r\n                  " + _vm._s(_vm.RVMaster.users[3].FullName) + "\r\n                  "), (_vm.RVMaster.users[3].pivot.Signature == '1') ? _c('i', {
-    staticClass: "material-icons decliner"
-  }, [_vm._v("close")]) : _vm._e()]), _vm._v(" "), _c('label', [_vm._v(_vm._s(_vm.RVMaster.users[3].Position))])])])])])])])])]) : _vm._e()
-},staticRenderFns: [function (){var _vm=this;var _h=_vm.$createElement;var _c=_vm._self._c||_h;
-  return _c('button', {
-    attrs: {
-      "type": "submit",
-      "name": "RVNo",
-      "value": "RVNohere"
-    }
-  }, [_c('i', {
-    staticClass: "material-icons"
-  }, [_vm._v("print")])])
-},function (){var _vm=this;var _h=_vm.$createElement;var _c=_vm._self._c||_h;
-  return _c('h1', [_vm._v("Status : "), _c('span', {
-    staticClass: "underline"
-  }, [_vm._v("Already Purchased")]), _vm._v(" "), _c('i', {
-    staticClass: "material-icons"
-  }, [_vm._v("check")])])
-},function (){var _vm=this;var _h=_vm.$createElement;var _c=_vm._self._c||_h;
-  return _c('h1', [_vm._v("Status: "), _c('span', {
-    staticClass: "underline"
-  }, [_vm._v("Waiting for RR")])])
-},function (){var _vm=this;var _h=_vm.$createElement;var _c=_vm._self._c||_h;
-  return _c('button', {
-    attrs: {
-      "type": "button"
-    }
-  }, [_c('i', {
-    staticClass: "material-icons"
-  }, [_vm._v("history")]), _vm._v(" PO history")])
-},function (){var _vm=this;var _h=_vm.$createElement;var _c=_vm._self._c||_h;
-  return _c('h1', {
-    staticClass: "no-PO"
-  }, [_vm._v("Status : "), _c('span', {
-    staticClass: "underline"
-  }, [_vm._v("Waiting for RR")])])
-},function (){var _vm=this;var _h=_vm.$createElement;var _c=_vm._self._c||_h;
-  return _c('h1', {
-    staticClass: "done-but-no-po"
-  }, [_vm._v("Status : "), _c('span', {
-    staticClass: "underline"
-  }, [_vm._v("Already purchased "), _c('i', {
-    staticClass: "material-icons"
-  }, [_vm._v("check")]), _vm._v(" without P.O.")])])
-},function (){var _vm=this;var _h=_vm.$createElement;var _c=_vm._self._c||_h;
-  return _c('button', {
-    attrs: {
-      "type": "button"
-    }
-  }, [_c('i', {
-    staticClass: "material-icons"
-  }, [_vm._v("add")]), _vm._v(" RR")])
-},function (){var _vm=this;var _h=_vm.$createElement;var _c=_vm._self._c||_h;
-  return _c('button', {
-    attrs: {
-      "type": "submit"
-    }
-  }, [_c('i', {
-    staticClass: "material-icons"
-  }, [_vm._v("store")]), _vm._v(" Canvass")])
-},function (){var _vm=this;var _h=_vm.$createElement;var _c=_vm._self._c||_h;
-  return _c('button', {
-    attrs: {
-      "type": "button"
-    }
-  }, [_c('i', {
-    staticClass: "material-icons"
-  }, [_vm._v("history")]), _vm._v(" R.R. history")])
-},function (){var _vm=this;var _h=_vm.$createElement;var _c=_vm._self._c||_h;
-  return _c('div', {
-    staticClass: "top-rv-contents"
-  }, [_c('h5', [_vm._v("BOHOL I ELECTRIC COOPERATIVE")]), _vm._v(" "), _c('h6', [_vm._v("Cabulijan, Tubigon, Bohol")]), _vm._v(" "), _c('h4', [_vm._v("REQUISITION VOUCHER")])])
-},function (){var _vm=this;var _h=_vm.$createElement;var _c=_vm._self._c||_h;
-  return _c('tr', [_c('th', [_vm._v("Articles")]), _vm._v(" "), _c('th', [_vm._v("Unit")]), _vm._v(" "), _c('th', [_vm._v("Qty")]), _vm._v(" "), _c('th', [_vm._v("Remarks")])])
-},function (){var _vm=this;var _h=_vm.$createElement;var _c=_vm._self._c||_h;
-  return _c('div', {
-    staticClass: "certify-RV"
-  }, [_c('h3', [_vm._v("I hereby certify that the above requested materials/supplies are necessary and will be used solely for the purpose stated above.")])])
-}]}
-module.exports.render._withStripped = true
-if (false) {
-  module.hot.accept()
-  if (module.hot.data) {
-     require("vue-hot-reload-api").rerender("data-v-7c19327a", module.exports)
-  }
-}
-
-/***/ }),
-
-/***/ 268:
-/***/ (function(module, exports, __webpack_require__) {
-
-module.exports={render:function (){var _vm=this;var _h=_vm.$createElement;var _c=_vm._self._c||_h;
-  return _c('div', {
-    staticClass: "table-rv-container"
-  }, [_c('div', {
-    staticClass: "top-RV-index"
-  }, [_vm._m(0), _vm._v(" "), _c('div', {
-    staticClass: "searchbox-RV"
-  }, [_c('input', {
-    directives: [{
-      name: "model",
-      rawName: "v-model",
-      value: (_vm.search),
-      expression: "search"
-    }],
-    attrs: {
-      "type": "text",
-      "name": "search",
-      "placeholder": "Search RV Number"
-    },
-    domProps: {
-      "value": (_vm.search)
-    },
-    on: {
-      "keyup": function($event) {
-        _vm.fetchdataRV()
-      },
-      "input": function($event) {
-        if ($event.target.composing) { return; }
-        _vm.search = $event.target.value
-      }
-    }
-  })])]), _vm._v(" "), _c('table', [_vm._m(1), _vm._v(" "), _vm._l((_vm.RVs), function(rvdata) {
-    return (rvdata.users[0] != null) ? _c('tr', [_c('td', [_vm._v(_vm._s(rvdata.RVNo))]), _vm._v(" "), _c('td', [_vm._v(_vm._s(rvdata.RVDate))]), _vm._v(" "), _c('td', [_vm._v(_vm._s(rvdata.Purpose))]), _vm._v(" "), _c('td', [_vm._v(_vm._s(rvdata.users[0].FullName)), _c('br'), _vm._v(" "), (rvdata.users[0].pivot.Signature == '0') ? _c('i', {
-      staticClass: "material-icons"
-    }, [_vm._v("check")]) : (rvdata.users[0].pivot.Signature == '1') ? _c('i', {
-      staticClass: "material-icons decliner"
-    }, [_vm._v("close")]) : _vm._e()]), _vm._v(" "), _c('td', [_vm._v(_vm._s(rvdata.users[1].FullName)), _c('br'), _vm._v(" "), (((rvdata.users[1].pivot.Signature == '0') || ((rvdata.users[4] != null) && (rvdata.users[4].pivot.Signature == '0') && (rvdata.users[4].pivot.SignatureType == 'ManagerReplacer')) || ((rvdata.users[5] != null) && (rvdata.users[5].pivot.Signature == '0') && (rvdata.users[5].pivot.SignatureType == 'ManagerReplacer')))) ? _c('i', {
-      staticClass: "material-icons"
-    }, [_vm._v("check")]) : (rvdata.users[1].pivot.Signature == '1') ? _c('i', {
-      staticClass: "material-icons decliner"
-    }, [_vm._v("close")]) : _vm._e()]), _vm._v(" "), _c('td', [_vm._v(_vm._s(rvdata.users[2].FullName)), _c('br'), _vm._v(" "), (rvdata.users[2].pivot.Signature == '0') ? _c('i', {
-      staticClass: "material-icons"
-    }, [_vm._v("check")]) : (rvdata.users[2].pivot.Signature == '1') ? _c('i', {
-      staticClass: "material-icons decliner"
-    }, [_vm._v("close")]) : _vm._e()]), _vm._v(" "), _c('td', [_vm._v(_vm._s(rvdata.users[3].FullName)), _c('br'), _vm._v(" "), (((rvdata.users[3].pivot.Signature == '0') || ((rvdata.users[4] != null) && (rvdata.users[4].pivot.Signature == '0') && (rvdata.users[4].pivot.SignatureType == 'ApprovalReplacer')) || ((rvdata.users[5] != null) && (rvdata.users[5].pivot.Signature == '0') && (rvdata.users[5].pivot.SignatureType == 'ApprovalReplacer')))) ? _c('i', {
-      staticClass: "material-icons"
-    }, [_vm._v("check")]) : (rvdata.users[3].pivot.Signature == '1') ? _c('i', {
-      staticClass: "material-icons decliner"
-    }, [_vm._v("close")]) : _vm._e()]), _vm._v(" "), (rvdata.Status == '0') ? _c('td', [_c('i', {
-      staticClass: "material-icons"
-    }, [_vm._v("thumb_up")])]) : (rvdata.Status == null) ? _c('td', [_c('i', {
-      staticClass: "material-icons"
-    }, [_vm._v("access_time")])]) : (rvdata.Status == '1') ? _c('td', [_c('i', {
-      staticClass: "material-icons decliner"
-    }, [_vm._v("close")])]) : _vm._e(), _vm._v(" "), _c('td', [_c('a', {
-      attrs: {
-        "href": 'RVfullview/' + rvdata.RVNo
-      }
-    }, [_c('i', {
-      staticClass: "material-icons"
-    }, [_vm._v("remove_red_eye")])])])]) : _vm._e()
-  })], 2), _vm._v(" "), _c('div', {
-    staticClass: "paginate-container"
-  }, [_c('ul', {
-    staticClass: "pagination"
-  }, [(_vm.pagination.current_page > 1) ? _c('li', [_c('a', {
-    attrs: {
-      "href": "#"
-    },
-    on: {
-      "click": function($event) {
-        $event.preventDefault();
-        _vm.changepageRV(_vm.pagination.current_page - 1)
-      }
-    }
-  }, [_c('i', {
-    staticClass: "fa fa-angle-left"
-  })])]) : _vm._e(), _vm._v(" "), _vm._l((_vm.pagesNumber), function(page) {
-    return _c('li', {
-      class: [page == _vm.isActive ? 'active' : '']
-    }, [_c('a', {
-      attrs: {
-        "href": "#"
-      },
-      on: {
-        "click": function($event) {
-          $event.preventDefault();
-          _vm.changepageRV(page)
-        }
-      }
-    }, [_vm._v(_vm._s(page))])])
-  }), _vm._v(" "), (_vm.pagination.current_page < _vm.pagination.last_page) ? _c('li', [_c('a', {
-    attrs: {
-      "href": "#"
-    },
-    on: {
-      "click": function($event) {
-        $event.preventDefault();
-        _vm.changepageRV(_vm.pagination.current_page + 1)
-      }
-    }
-  }, [_c('i', {
-    staticClass: "fa fa-angle-right"
-  })])]) : _vm._e()], 2)])])
-},staticRenderFns: [function (){var _vm=this;var _h=_vm.$createElement;var _c=_vm._self._c||_h;
-  return _c('div', {
-    staticClass: "rv-index-title"
-  }, [_c('h1', [_c('i', {
-    staticClass: "material-icons"
-  }, [_vm._v("show_chart")]), _vm._v(" Requisition Voucher index")])])
-},function (){var _vm=this;var _h=_vm.$createElement;var _c=_vm._self._c||_h;
-  return _c('tr', [_c('th', [_vm._v("RV No.")]), _vm._v(" "), _c('th', [_vm._v("RV Date")]), _vm._v(" "), _c('th', [_vm._v("Purpose")]), _vm._v(" "), _c('th', [_vm._v("Requisitioner")]), _vm._v(" "), _c('th', [_vm._v("Recommended by")]), _vm._v(" "), _c('th', [_vm._v("Budget Officer")]), _vm._v(" "), _c('th', [_vm._v("Approved by")]), _vm._v(" "), _c('th', [_vm._v("Status")]), _vm._v(" "), _c('th', [_vm._v("View")])])
-}]}
-module.exports.render._withStripped = true
-if (false) {
-  module.hot.accept()
-  if (module.hot.data) {
-     require("vue-hot-reload-api").rerender("data-v-9cd6acda", module.exports)
-  }
-}
-
-/***/ }),
-
-/***/ 27:
-/***/ (function(module, exports, __webpack_require__) {
-
-"use strict";
-
-
-var utils = __webpack_require__(1);
-
-module.exports = (
-  utils.isStandardBrowserEnv() ?
-
-  // Standard browser envs have full support of the APIs needed to test
-  // whether the request URL is of the same origin as current location.
-  (function standardBrowserEnv() {
-    var msie = /(msie|trident)/i.test(navigator.userAgent);
-    var urlParsingNode = document.createElement('a');
-    var originURL;
-
-    /**
-    * Parse a URL to discover it's components
-    *
-    * @param {String} url The URL to be parsed
-    * @returns {Object}
-    */
-    function resolveURL(url) {
-      var href = url;
-
-      if (msie) {
-        // IE needs attribute set twice to normalize properties
-        urlParsingNode.setAttribute('href', href);
-        href = urlParsingNode.href;
-      }
-
-      urlParsingNode.setAttribute('href', href);
-
-      // urlParsingNode provides the UrlUtils interface - http://url.spec.whatwg.org/#urlutils
-      return {
-        href: urlParsingNode.href,
-        protocol: urlParsingNode.protocol ? urlParsingNode.protocol.replace(/:$/, '') : '',
-        host: urlParsingNode.host,
-        search: urlParsingNode.search ? urlParsingNode.search.replace(/^\?/, '') : '',
-        hash: urlParsingNode.hash ? urlParsingNode.hash.replace(/^#/, '') : '',
-        hostname: urlParsingNode.hostname,
-        port: urlParsingNode.port,
-        pathname: (urlParsingNode.pathname.charAt(0) === '/') ?
-                  urlParsingNode.pathname :
-                  '/' + urlParsingNode.pathname
-      };
-    }
-
-    originURL = resolveURL(window.location.href);
-
-    /**
-    * Determine if a URL shares the same origin as the current location
-    *
-    * @param {String} requestURL The URL to test
-    * @returns {boolean} True if URL shares the same origin, otherwise false
-    */
-    return function isURLSameOrigin(requestURL) {
-      var parsed = (utils.isString(requestURL)) ? resolveURL(requestURL) : requestURL;
-      return (parsed.protocol === originURL.protocol &&
-            parsed.host === originURL.host);
-    };
-  })() :
-
-  // Non standard browser envs (web workers, react-native) lack needed support.
-  (function nonStandardBrowserEnv() {
-    return function isURLSameOrigin() {
-      return true;
-    };
-  })()
-);
-
-
-/***/ }),
-
-/***/ 28:
-/***/ (function(module, exports, __webpack_require__) {
-
-"use strict";
-
-
-var utils = __webpack_require__(1);
-
-module.exports = function normalizeHeaderName(headers, normalizedName) {
-  utils.forEach(headers, function processHeader(value, name) {
-    if (name !== normalizedName && name.toUpperCase() === normalizedName.toUpperCase()) {
-      headers[normalizedName] = value;
-      delete headers[name];
-    }
-  });
-};
-
-
-/***/ }),
-
-/***/ 286:
-/***/ (function(module, exports, __webpack_require__) {
-
-__webpack_require__(164);
-module.exports = __webpack_require__(165);
-
-
-/***/ }),
-
-/***/ 29:
-/***/ (function(module, exports, __webpack_require__) {
-
-"use strict";
-
-
-var utils = __webpack_require__(1);
-
-/**
- * Parse headers into an object
- *
- * ```
- * Date: Wed, 27 Aug 2014 08:58:49 GMT
- * Content-Type: application/json
- * Connection: keep-alive
- * Transfer-Encoding: chunked
- * ```
- *
- * @param {String} headers Headers needing to be parsed
- * @returns {Object} Headers parsed into an object
- */
-module.exports = function parseHeaders(headers) {
-  var parsed = {};
-  var key;
-  var val;
-  var i;
-
-  if (!headers) { return parsed; }
-
-  utils.forEach(headers.split('\n'), function parser(line) {
-    i = line.indexOf(':');
-    key = utils.trim(line.substr(0, i)).toLowerCase();
-    val = utils.trim(line.substr(i + 1));
-
-    if (key) {
-      parsed[key] = parsed[key] ? parsed[key] + ', ' + val : val;
-    }
-  });
-
-  return parsed;
-};
-
-
-/***/ }),
-
-/***/ 3:
-/***/ (function(module, exports) {
-
-// this module is a runtime utility for cleaner component module output and will
-// be included in the final webpack user bundle
-
-module.exports = function normalizeComponent (
-  rawScriptExports,
-  compiledTemplate,
-  scopeId,
-  cssModules
-) {
-  var esModule
-  var scriptExports = rawScriptExports = rawScriptExports || {}
-
-  // ES6 modules interop
-  var type = typeof rawScriptExports.default
-  if (type === 'object' || type === 'function') {
-    esModule = rawScriptExports
-    scriptExports = rawScriptExports.default
-  }
-
-  // Vue.extend constructor export interop
-  var options = typeof scriptExports === 'function'
-    ? scriptExports.options
-    : scriptExports
-
-  // render functions
-  if (compiledTemplate) {
-    options.render = compiledTemplate.render
-    options.staticRenderFns = compiledTemplate.staticRenderFns
-  }
-
-  // scopedId
-  if (scopeId) {
-    options._scopeId = scopeId
-  }
-
-  // inject cssModules
-  if (cssModules) {
-    var computed = Object.create(options.computed || null)
-    Object.keys(cssModules).forEach(function (key) {
-      var module = cssModules[key]
-      computed[key] = function () { return module }
-    })
-    options.computed = computed
-  }
-
-  return {
-    esModule: esModule,
-    exports: scriptExports,
-    options: options
-  }
-}
-
-
-/***/ }),
-
-/***/ 30:
-/***/ (function(module, exports, __webpack_require__) {
-
-"use strict";
-
-
-/**
- * Syntactic sugar for invoking a function and expanding an array for arguments.
- *
- * Common use case would be to use `Function.prototype.apply`.
- *
- *  ```js
- *  function f(x, y, z) {}
- *  var args = [1, 2, 3];
- *  f.apply(null, args);
- *  ```
- *
- * With `spread` this example can be re-written.
- *
- *  ```js
- *  spread(function(x, y, z) {})([1, 2, 3]);
- *  ```
- *
- * @param {Function} callback
- * @returns {Function}
- */
-module.exports = function spread(callback) {
-  return function wrap(arr) {
-    return callback.apply(null, arr);
-  };
-};
-
-
-/***/ }),
-
-/***/ 31:
-/***/ (function(module, exports) {
-
-// shim for using process in browser
-var process = module.exports = {};
-
-// cached from whatever global is present so that test runners that stub it
-// don't break things.  But we need to wrap it in a try catch in case it is
-// wrapped in strict mode code which doesn't define any globals.  It's inside a
-// function because try/catches deoptimize in certain engines.
-
-var cachedSetTimeout;
-var cachedClearTimeout;
-
-function defaultSetTimout() {
-    throw new Error('setTimeout has not been defined');
-}
-function defaultClearTimeout () {
-    throw new Error('clearTimeout has not been defined');
-}
-(function () {
-    try {
-        if (typeof setTimeout === 'function') {
-            cachedSetTimeout = setTimeout;
-        } else {
-            cachedSetTimeout = defaultSetTimout;
-        }
-    } catch (e) {
-        cachedSetTimeout = defaultSetTimout;
-    }
-    try {
-        if (typeof clearTimeout === 'function') {
-            cachedClearTimeout = clearTimeout;
-        } else {
-            cachedClearTimeout = defaultClearTimeout;
-        }
-    } catch (e) {
-        cachedClearTimeout = defaultClearTimeout;
-    }
-} ())
-function runTimeout(fun) {
-    if (cachedSetTimeout === setTimeout) {
-        //normal enviroments in sane situations
-        return setTimeout(fun, 0);
-    }
-    // if setTimeout wasn't available but was latter defined
-    if ((cachedSetTimeout === defaultSetTimout || !cachedSetTimeout) && setTimeout) {
-        cachedSetTimeout = setTimeout;
-        return setTimeout(fun, 0);
-    }
-    try {
-        // when when somebody has screwed with setTimeout but no I.E. maddness
-        return cachedSetTimeout(fun, 0);
-    } catch(e){
-        try {
-            // When we are in I.E. but the script has been evaled so I.E. doesn't trust the global object when called normally
-            return cachedSetTimeout.call(null, fun, 0);
-        } catch(e){
-            // same as above but when it's a version of I.E. that must have the global object for 'this', hopfully our context correct otherwise it will throw a global error
-            return cachedSetTimeout.call(this, fun, 0);
-        }
-    }
-
-
-}
-function runClearTimeout(marker) {
-    if (cachedClearTimeout === clearTimeout) {
-        //normal enviroments in sane situations
-        return clearTimeout(marker);
-    }
-    // if clearTimeout wasn't available but was latter defined
-    if ((cachedClearTimeout === defaultClearTimeout || !cachedClearTimeout) && clearTimeout) {
-        cachedClearTimeout = clearTimeout;
-        return clearTimeout(marker);
-    }
-    try {
-        // when when somebody has screwed with setTimeout but no I.E. maddness
-        return cachedClearTimeout(marker);
-    } catch (e){
-        try {
-            // When we are in I.E. but the script has been evaled so I.E. doesn't  trust the global object when called normally
-            return cachedClearTimeout.call(null, marker);
-        } catch (e){
-            // same as above but when it's a version of I.E. that must have the global object for 'this', hopfully our context correct otherwise it will throw a global error.
-            // Some versions of I.E. have different rules for clearTimeout vs setTimeout
-            return cachedClearTimeout.call(this, marker);
-        }
-    }
-
-
-
-}
-var queue = [];
-var draining = false;
-var currentQueue;
-var queueIndex = -1;
-
-function cleanUpNextTick() {
-    if (!draining || !currentQueue) {
-        return;
-    }
-    draining = false;
-    if (currentQueue.length) {
-        queue = currentQueue.concat(queue);
-    } else {
-        queueIndex = -1;
-    }
-    if (queue.length) {
-        drainQueue();
-    }
-}
-
-function drainQueue() {
-    if (draining) {
-        return;
-    }
-    var timeout = runTimeout(cleanUpNextTick);
-    draining = true;
-
-    var len = queue.length;
-    while(len) {
-        currentQueue = queue;
-        queue = [];
-        while (++queueIndex < len) {
-            if (currentQueue) {
-                currentQueue[queueIndex].run();
-            }
-        }
-        queueIndex = -1;
-        len = queue.length;
-    }
-    currentQueue = null;
-    draining = false;
-    runClearTimeout(timeout);
-}
-
-process.nextTick = function (fun) {
-    var args = new Array(arguments.length - 1);
-    if (arguments.length > 1) {
-        for (var i = 1; i < arguments.length; i++) {
-            args[i - 1] = arguments[i];
-        }
-    }
-    queue.push(new Item(fun, args));
-    if (queue.length === 1 && !draining) {
-        runTimeout(drainQueue);
-    }
-};
-
-// v8 likes predictible objects
-function Item(fun, array) {
-    this.fun = fun;
-    this.array = array;
-}
-Item.prototype.run = function () {
-    this.fun.apply(null, this.array);
-};
-process.title = 'browser';
-process.browser = true;
-process.env = {};
-process.argv = [];
-process.version = ''; // empty string to avoid regexp issues
-process.versions = {};
-
-function noop() {}
-
-process.on = noop;
-process.addListener = noop;
-process.once = noop;
-process.off = noop;
-process.removeListener = noop;
-process.removeAllListeners = noop;
-process.emit = noop;
-process.prependListener = noop;
-process.prependOnceListener = noop;
-
-process.listeners = function (name) { return [] }
-
-process.binding = function (name) {
-    throw new Error('process.binding is not supported');
-};
-
-process.cwd = function () { return '/' };
-process.chdir = function (dir) {
-    throw new Error('process.chdir is not supported');
-};
-process.umask = function() { return 0; };
-
-
-/***/ }),
-
-/***/ 32:
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -17820,11 +10773,7077 @@ Vue$3.compile = compileToFunctions;
 
 module.exports = Vue$3;
 
-/* WEBPACK VAR INJECTION */}.call(exports, __webpack_require__(12)))
+/* WEBPACK VAR INJECTION */}.call(exports, __webpack_require__(14)))
+
+/***/ }),
+
+/***/ 17:
+/***/ (function(module, exports, __webpack_require__) {
+
+"use strict";
+
+
+var utils = __webpack_require__(1);
+var bind = __webpack_require__(10);
+var Axios = __webpack_require__(19);
+var defaults = __webpack_require__(2);
+
+/**
+ * Create an instance of Axios
+ *
+ * @param {Object} defaultConfig The default config for the instance
+ * @return {Axios} A new instance of Axios
+ */
+function createInstance(defaultConfig) {
+  var context = new Axios(defaultConfig);
+  var instance = bind(Axios.prototype.request, context);
+
+  // Copy axios.prototype to instance
+  utils.extend(instance, Axios.prototype, context);
+
+  // Copy context to instance
+  utils.extend(instance, context);
+
+  return instance;
+}
+
+// Create the default instance to be exported
+var axios = createInstance(defaults);
+
+// Expose Axios class to allow class inheritance
+axios.Axios = Axios;
+
+// Factory for creating new instances
+axios.create = function create(instanceConfig) {
+  return createInstance(utils.merge(defaults, instanceConfig));
+};
+
+// Expose Cancel & CancelToken
+axios.Cancel = __webpack_require__(7);
+axios.CancelToken = __webpack_require__(18);
+axios.isCancel = __webpack_require__(8);
+
+// Expose all/spread
+axios.all = function all(promises) {
+  return Promise.all(promises);
+};
+axios.spread = __webpack_require__(33);
+
+module.exports = axios;
+
+// Allow use of default import syntax in TypeScript
+module.exports.default = axios;
+
+
+/***/ }),
+
+/***/ 173:
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_0_vee_validate__ = __webpack_require__(261);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_0_vee_validate___default = __webpack_require__.n(__WEBPACK_IMPORTED_MODULE_0_vee_validate__);
+
+/**
+ * First we will load all of this project's JavaScript dependencies which
+ * includes Vue and other libraries. It is a great starting point when
+ * building robust, powerful web applications using Vue and Laravel.
+ */
+window.Vue = __webpack_require__(16);
+
+Vue.use(__WEBPACK_IMPORTED_MODULE_0_vee_validate___default.a);
+/**
+ * Next, we will create a fresh Vue application instance and attach it to
+ * the page. Then, you may begin adding components to this application
+ * or customize the JavaScript scaffolding to fit your unique needs.
+ */
+Vue.component('rvtable', __webpack_require__(293));
+Vue.component('rvpreview', __webpack_require__(273));
+Vue.component('rvcreate', __webpack_require__(292));
+new Vue({
+  el: '#rv'
+});
+
+/***/ }),
+
+/***/ 174:
+/***/ (function(module, exports) {
+
+// removed by extract-text-webpack-plugin
+
+/***/ }),
+
+/***/ 18:
+/***/ (function(module, exports, __webpack_require__) {
+
+"use strict";
+
+
+var Cancel = __webpack_require__(7);
+
+/**
+ * A `CancelToken` is an object that can be used to request cancellation of an operation.
+ *
+ * @class
+ * @param {Function} executor The executor function.
+ */
+function CancelToken(executor) {
+  if (typeof executor !== 'function') {
+    throw new TypeError('executor must be a function.');
+  }
+
+  var resolvePromise;
+  this.promise = new Promise(function promiseExecutor(resolve) {
+    resolvePromise = resolve;
+  });
+
+  var token = this;
+  executor(function cancel(message) {
+    if (token.reason) {
+      // Cancellation has already been requested
+      return;
+    }
+
+    token.reason = new Cancel(message);
+    resolvePromise(token.reason);
+  });
+}
+
+/**
+ * Throws a `Cancel` if cancellation has been requested.
+ */
+CancelToken.prototype.throwIfRequested = function throwIfRequested() {
+  if (this.reason) {
+    throw this.reason;
+  }
+};
+
+/**
+ * Returns an object that contains a new `CancelToken` and a function that, when called,
+ * cancels the `CancelToken`.
+ */
+CancelToken.source = function source() {
+  var cancel;
+  var token = new CancelToken(function executor(c) {
+    cancel = c;
+  });
+  return {
+    token: token,
+    cancel: cancel
+  };
+};
+
+module.exports = CancelToken;
+
+
+/***/ }),
+
+/***/ 184:
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_0_axios__ = __webpack_require__(4);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_0_axios___default = __webpack_require__.n(__WEBPACK_IMPORTED_MODULE_0_axios__);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_1_vue_numeric__ = __webpack_require__(158);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_1_vue_numeric___default = __webpack_require__.n(__WEBPACK_IMPORTED_MODULE_1_vue_numeric__);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_2_vue_longpress__ = __webpack_require__(15);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_2_vue_longpress___default = __webpack_require__.n(__WEBPACK_IMPORTED_MODULE_2_vue_longpress__);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_3_vue2_toast_lib_toast_css__ = __webpack_require__(11);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_3_vue2_toast_lib_toast_css___default = __webpack_require__.n(__WEBPACK_IMPORTED_MODULE_3_vue2_toast_lib_toast_css__);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_4_vue2_toast__ = __webpack_require__(12);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_4_vue2_toast___default = __webpack_require__.n(__WEBPACK_IMPORTED_MODULE_4_vue2_toast__);
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+
+
+
+
+
+
+Vue.use(__WEBPACK_IMPORTED_MODULE_4_vue2_toast___default.a);
+Vue.use(__WEBPACK_IMPORTED_MODULE_1_vue_numeric___default.a);
+/* harmony default export */ __webpack_exports__["default"] = ({
+  data: function data() {
+    return {
+      RVMaster: [],
+      RVDetails: [],
+      checkPO: null,
+      checkRR: null,
+      undeliveredTotal: null,
+      BudgetAvail: '',
+      btndisabled: false,
+      editbudgetActive: false,
+      ManagerBehalfActive: false,
+      activemanager: [],
+      ManagerID: null,
+      error: null,
+      RemarksIsActive: false,
+      pendingremarks: '',
+      pendingRemarksShow: '',
+      drop: false,
+      approveBtnReplacer: false,
+      BudgetUpdate: '',
+      SignatureRVBtnHide: false,
+      SignatureManagerReplacerHide: false,
+      SignatureApprovalReplacerHide: false
+    };
+  },
+
+  props: ['rvno', 'user'],
+  methods: {
+    fetchData: function fetchData() {
+      var vm = this;
+      __WEBPACK_IMPORTED_MODULE_0_axios___default.a.get('/rv-full-preview-fetch/' + this.rvno.RVNo).then(function (response) {
+        console.log(response);
+        Vue.set(vm.$data, 'RVMaster', response.data.RVMaster[0]);
+        Vue.set(vm.$data, 'RVDetails', response.data.RVDetails);
+        Vue.set(vm.$data, 'checkPO', response.data.checkPO);
+        Vue.set(vm.$data, 'checkRR', response.data.checkRR);
+        Vue.set(vm.$data, 'undeliveredTotal', response.data.undeliveredTotal);
+      });
+    },
+    Signature: function Signature() {
+      this.$loading('Signaturing...');
+      this.SignatureRVBtnHide = true;
+      var vm = this;
+      __WEBPACK_IMPORTED_MODULE_0_axios___default.a.put('/RVsignature/' + this.rvno.RVNo, {
+        BudgetAvailable: this.BudgetAvail
+      }).then(function (response) {
+        console.log(response);
+        vm.fetchData();
+        vm.$loading.close();
+      });
+    },
+    declineRV: function declineRV() {
+      this.$loading('Declining');
+      this.SignatureRVBtnHide = true;
+      var vm = this;
+      __WEBPACK_IMPORTED_MODULE_0_axios___default.a.put('/declineRV/' + this.rvno.RVNo).then(function (response) {
+        console.log(response);
+        vm.fetchData();
+        vm.$loading.close();
+      });
+    },
+    formatPrice: function formatPrice(value) {
+      var val = (value / 1).toFixed(2).replace('.', '.');
+      return val.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ",");
+    },
+    UpdateBudget: function UpdateBudget() {
+      this.$loading('updating...');
+      var vm = this;
+      __WEBPACK_IMPORTED_MODULE_0_axios___default.a.put('/update-budget/' + this.rvno.RVNo, {
+        BudgetUpdate: this.BudgetUpdate
+      }).then(function (response) {
+        console.log(response);
+        vm.fetchData();
+        vm.$loading.close();
+        vm.$toast.top('Budget updated');
+      });
+    },
+    fetchAllManager: function fetchAllManager() {
+      var vm = this;
+      __WEBPACK_IMPORTED_MODULE_0_axios___default.a.get('/fetchAllManagerRV').then(function (response) {
+        console.log(response);
+        Vue.set(vm.$data, 'activemanager', response.data);
+        vm.fetchData();
+      });
+    },
+    sendRequestManagerReplacer: function sendRequestManagerReplacer() {
+      this.$loading('Sending...');
+      var vm = this;
+      __WEBPACK_IMPORTED_MODULE_0_axios___default.a.put('/send-request-to-manager-replacer/' + this.rvno.RVNo, {
+        ManagerID: this.ManagerID
+      }).then(function (response) {
+        console.log(response);
+        if (response.data.error != null) {
+          Vue.set(vm.$data, 'error', response.data.error);
+          vm.$loading.close();
+        } else {
+          vm.fetchAllManager();
+          vm.$loading.close();
+          vm.$toast.top('Request sent.');
+        }
+      });
+    },
+    cancelRequestManagerReplacer: function cancelRequestManagerReplacer() {
+      this.$loading('Canceling...');
+      this.SignatureManagerReplacerHide = true;
+      var vm = this;
+      __WEBPACK_IMPORTED_MODULE_0_axios___default.a.put('/cancelrequestsentReplacer/' + this.rvno.RVNo).then(function (response) {
+        console.log(response);
+        vm.fetchAllManager();
+        vm.$loading.close();
+      });
+    },
+    signatureRequestManagerReplacer: function signatureRequestManagerReplacer() {
+      this.$loading('Signaturing...');
+      this.SignatureManagerReplacerHide = true;
+      var vm = this;
+      __WEBPACK_IMPORTED_MODULE_0_axios___default.a.put('/AcceptManagerReplacer/' + this.rvno.RVNo).then(function (response) {
+        vm.fetchData();
+        vm.$loading.close();
+      });
+    },
+    PendingRemarksSubmit: function PendingRemarksSubmit() {
+      this.$loading('Saving remarks...');
+      var vm = this;
+      __WEBPACK_IMPORTED_MODULE_0_axios___default.a.put('/save-budget-officer-pending-remarks/' + this.rvno.RVNo, { PendingRemarks: this.pendingremarks }).then(function (response) {
+        console.log(response);
+        vm.displayRemarks();
+        Vue.set(vm.$data, 'RemarksIsActive', false);
+        vm.$loading.close();
+      });
+    },
+    RemovePendingRemarks: function RemovePendingRemarks() {
+      this.$loading('Removing remarks...');
+      var vm = this;
+      __WEBPACK_IMPORTED_MODULE_0_axios___default.a.put('/budget-officer-pending-remarks/' + this.rvno.RVNo).then(function (response) {
+        console.log(response);
+        vm.displayRemarks();
+        vm.$loading.close();
+      });
+    },
+    displayRemarks: function displayRemarks() {
+      var vm = this;
+      __WEBPACK_IMPORTED_MODULE_0_axios___default.a.get('/show-budget-officer-pending-remarks/' + this.rvno.RVNo).then(function (response) {
+        console.log(response);
+        Vue.set(vm.$data, 'pendingRemarksShow', response.data[0].PendingRemarks);
+      });
+    },
+    cancelApprovalRequest: function cancelApprovalRequest() {
+      this.$loading('Please wait...');
+      this.SignatureApprovalReplacerHide = true;
+      var vm = this;
+      __WEBPACK_IMPORTED_MODULE_0_axios___default.a.put('/rv-signature-in-behalf-cancel/' + this.rvno.RVNo).then(function (response) {
+        console.log(response);
+        vm.fetchData();
+        vm.$loading.close();
+      });
+    },
+    acceptApproveRequest: function acceptApproveRequest() {
+      this.$loading('Signaturing...');
+      this.SignatureApprovalReplacerHide = true;
+      var vm = this;
+      __WEBPACK_IMPORTED_MODULE_0_axios___default.a.put('/rv-approve-behalf-accept/' + this.rvno.RVNo).then(function (response) {
+        console.log(response);
+        vm.fetchData();
+        vm.$loading.close();
+      });
+    }
+  },
+  mounted: function mounted() {
+    this.fetchData();
+    this.displayRemarks();
+  },
+
+  components: {
+    Longpress: __WEBPACK_IMPORTED_MODULE_2_vue_longpress___default.a
+  },
+  computed: {
+    ManagerReplacerData: function ManagerReplacerData() {
+      if (this.RVMaster.users[4] != null && this.RVMaster.users[4].pivot.SignatureType == 'ManagerReplacer') {
+        return this.RVMaster.users[4];
+      } else if (this.RVMaster.users[5] != null && this.RVMaster.users[5].pivot.SignatureType == 'ManagerReplacer') {
+        return this.RVMaster.users[5];
+      } else {
+        return null;
+      }
+    },
+    ApprovalReplacerData: function ApprovalReplacerData() {
+      if (this.RVMaster.users[4] != null && this.RVMaster.users[4].pivot.SignatureType == 'ApprovalReplacer') {
+        return this.RVMaster.users[4];
+      } else if (this.RVMaster.users[5] != null && this.RVMaster.users[5].pivot.SignatureType == 'ApprovalReplacer') {
+        return this.RVMaster.users[5];
+      } else {
+        return null;
+      }
+    },
+    AlreadyApproved: function AlreadyApproved() {
+      if (this.RVMaster.users[0].pivot.Signature == '0' && (this.RVMaster.users[1].pivot.Signature == '0' || this.ManagerReplacerData != null && this.ManagerReplacerData.pivot.Signature == '0') && this.RVMaster.users[2].pivot.Signature == '0' && (this.RVMaster.users[3].pivot.Signature == '0' || this.ApprovalReplacerData != null && this.ApprovalReplacerData.pivot.Signature == '0')) {
+        return true;
+      } else {
+        return false;
+      }
+    },
+    RequisitionerCanSignature: function RequisitionerCanSignature() {
+      if (this.RVMaster.users[0].pivot.Signature == null && this.RVMaster.users[0].id == this.user.id) {
+        return true;
+      } else {
+        return false;
+      }
+    },
+    RecommendedByCanSignature: function RecommendedByCanSignature() {
+      if (this.RVMaster.users[0].pivot.Signature == '0' && this.RVMaster.users[1].pivot.Signature == null && this.user.id == this.RVMaster.users[1].id && (this.ManagerReplacerData == null || this.ManagerReplacerData.pivot.Signature == null)) {
+        return true;
+      } else {
+        return false;
+      }
+    },
+    BudgetOfficerCanSignature: function BudgetOfficerCanSignature() {
+      if (this.RVMaster.users[2].pivot.Signature == null && this.user.id == this.RVMaster.users[2].id && (this.RVMaster.users[1].pivot.Signature == '0' || this.ManagerReplacerData != null && this.ManagerReplacerData.pivot.Signature == '0')) {
+        return true;
+      } else {
+        return false;
+      }
+    },
+    GMCanSignature: function GMCanSignature() {
+      if (this.RVMaster.users[2].pivot.Signature == '0' && this.RVMaster.users[3].pivot.Signature == null && this.user.id == this.RVMaster.users[3].id && (this.ApprovalReplacerData == null || this.ApprovalReplacerData.pivot.Signature == null)) {
+        return true;
+      } else {
+        return false;
+      }
+    }
+  }
+});
+
+/***/ }),
+
+/***/ 19:
+/***/ (function(module, exports, __webpack_require__) {
+
+"use strict";
+
+
+var defaults = __webpack_require__(2);
+var utils = __webpack_require__(1);
+var InterceptorManager = __webpack_require__(20);
+var dispatchRequest = __webpack_require__(21);
+var isAbsoluteURL = __webpack_require__(29);
+var combineURLs = __webpack_require__(27);
+
+/**
+ * Create a new instance of Axios
+ *
+ * @param {Object} instanceConfig The default config for the instance
+ */
+function Axios(instanceConfig) {
+  this.defaults = instanceConfig;
+  this.interceptors = {
+    request: new InterceptorManager(),
+    response: new InterceptorManager()
+  };
+}
+
+/**
+ * Dispatch a request
+ *
+ * @param {Object} config The config specific for this request (merged with this.defaults)
+ */
+Axios.prototype.request = function request(config) {
+  /*eslint no-param-reassign:0*/
+  // Allow for axios('example/url'[, config]) a la fetch API
+  if (typeof config === 'string') {
+    config = utils.merge({
+      url: arguments[0]
+    }, arguments[1]);
+  }
+
+  config = utils.merge(defaults, this.defaults, { method: 'get' }, config);
+
+  // Support baseURL config
+  if (config.baseURL && !isAbsoluteURL(config.url)) {
+    config.url = combineURLs(config.baseURL, config.url);
+  }
+
+  // Hook up interceptors middleware
+  var chain = [dispatchRequest, undefined];
+  var promise = Promise.resolve(config);
+
+  this.interceptors.request.forEach(function unshiftRequestInterceptors(interceptor) {
+    chain.unshift(interceptor.fulfilled, interceptor.rejected);
+  });
+
+  this.interceptors.response.forEach(function pushResponseInterceptors(interceptor) {
+    chain.push(interceptor.fulfilled, interceptor.rejected);
+  });
+
+  while (chain.length) {
+    promise = promise.then(chain.shift(), chain.shift());
+  }
+
+  return promise;
+};
+
+// Provide aliases for supported request methods
+utils.forEach(['delete', 'get', 'head'], function forEachMethodNoData(method) {
+  /*eslint func-names:0*/
+  Axios.prototype[method] = function(url, config) {
+    return this.request(utils.merge(config || {}, {
+      method: method,
+      url: url
+    }));
+  };
+});
+
+utils.forEach(['post', 'put', 'patch'], function forEachMethodWithData(method) {
+  /*eslint func-names:0*/
+  Axios.prototype[method] = function(url, data, config) {
+    return this.request(utils.merge(config || {}, {
+      method: method,
+      url: url,
+      data: data
+    }));
+  };
+});
+
+module.exports = Axios;
+
+
+/***/ }),
+
+/***/ 2:
+/***/ (function(module, exports, __webpack_require__) {
+
+"use strict";
+/* WEBPACK VAR INJECTION */(function(process) {
+
+var utils = __webpack_require__(1);
+var normalizeHeaderName = __webpack_require__(31);
+
+var PROTECTION_PREFIX = /^\)\]\}',?\n/;
+var DEFAULT_CONTENT_TYPE = {
+  'Content-Type': 'application/x-www-form-urlencoded'
+};
+
+function setContentTypeIfUnset(headers, value) {
+  if (!utils.isUndefined(headers) && utils.isUndefined(headers['Content-Type'])) {
+    headers['Content-Type'] = value;
+  }
+}
+
+function getDefaultAdapter() {
+  var adapter;
+  if (typeof XMLHttpRequest !== 'undefined') {
+    // For browsers use XHR adapter
+    adapter = __webpack_require__(6);
+  } else if (typeof process !== 'undefined') {
+    // For node use HTTP adapter
+    adapter = __webpack_require__(6);
+  }
+  return adapter;
+}
+
+var defaults = {
+  adapter: getDefaultAdapter(),
+
+  transformRequest: [function transformRequest(data, headers) {
+    normalizeHeaderName(headers, 'Content-Type');
+    if (utils.isFormData(data) ||
+      utils.isArrayBuffer(data) ||
+      utils.isStream(data) ||
+      utils.isFile(data) ||
+      utils.isBlob(data)
+    ) {
+      return data;
+    }
+    if (utils.isArrayBufferView(data)) {
+      return data.buffer;
+    }
+    if (utils.isURLSearchParams(data)) {
+      setContentTypeIfUnset(headers, 'application/x-www-form-urlencoded;charset=utf-8');
+      return data.toString();
+    }
+    if (utils.isObject(data)) {
+      setContentTypeIfUnset(headers, 'application/json;charset=utf-8');
+      return JSON.stringify(data);
+    }
+    return data;
+  }],
+
+  transformResponse: [function transformResponse(data) {
+    /*eslint no-param-reassign:0*/
+    if (typeof data === 'string') {
+      data = data.replace(PROTECTION_PREFIX, '');
+      try {
+        data = JSON.parse(data);
+      } catch (e) { /* Ignore */ }
+    }
+    return data;
+  }],
+
+  timeout: 0,
+
+  xsrfCookieName: 'XSRF-TOKEN',
+  xsrfHeaderName: 'X-XSRF-TOKEN',
+
+  maxContentLength: -1,
+
+  validateStatus: function validateStatus(status) {
+    return status >= 200 && status < 300;
+  }
+};
+
+defaults.headers = {
+  common: {
+    'Accept': 'application/json, text/plain, */*'
+  }
+};
+
+utils.forEach(['delete', 'get', 'head'], function forEachMehtodNoData(method) {
+  defaults.headers[method] = {};
+});
+
+utils.forEach(['post', 'put', 'patch'], function forEachMethodWithData(method) {
+  defaults.headers[method] = utils.merge(DEFAULT_CONTENT_TYPE);
+});
+
+module.exports = defaults;
+
+/* WEBPACK VAR INJECTION */}.call(exports, __webpack_require__(34)))
+
+/***/ }),
+
+/***/ 20:
+/***/ (function(module, exports, __webpack_require__) {
+
+"use strict";
+
+
+var utils = __webpack_require__(1);
+
+function InterceptorManager() {
+  this.handlers = [];
+}
+
+/**
+ * Add a new interceptor to the stack
+ *
+ * @param {Function} fulfilled The function to handle `then` for a `Promise`
+ * @param {Function} rejected The function to handle `reject` for a `Promise`
+ *
+ * @return {Number} An ID used to remove interceptor later
+ */
+InterceptorManager.prototype.use = function use(fulfilled, rejected) {
+  this.handlers.push({
+    fulfilled: fulfilled,
+    rejected: rejected
+  });
+  return this.handlers.length - 1;
+};
+
+/**
+ * Remove an interceptor from the stack
+ *
+ * @param {Number} id The ID that was returned by `use`
+ */
+InterceptorManager.prototype.eject = function eject(id) {
+  if (this.handlers[id]) {
+    this.handlers[id] = null;
+  }
+};
+
+/**
+ * Iterate over all the registered interceptors
+ *
+ * This method is particularly useful for skipping over any
+ * interceptors that may have become `null` calling `eject`.
+ *
+ * @param {Function} fn The function to call for each interceptor
+ */
+InterceptorManager.prototype.forEach = function forEach(fn) {
+  utils.forEach(this.handlers, function forEachHandler(h) {
+    if (h !== null) {
+      fn(h);
+    }
+  });
+};
+
+module.exports = InterceptorManager;
+
+
+/***/ }),
+
+/***/ 203:
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_0_axios__ = __webpack_require__(4);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_0_axios___default = __webpack_require__.n(__WEBPACK_IMPORTED_MODULE_0_axios__);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_1_vue_longpress__ = __webpack_require__(15);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_1_vue_longpress___default = __webpack_require__.n(__WEBPACK_IMPORTED_MODULE_1_vue_longpress__);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_2_vue2_toast_lib_toast_css__ = __webpack_require__(11);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_2_vue2_toast_lib_toast_css___default = __webpack_require__.n(__WEBPACK_IMPORTED_MODULE_2_vue2_toast_lib_toast_css__);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_3_vue2_toast__ = __webpack_require__(12);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_3_vue2_toast___default = __webpack_require__.n(__WEBPACK_IMPORTED_MODULE_3_vue2_toast__);
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+
+
+
+
+
+Vue.use(__WEBPACK_IMPORTED_MODULE_3_vue2_toast___default.a);
+/* harmony default export */ __webpack_exports__["default"] = ({
+  data: function data() {
+    return {
+      forstock: false,
+      notforstock: false,
+      findDescription: '',
+      findResults: [],
+      pagination: [],
+      offset: 4,
+      Description: '',
+      Unit: '',
+      Quantity: '',
+      Remarks: '',
+      SessionStored: [],
+      purpose: '',
+      QuantityForWHouse: [],
+      RemarksForWHouse: [],
+      lowqtyactive: false,
+      UnitsFromDB: [],
+      HideBtn: false
+    };
+  },
+
+  props: ['budgetofficer', 'gm', 'user', 'mymanager'],
+  methods: {
+    searchDescription: function searchDescription(page) {
+      this.$loading('Please Wait...');
+      var vm = this;
+      __WEBPACK_IMPORTED_MODULE_0_axios___default.a.get('/search-rv-forstock?Search=' + this.findDescription + '&page=' + page).then(function (response) {
+        console.log(response);
+        vm.QuantityForWHouse = [];
+        vm.RemarksForWHouse = [];
+        Vue.set(vm.$data, 'findResults', response.data.MasterResults.data);
+        Vue.set(vm.$data, 'pagination', response.data.MasterResults);
+        vm.$loading.close();
+      });
+    },
+    changepage: function changepage(next) {
+      this.pagination.current_page = next;
+      if (this.lowqtyactive) {
+        this.FetchLowQtyItems(next);
+      } else {
+        this.searchDescription(next);
+      }
+      this.QuantityForWHouse = [];
+      this.RemarksForWHouse = [];
+    },
+    addToSession: function addToSession() {
+      this.$loading('Please Wait...');
+      var vm = this;
+      __WEBPACK_IMPORTED_MODULE_0_axios___default.a.post('/session-saving-rv', {
+        Description: this.Description,
+        Unit: this.Unit,
+        Quantity: this.Quantity,
+        Remarks: this.Remarks
+      }).then(function (response) {
+        console.log(response);
+        if (response.data.error == null) {
+          vm.FetchSessionStored();
+          vm.$toast.top('Added successfully');
+          Vue.set(vm.$data, 'Description', '');
+          Vue.set(vm.$data, 'Unit', '');
+          Vue.set(vm.$data, 'Quantity', '');
+          Vue.set(vm.$data, 'Remarks', '');
+        } else {
+          vm.$toast.top(response.data.error);
+        }
+        vm.$loading.close();
+      }, function (error) {
+        if (error.response.data.Description != null) {
+          vm.$toast.top(error.response.data.Description[0]);
+        } else if (error.response.data.Unit != null) {
+          vm.$toast.top(error.response.data.Unit[0]);
+        } else if (error.response.data.Quantity != null) {
+          vm.$toast.top(error.response.data.Quantity[0]);
+        }
+        console.log(error);
+        vm.$loading.close();
+      });
+    },
+    AddtoSessionForWarehouse: function AddtoSessionForWarehouse(data, count) {
+      this.$loading('Adding...');
+      var vm = this;
+      __WEBPACK_IMPORTED_MODULE_0_axios___default.a.post('/addtoStockSession', {
+        AccountCode: data.AccountCode,
+        ItemCode: data.ItemCode,
+        Description: data.Description,
+        Unit: data.Unit,
+        Quantity: this.QuantityForWHouse[count],
+        Remarks: this.RemarksForWHouse[count]
+      }).then(function (response) {
+        console.log(response);
+        vm.FetchSessionStored();
+        if (response.data.error != null) {
+          vm.$toast.top(response.data.error);
+          vm.$loading.close();
+        } else {
+          vm.$toast.top('Added successfully');
+          vm.$loading.close();
+        }
+      }, function (error) {
+        vm.$toast.top(error.response.data.Quantity[0]);
+        vm.$loading.close();
+      });
+    },
+    FetchSessionStored: function FetchSessionStored() {
+      var vm = this;
+      __WEBPACK_IMPORTED_MODULE_0_axios___default.a.get('/fetch-rv-session').then(function (response) {
+        console.log(response);
+        Vue.set(vm.$data, 'SessionStored', response.data);
+      });
+    },
+    FetchLowQtyItems: function FetchLowQtyItems(page) {
+      this.$loading('Please wait..');
+      var vm = this;
+      __WEBPACK_IMPORTED_MODULE_0_axios___default.a.get('/get-low-qty-items?page=' + page).then(function (response) {
+        console.log(response);
+        Vue.set(vm.$data, 'findResults', response.data.data);
+        Vue.set(vm.$data, 'pagination', response.data);
+        vm.$loading.close();
+      });
+    },
+    deleteSession: function deleteSession(key) {
+      this.$loading('removing...');
+      var vm = this;
+      __WEBPACK_IMPORTED_MODULE_0_axios___default.a.delete('DeleteSession/' + key).then(function (response) {
+        console.log(response);
+        vm.FetchSessionStored();
+        vm.$toast.top('Removed successfully');
+        vm.$loading.close();
+      });
+    },
+    fetchallUnit: function fetchallUnit() {
+      var vm = this;
+      __WEBPACK_IMPORTED_MODULE_0_axios___default.a.get('/get-all-units').then(function (response) {
+        console.log(response);
+        Vue.set(vm.$data, 'UnitsFromDB', response.data);
+      });
+    },
+    SubmitWholeRV: function SubmitWholeRV() {
+      this.$loading('Submitting...');
+      this.HideBtn = true;
+      var vm = this;
+      __WEBPACK_IMPORTED_MODULE_0_axios___default.a.post('/SavetoDBRV', {
+        Purpose: this.purpose
+      }).then(function (response) {
+        console.log(response);
+        if (response.data.error != null) {
+          vm.$toast.top(response.data.error);
+          Vue.set(vm.$data, 'HideBtn', false);
+          vm.$loading.close();
+        } else {
+          window.location = response.data.redirect;
+        }
+      }, function (error) {
+        vm.$toast.top(error.response.data.Purpose[0]);
+        Vue.set(vm.$data, 'HideBtn', false);
+        vm.$loading.close();
+      });
+    }
+  },
+  computed: {
+    isActive: function isActive() {
+      return this.pagination.current_page;
+    },
+    pagesNumber: function pagesNumber() {
+      if (!this.pagination.to) {
+        return [];
+      }
+      var from = this.pagination.current_page - this.offset;
+      if (from < 1) {
+        from = 1;
+      }
+      var to = from + this.offset * 2;
+      if (to >= this.pagination.last_page) {
+        to = this.pagination.last_page;
+      }
+      var pagesArray = [];
+      while (from <= to) {
+        pagesArray.push(from);
+        from++;
+      }
+      return pagesArray;
+    }
+  },
+  mounted: function mounted() {
+    this.FetchSessionStored();
+    if (this.user.Role == 3 || this.user.Role == 4) {
+      this.searchDescription();
+    }
+    this.fetchallUnit();
+  },
+
+  components: {
+    Longpress: __WEBPACK_IMPORTED_MODULE_1_vue_longpress___default.a
+  }
+
+});
+
+/***/ }),
+
+/***/ 204:
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_0_axios__ = __webpack_require__(4);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_0_axios___default = __webpack_require__.n(__WEBPACK_IMPORTED_MODULE_0_axios__);
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+
+
+/* harmony default export */ __webpack_exports__["default"] = ({
+  data: function data() {
+    return {
+      RVs: [],
+      search: '',
+      url: 'indexRVVUE',
+      pagination: {
+        total: 0,
+        per_page: 10,
+        from: 1,
+        to: 1,
+        current_page: 1
+      },
+      offset: 4
+    };
+  },
+
+  computed: {
+    isActive: function isActive() {
+      return this.pagination.current_page;
+    },
+    pagesNumber: function pagesNumber() {
+      if (!this.pagination.to) {
+        return [];
+      }
+      var from = this.pagination.current_page - this.offset;
+      if (from < 1) {
+        from = 1;
+      }
+      var to = from + this.offset * 2;
+      if (to >= this.pagination.last_page) {
+        to = this.pagination.last_page;
+      }
+      var pagesArray = [];
+      while (from <= to) {
+        pagesArray.push(from);
+        from++;
+      }
+      return pagesArray;
+    }
+  },
+
+  created: function created() {
+    this.fetchdataRV(this.pagination.current_page);
+  },
+  methods: {
+    fetchdataRV: function fetchdataRV(page) {
+      var vm = this;
+      __WEBPACK_IMPORTED_MODULE_0_axios___default.a.get(this.url + '?search=' + this.search + '&page=' + page).then(function (response) {
+        console.log(response);
+        Vue.set(vm.$data, 'RVs', response.data.data);
+        Vue.set(vm.$data, 'pagination', response.data);
+      });
+    },
+    changepageRV: function changepageRV(next) {
+      this.pagination.current_page = next;
+      this.fetchdataRV(next);
+    }
+  }
+});
+
+/***/ }),
+
+/***/ 21:
+/***/ (function(module, exports, __webpack_require__) {
+
+"use strict";
+
+
+var utils = __webpack_require__(1);
+var transformData = __webpack_require__(24);
+var isCancel = __webpack_require__(8);
+var defaults = __webpack_require__(2);
+
+/**
+ * Throws a `Cancel` if cancellation has been requested.
+ */
+function throwIfCancellationRequested(config) {
+  if (config.cancelToken) {
+    config.cancelToken.throwIfRequested();
+  }
+}
+
+/**
+ * Dispatch a request to the server using the configured adapter.
+ *
+ * @param {object} config The config that is to be used for the request
+ * @returns {Promise} The Promise to be fulfilled
+ */
+module.exports = function dispatchRequest(config) {
+  throwIfCancellationRequested(config);
+
+  // Ensure headers exist
+  config.headers = config.headers || {};
+
+  // Transform request data
+  config.data = transformData(
+    config.data,
+    config.headers,
+    config.transformRequest
+  );
+
+  // Flatten headers
+  config.headers = utils.merge(
+    config.headers.common || {},
+    config.headers[config.method] || {},
+    config.headers || {}
+  );
+
+  utils.forEach(
+    ['delete', 'get', 'head', 'post', 'put', 'patch', 'common'],
+    function cleanHeaderConfig(method) {
+      delete config.headers[method];
+    }
+  );
+
+  var adapter = config.adapter || defaults.adapter;
+
+  return adapter(config).then(function onAdapterResolution(response) {
+    throwIfCancellationRequested(config);
+
+    // Transform response data
+    response.data = transformData(
+      response.data,
+      response.headers,
+      config.transformResponse
+    );
+
+    return response;
+  }, function onAdapterRejection(reason) {
+    if (!isCancel(reason)) {
+      throwIfCancellationRequested(config);
+
+      // Transform response data
+      if (reason && reason.response) {
+        reason.response.data = transformData(
+          reason.response.data,
+          reason.response.headers,
+          config.transformResponse
+        );
+      }
+    }
+
+    return Promise.reject(reason);
+  });
+};
+
+
+/***/ }),
+
+/***/ 22:
+/***/ (function(module, exports, __webpack_require__) {
+
+"use strict";
+
+
+/**
+ * Update an Error with the specified config, error code, and response.
+ *
+ * @param {Error} error The error to update.
+ * @param {Object} config The config.
+ * @param {string} [code] The error code (for example, 'ECONNABORTED').
+ @ @param {Object} [response] The response.
+ * @returns {Error} The error.
+ */
+module.exports = function enhanceError(error, config, code, response) {
+  error.config = config;
+  if (code) {
+    error.code = code;
+  }
+  error.response = response;
+  return error;
+};
+
+
+/***/ }),
+
+/***/ 23:
+/***/ (function(module, exports, __webpack_require__) {
+
+"use strict";
+
+
+var createError = __webpack_require__(9);
+
+/**
+ * Resolve or reject a Promise based on response status.
+ *
+ * @param {Function} resolve A function that resolves the promise.
+ * @param {Function} reject A function that rejects the promise.
+ * @param {object} response The response.
+ */
+module.exports = function settle(resolve, reject, response) {
+  var validateStatus = response.config.validateStatus;
+  // Note: status is not exposed by XDomainRequest
+  if (!response.status || !validateStatus || validateStatus(response.status)) {
+    resolve(response);
+  } else {
+    reject(createError(
+      'Request failed with status code ' + response.status,
+      response.config,
+      null,
+      response
+    ));
+  }
+};
+
+
+/***/ }),
+
+/***/ 24:
+/***/ (function(module, exports, __webpack_require__) {
+
+"use strict";
+
+
+var utils = __webpack_require__(1);
+
+/**
+ * Transform the data for a request or a response
+ *
+ * @param {Object|String} data The data to be transformed
+ * @param {Array} headers The headers for the request or response
+ * @param {Array|Function} fns A single function or Array of functions
+ * @returns {*} The resulting transformed data
+ */
+module.exports = function transformData(data, headers, fns) {
+  /*eslint no-param-reassign:0*/
+  utils.forEach(fns, function transform(fn) {
+    data = fn(data, headers);
+  });
+
+  return data;
+};
+
+
+/***/ }),
+
+/***/ 25:
+/***/ (function(module, exports, __webpack_require__) {
+
+"use strict";
+
+
+// btoa polyfill for IE<10 courtesy https://github.com/davidchambers/Base64.js
+
+var chars = 'ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789+/=';
+
+function E() {
+  this.message = 'String contains an invalid character';
+}
+E.prototype = new Error;
+E.prototype.code = 5;
+E.prototype.name = 'InvalidCharacterError';
+
+function btoa(input) {
+  var str = String(input);
+  var output = '';
+  for (
+    // initialize result and counter
+    var block, charCode, idx = 0, map = chars;
+    // if the next str index does not exist:
+    //   change the mapping table to "="
+    //   check if d has no fractional digits
+    str.charAt(idx | 0) || (map = '=', idx % 1);
+    // "8 - idx % 1 * 8" generates the sequence 2, 4, 6, 8
+    output += map.charAt(63 & block >> 8 - idx % 1 * 8)
+  ) {
+    charCode = str.charCodeAt(idx += 3 / 4);
+    if (charCode > 0xFF) {
+      throw new E();
+    }
+    block = block << 8 | charCode;
+  }
+  return output;
+}
+
+module.exports = btoa;
+
+
+/***/ }),
+
+/***/ 26:
+/***/ (function(module, exports, __webpack_require__) {
+
+"use strict";
+
+
+var utils = __webpack_require__(1);
+
+function encode(val) {
+  return encodeURIComponent(val).
+    replace(/%40/gi, '@').
+    replace(/%3A/gi, ':').
+    replace(/%24/g, '$').
+    replace(/%2C/gi, ',').
+    replace(/%20/g, '+').
+    replace(/%5B/gi, '[').
+    replace(/%5D/gi, ']');
+}
+
+/**
+ * Build a URL by appending params to the end
+ *
+ * @param {string} url The base of the url (e.g., http://www.google.com)
+ * @param {object} [params] The params to be appended
+ * @returns {string} The formatted url
+ */
+module.exports = function buildURL(url, params, paramsSerializer) {
+  /*eslint no-param-reassign:0*/
+  if (!params) {
+    return url;
+  }
+
+  var serializedParams;
+  if (paramsSerializer) {
+    serializedParams = paramsSerializer(params);
+  } else if (utils.isURLSearchParams(params)) {
+    serializedParams = params.toString();
+  } else {
+    var parts = [];
+
+    utils.forEach(params, function serialize(val, key) {
+      if (val === null || typeof val === 'undefined') {
+        return;
+      }
+
+      if (utils.isArray(val)) {
+        key = key + '[]';
+      }
+
+      if (!utils.isArray(val)) {
+        val = [val];
+      }
+
+      utils.forEach(val, function parseValue(v) {
+        if (utils.isDate(v)) {
+          v = v.toISOString();
+        } else if (utils.isObject(v)) {
+          v = JSON.stringify(v);
+        }
+        parts.push(encode(key) + '=' + encode(v));
+      });
+    });
+
+    serializedParams = parts.join('&');
+  }
+
+  if (serializedParams) {
+    url += (url.indexOf('?') === -1 ? '?' : '&') + serializedParams;
+  }
+
+  return url;
+};
+
+
+/***/ }),
+
+/***/ 261:
+/***/ (function(module, exports, __webpack_require__) {
+
+/**
+ * vee-validate v2.0.0-rc.9
+ * (c) 2017 Abdelrahman Awad
+ * @license MIT
+ */
+(function (global, factory) {
+	 true ? module.exports = factory() :
+	typeof define === 'function' && define.amd ? define(factory) :
+	(global.VeeValidate = factory());
+}(this, (function () { 'use strict';
+
+/**
+ * Some Alpha Regex helpers.
+ * https://github.com/chriso/validator.js/blob/master/src/lib/alpha.js
+ */
+
+var alpha$1 = {
+  en: /^[A-Z]*$/i,
+  cs: /^[A-ZÁČĎÉĚÍŇÓŘŠŤÚŮÝŽ]*$/i,
+  da: /^[A-ZÆØÅ]*$/i,
+  de: /^[A-ZÄÖÜß]*$/i,
+  es: /^[A-ZÁÉÍÑÓÚÜ]*$/i,
+  fr: /^[A-ZÀÂÆÇÉÈÊËÏÎÔŒÙÛÜŸ]*$/i,
+  lt: /^[A-ZĄČĘĖĮŠŲŪŽ]*$/i,
+  nl: /^[A-ZÉËÏÓÖÜ]*$/i,
+  hu: /^[A-ZÁÉÍÓÖŐÚÜŰ]*$/i,
+  pl: /^[A-ZĄĆĘŚŁŃÓŻŹ]*$/i,
+  pt: /^[A-ZÃÁÀÂÇÉÊÍÕÓÔÚÜ]*$/i,
+  ru: /^[А-ЯЁ]*$/i,
+  sk: /^[A-ZÁÄČĎÉÍĹĽŇÓŔŠŤÚÝŽ]*$/i,
+  sr: /^[A-ZČĆŽŠĐ]*$/i,
+  tr: /^[A-ZÇĞİıÖŞÜ]*$/i,
+  uk: /^[А-ЩЬЮЯЄІЇҐ]*$/i,
+  ar: /^[ءآأؤإئابةتثجحخدذرزسشصضطظعغفقكلمنهوىيًٌٍَُِّْٰ]*$/
+};
+
+var alphaSpaces = {
+  en: /^[A-Z\s]*$/i,
+  cs: /^[A-ZÁČĎÉĚÍŇÓŘŠŤÚŮÝŽ\s]*$/i,
+  da: /^[A-ZÆØÅ\s]*$/i,
+  de: /^[A-ZÄÖÜß\s]*$/i,
+  es: /^[A-ZÁÉÍÑÓÚÜ\s]*$/i,
+  fr: /^[A-ZÀÂÆÇÉÈÊËÏÎÔŒÙÛÜŸ\s]*$/i,
+  lt: /^[A-ZĄČĘĖĮŠŲŪŽ\s]*$/i,
+  nl: /^[A-ZÉËÏÓÖÜ\s]*$/i,
+  hu: /^[A-ZÁÉÍÓÖŐÚÜŰ\s]*$/i,
+  pl: /^[A-ZĄĆĘŚŁŃÓŻŹ\s]*$/i,
+  pt: /^[A-ZÃÁÀÂÇÉÊÍÕÓÔÚÜ\s]*$/i,
+  ru: /^[А-ЯЁ\s]*$/i,
+  sk: /^[A-ZÁÄČĎÉÍĹĽŇÓŔŠŤÚÝŽ\s]*$/i,
+  sr: /^[A-ZČĆŽŠĐ\s]*$/i,
+  tr: /^[A-ZÇĞİıÖŞÜ\s]*$/i,
+  uk: /^[А-ЩЬЮЯЄІЇҐ\s]*$/i,
+  ar: /^[ءآأؤإئابةتثجحخدذرزسشصضطظعغفقكلمنهوىيًٌٍَُِّْٰ\s]*$/
+};
+
+var alphanumeric = {
+  en: /^[0-9A-Z]*$/i,
+  cs: /^[0-9A-ZÁČĎÉĚÍŇÓŘŠŤÚŮÝŽ]*$/i,
+  da: /^[0-9A-ZÆØÅ]$/i,
+  de: /^[0-9A-ZÄÖÜß]*$/i,
+  es: /^[0-9A-ZÁÉÍÑÓÚÜ]*$/i,
+  fr: /^[0-9A-ZÀÂÆÇÉÈÊËÏÎÔŒÙÛÜŸ]*$/i,
+  lt: /^[0-9A-ZĄČĘĖĮŠŲŪŽ]*$/i,
+  hu: /^[0-9A-ZÁÉÍÓÖŐÚÜŰ]*$/i,
+  nl: /^[0-9A-ZÉËÏÓÖÜ]*$/i,
+  pl: /^[0-9A-ZĄĆĘŚŁŃÓŻŹ]*$/i,
+  pt: /^[0-9A-ZÃÁÀÂÇÉÊÍÕÓÔÚÜ]*$/i,
+  ru: /^[0-9А-ЯЁ]*$/i,
+  sk: /^[0-9A-ZÁÄČĎÉÍĹĽŇÓŔŠŤÚÝŽ]*$/i,
+  sr: /^[0-9A-ZČĆŽŠĐ]*$/i,
+  tr: /^[0-9A-ZÇĞİıÖŞÜ]*$/i,
+  uk: /^[0-9А-ЩЬЮЯЄІЇҐ]*$/i,
+  ar: /^[٠١٢٣٤٥٦٧٨٩0-9ءآأؤإئابةتثجحخدذرزسشصضطظعغفقكلمنهوىيًٌٍَُِّْٰ]*$/
+};
+
+var alphaDash = {
+  en: /^[0-9A-Z_-]*$/i,
+  cs: /^[0-9A-ZÁČĎÉĚÍŇÓŘŠŤÚŮÝŽ_-]*$/i,
+  da: /^[0-9A-ZÆØÅ_-]*$/i,
+  de: /^[0-9A-ZÄÖÜß_-]*$/i,
+  es: /^[0-9A-ZÁÉÍÑÓÚÜ_-]*$/i,
+  fr: /^[0-9A-ZÀÂÆÇÉÈÊËÏÎÔŒÙÛÜŸ_-]*$/i,
+  lt: /^[0-9A-ZĄČĘĖĮŠŲŪŽ_-]*$/i,
+  nl: /^[0-9A-ZÉËÏÓÖÜ_-]*$/i,
+  hu: /^[0-9A-ZÁÉÍÓÖŐÚÜŰ_-]*$/i,
+  pl: /^[0-9A-ZĄĆĘŚŁŃÓŻŹ_-]*$/i,
+  pt: /^[0-9A-ZÃÁÀÂÇÉÊÍÕÓÔÚÜ_-]*$/i,
+  ru: /^[0-9А-ЯЁ_-]*$/i,
+  sk: /^[0-9A-ZÁÄČĎÉÍĹĽŇÓŔŠŤÚÝŽ_-]*$/i,
+  sr: /^[0-9A-ZČĆŽŠĐ_-]*$/i,
+  tr: /^[0-9A-ZÇĞİıÖŞÜ_-]*$/i,
+  uk: /^[0-9А-ЩЬЮЯЄІЇҐ_-]*$/i,
+  ar: /^[٠١٢٣٤٥٦٧٨٩0-9ءآأؤإئابةتثجحخدذرزسشصضطظعغفقكلمنهوىيًٌٍَُِّْٰ_-]*$/
+};
+
+var validate = function (value, ref) {
+  if ( ref === void 0 ) ref = [null];
+  var locale = ref[0];
+
+  if (Array.isArray(value)) {
+    return value.every(function (val) { return validate(val, [locale]); });
+  }
+
+  // Match at least one locale.
+  if (! locale) {
+    return Object.keys(alpha$1).some(function (loc) { return alpha$1[loc].test(value); });
+  }
+
+  return (alpha$1[locale] || alpha$1.en).test(value);
+};
+
+var validate$1 = function (value, ref) {
+  if ( ref === void 0 ) ref = [null];
+  var locale = ref[0];
+
+  if (Array.isArray(value)) {
+    return value.every(function (val) { return validate$1(val, [locale]); });
+  }
+
+  // Match at least one locale.
+  if (! locale) {
+    return Object.keys(alphaDash).some(function (loc) { return alphaDash[loc].test(value); });
+  }
+
+  return (alphaDash[locale] || alphaDash.en).test(value);
+};
+
+var validate$2 = function (value, ref) {
+  if ( ref === void 0 ) ref = [null];
+  var locale = ref[0];
+
+  if (Array.isArray(value)) {
+    return value.every(function (val) { return validate$2(val, [locale]); });
+  }
+
+  // Match at least one locale.
+  if (! locale) {
+    return Object.keys(alphanumeric).some(function (loc) { return alphanumeric[loc].test(value); });
+  }
+
+  return (alphanumeric[locale] || alphanumeric.en).test(value);
+};
+
+var validate$3 = function (value, ref) {
+  if ( ref === void 0 ) ref = [null];
+  var locale = ref[0];
+
+  if (Array.isArray(value)) {
+    return value.every(function (val) { return validate$3(val, [locale]); });
+  }
+
+  // Match at least one locale.
+  if (! locale) {
+    return Object.keys(alphaSpaces).some(function (loc) { return alphaSpaces[loc].test(value); });
+  }
+
+  return (alphaSpaces[locale] || alphaSpaces.en).test(value);
+};
+
+var validate$4 = function (value, ref) {
+  var min = ref[0];
+  var max = ref[1];
+
+  if (Array.isArray(value)) {
+    return value.every(function (val) { return validate$4(val, [min, max]); });
+  }
+
+  return Number(min) <= value && Number(max) >= value;
+};
+
+var confirmed = function (value, other) { return String(value) === String(other); };
+
+function unwrapExports (x) {
+	return x && x.__esModule ? x['default'] : x;
+}
+
+function createCommonjsModule(fn, module) {
+	return module = { exports: {} }, fn(module, module.exports), module.exports;
+}
+
+var assertString_1 = createCommonjsModule(function (module, exports) {
+'use strict';
+
+Object.defineProperty(exports, "__esModule", {
+  value: true
+});
+exports.default = assertString;
+function assertString(input) {
+  var isString = typeof input === 'string' || input instanceof String;
+
+  if (!isString) {
+    throw new TypeError('This library (validator.js) validates strings only');
+  }
+}
+module.exports = exports['default'];
+});
+
+var isCreditCard_1 = createCommonjsModule(function (module, exports) {
+'use strict';
+
+Object.defineProperty(exports, "__esModule", {
+  value: true
+});
+exports.default = isCreditCard;
+
+
+
+var _assertString2 = _interopRequireDefault(assertString_1);
+
+function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
+
+/* eslint-disable max-len */
+var creditCard = /^(?:4[0-9]{12}(?:[0-9]{3})?|5[1-5][0-9]{14}|(222[1-9]|22[3-9][0-9]|2[3-6][0-9]{2}|27[01][0-9]|2720)[0-9]{12}|6(?:011|5[0-9][0-9])[0-9]{12}|3[47][0-9]{13}|3(?:0[0-5]|[68][0-9])[0-9]{11}|(?:2131|1800|35\d{3})\d{11}|62[0-9]{14})$/;
+/* eslint-enable max-len */
+
+function isCreditCard(str) {
+  (0, _assertString2.default)(str);
+  var sanitized = str.replace(/[- ]+/g, '');
+  if (!creditCard.test(sanitized)) {
+    return false;
+  }
+  var sum = 0;
+  var digit = void 0;
+  var tmpNum = void 0;
+  var shouldDouble = void 0;
+  for (var i = sanitized.length - 1; i >= 0; i--) {
+    digit = sanitized.substring(i, i + 1);
+    tmpNum = parseInt(digit, 10);
+    if (shouldDouble) {
+      tmpNum *= 2;
+      if (tmpNum >= 10) {
+        sum += tmpNum % 10 + 1;
+      } else {
+        sum += tmpNum;
+      }
+    } else {
+      sum += tmpNum;
+    }
+    shouldDouble = !shouldDouble;
+  }
+  return !!(sum % 10 === 0 ? sanitized : false);
+}
+module.exports = exports['default'];
+});
+
+var isCreditCard = unwrapExports(isCreditCard_1);
+
+var credit_card = function (value) { return isCreditCard(String(value)); };
+
+var validate$5 = function (value, params) {
+  var decimals = Array.isArray(params) ? (params[0] || '*') : '*';
+  if (Array.isArray(value)) {
+    return value.every(function (val) { return validate$5(val, params); });
+  }
+
+  if (value === null || value === undefined || value === '') {
+    return true;
+  }
+
+  // if is 0.
+  if (Number(decimals) === 0) {
+    return /^-?\d*$/.test(value);
+  }
+
+  var regexPart = decimals === '*' ? '+' : ("{1," + decimals + "}");
+  var regex = new RegExp(("^-?\\d*(\\.\\d" + regexPart + ")?$"));
+
+  if (! regex.test(value)) {
+    return false;
+  }
+
+  var parsedValue = parseFloat(value);
+
+  // eslint-disable-next-line
+    return parsedValue === parsedValue;
+};
+
+var validate$6 = function (value, ref) {
+  var length = ref[0];
+
+  if (Array.isArray(value)) {
+    return value.every(function (val) { return validate$6(val, [length]); });
+  }
+  var strVal = String(value);
+
+  return /^[0-9]*$/.test(strVal) && strVal.length === Number(length);
+};
+
+var validateImage = function (file, width, height) {
+  var URL = window.URL || window.webkitURL;
+  return new Promise(function (resolve) {
+    var image = new Image();
+    image.onerror = function () { return resolve({ valid: false }); };
+    image.onload = function () { return resolve({
+      valid: image.width === Number(width) && image.height === Number(height)
+    }); };
+
+    image.src = URL.createObjectURL(file);
+  });
+};
+
+var dimensions = function (files, ref) {
+  var width = ref[0];
+  var height = ref[1];
+
+  var list = [];
+  for (var i = 0; i < files.length; i++) {
+    // if file is not an image, reject.
+    if (! /\.(jpg|svg|jpeg|png|bmp|gif)$/i.test(files[i].name)) {
+      return false;
+    }
+
+    list.push(files[i]);
+  }
+
+  return Promise.all(list.map(function (file) { return validateImage(file, width, height); }));
+};
+
+var merge_1 = createCommonjsModule(function (module, exports) {
+'use strict';
+
+Object.defineProperty(exports, "__esModule", {
+  value: true
+});
+exports.default = merge;
+function merge() {
+  var obj = arguments.length > 0 && arguments[0] !== undefined ? arguments[0] : {};
+  var defaults = arguments[1];
+
+  for (var key in defaults) {
+    if (typeof obj[key] === 'undefined') {
+      obj[key] = defaults[key];
+    }
+  }
+  return obj;
+}
+module.exports = exports['default'];
+});
+
+var isByteLength_1 = createCommonjsModule(function (module, exports) {
+'use strict';
+
+Object.defineProperty(exports, "__esModule", {
+  value: true
+});
+
+var _typeof = typeof Symbol === "function" && typeof Symbol.iterator === "symbol" ? function (obj) { return typeof obj; } : function (obj) { return obj && typeof Symbol === "function" && obj.constructor === Symbol && obj !== Symbol.prototype ? "symbol" : typeof obj; };
+
+exports.default = isByteLength;
+
+
+
+var _assertString2 = _interopRequireDefault(assertString_1);
+
+function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
+
+/* eslint-disable prefer-rest-params */
+function isByteLength(str, options) {
+  (0, _assertString2.default)(str);
+  var min = void 0;
+  var max = void 0;
+  if ((typeof options === 'undefined' ? 'undefined' : _typeof(options)) === 'object') {
+    min = options.min || 0;
+    max = options.max;
+  } else {
+    // backwards compatibility: isByteLength(str, min [, max])
+    min = arguments[1];
+    max = arguments[2];
+  }
+  var len = encodeURI(str).split(/%..|./).length - 1;
+  return len >= min && (typeof max === 'undefined' || len <= max);
+}
+module.exports = exports['default'];
+});
+
+var isFQDN = createCommonjsModule(function (module, exports) {
+'use strict';
+
+Object.defineProperty(exports, "__esModule", {
+  value: true
+});
+exports.default = isFDQN;
+
+
+
+var _assertString2 = _interopRequireDefault(assertString_1);
+
+
+
+var _merge2 = _interopRequireDefault(merge_1);
+
+function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
+
+var default_fqdn_options = {
+  require_tld: true,
+  allow_underscores: false,
+  allow_trailing_dot: false
+};
+
+function isFDQN(str, options) {
+  (0, _assertString2.default)(str);
+  options = (0, _merge2.default)(options, default_fqdn_options);
+
+  /* Remove the optional trailing dot before checking validity */
+  if (options.allow_trailing_dot && str[str.length - 1] === '.') {
+    str = str.substring(0, str.length - 1);
+  }
+  var parts = str.split('.');
+  if (options.require_tld) {
+    var tld = parts.pop();
+    if (!parts.length || !/^([a-z\u00a1-\uffff]{2,}|xn[a-z0-9-]{2,})$/i.test(tld)) {
+      return false;
+    }
+    // disallow spaces
+    if (/[\s\u2002-\u200B\u202F\u205F\u3000\uFEFF\uDB40\uDC20]/.test(tld)) {
+      return false;
+    }
+  }
+  for (var part, i = 0; i < parts.length; i++) {
+    part = parts[i];
+    if (options.allow_underscores) {
+      part = part.replace(/_/g, '');
+    }
+    if (!/^[a-z\u00a1-\uffff0-9-]+$/i.test(part)) {
+      return false;
+    }
+    // disallow full-width chars
+    if (/[\uff01-\uff5e]/.test(part)) {
+      return false;
+    }
+    if (part[0] === '-' || part[part.length - 1] === '-') {
+      return false;
+    }
+  }
+  return true;
+}
+module.exports = exports['default'];
+});
+
+var isEmail_1 = createCommonjsModule(function (module, exports) {
+'use strict';
+
+Object.defineProperty(exports, "__esModule", {
+  value: true
+});
+exports.default = isEmail;
+
+
+
+var _assertString2 = _interopRequireDefault(assertString_1);
+
+
+
+var _merge2 = _interopRequireDefault(merge_1);
+
+
+
+var _isByteLength2 = _interopRequireDefault(isByteLength_1);
+
+
+
+var _isFQDN2 = _interopRequireDefault(isFQDN);
+
+function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
+
+var default_email_options = {
+  allow_display_name: false,
+  require_display_name: false,
+  allow_utf8_local_part: true,
+  require_tld: true
+};
+
+/* eslint-disable max-len */
+/* eslint-disable no-control-regex */
+var displayName = /^[a-z\d!#\$%&'\*\+\-\/=\?\^_`{\|}~\.\u00A0-\uD7FF\uF900-\uFDCF\uFDF0-\uFFEF]+[a-z\d!#\$%&'\*\+\-\/=\?\^_`{\|}~\.\u00A0-\uD7FF\uF900-\uFDCF\uFDF0-\uFFEF\s]*<(.+)>$/i;
+var emailUserPart = /^[a-z\d!#\$%&'\*\+\-\/=\?\^_`{\|}~]+$/i;
+var quotedEmailUser = /^([\s\x01-\x08\x0b\x0c\x0e-\x1f\x7f\x21\x23-\x5b\x5d-\x7e]|(\\[\x01-\x09\x0b\x0c\x0d-\x7f]))*$/i;
+var emailUserUtf8Part = /^[a-z\d!#\$%&'\*\+\-\/=\?\^_`{\|}~\u00A0-\uD7FF\uF900-\uFDCF\uFDF0-\uFFEF]+$/i;
+var quotedEmailUserUtf8 = /^([\s\x01-\x08\x0b\x0c\x0e-\x1f\x7f\x21\x23-\x5b\x5d-\x7e\u00A0-\uD7FF\uF900-\uFDCF\uFDF0-\uFFEF]|(\\[\x01-\x09\x0b\x0c\x0d-\x7f\u00A0-\uD7FF\uF900-\uFDCF\uFDF0-\uFFEF]))*$/i;
+/* eslint-enable max-len */
+/* eslint-enable no-control-regex */
+
+function isEmail(str, options) {
+  (0, _assertString2.default)(str);
+  options = (0, _merge2.default)(options, default_email_options);
+
+  if (options.require_display_name || options.allow_display_name) {
+    var display_email = str.match(displayName);
+    if (display_email) {
+      str = display_email[1];
+    } else if (options.require_display_name) {
+      return false;
+    }
+  }
+
+  var parts = str.split('@');
+  var domain = parts.pop();
+  var user = parts.join('@');
+
+  var lower_domain = domain.toLowerCase();
+  if (lower_domain === 'gmail.com' || lower_domain === 'googlemail.com') {
+    user = user.replace(/\./g, '').toLowerCase();
+  }
+
+  if (!(0, _isByteLength2.default)(user, { max: 64 }) || !(0, _isByteLength2.default)(domain, { max: 254 })) {
+    return false;
+  }
+
+  if (!(0, _isFQDN2.default)(domain, { require_tld: options.require_tld })) {
+    return false;
+  }
+
+  if (user[0] === '"') {
+    user = user.slice(1, user.length - 1);
+    return options.allow_utf8_local_part ? quotedEmailUserUtf8.test(user) : quotedEmailUser.test(user);
+  }
+
+  var pattern = options.allow_utf8_local_part ? emailUserUtf8Part : emailUserPart;
+
+  var user_parts = user.split('.');
+  for (var i = 0; i < user_parts.length; i++) {
+    if (!pattern.test(user_parts[i])) {
+      return false;
+    }
+  }
+
+  return true;
+}
+module.exports = exports['default'];
+});
+
+var isEmail = unwrapExports(isEmail_1);
+
+var validate$7 = function (value) {
+  if (Array.isArray(value)) {
+    return value.every(function (val) { return isEmail(String(val)); });
+  }
+
+  return isEmail(String(value));
+};
+
+var ext = function (files, extensions) {
+  var regex = new RegExp((".(" + (extensions.join('|')) + ")$"), 'i');
+
+  return files.every(function (file) { return regex.test(file.name); });
+};
+
+var image = function (files) { return files.every(function (file) { return /\.(jpg|svg|jpeg|png|bmp|gif)$/i.test(file.name); }
+); };
+
+var validate$8 = function (value, options) {
+  if (Array.isArray(value)) {
+    return value.every(function (val) { return validate$8(val, options); });
+  }
+
+  // eslint-disable-next-line
+  return !! options.filter(function (option) { return option == value; }).length;
+};
+
+var isIP_1 = createCommonjsModule(function (module, exports) {
+'use strict';
+
+Object.defineProperty(exports, "__esModule", {
+  value: true
+});
+exports.default = isIP;
+
+
+
+var _assertString2 = _interopRequireDefault(assertString_1);
+
+function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
+
+var ipv4Maybe = /^(\d{1,3})\.(\d{1,3})\.(\d{1,3})\.(\d{1,3})$/;
+var ipv6Block = /^[0-9A-F]{1,4}$/i;
+
+function isIP(str) {
+  var version = arguments.length > 1 && arguments[1] !== undefined ? arguments[1] : '';
+
+  (0, _assertString2.default)(str);
+  version = String(version);
+  if (!version) {
+    return isIP(str, 4) || isIP(str, 6);
+  } else if (version === '4') {
+    if (!ipv4Maybe.test(str)) {
+      return false;
+    }
+    var parts = str.split('.').sort(function (a, b) {
+      return a - b;
+    });
+    return parts[3] <= 255;
+  } else if (version === '6') {
+    var blocks = str.split(':');
+    var foundOmissionBlock = false; // marker to indicate ::
+
+    // At least some OS accept the last 32 bits of an IPv6 address
+    // (i.e. 2 of the blocks) in IPv4 notation, and RFC 3493 says
+    // that '::ffff:a.b.c.d' is valid for IPv4-mapped IPv6 addresses,
+    // and '::a.b.c.d' is deprecated, but also valid.
+    var foundIPv4TransitionBlock = isIP(blocks[blocks.length - 1], 4);
+    var expectedNumberOfBlocks = foundIPv4TransitionBlock ? 7 : 8;
+
+    if (blocks.length > expectedNumberOfBlocks) {
+      return false;
+    }
+    // initial or final ::
+    if (str === '::') {
+      return true;
+    } else if (str.substr(0, 2) === '::') {
+      blocks.shift();
+      blocks.shift();
+      foundOmissionBlock = true;
+    } else if (str.substr(str.length - 2) === '::') {
+      blocks.pop();
+      blocks.pop();
+      foundOmissionBlock = true;
+    }
+
+    for (var i = 0; i < blocks.length; ++i) {
+      // test for a :: which can not be at the string start/end
+      // since those cases have been handled above
+      if (blocks[i] === '' && i > 0 && i < blocks.length - 1) {
+        if (foundOmissionBlock) {
+          return false; // multiple :: in address
+        }
+        foundOmissionBlock = true;
+      } else if (foundIPv4TransitionBlock && i === blocks.length - 1) {
+        // it has been checked before that the last
+        // block is a valid IPv4 address
+      } else if (!ipv6Block.test(blocks[i])) {
+        return false;
+      }
+    }
+    if (foundOmissionBlock) {
+      return blocks.length >= 1;
+    }
+    return blocks.length === expectedNumberOfBlocks;
+  }
+  return false;
+}
+module.exports = exports['default'];
+});
+
+var isIP = unwrapExports(isIP_1);
+
+var ip = function (value, ref) {
+  if ( ref === void 0 ) ref = [4];
+  var version = ref[0];
+
+  if (Array.isArray(value)) {
+    return value.every(function (val) { return isIP(val, [version]); });
+  }
+
+  return isIP(value, version);
+};
+
+var max = function (value, ref) {
+  var length = ref[0];
+
+  if (value === undefined || value === null) {
+    return length >= 0;
+  }
+
+  return String(value).length <= length;
+};
+
+var max_value = function (value, ref) {
+  var max = ref[0];
+
+  if (Array.isArray(value) || value === null || value === undefined || value === '') {
+    return false;
+  }
+
+  return Number(value) <= max;
+};
+
+var mimes = function (files, mimes) {
+  var regex = new RegExp(((mimes.join('|').replace('*', '.+')) + "$"), 'i');
+
+  return files.every(function (file) { return regex.test(file.type); });
+};
+
+var min = function (value, ref) {
+  var length = ref[0];
+
+  if (value === undefined || value === null) {
+    return false;
+  }
+  return String(value).length >= length;
+};
+
+var min_value = function (value, ref) {
+  var min = ref[0];
+
+  if (Array.isArray(value) || value === null || value === undefined || value === '') {
+    return false;
+  }
+
+  return Number(value) >= min;
+};
+
+var validate$9 = function (value, options) {
+  if (Array.isArray(value)) {
+    return value.every(function (val) { return validate$9(val, options); });
+  }
+
+  // eslint-disable-next-line
+  return ! options.filter(function (option) { return option == value; }).length;
+};
+
+var numeric = function (value) {
+  if (Array.isArray(value)) {
+    return value.every(function (val) { return /^[0-9]+$/.test(String(val)); });
+  }
+
+  return /^[0-9]+$/.test(String(value));
+};
+
+var regex = function (value, ref) {
+  var regex = ref[0];
+  var flags = ref.slice(1);
+
+  if (regex instanceof RegExp) {
+    return regex.test(value);
+  }
+
+  return new RegExp(regex, flags).test(String(value));
+};
+
+var required = function (value, params) {
+  if ( params === void 0 ) params = [false];
+
+  if (Array.isArray(value)) {
+    return !! value.length;
+  }
+
+  // incase a field considers `false` as an empty value like checkboxes.
+  var invalidateFalse = params[0];
+  if (value === false && invalidateFalse) {
+    return false;
+  }
+
+  if (value === undefined || value === null) {
+    return false;
+  }
+
+  return !! String(value).trim().length;
+};
+
+var size = function (files, ref) {
+  var size = ref[0];
+
+  if (isNaN(size)) {
+    return false;
+  }
+
+  var nSize = Number(size) * 1024;
+  for (var i = 0; i < files.length; i++) {
+    if (files[i].size > nSize) {
+      return false;
+    }
+  }
+
+  return true;
+};
+
+var isURL_1 = createCommonjsModule(function (module, exports) {
+'use strict';
+
+Object.defineProperty(exports, "__esModule", {
+  value: true
+});
+exports.default = isURL;
+
+
+
+var _assertString2 = _interopRequireDefault(assertString_1);
+
+
+
+var _isFQDN2 = _interopRequireDefault(isFQDN);
+
+
+
+var _isIP2 = _interopRequireDefault(isIP_1);
+
+
+
+var _merge2 = _interopRequireDefault(merge_1);
+
+function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
+
+var default_url_options = {
+  protocols: ['http', 'https', 'ftp'],
+  require_tld: true,
+  require_protocol: false,
+  require_host: true,
+  require_valid_protocol: true,
+  allow_underscores: false,
+  allow_trailing_dot: false,
+  allow_protocol_relative_urls: false
+};
+
+var wrapped_ipv6 = /^\[([^\]]+)\](?::([0-9]+))?$/;
+
+function isRegExp(obj) {
+  return Object.prototype.toString.call(obj) === '[object RegExp]';
+}
+
+function checkHost(host, matches) {
+  for (var i = 0; i < matches.length; i++) {
+    var match = matches[i];
+    if (host === match || isRegExp(match) && match.test(host)) {
+      return true;
+    }
+  }
+  return false;
+}
+
+function isURL(url, options) {
+  (0, _assertString2.default)(url);
+  if (!url || url.length >= 2083 || /[\s<>]/.test(url)) {
+    return false;
+  }
+  if (url.indexOf('mailto:') === 0) {
+    return false;
+  }
+  options = (0, _merge2.default)(options, default_url_options);
+  var protocol = void 0,
+      auth = void 0,
+      host = void 0,
+      hostname = void 0,
+      port = void 0,
+      port_str = void 0,
+      split = void 0,
+      ipv6 = void 0;
+
+  split = url.split('#');
+  url = split.shift();
+
+  split = url.split('?');
+  url = split.shift();
+
+  split = url.split('://');
+  if (split.length > 1) {
+    protocol = split.shift();
+    if (options.require_valid_protocol && options.protocols.indexOf(protocol) === -1) {
+      return false;
+    }
+  } else if (options.require_protocol) {
+    return false;
+  } else if (options.allow_protocol_relative_urls && url.substr(0, 2) === '//') {
+    split[0] = url.substr(2);
+  }
+  url = split.join('://');
+
+  split = url.split('/');
+  url = split.shift();
+
+  if (url === '' && !options.require_host) {
+    return true;
+  }
+
+  split = url.split('@');
+  if (split.length > 1) {
+    auth = split.shift();
+    if (auth.indexOf(':') >= 0 && auth.split(':').length > 2) {
+      return false;
+    }
+  }
+  hostname = split.join('@');
+
+  port_str = null;
+  ipv6 = null;
+  var ipv6_match = hostname.match(wrapped_ipv6);
+  if (ipv6_match) {
+    host = '';
+    ipv6 = ipv6_match[1];
+    port_str = ipv6_match[2] || null;
+  } else {
+    split = hostname.split(':');
+    host = split.shift();
+    if (split.length) {
+      port_str = split.join(':');
+    }
+  }
+
+  if (port_str !== null) {
+    port = parseInt(port_str, 10);
+    if (!/^[0-9]+$/.test(port_str) || port <= 0 || port > 65535) {
+      return false;
+    }
+  }
+
+  if (!(0, _isIP2.default)(host) && !(0, _isFQDN2.default)(host, options) && (!ipv6 || !(0, _isIP2.default)(ipv6, 6)) && host !== 'localhost') {
+    return false;
+  }
+
+  host = host || ipv6;
+
+  if (options.host_whitelist && !checkHost(host, options.host_whitelist)) {
+    return false;
+  }
+  if (options.host_blacklist && checkHost(host, options.host_blacklist)) {
+    return false;
+  }
+
+  return true;
+}
+module.exports = exports['default'];
+});
+
+var isURL = unwrapExports(isURL_1);
+
+var url = function (value, ref) {
+  if ( ref === void 0 ) ref = [true];
+  var requireProtocol = ref[0];
+
+  var options = { require_protocol: !!requireProtocol, allow_underscores: true };
+  if (Array.isArray(value)) {
+    return value.every(function (val) { return isURL(val, options); });
+  }
+
+  return isURL(value, options);
+};
+
+/* eslint-disable camelcase */
+var Rules = {
+  alpha_dash: validate$1,
+  alpha_num: validate$2,
+  alpha_spaces: validate$3,
+  alpha: validate,
+  between: validate$4,
+  confirmed: confirmed,
+  credit_card: credit_card,
+  decimal: validate$5,
+  digits: validate$6,
+  dimensions: dimensions,
+  email: validate$7,
+  ext: ext,
+  image: image,
+  in: validate$8,
+  ip: ip,
+  max: max,
+  max_value: max_value,
+  mimes: mimes,
+  min: min,
+  min_value: min_value,
+  not_in: validate$9,
+  numeric: numeric,
+  regex: regex,
+  required: required,
+  size: size,
+  url: url
+};
+
+/**
+ * Gets the data attribute. the name must be kebab-case.
+ */
+var getDataAttribute = function (el, name) { return el.getAttribute(("data-vv-" + name)); };
+
+/**
+ * Sets the data attribute.
+ * @param {*} el
+ * @param {String} name
+ * @param {String} value
+ */
+var setDataAttribute = function (el, name, value) { return el.setAttribute(("data-vv-" + name), value); };
+
+/**
+ * Determines the input field scope.
+ */
+var getScope = function (el) {
+  var scope = getDataAttribute(el, 'scope');
+  if (! scope && el.form) {
+    scope = getDataAttribute(el.form, 'scope');
+  }
+
+  return scope || null;
+};
+
+/**
+ * Gets the value in an object safely.
+ * @param {String} propPath
+ * @param {Object} target
+ * @param {*} def
+ */
+var getPath = function (propPath, target, def) {
+  if ( def === void 0 ) def = undefined;
+
+  if (!propPath || !target) { return def; }
+  var value = target;
+  propPath.split('.').every(function (prop) {
+    if (! Object.prototype.hasOwnProperty.call(value, prop) && value[prop] === undefined) {
+      value = def;
+
+      return false;
+    }
+
+    value = value[prop];
+
+    return true;
+  });
+
+  return value;
+};
+
+/**
+ * Checks if path exists within an object.
+ *
+ * @param {String} path
+ * @param {Object} target
+ */
+var hasPath = function (path, target) {
+  var obj = target;
+  return path.split('.').every(function (prop) {
+    if (! Object.prototype.hasOwnProperty.call(obj, prop)) {
+      return false;
+    }
+
+    obj = obj[prop];
+
+    return true;
+  });
+};
+
+/**
+ * @param {String} rule
+ */
+var parseRule = function (rule) {
+  var params = [];
+  var name = rule.split(':')[0];
+
+  if (~rule.indexOf(':')) {
+    params = rule.split(':').slice(1).join(':').split(',');
+  }
+
+  return { name: name, params: params };
+};
+
+/**
+ * Normalizes the given rules expression.
+ *
+ * @param {Object|String} rules
+ */
+var normalizeRules = function (rules) {
+  var validations = {};
+  if (isObject(rules)) {
+    Object.keys(rules).forEach(function (rule) {
+      var params = [];
+      if (rules[rule] === true) {
+        params = [];
+      } else if (Array.isArray(rules[rule])) {
+        params = rules[rule];
+      } else {
+        params = [rules[rule]];
+      }
+
+      if (rules[rule] !== false) {
+        validations[rule] = params;
+      }
+    });
+
+    return validations;
+  }
+
+  rules.split('|').forEach(function (rule) {
+    var parsedRule = parseRule(rule);
+    if (! parsedRule.name) {
+      return;
+    }
+
+    validations[parsedRule.name] = parsedRule.params;
+  });
+
+  return validations;
+};
+
+/**
+ * Debounces a function.
+ */
+var debounce = function (fn, wait, immediate) {
+  if ( wait === void 0 ) wait = 0;
+  if ( immediate === void 0 ) immediate = false;
+
+  if (wait === 0) {
+    return fn;
+  }
+
+  var timeout;
+
+  return function () {
+    var args = [], len = arguments.length;
+    while ( len-- ) args[ len ] = arguments[ len ];
+
+    var later = function () {
+      timeout = null;
+      if (!immediate) { fn.apply(void 0, args); }
+    };
+    /* istanbul ignore next */
+    var callNow = immediate && !timeout;
+    clearTimeout(timeout);
+    timeout = setTimeout(later, wait);
+    /* istanbul ignore next */
+    if (callNow) { fn.apply(void 0, args); }
+  };
+};
+
+/**
+ * Emits a warning to the console.
+ */
+var warn = function (message) {
+  console.warn(("[vee-validate] " + message)); // eslint-disable-line
+};
+
+/**
+ * Creates a branded error object.
+ * @param {String} message
+ */
+var createError = function (message) { return new Error(("[vee-validate] " + message)); };
+
+/**
+ * Checks if the value is an object.
+ */
+var isObject = function (object) { return object !== null && object && typeof object === 'object' && ! Array.isArray(object); };
+
+/**
+ * Checks if a function is callable.
+ */
+var isCallable = function (func) { return typeof func === 'function'; };
+
+/**
+ * Check if element has the css class on it.
+ */
+var hasClass = function (el, className) {
+  if (el.classList) {
+    return el.classList.contains(className);
+  }
+
+  return !!el.className.match(new RegExp(("(\\s|^)" + className + "(\\s|$)")));
+};
+
+/**
+ * Adds the provided css className to the element.
+ */
+var addClass = function (el, className) {
+  if (el.classList) {
+    el.classList.add(className);
+    return;
+  }
+
+  if (!hasClass(el, className)) {
+    el.className += " " + className;
+  }
+};
+
+/**
+ * Remove the provided css className from the element.
+ */
+var removeClass = function (el, className) {
+  if (el.classList) {
+    el.classList.remove(className);
+    return;
+  }
+
+  if (hasClass(el, className)) {
+    var reg = new RegExp(("(\\s|^)" + className + "(\\s|$)"));
+    el.className = el.className.replace(reg, ' ');
+  }
+};
+
+/**
+ * Adds or removes a class name on the input depending on the status flag.
+ */
+var toggleClass = function (el, className, status) {
+  if (!el || !className) { return; }
+
+  if (status) {
+    return addClass(el, className);
+  }
+
+  removeClass(el, className);
+};
+
+/**
+ * Converts an array-like object to array.
+ * Simple polyfill for Array.from
+ */
+var toArray = function (arrayLike) {
+  if (isCallable(Array.from)) {
+    return Array.from(arrayLike);
+  }
+
+  var array = [];
+  var length = arrayLike.length;
+  for (var i = 0; i < length; i++) {
+    array.push(arrayLike[i]);
+  }
+
+  return array;
+};
+
+/**
+ * Assign polyfill from the mdn.
+ * @param {Object} target
+ * @return {Object}
+ */
+var assign = function (target) {
+  var others = [], len = arguments.length - 1;
+  while ( len-- > 0 ) others[ len ] = arguments[ len + 1 ];
+
+  /* istanbul ignore else */
+  if (isCallable(Object.assign)) {
+    return Object.assign.apply(Object, [ target ].concat( others ));
+  }
+
+  /* istanbul ignore next */
+  if (target == null) {
+    throw new TypeError('Cannot convert undefined or null to object');
+  }
+
+  /* istanbul ignore next */
+  var to = Object(target);
+  /* istanbul ignore next */
+  others.forEach(function (arg) {
+    // Skip over if undefined or null
+    if (arg != null) {
+      Object.keys(arg).forEach(function (key) {
+        to[key] = arg[key];
+      });
+    }
+  });
+  /* istanbul ignore next */
+  return to;
+};
+
+/**
+ * Generates a unique id.
+ * @return {String}
+ */
+var uniqId = function () { return ("_" + (Math.random().toString(36).substr(2, 9))); };
+
+/**
+ * polyfills array.find
+ * @param {Array} array
+ * @param {Function} predicate
+ */
+var find = function (array, predicate) {
+  if (isObject(array)) {
+    array = toArray(array);
+  }
+  if (array.find) {
+    return array.find(predicate);
+  }
+  var result;
+  array.some(function (item) {
+    if (predicate(item)) {
+      result = item;
+      return true;
+    }
+
+    return false;
+  });
+
+  return result;
+};
+
+/**
+ * Gets the rules from a binding value or the element dataset.
+ *
+ * @param {Object} binding The binding object.
+ * @param {element} el The element.
+ * @returns {String|Object}
+ */
+var getRules = function (binding, el) {
+  if (!binding || ! binding.expression) {
+    return getDataAttribute(el, 'rules');
+  }
+
+  if (typeof binding.value === 'string') {
+    return binding.value;
+  }
+
+  if (~['string', 'object'].indexOf(typeof binding.value.rules)) {
+    return binding.value.rules;
+  }
+
+  return binding.value;
+};
+
+var getInputEventName = function (el) {
+  if (el && (el.tagName === 'SELECT' || ~['radio', 'checkbox', 'file'].indexOf(el.type))) {
+    return 'change';
+  }
+
+  return 'input';
+};
+
+var ErrorBag = function ErrorBag () {
+  this.items = [];
+};
+
+/**
+   * Adds an error to the internal array.
+   *
+   * @param {Object} error The error object.
+   */
+ErrorBag.prototype.add = function add (error) {
+  // handle old signature.
+  if (arguments.length > 1) {
+    error = {
+      field: arguments[0],
+      msg: arguments[1],
+      rule: arguments[2],
+      scope: arguments[3] || null
+    };
+  }
+
+  error.scope = error.scope || null;
+  this.items.push(error);
+};
+
+/**
+ * Updates a field error with the new field scope.
+ *
+ * @param {String} id 
+ * @param {Object} error 
+ */
+ErrorBag.prototype.update = function update (id, error) {
+  var item = find(this.items, function (i) { return i.id === id; });
+  if (!item) {
+    return;
+  }
+
+  var idx = this.items.indexOf(item);
+  this.items.splice(idx, 1);
+  item.scope = error.scope;
+  this.items.push(item);
+};
+
+/**
+   * Gets all error messages from the internal array.
+   *
+   * @param {String} scope The Scope name, optional.
+   * @return {Array} errors Array of all error messages.
+   */
+ErrorBag.prototype.all = function all (scope) {
+  if (! scope) {
+    return this.items.map(function (e) { return e.msg; });
+  }
+
+  return this.items.filter(function (e) { return e.scope === scope; }).map(function (e) { return e.msg; });
+};
+
+/**
+   * Checks if there are any errors in the internal array.
+   * @param {String} scope The Scope name, optional.
+   * @return {boolean} result True if there was at least one error, false otherwise.
+   */
+ErrorBag.prototype.any = function any (scope) {
+  if (! scope) {
+    return !! this.items.length;
+  }
+
+  return !! this.items.filter(function (e) { return e.scope === scope; }).length;
+};
+
+/**
+   * Removes all items from the internal array.
+   *
+   * @param {String} scope The Scope name, optional.
+   */
+ErrorBag.prototype.clear = function clear (scope) {
+    var this$1 = this;
+
+  if (! scope) {
+    scope = null;
+  }
+
+  var removeCondition = function (e) { return e.scope === scope; };
+
+  for (var i = 0; i < this.items.length; ++i) {
+    if (removeCondition(this$1.items[i])) {
+      this$1.items.splice(i, 1);
+      --i;
+    }
+  }
+};
+
+/**
+   * Collects errors into groups or for a specific field.
+   *
+   * @param{string} field The field name.
+   * @param{string} scope The scope name.
+   * @param {Boolean} map If it should map the errors to strings instead of objects.
+   * @return {Array} errors The errors for the specified field.
+   */
+ErrorBag.prototype.collect = function collect (field, scope, map) {
+    if ( map === void 0 ) map = true;
+
+  if (! field) {
+    var collection = {};
+    this.items.forEach(function (e) {
+      if (! collection[e.field]) {
+        collection[e.field] = [];
+      }
+
+      collection[e.field].push(map ? e.msg : e);
+    });
+
+    return collection;
+  }
+
+  if (! scope) {
+    return this.items.filter(function (e) { return e.field === field; }).map(function (e) { return (map ? e.msg : e); });
+  }
+
+  return this.items.filter(function (e) { return e.field === field && e.scope === scope; })
+    .map(function (e) { return (map ? e.msg : e); });
+};
+/**
+   * Gets the internal array length.
+   *
+   * @return {Number} length The internal array length.
+   */
+ErrorBag.prototype.count = function count () {
+  return this.items.length;
+};
+
+/**
+ * Finds and fetches the first error message for the specified field id.
+ *
+ * @param {String} id 
+ */
+ErrorBag.prototype.firstById = function firstById (id) {
+  var error = find(this.items, function (i) { return i.id === id; });
+
+  return error ? error.msg : null;
+};
+
+/**
+   * Gets the first error message for a specific field.
+   *
+   * @param{string} field The field name.
+   * @return {string|null} message The error message.
+   */
+ErrorBag.prototype.first = function first (field, scope) {
+    var this$1 = this;
+    if ( scope === void 0 ) scope = null;
+
+  var selector = this._selector(field);
+  var scoped = this._scope(field);
+
+  if (scoped) {
+    var result = this.first(scoped.name, scoped.scope);
+    // if such result exist, return it. otherwise it could be a field.
+    // with dot in its name.
+    if (result) {
+      return result;
+    }
+  }
+
+  if (selector) {
+    return this.firstByRule(selector.name, selector.rule, scope);
+  }
+
+  for (var i = 0; i < this.items.length; ++i) {
+    if (this$1.items[i].field === field && (this$1.items[i].scope === scope)) {
+      return this$1.items[i].msg;
+    }
+  }
+
+  return null;
+};
+
+/**
+   * Returns the first error rule for the specified field
+   *
+   * @param {string} field The specified field.
+   * @return {string|null} First error rule on the specified field if one is found, otherwise null
+   */
+ErrorBag.prototype.firstRule = function firstRule (field, scope) {
+  var errors = this.collect(field, scope, false);
+
+  return (errors.length && errors[0].rule) || null;
+};
+
+/**
+   * Checks if the internal array has at least one error for the specified field.
+   *
+   * @param{string} field The specified field.
+   * @return {Boolean} result True if at least one error is found, false otherwise.
+   */
+ErrorBag.prototype.has = function has (field, scope) {
+    if ( scope === void 0 ) scope = null;
+
+  return !! this.first(field, scope);
+};
+
+/**
+   * Gets the first error message for a specific field and a rule.
+   * @param {String} name The name of the field.
+   * @param {String} rule The name of the rule.
+   * @param {String} scope The name of the scope (optional).
+   */
+ErrorBag.prototype.firstByRule = function firstByRule (name, rule, scope) {
+  var error = this.collect(name, scope, false).filter(function (e) { return e.rule === rule; })[0];
+
+  return (error && error.msg) || null;
+};
+
+/**
+ * Removes errors by matching against the id.
+ * @param {String} id 
+ */
+ErrorBag.prototype.removeById = function removeById (id) {
+    var this$1 = this;
+
+  for (var i = 0; i < this.items.length; ++i) {
+    if (this$1.items[i].id === id) {
+      this$1.items.splice(i, 1);
+      --i;
+    }
+  }
+};
+
+/**
+   * Removes all error messages associated with a specific field.
+   *
+   * @param{string} field The field which messages are to be removed.
+   * @param {String} scope The Scope name, optional.
+   */
+ErrorBag.prototype.remove = function remove (field, scope) {
+    var this$1 = this;
+
+  var removeCondition = scope ? function (e) { return e.field === field && e.scope === scope; }
+    : function (e) { return e.field === field && e.scope === null; };
+
+  for (var i = 0; i < this.items.length; ++i) {
+    if (removeCondition(this$1.items[i])) {
+      this$1.items.splice(i, 1);
+      --i;
+    }
+  }
+};
+
+/**
+   * Get the field attributes if there's a rule selector.
+   *
+   * @param{string} field The specified field.
+   * @return {Object|null}
+   */
+ErrorBag.prototype._selector = function _selector (field) {
+  if (field.indexOf(':') > -1) {
+    var ref = field.split(':');
+      var name = ref[0];
+      var rule = ref[1];
+
+    return { name: name, rule: rule };
+  }
+
+  return null;
+};
+
+/**
+   * Get the field scope if specified using dot notation.
+   *
+   * @param {string} field the specifie field.
+   * @return {Object|null}
+   */
+ErrorBag.prototype._scope = function _scope (field) {
+  if (field.indexOf('.') > -1) {
+    var ref = field.split('.');
+      var scope = ref[0];
+      var name = ref[1];
+
+    return { name: name, scope: scope };
+  }
+
+  return null;
+};
+
+var Dictionary = function Dictionary (dictionary) {
+  if ( dictionary === void 0 ) dictionary = {};
+
+  this.container = {};
+  this.merge(dictionary);
+};
+
+Dictionary.prototype.hasLocale = function hasLocale (locale) {
+  return !! this.container[locale];
+};
+
+Dictionary.prototype.setDateFormat = function setDateFormat (locale, format) {
+  if (!this.container[locale]) {
+    this.container[locale] = {};
+  }
+
+  this.container[locale].dateFormat = format;
+};
+
+Dictionary.prototype.getDateFormat = function getDateFormat (locale) {
+  if (!this.container[locale]) {
+    return undefined;
+  }
+
+  return this.container[locale].dateFormat;
+};
+
+Dictionary.prototype.getMessage = function getMessage (locale, key, fallback) {
+  if (! this.hasMessage(locale, key)) {
+    return fallback || this._getDefaultMessage(locale);
+  }
+
+  return this.container[locale].messages[key];
+};
+
+/**
+ * Gets a specific message for field. fallsback to the rule message.
+ *
+ * @param {String} locale
+ * @param {String} field
+ * @param {String} key
+ */
+Dictionary.prototype.getFieldMessage = function getFieldMessage (locale, field, key) {
+  if (! this.hasLocale(locale)) {
+    return this.getMessage(locale, key);
+  }
+
+  var dict = this.container[locale].custom && this.container[locale].custom[field];
+  if (! dict || ! dict[key]) {
+    return this.getMessage(locale, key);
+  }
+
+  return dict[key];
+};
+
+Dictionary.prototype._getDefaultMessage = function _getDefaultMessage (locale) {
+  if (this.hasMessage(locale, '_default')) {
+    return this.container[locale].messages._default;
+  }
+
+  return this.container.en.messages._default;
+};
+
+Dictionary.prototype.getAttribute = function getAttribute (locale, key, fallback) {
+    if ( fallback === void 0 ) fallback = '';
+
+  if (! this.hasAttribute(locale, key)) {
+    return fallback;
+  }
+
+  return this.container[locale].attributes[key];
+};
+
+Dictionary.prototype.hasMessage = function hasMessage (locale, key) {
+  return !! (
+    this.hasLocale(locale) &&
+          this.container[locale].messages &&
+          this.container[locale].messages[key]
+  );
+};
+
+Dictionary.prototype.hasAttribute = function hasAttribute (locale, key) {
+  return !! (
+    this.hasLocale(locale) &&
+          this.container[locale].attributes &&
+          this.container[locale].attributes[key]
+  );
+};
+
+Dictionary.prototype.merge = function merge (dictionary) {
+  this._merge(this.container, dictionary);
+};
+
+Dictionary.prototype.setMessage = function setMessage (locale, key, message) {
+  if (! this.hasLocale(locale)) {
+    this.container[locale] = {
+      messages: {},
+      attributes: {}
+    };
+  }
+
+  this.container[locale].messages[key] = message;
+};
+
+Dictionary.prototype.setAttribute = function setAttribute (locale, key, attribute) {
+  if (! this.hasLocale(locale)) {
+    this.container[locale] = {
+      messages: {},
+      attributes: {}
+    };
+  }
+
+  this.container[locale].attributes[key] = attribute;
+};
+
+Dictionary.prototype._merge = function _merge (target, source) {
+    var this$1 = this;
+
+  if (! (isObject(target) && isObject(source))) {
+    return target;
+  }
+
+  Object.keys(source).forEach(function (key) {
+    if (isObject(source[key])) {
+      if (! target[key]) {
+        assign(target, ( obj = {}, obj[key] = {}, obj ));
+          var obj;
+      }
+
+      this$1._merge(target[key], source[key]);
+      return;
+    }
+
+    assign(target, ( obj$1 = {}, obj$1[key] = source[key], obj$1 ));
+      var obj$1;
+  });
+
+  return target;
+};
+
+var messages = {
+  _default: function (field) { return ("The " + field + " value is not valid."); },
+  alpha_dash: function (field) { return ("The " + field + " field may contain alpha-numeric characters as well as dashes and underscores."); },
+  alpha_num: function (field) { return ("The " + field + " field may only contain alpha-numeric characters."); },
+  alpha_spaces: function (field) { return ("The " + field + " field may only contain alphabetic characters as well as spaces."); },
+  alpha: function (field) { return ("The " + field + " field may only contain alphabetic characters."); },
+  between: function (field, ref) {
+    var min = ref[0];
+    var max = ref[1];
+
+    return ("The " + field + " field must be between " + min + " and " + max + ".");
+},
+  confirmed: function (field) { return ("The " + field + " confirmation does not match."); },
+  credit_card: function (field) { return ("The " + field + " field is invalid."); },
+  decimal: function (field, ref) {
+    if ( ref === void 0 ) ref = ['*'];
+    var decimals = ref[0];
+
+    return ("The " + field + " field must be numeric and may contain " + (!decimals || decimals === '*' ? '' : decimals) + " decimal points.");
+},
+  digits: function (field, ref) {
+    var length = ref[0];
+
+    return ("The " + field + " field must be numeric and exactly contain " + length + " digits.");
+},
+  dimensions: function (field, ref) {
+    var width = ref[0];
+    var height = ref[1];
+
+    return ("The " + field + " field must be " + width + " pixels by " + height + " pixels.");
+},
+  email: function (field) { return ("The " + field + " field must be a valid email."); },
+  ext: function (field) { return ("The " + field + " field must be a valid file."); },
+  image: function (field) { return ("The " + field + " field must be an image."); },
+  in: function (field) { return ("The " + field + " field must be a valid value."); },
+  ip: function (field) { return ("The " + field + " field must be a valid ip address."); },
+  max: function (field, ref) {
+    var length = ref[0];
+
+    return ("The " + field + " field may not be greater than " + length + " characters.");
+},
+  max_value: function (field, ref) {
+    var max = ref[0];
+
+    return ("The " + field + " field must be " + max + " or less.");
+},
+  mimes: function (field) { return ("The " + field + " field must have a valid file type."); },
+  min: function (field, ref) {
+    var length = ref[0];
+
+    return ("The " + field + " field must be at least " + length + " characters.");
+},
+  min_value: function (field, ref) {
+    var min = ref[0];
+
+    return ("The " + field + " field must be " + min + " or more.");
+},
+  not_in: function (field) { return ("The " + field + " field must be a valid value."); },
+  numeric: function (field) { return ("The " + field + " field may only contain numeric characters."); },
+  regex: function (field) { return ("The " + field + " field format is invalid."); },
+  required: function (field) { return ("The " + field + " field is required."); },
+  size: function (field, ref) {
+    var size = ref[0];
+
+    return ("The " + field + " field must be less than " + size + " KB.");
+},
+  url: function (field) { return ("The " + field + " field is not a valid URL."); }
+};
+
+/**
+ * Generates the options required to construct a field.
+ */
+var Generator = function Generator () {};
+
+Generator.generate = function generate (el, binding, vnode, options) {
+    if ( options === void 0 ) options = {};
+
+  var model = Generator.resolveModel(binding, vnode);
+
+  return {
+    name: Generator.resolveName(el, vnode),
+    el: el,
+    listen: !binding.modifiers.disable,
+    scope: Generator.resolveScope(el, binding, vnode),
+    vm: Generator.makeVM(vnode.context),
+    expression: binding.value,
+    component: vnode.child,
+    classes: options.classes,
+    classNames: options.classNames,
+    getter: Generator.resolveGetter(el, vnode, model),
+    events: Generator.resolveEvents(el, vnode) || options.events,
+    model: model,
+    delay: Generator.resolveDelay(el, vnode, options),
+    rules: getRules(binding, el),
+    initial: !!binding.modifiers.initial,
+    alias: Generator.resolveAlias(el, vnode)
+  };
+};
+
+/**
+ * Creates a non-circular partial VM instance from a Vue instance.
+ * @param {*} vm 
+ */
+Generator.makeVM = function makeVM (vm) {
+  return {
+    $el: vm.$el || null,
+    $refs: vm.$refs || {},
+    $watch: vm.$watch ? vm.$watch.bind(vm) : function () {},
+    $validator: vm.$validator ? {
+      errors: vm.$validator.errors,
+      validate: vm.$validator.validate.bind(vm.$validator)
+    } : null
+  };
+};
+
+/**
+ * Resolves the delay value.
+ * @param {*} el
+ * @param {*} vnode
+ * @param {Object} options
+ */
+Generator.resolveDelay = function resolveDelay (el, vnode, options) {
+    if ( options === void 0 ) options = {};
+
+  return getDataAttribute(el, 'delay') || (vnode.child && vnode.child.$attrs && vnode.child.$attrs['data-vv-delay']) || options.delay;
+};
+
+/**
+ * Resolves the alias for the field.
+ * @param {*} el 
+ * @param {*} vnode 
+ */
+Generator.resolveAlias = function resolveAlias (el, vnode) {
+  return getDataAttribute(el, 'as') || (vnode.child && vnode.child.$attrs && vnode.child.$attrs['data-vv-as']) || el.title || null;
+};
+
+/**
+ * Resolves the events to validate in response to.
+ * @param {*} el
+ * @param {*} vnode
+ */
+Generator.resolveEvents = function resolveEvents (el, vnode) {
+  if (vnode.child) {
+    return getDataAttribute(el, 'validate-on') || (vnode.child.$attrs && vnode.child.$attrs['data-vv-validate-on']);
+  }
+
+  return getDataAttribute(el, 'validate-on');
+};
+
+/**
+ * Resolves the scope for the field.
+ * @param {*} el
+ * @param {*} binding
+ */
+Generator.resolveScope = function resolveScope (el, binding, vnode) {
+    if ( vnode === void 0 ) vnode = {};
+
+  var scope = null;
+  if (isObject(binding.value)) {
+    scope = binding.value.scope;
+  }
+
+  if (vnode.child && !scope) {
+    scope = vnode.child.$attrs && vnode.child.$attrs['data-vv-scope'];
+  }
+
+  return scope || getScope(el);
+};
+
+/**
+ * Checks if the node directives contains a v-model or a specified arg.
+ * Args take priority over models.
+ *
+ * @return {Object}
+ */
+Generator.resolveModel = function resolveModel (binding, vnode) {
+  if (binding.arg) {
+    return binding.arg;
+  }
+
+  if (isObject(binding.value) && binding.value.arg) {
+    return binding.value.arg;
+  }
+
+  var model = vnode.data.model || find(vnode.data.directives, function (d) { return d.name === 'model'; });
+  if (!model) {
+    return null;
+  }
+
+  var watchable = /^[a-z_]+[0-9]*(\w*\.[a-z_]\w*)*$/i.test(model.expression) && hasPath(model.expression, vnode.context);
+
+  if (!watchable) {
+    return null;
+  }
+
+  return model.expression;
+};
+
+/**
+   * Resolves the field name to trigger validations.
+   * @return {String} The field name.
+   */
+Generator.resolveName = function resolveName (el, vnode) {
+  if (vnode.child) {
+    return getDataAttribute(el, 'name') || (vnode.child.$attrs && (vnode.child.$attrs['data-vv-name'] || vnode.child.$attrs['name'])) || vnode.child.name;
+  }
+
+  return getDataAttribute(el, 'name') || el.name;
+};
+
+/**
+ * Returns a value getter input type.
+ */
+Generator.resolveGetter = function resolveGetter (el, vnode, model) {
+  if (model) {
+    return function () {
+      return getPath(model, vnode.context);
+    };
+  }
+
+  if (vnode.child) {
+    return function () {
+      var path = getDataAttribute(el, 'value-path') || (vnode.child.$attrs && vnode.child.$attrs['data-vv-value-path']);
+      if (path) {
+        return getPath(path, vnode.child);
+      }
+      return vnode.child.value;
+    };
+  }
+
+  switch (el.type) {
+  case 'checkbox': return function () {
+    var els = document.querySelectorAll(("input[name=\"" + (el.name) + "\"]"));
+
+    els = toArray(els).filter(function (el) { return el.checked; });
+    if (!els.length) { return undefined; }
+
+    return els.map(function (checkbox) { return checkbox.value; });
+  };
+  case 'radio': return function () {
+    var els = document.querySelectorAll(("input[name=\"" + (el.name) + "\"]"));
+    var elm = find(els, function (el) { return el.checked; });
+
+    return elm && elm.value;
+  };
+  case 'file': return function (context) {
+    return toArray(el.files);
+  };
+  case 'select-multiple': return function () {
+    return toArray(el.options).filter(function (opt) { return opt.selected; }).map(function (opt) { return opt.value; });
+  };
+  default: return function () {
+    return el && el.value;
+  };
+  }
+};
+
+var DEFAULT_OPTIONS = {
+  targetOf: null,
+  initial: false,
+  scope: null,
+  listen: true,
+  name: null,
+  active: true,
+  required: false,
+  rules: {},
+  vm: null,
+  classes: false,
+  events: 'input|blur',
+  delay: 0,
+  classNames: {
+    touched: 'touched', // the control has been blurred
+    untouched: 'untouched', // the control hasn't been blurred
+    valid: 'valid', // model is valid
+    invalid: 'invalid', // model is invalid
+    pristine: 'pristine', // control has not been interacted with
+    dirty: 'dirty' // control has been interacted with
+  }
+};
+
+/**
+ * Generates the default flags for the field.
+ * @param {Object} options
+ */
+var generateFlags = function (options) { return ({
+  untouched: true,
+  touched: false,
+  dirty: false,
+  pristine: true,
+  valid: null,
+  invalid: null,
+  validated: false,
+  pending: false,
+  required: !!options.rules.required
+}); };
+
+var Field = function Field (el, options) {
+  if ( options === void 0 ) options = {};
+
+  this.id = uniqId();
+  this.el = el;
+  this.updated = false;
+  this.expression = null;
+  this.dependencies = [];
+  this.watchers = [];
+  this.events = [];
+  this.rules = {};
+  if (!this.isHeadless && !(this.targetOf || options.targetOf)) {
+    setDataAttribute(this.el, 'id', this.id); // cache field id if it is independent and has a root element.
+  }
+  options = assign({}, DEFAULT_OPTIONS, options);
+  this.flags = generateFlags(options);
+  this.vm = options.vm || this.vm;
+  this.component = options.component || this.component;
+  this.update(options);
+};
+
+var prototypeAccessors$1 = { isVue: {},validator: {},isRequired: {},isDisabled: {},isHeadless: {},displayName: {},value: {},rejectsFalse: {} };
+
+prototypeAccessors$1.isVue.get = function () {
+  return !!this.component;
+};
+
+prototypeAccessors$1.validator.get = function () {
+  if (!this.vm || !this.vm.$validator) {
+    warn('No validator instance detected.');
+    return { validate: function () {} };
+  }
+
+  return this.vm.$validator;
+};
+
+prototypeAccessors$1.isRequired.get = function () {
+  return !!this.rules.required;
+};
+
+prototypeAccessors$1.isDisabled.get = function () {
+  return (this.isVue && this.component.disabled) || (this.el && this.el.disabled);
+};
+
+prototypeAccessors$1.isHeadless.get = function () {
+  return !this.el;
+};
+
+/**
+ * Gets the display name (user-friendly name).
+ * @return {String}
+ */
+prototypeAccessors$1.displayName.get = function () {
+  return this.alias;
+};
+
+/**
+ * Gets the input value.
+ * @return {*}
+ */
+prototypeAccessors$1.value.get = function () {
+  if (!isCallable(this.getter)) {
+    return undefined;
+  }
+
+  return this.getter();
+};
+
+/**
+ * If the field rejects false as a valid value for the required rule. 
+ */
+prototypeAccessors$1.rejectsFalse.get = function () {
+  if (this.isVue || this.isHeadless) {
+    return false;
+  }
+
+  return this.el.type === 'checkbox';
+};
+
+/**
+ * Determines if the instance matches the options provided.
+ * @param {Object} options The matching options.
+ */
+Field.prototype.matches = function matches (options) {
+  if (options.id) {
+    return this.id === options.id;
+  }
+
+  if (options.name === undefined && options.scope === undefined) {
+    return true;
+  }
+
+  if (options.scope === undefined) {
+    return this.name === options.name;
+  }
+
+  if (options.name === undefined) {
+    return this.scope === options.scope;
+  }
+
+  return options.name === this.name && options.scope === this.scope;
+};
+
+/**
+ *
+ * @param {Object} options
+ */
+Field.prototype.update = function update (options) {
+  this.targetOf = options.targetOf || null;
+  this.initial = options.initial || this.initial || false;
+  this.scope = options.scope || this.scope || null;
+  this.name = options.name || this.name || null;
+  this.rules = options.rules ? normalizeRules(options.rules) : this.rules;
+  this.model = options.model || this.model;
+  this.listen = options.listen !== undefined ? options.listen : this.listen;
+  this.classes = options.classes || this.classes || false;
+  this.classNames = options.classNames || this.classNames || DEFAULT_OPTIONS.classNames;
+  this.expression = JSON.stringify(options.expression);
+  this.alias = options.alias || this.alias;
+  this.getter = isCallable(options.getter) ? options.getter : this.getter;
+  this.delay = options.delay || this.delay || 0;
+  this.events = typeof options.events === 'string' && options.events.length ? options.events.split('|') : this.events;
+  this.updateDependencies();
+  this.addActionListeners();
+  if (this.updated && this.validator.errors && isCallable(this.validator.errors.update)) {
+    this.validator.errors.update(this.id, { scope: this.scope });
+  }
+
+  // validate if it is updated and was validated before and there was a rules mutation.
+  if (this.updated && this.flags.validated && options.rules) {
+    this.validator.validate(("#" + (this.id)));
+  }
+
+  this.updated = true;
+  // no need to continue.
+  if (this.isHeadless) {
+    return;
+  }
+
+  this.updateClasses();
+  this.addValueListeners();
+  this.updateAriaAttrs();
+};
+
+/**
+ * Determines if the field requires references to target fields.
+*/
+Field.prototype.updateDependencies = function updateDependencies () {
+    var this$1 = this;
+
+  // reset dependencies.
+  this.dependencies.forEach(function (d) { return d.field.destroy(); });
+  this.dependencies = [];
+
+  // we get the selectors for each field.
+  var fields = Object.keys(this.rules).reduce(function (prev, r) {
+    if (r === 'confirmed') {
+      prev.push({ selector: this$1.rules[r][0] || ((this$1.name) + "_confirmation"), name: r });
+    } else if (/after|before/.test(r)) {
+      prev.push({ selector: this$1.rules[r][0], name: r });
+    }
+
+    return prev;
+  }, []);
+
+  if (!fields.length || !this.vm || !this.vm.$el) { return; }
+
+  // must be contained within the same component, so we use the vm root element constrain our dom search.
+  fields.forEach(function (ref) {
+      var selector = ref.selector;
+      var name = ref.name;
+
+    var el = null;
+    // vue ref selector.
+    if (selector[0] === '$') {
+      el = this$1.vm.$refs[selector.slice(1)];
+    } else {
+      // try a query selection.
+      el = this$1.vm.$el.querySelector(selector);
+    }
+
+    if (!el) {
+      // try a name selector
+      el = this$1.vm.$el.querySelector(("input[name=\"" + selector + "\"]"));
+    }
+
+    if (!el) {
+      return;
+    }
+
+    var options = {
+      vm: this$1.vm,
+      classes: this$1.classes,
+      classNames: this$1.classNames,
+      delay: this$1.delay,
+      scope: this$1.scope,
+      events: this$1.events.join('|'),
+      initial: this$1.initial,
+      targetOf: this$1.id
+    };
+
+    // probably a component.
+    if (isCallable(el.$watch)) {
+      options.component = el;
+      options.el = el.$el;
+      options.getter = Generator.resolveGetter(el.$el, { child: el });
+    } else {
+      options.el = el;
+      options.getter = Generator.resolveGetter(el, {});
+    }
+
+    this$1.dependencies.push({ name: name, field: new Field(options.el, options) });
+  });
+};
+
+/**
+ * Removes listeners.
+ * @param {RegExp} tag
+ */
+Field.prototype.unwatch = function unwatch (tag) {
+  if (!tag) {
+    this.watchers.forEach(function (w) { return w.unwatch(); });
+    this.watchers = [];
+    return;
+  }
+  this.watchers.filter(function (w) { return tag.test(w.tag); }).forEach(function (w) { return w.unwatch(); });
+  this.watchers = this.watchers.filter(function (w) { return !tag.test(w.tag); });
+};
+
+/**
+ * Updates the element classes depending on each field flag status.
+ */
+Field.prototype.updateClasses = function updateClasses () {
+  if (!this.classes) { return; }
+
+  toggleClass(this.el, this.classNames.dirty, this.flags.dirty);
+  toggleClass(this.el, this.classNames.pristine, this.flags.pristine);
+  toggleClass(this.el, this.classNames.valid, !!this.flags.valid);
+  toggleClass(this.el, this.classNames.invalid, !!this.flags.invalid);
+  toggleClass(this.el, this.classNames.touched, this.flags.touched);
+  toggleClass(this.el, this.classNames.untouched, this.flags.untouched);
+};
+
+/**
+ * Adds the listeners required for automatic classes and some flags.
+ */
+Field.prototype.addActionListeners = function addActionListeners () {
+    var this$1 = this;
+
+  // remove previous listeners.
+  this.unwatch(/class/);
+
+  var onBlur = function () {
+    this$1.flags.touched = true;
+    this$1.flags.untouched = false;
+    if (this$1.classes) {
+      toggleClass(this$1.el, this$1.classNames.touched, true);
+      toggleClass(this$1.el, this$1.classNames.untouched, false);
+    }
+
+    // only needed once.
+    this$1.unwatch(/^class_blur$/);
+  };
+
+  var inputEvent = getInputEventName(this.el);
+  var onInput = function () {
+    this$1.flags.dirty = true;
+    this$1.flags.pristine = false;
+    if (this$1.classes) {
+      toggleClass(this$1.el, this$1.classNames.pristine, false);
+      toggleClass(this$1.el, this$1.classNames.dirty, true);
+    }
+
+    // only needed once.
+    this$1.unwatch(/^class_input$/);
+  };
+
+  if (this.isVue && isCallable(this.component.$once)) {
+    this.component.$once('input', onInput);
+    this.component.$once('blur', onBlur);
+    this.watchers.push({
+      tag: 'class_input',
+      unwatch: function () {
+        this$1.component.$off('input', onInput);
+      }
+    });
+    this.watchers.push({
+      tag: 'class_blur',
+      unwatch: function () {
+        this$1.component.$off('blur', onBlur);
+      }
+    });
+    return;
+  }
+
+  if (this.isHeadless) { return; }
+
+  this.el.addEventListener(inputEvent, onInput);
+  // Checkboxes and radio buttons on Mac don't emit blur naturally, so we listen on click instead.
+  var blurEvent = ['radio', 'checkbox'].indexOf(this.el.type) === -1 ? 'blur' : 'click';
+  this.el.addEventListener(blurEvent, onBlur);
+  this.watchers.push({
+    tag: 'class_input',
+    unwatch: function () {
+      this$1.el.removeEventListener(inputEvent, onInput);
+    }
+  });
+
+  this.watchers.push({
+    tag: 'class_blur',
+    unwatch: function () {
+      this$1.el.removeEventListener(blurEvent, onBlur);
+    }
+  });
+};
+
+/**
+ * Adds the listeners required for validation.
+ */
+Field.prototype.addValueListeners = function addValueListeners () {
+    var this$1 = this;
+
+  this.unwatch(/^input_.+/);
+  if (!this.listen) { return; }
+
+  var fn = null;
+  if (this.targetOf) {
+    fn = function () {
+      this$1.validator.validate(("#" + (this$1.targetOf)));
+    };
+  } else {
+    fn = function () {
+        var args = [], len = arguments.length;
+        while ( len-- ) args[ len ] = arguments[ len ];
+
+      if (args.length === 0 || args[0] instanceof Event) {
+        args[0] = this$1.value;
+      }
+      this$1.validator.validate(("#" + (this$1.id)), args[0]);
+    };
+  }
+  var validate = debounce(fn, this.delay);
+
+  var inputEvent = getInputEventName(this.el);
+  // replace input event with suitable one.
+  var events = this.events.map(function (e) {
+    return e === 'input' ? inputEvent : e;
+  });
+
+  // if there is a watchable model and an on input validation is requested.
+  if (this.model && events.indexOf(inputEvent) !== -1) {
+    var unwatch = this.vm.$watch(this.model, validate);
+    this.watchers.push({
+      tag: 'input_model',
+      unwatch: unwatch
+    });
+    // filter out input event as it is already handled by the watcher API.
+    events = events.filter(function (e) { return e !== inputEvent; });
+  }
+
+  // Add events.
+  events.forEach(function (e) {
+    if (this$1.isVue) {
+      this$1.component.$on(e, validate);
+      this$1.watchers.push({
+        tag: 'input_vue',
+        unwatch: function () {
+          this$1.component.$off(e, validate);
+        }
+      });
+      return;
+    }
+
+    if (~['radio', 'checkbox'].indexOf(this$1.el.type)) {
+      var els = document.querySelectorAll(("input[name=\"" + (this$1.el.name) + "\"]"));
+      toArray(els).forEach(function (el) {
+        el.addEventListener(e, validate);
+        this$1.watchers.push({
+          tag: 'input_native',
+          unwatch: function () {
+            el.removeEventListener(e, validate);
+          }
+        });
+      });
+
+      return;
+    }
+
+    this$1.el.addEventListener(e, validate);
+    this$1.watchers.push({
+      tag: 'input_native',
+      unwatch: function () {
+        this$1.el.removeEventListener(e, validate);
+      }
+    });
+  });
+};
+
+/**
+ * Updates aria attributes on the element.
+ */
+Field.prototype.updateAriaAttrs = function updateAriaAttrs () {
+  if (this.isHeadless || !isCallable(this.el.setAttribute)) { return; }
+
+  this.el.setAttribute('aria-required', this.isRequired ? 'true' : 'false');
+  this.el.setAttribute('aria-invalid', this.flags.invalid ? 'true' : 'false');
+};
+
+/**
+ * Updates the custom validity for the field.
+ */
+Field.prototype.updateCustomValidity = function updateCustomValidity () {
+  if (this.isHeadless || !isCallable(this.el.setCustomValidity)) { return; }
+
+  this.el.setCustomValidity(this.flags.valid ? '' : (this.validator.errors.firstById(this.id) || ''));
+};
+
+/**
+ * Removes all listeners.
+ */
+Field.prototype.destroy = function destroy () {
+  this.watchers.forEach(function (w) { return w.unwatch(); });
+  this.watchers = [];
+  this.dependencies.forEach(function (d) { return d.field.destroy(); });
+  this.dependencies = [];
+};
+
+Object.defineProperties( Field.prototype, prototypeAccessors$1 );
+
+var FieldBag = function FieldBag () {
+  this.items = [];
+};
+
+var prototypeAccessors$2 = { length: {} };
+
+/**
+ * @return {Number} The current collection length.
+ */
+prototypeAccessors$2.length.get = function () {
+  return this.items.length;
+};
+
+/**
+ * Finds the first field that matches the provided matcher object.
+ * @param {Object} matcher
+ * @return {Field|undefined} The first matching item.
+ */
+FieldBag.prototype.find = function find$1 (matcher) {
+  return find(this.items, function (item) { return item.matches(matcher); });
+};
+
+/**
+ * @param {Object|Array} matcher
+ * @return {Array} Array of matching field items.
+ */
+FieldBag.prototype.filter = function filter (matcher) {
+  // multiple matchers to be tried.
+  if (Array.isArray(matcher)) {
+    return this.items.filter(function (item) { return matcher.some(function (m) { return item.matches(m); }); });
+  }
+
+  return this.items.filter(function (item) { return item.matches(matcher); });
+};
+
+/**
+ * Maps the field items using the mapping function.
+ *
+ * @param {Function} mapper
+ */
+FieldBag.prototype.map = function map (mapper) {
+  return this.items.map(mapper);
+};
+
+/**
+ * Finds and removes the first field that matches the provided matcher object, returns the removed item.
+ * @param {Object|Field} matcher
+ * @return {Field|null}
+ */
+FieldBag.prototype.remove = function remove (matcher) {
+  var item = null;
+  if (matcher instanceof Field) {
+    item = matcher;
+  } else {
+    item = this.find(matcher);
+  }
+
+  if (!item) { return null; }
+
+  var index = this.items.indexOf(item);
+  this.items.splice(index, 1);
+
+  return item;
+};
+
+/**
+ * Adds a field item to the list.
+ *
+ * @param {Field} item
+ */
+FieldBag.prototype.push = function push (item) {
+  if (! (item instanceof Field)) {
+    throw createError('FieldBag only accepts instances of Field that has an id defined.');
+  }
+
+  if (!item.id) {
+    throw createError('Field id must be defined.');
+  }
+
+  if (this.find({ id: item.id })) {
+    throw createError(("Field with id " + (item.id) + " is already added."));
+  }
+
+  this.items.push(item);
+};
+
+Object.defineProperties( FieldBag.prototype, prototypeAccessors$2 );
+
+var after = function (moment) { return function (value, ref) {
+  var other = ref[0];
+  var inclusion = ref[1];
+  var format = ref[2];
+
+  if (typeof format === 'undefined') {
+    format = inclusion;
+    inclusion = false;
+  }
+
+  var dateValue = moment(value, format, true);
+  var otherValue = moment(other, format, true);
+
+  // if either is not valid.
+  if (! dateValue.isValid() || ! otherValue.isValid()) {
+    return false;
+  }
+
+  return dateValue.isAfter(otherValue) || (inclusion && dateValue.isSame(otherValue));
+}; };
+
+var before = function (moment) { return function (value, ref) {
+  var other = ref[0];
+  var inclusion = ref[1];
+  var format = ref[2];
+
+  if (typeof format === 'undefined') {
+    format = inclusion;
+    inclusion = false;
+  }
+  var dateValue = moment(value, format, true);
+  var otherValue = moment(other, format, true);
+
+  // if either is not valid.
+  if (! dateValue.isValid() || ! otherValue.isValid()) {
+    return false;
+  }
+
+  return dateValue.isBefore(otherValue) || (inclusion && dateValue.isSame(otherValue));
+}; };
+
+var date_format = function (moment) { return function (value, ref) {
+	var format = ref[0];
+
+	return moment(value, format, true).isValid();
+ }	};
+
+var date_between = function (moment) { return function (value, params) {
+  var min;
+  var max;
+  var format;
+  var inclusivity = '()';
+
+  if (params.length > 3) {
+    var assign;
+    (assign = params, min = assign[0], max = assign[1], inclusivity = assign[2], format = assign[3]);
+  } else {
+    var assign$1;
+    (assign$1 = params, min = assign$1[0], max = assign$1[1], format = assign$1[2]);
+  }
+
+  var minDate = moment(min, format, true);
+  var maxDate = moment(max, format, true);
+  var dateVal = moment(value, format, true);
+
+  if (! (minDate.isValid() && maxDate.isValid() && dateVal.isValid())) {
+    return false;
+  }
+
+  return dateVal.isBetween(minDate, maxDate, 'days', inclusivity);
+}; };
+
+var messages$1 = {
+  after: function (field, ref) {
+    var target = ref[0];
+    var inclusion = ref[1];
+
+    return ("The " + field + " must be after " + (inclusion ? 'or equal to ' : '') + target + ".");
+},
+  before: function (field, ref) {
+    var target = ref[0];
+    var inclusion = ref[1];
+
+    return ("The " + field + " must be before " + (inclusion ? 'or equal to ' : '') + target + ".");
+},
+  date_between: function (field, ref) {
+    var min = ref[0];
+    var max = ref[1];
+
+    return ("The " + field + " must be between " + min + " and " + max + ".");
+},
+  date_format: function (field, ref) {
+    var format = ref[0];
+
+    return ("The " + field + " must be in the format " + format + ".");
+}
+};
+
+var date = {
+  make: function (moment) { return ({
+    date_format: date_format(moment),
+    after: after(moment),
+    before: before(moment),
+    date_between: date_between(moment)
+  }); },
+  messages: messages$1,
+  installed: false
+};
+
+var LOCALE = 'en';
+var STRICT_MODE = true;
+var DICTIONARY = new Dictionary({
+  en: {
+    messages: messages,
+    attributes: {},
+    custom: {}
+  }
+});
+
+var Validator = function Validator (validations, options) {
+  var this$1 = this;
+  if ( options === void 0 ) options = { vm: null, fastExit: true };
+
+  this.strict = STRICT_MODE;
+  this.errors = new ErrorBag();
+  this.fields = new FieldBag();
+  this.fieldBag = {};
+  this._createFields(validations);
+  this.paused = false;
+  this.fastExit = options.fastExit || false;
+  // create it statically since we don't need constant access to the vm.
+  this.clean = options.vm && isCallable(options.vm.$nextTick) ? function () {
+    options.vm.$nextTick(function () {
+      this$1.errors.clear();
+    });
+  } : function () {
+    this$1.errors.clear();
+  };
+
+  // if momentjs is present, install the validators.
+  if (typeof moment === 'function') {
+    // eslint-disable-next-line
+    this.installDateTimeValidators(moment);
+  }
+};
+
+var prototypeAccessors = { dictionary: {},locale: {},rules: {} };
+var staticAccessors = { dictionary: {},rules: {} };
+
+/**
+ * @return {Dictionary}
+ */
+prototypeAccessors.dictionary.get = function () {
+  return DICTIONARY;
+};
+
+/**
+ * @return {Dictionary}
+ */
+staticAccessors.dictionary.get = function () {
+  return DICTIONARY;
+};
+
+/**
+ * @return {String}
+ */
+prototypeAccessors.locale.get = function () {
+  return LOCALE;
+};
+
+/**
+ * @return {Object}
+ */
+prototypeAccessors.rules.get = function () {
+  return Rules;
+};
+
+/**
+ * @return {Object}
+ */
+staticAccessors.rules.get = function () {
+  return Rules;
+};
+
+/**
+ * Merges a validator object into the Rules and Messages.
+ *
+ * @param{string} name The name of the validator.
+ * @param{function|object} validator The validator object.
+ */
+Validator._merge = function _merge (name, validator) {
+  if (isCallable(validator)) {
+    Rules[name] = validator;
+    return;
+  }
+
+  Rules[name] = validator.validate;
+  if (isCallable(validator.getMessage)) {
+    DICTIONARY.setMessage(LOCALE, name, validator.getMessage);
+  }
+
+  if (validator.messages) {
+    DICTIONARY.merge(
+      Object.keys(validator.messages).reduce(function (prev, curr) {
+        var dict = prev;
+        dict[curr] = {
+          messages: ( obj = {}, obj[name] = validator.messages[curr], obj )
+        };
+          var obj;
+
+        return dict;
+      }, {})
+    );
+  }
+};
+
+/**
+ * Guards from extnsion violations.
+ *
+ * @param{string} name name of the validation rule.
+ * @param{object} validator a validation rule object.
+ */
+Validator._guardExtend = function _guardExtend (name, validator) {
+  if (isCallable(validator)) {
+    return;
+  }
+
+  if (! isCallable(validator.validate)) {
+    throw createError(
+      // eslint-disable-next-line
+      ("Extension Error: The validator '" + name + "' must be a function or have a 'validate' method.")
+    );
+  }
+
+  if (! isCallable(validator.getMessage) && ! isObject(validator.messages)) {
+    throw createError(
+      // eslint-disable-next-line
+      ("Extension Error: The validator '" + name + "' must have a 'getMessage' method or have a 'messages' object.")
+    );
+  }
+};
+
+/**
+ * Static constructor.
+ *
+ * @param{object} validations The validations object.
+ * @return {Validator} validator A validator object.
+ */
+Validator.create = function create (validations, options) {
+  return new Validator(validations, options);
+};
+
+/**
+ * Adds a custom validator to the list of validation rules.
+ *
+ * @param{string} name The name of the validator.
+ * @param{object|function} validator The validator object/function.
+ */
+Validator.extend = function extend (name, validator) {
+  Validator._guardExtend(name, validator);
+  Validator._merge(name, validator);
+};
+
+/**
+ * Installs the datetime validators and the messages.
+ */
+Validator.installDateTimeValidators = function installDateTimeValidators (moment) {
+  if (typeof moment !== 'function') {
+    warn('To use the date-time validators you must provide moment reference.');
+
+    return false;
+  }
+
+  if (date.installed) {
+    return true;
+  }
+
+  var validators = date.make(moment);
+  Object.keys(validators).forEach(function (name) {
+    Validator.extend(name, validators[name]);
+  });
+
+  Validator.updateDictionary({
+    en: {
+      messages: date.messages
+    }
+  });
+  date.installed = true;
+
+  return true;
+};
+
+/**
+ * Removes a rule from the list of validators.
+ * @param {String} name The name of the validator/rule.
+ */
+Validator.remove = function remove (name) {
+  delete Rules[name];
+};
+
+/**
+ * Sets the default locale for all validators.
+ *
+ * @param {String} language The locale id.
+ */
+Validator.setLocale = function setLocale (language) {
+    if ( language === void 0 ) language = 'en';
+
+  /* istanbul ignore if */
+  if (! DICTIONARY.hasLocale(language)) {
+    // eslint-disable-next-line
+    warn('You are setting the validator locale to a locale that is not defined in the dicitionary. English messages may still be generated.');
+  }
+
+  LOCALE = language;
+};
+
+/**
+ * Sets the operating mode for all newly created validators.
+ * strictMode = true: Values without a rule are invalid and cause failure.
+ * strictMode = false: Values without a rule are valid and are skipped.
+ * @param {Boolean} strictMode.
+ */
+Validator.setStrictMode = function setStrictMode (strictMode) {
+    if ( strictMode === void 0 ) strictMode = true;
+
+  STRICT_MODE = strictMode;
+};
+
+/**
+ * Updates the dicitionary, overwriting existing values and adding new ones.
+ *
+ * @param{object} data The dictionary object.
+ */
+Validator.updateDictionary = function updateDictionary (data) {
+  DICTIONARY.merge(data);
+};
+
+Validator.addLocale = function addLocale (locale) {
+  if (! locale.name) {
+    warn('Your locale must have a name property');
+    return;
+  }
+
+  this.updateDictionary(( obj = {}, obj[locale.name] = locale, obj ));
+    var obj;
+};
+
+Validator.prototype.addLocale = function addLocale (locale) {
+  Validator.addLocale(locale);
+};
+
+/**
+ * Creates the fields to be validated.
+ *
+ * @param{object} validations
+ * @return {object} Normalized object.
+ */
+Validator.prototype._createFields = function _createFields (validations) {
+    var this$1 = this;
+
+  if (! validations) { return; }
+
+  Object.keys(validations).forEach(function (field) {
+    var options = assign({}, { name: field, rules: validations[field] });
+    this$1.attach(options);
+  });
+};
+
+/**
+ * Date rules need the existance of a format, so date_format must be supplied.
+ * @param {String} name The rule name.
+ * @param {Array} validations the field validations.
+ */
+Validator.prototype._getDateFormat = function _getDateFormat (validations) {
+  var format = null;
+  if (validations.date_format && Array.isArray(validations.date_format)) {
+    format = validations.date_format[0];
+  }
+
+  return format || this.dictionary.getDateFormat(this.locale);
+};
+
+/**
+ * Checks if the passed rule is a date rule.
+ */
+Validator.prototype._isADateRule = function _isADateRule (rule) {
+  return !! ~['after', 'before', 'date_between', 'date_format'].indexOf(rule);
+};
+
+/**
+ * Formats an error message for field and a rule.
+ *
+ * @param{Field} field The field object.
+ * @param{object} rule Normalized rule object.
+ * @param {object} data Additional Information about the validation result.
+ * @return {string} Formatted error message.
+ */
+Validator.prototype._formatErrorMessage = function _formatErrorMessage (field, rule, data) {
+    if ( data === void 0 ) data = {};
+
+  var name = this._getFieldDisplayName(field);
+  var params = this._getLocalizedParams(rule);
+  // Defaults to english message.
+  if (! this.dictionary.hasLocale(LOCALE)) {
+    var msg$1 = this.dictionary.getFieldMessage('en', field.name, rule.name);
+
+    return isCallable(msg$1) ? msg$1(name, params, data) : msg$1;
+  }
+
+  var msg = this.dictionary.getFieldMessage(LOCALE, field.name, rule.name);
+
+  return isCallable(msg) ? msg(name, params, data) : msg;
+};
+
+/**
+ * Translates the parameters passed to the rule (mainly for target fields).
+ */
+Validator.prototype._getLocalizedParams = function _getLocalizedParams (rule) {
+  if (~ ['after', 'before', 'confirmed'].indexOf(rule.name) && rule.params && rule.params[0]) {
+    if (rule.params.length > 1) {
+      return [this.dictionary.getAttribute(LOCALE, rule.params[0], rule.params[0]), rule.params[1]];
+    } else {
+      return [this.dictionary.getAttribute(LOCALE, rule.params[0], rule.params[0])];
+    }
+  }
+
+  return rule.params;
+};
+
+/**
+ * Resolves an appropiate display name, first checking 'data-as' or the registered 'prettyName'
+ * Then the dictionary, then fallsback to field name.
+ * @param {Field} field The field object.
+ * @return {String} The name to be used in the errors.
+ */
+Validator.prototype._getFieldDisplayName = function _getFieldDisplayName (field) {
+  return field.displayName || this.dictionary.getAttribute(LOCALE, field.name, field.name);
+};
+
+/**
+ * Tests a single input value against a rule.
+ *
+ * @param{Field} field The field under validation.
+ * @param{*} valuethe value of the field.
+ * @param{object} rule the rule object.
+ * @return {boolean} Whether it passes the check.
+ */
+Validator.prototype._test = function _test (field, value, rule) {
+    var this$1 = this;
+
+  var validator = Rules[rule.name];
+  var params = Array.isArray(rule.params) ? toArray(rule.params) : [];
+  if (! validator || typeof validator !== 'function') {
+    throw createError(("No such validator '" + (rule.name) + "' exists."));
+  }
+
+  // has field depenencies
+  if (/(confirmed|after|before)/.test(rule.name)) {
+    var target = find(field.dependencies, function (d) { return d.name === rule.name; });
+    if (target) {
+      if (params.length > 1) {
+        params = [target.field.value, params[1]];
+      } else {
+        params = [target.field.value];
+      }
+    }
+  } else if (rule.name === 'required' && field.rejectsFalse) {
+    // invalidate false if no args were specified and the field rejects false by default.
+    params = params.length ? params : [true];
+  }
+
+  if (date.installed && this._isADateRule(rule.name)) {
+    var dateFormat = this._getDateFormat(field.rules);
+    if (rule.name !== 'date_format') {
+      params.push(dateFormat);
+    }
+  }
+
+  var result = validator(value, params);
+
+  // If it is a promise.
+  if (isCallable(result.then)) {
+    return result.then(function (values) {
+      var allValid = true;
+      var data = {};
+      if (Array.isArray(values)) {
+        allValid = values.every(function (t) { return (isObject(t) ? t.valid : t); });
+      } else { // Is a single object/boolean.
+        allValid = isObject(values) ? values.valid : values;
+        data = values.data;
+      }
+
+      if (! allValid) {
+        this$1.errors.add({
+          id: field.id,
+          field: field.name,
+          msg: this$1._formatErrorMessage(field, rule, data),
+          rule: rule.name,
+          scope: field.scope
+        });
+      }
+
+      return allValid;
+    });
+  }
+
+  if (! isObject(result)) {
+    result = { valid: result, data: {} };
+  }
+
+  if (! result.valid) {
+    this.errors.add({
+      id: field.id,
+      field: field.name,
+      msg: this._formatErrorMessage(field, rule, result.data),
+      rule: rule.name,
+      scope: field.scope
+    });
+  }
+
+  return result.valid;
+};
+
+/**
+ * Registers a field to be validated.
+ *
+ * @param{Field|Object} name The field name.
+ * @return {Field}
+ */
+Validator.prototype.attach = function attach (field) {
+  // deprecate: handle old signature.
+  if (arguments.length > 1) {
+    field = assign({}, {
+      name: arguments[0],
+      rules: arguments[1]
+    }, arguments[2] || { vm: { $validator: this } });
+  }
+
+  if (!(field instanceof Field)) {
+    field = new Field(field.el || null, field);
+  }
+
+  this.fields.push(field);
+  // validate if initial.
+  if (field.initial) {
+    this.validate(("#" + (field.id)), field.value);
+  }
+  if (!field.scope) {
+    this.fieldBag = assign({}, this.fieldBag, ( obj = {}, obj[("" + (field.name))] = field.flags, obj ));
+      var obj;
+    return field;
+  }
+
+  var scopeObj = assign({}, this.fieldBag[("$" + (field.scope))] || {}, ( obj$1 = {}, obj$1[("" + (field.name))] = field.flags, obj$1 ));
+    var obj$1;
+  this.fieldBag = assign({}, this.fieldBag, ( obj$2 = {}, obj$2[("$" + (field.scope))] = scopeObj, obj$2 ));
+    var obj$2;
+
+  return field;
+};
+
+/**
+ * Sets the flags on a field.
+ *
+ * @param {String} name
+ * @param {Object} flags
+ */
+Validator.prototype.flag = function flag (name, flags) {
+  var field = this._resolveField(name);
+  if (! field) {
+    return;
+  }
+
+  Object.keys(field.flags).forEach(function (flag) {
+    field.flags[flag] = flags[flag] !== undefined ? flags[flag] : field.flags[flag];
+  });
+  if (field.classes) {
+    field.updateClasses();
+  }
+};
+
+/**
+ * Removes a field from the validator.
+ *
+ * @param{String} name The name of the field.
+ * @param {String} scope The name of the field scope.
+ */
+Validator.prototype.detach = function detach (name, scope) {
+  var field = name instanceof Field ? name : this._resolveField(name, scope);
+  if (field) {
+    field.destroy();
+    this.errors.removeById(field.id);
+    this.fields.remove(field);
+  }
+};
+
+/**
+ * Adds a custom validator to the list of validation rules.
+ *
+ * @param{string} name The name of the validator.
+ * @param{object|function} validator The validator object/function.
+ */
+Validator.prototype.extend = function extend (name, validator) {
+  Validator.extend(name, validator);
+};
+
+/**
+ * Just an alias to the static method for convienece.
+ */
+Validator.prototype.installDateTimeValidators = function installDateTimeValidators (moment) {
+  Validator.installDateTimeValidators(moment);
+};
+
+/**
+ * Removes a rule from the list of validators.
+ * @param {String} name The name of the validator/rule.
+ */
+Validator.prototype.remove = function remove (name) {
+  Validator.remove(name);
+};
+
+/**
+ * Sets the validator current langauge.
+ *
+ * @param {string} language locale or language id.
+ */
+Validator.prototype.setLocale = function setLocale (language) {
+  /* istanbul ignore if */
+  if (! this.dictionary.hasLocale(language)) {
+    // eslint-disable-next-line
+    warn('You are setting the validator locale to a locale that is not defined in the dicitionary. English messages may still be generated.');
+  }
+
+  LOCALE = language;
+};
+
+/**
+ * Updates the messages dicitionary, overwriting existing values and adding new ones.
+ *
+ * @param{object} data The messages object.
+ */
+Validator.prototype.updateDictionary = function updateDictionary (data) {
+  Validator.updateDictionary(data);
+};
+
+/**
+ * Tries different strategies to find a field.
+ * @param {String} name
+ * @param {String} scope
+ * @return {Field}
+ */
+Validator.prototype._resolveField = function _resolveField (name, scope) {
+  if (scope) {
+    return this.fields.find({ name: name, scope: scope });
+  }
+
+  if (name[0] === '#') {
+    return this.fields.find({ id: name.slice(1) });
+  }
+
+  if (name.indexOf('.') > -1) {
+    var parts = name.split('.');
+    var field = this.fields.find({ name: parts[1], scope: parts[0] });
+    if (field) {
+      return field;
+    }
+  }
+
+  return this.fields.find({ name: name, scope: null });
+};
+
+/**
+ * Handles when a field is not found depending on the strict flag.
+ *
+ * @param {String} name
+ * @param {String} scope
+ */
+Validator.prototype._handleFieldNotFound = function _handleFieldNotFound (name, scope) {
+  if (! this.strict) { return Promise.resolve(true); }
+
+  var fullName = scope ? name : ("" + (scope ? scope + '.' : '') + name);
+  throw createError(
+    ("Validating a non-existant field: \"" + fullName + "\". Use \"attach()\" first.")
+  );
+};
+
+/**
+ * Starts the validation process.
+ *
+ * @param {Field} field
+ * @param {Promise} value
+ */
+Validator.prototype._validate = function _validate (field, value) {
+    var this$1 = this;
+
+  if (! field.isRequired && ~[null, undefined, ''].indexOf(value)) {
+    return Promise.resolve(true);
+  }
+
+  var promises = [];
+  var isExitEarly = false;
+  // use of '.some()' is to break iteration in middle by returning true
+  Object.keys(field.rules).some(function (rule) {
+    var result = this$1._test(
+      field,
+      value,
+      { name: rule, params: field.rules[rule] }
+    );
+
+    if (isCallable(result.then)) {
+      promises.push(result);
+    } else if (this$1.fastExit && !result) {
+      isExitEarly = true;
+    } else {
+      var resultAsPromise = new Promise(function (resolve) {
+        resolve(result);
+      });
+      promises.push(resultAsPromise);
+    }
+
+    return isExitEarly;
+  });
+
+  if (isExitEarly) { return Promise.resolve(false); }
+
+  return Promise.all(promises).then(function (values) {
+    var valid = values.every(function (t) { return t; });
+    return valid;
+  });
+};
+
+/**
+ * Validates a value against a registered field validations.
+ *
+ * @param{string} name the field name.
+ * @param{*} value The value to be validated.
+ * @param {String} scope The scope of the field.
+ * @return {Promise}
+ */
+Validator.prototype.validate = function validate (name, value, scope) {
+    if ( scope === void 0 ) scope = null;
+
+  if (this.paused) { return Promise.resolve(true); }
+
+  // overload to validate all.
+  if (arguments.length === 0) {
+    return this.validateScopes();
+  }
+
+  // overload to validate scopeless fields.
+  if (arguments.length === 1 && arguments[0] === '*') {
+    return this.validateAll();
+  }
+
+  // overload to validate a scope.
+  if (arguments.length === 1 && typeof arguments[0] === 'string' && /^(.+)\.\*$/.test(arguments[0])) {
+    var matched = arguments[0].match(/^(.+)\.\*$/)[1];
+    return this.validateAll(matched);
+  }
+
+  var field = this._resolveField(name, scope);
+  if (!field) {
+    return this._handleFieldNotFound(name, scope);
+  }
+  this.errors.removeById(field.id);
+  if (field.isDisabled) {
+    return Promise.resolve(true);
+  }
+  field.flags.pending = true;
+  if (arguments.length === 1) {
+    value = field.value;
+  }
+
+  return this._validate(field, value).then(function (result) {
+    field.flags.pending = false;
+    field.flags.valid = result;
+    field.flags.invalid = !result;
+    field.flags.validated = true;
+    field.updateAriaAttrs();
+    field.updateCustomValidity();
+    field.updateClasses();
+
+    return result;
+  });
+};
+
+/**
+ * Pauses the validator.
+ *
+ * @return {Validator}
+ */
+Validator.prototype.pause = function pause () {
+  this.paused = true;
+
+  return this;
+};
+
+/**
+ * Resumes the validator.
+ *
+ * @return {Validator}
+ */
+Validator.prototype.resume = function resume () {
+  this.paused = false;
+
+  return this;
+};
+
+/**
+ * Validates each value against the corresponding field validations.
+ * @param{Object|String} values The values to be validated.
+ * @return {Promise} Returns a promise with the validation result.
+ */
+Validator.prototype.validateAll = function validateAll (values) {
+    var arguments$1 = arguments;
+    var this$1 = this;
+
+  if (this.paused) { return Promise.resolve(true); }
+
+  var matcher = null;
+  var providedValues = false;
+
+  if (typeof values === 'string') {
+    matcher = { scope: values };
+  } else if (isObject(values)) {
+    matcher = Object.keys(values).map(function (key) {
+      return { name: key, scope: arguments$1[1] || null };
+    });
+    providedValues = true;
+  } else if (arguments.length === 0) {
+    matcher = { scope: null }; // global scope.
+  }
+
+  var promises = this.fields.filter(matcher).map(function (field) { return this$1.validate(
+    ("#" + (field.id)),
+    providedValues ? values[field.name] : field.value
+  ); });
+
+  return Promise.all(promises).then(function (results) { return results.every(function (t) { return t; }); });
+};
+
+/**
+ * Validates all scopes.
+ *
+ * @returns {Promise} All promises resulted from each scope.
+ */
+Validator.prototype.validateScopes = function validateScopes () {
+    var this$1 = this;
+
+  if (this.paused) { return Promise.resolve(true); }
+
+  var promises = this.fields.map(function (field) { return this$1.validate(
+    ("#" + (field.id)),
+    field.value
+  ); });
+
+  return Promise.all(promises).then(function (results) { return results.every(function (t) { return t; }); });
+};
+
+Object.defineProperties( Validator.prototype, prototypeAccessors );
+Object.defineProperties( Validator, staticAccessors );
+
+/**
+ * Checks if a parent validator instance was requested.
+ * @param {Object|Array} injections
+ */
+var requestsValidator = function (injections) {
+  if (! injections) {
+    return false;
+  }
+
+  /* istanbul ignore next */
+  if (Array.isArray(injections) && ~injections.indexOf('$validator')) {
+    return true;
+  }
+
+  if (isObject(injections) && injections.$validator) {
+    return true;
+  }
+
+  return false;
+};
+
+/**
+ * Creates a validator instance.
+ * @param {Vue} vm
+ * @param {Object} options
+ */
+var createValidator = function (vm, options) { return new Validator(null, {
+  init: false,
+  vm: vm,
+  fastExit: options.fastExit
+}); };
+
+var makeMixin = function (Vue, options) {
+  if ( options === void 0 ) options = {};
+
+  var mixin = {};
+  mixin.provide = function providesValidator () {
+    if (this.$validator) {
+      return {
+        $validator: this.$validator
+      };
+    }
+
+    return {};
+  };
+
+  mixin.beforeCreate = function beforeCreate () {
+    // if its a root instance, inject anyways, or if it requested a new instance.
+    if (this.$options.$validates || !this.$parent) {
+      this.$validator = createValidator(this, options);
+    }
+
+    var requested = requestsValidator(this.$options.inject);
+
+    // if automatic injection is enabled and no instance was requested.
+    if (! this.$validator && options.inject && !requested) {
+      this.$validator = createValidator(this, options);
+    }
+
+    // don't inject errors or fieldBag as no validator was resolved.
+    if (! requested && ! this.$validator) {
+      return;
+    }
+
+    // There is a validator but it isn't injected, mark as reactive.
+    if (! requested && this.$validator) {
+      Vue.util.defineReactive(this.$validator, 'errors', this.$validator.errors);
+      Vue.util.defineReactive(this.$validator, 'fieldBag', this.$validator.fieldBag);
+    }
+
+    if (! this.$options.computed) {
+      this.$options.computed = {};
+    }
+
+    this.$options.computed[options.errorBagName || 'errors'] = function errorBagGetter () {
+      return this.$validator.errors;
+    };
+    this.$options.computed[options.fieldsBagName || 'fields'] = function fieldBagGetter () {
+      return this.$validator.fieldBag;
+    };
+  };
+
+  return mixin;
+};
+
+var config = {
+  locale: 'en',
+  delay: 0,
+  errorBagName: 'errors',
+  dictionary: null,
+  strict: true,
+  fieldsBagName: 'fields',
+  classes: false,
+  classNames: undefined,
+  events: 'input|blur',
+  inject: true,
+  fastExit: true
+};
+
+/**
+ * Finds the requested field by id from the context object.
+ * @param {Object} context
+ */
+var findField = function (el, context) {
+  if (!context || !context.$validator) {
+    return null;
+  }
+
+  return context.$validator.fields.find({ id: getDataAttribute(el, 'id') });
+};
+
+var createDirective = function (options) {
+  options = assign({}, config, options);
+
+  return {
+    bind: function bind (el, binding, vnode) {
+      var validator = vnode.context.$validator;
+      if (! validator) {
+        warn("No validator instance is present on vm, did you forget to inject '$validator'?");
+        return;
+      }
+      var fieldOptions = Generator.generate(el, binding, vnode, options);
+      validator.attach(fieldOptions);
+    },
+    inserted: function inserted (el, binding, vnode) {
+      var field = findField(el, vnode.context);
+      if (!field) { return; }
+
+      var scope = Generator.resolveScope(el, binding, vnode);
+      field.update({ scope: scope });
+    },
+    update: function update (el, ref, ref$1) {
+      var expression = ref.expression;
+      var value = ref.value;
+      var context = ref$1.context;
+
+      var field = findField(el, context);
+      // make sure we don't do uneccessary work if no expression was passed
+      // nor if the expression value did not change.
+      // TODO: Diffing for other options like delay or scope.
+      if (!field || !expression || field.expression === JSON.stringify(value)) { return; }
+
+      var scope = isObject(value) && value.rules ? value.scope : getScope(el);
+      field.update({
+        expression: value,
+        scope: scope,
+        rules: getRules({ expression: expression, value: value }, el)
+      });
+    },
+    unbind: function unbind (el, binding, ref) {
+      var context = ref.context;
+
+      var field = findField(el, context);
+      if (!field) { return; }
+
+      context.$validator.detach(field);
+    }
+  };
+};
+
+var normalize = function (fields) {
+  if (Array.isArray(fields)) {
+    return fields.reduce(function (prev, curr) {
+      if (~curr.indexOf('.')) {
+        prev[curr.split('.')[1]] = curr;
+      } else {
+        prev[curr] = curr;
+      }
+
+      return prev;
+    }, {});
+  }
+
+  return fields;
+};
+
+/**
+ * Maps fields to computed functions.
+ *
+ * @param {Array|Object} fields
+ */
+var mapFields = function (fields) {
+  var normalized = normalize(fields);
+  return Object.keys(normalized).reduce(function (prev, curr) {
+    var field = normalized[curr];
+    prev[curr] = function mappedField () {
+      if (this.$validator.fieldBag[field]) {
+        return this.$validator.fieldBag[field];
+      }
+
+      var index = field.indexOf('.');
+      if (index <= 0) {
+        return {};
+      }
+      var ref = field.split('.');
+      var scope = ref[0];
+      var name = ref[1];
+
+      return getPath(("$" + scope + "." + name), this.$validator.fieldBag, {});
+    };
+
+    return prev;
+  }, {});
+};
+
+var Vue;
+
+var install = function (_Vue, options) {
+  if (Vue) {
+    warn('already installed, Vue.use(VeeValidate) should only be called once.');
+    return;
+  }
+
+  Vue = _Vue;
+  var config$$1 = assign({}, config, options);
+  if (config$$1.dictionary) {
+    Validator.updateDictionary(config$$1.dictionary);
+  }
+
+  Validator.setLocale(config$$1.locale);
+  Validator.setStrictMode(config$$1.strict);
+
+  Vue.mixin(makeMixin(Vue, config$$1));
+  Vue.directive('validate', createDirective(config$$1));
+};
+
+var index = {
+  install: install,
+  mapFields: mapFields,
+  Validator: Validator,
+  ErrorBag: ErrorBag,
+  Rules: Rules,
+  version: '2.0.0-rc.9'
+};
+
+return index;
+
+})));
+
+
+/***/ }),
+
+/***/ 27:
+/***/ (function(module, exports, __webpack_require__) {
+
+"use strict";
+
+
+/**
+ * Creates a new URL by combining the specified URLs
+ *
+ * @param {string} baseURL The base URL
+ * @param {string} relativeURL The relative URL
+ * @returns {string} The combined URL
+ */
+module.exports = function combineURLs(baseURL, relativeURL) {
+  return baseURL.replace(/\/+$/, '') + '/' + relativeURL.replace(/^\/+/, '');
+};
+
+
+/***/ }),
+
+/***/ 273:
+/***/ (function(module, exports, __webpack_require__) {
+
+var Component = __webpack_require__(3)(
+  /* script */
+  __webpack_require__(184),
+  /* template */
+  __webpack_require__(323),
+  /* scopeId */
+  null,
+  /* cssModules */
+  null
+)
+Component.options.__file = "c:\\xampp\\htdocs\\warehouse\\resources\\assets\\js\\components\\FullRVpreview.vue"
+if (Component.esModule && Object.keys(Component.esModule).some(function (key) {return key !== "default" && key !== "__esModule"})) {console.error("named exports are not supported in *.vue files.")}
+if (Component.options.functional) {console.error("[vue-loader] FullRVpreview.vue: functional components are not supported with templates, they should use render functions.")}
+
+/* hot reload */
+if (false) {(function () {
+  var hotAPI = require("vue-hot-reload-api")
+  hotAPI.install(require("vue"), false)
+  if (!hotAPI.compatible) return
+  module.hot.accept()
+  if (!module.hot.data) {
+    hotAPI.createRecord("data-v-7c19327a", Component.options)
+  } else {
+    hotAPI.reload("data-v-7c19327a", Component.options)
+  }
+})()}
+
+module.exports = Component.exports
+
+
+/***/ }),
+
+/***/ 28:
+/***/ (function(module, exports, __webpack_require__) {
+
+"use strict";
+
+
+var utils = __webpack_require__(1);
+
+module.exports = (
+  utils.isStandardBrowserEnv() ?
+
+  // Standard browser envs support document.cookie
+  (function standardBrowserEnv() {
+    return {
+      write: function write(name, value, expires, path, domain, secure) {
+        var cookie = [];
+        cookie.push(name + '=' + encodeURIComponent(value));
+
+        if (utils.isNumber(expires)) {
+          cookie.push('expires=' + new Date(expires).toGMTString());
+        }
+
+        if (utils.isString(path)) {
+          cookie.push('path=' + path);
+        }
+
+        if (utils.isString(domain)) {
+          cookie.push('domain=' + domain);
+        }
+
+        if (secure === true) {
+          cookie.push('secure');
+        }
+
+        document.cookie = cookie.join('; ');
+      },
+
+      read: function read(name) {
+        var match = document.cookie.match(new RegExp('(^|;\\s*)(' + name + ')=([^;]*)'));
+        return (match ? decodeURIComponent(match[3]) : null);
+      },
+
+      remove: function remove(name) {
+        this.write(name, '', Date.now() - 86400000);
+      }
+    };
+  })() :
+
+  // Non standard browser env (web workers, react-native) lack needed support.
+  (function nonStandardBrowserEnv() {
+    return {
+      write: function write() {},
+      read: function read() { return null; },
+      remove: function remove() {}
+    };
+  })()
+);
+
+
+/***/ }),
+
+/***/ 29:
+/***/ (function(module, exports, __webpack_require__) {
+
+"use strict";
+
+
+/**
+ * Determines whether the specified URL is absolute
+ *
+ * @param {string} url The URL to test
+ * @returns {boolean} True if the specified URL is absolute, otherwise false
+ */
+module.exports = function isAbsoluteURL(url) {
+  // A URL is considered absolute if it begins with "<scheme>://" or "//" (protocol-relative URL).
+  // RFC 3986 defines scheme name as a sequence of characters beginning with a letter and followed
+  // by any combination of letters, digits, plus, period, or hyphen.
+  return /^([a-z][a-z\d\+\-\.]*:)?\/\//i.test(url);
+};
+
+
+/***/ }),
+
+/***/ 292:
+/***/ (function(module, exports, __webpack_require__) {
+
+var Component = __webpack_require__(3)(
+  /* script */
+  __webpack_require__(203),
+  /* template */
+  __webpack_require__(304),
+  /* scopeId */
+  null,
+  /* cssModules */
+  null
+)
+Component.options.__file = "c:\\xampp\\htdocs\\warehouse\\resources\\assets\\js\\components\\RVCreate.vue"
+if (Component.esModule && Object.keys(Component.esModule).some(function (key) {return key !== "default" && key !== "__esModule"})) {console.error("named exports are not supported in *.vue files.")}
+if (Component.options.functional) {console.error("[vue-loader] RVCreate.vue: functional components are not supported with templates, they should use render functions.")}
+
+/* hot reload */
+if (false) {(function () {
+  var hotAPI = require("vue-hot-reload-api")
+  hotAPI.install(require("vue"), false)
+  if (!hotAPI.compatible) return
+  module.hot.accept()
+  if (!module.hot.data) {
+    hotAPI.createRecord("data-v-1f86afab", Component.options)
+  } else {
+    hotAPI.reload("data-v-1f86afab", Component.options)
+  }
+})()}
+
+module.exports = Component.exports
+
+
+/***/ }),
+
+/***/ 293:
+/***/ (function(module, exports, __webpack_require__) {
+
+var Component = __webpack_require__(3)(
+  /* script */
+  __webpack_require__(204),
+  /* template */
+  __webpack_require__(325),
+  /* scopeId */
+  null,
+  /* cssModules */
+  null
+)
+Component.options.__file = "c:\\xampp\\htdocs\\warehouse\\resources\\assets\\js\\components\\RVindex.vue"
+if (Component.esModule && Object.keys(Component.esModule).some(function (key) {return key !== "default" && key !== "__esModule"})) {console.error("named exports are not supported in *.vue files.")}
+if (Component.options.functional) {console.error("[vue-loader] RVindex.vue: functional components are not supported with templates, they should use render functions.")}
+
+/* hot reload */
+if (false) {(function () {
+  var hotAPI = require("vue-hot-reload-api")
+  hotAPI.install(require("vue"), false)
+  if (!hotAPI.compatible) return
+  module.hot.accept()
+  if (!module.hot.data) {
+    hotAPI.createRecord("data-v-9cd6acda", Component.options)
+  } else {
+    hotAPI.reload("data-v-9cd6acda", Component.options)
+  }
+})()}
+
+module.exports = Component.exports
+
+
+/***/ }),
+
+/***/ 3:
+/***/ (function(module, exports) {
+
+// this module is a runtime utility for cleaner component module output and will
+// be included in the final webpack user bundle
+
+module.exports = function normalizeComponent (
+  rawScriptExports,
+  compiledTemplate,
+  scopeId,
+  cssModules
+) {
+  var esModule
+  var scriptExports = rawScriptExports = rawScriptExports || {}
+
+  // ES6 modules interop
+  var type = typeof rawScriptExports.default
+  if (type === 'object' || type === 'function') {
+    esModule = rawScriptExports
+    scriptExports = rawScriptExports.default
+  }
+
+  // Vue.extend constructor export interop
+  var options = typeof scriptExports === 'function'
+    ? scriptExports.options
+    : scriptExports
+
+  // render functions
+  if (compiledTemplate) {
+    options.render = compiledTemplate.render
+    options.staticRenderFns = compiledTemplate.staticRenderFns
+  }
+
+  // scopedId
+  if (scopeId) {
+    options._scopeId = scopeId
+  }
+
+  // inject cssModules
+  if (cssModules) {
+    var computed = Object.create(options.computed || null)
+    Object.keys(cssModules).forEach(function (key) {
+      var module = cssModules[key]
+      computed[key] = function () { return module }
+    })
+    options.computed = computed
+  }
+
+  return {
+    esModule: esModule,
+    exports: scriptExports,
+    options: options
+  }
+}
+
+
+/***/ }),
+
+/***/ 30:
+/***/ (function(module, exports, __webpack_require__) {
+
+"use strict";
+
+
+var utils = __webpack_require__(1);
+
+module.exports = (
+  utils.isStandardBrowserEnv() ?
+
+  // Standard browser envs have full support of the APIs needed to test
+  // whether the request URL is of the same origin as current location.
+  (function standardBrowserEnv() {
+    var msie = /(msie|trident)/i.test(navigator.userAgent);
+    var urlParsingNode = document.createElement('a');
+    var originURL;
+
+    /**
+    * Parse a URL to discover it's components
+    *
+    * @param {String} url The URL to be parsed
+    * @returns {Object}
+    */
+    function resolveURL(url) {
+      var href = url;
+
+      if (msie) {
+        // IE needs attribute set twice to normalize properties
+        urlParsingNode.setAttribute('href', href);
+        href = urlParsingNode.href;
+      }
+
+      urlParsingNode.setAttribute('href', href);
+
+      // urlParsingNode provides the UrlUtils interface - http://url.spec.whatwg.org/#urlutils
+      return {
+        href: urlParsingNode.href,
+        protocol: urlParsingNode.protocol ? urlParsingNode.protocol.replace(/:$/, '') : '',
+        host: urlParsingNode.host,
+        search: urlParsingNode.search ? urlParsingNode.search.replace(/^\?/, '') : '',
+        hash: urlParsingNode.hash ? urlParsingNode.hash.replace(/^#/, '') : '',
+        hostname: urlParsingNode.hostname,
+        port: urlParsingNode.port,
+        pathname: (urlParsingNode.pathname.charAt(0) === '/') ?
+                  urlParsingNode.pathname :
+                  '/' + urlParsingNode.pathname
+      };
+    }
+
+    originURL = resolveURL(window.location.href);
+
+    /**
+    * Determine if a URL shares the same origin as the current location
+    *
+    * @param {String} requestURL The URL to test
+    * @returns {boolean} True if URL shares the same origin, otherwise false
+    */
+    return function isURLSameOrigin(requestURL) {
+      var parsed = (utils.isString(requestURL)) ? resolveURL(requestURL) : requestURL;
+      return (parsed.protocol === originURL.protocol &&
+            parsed.host === originURL.host);
+    };
+  })() :
+
+  // Non standard browser envs (web workers, react-native) lack needed support.
+  (function nonStandardBrowserEnv() {
+    return function isURLSameOrigin() {
+      return true;
+    };
+  })()
+);
+
+
+/***/ }),
+
+/***/ 304:
+/***/ (function(module, exports, __webpack_require__) {
+
+module.exports={render:function (){var _vm=this;var _h=_vm.$createElement;var _c=_vm._self._c||_h;
+  return _c('span', [_vm._m(0), _vm._v(" "), _c('div', {
+    staticClass: "RV-wrapper"
+  }, [_c('div', {
+    staticClass: "added-items-table"
+  }, [_c('div', {
+    staticClass: "add-item-RV"
+  }, [(_vm.user.Role == 3 || _vm.user.Role == 4) ? _c('button', {
+    attrs: {
+      "type": "button",
+      "name": "button",
+      "id": "forstock-ItemRV"
+    },
+    on: {
+      "click": function($event) {
+        _vm.forstock = !_vm.forstock
+      }
+    }
+  }, [(_vm.user.Role == 3 || _vm.user.Role == 4) ? _c('i', {
+    staticClass: "material-icons"
+  }, [_vm._v("widgets")]) : _vm._e(), _vm._v(" For stocks")]) : _vm._e(), _vm._v(" "), _c('button', {
+    staticClass: " z-depth-1",
+    attrs: {
+      "type": "button",
+      "id": "none-existing-itemRV"
+    },
+    on: {
+      "click": function($event) {
+        _vm.notforstock = !_vm.notforstock
+      }
+    }
+  }, [_c('i', {
+    staticClass: "material-icons"
+  }, [_vm._v("shopping_cart")]), _vm._v(" Not in warehouse")])]), _vm._v(" "), _c('table', [_vm._m(1), _vm._v(" "), _vm._l((_vm.SessionStored), function(sessionrv, key) {
+    return _c('tr', [_c('td', [_vm._v(_vm._s(sessionrv.Description))]), _vm._v(" "), _c('td', [_vm._v(_vm._s(sessionrv.Unit))]), _vm._v(" "), _c('td', [_vm._v(_vm._s(sessionrv.Quantity))]), _vm._v(" "), _c('td', [_vm._v(_vm._s(sessionrv.Remarks))]), _vm._v(" "), _c('td', [_c('i', {
+      staticClass: "material-icons",
+      on: {
+        "click": function($event) {
+          _vm.deleteSession(key)
+        }
+      }
+    }, [_vm._v("close")])])])
+  })], 2)]), _vm._v(" "), _c('div', {
+    staticClass: "RVMaster-form"
+  }, [_c('div', {
+    staticClass: "RV-form"
+  }, [_c('input', {
+    directives: [{
+      name: "model",
+      rawName: "v-model",
+      value: (_vm.purpose),
+      expression: "purpose"
+    }],
+    attrs: {
+      "type": "text",
+      "autocomplete": "off",
+      "name": "Purpose",
+      "placeholder": "Purpose",
+      "required": ""
+    },
+    domProps: {
+      "value": (_vm.purpose)
+    },
+    on: {
+      "input": function($event) {
+        if ($event.target.composing) { return; }
+        _vm.purpose = $event.target.value
+      }
+    }
+  }), _vm._v(" "), _c('div', {
+    staticClass: "autoselectedRV"
+  }, [(_vm.mymanager != null) ? _c('h4', [_vm._v(_vm._s(_vm.mymanager.FullName))]) : _c('h4', [_vm._v("No Manager found, please ask the administrator")]), _vm._v(" "), _c('p', [_vm._v("Recommended by")])]), _vm._v(" "), _c('div', {
+    staticClass: "autoselectedRV"
+  }, [(_vm.budgetofficer[0] != null) ? _c('h4', [_vm._v(_vm._s(_vm.budgetofficer[0].FullName))]) : _c('h4', [_vm._v("No Account yet")]), _vm._v(" "), _c('p', [_vm._v("Budget Officer")])]), _vm._v(" "), _c('div', {
+    staticClass: "autoselectedRV space-bottom"
+  }, [(_vm.gm != null) ? _c('h4', [_vm._v(_vm._s(_vm.gm[0].FullName))]) : _c('h4', [_vm._v("No Account yet")]), _vm._v(" "), _c('p', [_vm._v("General Manager")])]), _vm._v(" "), _c('longpress', {
+    staticClass: "submit-button-RV",
+    class: {
+      'hide': _vm.HideBtn
+    },
+    attrs: {
+      "duration": "3",
+      "on-confirm": _vm.SubmitWholeRV,
+      "pressing-text": "Submitting in {$rcounter}",
+      "action-text": "Loading . . ."
+    }
+  }, [_vm._v("\n          Submit\n        ")])], 1)])]), _vm._v(" "), _c('div', {
+    staticClass: "add-RV-item-modal",
+    class: {
+      'active': _vm.notforstock
+    },
+    on: {
+      "click": function($event) {
+        _vm.notforstock = !_vm.notforstock
+      }
+    }
+  }, [_c('div', {
+    staticClass: "rv-modal-centered z-depth-5"
+  }, [_c('h1', [_vm._v("Request Item")]), _vm._v(" "), _c('div', {
+    staticClass: "itemRV-form"
+  }, [_c('textarea', {
+    directives: [{
+      name: "model",
+      rawName: "v-model",
+      value: (_vm.Description),
+      expression: "Description"
+    }],
+    attrs: {
+      "name": "Description",
+      "placeholder": "Articles (max:50 characters)",
+      "required": ""
+    },
+    domProps: {
+      "value": (_vm.Description)
+    },
+    on: {
+      "input": function($event) {
+        if ($event.target.composing) { return; }
+        _vm.Description = $event.target.value
+      }
+    }
+  }), _vm._v(" "), _c('select', {
+    directives: [{
+      name: "model",
+      rawName: "v-model",
+      value: (_vm.Unit),
+      expression: "Unit"
+    }],
+    attrs: {
+      "name": "Unit",
+      "required": ""
+    },
+    on: {
+      "change": function($event) {
+        var $$selectedVal = Array.prototype.filter.call($event.target.options, function(o) {
+          return o.selected
+        }).map(function(o) {
+          var val = "_value" in o ? o._value : o.value;
+          return val
+        });
+        _vm.Unit = $event.target.multiple ? $$selectedVal : $$selectedVal[0]
+      }
+    }
+  }, [_c('option', {
+    attrs: {
+      "value": ""
+    }
+  }, [_vm._v("Select Unit")]), _vm._v(" "), _vm._l((_vm.UnitsFromDB), function(unitdb) {
+    return _c('option', [_vm._v(_vm._s(unitdb.UnitName))])
+  })], 2), _vm._v(" "), _c('input', {
+    directives: [{
+      name: "model",
+      rawName: "v-model",
+      value: (_vm.Quantity),
+      expression: "Quantity"
+    }],
+    attrs: {
+      "type": "number",
+      "autocomplete": "off",
+      "name": "Quantity",
+      "placeholder": "Quantity",
+      "min": "1",
+      "required": ""
+    },
+    domProps: {
+      "value": (_vm.Quantity)
+    },
+    on: {
+      "input": function($event) {
+        if ($event.target.composing) { return; }
+        _vm.Quantity = $event.target.value
+      }
+    }
+  }), _vm._v(" "), _c('input', {
+    directives: [{
+      name: "model",
+      rawName: "v-model",
+      value: (_vm.Remarks),
+      expression: "Remarks"
+    }],
+    attrs: {
+      "type": "text",
+      "autocomplete": "off",
+      "name": "Remarks",
+      "placeholder": "Remarks"
+    },
+    domProps: {
+      "value": (_vm.Remarks)
+    },
+    on: {
+      "input": function($event) {
+        if ($event.target.composing) { return; }
+        _vm.Remarks = $event.target.value
+      }
+    }
+  }), _vm._v(" "), _c('button', {
+    attrs: {
+      "type": "submit",
+      "id": "addtolistRV"
+    },
+    on: {
+      "click": function($event) {
+        _vm.addToSession()
+      }
+    }
+  }, [_vm._v("Add to list")])])])]), _vm._v(" "), (_vm.user.Role == 3 || _vm.user.Role == 4) ? _c('span', [_c('div', {
+    staticClass: "for-stock-Modal",
+    class: {
+      'active': _vm.forstock
+    },
+    on: {
+      "click": function($event) {
+        _vm.forstock = !_vm.forstock
+      }
+    }
+  }, [_c('div', {
+    staticClass: "middle-forStock-div"
+  }, [_c('h1', [_vm._v("Request for warehouse stock items")]), _vm._v(" "), _c('div', {
+    staticClass: "searchboxes-forstock"
+  }, [_c('div', {
+    staticClass: "low-qty-items"
+  }, [_c('button', {
+    class: {
+      'lowqtyactive': _vm.lowqtyactive
+    },
+    attrs: {
+      "type": "button"
+    },
+    on: {
+      "click": function($event) {
+        [_vm.lowqtyactive == false ? _vm.FetchLowQtyItems() : _vm.searchDescription()], _vm.lowqtyactive = !_vm.lowqtyactive
+      }
+    }
+  }, [_c('i', {
+    staticClass: "material-icons"
+  }, [_vm._v("arrow_downward")]), _vm._v(" Qty items")])]), _vm._v(" "), _c('div', {
+    staticClass: "search-input-item"
+  }, [_c('input', {
+    directives: [{
+      name: "model",
+      rawName: "v-model",
+      value: (_vm.findDescription),
+      expression: "findDescription"
+    }],
+    attrs: {
+      "type": "text",
+      "autocomplete": "off",
+      "name": "Description",
+      "placeholder": "Article/Code"
+    },
+    domProps: {
+      "value": (_vm.findDescription)
+    },
+    on: {
+      "keyup": function($event) {
+        if (!('button' in $event) && _vm._k($event.keyCode, "enter", 13)) { return null; }
+        _vm.searchDescription(), _vm.lowqtyactive = false
+      },
+      "input": function($event) {
+        if ($event.target.composing) { return; }
+        _vm.findDescription = $event.target.value
+      }
+    }
+  }), _c('button', {
+    attrs: {
+      "type": "submit"
+    },
+    on: {
+      "click": function($event) {
+        _vm.searchDescription(), _vm.lowqtyactive = false
+      }
+    }
+  }, [_c('i', {
+    staticClass: "material-icons"
+  }, [_vm._v("search")])])])]), _vm._v(" "), _c('div', {
+    staticClass: "searchResults-forstock"
+  }, [_c('table', [_vm._m(2), _vm._v(" "), _vm._l((_vm.findResults), function(result, count) {
+    return _c('tr', [_c('td', [_vm._v(_vm._s(result.ItemCode))]), _vm._v(" "), _c('td', [_vm._v(_vm._s(result.Description))]), _vm._v(" "), _c('td', [_vm._v(_vm._s(result.Unit))]), _vm._v(" "), _c('td', [_c('input', {
+      directives: [{
+        name: "model",
+        rawName: "v-model",
+        value: (_vm.QuantityForWHouse[count]),
+        expression: "QuantityForWHouse[count]"
+      }],
+      attrs: {
+        "type": "number",
+        "autocomplete": "off",
+        "name": "Quantity",
+        "min": "1",
+        "required": ""
+      },
+      domProps: {
+        "value": (_vm.QuantityForWHouse[count])
+      },
+      on: {
+        "input": function($event) {
+          if ($event.target.composing) { return; }
+          _vm.$set(_vm.QuantityForWHouse, count, $event.target.value)
+        }
+      }
+    })]), _vm._v(" "), _c('td', {
+      staticClass: "bold",
+      class: {
+        'color-red': _vm.lowqtyactive
+      }
+    }, [_vm._v(_vm._s(result.CurrentQuantity))]), _vm._v(" "), _c('td', {
+      staticClass: "bold"
+    }, [_vm._v(_vm._s(result.AlertIfBelow))]), _vm._v(" "), _c('td', [_c('input', {
+      directives: [{
+        name: "model",
+        rawName: "v-model",
+        value: (_vm.RemarksForWHouse[count]),
+        expression: "RemarksForWHouse[count]"
+      }],
+      attrs: {
+        "type": "text",
+        "autocomplete": "off",
+        "name": "Remarks"
+      },
+      domProps: {
+        "value": (_vm.RemarksForWHouse[count])
+      },
+      on: {
+        "input": function($event) {
+          if ($event.target.composing) { return; }
+          _vm.$set(_vm.RemarksForWHouse, count, $event.target.value)
+        }
+      }
+    })]), _vm._v(" "), _c('td', [_c('button', {
+      attrs: {
+        "type": "submit"
+      },
+      on: {
+        "click": function($event) {
+          _vm.AddtoSessionForWarehouse(result, count)
+        }
+      }
+    }, [_c('i', {
+      staticClass: "material-icons"
+    }, [_vm._v("add_circle")])])])])
+  })], 2), _vm._v(" "), _c('div', {
+    staticClass: "paginate-container"
+  }, [_c('ul', {
+    staticClass: "pagination"
+  }, [(_vm.pagination.current_page > 1) ? _c('li', [_c('a', {
+    attrs: {
+      "href": "#"
+    },
+    on: {
+      "click": function($event) {
+        $event.preventDefault();
+        _vm.changepage(_vm.pagination.current_page - 1)
+      }
+    }
+  }, [_c('i', {
+    staticClass: "fa fa-angle-left"
+  })])]) : _vm._e(), _vm._v(" "), _vm._l((_vm.pagesNumber), function(page) {
+    return _c('li', {
+      class: [page == _vm.isActive ? 'active' : '']
+    }, [_c('a', {
+      attrs: {
+        "href": "#"
+      },
+      on: {
+        "click": function($event) {
+          $event.preventDefault();
+          _vm.changepage(page)
+        }
+      }
+    }, [_vm._v(_vm._s(page))])])
+  }), _vm._v(" "), (_vm.pagination.current_page < _vm.pagination.last_page) ? _c('li', [_c('a', {
+    attrs: {
+      "href": "#"
+    },
+    on: {
+      "click": function($event) {
+        $event.preventDefault();
+        _vm.changepage(_vm.pagination.current_page + 1)
+      }
+    }
+  }, [_c('i', {
+    staticClass: "fa fa-angle-right"
+  })])]) : _vm._e()], 2)])])])])]) : _vm._e()])
+},staticRenderFns: [function (){var _vm=this;var _h=_vm.$createElement;var _c=_vm._self._c||_h;
+  return _c('div', {
+    staticClass: "title-RV"
+  }, [_c('h3', [_vm._v("Create Requisition Voucher")]), _vm._v(" "), _c('h3', {
+    staticClass: "empty-right"
+  })])
+},function (){var _vm=this;var _h=_vm.$createElement;var _c=_vm._self._c||_h;
+  return _c('tr', [_c('th', [_vm._v("Articles")]), _vm._v(" "), _c('th', [_vm._v("Unit")]), _vm._v(" "), _c('th', [_vm._v("Qty")]), _vm._v(" "), _c('th', [_vm._v("Remarks")]), _vm._v(" "), _c('th', [_vm._v("Remove")])])
+},function (){var _vm=this;var _h=_vm.$createElement;var _c=_vm._self._c||_h;
+  return _c('tr', [_c('th', [_vm._v("Item Code")]), _vm._v(" "), _c('th', [_vm._v("Article")]), _vm._v(" "), _c('th', [_vm._v("Unit")]), _vm._v(" "), _c('th', [_vm._v("Qty")]), _vm._v(" "), _c('th', [_vm._v("Current Balance")]), _vm._v(" "), _c('th', [_vm._v("Minimum balance")]), _vm._v(" "), _c('th', [_vm._v("Remarks")]), _vm._v(" "), _c('th', [_vm._v("Add")])])
+}]}
+module.exports.render._withStripped = true
+if (false) {
+  module.hot.accept()
+  if (module.hot.data) {
+     require("vue-hot-reload-api").rerender("data-v-1f86afab", module.exports)
+  }
+}
+
+/***/ }),
+
+/***/ 31:
+/***/ (function(module, exports, __webpack_require__) {
+
+"use strict";
+
+
+var utils = __webpack_require__(1);
+
+module.exports = function normalizeHeaderName(headers, normalizedName) {
+  utils.forEach(headers, function processHeader(value, name) {
+    if (name !== normalizedName && name.toUpperCase() === normalizedName.toUpperCase()) {
+      headers[normalizedName] = value;
+      delete headers[name];
+    }
+  });
+};
+
+
+/***/ }),
+
+/***/ 32:
+/***/ (function(module, exports, __webpack_require__) {
+
+"use strict";
+
+
+var utils = __webpack_require__(1);
+
+/**
+ * Parse headers into an object
+ *
+ * ```
+ * Date: Wed, 27 Aug 2014 08:58:49 GMT
+ * Content-Type: application/json
+ * Connection: keep-alive
+ * Transfer-Encoding: chunked
+ * ```
+ *
+ * @param {String} headers Headers needing to be parsed
+ * @returns {Object} Headers parsed into an object
+ */
+module.exports = function parseHeaders(headers) {
+  var parsed = {};
+  var key;
+  var val;
+  var i;
+
+  if (!headers) { return parsed; }
+
+  utils.forEach(headers.split('\n'), function parser(line) {
+    i = line.indexOf(':');
+    key = utils.trim(line.substr(0, i)).toLowerCase();
+    val = utils.trim(line.substr(i + 1));
+
+    if (key) {
+      parsed[key] = parsed[key] ? parsed[key] + ', ' + val : val;
+    }
+  });
+
+  return parsed;
+};
+
+
+/***/ }),
+
+/***/ 323:
+/***/ (function(module, exports, __webpack_require__) {
+
+module.exports={render:function (){var _vm=this;var _h=_vm.$createElement;var _c=_vm._self._c||_h;
+  return (_vm.RVMaster.users != null) ? _c('div', [_c('div', {
+    staticClass: "RV-signature-print-container"
+  }, [(_vm.AlreadyApproved) ? _c('div', {
+    staticClass: "print-and-unreceved"
+  }, [_c('a', {
+    attrs: {
+      "href": '/RV.pdf/' + _vm.rvno.RVNo
+    }
+  }, [_vm._m(0)]), _vm._v(" "), (((_vm.RVMaster.IfPurchased == null) && (_vm.checkPO == null) && (_vm.checkRR != null))) ? _c('li', {
+    staticClass: "pending-delivery-number"
+  }, [_c('h1', [_vm._v("pending item: "), _c('span', {
+    staticClass: "color-blue"
+  }, [_vm._v(_vm._s(_vm.undeliveredTotal))])])]) : _vm._e()]) : (_vm.RVMaster.SignatureTurn != '2') ? _c('div', {
+    staticClass: "empty-left"
+  }) : _vm._e(), _vm._v(" "), (((_vm.RVMaster.users[2].pivot.Signature == null) && ((_vm.RVMaster.users[1].pivot.Signature == '0') || (_vm.ManagerReplacerData != null && _vm.ManagerReplacerData.pivot.Signature == '0')))) ? _c('div', {
+    staticClass: "empty-left relative"
+  }, [(((_vm.RVMaster.users[2].id == _vm.user.id) && (_vm.pendingRemarksShow == null))) ? _c('button', {
+    staticClass: "pending-remarks",
+    attrs: {
+      "type": "button"
+    },
+    on: {
+      "click": function($event) {
+        _vm.RemarksIsActive = true
+      }
+    }
+  }, [_c('i', {
+    staticClass: "material-icons"
+  }, [_vm._v("access_time")]), _vm._v(" remarks")]) : _vm._e(), _vm._v(" "), ((_vm.pendingRemarksShow != null) && (_vm.RVMaster.users[2].pivot.Signature == null) && ((_vm.user.id == _vm.RVMaster.users[0].id) || (_vm.user.id == _vm.RVMaster.users[2].id))) ? _c('div', {
+    staticClass: "BudgetRemarkShow"
+  }, [_c('div', {
+    staticClass: "remarks-box"
+  }, [_c('h1', [_vm._v(" budget officer: "), _c('i', {
+    staticClass: "material-icons",
+    on: {
+      "click": function($event) {
+        _vm.RemovePendingRemarks()
+      }
+    }
+  }, [_vm._v("close")])]), _vm._v(" "), _c('p', [_vm._v(_vm._s(_vm.pendingRemarksShow))])])]) : _vm._e(), _vm._v(" "), (_vm.RemarksIsActive == true) ? _c('div', {
+    staticClass: "pending-remarks-input"
+  }, [_c('h1', [_vm._v("Input pending remarks")]), _vm._v(" "), _c('textarea', {
+    directives: [{
+      name: "model",
+      rawName: "v-model",
+      value: (_vm.pendingremarks),
+      expression: "pendingremarks"
+    }],
+    attrs: {
+      "name": "name",
+      "maxlength": "100",
+      "placeholder": "max:(100characters)"
+    },
+    domProps: {
+      "value": (_vm.pendingremarks)
+    },
+    on: {
+      "input": function($event) {
+        if ($event.target.composing) { return; }
+        _vm.pendingremarks = $event.target.value
+      }
+    }
+  }), _vm._v(" "), _c('span', {
+    staticClass: "pending-remarks-btn"
+  }, [_c('button', {
+    attrs: {
+      "type": "button",
+      "name": "button"
+    },
+    on: {
+      "click": function($event) {
+        _vm.RemarksIsActive = false
+      }
+    }
+  }, [_vm._v("cancel")]), _vm._v(" "), _c('button', {
+    attrs: {
+      "type": "button",
+      "name": "button"
+    },
+    on: {
+      "click": function($event) {
+        _vm.PendingRemarksSubmit()
+      }
+    }
+  }, [_vm._v("save")])])]) : _vm._e()]) : _vm._e(), _vm._v(" "), ((_vm.ManagerReplacerData != null && _vm.ManagerReplacerData.id == _vm.user.id && _vm.ManagerReplacerData.pivot.Signature == null)) ? _c('div', {
+    staticClass: "manager-replacer-accept-cant Request-manager-replace"
+  }, [_c('h6', {
+    staticClass: "approve-managerreplace-note"
+  }, [_c('i', {
+    staticClass: "material-icons color-blue"
+  }, [_vm._v("info")]), _vm._v(" "), _c('span', {
+    staticClass: "color-blue"
+  }, [_vm._v(_vm._s(_vm.RVMaster.users[0].FullName))]), _vm._v(" is asking for your signature b/c the " + _vm._s(_vm.RVMaster.users[1].Position) + " is not available\r\n      ")]), _vm._v(" "), _c('span', {
+    class: {
+      'hide': _vm.SignatureManagerReplacerHide
+    }
+  }, [_c('longpress', {
+    staticClass: "rvapprovebtn waves-effect waves-light",
+    attrs: {
+      "duration": "3",
+      "on-confirm": _vm.signatureRequestManagerReplacer,
+      "disabled": _vm.btndisabled,
+      "pressing-text": "confirm in {$rcounter}",
+      "action-text": "Loading . . ."
+    }
+  }, [_c('i', {
+    staticClass: "material-icons"
+  }, [_vm._v("edit")]), _vm._v(" Signature\r\n        ")]), _vm._v(" "), _c('longpress', {
+    staticClass: "RVdeclineBtn waves-effect waves-light",
+    attrs: {
+      "duration": "3",
+      "on-confirm": _vm.cancelRequestManagerReplacer,
+      "disabled": _vm.btndisabled,
+      "pressing-text": "confirm in {$rcounter}",
+      "action-text": "Loading . . ."
+    }
+  }, [_c('i', {
+    staticClass: "material-icons"
+  }, [_vm._v("close")]), _vm._v(" I can't\r\n        ")])], 1)]) : _vm._e(), _vm._v(" "), (((_vm.RVMaster.users[2].pivot.Signature == '0') && (_vm.ApprovalReplacerData != null) && (_vm.user.id == _vm.ApprovalReplacerData.id) && (_vm.ApprovalReplacerData.pivot.Signature == null))) ? _c('div', {
+    staticClass: "Approve-replacer-accept-cant Request-manager-replace"
+  }, [_c('h6', {
+    staticClass: "approve-managerreplace-note"
+  }, [_c('i', {
+    staticClass: "material-icons color-blue"
+  }, [_vm._v("info")]), _vm._v(" "), _c('span', {
+    staticClass: "color-blue"
+  }, [_vm._v(_vm._s(_vm.RVMaster.users[0].FullName))]), _vm._v(" is asking for your signature b/c the General Manager is not available\r\n      ")]), _vm._v(" "), _c('span', {
+    class: {
+      'hide': _vm.SignatureApprovalReplacerHide
+    }
+  }, [_c('longpress', {
+    staticClass: "rvapprovebtn waves-effect waves-light",
+    attrs: {
+      "duration": "3",
+      "on-confirm": _vm.acceptApproveRequest,
+      "disabled": _vm.approveBtnReplacer,
+      "pressing-text": "confirm in {$rcounter}",
+      "action-text": "Loading . . ."
+    }
+  }, [_c('i', {
+    staticClass: "material-icons"
+  }, [_vm._v("edit")]), _vm._v(" Signature\r\n        ")]), _vm._v(" "), _c('longpress', {
+    staticClass: "RVdeclineBtn waves-effect waves-light",
+    attrs: {
+      "duration": "3",
+      "on-confirm": _vm.cancelApprovalRequest,
+      "disabled": _vm.approveBtnReplacer,
+      "pressing-text": "confirm in {$rcounter}",
+      "action-text": "Loading . . ."
+    }
+  }, [_c('i', {
+    staticClass: "material-icons"
+  }, [_vm._v("close")]), _vm._v(" I can't\r\n        ")])], 1)]) : _vm._e(), _vm._v(" "), _c('div', {
+    staticClass: "declineOrSignatureBtn"
+  }, [(((_vm.RequisitionerCanSignature) || (_vm.RecommendedByCanSignature) || (_vm.BudgetOfficerCanSignature) || (_vm.GMCanSignature))) ? _c('span', {
+    staticClass: "RVsignatureBtns",
+    class: {
+      'hide': _vm.SignatureRVBtnHide
+    }
+  }, [_c('div', {
+    staticClass: "RVapprove"
+  }, [_c('longpress', {
+    staticClass: "rvapprovebtn waves-effect waves-light",
+    attrs: {
+      "duration": "3",
+      "on-confirm": _vm.Signature,
+      "pressing-text": "confirm in {$rcounter}",
+      "action-text": "Loading . . ."
+    }
+  }, [_c('i', {
+    staticClass: "material-icons"
+  }, [_vm._v("edit")]), _vm._v(" Signature\r\n              ")])], 1), _vm._v(" "), _c('div', {
+    staticClass: "RVdecline"
+  }, [_c('longpress', {
+    staticClass: "RVdeclineBtn waves-effect waves-light",
+    attrs: {
+      "duration": "3",
+      "on-confirm": _vm.declineRV,
+      "pressing-text": "confirm in {$rcounter}",
+      "action-text": "Loading . . ."
+    }
+  }, [_c('i', {
+    staticClass: "material-icons"
+  }, [_vm._v("close")]), _vm._v(" Decline\r\n              ")])], 1)]) : _vm._e(), _vm._v(" "), (_vm.checkPO != null) ? _c('span', [_c('div', {
+    staticClass: "viewPObtn"
+  }, [((_vm.RVMaster.IfPurchased != null)) ? _c('div', {
+    staticClass: "status-po-wrapper"
+  }, [_vm._m(1)]) : _c('div', {
+    staticClass: "status-po-wrapper"
+  }, [_vm._m(2)]), _vm._v(" "), _c('a', {
+    attrs: {
+      "href": '/po-list-view-of-rv/' + _vm.rvno.RVNo
+    }
+  }, [_vm._m(3)])])]) : _vm._e(), _vm._v(" "), (_vm.AlreadyApproved) ? _c('span', [((_vm.RVMaster.IfPurchased == null) && (_vm.checkPO == null)) ? _c('div', {
+    staticClass: "status-po-wrapper"
+  }, [_vm._m(4)]) : _vm._e(), _vm._v(" "), (((_vm.RVMaster.IfPurchased) && (_vm.checkPO == null))) ? _c('div', {
+    staticClass: "status-po-wrapper"
+  }, [_vm._m(5)]) : (((_vm.RVMaster.IfPurchased == null) && (_vm.checkPO == null) && ((_vm.user.Role == 4) || (_vm.user.Role == 3)))) ? _c('div', {
+    staticClass: "CreateRRwoPO"
+  }, [_c('a', {
+    attrs: {
+      "href": '/create-rr-wo-po/' + _vm.rvno.RVNo
+    }
+  }, [_vm._m(6)])]) : _vm._e(), _vm._v(" "), (_vm.checkPO == null && _vm.checkRR != null) ? _c('span') : _c('span', [(((_vm.user.Role == 3) || (_vm.user.Role == 4)) && (_vm.AlreadyApproved)) ? _c('div', {
+    staticClass: "CanvasBtn"
+  }, [_c('a', {
+    attrs: {
+      "href": '/CanvassCreate/' + _vm.rvno.RVNo
+    }
+  }, [_vm._m(7)])]) : _vm._e()]), _vm._v(" "), (_vm.checkRR != null) ? _c('div', {
+    staticClass: "show-rr-of-rv"
+  }, [_c('a', {
+    attrs: {
+      "href": '/rr-of-rv-list/' + _vm.rvno.RVNo
+    }
+  }, [_vm._m(8)])]) : _vm._e()]) : _vm._e()])]), _vm._v(" "), _c('div', {
+    staticClass: "bondpaper-RV-container"
+  }, [_c('div', {
+    staticClass: "bondpaper-RV"
+  }, [((_vm.RVMaster.Status == '0')) ? _c('div', {
+    staticClass: "status-rv approved"
+  }, [_c('i', {
+    staticClass: "material-icons"
+  }, [_vm._v("thumb_up")]), _vm._v(" "), _c('h1', [_vm._v("Approved")])]) : ((_vm.RVMaster.Status == null)) ? _c('div', {
+    staticClass: "status-rv"
+  }, [_c('i', {
+    staticClass: "material-icons"
+  }, [_vm._v("access_time")]), _vm._v(" "), _c('h1', [_vm._v("Pending")])]) : (_vm.RVMaster.Status == '1') ? _c('div', {
+    staticClass: "status-rv declined"
+  }, [_c('i', {
+    staticClass: "material-icons"
+  }, [_vm._v("close")]), _vm._v(" "), _c('h1', [_vm._v("Declined")])]) : _vm._e(), _vm._v(" "), _vm._m(9), _vm._v(" "), _c('div', {
+    staticClass: "RVdate-RVNo-container"
+  }, [_c('ul', [_c('li', [_c('label', [_vm._v("RV No.")]), _c('p', [_vm._v(_vm._s(_vm.RVMaster.RVNo))])]), _vm._v(" "), _c('li', [_c('label', [_vm._v("DATE:")]), _c('p', [_vm._v(_vm._s(_vm.RVMaster.RVDate))])])])]), _vm._v(" "), _c('div', {
+    staticClass: "to-gm-container"
+  }, [_c('p', [_vm._v("TO: The General Manager")]), _vm._v(" "), _c('div', {
+    staticClass: "toGM-parag"
+  }, [_c('p', [_vm._v("Please furnish the following Materials/Supplies for")]), _c('h3', [_vm._v(_vm._s(_vm.RVMaster.Purpose))])])]), _vm._v(" "), _c('div', {
+    staticClass: "full-RVtable"
+  }, [_c('table', [_vm._m(10), _vm._v(" "), _vm._l((_vm.RVDetails), function(rvdata) {
+    return _c('tr', [_c('td', [_vm._v(_vm._s(rvdata.Particulars))]), _vm._v(" "), _c('td', [_vm._v(_vm._s(rvdata.Unit))]), _vm._v(" "), _c('td', [_vm._v(_vm._s(rvdata.Quantity))]), _vm._v(" "), _c('td', [_vm._v(_vm._s(rvdata.Remarks))])])
+  })], 2), _vm._v(" "), _vm._m(11), _vm._v(" "), _c('div', {
+    staticClass: "RVsignatures-container"
+  }, [_c('div', {
+    staticClass: "top-signature-RV"
+  }, [_c('div', {
+    staticClass: "RV-top-leftSignature"
+  }, [_c('h5', [_vm._v("Requested by:")]), _vm._v(" "), _c('div', {
+    staticClass: "requestRV-content"
+  }, [(_vm.RVMaster.users[0].pivot.Signature == '0') ? _c('h6', [_c('img', {
+    attrs: {
+      "src": '/storage/signatures/' + _vm.RVMaster.users[0].Signature,
+      "alt": "signature"
+    }
+  })]) : _vm._e(), _vm._v(" "), _c('p', [_vm._v("\r\n                    " + _vm._s(_vm.RVMaster.users[0].FullName) + "\r\n                    "), (_vm.RVMaster.users[0].pivot.Signature == '1') ? _c('i', {
+    staticClass: "material-icons decliner"
+  }, [_vm._v("close")]) : _vm._e()]), _vm._v(" "), _c('label', [_vm._v(_vm._s(_vm.RVMaster.users[0].Position))])])]), _vm._v(" "), _c('div', {
+    staticClass: "RV-top-RightSignature"
+  }, [_c('h5', [_vm._v("Recommended by:")]), _vm._v(" "), _c('div', {
+    staticClass: "requestRV-content"
+  }, [(_vm.RVMaster.users[1].pivot.Signature == '0') ? _c('h6', [_c('img', {
+    attrs: {
+      "src": '/storage/signatures/' + _vm.RVMaster.users[1].Signature,
+      "alt": "signature"
+    }
+  })]) : (_vm.ManagerReplacerData != null && _vm.ManagerReplacerData.pivot.Signature == '0') ? _c('h6', [_c('h1', [_vm._v("For :")]), _c('img', {
+    attrs: {
+      "src": '/storage/signatures/' + _vm.ManagerReplacerData.Signature,
+      "alt": "signature"
+    }
+  })]) : _vm._e(), _vm._v(" "), _c('p', [_vm._v("\r\n                  " + _vm._s(_vm.RVMaster.users[1].FullName) + "\r\n                "), _c('span', {
+    staticClass: "opener-manager-replace opener-icon"
+  }, [((_vm.user.id) == (_vm.RVMaster.users[0].id) && (this.ManagerBehalfActive == true) && ((_vm.ManagerReplacerData == null) || (_vm.ManagerReplacerData.pivot.Signature == null)) && (_vm.RVMaster.users[1].pivot.Signature == null)) ? _c('div', {
+    staticClass: "mini-menu-managers"
+  }, [(_vm.ManagerReplacerData == null) ? _c('h1', [_vm._v("Request signature to")]) : _c('h1', [_vm._v("Request pending "), _c('i', {
+    staticClass: "material-icons color-white"
+  }, [_vm._v("access_time")])]), _vm._v(" "), (_vm.ManagerReplacerData == null) ? _c('div', {
+    staticClass: "manager-list-menu"
+  }, [_c('select', {
+    directives: [{
+      name: "model",
+      rawName: "v-model",
+      value: (_vm.ManagerID),
+      expression: "ManagerID"
+    }],
+    on: {
+      "change": function($event) {
+        var $$selectedVal = Array.prototype.filter.call($event.target.options, function(o) {
+          return o.selected
+        }).map(function(o) {
+          var val = "_value" in o ? o._value : o.value;
+          return val
+        });
+        _vm.ManagerID = $event.target.multiple ? $$selectedVal : $$selectedVal[0]
+      }
+    }
+  }, [_c('option', {
+    domProps: {
+      "value": null
+    }
+  }, [_vm._v("Choose a manager")]), _vm._v(" "), _vm._l((_vm.activemanager), function(manager) {
+    return (manager.id != _vm.RVMaster.users[1].id) ? _c('option', {
+      domProps: {
+        "value": manager.id
+      }
+    }, [_vm._v(_vm._s(manager.FullName))]) : _vm._e()
+  })], 2), _vm._v(" "), (_vm.error != null) ? _c('p', {
+    staticClass: "color-red"
+  }, [_vm._v("*" + _vm._s(_vm.error))]) : _vm._e(), _vm._v(" "), _c('span', {
+    staticClass: "send-cancel-btns"
+  }, [_c('button', {
+    attrs: {
+      "type": "button"
+    },
+    on: {
+      "click": function($event) {
+        _vm.ManagerBehalfActive = false
+      }
+    }
+  }, [_vm._v("Cancel")]), _vm._v(" "), _c('button', {
+    attrs: {
+      "type": "button"
+    },
+    on: {
+      "click": function($event) {
+        _vm.sendRequestManagerReplacer()
+      }
+    }
+  }, [_vm._v("Send")])])]) : _c('div', {
+    staticClass: "manager-replacer-sent"
+  }, [_c('p', [_vm._v("Your request has been sent to"), _c('br'), _vm._v(" "), _c('span', {
+    staticClass: "underline"
+  }, [_vm._v(_vm._s(_vm.ManagerReplacerData.FullName))])]), _vm._v(" "), _c('span', {
+    staticClass: "cancel-manager-replace",
+    on: {
+      "click": function($event) {
+        _vm.cancelRequestManagerReplacer()
+      }
+    }
+  }, [_c('i', {
+    staticClass: "material-icons color-red"
+  }, [_vm._v("close")]), _vm._v("cancel")])])]) : _vm._e(), _vm._v(" "), (((_vm.user.id == _vm.RVMaster.users[0].id) && ((_vm.ManagerReplacerData == null) || (_vm.ManagerReplacerData.pivot.Signature == null)) && (_vm.RVMaster.users[1].pivot.Signature == null) && (_vm.RVMaster.users[0].pivot.Signature == '0'))) ? _c('i', {
+    staticClass: "material-icons color-blue",
+    on: {
+      "click": function($event) {
+        _vm.ManagerBehalfActive = !_vm.ManagerBehalfActive, [_vm.activemanager[0] != null ? '' : _vm.fetchAllManager()]
+      }
+    }
+  }, [_vm._v("people")]) : _vm._e()]), _vm._v(" "), (_vm.RVMaster.users[1].pivot.Signature == '1') ? _c('i', {
+    staticClass: "material-icons decliner"
+  }, [_vm._v("close")]) : _vm._e()]), _vm._v(" "), _c('label', [_vm._v(_vm._s(_vm.RVMaster.users[1].Position))])])])]), _vm._v(" "), _c('div', {
+    staticClass: "bottom-RV-signatures"
+  }, [_c('div', {
+    staticClass: "RVbottom-left-signature"
+  }, [(_vm.RVMaster.users[2].pivot.Signature == '0') ? _c('h6', [_c('img', {
+    attrs: {
+      "src": '/storage/signatures/' + _vm.RVMaster.users[2].Signature,
+      "alt": "signature"
+    }
+  })]) : _vm._e(), _vm._v(" "), _c('h3', [_vm._v("BUDGET AVAILABLE ON THIS REQUEST")]), _vm._v(" "), _c('h4', [_c('span', {
+    staticClass: "rv-signature-form"
+  }, [((_vm.user.Role == 7) && (_vm.RVMaster.BudgetAvailable == null) && (_vm.RVMaster.users[2].id == _vm.user.id) && (_vm.RVMaster.users[2].pivot.Signature == null) && ((_vm.RVMaster.users[1].pivot.Signature == '0') || (_vm.ManagerReplacerData != null && _vm.ManagerReplacerData.pivot.Signature == '0'))) ? _c('input', {
+    directives: [{
+      name: "model",
+      rawName: "v-model",
+      value: (_vm.BudgetAvail),
+      expression: "BudgetAvail"
+    }],
+    staticClass: "forBudgetOfficerOnly",
+    attrs: {
+      "type": "text"
+    },
+    domProps: {
+      "value": (_vm.BudgetAvail)
+    },
+    on: {
+      "input": function($event) {
+        if ($event.target.composing) { return; }
+        _vm.BudgetAvail = $event.target.value
+      }
+    }
+  }) : _vm._e()]), _vm._v(" "), ((_vm.editbudgetActive == false)) ? _c('span', {
+    staticClass: "budget-from"
+  }, [_vm._v(_vm._s(_vm.RVMaster.BudgetAvailable))]) : _vm._e(), _vm._v(" "), (((_vm.user.Role == 7) && (_vm.RVMaster.users[2].id == _vm.user.id) && (_vm.RVMaster.users[2].pivot.Signature == '0') && (_vm.RVMaster.users[3].pivot.Signature == null))) ? _c('span', {
+    staticClass: "form-edit-budget"
+  }, [(_vm.editbudgetActive == true) ? _c('span', {
+    staticClass: "flex"
+  }, [_c('input', {
+    directives: [{
+      name: "model",
+      rawName: "v-model",
+      value: (_vm.BudgetUpdate = _vm.RVMaster.BudgetAvailable),
+      expression: "BudgetUpdate=RVMaster.BudgetAvailable"
+    }],
+    staticClass: "editbudget-input",
+    attrs: {
+      "type": "text"
+    },
+    domProps: {
+      "value": (_vm.BudgetUpdate = _vm.RVMaster.BudgetAvailable)
+    },
+    on: {
+      "input": function($event) {
+        if ($event.target.composing) { return; }
+        _vm.BudgetUpdate = _vm.RVMaster.BudgetAvailable = $event.target.value
+      }
+    }
+  }), _vm._v(" "), _c('span', {
+    staticClass: "update-budget-btn"
+  }, [_c('button', {
+    staticClass: "editbudget",
+    attrs: {
+      "type": "submit"
+    },
+    on: {
+      "click": function($event) {
+        _vm.UpdateBudget(), _vm.editbudgetActive = false
+      }
+    }
+  }, [_c('i', {
+    staticClass: "material-icons"
+  }, [_vm._v("check")])]), _vm._v(" "), _c('button', {
+    staticClass: "editbudget cancel-edit",
+    attrs: {
+      "type": "button"
+    },
+    on: {
+      "click": function($event) {
+        _vm.editbudgetActive = false, _vm.fetchData();
+      }
+    }
+  }, [_c('i', {
+    staticClass: "material-icons"
+  }, [_vm._v("close")])])])]) : _vm._e(), _vm._v(" "), (_vm.editbudgetActive == false) ? _c('button', {
+    staticClass: "edit-budget-opener",
+    attrs: {
+      "type": "button"
+    },
+    on: {
+      "click": function($event) {
+        _vm.editbudgetActive = true
+      }
+    }
+  }, [_c('i', {
+    staticClass: "fa fa-pencil-square-o"
+  })]) : _vm._e()]) : _vm._e()]), _vm._v(" "), _c('p', [_vm._v("\r\n                  " + _vm._s(_vm.RVMaster.users[2].FullName) + "\r\n                  "), (_vm.RVMaster.users[2].pivot.Signature == '1') ? _c('i', {
+    staticClass: "material-icons decliner"
+  }, [_vm._v("close")]) : _vm._e()]), _vm._v(" "), _c('label', [_vm._v(_vm._s(_vm.RVMaster.users[2].Position))])]), _vm._v(" "), _c('div', {
+    staticClass: "RVbottom-right-signature"
+  }, [_c('h3', [_vm._v("Approved:")]), _vm._v(" "), _c('div', {
+    staticClass: "requestRV-content"
+  }, [(_vm.RVMaster.users[3].pivot.Signature == '0') ? _c('h6', [_c('img', {
+    attrs: {
+      "src": '/storage/signatures/' + _vm.RVMaster.users[3].Signature,
+      "alt": "signature"
+    }
+  })]) : (((_vm.ApprovalReplacerData != null) && (_vm.ApprovalReplacerData.pivot.Signature == '0'))) ? _c('h6', [_c('h2', [_vm._v("For :")]), _c('img', {
+    attrs: {
+      "src": '/storage/signatures/' + _vm.ApprovalReplacerData.Signature,
+      "alt": "signature"
+    }
+  })]) : _vm._e(), _vm._v(" "), _c('p', [_vm._v("\r\n                  " + _vm._s(_vm.RVMaster.users[3].FullName) + "\r\n                  "), (_vm.RVMaster.users[3].pivot.Signature == '1') ? _c('i', {
+    staticClass: "material-icons decliner"
+  }, [_vm._v("close")]) : _vm._e()]), _vm._v(" "), _c('label', [_vm._v(_vm._s(_vm.RVMaster.users[3].Position))])])])])])])])])]) : _vm._e()
+},staticRenderFns: [function (){var _vm=this;var _h=_vm.$createElement;var _c=_vm._self._c||_h;
+  return _c('button', {
+    attrs: {
+      "type": "submit",
+      "name": "RVNo",
+      "value": "RVNohere"
+    }
+  }, [_c('i', {
+    staticClass: "material-icons"
+  }, [_vm._v("print")])])
+},function (){var _vm=this;var _h=_vm.$createElement;var _c=_vm._self._c||_h;
+  return _c('h1', [_vm._v("Status : "), _c('span', {
+    staticClass: "underline"
+  }, [_vm._v("Already Purchased")]), _vm._v(" "), _c('i', {
+    staticClass: "material-icons"
+  }, [_vm._v("check")])])
+},function (){var _vm=this;var _h=_vm.$createElement;var _c=_vm._self._c||_h;
+  return _c('h1', [_vm._v("Status: "), _c('span', {
+    staticClass: "underline"
+  }, [_vm._v("Waiting for RR")])])
+},function (){var _vm=this;var _h=_vm.$createElement;var _c=_vm._self._c||_h;
+  return _c('button', {
+    attrs: {
+      "type": "button"
+    }
+  }, [_c('i', {
+    staticClass: "material-icons"
+  }, [_vm._v("history")]), _vm._v(" PO history")])
+},function (){var _vm=this;var _h=_vm.$createElement;var _c=_vm._self._c||_h;
+  return _c('h1', {
+    staticClass: "no-PO"
+  }, [_vm._v("Status : "), _c('span', {
+    staticClass: "underline"
+  }, [_vm._v("Waiting for RR")])])
+},function (){var _vm=this;var _h=_vm.$createElement;var _c=_vm._self._c||_h;
+  return _c('h1', {
+    staticClass: "done-but-no-po"
+  }, [_vm._v("Status : "), _c('span', {
+    staticClass: "underline"
+  }, [_vm._v("Already purchased "), _c('i', {
+    staticClass: "material-icons"
+  }, [_vm._v("check")]), _vm._v(" without P.O.")])])
+},function (){var _vm=this;var _h=_vm.$createElement;var _c=_vm._self._c||_h;
+  return _c('button', {
+    attrs: {
+      "type": "button"
+    }
+  }, [_c('i', {
+    staticClass: "material-icons"
+  }, [_vm._v("add")]), _vm._v(" RR")])
+},function (){var _vm=this;var _h=_vm.$createElement;var _c=_vm._self._c||_h;
+  return _c('button', {
+    attrs: {
+      "type": "submit"
+    }
+  }, [_c('i', {
+    staticClass: "material-icons"
+  }, [_vm._v("store")]), _vm._v(" Canvass")])
+},function (){var _vm=this;var _h=_vm.$createElement;var _c=_vm._self._c||_h;
+  return _c('button', {
+    attrs: {
+      "type": "button"
+    }
+  }, [_c('i', {
+    staticClass: "material-icons"
+  }, [_vm._v("history")]), _vm._v(" R.R. history")])
+},function (){var _vm=this;var _h=_vm.$createElement;var _c=_vm._self._c||_h;
+  return _c('div', {
+    staticClass: "top-rv-contents"
+  }, [_c('h5', [_vm._v("BOHOL I ELECTRIC COOPERATIVE")]), _vm._v(" "), _c('h6', [_vm._v("Cabulijan, Tubigon, Bohol")]), _vm._v(" "), _c('h4', [_vm._v("REQUISITION VOUCHER")])])
+},function (){var _vm=this;var _h=_vm.$createElement;var _c=_vm._self._c||_h;
+  return _c('tr', [_c('th', [_vm._v("Articles")]), _vm._v(" "), _c('th', [_vm._v("Unit")]), _vm._v(" "), _c('th', [_vm._v("Qty")]), _vm._v(" "), _c('th', [_vm._v("Remarks")])])
+},function (){var _vm=this;var _h=_vm.$createElement;var _c=_vm._self._c||_h;
+  return _c('div', {
+    staticClass: "certify-RV"
+  }, [_c('h3', [_vm._v("I hereby certify that the above requested materials/supplies are necessary and will be used solely for the purpose stated above.")])])
+}]}
+module.exports.render._withStripped = true
+if (false) {
+  module.hot.accept()
+  if (module.hot.data) {
+     require("vue-hot-reload-api").rerender("data-v-7c19327a", module.exports)
+  }
+}
+
+/***/ }),
+
+/***/ 325:
+/***/ (function(module, exports, __webpack_require__) {
+
+module.exports={render:function (){var _vm=this;var _h=_vm.$createElement;var _c=_vm._self._c||_h;
+  return _c('div', {
+    staticClass: "table-rv-container"
+  }, [_c('div', {
+    staticClass: "top-RV-index"
+  }, [_vm._m(0), _vm._v(" "), _c('div', {
+    staticClass: "searchbox-RV"
+  }, [_c('input', {
+    directives: [{
+      name: "model",
+      rawName: "v-model",
+      value: (_vm.search),
+      expression: "search"
+    }],
+    attrs: {
+      "type": "text",
+      "name": "search",
+      "placeholder": "Search RV Number"
+    },
+    domProps: {
+      "value": (_vm.search)
+    },
+    on: {
+      "keyup": function($event) {
+        _vm.fetchdataRV()
+      },
+      "input": function($event) {
+        if ($event.target.composing) { return; }
+        _vm.search = $event.target.value
+      }
+    }
+  })])]), _vm._v(" "), _c('table', [_vm._m(1), _vm._v(" "), _vm._l((_vm.RVs), function(rvdata) {
+    return (rvdata.users[0] != null) ? _c('tr', [_c('td', [_vm._v(_vm._s(rvdata.RVNo))]), _vm._v(" "), _c('td', [_vm._v(_vm._s(rvdata.RVDate))]), _vm._v(" "), _c('td', [_vm._v(_vm._s(rvdata.Purpose))]), _vm._v(" "), _c('td', [_vm._v(_vm._s(rvdata.users[0].FullName)), _c('br'), _vm._v(" "), (rvdata.users[0].pivot.Signature == '0') ? _c('i', {
+      staticClass: "material-icons"
+    }, [_vm._v("check")]) : (rvdata.users[0].pivot.Signature == '1') ? _c('i', {
+      staticClass: "material-icons decliner"
+    }, [_vm._v("close")]) : _vm._e()]), _vm._v(" "), _c('td', [_vm._v(_vm._s(rvdata.users[1].FullName)), _c('br'), _vm._v(" "), (((rvdata.users[1].pivot.Signature == '0') || ((rvdata.users[4] != null) && (rvdata.users[4].pivot.Signature == '0') && (rvdata.users[4].pivot.SignatureType == 'ManagerReplacer')) || ((rvdata.users[5] != null) && (rvdata.users[5].pivot.Signature == '0') && (rvdata.users[5].pivot.SignatureType == 'ManagerReplacer')))) ? _c('i', {
+      staticClass: "material-icons"
+    }, [_vm._v("check")]) : (rvdata.users[1].pivot.Signature == '1') ? _c('i', {
+      staticClass: "material-icons decliner"
+    }, [_vm._v("close")]) : _vm._e()]), _vm._v(" "), _c('td', [_vm._v(_vm._s(rvdata.users[2].FullName)), _c('br'), _vm._v(" "), (rvdata.users[2].pivot.Signature == '0') ? _c('i', {
+      staticClass: "material-icons"
+    }, [_vm._v("check")]) : (rvdata.users[2].pivot.Signature == '1') ? _c('i', {
+      staticClass: "material-icons decliner"
+    }, [_vm._v("close")]) : _vm._e()]), _vm._v(" "), _c('td', [_vm._v(_vm._s(rvdata.users[3].FullName)), _c('br'), _vm._v(" "), (((rvdata.users[3].pivot.Signature == '0') || ((rvdata.users[4] != null) && (rvdata.users[4].pivot.Signature == '0') && (rvdata.users[4].pivot.SignatureType == 'ApprovalReplacer')) || ((rvdata.users[5] != null) && (rvdata.users[5].pivot.Signature == '0') && (rvdata.users[5].pivot.SignatureType == 'ApprovalReplacer')))) ? _c('i', {
+      staticClass: "material-icons"
+    }, [_vm._v("check")]) : (rvdata.users[3].pivot.Signature == '1') ? _c('i', {
+      staticClass: "material-icons decliner"
+    }, [_vm._v("close")]) : _vm._e()]), _vm._v(" "), (rvdata.Status == '0') ? _c('td', [_c('i', {
+      staticClass: "material-icons"
+    }, [_vm._v("thumb_up")])]) : (rvdata.Status == null) ? _c('td', [_c('i', {
+      staticClass: "material-icons"
+    }, [_vm._v("access_time")])]) : (rvdata.Status == '1') ? _c('td', [_c('i', {
+      staticClass: "material-icons decliner"
+    }, [_vm._v("close")])]) : _vm._e(), _vm._v(" "), _c('td', [_c('a', {
+      attrs: {
+        "href": 'RVfullview/' + rvdata.RVNo
+      }
+    }, [_c('i', {
+      staticClass: "material-icons"
+    }, [_vm._v("remove_red_eye")])])])]) : _vm._e()
+  })], 2), _vm._v(" "), _c('div', {
+    staticClass: "paginate-container"
+  }, [_c('ul', {
+    staticClass: "pagination"
+  }, [(_vm.pagination.current_page > 1) ? _c('li', [_c('a', {
+    attrs: {
+      "href": "#"
+    },
+    on: {
+      "click": function($event) {
+        $event.preventDefault();
+        _vm.changepageRV(_vm.pagination.current_page - 1)
+      }
+    }
+  }, [_c('i', {
+    staticClass: "fa fa-angle-left"
+  })])]) : _vm._e(), _vm._v(" "), _vm._l((_vm.pagesNumber), function(page) {
+    return _c('li', {
+      class: [page == _vm.isActive ? 'active' : '']
+    }, [_c('a', {
+      attrs: {
+        "href": "#"
+      },
+      on: {
+        "click": function($event) {
+          $event.preventDefault();
+          _vm.changepageRV(page)
+        }
+      }
+    }, [_vm._v(_vm._s(page))])])
+  }), _vm._v(" "), (_vm.pagination.current_page < _vm.pagination.last_page) ? _c('li', [_c('a', {
+    attrs: {
+      "href": "#"
+    },
+    on: {
+      "click": function($event) {
+        $event.preventDefault();
+        _vm.changepageRV(_vm.pagination.current_page + 1)
+      }
+    }
+  }, [_c('i', {
+    staticClass: "fa fa-angle-right"
+  })])]) : _vm._e()], 2)])])
+},staticRenderFns: [function (){var _vm=this;var _h=_vm.$createElement;var _c=_vm._self._c||_h;
+  return _c('div', {
+    staticClass: "rv-index-title"
+  }, [_c('h1', [_c('i', {
+    staticClass: "material-icons"
+  }, [_vm._v("show_chart")]), _vm._v(" Requisition Voucher index")])])
+},function (){var _vm=this;var _h=_vm.$createElement;var _c=_vm._self._c||_h;
+  return _c('tr', [_c('th', [_vm._v("RV No.")]), _vm._v(" "), _c('th', [_vm._v("RV Date")]), _vm._v(" "), _c('th', [_vm._v("Purpose")]), _vm._v(" "), _c('th', [_vm._v("Requisitioner")]), _vm._v(" "), _c('th', [_vm._v("Recommended by")]), _vm._v(" "), _c('th', [_vm._v("Budget Officer")]), _vm._v(" "), _c('th', [_vm._v("Approved by")]), _vm._v(" "), _c('th', [_vm._v("Status")]), _vm._v(" "), _c('th', [_vm._v("View")])])
+}]}
+module.exports.render._withStripped = true
+if (false) {
+  module.hot.accept()
+  if (module.hot.data) {
+     require("vue-hot-reload-api").rerender("data-v-9cd6acda", module.exports)
+  }
+}
 
 /***/ }),
 
 /***/ 33:
+/***/ (function(module, exports, __webpack_require__) {
+
+"use strict";
+
+
+/**
+ * Syntactic sugar for invoking a function and expanding an array for arguments.
+ *
+ * Common use case would be to use `Function.prototype.apply`.
+ *
+ *  ```js
+ *  function f(x, y, z) {}
+ *  var args = [1, 2, 3];
+ *  f.apply(null, args);
+ *  ```
+ *
+ * With `spread` this example can be re-written.
+ *
+ *  ```js
+ *  spread(function(x, y, z) {})([1, 2, 3]);
+ *  ```
+ *
+ * @param {Function} callback
+ * @returns {Function}
+ */
+module.exports = function spread(callback) {
+  return function wrap(arr) {
+    return callback.apply(null, arr);
+  };
+};
+
+
+/***/ }),
+
+/***/ 34:
+/***/ (function(module, exports) {
+
+// shim for using process in browser
+var process = module.exports = {};
+
+// cached from whatever global is present so that test runners that stub it
+// don't break things.  But we need to wrap it in a try catch in case it is
+// wrapped in strict mode code which doesn't define any globals.  It's inside a
+// function because try/catches deoptimize in certain engines.
+
+var cachedSetTimeout;
+var cachedClearTimeout;
+
+function defaultSetTimout() {
+    throw new Error('setTimeout has not been defined');
+}
+function defaultClearTimeout () {
+    throw new Error('clearTimeout has not been defined');
+}
+(function () {
+    try {
+        if (typeof setTimeout === 'function') {
+            cachedSetTimeout = setTimeout;
+        } else {
+            cachedSetTimeout = defaultSetTimout;
+        }
+    } catch (e) {
+        cachedSetTimeout = defaultSetTimout;
+    }
+    try {
+        if (typeof clearTimeout === 'function') {
+            cachedClearTimeout = clearTimeout;
+        } else {
+            cachedClearTimeout = defaultClearTimeout;
+        }
+    } catch (e) {
+        cachedClearTimeout = defaultClearTimeout;
+    }
+} ())
+function runTimeout(fun) {
+    if (cachedSetTimeout === setTimeout) {
+        //normal enviroments in sane situations
+        return setTimeout(fun, 0);
+    }
+    // if setTimeout wasn't available but was latter defined
+    if ((cachedSetTimeout === defaultSetTimout || !cachedSetTimeout) && setTimeout) {
+        cachedSetTimeout = setTimeout;
+        return setTimeout(fun, 0);
+    }
+    try {
+        // when when somebody has screwed with setTimeout but no I.E. maddness
+        return cachedSetTimeout(fun, 0);
+    } catch(e){
+        try {
+            // When we are in I.E. but the script has been evaled so I.E. doesn't trust the global object when called normally
+            return cachedSetTimeout.call(null, fun, 0);
+        } catch(e){
+            // same as above but when it's a version of I.E. that must have the global object for 'this', hopfully our context correct otherwise it will throw a global error
+            return cachedSetTimeout.call(this, fun, 0);
+        }
+    }
+
+
+}
+function runClearTimeout(marker) {
+    if (cachedClearTimeout === clearTimeout) {
+        //normal enviroments in sane situations
+        return clearTimeout(marker);
+    }
+    // if clearTimeout wasn't available but was latter defined
+    if ((cachedClearTimeout === defaultClearTimeout || !cachedClearTimeout) && clearTimeout) {
+        cachedClearTimeout = clearTimeout;
+        return clearTimeout(marker);
+    }
+    try {
+        // when when somebody has screwed with setTimeout but no I.E. maddness
+        return cachedClearTimeout(marker);
+    } catch (e){
+        try {
+            // When we are in I.E. but the script has been evaled so I.E. doesn't  trust the global object when called normally
+            return cachedClearTimeout.call(null, marker);
+        } catch (e){
+            // same as above but when it's a version of I.E. that must have the global object for 'this', hopfully our context correct otherwise it will throw a global error.
+            // Some versions of I.E. have different rules for clearTimeout vs setTimeout
+            return cachedClearTimeout.call(this, marker);
+        }
+    }
+
+
+
+}
+var queue = [];
+var draining = false;
+var currentQueue;
+var queueIndex = -1;
+
+function cleanUpNextTick() {
+    if (!draining || !currentQueue) {
+        return;
+    }
+    draining = false;
+    if (currentQueue.length) {
+        queue = currentQueue.concat(queue);
+    } else {
+        queueIndex = -1;
+    }
+    if (queue.length) {
+        drainQueue();
+    }
+}
+
+function drainQueue() {
+    if (draining) {
+        return;
+    }
+    var timeout = runTimeout(cleanUpNextTick);
+    draining = true;
+
+    var len = queue.length;
+    while(len) {
+        currentQueue = queue;
+        queue = [];
+        while (++queueIndex < len) {
+            if (currentQueue) {
+                currentQueue[queueIndex].run();
+            }
+        }
+        queueIndex = -1;
+        len = queue.length;
+    }
+    currentQueue = null;
+    draining = false;
+    runClearTimeout(timeout);
+}
+
+process.nextTick = function (fun) {
+    var args = new Array(arguments.length - 1);
+    if (arguments.length > 1) {
+        for (var i = 1; i < arguments.length; i++) {
+            args[i - 1] = arguments[i];
+        }
+    }
+    queue.push(new Item(fun, args));
+    if (queue.length === 1 && !draining) {
+        runTimeout(drainQueue);
+    }
+};
+
+// v8 likes predictible objects
+function Item(fun, array) {
+    this.fun = fun;
+    this.array = array;
+}
+Item.prototype.run = function () {
+    this.fun.apply(null, this.array);
+};
+process.title = 'browser';
+process.browser = true;
+process.env = {};
+process.argv = [];
+process.version = ''; // empty string to avoid regexp issues
+process.versions = {};
+
+function noop() {}
+
+process.on = noop;
+process.addListener = noop;
+process.once = noop;
+process.off = noop;
+process.removeListener = noop;
+process.removeAllListeners = noop;
+process.emit = noop;
+process.prependListener = noop;
+process.prependOnceListener = noop;
+
+process.listeners = function (name) { return [] }
+
+process.binding = function (name) {
+    throw new Error('process.binding is not supported');
+};
+
+process.cwd = function () { return '/' };
+process.chdir = function (dir) {
+    throw new Error('process.chdir is not supported');
+};
+process.umask = function() { return 0; };
+
+
+/***/ }),
+
+/***/ 343:
+/***/ (function(module, exports, __webpack_require__) {
+
+__webpack_require__(173);
+module.exports = __webpack_require__(174);
+
+
+/***/ }),
+
+/***/ 35:
 /***/ (function(module, exports) {
 
 /*
@@ -17881,15 +17900,15 @@ module.exports = function() {
 
 /***/ }),
 
-/***/ 34:
+/***/ 36:
 /***/ (function(module, exports, __webpack_require__) {
 
-exports = module.exports = __webpack_require__(33)();
+exports = module.exports = __webpack_require__(35)();
 exports.push([module.i, ".lx-toast {\r\n    position: fixed;\r\n    bottom: 100px;\r\n    left: 50%;\r\n    box-sizing: border-box;\r\n    max-width: 80%;\r\n    height: 40px;\r\n    line-height: 20px;\r\n    padding: 10px 20px;\r\n    transform: translateX(-50%);\r\n    -webkit-transform: translateX(-50%);\r\n    text-align: center;\r\n    z-index: 9999;\r\n    font-size: 14px;\r\n    color: #fff;\r\n    border-radius: 5px;\r\n    background: rgba(0, 0, 0, 0.7);\r\n    animation: show-toast .5s;\r\n    -webkit-animation: show-toast .5s;\r\n    overflow: hidden;\r\n    text-overflow: ellipsis;\r\n    white-space: nowrap;\r\n}\r\n\r\n.lx-toast.lx-word-wrap {\r\n    width: 80%;\r\n    white-space: inherit;\r\n    height: auto;\r\n}\r\n\r\n.lx-toast.lx-toast-top {\r\n    top: 50px;\r\n    bottom: inherit;\r\n}\r\n\r\n.lx-toast.lx-toast-center {\r\n    top: 50%;\r\n    margin-top: -20px;\r\n    bottom: inherit;\r\n}\r\n\r\n@keyframes show-toast {\r\n    from {\r\n        opacity: 0;\r\n        transform: translate(-50%, -10px);\r\n        -webkit-transform: translate(-50%, -10px);\r\n    }\r\n    to {\r\n        opacity: 1;\r\n        transform: translate(-50%, 0);\r\n        -webkit-transform: translate(-50%, 0);\r\n    }\r\n}\r\n\r\n.lx-load-mark {\r\n    position: fixed;\r\n    left: 0;\r\n    top: 0;\r\n    width: 100%;\r\n    height: 100%;\r\n    z-index: 9999;\r\n}\r\n\r\n.lx-load-box {\r\n    position: fixed;\r\n    z-index: 3;\r\n    width: 7.6em;\r\n    min-height: 7.6em;\r\n    top: 180px;\r\n    left: 50%;\r\n    margin-left: -3.8em;\r\n    background: rgba(0, 0, 0, 0.7);\r\n    text-align: center;\r\n    border-radius: 5px;\r\n    color: #FFFFFF;\r\n}\r\n\r\n.lx-load-content {\r\n    margin-top: 64%;\r\n    font-size: 14px;\r\n}\r\n\r\n.lx-loading {\r\n    position: absolute;\r\n    width: 0px;\r\n    left: 50%;\r\n    top: 38%;\r\n}\r\n\r\n.loading_leaf {\r\n    position: absolute;\r\n    top: -1px;\r\n    opacity: 0.25;\r\n}\r\n\r\n.loading_leaf:before {\r\n    content: \" \";\r\n    position: absolute;\r\n    width: 9.14px;\r\n    height: 3.08px;\r\n    background: #d1d1d5;\r\n    box-shadow: rgba(0, 0, 0, 0.0980392) 0px 0px 1px;\r\n    border-radius: 1px;\r\n    -webkit-transform-origin: left 50% 0px;\r\n    transform-origin: left 50% 0px;\r\n}\r\n\r\n.loading_leaf_0 {\r\n    -webkit-animation: opacity-0 1.25s linear infinite;\r\n    animation: opacity-0 1.25s linear infinite;\r\n}\r\n\r\n.loading_leaf_0:before {\r\n    -webkit-transform: rotate(0deg) translate(7.92px, 0px);\r\n    transform: rotate(0deg) translate(7.92px, 0px);\r\n}\r\n\r\n.loading_leaf_1 {\r\n    -webkit-animation: opacity-1 1.25s linear infinite;\r\n    animation: opacity-1 1.25s linear infinite;\r\n}\r\n\r\n.loading_leaf_1:before {\r\n    -webkit-transform: rotate(30deg) translate(7.92px, 0px);\r\n    transform: rotate(30deg) translate(7.92px, 0px);\r\n}\r\n\r\n.loading_leaf_2 {\r\n    -webkit-animation: opacity-2 1.25s linear infinite;\r\n    animation: opacity-2 1.25s linear infinite;\r\n}\r\n\r\n.loading_leaf_2:before {\r\n    -webkit-transform: rotate(60deg) translate(7.92px, 0px);\r\n    transform: rotate(60deg) translate(7.92px, 0px);\r\n}\r\n\r\n.loading_leaf_3 {\r\n    -webkit-animation: opacity-3 1.25s linear infinite;\r\n    animation: opacity-3 1.25s linear infinite;\r\n}\r\n\r\n.loading_leaf_3:before {\r\n    -webkit-transform: rotate(90deg) translate(7.92px, 0px);\r\n    transform: rotate(90deg) translate(7.92px, 0px);\r\n}\r\n\r\n.loading_leaf_4 {\r\n    -webkit-animation: opacity-4 1.25s linear infinite;\r\n    animation: opacity-4 1.25s linear infinite;\r\n}\r\n\r\n.loading_leaf_4:before {\r\n    -webkit-transform: rotate(120deg) translate(7.92px, 0px);\r\n    transform: rotate(120deg) translate(7.92px, 0px);\r\n}\r\n\r\n.loading_leaf_5 {\r\n    -webkit-animation: opacity-5 1.25s linear infinite;\r\n    animation: opacity-5 1.25s linear infinite;\r\n}\r\n\r\n.loading_leaf_5:before {\r\n    -webkit-transform: rotate(150deg) translate(7.92px, 0px);\r\n    transform: rotate(150deg) translate(7.92px, 0px);\r\n}\r\n\r\n.loading_leaf_6 {\r\n    -webkit-animation: opacity-6 1.25s linear infinite;\r\n    animation: opacity-6 1.25s linear infinite;\r\n}\r\n\r\n.loading_leaf_6:before {\r\n    -webkit-transform: rotate(180deg) translate(7.92px, 0px);\r\n    transform: rotate(180deg) translate(7.92px, 0px);\r\n}\r\n\r\n.loading_leaf_7 {\r\n    -webkit-animation: opacity-7 1.25s linear infinite;\r\n    animation: opacity-7 1.25s linear infinite;\r\n}\r\n\r\n.loading_leaf_7:before {\r\n    -webkit-transform: rotate(210deg) translate(7.92px, 0px);\r\n    transform: rotate(210deg) translate(7.92px, 0px);\r\n}\r\n\r\n.loading_leaf_8 {\r\n    -webkit-animation: opacity-8 1.25s linear infinite;\r\n    animation: opacity-8 1.25s linear infinite;\r\n}\r\n\r\n.loading_leaf_8:before {\r\n    -webkit-transform: rotate(240deg) translate(7.92px, 0px);\r\n    transform: rotate(240deg) translate(7.92px, 0px);\r\n}\r\n\r\n.loading_leaf_9 {\r\n    -webkit-animation: opacity-9 1.25s linear infinite;\r\n    animation: opacity-9 1.25s linear infinite;\r\n}\r\n\r\n.loading_leaf_9:before {\r\n    -webkit-transform: rotate(270deg) translate(7.92px, 0px);\r\n    transform: rotate(270deg) translate(7.92px, 0px);\r\n}\r\n\r\n.loading_leaf_10 {\r\n    -webkit-animation: opacity-10 1.25s linear infinite;\r\n    animation: opacity-10 1.25s linear infinite;\r\n}\r\n\r\n.loading_leaf_10:before {\r\n    -webkit-transform: rotate(300deg) translate(7.92px, 0px);\r\n    transform: rotate(300deg) translate(7.92px, 0px);\r\n}\r\n\r\n.loading_leaf_11 {\r\n    -webkit-animation: opacity-11 1.25s linear infinite;\r\n    animation: opacity-11 1.25s linear infinite;\r\n}\r\n\r\n.loading_leaf_11:before {\r\n    -webkit-transform: rotate(330deg) translate(7.92px, 0px);\r\n    transform: rotate(330deg) translate(7.92px, 0px);\r\n}\r\n\r\n@-webkit-keyframes opacity-0 {\r\n    0% {\r\n        opacity: 0.25;\r\n    }\r\n    0.01% {\r\n        opacity: 0.25;\r\n    }\r\n    0.02% {\r\n        opacity: 1;\r\n    }\r\n    60.01% {\r\n        opacity: 0.25;\r\n    }\r\n    100% {\r\n        opacity: 0.25;\r\n    }\r\n}\r\n\r\n@-webkit-keyframes opacity-1 {\r\n    0% {\r\n        opacity: 0.25;\r\n    }\r\n    8.34333% {\r\n        opacity: 0.25;\r\n    }\r\n    8.35333% {\r\n        opacity: 1;\r\n    }\r\n    68.3433% {\r\n        opacity: 0.25;\r\n    }\r\n    100% {\r\n        opacity: 0.25;\r\n    }\r\n}\r\n\r\n@-webkit-keyframes opacity-2 {\r\n    0% {\r\n        opacity: 0.25;\r\n    }\r\n    16.6767% {\r\n        opacity: 0.25;\r\n    }\r\n    16.6867% {\r\n        opacity: 1;\r\n    }\r\n    76.6767% {\r\n        opacity: 0.25;\r\n    }\r\n    100% {\r\n        opacity: 0.25;\r\n    }\r\n}\r\n\r\n@-webkit-keyframes opacity-3 {\r\n    0% {\r\n        opacity: 0.25;\r\n    }\r\n    25.01% {\r\n        opacity: 0.25;\r\n    }\r\n    25.02% {\r\n        opacity: 1;\r\n    }\r\n    85.01% {\r\n        opacity: 0.25;\r\n    }\r\n    100% {\r\n        opacity: 0.25;\r\n    }\r\n}\r\n\r\n@-webkit-keyframes opacity-4 {\r\n    0% {\r\n        opacity: 0.25;\r\n    }\r\n    33.3433% {\r\n        opacity: 0.25;\r\n    }\r\n    33.3533% {\r\n        opacity: 1;\r\n    }\r\n    93.3433% {\r\n        opacity: 0.25;\r\n    }\r\n    100% {\r\n        opacity: 0.25;\r\n    }\r\n}\r\n\r\n@-webkit-keyframes opacity-5 {\r\n    0% {\r\n        opacity: 0.270958333333333;\r\n    }\r\n    41.6767% {\r\n        opacity: 0.25;\r\n    }\r\n    41.6867% {\r\n        opacity: 1;\r\n    }\r\n    1.67667% {\r\n        opacity: 0.25;\r\n    }\r\n    100% {\r\n        opacity: 0.270958333333333;\r\n    }\r\n}\r\n\r\n@-webkit-keyframes opacity-6 {\r\n    0% {\r\n        opacity: 0.375125;\r\n    }\r\n    50.01% {\r\n        opacity: 0.25;\r\n    }\r\n    50.02% {\r\n        opacity: 1;\r\n    }\r\n    10.01% {\r\n        opacity: 0.25;\r\n    }\r\n    100% {\r\n        opacity: 0.375125;\r\n    }\r\n}\r\n\r\n@-webkit-keyframes opacity-7 {\r\n    0% {\r\n        opacity: 0.479291666666667;\r\n    }\r\n    58.3433% {\r\n        opacity: 0.25;\r\n    }\r\n    58.3533% {\r\n        opacity: 1;\r\n    }\r\n    18.3433% {\r\n        opacity: 0.25;\r\n    }\r\n    100% {\r\n        opacity: 0.479291666666667;\r\n    }\r\n}\r\n\r\n@-webkit-keyframes opacity-8 {\r\n    0% {\r\n        opacity: 0.583458333333333;\r\n    }\r\n    66.6767% {\r\n        opacity: 0.25;\r\n    }\r\n    66.6867% {\r\n        opacity: 1;\r\n    }\r\n    26.6767% {\r\n        opacity: 0.25;\r\n    }\r\n    100% {\r\n        opacity: 0.583458333333333;\r\n    }\r\n}\r\n\r\n@-webkit-keyframes opacity-9 {\r\n    0% {\r\n        opacity: 0.687625;\r\n    }\r\n    75.01% {\r\n        opacity: 0.25;\r\n    }\r\n    75.02% {\r\n        opacity: 1;\r\n    }\r\n    35.01% {\r\n        opacity: 0.25;\r\n    }\r\n    100% {\r\n        opacity: 0.687625;\r\n    }\r\n}\r\n\r\n@-webkit-keyframes opacity-10 {\r\n    0% {\r\n        opacity: 0.791791666666667;\r\n    }\r\n    83.3433% {\r\n        opacity: 0.25;\r\n    }\r\n    83.3533% {\r\n        opacity: 1;\r\n    }\r\n    43.3433% {\r\n        opacity: 0.25;\r\n    }\r\n    100% {\r\n        opacity: 0.791791666666667;\r\n    }\r\n}\r\n\r\n@-webkit-keyframes opacity-11 {\r\n    0% {\r\n        opacity: 0.895958333333333;\r\n    }\r\n    91.6767% {\r\n        opacity: 0.25;\r\n    }\r\n    91.6867% {\r\n        opacity: 1;\r\n    }\r\n    51.6767% {\r\n        opacity: 0.25;\r\n    }\r\n    100% {\r\n        opacity: 0.895958333333333;\r\n    }\r\n}", ""]);
 
 /***/ }),
 
-/***/ 35:
+/***/ 37:
 /***/ (function(module, exports) {
 
 /*
@@ -18145,23 +18164,23 @@ function updateLink(linkElement, obj) {
 /***/ 4:
 /***/ (function(module, exports, __webpack_require__) {
 
-module.exports = __webpack_require__(14);
+module.exports = __webpack_require__(17);
 
 /***/ }),
 
-/***/ 5:
+/***/ 6:
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
 
 
 var utils = __webpack_require__(1);
-var settle = __webpack_require__(20);
-var buildURL = __webpack_require__(23);
-var parseHeaders = __webpack_require__(29);
-var isURLSameOrigin = __webpack_require__(27);
-var createError = __webpack_require__(8);
-var btoa = (typeof window !== 'undefined' && window.btoa && window.btoa.bind(window)) || __webpack_require__(22);
+var settle = __webpack_require__(23);
+var buildURL = __webpack_require__(26);
+var parseHeaders = __webpack_require__(32);
+var isURLSameOrigin = __webpack_require__(30);
+var createError = __webpack_require__(9);
+var btoa = (typeof window !== 'undefined' && window.btoa && window.btoa.bind(window)) || __webpack_require__(25);
 
 module.exports = function xhrAdapter(config) {
   return new Promise(function dispatchXhrRequest(resolve, reject) {
@@ -18257,7 +18276,7 @@ module.exports = function xhrAdapter(config) {
     // This is only done if running in a standard browser environment.
     // Specifically not if we're in a web worker, or react-native.
     if (utils.isStandardBrowserEnv()) {
-      var cookies = __webpack_require__(25);
+      var cookies = __webpack_require__(28);
 
       // Add xsrf header
       var xsrfValue = (config.withCredentials || isURLSameOrigin(config.url)) && config.xsrfCookieName ?
@@ -18334,7 +18353,7 @@ module.exports = function xhrAdapter(config) {
 
 /***/ }),
 
-/***/ 6:
+/***/ 7:
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -18361,7 +18380,7 @@ module.exports = Cancel;
 
 /***/ }),
 
-/***/ 7:
+/***/ 8:
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -18374,13 +18393,13 @@ module.exports = function isCancel(value) {
 
 /***/ }),
 
-/***/ 8:
+/***/ 9:
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
 
 
-var enhanceError = __webpack_require__(19);
+var enhanceError = __webpack_require__(22);
 
 /**
  * Create an Error with the specified message, config, error code, and response.
@@ -18394,25 +18413,6 @@ var enhanceError = __webpack_require__(19);
 module.exports = function createError(message, config, code, response) {
   var error = new Error(message);
   return enhanceError(error, config, code, response);
-};
-
-
-/***/ }),
-
-/***/ 9:
-/***/ (function(module, exports, __webpack_require__) {
-
-"use strict";
-
-
-module.exports = function bind(fn, thisArg) {
-  return function wrap() {
-    var args = new Array(arguments.length);
-    for (var i = 0; i < args.length; i++) {
-      args[i] = arguments[i];
-    }
-    return fn.apply(thisArg, args);
-  };
 };
 
 
