@@ -59,7 +59,7 @@ Route::put('/update-mct/{id}','MCTController@updateMCT')->name('MCTUpdate');
 Route::get('/getItemsMCTvalidator/{id}','MCTController@getItemsMCTvalidator')->name('getValidatorofMCT');
 Route::put('/updateMRTQty/{id}','MRTController@updateQuantityMRT')->name('updateQtymrt');
 Route::get('/MRT-create/{id}','MRTController@CreateMRT')->name('create.mrt');
-Route::get('/MRT-create-fetch-mct-or-mrt/{mctno}','MRTController@CreateMRTFetchMCTdata');
+Route::get('/MRT-create-fetch-mct-of-mrt/{mctno}','MRTController@CreateMRTFetchMCTdata');
 Route::post('/MRT-store/{id}','MRTController@StoreMRT')->name('storing.mrt')->middleware('IfAlreadyHaveMRT');
 Route::post('/MRT-session','MRTController@addToSession');
 Route::get('/display-session-mrt','MRTController@DisplaySessionMRT');
@@ -203,5 +203,11 @@ Route::put('/update-account-username','MyAccountSettings@updateUserName');
 Route::put('/update-account-password','MyAccountSettings@changeMyPassword');
 Route::get('/show-data','dashBoardController@show');
 
-Route::put('/rollback-mct-history/{mctNo}','MCTController@RollBack');
-Route::put('/undo-rollback-mct-history/{mctNo}','MCTController@UndoRollBack');
+Route::put('/rollback-mct-history/{mctNo}/{mirsNo}','MCTController@RollBack');
+Route::put('/undo-rollback-mct-history/{mctNo}/{mirsNo}','MCTController@UndoRollBack');
+
+Route::put('/rollback-mrt-history/{mrtNo}','MRTController@RollBack');
+Route::put('/undo-rollback-mrt-history/{mrtNo}','MRTController@UndoRollBack');
+
+Route::put('/rollback-this-rr/{rrNo}','RRController@RollBack');
+Route::put('/undo-rollback-this-rr/{rrNo}','RRController@UndoRollBack');

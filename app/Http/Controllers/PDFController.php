@@ -18,6 +18,7 @@ use App\POMaster;
 use App\PODetail;
 use App\MRMaster;
 use App\User;
+use App\MCTConfirmationDetail;
 class PDFController extends Controller
 {
   public function mirspdf($id)
@@ -30,10 +31,10 @@ class PDFController extends Controller
   public function mctpdf(Request $request)
   {
     $MCTMast=MCTMaster::with('users')->where('MCTNo',$request->MCTNo)->get();
-    $MTDetails=MaterialsTicketDetail::where('MTType', 'MCT')->where('MTNo', $request->MCTNo)->get();
-    $AccountCodeGroup = DB::table("MaterialsTicketDetails")
+    $MTDetails=MCTConfirmationDetail::where('MCTNo',$request->MCTNo)->get();
+    $AccountCodeGroup = DB::table("MCTConfirmationDetails")
     ->select(DB::raw("SUM(Amount) as totals"),DB::raw("AccountCode as AccountCode"))
-    ->where('MTType', 'MCT')->where('MTNo', $request->MCTNo)
+    ->where('MCTNo', $request->MCTNo)
     ->orderBy("AccountCode")
     ->groupBy(DB::raw("AccountCode"))
     ->get();
@@ -48,10 +49,10 @@ class PDFController extends Controller
   public function mrtpdf(Request $request)
   {
       $datesearch=$request->monthInput;
-      $itemsummary=MaterialsTicketDetail::orderBy('ItemCode')->where('MTType','MRT')->whereDate('MTDate','LIKE',date($datesearch).'%')->groupBy('ItemCode')->selectRaw('sum(Quantity) as totalQty, ItemCode as ItemCode ')->get();
+      $itemsummary=MaterialsTicketDetail::orderBy('ItemCode')->whereNull('IsRollBack')->where('MTType','MRT')->whereDate('MTDate','LIKE',date($datesearch).'%')->groupBy('ItemCode')->selectRaw('sum(Quantity) as totalQty, ItemCode as ItemCode ')->get();
       if (!empty($itemsummary[0]))
       {
-        $MaterialDate =MaterialsTicketDetail::orderBy('id','DESC')->where('MTType','MRT')->whereDate('MTDate','LIKE',date($datesearch).'%')->take(1)->value('MTDate');
+        $MaterialDate =MaterialsTicketDetail::orderBy('id','DESC')->whereNull('IsRollBack')->where('MTType','MRT')->whereDate('MTDate','LIKE',date($datesearch).'%')->take(1)->value('MTDate');
         $WarehouseMan=User::where('isActive', '0')->where('Role', '4')->orderBy('id','DESC')->take(1)->get(['FullName','Position','Signature']);
         $pdf = PDF::loadView('Warehouse.MRT.printableSummaryMRT',compact('itemsummary','MaterialDate','WarehouseMan'));
         return $pdf->stream('MRT_Summary_'.$datesearch.'.pdf');
@@ -93,12 +94,12 @@ class PDFController extends Controller
   public function MCTsummaryprint(Request $request)
   {
     $datesearch=$request->DateSearched;
-    $MCTsummaryItems=MaterialsTicketDetail::where('MTType','MCT')->whereDate('MTDate','LIKE',date($datesearch).'%')->groupBy('ItemCode')->selectRaw('sum(Quantity) as totalissued, ItemCode as ItemCode')->get();
+    $MCTsummaryItems=MaterialsTicketDetail::where('MTType','MCT')->whereNull('IsRollBack')->whereDate('MTDate','LIKE',date($datesearch).'%')->groupBy('ItemCode')->selectRaw('sum(Quantity) as totalissued, ItemCode as ItemCode')->get();
     $ForDisplay = array();
     foreach ($MCTsummaryItems as $key=> $items)
     {
-    $ForDisplay[$key]=MaterialsTicketDetail::orderBy('id','DESC')->where('ItemCode',$items->ItemCode)->whereDate('MTDate','LIKE',date($datesearch).'%')->take(1)->get(['AccountCode','ItemCode','CurrentQuantity','MTDate']);
-    $UnitCost=MaterialsTicketDetail::orderBy('id','DESC')->where('MTType','RR')->where('ItemCode',$items->ItemCode)->take(1)->get(['UnitCost']);
+    $ForDisplay[$key]=MaterialsTicketDetail::orderBy('id','DESC')->whereNull('IsRollBack')->where('ItemCode',$items->ItemCode)->whereDate('MTDate','LIKE',date($datesearch).'%')->take(1)->get(['AccountCode','ItemCode','CurrentQuantity','MTDate']);
+    $UnitCost=MaterialsTicketDetail::orderBy('id','DESC')->whereNull('IsRollBack')->where('MTType','RR')->where('ItemCode',$items->ItemCode)->take(1)->get(['UnitCost']);
     $issued=(object)['totalissued'=>$items->totalissued,'UnitCost'=>$UnitCost[0]->UnitCost];
     $ForDisplay[$key]->push($issued);
     }

@@ -52,8 +52,8 @@
         </tr>
         <tr v-for="(mtdata,count) in MTDetails">
           <td>{{mtdata.ItemCode}}</td>
-          <td>{{mtdata.master_items.Description}}</td>
-          <td>{{mtdata.master_items.Unit}}</td>
+          <td>{{mtdata.Description}}</td>
+          <td>{{mtdata.Unit}}</td>
           <td><input type="number" v-model="Summary[count]" autocomplete="off" min="1"></td>
           <td><button type="submit" v-on:click="AddItemToSession(mtdata,count)" class="bttn-unite bttn-xs bttn-primary"><i class="material-icons">add</i></button></td>
         </tr>
@@ -100,11 +100,11 @@ Vue.use(Toast);
       FetchMCTOfMRTData(page)
       {
         var vm=this;
-        axios.get(`/MRT-create-fetch-mct-or-mrt/`+this.mctno.MCTNo+`?page=`+page).then(function(response)
+        axios.get(`/MRT-create-fetch-mct-of-mrt/`+this.mctno.MCTNo+`?page=`+page).then(function(response)
         {
           console.log(response);
-          Vue.set(vm.$data,'MTDetails',response.data.MTDetails.data);
-          Vue.set(vm.$data,'pagination',response.data.MTDetails);
+          vm.MTDetails=response.data.MTDetails.data
+          vm.pagination=response.data.MTDetails;
         });
       },
       AddItemToSession(data,count)
@@ -113,8 +113,8 @@ Vue.use(Toast);
         var vm=this;
         axios.post(`/MRT-session`,{
           ItemCode:data.ItemCode,
-          Description:data.master_items.Description,
-          Unit:data.master_items.Unit,
+          Description:data.Description,
+          Unit:data.Unit,
           Summary:this.Summary[count],
           Limit:data.Quantity,
         }).then(function(response)

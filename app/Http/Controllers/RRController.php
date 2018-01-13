@@ -24,7 +24,7 @@ class RRController extends Controller
   public function __construct()
   {
     $this->middleware('auth');
-    $this->middleware('IsWarehouse',['except'=>['RRofRVlist','RRofPOlist','previewRRfetchdata','RRindexSearchAndFetch','refreshRRSignatureCount','RRindex','previewRR','signatureRR','declineRR','RRsignatureRequest','displayRRcurrentSession']]);
+    $this->middleware('IsWarehouse',['except'=>['RRofRVlist','UndoRollBack','RollBack','RRofPOlist','previewRRfetchdata','RRindexSearchAndFetch','refreshRRSignatureCount','RRindex','previewRR','signatureRR','declineRR','RRsignatureRequest','displayRRcurrentSession']]);
   }
   public function storeRRSessionValidatorNoPO($request)
   {
@@ -371,7 +371,7 @@ class RRController extends Controller
           MasterItem::where('ItemCode',$fromconfirmDetail->ItemCode)->update(['CurrentQuantity'=>$newQuantity]);
           $forMTDtable[] = array('ItemCode' =>$fromconfirmDetail->ItemCode ,'MTType' =>'RR' ,'MTNo' =>$fromconfirmDetail->RRNo ,
           'AccountCode' =>$MTLatestDetail[0]->AccountCode ,
-          'UnitCost' =>$fromconfirmDetail->UnitCost,'RRQuantityDelivered' =>$fromconfirmDetail->QuantityDelivered ,'Quantity' =>$fromconfirmDetail->QuantityAccepted,
+          'UnitCost' =>$fromconfirmDetail->UnitCost,'Quantity' =>$fromconfirmDetail->QuantityAccepted,
           'Amount' =>$Amount ,'CurrentCost' =>$newCost ,'CurrentQuantity'=>$newQuantity,'CurrentAmount'=>$currentAMT,'MTDate'=>$date[0]->RRDate);
         }
 
@@ -491,5 +491,120 @@ class RRController extends Controller
       'RRrequestCount' =>$requestRR
     ];
     return response()->json($response);
+  }
+  public function RollBack($rrNo)
+  {
+    $dataToRollBack=MaterialsTicketDetail::where('MTType', 'RR')->where('MTNo', $rrNo)->whereNull('IsRollBack')->get();
+    $ForMTDetailsTable = array();
+    foreach ($dataToRollBack as $data)
+    {
+      $LatestDataOfItem = MaterialsTicketDetail::orderBy('id','DESC')->where('ItemCode', $data->ItemCode)->take(1)->get(['CurrentAmount','CurrentQuantity']);
+      $newAmount = $LatestDataOfItem[0]->CurrentAmount - $data->Amount;
+      $newQty = $LatestDataOfItem[0]->CurrentQuantity - $data->Quantity;
+      if ($newQty>0)
+      {
+        $currentCost= $newAmount / $newQty;
+      }else
+      {
+        $currentCost='0';
+      }
+      $ForMTDetailsTable[] = array('ItemCode' =>$data->ItemCode,'MTType'=>$data->MTType,'MTNo'=>$data->MTNo,'AccountCode'=>$data->AccountCode,'UnitCost'=>$data->UnitCost,'Quantity'=>$data->Quantity,'CurrentCost'=>$currentCost,'Amount'=>$data->Amount,'CurrentQuantity'=>$newQty,'CurrentAmount'=>$newAmount,'MTDate'=>$data->MTDate,'IsCurrent'=>'0');
+      MasterItem::where('ItemCode',$data->ItemCode)->update(['CurrentQuantity'=>$newQty]);
+    }
+    MaterialsTicketDetail::where('MTType', 'RR')->where('MTNo', $rrNo)->whereNull('IsRollBack')->update(['IsRollBack'=>'0']);
+
+    MaterialsTicketDetail::insert($ForMTDetailsTable);
+    RRMaster::where('RRNo',$rrNo)->update(['IsRollBack'=>'0']);
+
+    // rollback the validator too
+    $RRMaster=RRMaster::where('RRNo',$rrNo)->get(['PONo','RVNo']);
+    if ($RRMaster[0]->PONo!=null)
+    {
+      $Detailscanceled=RRconfirmationDetails::where('RRNo',$rrNo)->get(['Description','QuantityAccepted']);
+      $FromPODetail=PODetail::where('PONo', $RRMaster[0]->PONo)->get(['Description','QtyValidator']);
+      foreach ($Detailscanceled as $canceldata)
+      {
+        foreach ($FromPODetail as $frompodetail)
+        {
+          if ($frompodetail->Description==$canceldata->Description)
+          {
+            $NewQty=$frompodetail->QtyValidator + $canceldata->QuantityAccepted;
+            PODetail::where('PONo', $RRMaster[0]->PONo)->where('Description', $frompodetail->Description)->update(['QtyValidator'=>$NewQty]);
+          }
+        }
+      }
+    }else
+    {
+      $Detailscanceled=RRconfirmationDetails::where('RRNo',$rrNo)->get(['Description','QuantityAccepted']);
+      $RVDetail=RVDetail::where('RVNo', $RRMaster[0]->RVNo)->get(['Particulars','QuantityValidator']);
+      foreach ($Detailscanceled as $canceldata)
+      {
+        foreach ($RVDetail as $rvdetail)
+        {
+          if ($rvdetail->Particulars==$canceldata->Description)
+          {
+            $NewQty=$rvdetail->QuantityValidator + $canceldata->QuantityAccepted;
+            RVDetail::where('RVNo',$RRMaster[0]->RVNo)->where('Particulars', $rvdetail->Particulars)->update(['QuantityValidator'=>$NewQty]);
+          }
+        }
+      }
+    }
+  }
+  public function UndoRollBack($rrNo)
+  {
+    $dataToRollBack=MaterialsTicketDetail::where('MTType', 'RR')->where('MTNo', $rrNo)->whereNull('IsRollBack')->get();
+    $ForMTDetailsTable = array();
+    foreach ($dataToRollBack as $data)
+    {
+      $LatestDataOfItem = MaterialsTicketDetail::orderBy('id','DESC')->where('ItemCode', $data->ItemCode)->take(1)->get(['CurrentAmount','CurrentQuantity']);
+      $newAmount = $LatestDataOfItem[0]->CurrentAmount + $data->Amount;
+      $newQty = $LatestDataOfItem[0]->CurrentQuantity + $data->Quantity;
+      if ($newQty>0)
+      {
+        $currentCost= $newAmount / $newQty;
+      }else
+      {
+        $currentCost='0';
+      }
+      $ForMTDetailsTable[] = array('ItemCode' =>$data->ItemCode,'MTType'=>$data->MTType,'MTNo'=>$data->MTNo,'AccountCode'=>$data->AccountCode,'UnitCost'=>$data->UnitCost,'Quantity'=>$data->Quantity,'CurrentCost'=>$currentCost,'Amount'=>$data->Amount,'CurrentQuantity'=>$newQty,'CurrentAmount'=>$newAmount,'MTDate'=>$data->MTDate,'IsCurrent'=>'0');
+      MasterItem::where('ItemCode',$data->ItemCode)->update(['CurrentQuantity'=>$newQty]);
+    }
+    MaterialsTicketDetail::where('MTType', 'RR')->where('MTNo', $rrNo)->whereNull('IsRollBack')->update(['IsRollBack'=>'0']);
+    MaterialsTicketDetail::insert($ForMTDetailsTable);
+    RRMaster::where('RRNo',$rrNo)->update(['IsRollBack'=>'1']);
+
+    // undo the rollback too
+    $RRMaster=RRMaster::where('RRNo',$rrNo)->get(['PONo','RVNo']);
+    if ($RRMaster[0]->PONo!=null)
+    {
+      $Detailscanceled=RRconfirmationDetails::where('RRNo',$rrNo)->get(['Description','QuantityAccepted']);
+      $FromPODetail=PODetail::where('PONo', $RRMaster[0]->PONo)->get(['Description','QtyValidator']);
+      foreach ($Detailscanceled as $canceldata)
+      {
+        foreach ($FromPODetail as $frompodetail)
+        {
+          if ($frompodetail->Description==$canceldata->Description)
+          {
+            $NewQty=$frompodetail->QtyValidator - $canceldata->QuantityAccepted;
+            PODetail::where('PONo', $RRMaster[0]->PONo)->where('Description', $frompodetail->Description)->update(['QtyValidator'=>$NewQty]);
+          }
+        }
+      }
+    }else
+    {
+      $Detailscanceled=RRconfirmationDetails::where('RRNo',$rrNo)->get(['Description','QuantityAccepted']);
+      $RVDetail=RVDetail::where('RVNo', $RRMaster[0]->RVNo)->get(['Particulars','QuantityValidator']);
+      foreach ($Detailscanceled as $canceldata)
+      {
+        foreach ($RVDetail as $rvdetail)
+        {
+          if ($rvdetail->Particulars==$canceldata->Description)
+          {
+            $NewQty=$rvdetail->QuantityValidator - $canceldata->QuantityAccepted;
+            RVDetail::where('RVNo',$RRMaster[0]->RVNo)->where('Particulars', $rvdetail->Particulars)->update(['QuantityValidator'=>$NewQty]);
+          }
+        }
+      }
+    }
   }
 }

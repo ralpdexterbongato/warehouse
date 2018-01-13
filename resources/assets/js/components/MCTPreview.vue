@@ -1,14 +1,19 @@
 <template lang="html">
 <div class="print-MCT-wrap" v-if="(this.MCTMaster.users!=null)">
+  <div class="reversed-alert">
+    <p v-if="MCTMaster.IsRollBack==0"><i class="material-icons">warning</i>Rolled back</p>
+  </div>
   <div class="MCT-title">
     <span v-if="AlreadySignatured">
       <form action="/MCT.pdf" method="get" class="mct-print-form">
         <button type="submit" :value="this.mctno.MCTNo" name="MCTNo"><i class="material-icons">print</i></button>
-        <button v-if="MCTMaster.IsRollBack==null||MCTMaster.IsRollBack==1" v-on:click="rollbackMCT()" type="button" class="undo-btn" name="button">reverse</button>
-        <button v-if="MCTMaster.IsRollBack==0 && user.Role==1" v-on:click="undoRollbackMCT()"  type="button" class="undo-btn" name="button">Undo reverse</button>
+        <span v-if="user.Role==1 && MCTMaster.Status=='0'">
+          <button v-if="MCTMaster.IsRollBack==null||MCTMaster.IsRollBack==1" v-on:click="rollbackMCT()" type="button" class="undo-btn" name="button">reverse</button>
+          <button v-if="MCTMaster.IsRollBack==0" v-on:click="undoRollbackMCT()"  type="button" class="undo-btn" name="button">Undo reverse</button>
+        </span>
       </form>
     </span>
-    <div class="empty-div-left mct-edit-container" v-if="(((user.id==MCTMaster.users[0].id)&&(MCTMaster.users[1].pivot.Signature==null)&&(MCTMaster.users[0].pivot.Signature!='1'))||(user.Role==1 && MCTMaster.IsRollBack==0))">
+    <div class="empty-div-left mct-edit-container" v-if="(user.id==MCTMaster.users[0].id)&&(MCTMaster.users[1].pivot.Signature==null)&&(MCTMaster.users[0].pivot.Signature!='1')">
       <span class="edit-mct" :class="ShowEdit==true?'hide':'show'" v-on:click="ShowEdit=true"><i class="material-icons">edit</i>Edit</span>
       <span class="edit-mct" :class="ShowEdit==false?'hide':'show'">
         <span class="color-blue">Save?</span>
@@ -240,7 +245,7 @@ Vue.use(Toast);
         if (confirm('Are you sure to rollback this MCT?'))
         {
           vm.$loading('Rolling back data');
-          axios.put(`/rollback-mct-history/`+this.mctno.MCTNo).then(function(response)
+          axios.put(`/rollback-mct-history/`+this.mctno.MCTNo+`/`+this.MCTMaster.MIRSNo).then(function(response)
           {
             console.log(response);
             vm.fetchData();
@@ -259,7 +264,7 @@ Vue.use(Toast);
         if (confirm('Are you sure to undo the rollback of this MCT?'))
         {
           vm.$loading('Undoing rollbacked data');
-          axios.put(`/undo-rollback-mct-history/`+this.mctno.MCTNo).then(function(response)
+          axios.put(`/undo-rollback-mct-history/`+this.mctno.MCTNo+`/`+this.MCTMaster.MIRSNo).then(function(response)
           {
             console.log(response);
             vm.fetchData();

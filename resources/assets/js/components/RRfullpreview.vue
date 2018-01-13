@@ -1,5 +1,8 @@
 <template lang="html">
 <div class="rr-preview-vue" v-if="RRMaster.users!=null">
+  <div class="reversed-alert">
+    <p v-if="RRMaster.IsRollBack==0"><i class="material-icons">warning</i>Rolled back</p>
+  </div>
   <div class="signature-btn" :class="{'hide':SignatureBtnHide}" v-if="UserCanSignature">
     <longpress id="RRsignature" class="waves-effect waves-light" duration="3" :on-confirm="signature"  pressing-text="confirm in {$rcounter}" action-text="Loading . . .">
       <i class="material-icons">edit</i> Signature
@@ -11,7 +14,10 @@
   <div class="print-RR-btn" v-else-if="(RRMaster.Status=='0')">
     <span>
       <a :href="'/RR.pdf/'+RRMaster.RRNo"><button type="submit"  name="RRNo" value="RRNohere"><i class="material-icons">print</i></button></a>
-      <button type="button" class="undo-btn" name="button">Undo</button>
+      <span v-if="user.Role==1 && RRMaster.Status =='0'">
+        <button type="button" class="undo-btn" name="button" v-if="RRMaster.IsRollBack==null||RRMaster.IsRollBack==1" v-on:click="RollbackRR()">reverse</button>
+        <button type="button" class="undo-btn" name="button" v-if="RRMaster.IsRollBack==0" v-on:click="UndoRollbackRR()">undo reverse</button>
+      </span>
     </span>
     <div>
       <a :href="'/view-list-MR-of-RR/'+RRMaster.RRNo" v-if="checkMR!=0"><button type="button" id="full-mr-preview-btn" ><i class="material-icons">history</i> MR</button></a>
@@ -144,6 +150,8 @@
 <script>
 import axios from 'axios'
 import Longpress from 'vue-longpress'
+import 'vue2-toast/lib/toast.css'
+import Toast from 'vue2-toast'
   export default {
     data () { return {
       RRMaster:[],
@@ -191,10 +199,49 @@ import Longpress from 'vue-longpress'
           vm.FetchData();
         });
       },
+      RollbackRR()
+      {
+        if (confirm('Are you sure to roll back?'))
+        {
+          this.$loading('Rolling back...');
+          var vm=this;
+          axios.put(`/rollback-this-rr/`+this.rrno.RRNo).then(function(response)
+          {
+            console.log(response);
+            vm.FetchData();
+            vm.$toast.top('rolled back sucessfully');
+            vm.$loading.close();
+          }).catch(function(error)
+          {
+            console.log(error);
+            vm.$loading.close();
+          });
+        }
+      },
+      UndoRollbackRR()
+      {
+        if (confirm('Are you sure to undo rollback?'))
+        {
+          this.$loading('undoing rollback...');
+          var vm=this;
+          axios.put(`/undo-rollback-this-rr/`+this.rrno.RRNo).then(function(response)
+          {
+            console.log(response);
+            vm.FetchData();
+            vm.$toast.top('rollback undid sucessfully');
+            vm.$loading.close();
+          }).catch(function(error)
+          {
+            console.log(error);
+            vm.$loading.close();
+          });
+        }
+      },
       formatPrice(value) {
             let val = (value/1).toFixed(2).replace('.', '.')
             return val.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ",")
-        },
+      },
+
     },
     created () {
       this.FetchData();

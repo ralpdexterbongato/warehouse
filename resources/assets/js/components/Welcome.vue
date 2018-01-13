@@ -43,7 +43,7 @@
           <tr>
             <td class="rollback-sign">
               <h2 v-if="latestFound.IsRollBack=='0'"></h2>
-              <h3 v-if="latestFound.IsRollBack=='1'"></h3>
+              <h3 v-if="latestFound.IsCurrent=='0'"></h3>
               {{latestFound.MTType}}
             </td>
             <td>{{latestFound.MTNo}}</td>
@@ -79,7 +79,7 @@
           <tr v-for="history in historiesfound" v-if="history.id!=latestFound.id">
             <td class="rollback-sign">
               <h2 v-if="history.IsRollBack=='0'"></h2>
-              <h3 v-if="history.IsRollBack=='1'"></h3>
+              <h3 v-if="history.IsCurrent=='0'"></h3>
               {{history.MTType}}
             </td>
             <td>{{history.MTNo}}</td>
@@ -107,8 +107,20 @@
           </ul>
         </div>
         <div class="rollback-info">
-          <h2></h2><p>reversed</p><br>
-          <h3></h3><p>undid reverse</p><br>
+          <div class="colors-container">
+            <h2></h2>
+          </div>
+          <p>old data reversed</p><br>
+
+          <div class="colors-container">
+          <h3></h3>
+          </div>
+
+          <p>new data after reversed</p><br>
+          <div class="colors-container">
+            <h2></h2><h3></h3>
+          </div>
+          <p>reversed again</p>
         </div>
       </div>
     </div><!--  end of v-if result is not empty -->
@@ -184,6 +196,9 @@
                   v-if="DashEmpty>0"
                   >
               </animate-number>
+              <span v-else>
+                0
+              </span>
             </h1>
             <p>Items</p>
           </span>

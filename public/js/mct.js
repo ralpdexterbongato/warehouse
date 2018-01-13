@@ -1324,6 +1324,11 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
 //
 //
 //
+//
+//
+//
+//
+//
 
 
 
@@ -1416,7 +1421,7 @@ Vue.use(__WEBPACK_IMPORTED_MODULE_3_vue2_toast___default.a);
       var vm = this;
       if (confirm('Are you sure to rollback this MCT?')) {
         vm.$loading('Rolling back data');
-        __WEBPACK_IMPORTED_MODULE_0_axios___default.a.put('/rollback-mct-history/' + this.mctno.MCTNo).then(function (response) {
+        __WEBPACK_IMPORTED_MODULE_0_axios___default.a.put('/rollback-mct-history/' + this.mctno.MCTNo + '/' + this.MCTMaster.MIRSNo).then(function (response) {
           console.log(response);
           vm.fetchData();
           vm.$loading.close();
@@ -1431,7 +1436,7 @@ Vue.use(__WEBPACK_IMPORTED_MODULE_3_vue2_toast___default.a);
       var vm = this;
       if (confirm('Are you sure to undo the rollback of this MCT?')) {
         vm.$loading('Undoing rollbacked data');
-        __WEBPACK_IMPORTED_MODULE_0_axios___default.a.put('/undo-rollback-mct-history/' + this.mctno.MCTNo).then(function (response) {
+        __WEBPACK_IMPORTED_MODULE_0_axios___default.a.put('/undo-rollback-mct-history/' + this.mctno.MCTNo + '/' + this.MCTMaster.MIRSNo).then(function (response) {
           console.log(response);
           vm.fetchData();
           vm.$loading.close();
@@ -2502,6 +2507,10 @@ module.exports={render:function (){var _vm=this;var _h=_vm.$createElement;var _c
   return ((this.MCTMaster.users != null)) ? _c('div', {
     staticClass: "print-MCT-wrap"
   }, [_c('div', {
+    staticClass: "reversed-alert"
+  }, [(_vm.MCTMaster.IsRollBack == 0) ? _c('p', [_c('i', {
+    staticClass: "material-icons"
+  }, [_vm._v("warning")]), _vm._v("Rolled back")]) : _vm._e()]), _vm._v(" "), _c('div', {
     staticClass: "MCT-title"
   }, [(_vm.AlreadySignatured) ? _c('span', [_c('form', {
     staticClass: "mct-print-form",
@@ -2517,7 +2526,7 @@ module.exports={render:function (){var _vm=this;var _h=_vm.$createElement;var _c
     }
   }, [_c('i', {
     staticClass: "material-icons"
-  }, [_vm._v("print")])]), _vm._v(" "), (_vm.MCTMaster.IsRollBack == null || _vm.MCTMaster.IsRollBack == 1) ? _c('button', {
+  }, [_vm._v("print")])]), _vm._v(" "), (_vm.user.Role == 1 && _vm.MCTMaster.Status == '0') ? _c('span', [(_vm.MCTMaster.IsRollBack == null || _vm.MCTMaster.IsRollBack == 1) ? _c('button', {
     staticClass: "undo-btn",
     attrs: {
       "type": "button",
@@ -2528,7 +2537,7 @@ module.exports={render:function (){var _vm=this;var _h=_vm.$createElement;var _c
         _vm.rollbackMCT()
       }
     }
-  }, [_vm._v("reverse")]) : _vm._e(), _vm._v(" "), (_vm.MCTMaster.IsRollBack == 0 && _vm.user.Role == 1) ? _c('button', {
+  }, [_vm._v("reverse")]) : _vm._e(), _vm._v(" "), (_vm.MCTMaster.IsRollBack == 0) ? _c('button', {
     staticClass: "undo-btn",
     attrs: {
       "type": "button",
@@ -2539,7 +2548,7 @@ module.exports={render:function (){var _vm=this;var _h=_vm.$createElement;var _c
         _vm.undoRollbackMCT()
       }
     }
-  }, [_vm._v("Undo reverse")]) : _vm._e()])]) : _vm._e(), _vm._v(" "), ((((_vm.user.id == _vm.MCTMaster.users[0].id) && (_vm.MCTMaster.users[1].pivot.Signature == null) && (_vm.MCTMaster.users[0].pivot.Signature != '1')) || (_vm.user.Role == 1 && _vm.MCTMaster.IsRollBack == 0))) ? _c('div', {
+  }, [_vm._v("Undo reverse")]) : _vm._e()]) : _vm._e()])]) : _vm._e(), _vm._v(" "), ((_vm.user.id == _vm.MCTMaster.users[0].id) && (_vm.MCTMaster.users[1].pivot.Signature == null) && (_vm.MCTMaster.users[0].pivot.Signature != '1')) ? _c('div', {
     staticClass: "empty-div-left mct-edit-container"
   }, [_c('span', {
     staticClass: "edit-mct",

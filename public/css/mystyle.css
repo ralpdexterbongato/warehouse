@@ -13076,6 +13076,7 @@ only screen and (max-width: 1050px),
 	border-radius: 4px;
 	background: #fff;
 	border: none;
+	color: #22448E;
 	font-weight: 600;
 	font-family: helvetica;
 	-webkit-box-shadow: 0 2px 4px -1px rgba(0,0,0,0.06), 0 4px 5px 0 rgba(0,0,0,0.06), 0 1px 10px 0 rgba(0,0,0,0.08);
@@ -13121,6 +13122,7 @@ only screen and (max-width: 1050px),
 .rollback-info
 {
 	margin-bottom: 20px;
+	margin-top: 30px;
 }
 .rollback-info p
 {
@@ -13130,4 +13132,41 @@ only screen and (max-width: 1050px),
 	margin-bottom: 5px;
 	color:rgba(0, 0, 0, 0.7);
 	font-weight: bold;
+}
+.reversed-alert
+{
+	max-width: 816px;
+	margin:0 auto;
+}
+.reversed-alert i
+{
+	color:#f44336;
+}
+@media (max-width:845px)
+{
+	.reversed-alert
+	{
+		padding:5px;
+	}
+}
+.reversed-alert-mrt
+{
+	max-width: 865px;
+	margin:0 auto 5px auto;
+}
+.reversed-alert-mrt i
+{
+	color:#f44336;
+}
+@media (max-width:845px)
+{
+	.reversed-alert-mrt
+	{
+		padding:5px;
+	}
+}
+.colors-container
+{
+	display: inline-block;
+	width: 40px;
 }

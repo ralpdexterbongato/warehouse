@@ -1140,6 +1140,12 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
 //
 //
 //
+//
+//
+//
+//
+//
+//
 
 
 
@@ -1210,6 +1216,36 @@ Vue.use(__WEBPACK_IMPORTED_MODULE_3_vue2_toast___default.a);
         }
         vm.$loading.close();
       });
+    },
+    RollbackMRT: function RollbackMRT() {
+      if (confirm('Are you sure to roll back?')) {
+        this.$loading('Rolling back');
+        var vm = this;
+        __WEBPACK_IMPORTED_MODULE_0_axios___default.a.put('/rollback-mrt-history/' + this.mrtno.MRTNo).then(function (response) {
+          console.log(response);
+          vm.fetchdata();
+          vm.$toast.top('Rolled back successfully');
+          vm.$loading.close();
+        }).catch(function (error) {
+          console.log(error);
+          vm.$loading.close();
+        });
+      }
+    },
+    UndoRollbackMRT: function UndoRollbackMRT() {
+      if (confirm('Are you sure to undo this rollback?')) {
+        this.$loading('Undoing rollback');
+        var vm = this;
+        __WEBPACK_IMPORTED_MODULE_0_axios___default.a.put('/undo-rollback-mrt-history/' + this.mrtno.MRTNo).then(function (response) {
+          console.log(response);
+          vm.fetchdata();
+          vm.$toast.top('rollback undid successfully');
+          vm.$loading.close();
+        }).catch(function (error) {
+          console.log(error);
+          vm.$loading.close();
+        });
+      }
     }
   },
   mounted: function mounted() {
@@ -1354,10 +1390,10 @@ Vue.use(__WEBPACK_IMPORTED_MODULE_3_vue2_toast___default.a);
   methods: {
     FetchMCTOfMRTData: function FetchMCTOfMRTData(page) {
       var vm = this;
-      __WEBPACK_IMPORTED_MODULE_0_axios___default.a.get('/MRT-create-fetch-mct-or-mrt/' + this.mctno.MCTNo + '?page=' + page).then(function (response) {
+      __WEBPACK_IMPORTED_MODULE_0_axios___default.a.get('/MRT-create-fetch-mct-of-mrt/' + this.mctno.MCTNo + '?page=' + page).then(function (response) {
         console.log(response);
-        Vue.set(vm.$data, 'MTDetails', response.data.MTDetails.data);
-        Vue.set(vm.$data, 'pagination', response.data.MTDetails);
+        vm.MTDetails = response.data.MTDetails.data;
+        vm.pagination = response.data.MTDetails;
       });
     },
     AddItemToSession: function AddItemToSession(data, count) {
@@ -1365,8 +1401,8 @@ Vue.use(__WEBPACK_IMPORTED_MODULE_3_vue2_toast___default.a);
       var vm = this;
       __WEBPACK_IMPORTED_MODULE_0_axios___default.a.post('/MRT-session', {
         ItemCode: data.ItemCode,
-        Description: data.master_items.Description,
-        Unit: data.master_items.Unit,
+        Description: data.Description,
+        Unit: data.Unit,
         Summary: this.Summary[count],
         Limit: data.Quantity
       }).then(function (response) {
@@ -2246,7 +2282,7 @@ module.exports={render:function (){var _vm=this;var _h=_vm.$createElement;var _c
   }, [_c('div', {
     staticClass: "mrt-items"
   }, [_c('table', [_vm._m(1), _vm._v(" "), _vm._l((_vm.MTDetails), function(mtdata, count) {
-    return _c('tr', [_c('td', [_vm._v(_vm._s(mtdata.ItemCode))]), _vm._v(" "), _c('td', [_vm._v(_vm._s(mtdata.master_items.Description))]), _vm._v(" "), _c('td', [_vm._v(_vm._s(mtdata.master_items.Unit))]), _vm._v(" "), _c('td', [_c('input', {
+    return _c('tr', [_c('td', [_vm._v(_vm._s(mtdata.ItemCode))]), _vm._v(" "), _c('td', [_vm._v(_vm._s(mtdata.Description))]), _vm._v(" "), _c('td', [_vm._v(_vm._s(mtdata.Unit))]), _vm._v(" "), _c('td', [_c('input', {
       directives: [{
         name: "model",
         rawName: "v-model",
@@ -2617,6 +2653,10 @@ if (false) {
 
 module.exports={render:function (){var _vm=this;var _h=_vm.$createElement;var _c=_vm._self._c||_h;
   return (_vm.MRTMaster.users != null) ? _c('span', [_c('div', {
+    staticClass: "reversed-alert-mrt"
+  }, [(_vm.MRTMaster.IsRollBack == 0) ? _c('p', [_c('i', {
+    staticClass: "material-icons"
+  }, [_vm._v("warning")]), _vm._v("Rolled back")]) : _vm._e()]), _vm._v(" "), _c('div', {
     staticClass: "top-MRT-buttons"
   }, [(_vm.StillEditable) ? _c('span', {
     staticClass: "edit-mrt-container"
@@ -2658,13 +2698,29 @@ module.exports={render:function (){var _vm=this;var _h=_vm.$createElement;var _c
         _vm.Editbtn = false, _vm.updateQty()
       }
     }
-  }, [_vm._v("Save")])])]) : _c('span', [_c('button', {
+  }, [_vm._v("Save")])])]) : _c('span', [(_vm.user.Role == 1 && _vm.MRTMaster.Status == '0') ? _c('span', [(_vm.MRTMaster.IsRollBack == null || _vm.MRTMaster.IsRollBack == 1) ? _c('button', {
     staticClass: "undo-btn",
     attrs: {
       "type": "button",
       "name": "button"
+    },
+    on: {
+      "click": function($event) {
+        _vm.RollbackMRT()
+      }
     }
-  }, [_vm._v("Undo")])]), _vm._v(" "), (_vm.UserCanSignature) ? _c('span', {
+  }, [_vm._v("reverse")]) : _vm._e(), _vm._v(" "), (_vm.MRTMaster.IsRollBack == 0) ? _c('button', {
+    staticClass: "undo-btn",
+    attrs: {
+      "type": "button",
+      "name": "button"
+    },
+    on: {
+      "click": function($event) {
+        _vm.UndoRollbackMRT()
+      }
+    }
+  }, [_vm._v("Undo reverse")]) : _vm._e()]) : _vm._e()]), _vm._v(" "), (_vm.UserCanSignature) ? _c('span', {
     staticClass: "signature-decline-mrt",
     class: {
       'hide': _vm.SignatureBtnHide

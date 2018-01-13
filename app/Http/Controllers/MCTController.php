@@ -84,8 +84,10 @@ class MCTController extends Controller
     Session::forget('MCTSelected');//to refresh the session that is not submited
     $MCTMast=MCTMaster::with('users')->where('MCTNo',$id)->get();
     $MCTConfirmDetails=MCTConfirmationDetail::where('MCTNo',$id)->get();
-    $MRTcheck=MRTMaster::where('MCTNo',$id)->whereNull('Status')
-    ->orWhere('Status','0')->where('MCTNo',$id)->value('MRTNo');
+    $MRTcheck=MRTMaster::where('MCTNo',$id)->whereNull('Status')->whereNull('IsRollBack')
+    ->orWhere('Status','0')->where('MCTNo',$id)->whereNull('IsRollBack')
+    ->orWhere('IsRollBack','1')->where('MCTNo',$id)->whereNull('Status')
+    ->orWhere('Status','0')->where('IsRollBack','1')->where('MCTNo',$id)->value('MRTNo');
     $AccountCodeGroup = DB::table("MCTConfirmationDetails")
 	    ->select(DB::raw("SUM(Amount) as totals"),DB::raw("AccountCode as AccountCode"))
       ->where('MCTNo', $id)
@@ -235,12 +237,12 @@ class MCTController extends Controller
       'monthInput'=> 'required|min:7|max:7',
     ]);
     $datesearch=$request->monthInput;
-    $MCTsummaryItems=MaterialsTicketDetail::orderBy('ItemCode')->where('MTType','MCT')->whereDate('MTDate','LIKE',date($datesearch).'%')->groupBy('ItemCode')->selectRaw('sum(Quantity) as totalissued, ItemCode as ItemCode')->get();
+    $MCTsummaryItems=MaterialsTicketDetail::orderBy('ItemCode')->whereNull('IsRollBack')->where('MTType','MCT')->whereDate('MTDate','LIKE',date($datesearch).'%')->groupBy('ItemCode')->selectRaw('sum(Quantity) as totalissued, ItemCode as ItemCode')->get();
     $ForDisplay = array();
     foreach ($MCTsummaryItems as $key=> $items)
     {
-    $ForDisplay[$key]=MaterialsTicketDetail::orderBy('id','DESC')->where('ItemCode',$items->ItemCode)->whereDate('MTDate','LIKE',date($datesearch).'%')->take(1)->get(['AccountCode','ItemCode','CurrentQuantity','MTDate']);
-    $UnitCost=MaterialsTicketDetail::orderBy('id','DESC')->where('MTType','RR')->where('ItemCode',$items->ItemCode)->take(1)->get(['UnitCost']);
+    $ForDisplay[$key]=MaterialsTicketDetail::orderBy('id','DESC')->whereNull('IsRollBack')->where('ItemCode',$items->ItemCode)->whereDate('MTDate','LIKE',date($datesearch).'%')->take(1)->get(['AccountCode','ItemCode','CurrentQuantity','MTDate']);
+    $UnitCost=MaterialsTicketDetail::orderBy('id','DESC')->whereNull('IsRollBack')->where('MTType','RR')->where('ItemCode',$items->ItemCode)->take(1)->get(['UnitCost']);
     $issued=(object)['totalissued'=>$items->totalissued,'UnitCost'=>$UnitCost[0]->UnitCost];
     $ForDisplay[$key]->push($issued);
     }
@@ -250,7 +252,7 @@ class MCTController extends Controller
   {
     $this->validate($request,[
       'NewAddressTo'=>'required',
-      'NewQuantity.*'=>'required|numeric|min:0',
+      'NewQuantity.*'=>'required|numeric|min:1',
     ]);
     $MCTMaster=MCTMaster::where('MCTNo',$id)->get(['MIRSNo']);
     MCTMaster::where('MCTNo',$id)->update(['AddressTo'=>$request->NewAddressTo]);
@@ -273,12 +275,7 @@ class MCTController extends Controller
     foreach ($DetailsToBeUpdated as $key=> $confirmationMCT)
     {
       $currentValidatorQuantity=MIRSDetail::where('MIRSNo',$MCTMaster[0]->MIRSNo)->where('ItemCode',$confirmationMCT->ItemCode)->get(['QuantityValidator']);
-      if ($request->NewQuantity[$key] == 0)
-      {
-        $NewValidatorQty = $confirmationMCT->Quantity + $currentValidatorQuantity[0]->QuantityValidator;
-        MIRSDetail::where('MIRSNo',$MCTMaster[0]->MIRSNo)->where('ItemCode',$confirmationMCT->ItemCode)->update(['QuantityValidator'=>$NewValidatorQty]);
-        MCTConfirmationDetail::where('MCTNo', $id)->where('ItemCode', $confirmationMCT->ItemCode)->delete();
-      }elseif ($confirmationMCT->Quantity>$request->NewQuantity[$key])
+      if ($confirmationMCT->Quantity>$request->NewQuantity[$key])
       {
         $tobeused=$confirmationMCT->Quantity-$request->NewQuantity[$key];
         $NewValidatorQty=$currentValidatorQuantity[0]->QuantityValidator+$tobeused;
@@ -321,7 +318,7 @@ class MCTController extends Controller
   {
     return MCTMaster::with('users')->orderBy('MCTNo','DESC')->where('MCTNo','LIKE','%'.$request->MCTNo.'%')->paginate(10,['MCTNo','MCTDate','MIRSNo','AddressTo','Particulars','Status']);
   }
-  public function RollBack($mctNo)
+  public function RollBack($mctNo,$mirsNo)
   {
     $dataToRollBack=MaterialsTicketDetail::where('MTType', 'MCT')->where('MTNo', $mctNo)->whereNull('IsRollBack')->get();
     $ForMTDetailsTable = array();
@@ -330,25 +327,57 @@ class MCTController extends Controller
       $LatestDataOfItem = MaterialsTicketDetail::orderBy('id','DESC')->where('ItemCode', $data->ItemCode)->take(1)->get(['CurrentAmount','CurrentQuantity']);
       $newAmount = $LatestDataOfItem[0]->CurrentAmount + $data->Amount;
       $newQty = $LatestDataOfItem[0]->CurrentQuantity + $data->Quantity;
-      $currentCost= $newAmount / $newQty;
-      $ForMTDetailsTable[] = array('ItemCode' =>$data->ItemCode,'MTType'=>$data->MTType,'MTNo'=>$data->MTNo,'AccountCode'=>$data->AccountCode,'UnitCost'=>$data->UnitCost,'Quantity'=>$data->Quantity,'CurrentCost'=>$currentCost,'Amount'=>$data->Amount,'CurrentQuantity'=>$newQty,'CurrentAmount'=>$newAmount,'MTDate'=>Carbon::now(),'IsRollBack'=>'0');
+      if ($newQty>0)
+      {
+        $currentCost= $newAmount / $newQty;
+      }else
+      {
+        $currentCost='0';
+      }
+      $ForMTDetailsTable[] = array('ItemCode' =>$data->ItemCode,'MTType'=>$data->MTType,'MTNo'=>$data->MTNo,'AccountCode'=>$data->AccountCode,'UnitCost'=>$data->UnitCost,'Quantity'=>$data->Quantity,'CurrentCost'=>$currentCost,'Amount'=>$data->Amount,'CurrentQuantity'=>$newQty,'CurrentAmount'=>$newAmount,'MTDate'=>$data->MTDate,'IsCurrent'=>'0');
+      MasterItem::where('ItemCode',$data->ItemCode)->update(['CurrentQuantity'=>$newQty]);
     }
+    MaterialsTicketDetail::where('MTType', 'MCT')->where('MTNo', $mctNo)->whereNull('IsRollBack')->update(['IsRollBack'=>'0']);
     MaterialsTicketDetail::insert($ForMTDetailsTable);
     MCTMaster::where('MCTNo',$mctNo)->update(['IsRollBack'=>'0']);
+
+    $MCTconfirmation=MCTConfirmationDetail::where('MCTNo',$mctNo)->get(['ItemCode','Quantity']);
+    foreach ($MCTconfirmation as $confirmation)
+    {
+      $currentMCTValidatorQty=MIRSDetail::where('MIRSNo',$mirsNo)->where('ItemCode', $confirmation->ItemCode)->get(['QuantityValidator']);
+      $newMCTValidatorQty=$currentMCTValidatorQty[0]->QuantityValidator+$confirmation->Quantity;
+      MIRSDetail::where('MIRSNo',$mirsNo)->where('ItemCode', $confirmation->ItemCode)->update(['QuantityValidator'=>$newMCTValidatorQty]);
+    }
   }
-  public function UndoRollBack($mctNo)
+  public function UndoRollBack($mctNo,$mirsNo)
   {
-    $dataToUndoRollBack=MCTConfirmationDetail::where('MCTNo', $mctNo)->get();
+    $dataToUndoRollBack=MaterialsTicketDetail::where('MTType', 'MCT')->where('MTNo', $mctNo)->whereNull('IsRollBack')->get();
     $ForMTDetailsTable = array();
     foreach ($dataToUndoRollBack as $data)
     {
       $LatestDataOfItem = MaterialsTicketDetail::orderBy('id','DESC')->where('ItemCode', $data->ItemCode)->take(1)->get(['CurrentAmount','CurrentQuantity']);
       $newAmount = $LatestDataOfItem[0]->CurrentAmount - $data->Amount;
       $newQty = $LatestDataOfItem[0]->CurrentQuantity - $data->Quantity;
-      $currentCost= $newAmount / $newQty;
-      $ForMTDetailsTable[] = array('ItemCode' =>$data->ItemCode,'MTType'=>'MCT','MTNo'=>$mctNo,'AccountCode'=>$data->AccountCode,'UnitCost'=>$data->UnitCost,'Quantity'=>$data->Quantity,'CurrentCost'=>$currentCost,'Amount'=>$data->Amount,'CurrentQuantity'=>$newQty,'CurrentAmount'=>$newAmount,'MTDate'=>Carbon::now(),'IsRollBack'=>'1');
+      if ($newQty>0)
+      {
+        $currentCost= $newAmount / $newQty;
+      }else
+      {
+        $currentCost='0';
+      }
+      MasterItem::where('ItemCode',$data->ItemCode)->update(['CurrentQuantity'=>$newQty]);
+      $ForMTDetailsTable[] = array('ItemCode' =>$data->ItemCode,'MTType'=>'MCT','MTNo'=>$mctNo,'AccountCode'=>$data->AccountCode,'UnitCost'=>$data->UnitCost,'Quantity'=>$data->Quantity,'CurrentCost'=>$currentCost,'Amount'=>$data->Amount,'CurrentQuantity'=>$newQty,'CurrentAmount'=>$newAmount,'MTDate'=>$data->MTDate,'IsCurrent'=>'0');
     }
+    MaterialsTicketDetail::where('MTType', 'MCT')->where('MTNo', $mctNo)->whereNull('IsRollBack')->update(['IsRollBack'=>'0']);
     MaterialsTicketDetail::insert($ForMTDetailsTable);
     MCTMaster::where('MCTNo',$mctNo)->update(['IsRollBack'=>'1']);
+
+    $MCTconfirmation=MCTConfirmationDetail::where('MCTNo',$mctNo)->get(['ItemCode','Quantity']);
+    foreach ($MCTconfirmation as $confirmation)
+    {
+      $currentMCTValidatorQty=MIRSDetail::where('MIRSNo',$mirsNo)->where('ItemCode', $confirmation->ItemCode)->get(['QuantityValidator']);
+      $newMCTValidatorQty=$currentMCTValidatorQty[0]->QuantityValidator - $confirmation->Quantity;
+      MIRSDetail::where('MIRSNo',$mirsNo)->where('ItemCode', $confirmation->ItemCode)->update(['QuantityValidator'=>$newMCTValidatorQty]);
+    }
   }
 }

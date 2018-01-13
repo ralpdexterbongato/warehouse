@@ -1562,6 +1562,10 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_0_axios___default = __webpack_require__.n(__WEBPACK_IMPORTED_MODULE_0_axios__);
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_1_vue_longpress__ = __webpack_require__(13);
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_1_vue_longpress___default = __webpack_require__.n(__WEBPACK_IMPORTED_MODULE_1_vue_longpress__);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_2_vue2_toast_lib_toast_css__ = __webpack_require__(10);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_2_vue2_toast_lib_toast_css___default = __webpack_require__.n(__WEBPACK_IMPORTED_MODULE_2_vue2_toast_lib_toast_css__);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_3_vue2_toast__ = __webpack_require__(11);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_3_vue2_toast___default = __webpack_require__.n(__WEBPACK_IMPORTED_MODULE_3_vue2_toast__);
 //
 //
 //
@@ -1705,6 +1709,14 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
 //
 //
 //
+//
+//
+//
+//
+//
+//
+
+
 
 
 
@@ -1750,6 +1762,36 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
         console.log(response);
         vm.FetchData();
       });
+    },
+    RollbackRR: function RollbackRR() {
+      if (confirm('Are you sure to roll back?')) {
+        this.$loading('Rolling back...');
+        var vm = this;
+        __WEBPACK_IMPORTED_MODULE_0_axios___default.a.put('/rollback-this-rr/' + this.rrno.RRNo).then(function (response) {
+          console.log(response);
+          vm.FetchData();
+          vm.$toast.top('rolled back sucessfully');
+          vm.$loading.close();
+        }).catch(function (error) {
+          console.log(error);
+          vm.$loading.close();
+        });
+      }
+    },
+    UndoRollbackRR: function UndoRollbackRR() {
+      if (confirm('Are you sure to undo rollback?')) {
+        this.$loading('undoing rollback...');
+        var vm = this;
+        __WEBPACK_IMPORTED_MODULE_0_axios___default.a.put('/undo-rollback-this-rr/' + this.rrno.RRNo).then(function (response) {
+          console.log(response);
+          vm.FetchData();
+          vm.$toast.top('rollback undid sucessfully');
+          vm.$loading.close();
+        }).catch(function (error) {
+          console.log(error);
+          vm.$loading.close();
+        });
+      }
     },
     formatPrice: function formatPrice(value) {
       var val = (value / 1).toFixed(2).replace('.', '.');
@@ -2830,7 +2872,11 @@ if (false) {
 module.exports={render:function (){var _vm=this;var _h=_vm.$createElement;var _c=_vm._self._c||_h;
   return (_vm.RRMaster.users != null) ? _c('div', {
     staticClass: "rr-preview-vue"
-  }, [(_vm.UserCanSignature) ? _c('div', {
+  }, [_c('div', {
+    staticClass: "reversed-alert"
+  }, [(_vm.RRMaster.IsRollBack == 0) ? _c('p', [_c('i', {
+    staticClass: "material-icons"
+  }, [_vm._v("warning")]), _vm._v("Rolled back")]) : _vm._e()]), _vm._v(" "), (_vm.UserCanSignature) ? _c('div', {
     staticClass: "signature-btn",
     class: {
       'hide': _vm.SignatureBtnHide
@@ -2863,13 +2909,29 @@ module.exports={render:function (){var _vm=this;var _h=_vm.$createElement;var _c
     attrs: {
       "href": '/RR.pdf/' + _vm.RRMaster.RRNo
     }
-  }, [_vm._m(0)]), _vm._v(" "), _c('button', {
+  }, [_vm._m(0)]), _vm._v(" "), (_vm.user.Role == 1 && _vm.RRMaster.Status == '0') ? _c('span', [(_vm.RRMaster.IsRollBack == null || _vm.RRMaster.IsRollBack == 1) ? _c('button', {
     staticClass: "undo-btn",
     attrs: {
       "type": "button",
       "name": "button"
+    },
+    on: {
+      "click": function($event) {
+        _vm.RollbackRR()
+      }
     }
-  }, [_vm._v("Undo")])]), _vm._v(" "), _c('div', [(_vm.checkMR != 0) ? _c('a', {
+  }, [_vm._v("reverse")]) : _vm._e(), _vm._v(" "), (_vm.RRMaster.IsRollBack == 0) ? _c('button', {
+    staticClass: "undo-btn",
+    attrs: {
+      "type": "button",
+      "name": "button"
+    },
+    on: {
+      "click": function($event) {
+        _vm.UndoRollbackRR()
+      }
+    }
+  }, [_vm._v("undo reverse")]) : _vm._e()]) : _vm._e()]), _vm._v(" "), _c('div', [(_vm.checkMR != 0) ? _c('a', {
     attrs: {
       "href": '/view-list-MR-of-RR/' + _vm.RRMaster.RRNo
     }

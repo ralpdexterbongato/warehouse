@@ -1,5 +1,8 @@
 <template lang="html">
   <span v-if="MRTMaster.users!=null">
+    <div class="reversed-alert-mrt">
+      <p v-if="MRTMaster.IsRollBack==0"><i class="material-icons">warning</i>Rolled back</p>
+    </div>
     <div class="top-MRT-buttons">
       <span class="edit-mrt-container" v-if="StillEditable">
         <button v-on:click="Editbtn=true" :class="{'hide':Editbtn}"><i class="material-icons">edit</i> Edit</button>
@@ -10,7 +13,10 @@
         </span>
       </span>
       <span v-else>
-        <button type="button" class="undo-btn" name="button">Undo</button>
+        <span v-if="user.Role==1 && MRTMaster.Status=='0'">
+          <button type="button" class="undo-btn" v-if="MRTMaster.IsRollBack==null||MRTMaster.IsRollBack==1" name="button" v-on:click="RollbackMRT()">reverse</button>
+          <button type="button" class="undo-btn" v-if="MRTMaster.IsRollBack==0" name="button" v-on:click="UndoRollbackMRT()">Undo reverse</button>
+        </span>
       </span>
       <span class="signature-decline-mrt" :class="{'hide':SignatureBtnHide}" v-if="UserCanSignature">
         <longpress id="signature-mrt" class="waves-effect waves-light" duration="3" :on-confirm="signatureMRT" pressing-text="confirm in {$rcounter}" action-text="Loading . . .">
@@ -169,7 +175,45 @@ Vue.use(Toast);
           }
           vm.$loading.close();
         });
-      }
+      },
+      RollbackMRT()
+      {
+        if (confirm('Are you sure to roll back?'))
+        {
+          this.$loading('Rolling back');
+          var vm=this;
+          axios.put(`/rollback-mrt-history/`+this.mrtno.MRTNo).then(function(response)
+          {
+            console.log(response);
+            vm.fetchdata();
+            vm.$toast.top('Rolled back successfully');
+            vm.$loading.close();
+          }).catch(function(error)
+          {
+            console.log(error);
+            vm.$loading.close();
+          })
+        }
+      },
+      UndoRollbackMRT()
+      {
+        if (confirm('Are you sure to undo this rollback?'))
+        {
+          this.$loading('Undoing rollback');
+          var vm=this;
+          axios.put(`/undo-rollback-mrt-history/`+this.mrtno.MRTNo).then(function(response)
+          {
+            console.log(response);
+            vm.fetchdata();
+            vm.$toast.top('rollback undid successfully');
+            vm.$loading.close();
+          }).catch(function(error)
+          {
+            console.log(error);
+            vm.$loading.close();
+          })
+        }
+      },
      },
      mounted () {
        this.fetchdata();

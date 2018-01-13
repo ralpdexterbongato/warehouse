@@ -276,11 +276,11 @@
              <tr>
                <td>{{$MTDetail->AccountCode}}</td>
                <td>{{$MTDetail->ItemCode}}</td>
-               <td>{{$MTDetail->MasterItems->Description}}</td>
+               <td>{{$MTDetail->Description}}</td>
                <td>{{number_format($MTDetail->UnitCost,'2','.',',')}}</td>
                <td>{{$MTDetail->Quantity}}</td>
                <td>{{number_format($MTDetail->Amount,'2','.',',')}}</td>
-               <td>{{$MTDetail->MasterItems->Unit}}</td>
+               <td>{{$MTDetail->Unit}}</td>
              </tr>
              @endforeach
            </table>
