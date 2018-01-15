@@ -209,11 +209,11 @@
       </div>
       <div class="charts-container">
         <div class="graphbox-left">
-          <vue-chart type="bar" :data="BarchartData"></vue-chart>
+          <canvas id="myBarChart"></canvas>
         </div>
         <div class="graphbox-right">
-          <vue-chart type="line" :data="LinechartData"></vue-chart>
-          <vue-chart type="doughnut" :data="DoughnutchartData"></vue-chart>
+          <canvas id="myLineChart"></canvas>
+          <canvas id="myDoughnutChart"></canvas>
         </div>
       </div>
     </div>
@@ -230,8 +230,6 @@ import Toast from 'vue2-toast';
 Vue.use(Toast);
 import VueAnimateNumber from 'vue-animate-number';
 import Vue from 'vue';
-import VueChart from 'vue-chart-js';
-Vue.use(VueChart);
 Vue.use(VueAnimateNumber);
   export default {
     data () {
@@ -246,47 +244,18 @@ Vue.use(VueAnimateNumber);
         DashWarn:0,
         DashEmpty:0,
         LinechartData: {
-        labels: ['Jan', 'Feb', 'Mar','Apr','May','Jun','Jul','Aug','Sep','Oct','Nov','DEC'],
+        labels: [],
         datasets: [
                 {
                     label:'MIRS',
-                    data: [40, 200,20,500,100,200,100, 20,300,12, 20,23],
-                    borderColor: "#ffeb3b",
+                    data: [],
+                    borderColor: "#fff",
+                    backgroundColor: "#ffeb3b",
+                    borderCapStyle: 'butt',
+                    lineTension: 0.1,
+                    pointRadius: 5,
+                    pointHitRadius: 10,
 
-                    backgroundColor: ['#ffeb3b'],
-                },
-                {
-                    label:'RV',
-                    data: [90, 29,92,40, 300,200,400, 20,90,109, 19,200],
-                    borderColor: "#3367D6",
-
-                    backgroundColor: ['#3367D6'],
-                }
-            ]
-        },
-        BarchartData: {
-        labels: ['Jan', 'Feb', 'Mar','Apr','May','Jun','Jul','Aug','Sep','Oct','Nov','DEC'],
-        datasets: [
-                {
-                    label:'MCT',
-                    data: [40, 200,20,500,100,200,100, 20,300,12, 20,23],
-                    borderColor: "#ffeb3b",
-
-                    backgroundColor: ['#ffeb3b','#ffeb3b','#ffeb3b','#ffeb3b','#ffeb3b','#ffeb3b','#ffeb3b','#ffeb3b','#ffeb3b','#ffeb3b','#ffeb3b','#ffeb3b'],
-                },
-                {
-                    label:'MRT',
-                    data: [40, 20,45,50, 30,300,200, 20,80,89, 29,10],
-                    borderColor: "#f44336",
-
-                    backgroundColor: ['#f44336','#f44336','#f44336','#f44336','#f44336','#f44336','#f44336','#f44336','#f44336','#f44336','#f44336','#f44336'],
-                },
-                {
-                    label:'RR',
-                    data: [90, 29,92,40, 300,200,400, 20,90,109, 19,200],
-                    borderColor: "#3367D6",
-
-                    backgroundColor: ['#3367D6','#3367D6','#3367D6','#3367D6','#3367D6','#3367D6','#3367D6','#3367D6','#3367D6','#3367D6','#3367D6','#3367D6'],
                 }
             ]
         },
@@ -294,22 +263,63 @@ Vue.use(VueAnimateNumber);
         labels: ['MCT', 'MRT', 'RR'],
             datasets: [
               {
-                  data: [50, 20, 30],
+                  data: [100,200,300],
                   backgroundColor: ['#f44336', '#ffeb3b', '#3367D6'],
               },
             ]
-        }
+        },
+        barData : {
+            labels: ['Jan', 'Feb', 'Mar','Apr','May','Jun','Jul','Aug','Sep','Oct','Nov','Dec'],
+            datasets: [
+                {
+                    label:'MCT',
+                    data: [],
+                    borderColor: "#fff",
+                    // backgroundColor: ['#ffeb3b','#ffeb3b','#ffeb3b','#ffeb3b','#ffeb3b','#ffeb3b','#ffeb3b','#ffeb3b','#ffeb3b','#ffeb3b','#ffeb3b','#ffeb3b'],
+                    lineTension: 0.1,
+                    pointRadius: 5,
+                    pointHitRadius: 10,
+                    backgroundColor: "#ffeb3b",
+
+                },
+                {
+                    label:'MRT',
+                    data: [],
+                    borderColor: "#fff",
+                    // backgroundColor: ['#f44336','#f44336','#f44336','#f44336','#f44336','#f44336','#f44336','#f44336','#f44336','#f44336','#f44336','#f44336'],
+                    lineTension: 0.1,
+                    pointRadius: 5,
+                    pointHitRadius: 10,
+                    backgroundColor: "#f44336",
+                },
+                {
+                    label:'RR',
+                    data: [],
+                    borderColor: "#fff",
+                    // backgroundColor: ['#3367D6','#3367D6','#3367D6','#3367D6','#3367D6','#3367D6','#3367D6','#3367D6','#3367D6','#3367D6','#3367D6','#3367D6'],
+                    lineTension: 0.1,
+                    pointRadius: 5,
+                    pointHitRadius: 10,
+                    backgroundColor: "#3367D6",
+
+                },
+            ]
+        },
+        chartOption : {
+      	showLines: true,
+        responsive: true,
+        showTooltips: true,
+        },
       }
     },
-    name: 'App',
-    components: {
-      VueChart
-    },
     props: ['user'],
-    created() {
+    mounted() {
       if (this.user.Role==1||this.user.Role==3||this.user.Role==4)
       {
         this.DashData();
+        this.fetchBarChart();
+        this.fetchLineChart();
+        this.fetchDoughnut();
       }
     },
     methods: {
@@ -343,6 +353,56 @@ Vue.use(VueAnimateNumber);
             Vue.set(vm.$data,'NotFoundSearch','');
           }
 
+        });
+      },
+      fetchLineChart()
+      {
+        var canvas = document.getElementById('myLineChart');
+        var myLineChart = Chart.Line(canvas,{
+          data:this.LinechartData,
+          options:this.chartOption
+        });
+        var vm=this;
+        axios.get(`/line-chart-data`).then(function(response)
+        {
+          console.log(response);
+          for (var i = 0; i < 12; i++)
+          {
+            vm.LinechartData.datasets[0].data.push(response.data[i].total);
+            vm.LinechartData.labels.push(response.data[i].month);
+            myLineChart.update();
+          }
+        }).catch(function(error)
+        {
+          console.log(error);
+        })
+      },
+      fetchBarChart()
+      {
+        var canvas = document.getElementById('myBarChart');
+        var myBarChart = Chart.Bar(canvas,{
+          data:this.barData,
+          options:this.chartOption
+        });
+        var vm=this;
+        axios.get(`/bar-chart-data`).then(function(response)
+        {
+          console.log(response.data.mrt);
+          vm.barData.datasets[0].data=response.data.mct;
+          vm.barData.datasets[1].data=response.data.mrt;
+          vm.barData.datasets[2].data=response.data.rr;
+          myBarChart.update();
+        }).catch(function(error)
+        {
+          console.log(error);
+        });
+      },
+      fetchDoughnut()
+      {
+        var canvas = document.getElementById('myDoughnutChart');
+        var myDoughnutChart = Chart.Doughnut(canvas,{
+          data:this.DoughnutchartData,
+          options:this.chartOption
         });
       },
       formatPrice(value) {

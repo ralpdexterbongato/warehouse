@@ -8,6 +8,8 @@ warehouse | BOHECO 1
       <itemhistorytable :user="{{Auth::user()}}"></itemhistorytable>
     </div>
   </div>
+  <script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/2.1.3/Chart.min.js">
+  </script>
   <script type="text/javascript" src="/js/item.js">
   </script>
 @endsection

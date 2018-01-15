@@ -17,4 +17,8 @@ class RVMaster extends Model
   {
     return $this->morphToMany('App\User','signatureable')->withPivot('Signature','SignatureType');
   }
+  public function getMonthAttribute($monthNumber)
+  {
+    return date("M", mktime(0, 0, 0, $monthNumber, 1));
+  }
 }

@@ -213,3 +213,4 @@ Route::put('/rollback-this-rr/{rrNo}','RRController@RollBack');
 Route::put('/undo-rollback-this-rr/{rrNo}','RRController@UndoRollBack');
 
 Route::get('/line-chart-data','dashBoardController@lineChart');
+Route::get('/bar-chart-data','dashBoardController@barChart');
