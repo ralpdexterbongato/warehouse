@@ -142,4 +142,28 @@ class dashBoardController extends Controller
       $response = array('mct' => $MCTArray,'mrt'=>$MRTArray,'rr'=>$RRArray);
       return response()->json($response);
     }
+    public function DoughnutData()
+    {
+      $MonthNow=Carbon::now()->format('m');
+      $yearNow=Carbon::now()->format('Y');
+
+      $MCT = MCTMaster::whereYear('MCTDate', $yearNow)->whereMonth('MCTDate',$MonthNow)
+      ->where('Status','0')
+      ->whereNull('IsRollBack')
+      ->count();
+
+      $MRT = MRTMaster::whereYear('ReturnDate', $yearNow)->whereMonth('ReturnDate',$MonthNow)
+      ->where('Status','0')
+      ->whereNull('IsRollBack')
+      ->count();
+
+      $RR = RRMaster::whereYear('RRDate', $yearNow)->whereMonth('RRDate',$MonthNow)
+      ->where('Status','0')
+      ->whereNull('IsRollBack')
+      ->count();
+
+      $response = array('mct' =>$MCT ,'mrt'=>$MRT,'rr'=>$RR);
+      return response()->json($response);
+    }
+
 }

@@ -261,12 +261,12 @@ Vue.use(VueAnimateNumber);
         },
         DoughnutchartData: {
         labels: ['MCT', 'MRT', 'RR'],
-            datasets: [
-              {
-                  data: [100,200,300],
-                  backgroundColor: ['#f44336', '#ffeb3b', '#3367D6'],
-              },
-            ]
+        datasets: [
+          {
+              data: [0,0,0],
+              backgroundColor: ['#f44336', '#ffeb3b', '#3367D6'],
+          },
+        ]
         },
         barData : {
             labels: ['Jan', 'Feb', 'Mar','Apr','May','Jun','Jul','Aug','Sep','Oct','Nov','Dec'],
@@ -404,6 +404,18 @@ Vue.use(VueAnimateNumber);
           data:this.DoughnutchartData,
           options:this.chartOption
         });
+        var vm=this;
+        axios.get(`/doughnut-chart-data`).then(function(response)
+        {
+          console.log(response);
+          vm.DoughnutchartData.datasets[0].data[0]=response.data.mct;
+          vm.DoughnutchartData.datasets[0].data[1]=response.data.mrt;
+          vm.DoughnutchartData.datasets[0].data[2]=response.data.rr;
+          myDoughnutChart.update();
+        }).then(function(error)
+        {
+          console.log(error);
+        })
       },
       formatPrice(value) {
             let val = (value/1).toFixed(2).replace('.', '.')

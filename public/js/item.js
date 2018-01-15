@@ -12645,7 +12645,7 @@ __WEBPACK_IMPORTED_MODULE_4_vue___default.a.use(__WEBPACK_IMPORTED_MODULE_3_vue_
       DoughnutchartData: {
         labels: ['MCT', 'MRT', 'RR'],
         datasets: [{
-          data: [100, 200, 300],
+          data: [0, 0, 0],
           backgroundColor: ['#f44336', '#ffeb3b', '#3367D6']
         }]
       },
@@ -12768,6 +12768,16 @@ __WEBPACK_IMPORTED_MODULE_4_vue___default.a.use(__WEBPACK_IMPORTED_MODULE_3_vue_
         data: this.DoughnutchartData,
         options: this.chartOption
       });
+      var vm = this;
+      __WEBPACK_IMPORTED_MODULE_0_axios___default.a.get('/doughnut-chart-data').then(function (response) {
+        console.log(response);
+        vm.DoughnutchartData.datasets[0].data[0] = response.data.mct;
+        vm.DoughnutchartData.datasets[0].data[1] = response.data.mrt;
+        vm.DoughnutchartData.datasets[0].data[2] = response.data.rr;
+        myDoughnutChart.update();
+      }).then(function (error) {
+        console.log(error);
+      });
     },
     formatPrice: function formatPrice(value) {
       var val = (value / 1).toFixed(2).replace('.', '.');
@@ -12861,7 +12871,7 @@ var Component = __webpack_require__(3)(
   /* cssModules */
   null
 )
-Component.options.__file = "c:\\xampp\\htdocs\\warehouse\\resources\\assets\\js\\components\\AddItemToList.vue"
+Component.options.__file = "C:\\xampp\\htdocs\\warehouse\\resources\\assets\\js\\components\\AddItemToList.vue"
 if (Component.esModule && Object.keys(Component.esModule).some(function (key) {return key !== "default" && key !== "__esModule"})) {console.error("named exports are not supported in *.vue files.")}
 if (Component.options.functional) {console.error("[vue-loader] AddItemToList.vue: functional components are not supported with templates, they should use render functions.")}
 
@@ -13001,7 +13011,7 @@ var Component = __webpack_require__(3)(
   /* cssModules */
   null
 )
-Component.options.__file = "c:\\xampp\\htdocs\\warehouse\\resources\\assets\\js\\components\\Welcome.vue"
+Component.options.__file = "C:\\xampp\\htdocs\\warehouse\\resources\\assets\\js\\components\\Welcome.vue"
 if (Component.esModule && Object.keys(Component.esModule).some(function (key) {return key !== "default" && key !== "__esModule"})) {console.error("named exports are not supported in *.vue files.")}
 if (Component.options.functional) {console.error("[vue-loader] Welcome.vue: functional components are not supported with templates, they should use render functions.")}
 
