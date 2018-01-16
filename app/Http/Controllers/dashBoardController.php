@@ -74,8 +74,9 @@ class dashBoardController extends Controller
      ->orderBy('month', 'asc')
      ->get();
 
+     $MonthNow=$MonthNow+1;
       $MCTArray = array();
-      for ($i=1; $i < 13 ; $i++)
+      for ($i=1; $i < $MonthNow ; $i++)
       {
         $matchMCT=false;
         $keymatchMCT=null;
@@ -96,7 +97,7 @@ class dashBoardController extends Controller
         }
       }
       $MRTArray = array();
-      for ($i=1; $i < 13 ; $i++)
+      for ($i=1; $i < $MonthNow ; $i++)
       {
         $matchMRT=false;
         $keymatchMRT=null;
@@ -118,7 +119,7 @@ class dashBoardController extends Controller
       }
 
       $RRArray = array();
-      for ($i=1; $i < 13 ; $i++)
+      for ($i=1; $i < $MonthNow ; $i++)
       {
         $matchRR=false;
         $keymatchRR=null;
@@ -138,8 +139,50 @@ class dashBoardController extends Controller
           $RRArray[]='0';
         }
       }
-
-      $response = array('mct' => $MCTArray,'mrt'=>$MRTArray,'rr'=>$RRArray);
+      $MonthNow = $MonthNow-1;
+      $MonthsArray = array();
+      switch ($MonthNow) {
+        case '1':
+          $MonthsArray[]=['Jan'];
+          break;
+        case '2':
+          $MonthsArray[] = ['Jan','Feb'];
+          break;
+        case '3':
+          $MonthsArray[]=['Jan','Feb','Mar'];
+          break;
+        case '4':
+          $MonthsArray[]=['Jan','Feb','Mar','Apr'];
+          break;
+        case '5':
+          $MonthsArray[]=['Jan','Feb','Mar','Apr','May'];
+          break;
+        case '6':
+          $MonthsArray[]=['Jan','Feb','Mar','Apr','May','Jun'];
+          break;
+        case '7':
+          $MonthsArray[]=['Jan','Feb','Mar','Apr','May','Jun','Jul'];
+          break;
+        case '8':
+          $MonthsArray[]=['Jan','Feb','Mar','Apr','May','Jun','Jul','Aug'];
+          break;
+        case '9':
+          $MonthsArray[]=['Jan','Feb','Mar','Apr','May','Jun','Jul','Aug','Sep'];
+          break;
+        case '10':
+          $MonthsArray[]=['Jan','Feb','Mar','Apr','May','Jun','Jul','Aug','Sep','Oct'];
+          break;
+        case '11':
+          $MonthsArray[]=['Jan','Feb','Mar','Apr','May','Jun','Jul','Aug','Sep','Oct','Nov'];
+          break;
+        case '12':
+          $MonthsArray[]=['Jan','Feb','Mar','Apr','May','Jun','Jul','Aug','Sep','Oct','Nov','Dec'];
+          break;
+        default:
+          $MonthsArray[]=['Jan'];
+          break;
+      }
+      $response = array('mct' => $MCTArray,'mrt'=>$MRTArray,'rr'=>$RRArray,'months'=>$MonthsArray);
       return response()->json($response);
     }
     public function DoughnutData()
