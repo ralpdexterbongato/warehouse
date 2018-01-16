@@ -17,6 +17,7 @@ use App\Jobs\NewRVCreatedJob;
 use App\Jobs\NewRVApprovedJob;
 use App\Jobs\RVApprovalReplacer;
 use App\Jobs\RVManagerReplacer;
+use App\Jobs\SMSDeclinedRV;
 use App\Signatureable;
 class RVController extends Controller
 {
@@ -225,6 +226,16 @@ class RVController extends Controller
       if (Auth::user()->Role==2)
       {
         Signatureable::where('signatureable_id', $id)->where('signatureable_type', 'App\RVMaster')->where('SignatureType', 'ApprovalReplacer')->delete();
+      }
+      $requisitioner=Signatureable::where('signatureable_id', $id)->where('signatureable_type', 'App\RVMaster')->where('SignatureType', 'Requisitioner')->get(['user_id']);
+      if ($requisitioner[0]->user_id != Auth::user()->id)
+      {
+        $requisitionerMobile=User::where('id', $requisitioner[0]->user_id)->value('Mobile');
+        $forSMS = array('Decliner' =>Auth::user()->FullName,'requisitionerMobile'=>$requisitionerMobile,'RVNo'=>$id);
+        $forSMS=(object)$forSMS;
+        $job = (new SMSDeclinedRV($forSMS))
+        ->delay(Carbon::now()->addSeconds(5));
+        dispatch($job);
       }
     }
     public function searchRV(Request $request)

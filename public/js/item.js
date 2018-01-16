@@ -12629,7 +12629,7 @@ __WEBPACK_IMPORTED_MODULE_4_vue___default.a.use(__WEBPACK_IMPORTED_MODULE_3_vue_
       DashWarn: 0,
       DashEmpty: 0,
       LinechartData: {
-        labels: [],
+        labels: ['Jan'],
         datasets: [{
           label: 'MIRS',
           data: [],
@@ -12650,12 +12650,11 @@ __WEBPACK_IMPORTED_MODULE_4_vue___default.a.use(__WEBPACK_IMPORTED_MODULE_3_vue_
         }]
       },
       barData: {
-        labels: ['Jan', 'Feb', 'Mar', 'Apr', 'May', 'Jun', 'Jul', 'Aug', 'Sep', 'Oct', 'Nov', 'Dec'],
+        labels: [],
         datasets: [{
           label: 'MCT',
           data: [],
           borderColor: "#fff",
-          // backgroundColor: ['#ffeb3b','#ffeb3b','#ffeb3b','#ffeb3b','#ffeb3b','#ffeb3b','#ffeb3b','#ffeb3b','#ffeb3b','#ffeb3b','#ffeb3b','#ffeb3b'],
           lineTension: 0.1,
           pointRadius: 5,
           pointHitRadius: 10,
@@ -12665,7 +12664,6 @@ __WEBPACK_IMPORTED_MODULE_4_vue___default.a.use(__WEBPACK_IMPORTED_MODULE_3_vue_
           label: 'MRT',
           data: [],
           borderColor: "#fff",
-          // backgroundColor: ['#f44336','#f44336','#f44336','#f44336','#f44336','#f44336','#f44336','#f44336','#f44336','#f44336','#f44336','#f44336'],
           lineTension: 0.1,
           pointRadius: 5,
           pointHitRadius: 10,
@@ -12674,7 +12672,6 @@ __WEBPACK_IMPORTED_MODULE_4_vue___default.a.use(__WEBPACK_IMPORTED_MODULE_3_vue_
           label: 'RR',
           data: [],
           borderColor: "#fff",
-          // backgroundColor: ['#3367D6','#3367D6','#3367D6','#3367D6','#3367D6','#3367D6','#3367D6','#3367D6','#3367D6','#3367D6','#3367D6','#3367D6'],
           lineTension: 0.1,
           pointRadius: 5,
           pointHitRadius: 10,
@@ -12686,6 +12683,25 @@ __WEBPACK_IMPORTED_MODULE_4_vue___default.a.use(__WEBPACK_IMPORTED_MODULE_3_vue_
         showLines: true,
         responsive: true,
         showTooltips: true
+      },
+      barOption: {
+        showLines: true,
+        responsive: true,
+        showTooltips: true,
+        scales: {
+          xAxes: [{
+            display: true,
+            scaleLabel: {
+              display: true
+            }
+          }],
+          yAxes: [{
+            display: true,
+            ticks: {
+              beginAtZero: true
+            }
+          }]
+        }
       }
     };
   },
@@ -12749,14 +12765,15 @@ __WEBPACK_IMPORTED_MODULE_4_vue___default.a.use(__WEBPACK_IMPORTED_MODULE_3_vue_
       var canvas = document.getElementById('myBarChart');
       var myBarChart = Chart.Bar(canvas, {
         data: this.barData,
-        options: this.chartOption
+        options: this.barOption
       });
       var vm = this;
       __WEBPACK_IMPORTED_MODULE_0_axios___default.a.get('/bar-chart-data').then(function (response) {
-        console.log(response.data.mrt);
+        console.log(response.data);
         vm.barData.datasets[0].data = response.data.mct;
         vm.barData.datasets[1].data = response.data.mrt;
         vm.barData.datasets[2].data = response.data.rr;
+        vm.barData.labels = response.data.months[0];
         myBarChart.update();
       }).catch(function (error) {
         console.log(error);

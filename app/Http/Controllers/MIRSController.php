@@ -16,6 +16,7 @@ use App\Jobs\NewApprovedMIRSJob;
 use App\Jobs\MIRSApprovalReplacer;
 use App\Jobs\MIRSManagerReplacer;
 use App\Signatureable;
+use App\Jobs\SMSDeclinedMIRS;
 class MIRSController extends Controller
 {
   public function __construct()
@@ -187,6 +188,17 @@ class MIRSController extends Controller
     {
       Signatureable::where('signatureable_id',$id)->where('signatureable_type', 'App\MIRSMaster')->where('SignatureType', 'ApprovalReplacer')->delete();
     }
+    $requisitioner=Signatureable::where('signatureable_id', $id)->where('signatureable_type', 'App\MIRSMaster')->where('SignatureType', 'PreparedBy')->get(['user_id']);
+    if ($requisitioner[0]->user_id != Auth::user()->id)
+    {
+      $requisitionerMobile=User::where('id', $requisitioner[0]->user_id)->value('Mobile');
+      $forSMS = array('Decliner' =>Auth::user()->FullName,'requisitionerMobile'=>$requisitionerMobile,'MIRSNo'=>$id);
+      $forSMS=(object)$forSMS;
+      $job = (new SMSDeclinedMIRS($forSMS))
+      ->delay(Carbon::now()->addSeconds(5));
+      dispatch($job);
+    }
+
   }
   public function MIRSSignature($id)
   {
