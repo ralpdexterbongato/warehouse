@@ -2942,7 +2942,7 @@ only screen and (max-width: 1050px),
 }
 .MCT-title button i
 {
-  font-size: 15px;
+  font-size: 20px;
 	color: #22448E;
 }
 @media (max-width:600px)
@@ -10717,7 +10717,7 @@ only screen and (max-width: 1050px),
   position: relative;
   background: #fff;
   height:360px;
-  width: 280px;
+	width: 240px;
   margin-bottom:50px;
   box-sizing: border-box;
   transition: transform .5s;
@@ -10769,7 +10769,6 @@ only screen and (max-width: 1050px),
   color: #26A780;
   margin: 0 auto;
   text-align: center;
-  margin-top:80px;
 }
 .box-rr-of-rv > h1 i
 {
@@ -13073,15 +13072,19 @@ only screen and (max-width: 1050px),
 	-webkit-box-shadow: 0 2px 4px -1px rgba(0,0,0,0.06), 0 4px 5px 0 rgba(0,0,0,0.06), 0 1px 10px 0 rgba(0,0,0,0.08);
 	box-shadow: 0 2px 4px -1px rgba(0,0,0,0.06), 0 4px 5px 0 rgba(0,0,0,0.06), 0 1px 10px 0 rgba(0,0,0,0.08);
 }
+.undo-btn i
+{
+	font-size: 20px!important;
+}
 .rollback-sign
 {
 	display: flex;
 }
-.rollback-sign h2
+.rollback-sign h2,.rollback-sign p
 {
 	height: 10px;
 	width: 10px;
-	background:#ffc107;
+	background:#ffc107!important;
 	border-radius: 50%;
 }
 .rollback-sign h3
@@ -13124,6 +13127,19 @@ only screen and (max-width: 1050px),
 	color:rgba(0, 0, 0, 0.7);
 	font-weight: bold;
 }
+.reversed-marking
+{
+	height: 10px;
+	width: 10px;
+	background:#ffc107!important;
+	border-radius: 50%;
+	margin: 0 5px;
+}
+.rollback-container-centered
+{
+	display: flex;
+	justify-content: center;
+}
 .reversed-alert
 {
 	max-width: 816px;
@@ -13131,7 +13147,7 @@ only screen and (max-width: 1050px),
 }
 .reversed-alert i
 {
-	color:#f44336;
+	color:#FFC107;
 }
 @media (max-width:845px)
 {
@@ -13147,7 +13163,7 @@ only screen and (max-width: 1050px),
 }
 .reversed-alert-mrt i
 {
-	color:#f44336;
+	color:#ffc107;
 }
 @media (max-width:845px)
 {

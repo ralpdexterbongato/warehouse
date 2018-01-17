@@ -10,7 +10,11 @@
       <a href="/RR-fullpreview/{{$rr->RRNo}}">
         <div class="RR-box">
           <div class="rr-box-head">
-            <h5>RR # <span class="bold">{{$rr->RRNo}}</span></h5>
+            <h5 class="rollback-container-centered">RR # {{$rr->RRNo}}
+              @if ($rr->IsRollBack=='0')
+                <p class="reversed-marking"></p>
+              @endif
+            </h5>
           </div>
           <div class="rr-box-content">
             <div class="rr-box-top-content">

@@ -13546,7 +13546,9 @@ module.exports={render:function (){var _vm=this;var _h=_vm.$createElement;var _c
   })]), _vm._v(" "), _c('div', {
     staticClass: "mrt-index-table-container"
   }, [_c('table', [_vm._m(1), _vm._v(" "), _vm._l((_vm.MRTindexData), function(data) {
-    return (data.users[0] != null) ? _c('tr', [_c('td', [_vm._v(_vm._s(data.MRTNo))]), _vm._v(" "), _c('td', [_vm._v(_vm._s(data.ReturnDate))]), _vm._v(" "), _c('td', [_vm._v(_vm._s(data.MCTNo))]), _vm._v(" "), _c('td', [_vm._v(_vm._s(data.Particulars))]), _vm._v(" "), _c('td', [_vm._v(_vm._s(data.AddressTo))]), _vm._v(" "), _c('td', [_vm._v("\n          " + _vm._s(data.users[0].FullName)), _c('br'), _vm._v(" "), (data.users[0].pivot.Signature == '0') ? _c('i', {
+    return (data.users[0] != null) ? _c('tr', [_c('td', {
+      staticClass: "rollback-sign"
+    }, [(data.IsRollBack == 0) ? _c('h2') : _vm._e(), _vm._v(_vm._s(data.MRTNo))]), _vm._v(" "), _c('td', [_vm._v(_vm._s(data.ReturnDate))]), _vm._v(" "), _c('td', [_vm._v(_vm._s(data.MCTNo))]), _vm._v(" "), _c('td', [_vm._v(_vm._s(data.Particulars))]), _vm._v(" "), _c('td', [_vm._v(_vm._s(data.AddressTo))]), _vm._v(" "), _c('td', [_vm._v("\n          " + _vm._s(data.users[0].FullName)), _c('br'), _vm._v(" "), (data.users[0].pivot.Signature == '0') ? _c('i', {
       staticClass: "material-icons"
     }, [_vm._v("check")]) : _vm._e(), _vm._v(" "), (data.users[0].pivot.Signature == '1') ? _c('i', {
       staticClass: "material-icons decliner"
@@ -13688,7 +13690,9 @@ module.exports={render:function (){var _vm=this;var _h=_vm.$createElement;var _c
         _vm.RollbackMRT()
       }
     }
-  }, [_vm._v("reverse")]) : _vm._e(), _vm._v(" "), (_vm.MRTMaster.IsRollBack == 0) ? _c('button', {
+  }, [_c('i', {
+    staticClass: "material-icons"
+  }, [_vm._v("replay")]), _vm._v(" reverse")]) : _vm._e(), _vm._v(" "), (_vm.MRTMaster.IsRollBack == 0) ? _c('button', {
     staticClass: "undo-btn",
     attrs: {
       "type": "button",
@@ -13699,7 +13703,9 @@ module.exports={render:function (){var _vm=this;var _h=_vm.$createElement;var _c
         _vm.UndoRollbackMRT()
       }
     }
-  }, [_vm._v("Undo reverse")]) : _vm._e()]) : _vm._e()]), _vm._v(" "), (_vm.UserCanSignature) ? _c('span', {
+  }, [_c('i', {
+    staticClass: "material-icons"
+  }, [_vm._v("refresh")]), _vm._v(" Undo reverse")]) : _vm._e()]) : _vm._e()]), _vm._v(" "), (_vm.UserCanSignature) ? _c('span', {
     staticClass: "signature-decline-mrt",
     class: {
       'hide': _vm.SignatureBtnHide

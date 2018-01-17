@@ -14,8 +14,8 @@
       </span>
       <span v-else>
         <span v-if="user.Role==1 && MRTMaster.Status=='0'">
-          <button type="button" class="undo-btn" v-if="MRTMaster.IsRollBack==null" name="button" v-on:click="RollbackMRT()">reverse</button>
-          <button type="button" class="undo-btn" v-if="MRTMaster.IsRollBack==0" name="button" v-on:click="UndoRollbackMRT()">Undo reverse</button>
+          <button type="button" class="undo-btn" v-if="MRTMaster.IsRollBack==null" name="button" v-on:click="RollbackMRT()"><i class="material-icons">replay</i> reverse</button>
+          <button type="button" class="undo-btn" v-if="MRTMaster.IsRollBack==0" name="button" v-on:click="UndoRollbackMRT()"><i class="material-icons">refresh</i> Undo reverse</button>
         </span>
       </span>
       <span class="signature-decline-mrt" :class="{'hide':SignatureBtnHide}" v-if="UserCanSignature">

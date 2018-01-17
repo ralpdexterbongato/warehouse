@@ -13134,7 +13134,9 @@ module.exports={render:function (){var _vm=this;var _h=_vm.$createElement;var _c
   })])]), _vm._v(" "), _c('div', {
     staticClass: "mct-index-table"
   }, [_c('table', [_vm._m(1), _vm._v(" "), _vm._l((_vm.indexData), function(data) {
-    return (data.users[0] != null) ? _c('tr', [_c('td', [_vm._v(_vm._s(data.MCTNo))]), _vm._v(" "), _c('td', [_vm._v(_vm._s(data.MCTDate))]), _vm._v(" "), _c('td', [_vm._v(_vm._s(data.Particulars))]), _vm._v(" "), _c('td', [_vm._v("\r\n          " + _vm._s(data.users[0].FullName)), _c('br'), _vm._v(" "), (data.users[0].pivot.Signature == '0') ? _c('i', {
+    return (data.users[0] != null) ? _c('tr', [_c('td', {
+      staticClass: "rollback-sign"
+    }, [(data.IsRollBack == 0) ? _c('h2') : _vm._e(), _vm._v(_vm._s(data.MCTNo))]), _vm._v(" "), _c('td', [_vm._v(_vm._s(data.MCTDate))]), _vm._v(" "), _c('td', [_vm._v(_vm._s(data.Particulars))]), _vm._v(" "), _c('td', [_vm._v("\r\n          " + _vm._s(data.users[0].FullName)), _c('br'), _vm._v(" "), (data.users[0].pivot.Signature == '0') ? _c('i', {
       staticClass: "material-icons"
     }, [_vm._v("check")]) : (data.users[0].pivot.Signature == '1') ? _c('i', {
       staticClass: "material-icons decliner"
@@ -13516,7 +13518,9 @@ module.exports={render:function (){var _vm=this;var _h=_vm.$createElement;var _c
         _vm.rollbackMCT()
       }
     }
-  }, [_vm._v("reverse")]) : _vm._e(), _vm._v(" "), (_vm.MCTMaster.IsRollBack == 0) ? _c('button', {
+  }, [_c('i', {
+    staticClass: "material-icons"
+  }, [_vm._v("replay")]), _vm._v(" reverse")]) : _vm._e(), _vm._v(" "), (_vm.MCTMaster.IsRollBack == 0) ? _c('button', {
     staticClass: "undo-btn",
     attrs: {
       "type": "button",
@@ -13527,7 +13531,9 @@ module.exports={render:function (){var _vm=this;var _h=_vm.$createElement;var _c
         _vm.undoRollbackMCT()
       }
     }
-  }, [_vm._v("Undo reverse")]) : _vm._e()]) : _vm._e()])]) : _vm._e(), _vm._v(" "), ((_vm.user.id == _vm.MCTMaster.users[0].id) && (_vm.MCTMaster.users[1].pivot.Signature == null) && (_vm.MCTMaster.users[0].pivot.Signature != '1')) ? _c('div', {
+  }, [_c('i', {
+    staticClass: "material-icons"
+  }, [_vm._v("refresh")]), _vm._v(" Undo reverse")]) : _vm._e()]) : _vm._e()])]) : _vm._e(), _vm._v(" "), ((_vm.user.id == _vm.MCTMaster.users[0].id) && (_vm.MCTMaster.users[1].pivot.Signature == null) && (_vm.MCTMaster.users[0].pivot.Signature != '1')) ? _c('div', {
     staticClass: "empty-div-left mct-edit-container"
   }, [_c('span', {
     staticClass: "edit-mct",

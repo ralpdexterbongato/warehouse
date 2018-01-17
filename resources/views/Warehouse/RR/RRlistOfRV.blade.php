@@ -10,7 +10,12 @@
       <a href="{{route('RRfullpreview',[$rr->RRNo])}}">
         <div class="box-rr-of-rv">
           <div class="rr-num-top">
-            <h1>RR : {{$rr->RRNo}}</h1>
+            <h1 class="rollback-sign">
+              @if ($rr->IsRollBack=='0')
+                <p></p>
+              @endif
+              RR : {{$rr->RRNo}}
+            </h1>
             <h2>{{$rr->Supplier}} ({{$rr->Address}})</h2>
             <h3>{{$rr->RRDate->diffForHumans()}}</h3>
             <div class="triangle-top-right">

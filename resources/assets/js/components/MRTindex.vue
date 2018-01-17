@@ -18,7 +18,7 @@
           <th>Show</th>
         </tr>
         <tr v-for="data in MRTindexData" v-if="data.users[0]!=null">
-          <td>{{data.MRTNo}}</td>
+          <td class="rollback-sign"><h2 v-if="data.IsRollBack==0"></h2>{{data.MRTNo}}</td>
           <td>{{data.ReturnDate}}</td>
           <td>{{data.MCTNo}}</td>
           <td>{{data.Particulars}}</td>

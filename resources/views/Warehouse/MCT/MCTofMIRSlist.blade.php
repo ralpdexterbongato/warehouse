@@ -20,7 +20,11 @@
         </tr>
         @foreach ($MCTMaster as $mctmaster)
           <tr>
-            <td>{{$mctmaster->MCTNo}}</td>
+            <td class="rollback-sign">
+              @if ($mctmaster->IsRollBack=='0')
+              <h2></h2>
+              @endif
+              {{$mctmaster->MCTNo}}</td>
             <td>{{$mctmaster->MCTDate->format('M d, Y')}}</td>
             <td>{{$mctmaster->Particulars}}</td>
             <td>{{$mctmaster->AddressTo}}</td>

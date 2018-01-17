@@ -164,7 +164,7 @@ class MCTController extends Controller
   }
   public function MCTofMIRS($id)
   {
-    $MCTMaster=MCTMaster::orderBy('MCTNo','DESC')->where('MIRSNo',$id)->paginate(10,['MIRSNo','MCTNo','MCTDate','Particulars','AddressTo','Status']);
+    $MCTMaster=MCTMaster::orderBy('MCTNo','DESC')->where('MIRSNo',$id)->paginate(10,['MIRSNo','MCTNo','MCTDate','Particulars','AddressTo','Status','IsRollBack']);
     return view('Warehouse.MCT.MCTofMIRSlist',compact('MCTMaster'));
   }
   public function CreateMCT($id)
@@ -316,7 +316,7 @@ class MCTController extends Controller
   }
   public function fetchSearchIndexMCTlist(Request $request)
   {
-    return MCTMaster::with('users')->orderBy('MCTNo','DESC')->where('MCTNo','LIKE','%'.$request->MCTNo.'%')->paginate(10,['MCTNo','MCTDate','MIRSNo','AddressTo','Particulars','Status']);
+    return MCTMaster::with('users')->orderBy('MCTNo','DESC')->where('MCTNo','LIKE','%'.$request->MCTNo.'%')->paginate(10,['MCTNo','MCTDate','MIRSNo','AddressTo','Particulars','Status','IsRollBack']);
   }
   public function RollBack($mctNo,$mirsNo)
   {

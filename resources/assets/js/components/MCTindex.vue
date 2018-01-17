@@ -19,7 +19,7 @@
         <th>View</th>
       </tr>
       <tr v-for="data in indexData" v-if="data.users[0]!=null">
-        <td>{{data.MCTNo}}</td>
+        <td class="rollback-sign"><h2 v-if="data.IsRollBack==0"></h2>{{data.MCTNo}}</td>
         <td>{{data.MCTDate}}</td>
         <td>{{data.Particulars}}</td>
         <td>

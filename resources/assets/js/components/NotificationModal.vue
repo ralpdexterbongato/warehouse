@@ -13,7 +13,7 @@
     </div>
     <div class="Account-modal" :class="[modalOpen==true?'active':'']" v-on:click="modalOpen=!modalOpen">
     </div>
-    <div class="middle-account-modal z-depth-4" :class="[modalOpen==true?'active':'']">
+    <div class="middle-account-modal" :class="[modalOpen==true?'active':'']">
       <ul>
         <a>
           <li class="sidebar-title CurrentUser">

@@ -13901,7 +13901,9 @@ module.exports={render:function (){var _vm=this;var _h=_vm.$createElement;var _c
         _vm.RollbackRR()
       }
     }
-  }, [_vm._v("reverse")]) : _vm._e(), _vm._v(" "), (_vm.RRMaster.IsRollBack == 0) ? _c('button', {
+  }, [_c('i', {
+    staticClass: "material-icons"
+  }, [_vm._v("replay")]), _vm._v(" reverse")]) : _vm._e(), _vm._v(" "), (_vm.RRMaster.IsRollBack == 0) ? _c('button', {
     staticClass: "undo-btn",
     attrs: {
       "type": "button",
@@ -13912,7 +13914,9 @@ module.exports={render:function (){var _vm=this;var _h=_vm.$createElement;var _c
         _vm.UndoRollbackRR()
       }
     }
-  }, [_vm._v("undo reverse")]) : _vm._e()]) : _vm._e()]), _vm._v(" "), _c('div', [(_vm.checkMR != 0) ? _c('a', {
+  }, [_c('i', {
+    staticClass: "material-icons"
+  }, [_vm._v("refresh")]), _vm._v(" undo reverse")]) : _vm._e()]) : _vm._e()]), _vm._v(" "), _c('div', [(_vm.checkMR != 0) ? _c('a', {
     attrs: {
       "href": '/view-list-MR-of-RR/' + _vm.RRMaster.RRNo
     }
@@ -14459,7 +14463,9 @@ module.exports={render:function (){var _vm=this;var _h=_vm.$createElement;var _c
   })])])]), _vm._v(" "), _c('div', {
     staticClass: "index-RR-table-container"
   }, [_c('table', [_vm._m(1), _vm._v(" "), _vm._l((_vm.RRDataResults), function(result) {
-    return (result.users[0] != null && result.users[1] != null && result.users[2] != null && result.users[3] != null) ? _c('tr', [_c('td', [_vm._v(_vm._s(result.RRNo))]), _vm._v(" "), _c('td', [_vm._v(_vm._s(result.RRDate))]), _vm._v(" "), _c('td', [_vm._v(_vm._s(result.Supplier))]), _vm._v(" "), _c('td', [_vm._v("\r\n            " + _vm._s(result.users[0].FullName)), _c('br'), _vm._v(" "), (result.users[0].pivot.Signature == '0') ? _c('i', {
+    return (result.users[0] != null && result.users[1] != null && result.users[2] != null && result.users[3] != null) ? _c('tr', [_c('td', {
+      staticClass: "rollback-sign"
+    }, [(result.IsRollBack == 0) ? _c('h2') : _vm._e(), _vm._v(_vm._s(result.RRNo))]), _vm._v(" "), _c('td', [_vm._v(_vm._s(result.RRDate))]), _vm._v(" "), _c('td', [_vm._v(_vm._s(result.Supplier))]), _vm._v(" "), _c('td', [_vm._v("\r\n            " + _vm._s(result.users[0].FullName)), _c('br'), _vm._v(" "), (result.users[0].pivot.Signature == '0') ? _c('i', {
       staticClass: "material-icons"
     }, [_vm._v("check")]) : (result.users[0].pivot.Signature == '1') ? _c('i', {
       staticClass: "material-icons index-decline"

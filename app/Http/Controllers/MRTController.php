@@ -259,7 +259,7 @@ class MRTController extends Controller
     }
     public function MRTindexSearch(Request $request)
     {
-      return MRTMaster::with('users')->orderBy('id','DESC')->where('MRTNo','LIKE','%'.$request->MRTNo.'%')->paginate(10,['MRTNo','MCTNo','ReturnDate','Particulars','AddressTo','Status']);
+      return MRTMaster::with('users')->orderBy('id','DESC')->where('MRTNo','LIKE','%'.$request->MRTNo.'%')->paginate(10,['MRTNo','MCTNo','ReturnDate','Particulars','AddressTo','Status','IsRollBack']);
     }
     public function RollBack($mrtNo)
     {

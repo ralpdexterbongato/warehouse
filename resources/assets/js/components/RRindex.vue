@@ -22,7 +22,7 @@
         <th>View</th>
       </tr>
       <tr v-for="result in RRDataResults" v-if="result.users[0]!=null && result.users[1]!=null && result.users[2]!=null && result.users[3]!=null">
-          <td>{{result.RRNo}}</td>
+          <td class="rollback-sign"><h2 v-if="result.IsRollBack==0"></h2>{{result.RRNo}}</td>
           <td>{{result.RRDate}}</td>
           <td>{{result.Supplier}}</td>
           <td>

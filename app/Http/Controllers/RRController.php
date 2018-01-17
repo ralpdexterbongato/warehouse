@@ -329,7 +329,7 @@ class RRController extends Controller
   }
   public function RRindexSearchAndFetch(Request $request)
   {
-    return RRMaster::with('users')->where('RRNo','LIKE','%'.$request->RRNo.'%')->orderBy('RRNo','DESC')->paginate(10,['RRNo','Supplier','RRDate','Status']);
+    return RRMaster::with('users')->where('RRNo','LIKE','%'.$request->RRNo.'%')->orderBy('RRNo','DESC')->paginate(10,['RRNo','Supplier','RRDate','Status','IsRollBack']);
   }
   public function previewRR($id)
   {
@@ -473,14 +473,14 @@ class RRController extends Controller
   }
   public function RRofRVlist($id)
   {
-    $RRofRV=RRMaster::where('RVNo',$id)->paginate(9,['RRNo','RVNo','RRDate','Supplier','Address','Status']);
+    $RRofRV=RRMaster::where('RVNo',$id)->paginate(9,['RRNo','RVNo','RRDate','Supplier','Address','Status','IsRollBack']);
     return view('Warehouse.RR.RRlistOfRV',compact('RRofRV'));
   }
   public function RRofPOlist($poNum)
   {
     $PONum = array('PONumber' =>$poNum);
     $PONum=(object)$PONum;
-    $RRofPO=RRMaster::orderBy('RRNo','DESC')->where('PONo',$poNum)->paginate(9,['RRNo','RRDate','Supplier','Address','Status']);
+    $RRofPO=RRMaster::orderBy('RRNo','DESC')->where('PONo',$poNum)->paginate(9,['RRNo','RRDate','Supplier','Address','Status','IsRollBack']);
     return view('Warehouse.RR.RRlistofPO',compact('RRofPO','PONum'));
   }
   public function refreshRRSignatureCount()
