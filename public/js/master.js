@@ -11623,6 +11623,7 @@ module.exports.default = axios;
 __webpack_require__(205);
 window.Vue = __webpack_require__(15);
 Vue.component('mynotification', __webpack_require__(236));
+Vue.component('globalnotification', __webpack_require__(300));
 new Vue({
    el: '#master'
 });
@@ -43745,6 +43746,133 @@ module.exports = (
 
 /***/ }),
 
+/***/ 299:
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+
+/* harmony default export */ __webpack_exports__["default"] = ({
+  data: function data() {
+    return {
+      dropIsActive: false
+    };
+  },
+
+  // props: [],
+  methods: {}
+});
+
+/***/ }),
+
 /***/ 3:
 /***/ (function(module, exports) {
 
@@ -43820,6 +43948,166 @@ module.exports = function normalizeHeaderName(headers, normalizedName) {
   });
 };
 
+
+/***/ }),
+
+/***/ 300:
+/***/ (function(module, exports, __webpack_require__) {
+
+var Component = __webpack_require__(3)(
+  /* script */
+  __webpack_require__(299),
+  /* template */
+  __webpack_require__(301),
+  /* scopeId */
+  null,
+  /* cssModules */
+  null
+)
+Component.options.__file = "C:\\xampp\\htdocs\\warehouse\\resources\\assets\\js\\components\\GlobalNotif.vue"
+if (Component.esModule && Object.keys(Component.esModule).some(function (key) {return key !== "default" && key !== "__esModule"})) {console.error("named exports are not supported in *.vue files.")}
+if (Component.options.functional) {console.error("[vue-loader] GlobalNotif.vue: functional components are not supported with templates, they should use render functions.")}
+
+/* hot reload */
+if (false) {(function () {
+  var hotAPI = require("vue-hot-reload-api")
+  hotAPI.install(require("vue"), false)
+  if (!hotAPI.compatible) return
+  module.hot.accept()
+  if (!module.hot.data) {
+    hotAPI.createRecord("data-v-62b42bb2", Component.options)
+  } else {
+    hotAPI.reload("data-v-62b42bb2", Component.options)
+  }
+})()}
+
+module.exports = Component.exports
+
+
+/***/ }),
+
+/***/ 301:
+/***/ (function(module, exports, __webpack_require__) {
+
+module.exports={render:function (){var _vm=this;var _h=_vm.$createElement;var _c=_vm._self._c||_h;
+  return _c('li', {
+    staticClass: "dropping-parent",
+    on: {
+      "click": function($event) {
+        _vm.dropIsActive = !_vm.dropIsActive
+      }
+    }
+  }, [_vm._m(0), _vm._v(" "), _c('h2', {
+    staticClass: "number-of-unread z-depth-1"
+  }, [_vm._v("7")]), _vm._v(" "), _c('div', {
+    staticClass: "notification-drop z-depth-1",
+    class: [_vm.dropIsActive == true ? 'active' : ''],
+    on: {
+      "click": function($event) {
+        _vm.dropIsActive = !_vm.dropIsActive
+      }
+    }
+  }, [_vm._m(1), _vm._v(" "), _vm._m(2), _vm._v(" "), _c('div', {
+    staticClass: "notification-footer"
+  })])])
+},staticRenderFns: [function (){var _vm=this;var _h=_vm.$createElement;var _c=_vm._self._c||_h;
+  return _c('h1', {
+    staticClass: "waves-effect waves-light"
+  }, [_c('i', {
+    staticClass: "material-icons"
+  }, [_vm._v("notifications")])])
+},function (){var _vm=this;var _h=_vm.$createElement;var _c=_vm._self._c||_h;
+  return _c('div', {
+    staticClass: "notification-header"
+  }, [_c('h2', [_vm._v(" Notifications")])])
+},function (){var _vm=this;var _h=_vm.$createElement;var _c=_vm._self._c||_h;
+  return _c('div', {
+    staticClass: "notification-line-container"
+  }, [_c('div', {
+    staticClass: "notification-drop-line"
+  }, [_c('div', [_c('h2', [_c('i', {
+    staticClass: "material-icons"
+  }, [_vm._v("person")])])]), _vm._v(" "), _c('div', {
+    staticClass: "drop-line-detail"
+  }, [_c('h5', [_vm._v("Ralp Dexter Bongato")]), _vm._v(" "), _c('p', [_vm._v("approved your MIRS request pproved your MIRS request")]), _c('br'), _vm._v(" "), _c('i', {
+    staticClass: "material-icons color-blue"
+  }, [_vm._v("thumb_up")])])]), _vm._v(" "), _c('div', {
+    staticClass: "divider"
+  }), _vm._v(" "), _c('div', {
+    staticClass: "notification-drop-line"
+  }, [_c('div', [_c('h2', [_c('i', {
+    staticClass: "material-icons"
+  }, [_vm._v("person")])])]), _vm._v(" "), _c('div', {
+    staticClass: "drop-line-detail"
+  }, [_c('h5', [_vm._v("Ralp Dexter Bongato")]), _vm._v(" "), _c('p', [_vm._v("approved your MIRS request pproved your MIRS request")]), _c('br'), _vm._v(" "), _c('i', {
+    staticClass: "material-icons color-red"
+  }, [_vm._v("close")])])]), _vm._v(" "), _c('div', {
+    staticClass: "divider"
+  }), _vm._v(" "), _c('div', {
+    staticClass: "notification-drop-line"
+  }, [_c('div', [_c('h2', [_c('i', {
+    staticClass: "material-icons"
+  }, [_vm._v("person")])])]), _vm._v(" "), _c('div', {
+    staticClass: "drop-line-detail"
+  }, [_c('h5', [_vm._v("Ralp Dexter Bongato")]), _vm._v(" "), _c('p', [_vm._v("approved your MIRS request pproved your MIRS request")]), _c('br'), _vm._v(" "), _c('i', {
+    staticClass: "material-icons color-red"
+  }, [_vm._v("close")])])]), _vm._v(" "), _c('div', {
+    staticClass: "divider"
+  }), _vm._v(" "), _c('div', {
+    staticClass: "notification-drop-line"
+  }, [_c('div', [_c('h2', [_c('i', {
+    staticClass: "material-icons"
+  }, [_vm._v("person")])])]), _vm._v(" "), _c('div', {
+    staticClass: "drop-line-detail"
+  }, [_c('h5', [_vm._v("Ralp Dexter Bongato")]), _vm._v(" "), _c('p', [_vm._v("approved your MIRS request pproved your MIRS request")]), _c('br'), _vm._v(" "), _c('i', {
+    staticClass: "material-icons color-red"
+  }, [_vm._v("close")])])]), _vm._v(" "), _c('div', {
+    staticClass: "divider"
+  }), _vm._v(" "), _c('div', {
+    staticClass: "notification-drop-line"
+  }, [_c('div', [_c('h2', [_c('i', {
+    staticClass: "material-icons"
+  }, [_vm._v("person")])])]), _vm._v(" "), _c('div', {
+    staticClass: "drop-line-detail"
+  }, [_c('h5', [_vm._v("Ralp Dexter Bongato")]), _vm._v(" "), _c('p', [_vm._v("approved your MIRS request pproved your MIRS request")]), _c('br'), _vm._v(" "), _c('i', {
+    staticClass: "material-icons color-red"
+  }, [_vm._v("close")])])]), _vm._v(" "), _c('div', {
+    staticClass: "divider"
+  }), _vm._v(" "), _c('div', {
+    staticClass: "notification-drop-line"
+  }, [_c('div', [_c('h2', [_c('i', {
+    staticClass: "material-icons"
+  }, [_vm._v("person")])])]), _vm._v(" "), _c('div', {
+    staticClass: "drop-line-detail"
+  }, [_c('h5', [_vm._v("Ralp Dexter Bongato")]), _vm._v(" "), _c('p', [_vm._v("approved your MIRS request pproved your MIRS request")]), _c('br'), _vm._v(" "), _c('i', {
+    staticClass: "material-icons color-red"
+  }, [_vm._v("close")])])]), _vm._v(" "), _c('div', {
+    staticClass: "divider"
+  }), _vm._v(" "), _c('div', {
+    staticClass: "notification-drop-line"
+  }, [_c('div', [_c('h2', [_c('i', {
+    staticClass: "material-icons"
+  }, [_vm._v("person")])])]), _vm._v(" "), _c('div', {
+    staticClass: "drop-line-detail"
+  }, [_c('h5', [_vm._v("Ralp Dexter Bongato")]), _vm._v(" "), _c('p', [_vm._v("approved your MIRS request pproved your MIRS request")]), _c('br'), _vm._v(" "), _c('i', {
+    staticClass: "material-icons color-red"
+  }, [_vm._v("close")])])]), _vm._v(" "), _c('div', {
+    staticClass: "divider"
+  }), _vm._v(" "), _c('div', {
+    staticClass: "notification-drop-line load-more"
+  }, [_c('div', {
+    staticClass: "load-more-btn"
+  }, [_c('i', {
+    staticClass: "material-icons"
+  }, [_vm._v("arrow_downward")]), _vm._v("\n          Load\n        ")])])])
+}]}
+module.exports.render._withStripped = true
+if (false) {
+  module.hot.accept()
+  if (module.hot.data) {
+     require("vue-hot-reload-api").rerender("data-v-62b42bb2", module.exports)
+  }
+}
 
 /***/ }),
 

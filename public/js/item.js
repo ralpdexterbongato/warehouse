@@ -12634,7 +12634,7 @@ __WEBPACK_IMPORTED_MODULE_4_vue___default.a.use(__WEBPACK_IMPORTED_MODULE_3_vue_
           label: 'MIRS',
           data: [],
           borderColor: "#fff",
-          backgroundColor: "#ffeb3b",
+          backgroundColor: "#F9A825",
           borderCapStyle: 'butt',
           lineTension: 0.1,
           pointRadius: 5,
@@ -12646,7 +12646,7 @@ __WEBPACK_IMPORTED_MODULE_4_vue___default.a.use(__WEBPACK_IMPORTED_MODULE_3_vue_
         labels: ['MCT', 'MRT', 'RR'],
         datasets: [{
           data: [0, 0, 0],
-          backgroundColor: ['#f44336', '#ffeb3b', '#3367D6']
+          backgroundColor: ['#f44336', '#F9A825', '#3367D6']
         }]
       },
       barData: {
@@ -12658,7 +12658,7 @@ __WEBPACK_IMPORTED_MODULE_4_vue___default.a.use(__WEBPACK_IMPORTED_MODULE_3_vue_
           lineTension: 0.1,
           pointRadius: 5,
           pointHitRadius: 10,
-          backgroundColor: "#ffeb3b"
+          backgroundColor: "#F9A825"
 
         }, {
           label: 'MRT',

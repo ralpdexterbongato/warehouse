@@ -7,7 +7,7 @@
     <meta name="Developers" content="Group 2 IT MDC 2018">
     <meta name="theme-color" content="#3367D6" />
     <link rel="icon" type="image/png" href="/DesignIMG/logo.png">
-    <link rel="stylesheet" href="/css/mystyle.min.css">
+    <link rel="stylesheet" href="/css/mystyle.css">
     <link rel="stylesheet" href="/css/animate.min.css">
     <link rel="stylesheet" href="/css/bttn.min.css">
     <link rel="stylesheet" href="/css/font-awesome.min.css">
@@ -26,9 +26,9 @@
         return strstr(request()->path(),$uri);
       }
     @endphp
-    <header>
+    <header id="master">
       @if (Auth::check())
-        <span id="master">
+        <span>
           <mynotification :user="{{Auth::user()}}">
           </mynotification>
         </span>
@@ -72,6 +72,7 @@
               </ul>
             </li>
           @endif
+          <globalnotification></globalnotification>
         </ul>
       </div>
       @endif
