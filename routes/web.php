@@ -215,3 +215,7 @@ Route::put('/undo-rollback-this-rr/{rrNo}','RRController@UndoRollBack');
 Route::get('/line-chart-data','dashBoardController@lineChart');
 Route::get('/bar-chart-data','dashBoardController@barChart');
 Route::get('/doughnut-chart-data','dashBoardController@DoughnutData');
+
+// notification global
+Route::get('/fetch-mirs-global-notifications','globalNotificationController@fetchMIRS');
+Route::get('/notif-global-count','globalNotificationController@countInfoNotification');

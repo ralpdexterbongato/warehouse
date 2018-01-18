@@ -72,7 +72,7 @@
               </ul>
             </li>
           @endif
-          <globalnotification></globalnotification>
+          <globalnotification :user="{{Auth::user()}}"></globalnotification>
         </ul>
       </div>
       @endif

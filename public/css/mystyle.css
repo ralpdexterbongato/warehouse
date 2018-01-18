@@ -13289,6 +13289,8 @@ only screen and (max-width: 1050px),
 }
 .notification-line-container
 {
+	display: flex;
+	flex-direction: column;
 	height: 350px;
 	background: #fff;
 	overflow-x: hidden;
@@ -13317,11 +13319,11 @@ only screen and (max-width: 1050px),
 }
 .notification-drop-line:hover
 {
-	background: #f3f3f3;
+	background: #f4f4f4;
 }
-.notification-drop-line:hover > div > h2
+.notification-drop-line.active
 {
-	background: #fff;
+	background: #f4f4f4;
 }
 .notification-drop-line
 {
@@ -13351,34 +13353,24 @@ only screen and (max-width: 1050px),
 .drop-line-detail i
 {
 	font-size: 17px;
-	margin-top: 5px;
 }
 .divider
 {
 	border-bottom: 1px solid #e0e0e0;
 	width: 100%;
 }
-.notification-drop-line h2
-{
-	height:50px;
-	width: 50px;
-	border-radius: 50%;
-	background:#f2f2f2;
-	border:1px solid #e2e2e2;
-}
 .load-more
 {
 	justify-content: center;
+	min-height: 30px;
 }
 
 .notification-drop-line h2 i
 {
 	width: 100%;
 	text-align: center;
-	margin-left: 0px;
-	margin-top: 10px;
-	font-size: 30px;
-	color: rgba(0, 0, 0, 0.5);
+	font-size: 50px;
+	color: rgba(0, 0, 0, 0.2);
 }
 .notification-footer
 {
@@ -13387,4 +13379,38 @@ only screen and (max-width: 1050px),
 	text-align: center;
 	border-top: 1px solid #e0e0e0;
 	font-size: 12px;
+}
+.notification-navs
+{
+	display: flex;
+}
+.notification-navs h2:hover
+{
+	background-color: #f2f2f2;
+	cursor: pointer;
+}
+.notification-navs h2.active
+{
+	background: #f2f2f2;
+}
+.notification-navs h2
+{
+	flex:1;
+	text-align: center;
+	border-bottom: 1px solid #e0e0e0;
+	padding:5px;
+	font-size: 13px;
+	font-family: 'Comfortaa',sans-serif;
+	border-left: 1px solid #e0e0e0;
+}
+.time-notified
+{
+	font-size: 12px;
+	margin-top: 5px;
+	color: rgba(0, 0, 0, 0.7);
+}
+.empty-mirs-notif
+{
+	margin:auto;
+	color: rgba(0, 0, 0, 0.5);
 }

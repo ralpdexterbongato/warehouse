@@ -107,6 +107,7 @@ class MIRSController extends Controller
       $master->MIRSNo = $incremented;
       $master->Purpose =$request->Purpose;
       $master->MIRSDate = $date;
+      $master->notification_date_time=$date;
       $master->save();
 
       $ApproveReplacer=User::whereNotNull('IfApproveReplacer')->take(1)->get(['id']);
@@ -183,7 +184,7 @@ class MIRSController extends Controller
   public function DeniedMIRS($id)
   {
     Signatureable::where('signatureable_id', $id)->where('signatureable_type', 'App\MIRSMaster')->where('user_id', Auth::user()->id)->update(['Signature'=>'1']);
-    MIRSMaster::where('MIRSNo', $id)->update(['Status'=>'1']);
+    MIRSMaster::where('MIRSNo', $id)->update(['Status'=>'1','UnreadNotification'=>'0','notification_date_time'=>Carbon::now()]);
     if (Auth::user()->Role==2)
     {
       Signatureable::where('signatureable_id',$id)->where('signatureable_type', 'App\MIRSMaster')->where('SignatureType', 'ApprovalReplacer')->delete();
@@ -242,7 +243,7 @@ class MIRSController extends Controller
     {
       Signatureable::where('signatureable_id', $id)->where('signatureable_type', 'App\MIRSMaster')->where('SignatureType', 'ApprovalReplacer')->delete();
       Signatureable::where('signatureable_id', $id)->where('signatureable_type', 'App\MIRSMaster')->where('SignatureType', 'ApprovedBy')->update(['Signature'=>'0']);
-      MIRSMaster::where('MIRSNo', $id)->update(['Status'=>'0','SignatureTurn'=>'3']);
+      MIRSMaster::where('MIRSNo', $id)->update(['Status'=>'0','SignatureTurn'=>'3','UnreadNotification'=>'0','notification_date_time'=>Carbon::now()]);
       $RequisitionerMobile=User::where('id',$PreparedId[0]->user_id)->get(['Mobile']);
       $NotifData = array('RequisitionerMobile' =>$RequisitionerMobile[0]->Mobile ,'MIRSNo'=>$id);
       $NotifData=(object)$NotifData;
@@ -273,7 +274,7 @@ class MIRSController extends Controller
       return ['success'=>'success'];
     }
     Signatureable::where('signatureable_id',$id)->where('signatureable_type', 'App\MIRSMaster')->where('SignatureType', 'ApprovalReplacer')->update(['Signature'=>'0']);
-    MIRSMaster::where('MIRSNo', $id)->update(['Status'=>'0','SignatureTurn'=>'3']);
+    MIRSMaster::where('MIRSNo', $id)->update(['Status'=>'0','SignatureTurn'=>'3','UnreadNotification'=>'0','notification_date_time'=>Carbon::now()]);
     $PreparedId=Signatureable::where('signatureable_id', $id)->where('signatureable_type', 'App\MIRSMaster')->where('SignatureType', 'PreparedBy')->get(['user_id']);
     $GMId=Signatureable::where('signatureable_id', $id)->where('signatureable_type', 'App\MIRSMaster')->where('SignatureType', 'ApprovedBy')->get(['user_id']);
 

@@ -96,4 +96,20 @@ class User extends Authenticatable
     {
       return $this->morphedByMany('App\MRMaster', 'Signatureable')->orderBy('MRNo','DESC')->withPivot(['SignatureType','Signature'])->wherePivot('SignatureType', 'ReceivedBy')->where('MRDate','LIKE',$date.'%');
     }
+    public function MIRSGlobalNotif()
+    {
+      return $this->morphedByMany('App\MIRSMaster','Signatureable')->where('Status','!=',NULL)->orderBy('id','DESC')->wherePivot('SignatureType', 'PreparedBy');
+    }
+    public function RVGlobalNotif()
+    {
+      return $this->morphedByMany('App\RVMaster','Signatureable')->where('Status','!=',NULL)->orderBy('id','DESC')->wherePivot('SignatureType', 'Requisitioner');
+    }
+    public function countMIRSGlobalNotif()
+    {
+      return $this->morphedByMany('App\MIRSMaster','Signatureable')->where('UnreadNotification','!=',NULL)->wherePivot('SignatureType', 'PreparedBy');
+    }
+    public function countRVGlobalNotif()
+    {
+      return $this->morphedByMany('App\RVMaster','Signatureable')->where('UnreadNotification','!=',NULL)->wherePivot('SignatureType', 'Requisitioner');
+    }
 }

@@ -11566,7 +11566,7 @@ module.exports = function(module) {
 var utils = __webpack_require__(1);
 var bind = __webpack_require__(10);
 var Axios = __webpack_require__(18);
-var defaults = __webpack_require__(3);
+var defaults = __webpack_require__(4);
 
 /**
  * Create an instance of Axios
@@ -11701,7 +11701,7 @@ module.exports = CancelToken;
 "use strict";
 
 
-var defaults = __webpack_require__(3);
+var defaults = __webpack_require__(4);
 var utils = __webpack_require__(1);
 var InterceptorManager = __webpack_require__(19);
 var dispatchRequest = __webpack_require__(20);
@@ -11793,6 +11793,8 @@ module.exports = Axios;
 
 "use strict";
 Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_0_axios__ = __webpack_require__(3);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_0_axios___default = __webpack_require__.n(__WEBPACK_IMPORTED_MODULE_0_axios__);
 //
 //
 //
@@ -11848,69 +11850,54 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
 //
 //
 //
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
+
 
 /* harmony default export */ __webpack_exports__["default"] = ({
   data: function data() {
     return {
-      dropIsActive: false
+      dropIsActive: false,
+      MIRSNotifs: [],
+      MIRSBtn: true,
+      POBtn: false,
+      RVBtn: false,
+      RRBtn: false,
+      AddedCount: 0,
+      MIRSCurrentPage: 1,
+      MIRSLastPage: 1
     };
   },
 
-  // props: [],
-  methods: {}
+  props: ['user'],
+  mounted: function mounted() {
+    this.countNotif();
+  },
+
+  methods: {
+    fetchData: function fetchData(page) {
+      var vm = this;
+      __WEBPACK_IMPORTED_MODULE_0_axios___default.a.get('/fetch-mirs-global-notifications?page=' + page).then(function (response) {
+        console.log(response);
+        if (response.data.current_page == 1) {
+          vm.MIRSNotifs = response.data.data;
+        } else {
+          for (var i = 0; i < response.data.data.length; i++) {
+            vm.MIRSNotifs.push(response.data.data[i]);
+          }
+        }
+        vm.MIRSCurrentPage = response.data.current_page;
+        vm.MIRSLastPage = response.data.last_page;
+      });
+    },
+    countNotif: function countNotif() {
+      var vm = this;
+      __WEBPACK_IMPORTED_MODULE_0_axios___default.a.get('/notif-global-count').then(function (response) {
+        console.log(response);
+        vm.AddedCount = response.data;
+      }).then(function (error) {
+        console.log(error);
+      });
+    }
+  }
 });
 
 /***/ }),
@@ -11980,7 +11967,7 @@ module.exports = InterceptorManager;
 
 "use strict";
 Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_0_axios__ = __webpack_require__(4);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_0_axios__ = __webpack_require__(3);
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_0_axios___default = __webpack_require__.n(__WEBPACK_IMPORTED_MODULE_0_axios__);
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_1_vue2_toast_lib_toast_css__ = __webpack_require__(12);
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_1_vue2_toast_lib_toast_css___default = __webpack_require__.n(__WEBPACK_IMPORTED_MODULE_1_vue2_toast_lib_toast_css__);
@@ -12447,7 +12434,7 @@ module.exports = function normalizeComponent (
 var utils = __webpack_require__(1);
 var transformData = __webpack_require__(23);
 var isCancel = __webpack_require__(8);
-var defaults = __webpack_require__(3);
+var defaults = __webpack_require__(4);
 
 /**
  * Throws a `Cancel` if cancellation has been requested.
@@ -12553,7 +12540,7 @@ try {
  * CSRF token as a header based on the value of the "XSRF" token cookie.
  */
 
-window.axios = __webpack_require__(4);
+window.axios = __webpack_require__(3);
 
 window.axios.defaults.headers.common['X-CSRF-TOKEN'] = window.Laravel.csrfToken;
 window.axios.defaults.headers.common['X-Requested-With'] = 'XMLHttpRequest';
@@ -43766,12 +43753,12 @@ module.exports={render:function (){var _vm=this;var _h=_vm.$createElement;var _c
     staticClass: "dropping-parent",
     on: {
       "click": function($event) {
-        _vm.dropIsActive = !_vm.dropIsActive
+        _vm.dropIsActive = !_vm.dropIsActive, [_vm.MIRSNotifs[0] == null ? _vm.fetchData(1) : '']
       }
     }
-  }, [_vm._m(0), _vm._v(" "), _c('h2', {
+  }, [_vm._m(0), _vm._v(" "), (_vm.AddedCount != '0') ? _c('h2', {
     staticClass: "number-of-unread z-depth-1"
-  }, [_vm._v("7")]), _vm._v(" "), _c('div', {
+  }, [_vm._v(_vm._s(_vm.AddedCount))]) : _vm._e(), _vm._v(" "), _c('div', {
     staticClass: "notification-drop z-depth-1",
     class: [_vm.dropIsActive == true ? 'active' : ''],
     on: {
@@ -43779,7 +43766,76 @@ module.exports={render:function (){var _vm=this;var _h=_vm.$createElement;var _c
         _vm.dropIsActive = !_vm.dropIsActive
       }
     }
-  }, [_vm._m(1), _vm._v(" "), _vm._m(2), _vm._v(" "), _c('div', {
+  }, [_vm._m(1), _vm._v(" "), _c('div', {
+    staticClass: "notification-navs"
+  }, [_c('h2', {
+    class: [_vm.MIRSBtn == true ? 'active' : ''],
+    on: {
+      "click": function($event) {
+        _vm.MIRSBtn = true, _vm.MRBtn = false, _vm.RVBtn = false, _vm.POBtn = false, _vm.RRBtn = false
+      }
+    }
+  }, [_vm._v("MIRS")]), _vm._v(" "), _c('h2', {
+    class: [_vm.RVBtn == true ? 'active' : ''],
+    on: {
+      "click": function($event) {
+        _vm.RVBtn = true, _vm.MRBtn = false, _vm.MIRSBtn = false, _vm.POBtn = false, _vm.RRBtn = false
+      }
+    }
+  }, [_vm._v("RV")]), _vm._v(" "), (_vm.user.Role == '3' || _vm.user.Role == '4') ? _c('h2', {
+    class: [_vm.POBtn == true ? 'active' : ''],
+    on: {
+      "click": function($event) {
+        _vm.POBtn = true, _vm.MRBtn = false, _vm.MIRSBtn = false, _vm.RVBtn = false, _vm.RRBtn = false
+      }
+    }
+  }, [_vm._v("PO")]) : _vm._e(), _vm._v(" "), (_vm.user.Role == '4' || _vm.user.Role == '3') ? _c('h2', {
+    class: [_vm.RRBtn == true ? 'active' : ''],
+    on: {
+      "click": function($event) {
+        _vm.RRBtn = true, _vm.MRBtn = false, _vm.MIRSBtn = false, _vm.RVBtn = false, _vm.POBtn = false
+      }
+    }
+  }, [_vm._v("RR")]) : _vm._e(), _vm._v(" "), (_vm.user.Role == '4' || _vm.user.Role == '3') ? _c('h2', {
+    class: [_vm.MRBtn == true ? 'active' : ''],
+    on: {
+      "click": function($event) {
+        _vm.MRBtn = true, _vm.RRBtn = false, _vm.MIRSBtn = false, _vm.RVBtn = false, _vm.POBtn = false
+      }
+    }
+  }, [_vm._v("MR")]) : _vm._e()]), _vm._v(" "), _c('div', {
+    staticClass: "notification-line-container"
+  }, [_vm._l((_vm.MIRSNotifs), function(mirs) {
+    return _c('a', {
+      attrs: {
+        "href": '/previewFullMIRS/' + mirs.MIRSNo
+      }
+    }, [_c('div', {
+      staticClass: "notification-drop-line",
+      class: [mirs.UnreadNotification == '0' ? 'active' : '']
+    }, [_vm._m(2, true), _vm._v(" "), _c('div', {
+      staticClass: "drop-line-detail"
+    }, [_c('h5', [_vm._v("MIRS : " + _vm._s(mirs.MIRSNo))]), _vm._v(" "), _c('p', [_vm._v("\n              has been\n              "), (mirs.Status == 0) ? _c('span', [_vm._v("approved")]) : _vm._e(), _vm._v(" "), (mirs.Status == 1) ? _c('span', [_vm._v("declined")]) : _vm._e()]), _c('br'), _vm._v(" "), _c('div', {
+      staticClass: "time-notified"
+    }, [(mirs.Status == 0) ? _c('i', {
+      staticClass: "material-icons color-blue"
+    }, [_vm._v("check_circle")]) : _vm._e(), _vm._v(" "), (mirs.Status == 1) ? _c('i', {
+      staticClass: "material-icons color-red"
+    }, [_vm._v("close")]) : _vm._e(), _vm._v(_vm._s(mirs.notification_date_time) + "\n            ")])])]), _vm._v(" "), _c('div', {
+      staticClass: "divider"
+    })])
+  }), _vm._v(" "), (_vm.MIRSCurrentPage != _vm.MIRSLastPage && _vm.MIRSNotifs[0] != null) ? _c('div', {
+    staticClass: "notification-drop-line load-more",
+    on: {
+      "click": function($event) {
+        _vm.fetchData(_vm.MIRSCurrentPage + 1)
+      }
+    }
+  }, [_vm._m(3)]) : _vm._e(), _vm._v(" "), (_vm.MIRSNotifs[0] == null) ? _c('div', {
+    staticClass: "empty-mirs-notif"
+  }, [_c('i', {
+    staticClass: "material-icons"
+  }, [_vm._v("notifications_none")]), _vm._v(" empty\n      ")]) : _vm._e()], 2), _vm._v(" "), _c('div', {
     staticClass: "notification-footer"
   })])])
 },staticRenderFns: [function (){var _vm=this;var _h=_vm.$createElement;var _c=_vm._self._c||_h;
@@ -43793,85 +43849,15 @@ module.exports={render:function (){var _vm=this;var _h=_vm.$createElement;var _c
     staticClass: "notification-header"
   }, [_c('h2', [_vm._v(" Notifications")])])
 },function (){var _vm=this;var _h=_vm.$createElement;var _c=_vm._self._c||_h;
+  return _c('div', [_c('h2', [_c('i', {
+    staticClass: "material-icons"
+  }, [_vm._v("insert_drive_file")])])])
+},function (){var _vm=this;var _h=_vm.$createElement;var _c=_vm._self._c||_h;
   return _c('div', {
-    staticClass: "notification-line-container"
-  }, [_c('div', {
-    staticClass: "notification-drop-line"
-  }, [_c('div', [_c('h2', [_c('i', {
-    staticClass: "material-icons"
-  }, [_vm._v("person")])])]), _vm._v(" "), _c('div', {
-    staticClass: "drop-line-detail"
-  }, [_c('h5', [_vm._v("Ralp Dexter Bongato")]), _vm._v(" "), _c('p', [_vm._v("approved your MIRS request pproved your MIRS request")]), _c('br'), _vm._v(" "), _c('i', {
-    staticClass: "material-icons color-blue"
-  }, [_vm._v("thumb_up")])])]), _vm._v(" "), _c('div', {
-    staticClass: "divider"
-  }), _vm._v(" "), _c('div', {
-    staticClass: "notification-drop-line"
-  }, [_c('div', [_c('h2', [_c('i', {
-    staticClass: "material-icons"
-  }, [_vm._v("person")])])]), _vm._v(" "), _c('div', {
-    staticClass: "drop-line-detail"
-  }, [_c('h5', [_vm._v("Ralp Dexter Bongato")]), _vm._v(" "), _c('p', [_vm._v("approved your MIRS request pproved your MIRS request")]), _c('br'), _vm._v(" "), _c('i', {
-    staticClass: "material-icons color-red"
-  }, [_vm._v("close")])])]), _vm._v(" "), _c('div', {
-    staticClass: "divider"
-  }), _vm._v(" "), _c('div', {
-    staticClass: "notification-drop-line"
-  }, [_c('div', [_c('h2', [_c('i', {
-    staticClass: "material-icons"
-  }, [_vm._v("person")])])]), _vm._v(" "), _c('div', {
-    staticClass: "drop-line-detail"
-  }, [_c('h5', [_vm._v("Ralp Dexter Bongato")]), _vm._v(" "), _c('p', [_vm._v("approved your MIRS request pproved your MIRS request")]), _c('br'), _vm._v(" "), _c('i', {
-    staticClass: "material-icons color-red"
-  }, [_vm._v("close")])])]), _vm._v(" "), _c('div', {
-    staticClass: "divider"
-  }), _vm._v(" "), _c('div', {
-    staticClass: "notification-drop-line"
-  }, [_c('div', [_c('h2', [_c('i', {
-    staticClass: "material-icons"
-  }, [_vm._v("person")])])]), _vm._v(" "), _c('div', {
-    staticClass: "drop-line-detail"
-  }, [_c('h5', [_vm._v("Ralp Dexter Bongato")]), _vm._v(" "), _c('p', [_vm._v("approved your MIRS request pproved your MIRS request")]), _c('br'), _vm._v(" "), _c('i', {
-    staticClass: "material-icons color-red"
-  }, [_vm._v("close")])])]), _vm._v(" "), _c('div', {
-    staticClass: "divider"
-  }), _vm._v(" "), _c('div', {
-    staticClass: "notification-drop-line"
-  }, [_c('div', [_c('h2', [_c('i', {
-    staticClass: "material-icons"
-  }, [_vm._v("person")])])]), _vm._v(" "), _c('div', {
-    staticClass: "drop-line-detail"
-  }, [_c('h5', [_vm._v("Ralp Dexter Bongato")]), _vm._v(" "), _c('p', [_vm._v("approved your MIRS request pproved your MIRS request")]), _c('br'), _vm._v(" "), _c('i', {
-    staticClass: "material-icons color-red"
-  }, [_vm._v("close")])])]), _vm._v(" "), _c('div', {
-    staticClass: "divider"
-  }), _vm._v(" "), _c('div', {
-    staticClass: "notification-drop-line"
-  }, [_c('div', [_c('h2', [_c('i', {
-    staticClass: "material-icons"
-  }, [_vm._v("person")])])]), _vm._v(" "), _c('div', {
-    staticClass: "drop-line-detail"
-  }, [_c('h5', [_vm._v("Ralp Dexter Bongato")]), _vm._v(" "), _c('p', [_vm._v("approved your MIRS request pproved your MIRS request")]), _c('br'), _vm._v(" "), _c('i', {
-    staticClass: "material-icons color-red"
-  }, [_vm._v("close")])])]), _vm._v(" "), _c('div', {
-    staticClass: "divider"
-  }), _vm._v(" "), _c('div', {
-    staticClass: "notification-drop-line"
-  }, [_c('div', [_c('h2', [_c('i', {
-    staticClass: "material-icons"
-  }, [_vm._v("person")])])]), _vm._v(" "), _c('div', {
-    staticClass: "drop-line-detail"
-  }, [_c('h5', [_vm._v("Ralp Dexter Bongato")]), _vm._v(" "), _c('p', [_vm._v("approved your MIRS request pproved your MIRS request")]), _c('br'), _vm._v(" "), _c('i', {
-    staticClass: "material-icons color-red"
-  }, [_vm._v("close")])])]), _vm._v(" "), _c('div', {
-    staticClass: "divider"
-  }), _vm._v(" "), _c('div', {
-    staticClass: "notification-drop-line load-more"
-  }, [_c('div', {
     staticClass: "load-more-btn"
   }, [_c('i', {
     staticClass: "material-icons"
-  }, [_vm._v("arrow_downward")]), _vm._v("\n          Load\n        ")])])])
+  }, [_vm._v("arrow_downward")]), _vm._v("\n          Load\n        ")])
 }]}
 module.exports.render._withStripped = true
 if (false) {
@@ -43992,102 +43978,7 @@ module.exports = (
 /***/ 3:
 /***/ (function(module, exports, __webpack_require__) {
 
-"use strict";
-/* WEBPACK VAR INJECTION */(function(process) {
-
-var utils = __webpack_require__(1);
-var normalizeHeaderName = __webpack_require__(30);
-
-var PROTECTION_PREFIX = /^\)\]\}',?\n/;
-var DEFAULT_CONTENT_TYPE = {
-  'Content-Type': 'application/x-www-form-urlencoded'
-};
-
-function setContentTypeIfUnset(headers, value) {
-  if (!utils.isUndefined(headers) && utils.isUndefined(headers['Content-Type'])) {
-    headers['Content-Type'] = value;
-  }
-}
-
-function getDefaultAdapter() {
-  var adapter;
-  if (typeof XMLHttpRequest !== 'undefined') {
-    // For browsers use XHR adapter
-    adapter = __webpack_require__(6);
-  } else if (typeof process !== 'undefined') {
-    // For node use HTTP adapter
-    adapter = __webpack_require__(6);
-  }
-  return adapter;
-}
-
-var defaults = {
-  adapter: getDefaultAdapter(),
-
-  transformRequest: [function transformRequest(data, headers) {
-    normalizeHeaderName(headers, 'Content-Type');
-    if (utils.isFormData(data) ||
-      utils.isArrayBuffer(data) ||
-      utils.isStream(data) ||
-      utils.isFile(data) ||
-      utils.isBlob(data)
-    ) {
-      return data;
-    }
-    if (utils.isArrayBufferView(data)) {
-      return data.buffer;
-    }
-    if (utils.isURLSearchParams(data)) {
-      setContentTypeIfUnset(headers, 'application/x-www-form-urlencoded;charset=utf-8');
-      return data.toString();
-    }
-    if (utils.isObject(data)) {
-      setContentTypeIfUnset(headers, 'application/json;charset=utf-8');
-      return JSON.stringify(data);
-    }
-    return data;
-  }],
-
-  transformResponse: [function transformResponse(data) {
-    /*eslint no-param-reassign:0*/
-    if (typeof data === 'string') {
-      data = data.replace(PROTECTION_PREFIX, '');
-      try {
-        data = JSON.parse(data);
-      } catch (e) { /* Ignore */ }
-    }
-    return data;
-  }],
-
-  timeout: 0,
-
-  xsrfCookieName: 'XSRF-TOKEN',
-  xsrfHeaderName: 'X-XSRF-TOKEN',
-
-  maxContentLength: -1,
-
-  validateStatus: function validateStatus(status) {
-    return status >= 200 && status < 300;
-  }
-};
-
-defaults.headers = {
-  common: {
-    'Accept': 'application/json, text/plain, */*'
-  }
-};
-
-utils.forEach(['delete', 'get', 'head'], function forEachMehtodNoData(method) {
-  defaults.headers[method] = {};
-});
-
-utils.forEach(['post', 'put', 'patch'], function forEachMethodWithData(method) {
-  defaults.headers[method] = utils.merge(DEFAULT_CONTENT_TYPE);
-});
-
-module.exports = defaults;
-
-/* WEBPACK VAR INJECTION */}.call(exports, __webpack_require__(11)))
+module.exports = __webpack_require__(16);
 
 /***/ }),
 
@@ -44766,7 +44657,102 @@ function updateLink(linkElement, obj) {
 /***/ 4:
 /***/ (function(module, exports, __webpack_require__) {
 
-module.exports = __webpack_require__(16);
+"use strict";
+/* WEBPACK VAR INJECTION */(function(process) {
+
+var utils = __webpack_require__(1);
+var normalizeHeaderName = __webpack_require__(30);
+
+var PROTECTION_PREFIX = /^\)\]\}',?\n/;
+var DEFAULT_CONTENT_TYPE = {
+  'Content-Type': 'application/x-www-form-urlencoded'
+};
+
+function setContentTypeIfUnset(headers, value) {
+  if (!utils.isUndefined(headers) && utils.isUndefined(headers['Content-Type'])) {
+    headers['Content-Type'] = value;
+  }
+}
+
+function getDefaultAdapter() {
+  var adapter;
+  if (typeof XMLHttpRequest !== 'undefined') {
+    // For browsers use XHR adapter
+    adapter = __webpack_require__(6);
+  } else if (typeof process !== 'undefined') {
+    // For node use HTTP adapter
+    adapter = __webpack_require__(6);
+  }
+  return adapter;
+}
+
+var defaults = {
+  adapter: getDefaultAdapter(),
+
+  transformRequest: [function transformRequest(data, headers) {
+    normalizeHeaderName(headers, 'Content-Type');
+    if (utils.isFormData(data) ||
+      utils.isArrayBuffer(data) ||
+      utils.isStream(data) ||
+      utils.isFile(data) ||
+      utils.isBlob(data)
+    ) {
+      return data;
+    }
+    if (utils.isArrayBufferView(data)) {
+      return data.buffer;
+    }
+    if (utils.isURLSearchParams(data)) {
+      setContentTypeIfUnset(headers, 'application/x-www-form-urlencoded;charset=utf-8');
+      return data.toString();
+    }
+    if (utils.isObject(data)) {
+      setContentTypeIfUnset(headers, 'application/json;charset=utf-8');
+      return JSON.stringify(data);
+    }
+    return data;
+  }],
+
+  transformResponse: [function transformResponse(data) {
+    /*eslint no-param-reassign:0*/
+    if (typeof data === 'string') {
+      data = data.replace(PROTECTION_PREFIX, '');
+      try {
+        data = JSON.parse(data);
+      } catch (e) { /* Ignore */ }
+    }
+    return data;
+  }],
+
+  timeout: 0,
+
+  xsrfCookieName: 'XSRF-TOKEN',
+  xsrfHeaderName: 'X-XSRF-TOKEN',
+
+  maxContentLength: -1,
+
+  validateStatus: function validateStatus(status) {
+    return status >= 200 && status < 300;
+  }
+};
+
+defaults.headers = {
+  common: {
+    'Accept': 'application/json, text/plain, */*'
+  }
+};
+
+utils.forEach(['delete', 'get', 'head'], function forEachMehtodNoData(method) {
+  defaults.headers[method] = {};
+});
+
+utils.forEach(['post', 'put', 'patch'], function forEachMethodWithData(method) {
+  defaults.headers[method] = utils.merge(DEFAULT_CONTENT_TYPE);
+});
+
+module.exports = defaults;
+
+/* WEBPACK VAR INJECTION */}.call(exports, __webpack_require__(11)))
 
 /***/ }),
 
