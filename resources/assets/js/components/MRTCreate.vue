@@ -4,7 +4,7 @@
     <div class="List-items-mrt">
       <div class="pick-from-items">
         <h1>Create Materials Returned Ticket</h1>
-        <button type="button" v-on:click="ModalIsActive=!ModalIsActive"><i class="material-icons">add</i> Item</button>
+        <button type="button" class="waves-effect waves-light" v-on:click="ModalIsActive=!ModalIsActive"><i class="material-icons">add</i> Item</button>
       </div>
       <div class="items-form">
           <div class="items-from-mct">

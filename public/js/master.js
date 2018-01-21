@@ -11850,6 +11850,214 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
 //
 //
 //
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
 
 
 /* harmony default export */ __webpack_exports__["default"] = ({
@@ -11861,9 +12069,33 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
       POBtn: false,
       RVBtn: false,
       RRBtn: false,
-      AddedCount: 0,
+      MRBtn: false,
+      MCTBtn: false,
+      MRTBtn: false,
+      NotificationCounts: 0,
       MIRSCurrentPage: 1,
-      MIRSLastPage: 1
+      MIRSLastPage: 1,
+      RVNotifs: [],
+      RVCurrentPage: 1,
+      RVLastPage: 1,
+      POCurrentPage: 1,
+      POLastPage: 1,
+      PONotifs: [],
+      RRCurrentPage: 1,
+      RRLastPage: 1,
+      RRNotifs: [],
+      MRCurrentPage: 1,
+      MRLastPage: 1,
+      MRNotifs: [],
+      MCTCurrentPage: 1,
+      MCTLastPage: 1,
+      MCTNotifs: [],
+      MRTCurrentPage: 1,
+      MRTLastPage: 1,
+      MRTNotifs: [],
+      AddedCounts: 0,
+      Loaded: false
+
     };
   },
 
@@ -11874,6 +12106,7 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
 
   methods: {
     fetchData: function fetchData(page) {
+      this.Loaded = true;
       var vm = this;
       __WEBPACK_IMPORTED_MODULE_0_axios___default.a.get('/fetch-mirs-global-notifications?page=' + page).then(function (response) {
         console.log(response);
@@ -11888,11 +12121,118 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
         vm.MIRSLastPage = response.data.last_page;
       });
     },
+    fetchRV: function fetchRV(page) {
+      var vm = this;
+      __WEBPACK_IMPORTED_MODULE_0_axios___default.a.get('/fetch-rv-global-notifications?page=' + page).then(function (response) {
+        console.log(response);
+        vm.RVCurrentPage = response.data.current_page;
+        vm.RVLastPage = response.data.last_page;
+        if (response.data.current_page == 1) {
+          vm.RVNotifs = response.data.data;
+        } else {
+          for (var i = 0; i < response.data.data.length; i++) {
+            vm.RVNotifs.push(response.data.data[i]);
+          }
+        }
+      }).then(function (error) {
+        console.log(error);
+      });
+    },
+    fetchPO: function fetchPO(page) {
+      var vm = this;
+      __WEBPACK_IMPORTED_MODULE_0_axios___default.a.get('/fetch-po-global-notifications?page=' + page).then(function (response) {
+        console.log(response);
+        if (response.data.current_page == 1) {
+          vm.PONotifs = response.data.data;
+        } else {
+          for (var i = 0; i < response.data.data.length; i++) {
+            vm.PONotifs.push(response.data.data[i]);
+          }
+        }
+        vm.POCurrentPage = response.data.current_page;
+        vm.POLastPage = response.data.last_page;
+      }).then(function (error) {
+        console.log(error);
+      });
+    },
+    fetchRR: function fetchRR(page) {
+      var vm = this;
+      __WEBPACK_IMPORTED_MODULE_0_axios___default.a.get('/fetch-rr-global-notifications?page=' + page).then(function (response) {
+        console.log(response);
+        if (response.data.current_page == 1) {
+          vm.RRNotifs = response.data.data;
+        } else {
+          for (var i = 0; i < response.data.data.length; i++) {
+            vm.RRNotifs.push(response.data.data[i]);
+          }
+        }
+        vm.RRCurrentPage = response.data.current_page;
+        vm.RRLastPage = response.data.last_page;
+      }).then(function (error) {
+        console.log(error);
+      });
+    },
+    fetchMR: function fetchMR(page) {
+      var vm = this;
+      __WEBPACK_IMPORTED_MODULE_0_axios___default.a.get('/fetch-mr-global-notifications?page=' + page).then(function (response) {
+        console.log(response);
+        if (response.data.current_page == 1) {
+          vm.MRNotifs = response.data.data;
+        } else {
+          for (var i = 0; i < response.data.data.length; i++) {
+            vm.MRNotifs.push(response.data.data[i]);
+          }
+        }
+        vm.MRCurrentPage = response.data.current_page;
+        vm.MRLastPage = response.data.last_page;
+      }).then(function (error) {
+        console.log(error);
+      });
+    },
+    fetchMCT: function fetchMCT(page) {
+      var vm = this;
+      __WEBPACK_IMPORTED_MODULE_0_axios___default.a.get('/fetch-mct-global-notifications?page=' + page).then(function (response) {
+        console.log(response);
+        if (response.data.current_page == 1) {
+          vm.MCTNotifs = response.data.data;
+        } else {
+          for (var i = 0; i < response.data.data.length; i++) {
+            vm.MCTNotifs.push(response.data.data[i]);
+          }
+        }
+        vm.MCTCurrentPage = response.data.current_page;
+        vm.MCTLastPage = response.data.last_page;
+      }).then(function (error) {
+        console.log(error);
+      });
+    },
+    fetchMRT: function fetchMRT(page) {
+      var vm = this;
+      __WEBPACK_IMPORTED_MODULE_0_axios___default.a.get('/fetch-mrt-global-notifications?page=' + page).then(function (response) {
+        console.log(response);
+        if (response.data.current_page == 1) {
+          vm.MRTNotifs = response.data.data;
+        } else {
+          for (var i = 0; i < response.data.data.length; i++) {
+            vm.MRTNotifs.push(response.data.data[i]);
+          }
+        }
+        vm.MRTCurrentPage = response.data.current_page;
+        vm.MRTLastPage = response.data.last_page;
+      }).then(function (error) {
+        console.log(error);
+      });
+    },
     countNotif: function countNotif() {
       var vm = this;
       __WEBPACK_IMPORTED_MODULE_0_axios___default.a.get('/notif-global-count').then(function (response) {
         console.log(response);
-        vm.AddedCount = response.data;
+        vm.NotificationCounts = response.data;
+        if (vm.user.Role == 3 || vm.user.Role == 4) {
+          vm.AddedCounts = response.data.unreadMIRS + response.data.unreadMR + response.data.unreadPO + response.data.unreadRR + response.data.unreadRV + response.data.unreadMCT + response.data.unreadMRT;
+        } else {
+          vm.AddedCounts = response.data.unreadMIRS + response.data.unreadRV;
+        }
       }).then(function (error) {
         console.log(error);
       });
@@ -43180,7 +43520,7 @@ var Component = __webpack_require__(2)(
   /* cssModules */
   null
 )
-Component.options.__file = "C:\\xampp\\htdocs\\warehouse\\resources\\assets\\js\\components\\GlobalNotif.vue"
+Component.options.__file = "c:\\xampp\\htdocs\\warehouse\\resources\\assets\\js\\components\\GlobalNotif.vue"
 if (Component.esModule && Object.keys(Component.esModule).some(function (key) {return key !== "default" && key !== "__esModule"})) {console.error("named exports are not supported in *.vue files.")}
 if (Component.options.functional) {console.error("[vue-loader] GlobalNotif.vue: functional components are not supported with templates, they should use render functions.")}
 
@@ -43243,7 +43583,7 @@ var Component = __webpack_require__(2)(
   /* cssModules */
   null
 )
-Component.options.__file = "C:\\xampp\\htdocs\\warehouse\\resources\\assets\\js\\components\\NotificationModal.vue"
+Component.options.__file = "c:\\xampp\\htdocs\\warehouse\\resources\\assets\\js\\components\\NotificationModal.vue"
 if (Component.esModule && Object.keys(Component.esModule).some(function (key) {return key !== "default" && key !== "__esModule"})) {console.error("named exports are not supported in *.vue files.")}
 if (Component.options.functional) {console.error("[vue-loader] NotificationModal.vue: functional components are not supported with templates, they should use render functions.")}
 
@@ -43753,12 +44093,12 @@ module.exports={render:function (){var _vm=this;var _h=_vm.$createElement;var _c
     staticClass: "dropping-parent",
     on: {
       "click": function($event) {
-        _vm.dropIsActive = !_vm.dropIsActive, [_vm.MIRSNotifs[0] == null ? _vm.fetchData(1) : '']
+        _vm.dropIsActive = !_vm.dropIsActive, [_vm.Loaded == false ? _vm.fetchData(1) : '']
       }
     }
-  }, [_vm._m(0), _vm._v(" "), (_vm.AddedCount != '0') ? _c('h2', {
+  }, [_vm._m(0), _vm._v(" "), (_vm.AddedCounts != '0') ? _c('h2', {
     staticClass: "number-of-unread z-depth-1"
-  }, [_vm._v(_vm._s(_vm.AddedCount))]) : _vm._e(), _vm._v(" "), _c('div', {
+  }, [_vm._v(_vm._s(_vm.AddedCounts))]) : _vm._e(), _vm._v(" "), _c('div', {
     staticClass: "notification-drop z-depth-1",
     class: [_vm.dropIsActive == true ? 'active' : ''],
     on: {
@@ -43772,41 +44112,69 @@ module.exports={render:function (){var _vm=this;var _h=_vm.$createElement;var _c
     class: [_vm.MIRSBtn == true ? 'active' : ''],
     on: {
       "click": function($event) {
-        _vm.MIRSBtn = true, _vm.MRBtn = false, _vm.RVBtn = false, _vm.POBtn = false, _vm.RRBtn = false
+        _vm.MRTBtn = false, _vm.MCTBtn = false, _vm.MIRSBtn = true, _vm.MRBtn = false, _vm.RVBtn = false, _vm.POBtn = false, _vm.RRBtn = false
       }
     }
-  }, [_vm._v("MIRS")]), _vm._v(" "), _c('h2', {
+  }, [_vm._v("MIRS "), (_vm.NotificationCounts.unreadMIRS != 0) ? _c('p', {
+    staticClass: "notification-dot-mark"
+  }) : _vm._e()]), _vm._v(" "), _c('h2', {
     class: [_vm.RVBtn == true ? 'active' : ''],
     on: {
       "click": function($event) {
-        _vm.RVBtn = true, _vm.MRBtn = false, _vm.MIRSBtn = false, _vm.POBtn = false, _vm.RRBtn = false
+        _vm.MRTBtn = false, _vm.MCTBtn = false, _vm.RVBtn = true, _vm.MRBtn = false, _vm.MIRSBtn = false, _vm.POBtn = false, _vm.RRBtn = false, [_vm.RVNotifs[0] == null ? _vm.fetchRV(_vm.RVCurrentPage) : '']
       }
     }
-  }, [_vm._v("RV")]), _vm._v(" "), (_vm.user.Role == '3' || _vm.user.Role == '4') ? _c('h2', {
+  }, [_vm._v("RV "), (_vm.NotificationCounts.unreadRV != 0) ? _c('p', {
+    staticClass: "notification-dot-mark"
+  }) : _vm._e()]), _vm._v(" "), (_vm.user.Role == '3' || _vm.user.Role == '4') ? _c('h2', {
     class: [_vm.POBtn == true ? 'active' : ''],
     on: {
       "click": function($event) {
-        _vm.POBtn = true, _vm.MRBtn = false, _vm.MIRSBtn = false, _vm.RVBtn = false, _vm.RRBtn = false
+        _vm.MRTBtn = false, _vm.MCTBtn = false, _vm.POBtn = true, _vm.MRBtn = false, _vm.MIRSBtn = false, _vm.RVBtn = false, _vm.RRBtn = false, [_vm.PONotifs[0] == null ? _vm.fetchPO(_vm.POCurrentPage) : '']
       }
     }
-  }, [_vm._v("PO")]) : _vm._e(), _vm._v(" "), (_vm.user.Role == '4' || _vm.user.Role == '3') ? _c('h2', {
+  }, [_vm._v("PO "), (_vm.NotificationCounts.unreadPO != 0) ? _c('p', {
+    staticClass: "notification-dot-mark"
+  }) : _vm._e()]) : _vm._e(), _vm._v(" "), (_vm.user.Role == '4' || _vm.user.Role == '3') ? _c('h2', {
     class: [_vm.RRBtn == true ? 'active' : ''],
     on: {
       "click": function($event) {
-        _vm.RRBtn = true, _vm.MRBtn = false, _vm.MIRSBtn = false, _vm.RVBtn = false, _vm.POBtn = false
+        _vm.MRTBtn = false, _vm.MCTBtn = false, _vm.RRBtn = true, _vm.MRBtn = false, _vm.MIRSBtn = false, _vm.RVBtn = false, _vm.POBtn = false, [_vm.RRNotifs[0] == null ? _vm.fetchRR(_vm.RRCurrentPage) : '']
       }
     }
-  }, [_vm._v("RR")]) : _vm._e(), _vm._v(" "), (_vm.user.Role == '4' || _vm.user.Role == '3') ? _c('h2', {
+  }, [_vm._v("RR "), (_vm.NotificationCounts.unreadRR != 0) ? _c('p', {
+    staticClass: "notification-dot-mark"
+  }) : _vm._e()]) : _vm._e(), _vm._v(" "), (_vm.user.Role == '4' || _vm.user.Role == '3') ? _c('h2', {
     class: [_vm.MRBtn == true ? 'active' : ''],
     on: {
       "click": function($event) {
-        _vm.MRBtn = true, _vm.RRBtn = false, _vm.MIRSBtn = false, _vm.RVBtn = false, _vm.POBtn = false
+        _vm.MRTBtn = false, _vm.MCTBtn = false, _vm.MRBtn = true, _vm.RRBtn = false, _vm.MIRSBtn = false, _vm.RVBtn = false, _vm.POBtn = false, [_vm.MRNotifs[0] == null ? _vm.fetchMR(_vm.MRCurrentPage) : '']
       }
     }
-  }, [_vm._v("MR")]) : _vm._e()]), _vm._v(" "), _c('div', {
+  }, [_vm._v("MR "), (_vm.NotificationCounts.unreadMR != 0) ? _c('p', {
+    staticClass: "notification-dot-mark"
+  }) : _vm._e()]) : _vm._e(), _vm._v(" "), (_vm.user.Role == '4' || _vm.user.Role == '3') ? _c('h2', {
+    class: [_vm.MCTBtn == true ? 'active' : ''],
+    on: {
+      "click": function($event) {
+        _vm.MRTBtn = false, _vm.MCTBtn = true, _vm.MRBtn = false, _vm.RRBtn = false, _vm.MIRSBtn = false, _vm.RVBtn = false, _vm.POBtn = false, [_vm.MCTNotifs[0] == null ? _vm.fetchMCT(_vm.MCTCurrentPage) : '']
+      }
+    }
+  }, [_vm._v("MCT "), (_vm.NotificationCounts.unreadMCT != 0) ? _c('p', {
+    staticClass: "notification-dot-mark"
+  }) : _vm._e()]) : _vm._e(), _vm._v(" "), (_vm.user.Role == '4' || _vm.user.Role == '3') ? _c('h2', {
+    class: [_vm.MRTBtn == true ? 'active' : ''],
+    on: {
+      "click": function($event) {
+        _vm.MRTBtn = true, _vm.MCTBtn = false, _vm.MRBtn = false, _vm.RRBtn = false, _vm.MIRSBtn = false, _vm.RVBtn = false, _vm.POBtn = false, [_vm.MCTNotifs[0] == null ? _vm.fetchMRT(_vm.MRTCurrentPage) : '']
+      }
+    }
+  }, [_vm._v("MRT "), (_vm.NotificationCounts.unreadMRT != 0) ? _c('p', {
+    staticClass: "notification-dot-mark"
+  }) : _vm._e()]) : _vm._e()]), _vm._v(" "), _c('div', {
     staticClass: "notification-line-container"
   }, [_vm._l((_vm.MIRSNotifs), function(mirs) {
-    return _c('a', {
+    return (_vm.MIRSBtn == true) ? _c('a', {
       attrs: {
         "href": '/previewFullMIRS/' + mirs.MIRSNo
       }
@@ -43815,7 +44183,7 @@ module.exports={render:function (){var _vm=this;var _h=_vm.$createElement;var _c
       class: [mirs.UnreadNotification == '0' ? 'active' : '']
     }, [_vm._m(2, true), _vm._v(" "), _c('div', {
       staticClass: "drop-line-detail"
-    }, [_c('h5', [_vm._v("MIRS : " + _vm._s(mirs.MIRSNo))]), _vm._v(" "), _c('p', [_vm._v("\n              has been\n              "), (mirs.Status == 0) ? _c('span', [_vm._v("approved")]) : _vm._e(), _vm._v(" "), (mirs.Status == 1) ? _c('span', [_vm._v("declined")]) : _vm._e()]), _c('br'), _vm._v(" "), _c('div', {
+    }, [_c('h5', [_vm._v("MIRS : " + _vm._s(mirs.MIRSNo))]), _vm._v(" "), _c('p', [_vm._v("\n              materials issueance requisition slip has been\n              "), (mirs.Status == 0) ? _c('span', [_vm._v("approved")]) : _vm._e(), _vm._v(" "), (mirs.Status == 1) ? _c('span', [_vm._v("declined")]) : _vm._e()]), _c('br'), _vm._v(" "), _c('div', {
       staticClass: "time-notified"
     }, [(mirs.Status == 0) ? _c('i', {
       staticClass: "material-icons color-blue"
@@ -43823,16 +44191,208 @@ module.exports={render:function (){var _vm=this;var _h=_vm.$createElement;var _c
       staticClass: "material-icons color-red"
     }, [_vm._v("close")]) : _vm._e(), _vm._v(_vm._s(mirs.notification_date_time) + "\n            ")])])]), _vm._v(" "), _c('div', {
       staticClass: "divider"
-    })])
-  }), _vm._v(" "), (_vm.MIRSCurrentPage != _vm.MIRSLastPage && _vm.MIRSNotifs[0] != null) ? _c('div', {
+    })]) : _vm._e()
+  }), _vm._v(" "), (_vm.MIRSCurrentPage != _vm.MIRSLastPage && _vm.MIRSNotifs[0] != null && _vm.MIRSBtn == true) ? _c('div', {
     staticClass: "notification-drop-line load-more",
     on: {
       "click": function($event) {
         _vm.fetchData(_vm.MIRSCurrentPage + 1)
       }
     }
-  }, [_vm._m(3)]) : _vm._e(), _vm._v(" "), (_vm.MIRSNotifs[0] == null) ? _c('div', {
-    staticClass: "empty-mirs-notif"
+  }, [_vm._m(3)]) : _vm._e(), _vm._v(" "), (_vm.MIRSNotifs[0] == null && _vm.MIRSBtn == true) ? _c('div', {
+    staticClass: "empty-global-notif"
+  }, [_c('i', {
+    staticClass: "material-icons"
+  }, [_vm._v("notifications_none")]), _vm._v(" empty\n      ")]) : _vm._e(), _vm._v(" "), _vm._l((_vm.RVNotifs), function(rv) {
+    return (_vm.RVBtn == true) ? _c('a', {
+      attrs: {
+        "href": '/RVfullview/' + rv.RVNo
+      }
+    }, [_c('div', {
+      staticClass: "notification-drop-line",
+      class: [rv.UnreadNotification == '0' ? 'active' : '']
+    }, [_vm._m(4, true), _vm._v(" "), _c('div', {
+      staticClass: "drop-line-detail"
+    }, [_c('h5', [_vm._v("RV : " + _vm._s(rv.RVNo))]), _vm._v(" "), _c('p', [_vm._v("\n              requisition voucher has been\n              "), (rv.Status == 0) ? _c('span', [_vm._v("approved")]) : _vm._e(), _vm._v(" "), (rv.Status == 1) ? _c('span', [_vm._v("declined")]) : _vm._e()]), _c('br'), _vm._v(" "), _c('div', {
+      staticClass: "time-notified"
+    }, [(rv.Status == 0) ? _c('i', {
+      staticClass: "material-icons color-blue"
+    }, [_vm._v("check_circle")]) : _vm._e(), _vm._v(" "), (rv.Status == 1) ? _c('i', {
+      staticClass: "material-icons color-red"
+    }, [_vm._v("close")]) : _vm._e(), _vm._v(_vm._s(rv.notification_date_time) + "\n            ")])])]), _vm._v(" "), _c('div', {
+      staticClass: "divider"
+    })]) : _vm._e()
+  }), _vm._v(" "), (_vm.RVCurrentPage != _vm.RVLastPage && _vm.RVNotifs[0] != null && _vm.RVBtn == true) ? _c('div', {
+    staticClass: "notification-drop-line load-more",
+    on: {
+      "click": function($event) {
+        _vm.fetchRV(_vm.RVCurrentPage + 1)
+      }
+    }
+  }, [_vm._m(5)]) : _vm._e(), _vm._v(" "), (_vm.RVNotifs[0] == null && _vm.RVBtn == true) ? _c('div', {
+    staticClass: "empty-global-notif"
+  }, [_c('i', {
+    staticClass: "material-icons"
+  }, [_vm._v("notifications_none")]), _vm._v(" empty\n      ")]) : _vm._e(), _vm._v(" "), _vm._l((_vm.PONotifs), function(po) {
+    return (_vm.POBtn == true) ? _c('a', {
+      attrs: {
+        "href": '/po-full-preview/' + po.PONo
+      }
+    }, [_c('div', {
+      staticClass: "notification-drop-line",
+      class: [po.UnreadNotification == '0' ? 'active' : '']
+    }, [_vm._m(6, true), _vm._v(" "), _c('div', {
+      staticClass: "drop-line-detail"
+    }, [_c('h5', [_vm._v("PO : " + _vm._s(po.PONo))]), _vm._v(" "), _c('p', [_vm._v("\n              purchase order has been\n              "), (po.Status == 0) ? _c('span', [_vm._v("approved")]) : _vm._e(), _vm._v(" "), (po.Status == 1) ? _c('span', [_vm._v("declined")]) : _vm._e()]), _c('br'), _vm._v(" "), _c('div', {
+      staticClass: "time-notified"
+    }, [(po.Status == 0) ? _c('i', {
+      staticClass: "material-icons color-blue"
+    }, [_vm._v("check_circle")]) : _vm._e(), _vm._v(" "), (po.Status == 1) ? _c('i', {
+      staticClass: "material-icons color-red"
+    }, [_vm._v("close")]) : _vm._e(), _vm._v(_vm._s(po.notification_date_time) + "\n            ")])])]), _vm._v(" "), _c('div', {
+      staticClass: "divider"
+    })]) : _vm._e()
+  }), _vm._v(" "), (_vm.POCurrentPage != _vm.POLastPage && _vm.PONotifs[0] != null && _vm.POBtn == true) ? _c('div', {
+    staticClass: "notification-drop-line load-more",
+    on: {
+      "click": function($event) {
+        _vm.fetchPO(_vm.POCurrentPage + 1)
+      }
+    }
+  }, [_vm._m(7)]) : _vm._e(), _vm._v(" "), (_vm.PONotifs[0] == null && _vm.POBtn == true) ? _c('div', {
+    staticClass: "empty-global-notif"
+  }, [_c('i', {
+    staticClass: "material-icons"
+  }, [_vm._v("notifications_none")]), _vm._v(" empty\n      ")]) : _vm._e(), _vm._v(" "), _vm._l((_vm.RRNotifs), function(rr) {
+    return (_vm.RRBtn == true) ? _c('a', {
+      attrs: {
+        "href": '/RR-fullpreview/' + rr.RRNo
+      }
+    }, [_c('div', {
+      staticClass: "notification-drop-line",
+      class: [rr.UnreadNotification == '0' ? 'active' : '']
+    }, [_vm._m(8, true), _vm._v(" "), _c('div', {
+      staticClass: "drop-line-detail"
+    }, [_c('h5', [_vm._v("RR : " + _vm._s(rr.RRNo))]), _vm._v(" "), _c('p', [(rr.IsRollBack == 0) ? _c('span', [_vm._v("receiving report has been reversed/rollbacked by the administrator")]) : _vm._e(), _vm._v(" "), (rr.IsRollBack == 1) ? _c('span', [_vm._v("the administrator undid the reversed/rollbacked data")]) : _vm._e(), _vm._v(" "), (rr.Status == 0 && rr.IsRollBack == null) ? _c('span', [_vm._v("receiving report has been approved")]) : _vm._e(), _vm._v(" "), (rr.Status == 1 && rr.IsRollBack == null) ? _c('span', [_vm._v("receiving report has been declined")]) : _vm._e()]), _c('br'), _vm._v(" "), _c('div', {
+      staticClass: "time-notified"
+    }, [(rr.Status == 0 && rr.IsRollBack == null) ? _c('i', {
+      staticClass: "material-icons color-blue"
+    }, [_vm._v("check_circle")]) : _vm._e(), _vm._v(" "), (rr.Status == 1 && rr.IsRollBack == null) ? _c('i', {
+      staticClass: "material-icons color-red"
+    }, [_vm._v("close")]) : _vm._e(), _vm._v(" "), (rr.IsRollBack == 0) ? _c('i', {
+      staticClass: "material-icons color-red"
+    }, [_vm._v("replay")]) : _vm._e(), _vm._v(" "), (rr.IsRollBack == 1) ? _c('i', {
+      staticClass: "material-icons color-blue"
+    }, [_vm._v("refresh")]) : _vm._e(), _vm._v("\n              " + _vm._s(rr.notification_date_time) + "\n            ")])])]), _vm._v(" "), _c('div', {
+      staticClass: "divider"
+    })]) : _vm._e()
+  }), _vm._v(" "), (_vm.RRCurrentPage != _vm.RRLastPage && _vm.RRNotifs[0] != null && _vm.RRBtn == true) ? _c('div', {
+    staticClass: "notification-drop-line load-more",
+    on: {
+      "click": function($event) {
+        _vm.fetchRR(_vm.RRCurrentPage + 1)
+      }
+    }
+  }, [_vm._m(9)]) : _vm._e(), _vm._v(" "), (_vm.RRNotifs[0] == null && _vm.RRBtn == true) ? _c('div', {
+    staticClass: "empty-global-notif"
+  }, [_c('i', {
+    staticClass: "material-icons"
+  }, [_vm._v("notifications_none")]), _vm._v(" empty\n      ")]) : _vm._e(), _vm._v(" "), _vm._l((_vm.MRNotifs), function(mr) {
+    return (_vm.MRBtn == true) ? _c('a', {
+      attrs: {
+        "href": '/full-preview-MR/' + mr.MRNo
+      }
+    }, [_c('div', {
+      staticClass: "notification-drop-line",
+      class: [mr.UnreadNotification == '0' ? 'active' : '']
+    }, [_vm._m(10, true), _vm._v(" "), _c('div', {
+      staticClass: "drop-line-detail"
+    }, [_c('h5', [_vm._v("MR : " + _vm._s(mr.RRNo))]), _vm._v(" "), _c('p', [_vm._v("\n              memorandum receipt has been\n              "), (mr.Status == 0) ? _c('span', [_vm._v("approved")]) : _vm._e(), _vm._v(" "), (mr.Status == 1) ? _c('span', [_vm._v("declined")]) : _vm._e()]), _c('br'), _vm._v(" "), _c('div', {
+      staticClass: "time-notified"
+    }, [(mr.Status == 0) ? _c('i', {
+      staticClass: "material-icons color-blue"
+    }, [_vm._v("check_circle")]) : _vm._e(), _vm._v(" "), (mr.Status == 1) ? _c('i', {
+      staticClass: "material-icons color-red"
+    }, [_vm._v("close")]) : _vm._e(), _vm._v(_vm._s(mr.notification_date_time) + "\n            ")])])]), _vm._v(" "), _c('div', {
+      staticClass: "divider"
+    })]) : _vm._e()
+  }), _vm._v(" "), (_vm.MRCurrentPage != _vm.MRLastPage && _vm.MRNotifs[0] != null && _vm.MRBtn == true) ? _c('div', {
+    staticClass: "notification-drop-line load-more",
+    on: {
+      "click": function($event) {
+        _vm.fetchMR(_vm.MRCurrentPage + 1)
+      }
+    }
+  }, [_vm._m(11)]) : _vm._e(), _vm._v(" "), (_vm.MRNotifs[0] == null && _vm.MRBtn == true) ? _c('div', {
+    staticClass: "empty-global-notif"
+  }, [_c('i', {
+    staticClass: "material-icons"
+  }, [_vm._v("notifications_none")]), _vm._v(" empty\n      ")]) : _vm._e(), _vm._v(" "), _vm._l((_vm.MCTNotifs), function(mct) {
+    return (_vm.MCTBtn == true) ? _c('a', {
+      attrs: {
+        "href": '/preview-mct-page-only/' + mct.MCTNo
+      }
+    }, [_c('div', {
+      staticClass: "notification-drop-line",
+      class: [mct.UnreadNotification == '0' ? 'active' : '']
+    }, [_vm._m(12, true), _vm._v(" "), _c('div', {
+      staticClass: "drop-line-detail"
+    }, [_c('h5', [_vm._v("MCT : " + _vm._s(mct.MCTNo))]), _vm._v(" "), _c('p', [(mct.IsRollBack == 0) ? _c('span', [_vm._v("material charge ticket has been reversed/rollbacked by the administrator")]) : _vm._e(), _vm._v(" "), (mct.IsRollBack == 1) ? _c('span', [_vm._v("the administrator undid the reversed/rollbacked data")]) : _vm._e(), _vm._v(" "), (mct.Status == 0 && mct.IsRollBack == null) ? _c('span', [_vm._v("Materials charge ticket has been approved")]) : _vm._e(), _vm._v(" "), (mct.Status == 1 && mct.IsRollBack == null) ? _c('span', [_vm._v("Materials charge ticket has been declined")]) : _vm._e()]), _c('br'), _vm._v(" "), _c('div', {
+      staticClass: "time-notified"
+    }, [(mct.Status == 0 && mct.IsRollBack == null) ? _c('i', {
+      staticClass: "material-icons color-blue"
+    }, [_vm._v("check_circle")]) : _vm._e(), _vm._v(" "), (mct.Status == 1 && mct.IsRollBack == null) ? _c('i', {
+      staticClass: "material-icons color-red"
+    }, [_vm._v("close")]) : _vm._e(), _vm._v(" "), (mct.IsRollBack == 0) ? _c('i', {
+      staticClass: "material-icons color-red"
+    }, [_vm._v("replay")]) : _vm._e(), _vm._v(" "), (mct.IsRollBack == 1) ? _c('i', {
+      staticClass: "material-icons color-blue"
+    }, [_vm._v("refresh")]) : _vm._e(), _vm._v("\n              " + _vm._s(mct.notification_date_time) + "\n            ")])])]), _vm._v(" "), _c('div', {
+      staticClass: "divider"
+    })]) : _vm._e()
+  }), _vm._v(" "), (_vm.MCTCurrentPage != _vm.MCTLastPage && _vm.MCTNotifs[0] != null && _vm.MCTBtn == true) ? _c('div', {
+    staticClass: "notification-drop-line load-more",
+    on: {
+      "click": function($event) {
+        _vm.fetchMCT(_vm.MCTCurrentPage + 1)
+      }
+    }
+  }, [_vm._m(13)]) : _vm._e(), _vm._v(" "), (_vm.MCTNotifs[0] == null && _vm.MCTBtn == true) ? _c('div', {
+    staticClass: "empty-global-notif"
+  }, [_c('i', {
+    staticClass: "material-icons"
+  }, [_vm._v("notifications_none")]), _vm._v(" empty\n      ")]) : _vm._e(), _vm._v(" "), _vm._l((_vm.MRTNotifs), function(mrt) {
+    return (_vm.MRTBtn == true) ? _c('a', {
+      attrs: {
+        "href": '/mrt-preview-page/' + mrt.MRTNo
+      }
+    }, [_c('div', {
+      staticClass: "notification-drop-line",
+      class: [mrt.UnreadNotification == '0' ? 'active' : '']
+    }, [_vm._m(14, true), _vm._v(" "), _c('div', {
+      staticClass: "drop-line-detail"
+    }, [_c('h5', [_vm._v("MRT : " + _vm._s(mrt.MRTNo))]), _vm._v(" "), _c('p', [(mrt.IsRollBack == 0) ? _c('span', [_vm._v("materials return ticket has been reversed/rollbacked by the administrator")]) : _vm._e(), _vm._v(" "), (mrt.IsRollBack == 1) ? _c('span', [_vm._v("the administrator undid the reversed/rollbacked data")]) : _vm._e(), _vm._v(" "), (mrt.Status == 0 && mrt.IsRollBack == null) ? _c('span', [_vm._v("materials return ticket has been approved")]) : _vm._e(), _vm._v(" "), (mrt.Status == 1 && mrt.IsRollBack == null) ? _c('span', [_vm._v("materials return ticket has been declined")]) : _vm._e()]), _c('br'), _vm._v(" "), _c('div', {
+      staticClass: "time-notified"
+    }, [(mrt.Status == 0 && mrt.IsRollBack == null) ? _c('i', {
+      staticClass: "material-icons color-blue"
+    }, [_vm._v("check_circle")]) : _vm._e(), _vm._v(" "), (mrt.Status == 1 && mrt.IsRollBack == null) ? _c('i', {
+      staticClass: "material-icons color-red"
+    }, [_vm._v("close")]) : _vm._e(), _vm._v(" "), (mrt.IsRollBack == 0) ? _c('i', {
+      staticClass: "material-icons color-red"
+    }, [_vm._v("replay")]) : _vm._e(), _vm._v(" "), (mrt.IsRollBack == 1) ? _c('i', {
+      staticClass: "material-icons color-blue"
+    }, [_vm._v("refresh")]) : _vm._e(), _vm._v("\n              " + _vm._s(mrt.notification_date_time) + "\n            ")])])]), _vm._v(" "), _c('div', {
+      staticClass: "divider"
+    })]) : _vm._e()
+  }), _vm._v(" "), (_vm.MRTCurrentPage != _vm.MRTLastPage && _vm.MRTNotifs[0] != null && _vm.MRTBtn == true) ? _c('div', {
+    staticClass: "notification-drop-line load-more",
+    on: {
+      "click": function($event) {
+        _vm.fetchMRT(_vm.MRTCurrentPage + 1)
+      }
+    }
+  }, [_vm._m(15)]) : _vm._e(), _vm._v(" "), (_vm.MRTNotifs[0] == null && _vm.MRTBtn == true) ? _c('div', {
+    staticClass: "empty-global-notif"
   }, [_c('i', {
     staticClass: "material-icons"
   }, [_vm._v("notifications_none")]), _vm._v(" empty\n      ")]) : _vm._e()], 2), _vm._v(" "), _c('div', {
@@ -43848,6 +44408,66 @@ module.exports={render:function (){var _vm=this;var _h=_vm.$createElement;var _c
   return _c('div', {
     staticClass: "notification-header"
   }, [_c('h2', [_vm._v(" Notifications")])])
+},function (){var _vm=this;var _h=_vm.$createElement;var _c=_vm._self._c||_h;
+  return _c('div', [_c('h2', [_c('i', {
+    staticClass: "material-icons"
+  }, [_vm._v("insert_drive_file")])])])
+},function (){var _vm=this;var _h=_vm.$createElement;var _c=_vm._self._c||_h;
+  return _c('div', {
+    staticClass: "load-more-btn"
+  }, [_c('i', {
+    staticClass: "material-icons"
+  }, [_vm._v("arrow_downward")]), _vm._v("\n          Load\n        ")])
+},function (){var _vm=this;var _h=_vm.$createElement;var _c=_vm._self._c||_h;
+  return _c('div', [_c('h2', [_c('i', {
+    staticClass: "material-icons"
+  }, [_vm._v("insert_drive_file")])])])
+},function (){var _vm=this;var _h=_vm.$createElement;var _c=_vm._self._c||_h;
+  return _c('div', {
+    staticClass: "load-more-btn"
+  }, [_c('i', {
+    staticClass: "material-icons"
+  }, [_vm._v("arrow_downward")]), _vm._v("\n          Load\n        ")])
+},function (){var _vm=this;var _h=_vm.$createElement;var _c=_vm._self._c||_h;
+  return _c('div', [_c('h2', [_c('i', {
+    staticClass: "material-icons"
+  }, [_vm._v("insert_drive_file")])])])
+},function (){var _vm=this;var _h=_vm.$createElement;var _c=_vm._self._c||_h;
+  return _c('div', {
+    staticClass: "load-more-btn"
+  }, [_c('i', {
+    staticClass: "material-icons"
+  }, [_vm._v("arrow_downward")]), _vm._v("\n          Load\n        ")])
+},function (){var _vm=this;var _h=_vm.$createElement;var _c=_vm._self._c||_h;
+  return _c('div', [_c('h2', [_c('i', {
+    staticClass: "material-icons"
+  }, [_vm._v("insert_drive_file")])])])
+},function (){var _vm=this;var _h=_vm.$createElement;var _c=_vm._self._c||_h;
+  return _c('div', {
+    staticClass: "load-more-btn"
+  }, [_c('i', {
+    staticClass: "material-icons"
+  }, [_vm._v("arrow_downward")]), _vm._v("\n          Load\n        ")])
+},function (){var _vm=this;var _h=_vm.$createElement;var _c=_vm._self._c||_h;
+  return _c('div', [_c('h2', [_c('i', {
+    staticClass: "material-icons"
+  }, [_vm._v("insert_drive_file")])])])
+},function (){var _vm=this;var _h=_vm.$createElement;var _c=_vm._self._c||_h;
+  return _c('div', {
+    staticClass: "load-more-btn"
+  }, [_c('i', {
+    staticClass: "material-icons"
+  }, [_vm._v("arrow_downward")]), _vm._v("\n          Load\n        ")])
+},function (){var _vm=this;var _h=_vm.$createElement;var _c=_vm._self._c||_h;
+  return _c('div', [_c('h2', [_c('i', {
+    staticClass: "material-icons"
+  }, [_vm._v("insert_drive_file")])])])
+},function (){var _vm=this;var _h=_vm.$createElement;var _c=_vm._self._c||_h;
+  return _c('div', {
+    staticClass: "load-more-btn"
+  }, [_c('i', {
+    staticClass: "material-icons"
+  }, [_vm._v("arrow_downward")]), _vm._v("\n          Load\n        ")])
 },function (){var _vm=this;var _h=_vm.$createElement;var _c=_vm._self._c||_h;
   return _c('div', [_c('h2', [_c('i', {
     staticClass: "material-icons"

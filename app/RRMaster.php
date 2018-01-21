@@ -3,7 +3,7 @@
 namespace App;
 
 use Illuminate\Database\Eloquent\Model;
-
+use Carbon\Carbon;
 class RRMaster extends Model
 {
   protected $table="RRMaster";
@@ -17,5 +17,9 @@ class RRMaster extends Model
   public function users()
   {
     return $this->morphToMany('App\User', 'signatureable')->withPivot('Signature','SignatureType');
+  }
+  public function getNotificationDateTimeAttribute($date)
+  {
+      return Carbon::createFromFormat('Y-m-d H:i:s.u', $date)->diffForHumans();
   }
 }

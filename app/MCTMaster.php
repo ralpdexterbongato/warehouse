@@ -3,7 +3,7 @@
 namespace App;
 
 use Illuminate\Database\Eloquent\Model;
-
+use Carbon\Carbon;
 class MCTMaster extends Model
 {
   protected $table='MCTMaster';
@@ -21,8 +21,8 @@ class MCTMaster extends Model
   {
     return $this->morphToMany('App\User', 'signatureable')->withPivot('Signature','SignatureType')->wherePivot('SignatureType', 'ReceivedBy');
   }
-  // public function getMonthAttribute($monthNumber)
-  // {
-  //   return date("M", mktime(0, 0, 0, $monthNumber, 1));
-  // }
+  public function getNotificationDateTimeAttribute($date)
+  {
+      return Carbon::createFromFormat('Y-m-d H:i:s.u', $date)->diffForHumans();
+  }
 }

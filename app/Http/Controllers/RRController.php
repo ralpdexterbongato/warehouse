@@ -185,6 +185,7 @@ class RRController extends Controller
     $RRMasterDB->Carrier=$request->Carrier;
     $RRMasterDB->DeliveryReceiptNo=$request->DeliveryReceiptNo;
     $RRMasterDB->Note=$request->Note;
+    $RRMasterDB->notification_date_time =$date;
     $RRMasterDB->save();
     $forSignatures = array(
       array('user_id' =>$request->Receivedby,'signatureable_id'=>$incremented,'signatureable_type'=>'App\RRMaster','SignatureType'=>'ReceivedBy'),
@@ -255,6 +256,7 @@ class RRController extends Controller
     $RRMasterDB->Carrier=$request->Carrier;
     $RRMasterDB->DeliveryReceiptNo=$request->DeliveryReceiptNo;
     $RRMasterDB->Note=$request->Note;
+    $RRMasterDB->notification_date_time =$date;
     $RRMasterDB->save();
     $forSignatures = array(
       array('user_id' =>$request->Receivedby,'signatureable_id'=>$incremented,'signatureable_type'=>'App\RRMaster','SignatureType'=>'ReceivedBy'),
@@ -354,7 +356,7 @@ class RRController extends Controller
     $RRMaster=RRMaster::with('users')->where('RRNo',$id)->get();
     if(($RRMaster[0]->users[0]->pivot->Signature =='0')&&($RRMaster[0]->users[1]->pivot->Signature =='0')&&($RRMaster[0]->users[2]->pivot->Signature =='0')&&($RRMaster[0]->users[3]->pivot->Signature =='0'))
     {
-      RRMaster::where('RRNo', $id)->update(['Status'=>'0']);
+      RRMaster::where('RRNo', $id)->update(['Status'=>'0','notification_date_time'=>Carbon::now(),'UnreadNotification'=>'0']);
       $RRconfirmDetails=RRconfirmationDetails::where('RRNo',$id)->get();
       $forMTDtable = array();
       $date=RRMaster::where('RRNo', $id)->get(['RRDate']);
@@ -408,7 +410,7 @@ class RRController extends Controller
   public function declineRR($id)
   {
     Signatureable::where('signatureable_id',$id)->where('signatureable_type','App\RRMaster')->where('user_id', Auth::user()->id)->update(['Signature'=>'1']);
-    RRMaster::where('RRNo', $id)->update(['Status'=>'1']);
+    RRMaster::where('RRNo', $id)->update(['Status'=>'1','notification_date_time'=>Carbon::now(),'UnreadNotification'=>'0']);
     $RRMaster=RRMaster::where('RRNo',$id)->get(['PONo','RVNo']);
     if ($RRMaster[0]->PONo!=null)
     {
@@ -514,7 +516,7 @@ class RRController extends Controller
     MaterialsTicketDetail::where('MTType', 'RR')->where('MTNo', $rrNo)->whereNull('IsRollBack')->update(['IsRollBack'=>'0']);
 
     MaterialsTicketDetail::insert($ForMTDetailsTable);
-    RRMaster::where('RRNo',$rrNo)->update(['IsRollBack'=>'0']);
+    RRMaster::where('RRNo',$rrNo)->update(['IsRollBack'=>'0','notification_date_time'=>Carbon::now(),'UnreadNotification'=>'0']);
 
     // rollback the validator too
     $RRMaster=RRMaster::where('RRNo',$rrNo)->get(['PONo','RVNo']);
@@ -571,9 +573,9 @@ class RRController extends Controller
     }
     MaterialsTicketDetail::where('MTType', 'RR')->where('MTNo', $rrNo)->whereNull('IsRollBack')->update(['IsRollBack'=>'0']);
     MaterialsTicketDetail::insert($ForMTDetailsTable);
-    RRMaster::where('RRNo',$rrNo)->update(['IsRollBack'=>NULL]);
+    RRMaster::where('RRNo',$rrNo)->update(['IsRollBack'=>1,'notification_date_time'=>Carbon::now(),'UnreadNotification'=>'0']);
 
-    // undo the rollback too
+    // undo the rollbacked item validator
     $RRMaster=RRMaster::where('RRNo',$rrNo)->get(['PONo','RVNo']);
     if ($RRMaster[0]->PONo!=null)
     {

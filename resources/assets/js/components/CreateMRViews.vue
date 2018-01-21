@@ -7,7 +7,7 @@
       <div class="create-mr-container">
         <div class="selected-mr-session">
           <div class="addfromrr-btn">
-            <button type="button"  v-on:click="isActive = !isActive"> <i class="material-icons">add</i> item</button>
+            <button class="z-depth-1" type="button"  v-on:click="isActive = !isActive"> <i class="material-icons">add</i> item</button>
           </div>
           <table>
             <tr>

@@ -8,7 +8,7 @@
       <form action="/MCT.pdf" method="get" class="mct-print-form">
         <button type="submit" :value="this.mctno.MCTNo" name="MCTNo"><i class="material-icons">print</i></button>
         <span v-if="user.Role==1 && MCTMaster.Status=='0'">
-          <button v-if="MCTMaster.IsRollBack==null" v-on:click="rollbackMCT()" type="button" class="undo-btn" name="button"><i class="material-icons">replay</i> reverse</button>
+          <button v-if="MCTMaster.IsRollBack==null || MCTMaster.IsRollBack==1" v-on:click="rollbackMCT()" type="button" class="undo-btn" name="button"><i class="material-icons">replay</i> reverse</button>
           <button v-if="MCTMaster.IsRollBack==0" v-on:click="undoRollbackMCT()"  type="button" class="undo-btn" name="button"><i class="material-icons">refresh</i> Undo reverse</button>
         </span>
       </form>
@@ -24,7 +24,7 @@
     <span v-else>
     </span>
     <span v-if="AlreadySignatured">
-      <span v-if="(((MRTCheck==null)&&(user.Role==4))||((MRTCheck==null)&&(user.Role==3)))">
+      <span v-if="(((MRTCheck==null)&&(user.Role==4)&&(MCTMaster.IsRollBack != 0))||((MRTCheck==null)&&(user.Role==3)&&(MCTMaster.IsRollBack != 0)))">
         <div class="Create-MRT-btn">
           <a :href="'/MRT-create/'+this.mctno.MCTNo"><button type="submit"><i class="material-icons">add</i> MRT</button></a>
         </div>

@@ -54,6 +54,9 @@ class dashBoardController extends Controller
       ->whereYear('MCTDate', $yearNow)->whereMonth('MCTDate','<=',$MonthNow)
       ->where('Status','0')
       ->whereNull('IsRollBack')
+      ->orWhere('IsRollBack','1')
+      ->whereYear('MCTDate', $yearNow)->whereMonth('MCTDate','<=',$MonthNow)
+      ->where('Status','0')
       ->groupBy(DB::raw('month(MCTDate)'))
       ->orderBy('month', 'asc')
       ->get();
@@ -62,6 +65,9 @@ class dashBoardController extends Controller
      ->whereYear('ReturnDate', $yearNow)->whereMonth('ReturnDate','<=',$MonthNow)
      ->where('Status','0')
      ->whereNull('IsRollBack')
+     ->orWhere('IsRollBack','1')
+     ->whereYear('ReturnDate', $yearNow)->whereMonth('ReturnDate','<=',$MonthNow)
+     ->where('Status','0')
      ->groupBy(DB::raw('month(ReturnDate)'))
      ->orderBy('month', 'asc')
      ->get();
@@ -70,6 +76,9 @@ class dashBoardController extends Controller
      ->whereYear('RRDate', $yearNow)->whereMonth('RRDate','<=',$MonthNow)
      ->where('Status','0')
      ->whereNull('IsRollBack')
+     ->orWhere('IsRollBack','1')
+     ->whereYear('RRDate', $yearNow)->whereMonth('RRDate','<=',$MonthNow)
+     ->where('Status','0')
      ->groupBy(DB::raw('month(RRDate)'))
      ->orderBy('month', 'asc')
      ->get();
@@ -193,16 +202,22 @@ class dashBoardController extends Controller
       $MCT = MCTMaster::whereYear('MCTDate', $yearNow)->whereMonth('MCTDate',$MonthNow)
       ->where('Status','0')
       ->whereNull('IsRollBack')
+      ->orWhere('IsRollBack','1')
+      ->where('Status','0')
       ->count();
 
       $MRT = MRTMaster::whereYear('ReturnDate', $yearNow)->whereMonth('ReturnDate',$MonthNow)
       ->where('Status','0')
       ->whereNull('IsRollBack')
+      ->orWhere('IsRollBack','1')
+      ->where('Status','0')
       ->count();
 
       $RR = RRMaster::whereYear('RRDate', $yearNow)->whereMonth('RRDate',$MonthNow)
       ->where('Status','0')
       ->whereNull('IsRollBack')
+      ->orWhere('IsRollBack','1')
+      ->where('Status','0')
       ->count();
 
       $response = array('mct' =>$MCT ,'mrt'=>$MRT,'rr'=>$RR);

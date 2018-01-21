@@ -12585,12 +12585,12 @@ __WEBPACK_IMPORTED_MODULE_4_vue___default.a.use(__WEBPACK_IMPORTED_MODULE_3_vue_
       DashWarn: 0,
       DashEmpty: 0,
       LinechartData: {
-        labels: ['Jan'],
+        labels: [],
         datasets: [{
           label: 'MIRS',
           data: [],
           borderColor: "#fff",
-          backgroundColor: "#F9A825",
+          backgroundColor: "#fdd835",
           borderCapStyle: 'butt',
           lineTension: 0.1,
           pointRadius: 5,
@@ -12602,7 +12602,7 @@ __WEBPACK_IMPORTED_MODULE_4_vue___default.a.use(__WEBPACK_IMPORTED_MODULE_3_vue_
         labels: ['MCT', 'MRT', 'RR'],
         datasets: [{
           data: [0, 0, 0],
-          backgroundColor: ['#f44336', '#F9A825', '#3367D6']
+          backgroundColor: ['#f44336', '#fdd835', '#3367D6']
         }]
       },
       barData: {
@@ -12614,7 +12614,7 @@ __WEBPACK_IMPORTED_MODULE_4_vue___default.a.use(__WEBPACK_IMPORTED_MODULE_3_vue_
           lineTension: 0.1,
           pointRadius: 5,
           pointHitRadius: 10,
-          backgroundColor: "#F9A825"
+          backgroundColor: "#f44336"
 
         }, {
           label: 'MRT',
@@ -12623,7 +12623,7 @@ __WEBPACK_IMPORTED_MODULE_4_vue___default.a.use(__WEBPACK_IMPORTED_MODULE_3_vue_
           lineTension: 0.1,
           pointRadius: 5,
           pointHitRadius: 10,
-          backgroundColor: "#f44336"
+          backgroundColor: "#fdd835"
         }, {
           label: 'RR',
           data: [],
@@ -12844,7 +12844,7 @@ var Component = __webpack_require__(2)(
   /* cssModules */
   null
 )
-Component.options.__file = "C:\\xampp\\htdocs\\warehouse\\resources\\assets\\js\\components\\AddItemToList.vue"
+Component.options.__file = "c:\\xampp\\htdocs\\warehouse\\resources\\assets\\js\\components\\AddItemToList.vue"
 if (Component.esModule && Object.keys(Component.esModule).some(function (key) {return key !== "default" && key !== "__esModule"})) {console.error("named exports are not supported in *.vue files.")}
 if (Component.options.functional) {console.error("[vue-loader] AddItemToList.vue: functional components are not supported with templates, they should use render functions.")}
 
@@ -12984,7 +12984,7 @@ var Component = __webpack_require__(2)(
   /* cssModules */
   null
 )
-Component.options.__file = "C:\\xampp\\htdocs\\warehouse\\resources\\assets\\js\\components\\Welcome.vue"
+Component.options.__file = "c:\\xampp\\htdocs\\warehouse\\resources\\assets\\js\\components\\Welcome.vue"
 if (Component.esModule && Object.keys(Component.esModule).some(function (key) {return key !== "default" && key !== "__esModule"})) {console.error("named exports are not supported in *.vue files.")}
 if (Component.options.functional) {console.error("[vue-loader] Welcome.vue: functional components are not supported with templates, they should use render functions.")}
 
@@ -13744,10 +13744,7 @@ module.exports={render:function (){var _vm=this;var _h=_vm.$createElement;var _c
   }, [_c('div', {
     staticClass: "dash-home"
   }, [_c('div', {
-    staticClass: "dashbox",
-    staticStyle: {
-      "background": "#3367D6"
-    }
+    staticClass: "dashbox dash-high"
   }, [_vm._m(6), _vm._v(" "), _c('div', {
     staticClass: "right-dash"
   }, [_c('span', [_c('h1', {
@@ -13760,10 +13757,7 @@ module.exports={render:function (){var _vm=this;var _h=_vm.$createElement;var _c
       "easing": "easeOutQuad"
     }
   }) : _c('span', [_vm._v("\r\n                  0\r\n                ")])], 1), _vm._v(" "), _c('p', [_vm._v("Items")])]), _vm._v(" "), _vm._m(7)])]), _vm._v(" "), _c('div', {
-    staticClass: "dashbox",
-    staticStyle: {
-      "background": "#f9a825"
-    }
+    staticClass: "dashbox dash-low"
   }, [_vm._m(8), _vm._v(" "), _c('div', {
     staticClass: "right-dash"
   }, [_c('span', [_c('h1', {
@@ -13776,10 +13770,7 @@ module.exports={render:function (){var _vm=this;var _h=_vm.$createElement;var _c
       "easing": "easeOutQuad"
     }
   }) : _c('span', [_vm._v("\r\n                  0\r\n                ")])], 1), _vm._v(" "), _c('p', [_vm._v("Items")])]), _vm._v(" "), _vm._m(9)])]), _vm._v(" "), _c('div', {
-    staticClass: "dashbox",
-    staticStyle: {
-      "background": "#f44336"
-    }
+    staticClass: "dashbox dash-empty"
   }, [_vm._m(10), _vm._v(" "), _c('div', {
     staticClass: "right-dash"
   }, [_c('span', [_c('h1', {

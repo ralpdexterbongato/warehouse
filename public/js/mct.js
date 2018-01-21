@@ -12781,7 +12781,7 @@ var Component = __webpack_require__(2)(
   /* cssModules */
   null
 )
-Component.options.__file = "C:\\xampp\\htdocs\\warehouse\\resources\\assets\\js\\components\\CreateMCT.vue"
+Component.options.__file = "c:\\xampp\\htdocs\\warehouse\\resources\\assets\\js\\components\\CreateMCT.vue"
 if (Component.esModule && Object.keys(Component.esModule).some(function (key) {return key !== "default" && key !== "__esModule"})) {console.error("named exports are not supported in *.vue files.")}
 if (Component.options.functional) {console.error("[vue-loader] CreateMCT.vue: functional components are not supported with templates, they should use render functions.")}
 
@@ -12849,7 +12849,7 @@ var Component = __webpack_require__(2)(
   /* cssModules */
   null
 )
-Component.options.__file = "C:\\xampp\\htdocs\\warehouse\\resources\\assets\\js\\components\\MCTPreview.vue"
+Component.options.__file = "c:\\xampp\\htdocs\\warehouse\\resources\\assets\\js\\components\\MCTPreview.vue"
 if (Component.esModule && Object.keys(Component.esModule).some(function (key) {return key !== "default" && key !== "__esModule"})) {console.error("named exports are not supported in *.vue files.")}
 if (Component.options.functional) {console.error("[vue-loader] MCTPreview.vue: functional components are not supported with templates, they should use render functions.")}
 
@@ -12884,7 +12884,7 @@ var Component = __webpack_require__(2)(
   /* cssModules */
   null
 )
-Component.options.__file = "C:\\xampp\\htdocs\\warehouse\\resources\\assets\\js\\components\\MCTindex.vue"
+Component.options.__file = "c:\\xampp\\htdocs\\warehouse\\resources\\assets\\js\\components\\MCTindex.vue"
 if (Component.esModule && Object.keys(Component.esModule).some(function (key) {return key !== "default" && key !== "__esModule"})) {console.error("named exports are not supported in *.vue files.")}
 if (Component.options.functional) {console.error("[vue-loader] MCTindex.vue: functional components are not supported with templates, they should use render functions.")}
 
@@ -13210,6 +13210,7 @@ module.exports={render:function (){var _vm=this;var _h=_vm.$createElement;var _c
   }, [_vm._v(_vm._s(_vm.mirsno.MIRSNo))])]), _vm._v(" "), _c('div', {
     staticClass: "button-find-item-container"
   }, [_c('button', {
+    staticClass: "waves-effect waves-light",
     attrs: {
       "type": "button"
     },
@@ -13463,7 +13464,7 @@ module.exports={render:function (){var _vm=this;var _h=_vm.$createElement;var _c
     }
   }, [_c('i', {
     staticClass: "material-icons"
-  }, [_vm._v("print")])]), _vm._v(" "), (_vm.user.Role == 1 && _vm.MCTMaster.Status == '0') ? _c('span', [(_vm.MCTMaster.IsRollBack == null) ? _c('button', {
+  }, [_vm._v("print")])]), _vm._v(" "), (_vm.user.Role == 1 && _vm.MCTMaster.Status == '0') ? _c('span', [(_vm.MCTMaster.IsRollBack == null || _vm.MCTMaster.IsRollBack == 1) ? _c('button', {
     staticClass: "undo-btn",
     attrs: {
       "type": "button",
@@ -13525,7 +13526,7 @@ module.exports={render:function (){var _vm=this;var _h=_vm.$createElement;var _c
         _vm.ShowEdit = false, _vm.editMCTSave()
       }
     }
-  }, [_vm._v("Save")])])]) : _c('span'), _vm._v(" "), (_vm.AlreadySignatured) ? _c('span', [((((_vm.MRTCheck == null) && (_vm.user.Role == 4)) || ((_vm.MRTCheck == null) && (_vm.user.Role == 3)))) ? _c('span', [_c('div', {
+  }, [_vm._v("Save")])])]) : _c('span'), _vm._v(" "), (_vm.AlreadySignatured) ? _c('span', [((((_vm.MRTCheck == null) && (_vm.user.Role == 4) && (_vm.MCTMaster.IsRollBack != 0)) || ((_vm.MRTCheck == null) && (_vm.user.Role == 3) && (_vm.MCTMaster.IsRollBack != 0)))) ? _c('span', [_c('div', {
     staticClass: "Create-MRT-btn"
   }, [_c('a', {
     attrs: {

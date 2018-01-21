@@ -129,7 +129,7 @@
     </div>
     <div v-else class="dash-container">
       <div class="dash-home">
-        <div class="dashbox" style="background:#3367D6">
+        <div class="dashbox dash-high">
           <div class="left-dash">
             <h1 class="circle-dash-icon">
               <i class="material-icons">filter_hdr</i>
@@ -154,7 +154,7 @@
             <h2><i class="material-icons">equalizer</i></h2>
           </div>
         </div>
-        <div class="dashbox" style="background:#f9a825">
+        <div class="dashbox dash-low">
           <div class="left-dash">
             <h1 class="circle-dash-icon">
               <i class="material-icons">trending_down</i>
@@ -179,7 +179,7 @@
             <h2><i class="material-icons">equalizer</i></h2>
           </div>
         </div>
-        <div class="dashbox" style="background:#f44336">
+        <div class="dashbox dash-empty">
           <div class="left-dash">
             <h1 class="circle-dash-icon">
               <i class="material-icons">shopping_basket</i>
@@ -244,13 +244,13 @@ Vue.use(VueAnimateNumber);
         DashWarn:0,
         DashEmpty:0,
         LinechartData: {
-        labels: ['Jan'],
+        labels: [],
         datasets: [
                 {
                     label:'MIRS',
                     data: [],
                     borderColor: "#fff",
-                    backgroundColor: "#F9A825",
+                    backgroundColor: "#fdd835",
                     borderCapStyle: 'butt',
                     lineTension: 0.1,
                     pointRadius: 5,
@@ -264,7 +264,7 @@ Vue.use(VueAnimateNumber);
         datasets: [
           {
               data: [0,0,0],
-              backgroundColor: ['#f44336', '#F9A825', '#3367D6'],
+              backgroundColor: ['#f44336', '#fdd835', '#3367D6'],
           },
         ]
         },
@@ -278,7 +278,7 @@ Vue.use(VueAnimateNumber);
                     lineTension: 0.1,
                     pointRadius: 5,
                     pointHitRadius: 10,
-                    backgroundColor: "#F9A825",
+                    backgroundColor: "#f44336",
 
                 },
                 {
@@ -288,7 +288,7 @@ Vue.use(VueAnimateNumber);
                     lineTension: 0.1,
                     pointRadius: 5,
                     pointHitRadius: 10,
-                    backgroundColor: "#f44336",
+                    backgroundColor: "#fdd835",
                 },
                 {
                     label:'RR',

@@ -76,6 +76,7 @@ class MRTController extends Controller
         $mrtDB->Particulars =$request->Particulars;
         $mrtDB->AddressTo= $request->AddressTo;
         $mrtDB->Remarks = $request->Remarks;
+        $mrtDB->notification_date_time = Carbon::now();
         $mrtDB->save();
 
         $forMRTSignatureTbl = array(
@@ -208,13 +209,13 @@ class MRTController extends Controller
         }
         MaterialsTicketDetail::insert($forMRTtbl);
         Signatureable::where('signatureable_id',$id)->where('signatureable_type', 'App\MRTMaster')->where('SignatureType', 'ReturnedBy')->where('user_id', Auth::user()->id)->update(['Signature'=>'0']);
-        MRTMaster::where('MRTNo', $id)->update(['Status'=>'0']);
+        MRTMaster::where('MRTNo', $id)->update(['Status'=>'0','UnreadNotification'=>'0','notification_date_time'=>Carbon::now()]);
       }
     }
     public function DeclineMRT($id)
     {
       Signatureable::where('signatureable_id',$id)->where('signatureable_type','App\MRTMaster')->where('user_id', Auth::user()->id)->update(['Signature'=>'1']);
-      MRTMaster::where('MRTNo', $id)->update(['Status'=>'1']);
+      MRTMaster::where('MRTNo', $id)->update(['Status'=>'1','UnreadNotification'=>'0','notification_date_time'=>Carbon::now()]);
     }
     public function updateQuantityMRT($id,Request $request)
     {
@@ -282,7 +283,7 @@ class MRTController extends Controller
       }
       MaterialsTicketDetail::where('MTType', 'MRT')->where('MTNo', $mrtNo)->whereNull('IsRollBack')->update(['IsRollBack'=>'0']);
       MaterialsTicketDetail::insert($ForMTDetailsTable);
-      MRTMaster::where('MRTNo',$mrtNo)->update(['IsRollBack'=>'0']);
+      MRTMaster::where('MRTNo',$mrtNo)->update(['IsRollBack'=>'0','UnreadNotification'=>'0','notification_date_time'=>Carbon::now()]);
     }
     public function UndoRollBack($mrtNo)
     {
@@ -305,6 +306,6 @@ class MRTController extends Controller
       }
       MaterialsTicketDetail::where('MTType', 'MRT')->where('MTNo', $mrtNo)->whereNull('IsRollBack')->update(['IsRollBack'=>'0']);
       MaterialsTicketDetail::insert($ForMTDetailsTable);
-      MRTMaster::where('MRTNo',$mrtNo)->update(['IsRollBack'=>NULL]);
+      MRTMaster::where('MRTNo',$mrtNo)->update(['IsRollBack'=>1,'UnreadNotification'=>'0','notification_date_time'=>Carbon::now()]);
     }
 }

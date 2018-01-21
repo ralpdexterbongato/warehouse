@@ -218,4 +218,10 @@ Route::get('/doughnut-chart-data','dashBoardController@DoughnutData');
 
 // notification global
 Route::get('/fetch-mirs-global-notifications','globalNotificationController@fetchMIRS');
+Route::get('/fetch-rv-global-notifications','globalNotificationController@fetchRV');
+Route::get('/fetch-po-global-notifications','globalNotificationController@fetchPO');
+Route::get('/fetch-rr-global-notifications','globalNotificationController@fetchRR');
+Route::get('/fetch-mr-global-notifications','globalNotificationController@fetchMR');
+Route::get('/fetch-mct-global-notifications','globalNotificationController@fetchMCT');
+Route::get('/fetch-mrt-global-notifications','globalNotificationController@fetchMRT');
 Route::get('/notif-global-count','globalNotificationController@countInfoNotification');

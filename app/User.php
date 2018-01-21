@@ -78,7 +78,7 @@ class User extends Authenticatable
     public function RRSignatureTurn()
     {
       return $this->morphedByMany('App\RRMaster','Signatureable')->orderBy('RRNo','DESC')->withPivot(['SignatureType','Signature'])
-      ->whereNull('Status')->wherePivot('Signature',null);
+      ->whereNull('Status')->wherePivot('Signature',null)->wherePivot('user_id', Auth::user()->id);
     }
     public function RRHistory($date)
     {
@@ -98,11 +98,11 @@ class User extends Authenticatable
     }
     public function MIRSGlobalNotif()
     {
-      return $this->morphedByMany('App\MIRSMaster','Signatureable')->where('Status','!=',NULL)->orderBy('id','DESC')->wherePivot('SignatureType', 'PreparedBy');
+      return $this->morphedByMany('App\MIRSMaster','Signatureable')->where('Status','!=',NULL)->orderBy('notification_date_time','DESC')->wherePivot('SignatureType', 'PreparedBy');
     }
     public function RVGlobalNotif()
     {
-      return $this->morphedByMany('App\RVMaster','Signatureable')->where('Status','!=',NULL)->orderBy('id','DESC')->wherePivot('SignatureType', 'Requisitioner');
+      return $this->morphedByMany('App\RVMaster','Signatureable')->where('Status','!=',NULL)->orderBy('notification_date_time','DESC')->wherePivot('SignatureType', 'Requisitioner');
     }
     public function countMIRSGlobalNotif()
     {

@@ -51,6 +51,7 @@ class MCTController extends Controller
     $MCTMasterDB->MCTDate = $date;
     $MCTMasterDB->Particulars = $request->Particulars;
     $MCTMasterDB->AddressTo = $request->AddressTo;
+    $MCTMasterDB->notification_date_time = Carbon::now();
     $MCTMasterDB->save();
 
     $forSignatureTbl = array(
@@ -153,7 +154,7 @@ class MCTController extends Controller
       }
       MaterialsTicketDetail::insert($forMTDetailstable);
       Signatureable::where('signatureable_id',$id)->where('signatureable_type', 'App\MCTMaster')->where('SignatureType', 'ReceivedBy')->update(['Signature'=>'0']);
-      MCTMaster::where('MCTNo',$id)->update(['Status'=>0]);
+      MCTMaster::where('MCTNo',$id)->update(['Status'=>0,'UnreadNotification'=>'0','notification_date_time'=>Carbon::now()]);
     }
   }
   public function mctRequestcheck()
@@ -301,7 +302,7 @@ class MCTController extends Controller
       MIRSDetail::where('MIRSNo',$MIRSNo)->where('ItemCode', $confirmation->ItemCode)->update(['QuantityValidator'=>$newMCTValidatorQty]);
     }
     Signatureable::where('signatureable_id',$id)->where('signatureable_type', 'App\MCTMaster')->where('user_id', Auth::user()->id)->update(['Signature'=>'1']);
-    MCTMaster::where('MCTNo',$id)->update(['Status'=>1]);
+    MCTMaster::where('MCTNo',$id)->update(['Status'=>1,'UnreadNotification'=>'0','notification_date_time'=>Carbon::now()]);
   }
   public function MCTRequestSignatureCount()
   {
@@ -339,7 +340,7 @@ class MCTController extends Controller
     }
     MaterialsTicketDetail::where('MTType', 'MCT')->where('MTNo', $mctNo)->whereNull('IsRollBack')->update(['IsRollBack'=>'0']);
     MaterialsTicketDetail::insert($ForMTDetailsTable);
-    MCTMaster::where('MCTNo',$mctNo)->update(['IsRollBack'=>'0']);
+    MCTMaster::where('MCTNo',$mctNo)->update(['IsRollBack'=>'0','UnreadNotification'=>0,'notification_date_time'=>Carbon::now()]);
 
     $MCTconfirmation=MCTConfirmationDetail::where('MCTNo',$mctNo)->get(['ItemCode','Quantity']);
     foreach ($MCTconfirmation as $confirmation)
@@ -370,7 +371,7 @@ class MCTController extends Controller
     }
     MaterialsTicketDetail::where('MTType', 'MCT')->where('MTNo', $mctNo)->whereNull('IsRollBack')->update(['IsRollBack'=>'0']);
     MaterialsTicketDetail::insert($ForMTDetailsTable);
-    MCTMaster::where('MCTNo',$mctNo)->update(['IsRollBack'=>NULL]);
+    MCTMaster::where('MCTNo',$mctNo)->update(['IsRollBack'=>1,'UnreadNotification'=>0,'notification_date_time'=>Carbon::now()]);
 
     $MCTconfirmation=MCTConfirmationDetail::where('MCTNo',$mctNo)->get(['ItemCode','Quantity']);
     foreach ($MCTconfirmation as $confirmation)

@@ -3,7 +3,7 @@
 namespace App;
 
 use Illuminate\Database\Eloquent\Model;
-
+use Carbon\Carbon;
 class RVMaster extends Model
 {
   protected $table="RVMasters";
@@ -20,5 +20,9 @@ class RVMaster extends Model
   public function getMonthAttribute($monthNumber)
   {
     return date("M", mktime(0, 0, 0, $monthNumber, 1));
+  }
+  public function getNotificationDateTimeAttribute($date)
+  {
+      return Carbon::createFromFormat('Y-m-d H:i:s.u', $date)->diffForHumans();
   }
 }

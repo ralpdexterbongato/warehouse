@@ -4,7 +4,7 @@
     <h1 class="title-create-mct">Materials charge ticket recording</h1>
     <h2 class="mirs-num">Materials from MIRS No. <span class="color-blue">{{mirsno.MIRSNo}}</span></h2>
     <div class="button-find-item-container">
-      <button type="button" v-on:click="ModalActive=!ModalActive"><i class="material-icons">add</i> items</button>
+      <button type="button" class="waves-effect waves-light" v-on:click="ModalActive=!ModalActive"><i class="material-icons">add</i> items</button>
     </div>
     <div class="session-and-formContainer">
       <div class="selected-items-session-mct">

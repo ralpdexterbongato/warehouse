@@ -77,6 +77,7 @@ class MRController extends Controller
      $MRMasterDB->Supplier=$RRMasterData[0]->Supplier;
      $MRMasterDB->InvoiceNo=$RRMasterData[0]->InvoiceNo;
      $MRMasterDB->WarehouseMan=Auth::user()->FullName;
+     $MRMasterDB->notification_date_time = Carbon::now();
      $MRMasterDB->save();
      if ($ApprovalReplacer[0]!=null)
      {
@@ -205,13 +206,13 @@ class MRController extends Controller
         dispatch($job);
       }elseif((Auth::user()->id==$MRMaster[0]->users[2]->id)&&($MRMaster[0]->users[2]->pivot->Signature==null))
       {
-        MRMaster::where('MRNo',$id)->update(['SignatureTurn'=>'3','Status'=>'0']);
+        MRMaster::where('MRNo',$id)->update(['SignatureTurn'=>'3','Status'=>'0','UnreadNotification'=>'0','notification_date_time'=>Carbon::now()]);
         Signatureable::where('user_id', Auth::user()->id)->where('signatureable_id',$id)->where('signatureable_type', 'App\MRMaster')->where('SignatureType', 'ReceivedBy')->update(['Signature'=>'0']);
       }
     }
     public function DeclineMR($id)
     {
-      MRMaster::where('MRNo',$id)->update(['Status'=>'1']);
+      MRMaster::where('MRNo',$id)->update(['Status'=>'1','UnreadNotification'=>'0','notification_date_time'=>Carbon::now()]);
       Signatureable::where('signatureable_id',$id)->where('signatureable_type', 'App\MRMaster')->where('SignatureType', 'ApprovalReplacer')->delete();
       Signatureable::where('user_id', Auth::user()->id)->where('signatureable_id',$id)->where('signatureable_type', 'App\MRMaster')->update(['Signature'=>'1']);
       $RRNumber=MRMaster::where('MRNo',$id)->get(['RRNo']);

@@ -98,6 +98,7 @@ class RVController extends Controller
       $RVMaster->RVNo=$incremented;
       $RVMaster->RVDate=$date;
       $RVMaster->Purpose=$request->Purpose;
+      $RVMaster->notification_date_time = $date;
       $RVMaster->save();
       $approveReplacerId=User::whereNotNull('IfApproveReplacer')->get(['id']);
       if (!empty($approveReplacerId[0]))
@@ -204,7 +205,7 @@ class RVController extends Controller
       if ($GMID[0]->user_id == Auth::user()->id)
       {
         Signatureable::where('signatureable_id', $id)->where('signatureable_type', 'App\RVMaster')->where('SignatureType', 'ApprovedBy')->where('user_id', Auth::user()->id)->update(['Signature'=>'0']);
-        RVMaster::where('RVNo',$id)->update(['SignatureTurn'=>'4','Status'=>'0']);
+        RVMaster::where('RVNo',$id)->update(['SignatureTurn'=>'4','Status'=>'0','UnreadNotification'=>'0','notification_date_time'=>Carbon::now()]);
         Signatureable::where('signatureable_id', $id)->where('signatureable_type', 'App\RVMaster')->where('SignatureType', 'ApprovalReplacer')->delete();
 
         $requisitionerMobile=User::where('id',$RequisitionerID[0]->user_id)->get(['Mobile']);
@@ -222,7 +223,7 @@ class RVController extends Controller
     public function declineRV($id)
     {
       Signatureable::where('signatureable_id', $id)->where('signatureable_type', 'App\RVMaster')->where('user_id', Auth::user()->id)->update(['Signature'=>'1']);
-      RVMaster::where('RVNo', $id)->update(['Status'=>'1']);
+      RVMaster::where('RVNo', $id)->update(['Status'=>'1','UnreadNotification'=>'0','notification_date_time'=>Carbon::now()]);
       if (Auth::user()->Role==2)
       {
         Signatureable::where('signatureable_id', $id)->where('signatureable_type', 'App\RVMaster')->where('SignatureType', 'ApprovalReplacer')->delete();
@@ -301,7 +302,7 @@ class RVController extends Controller
       {
         return ['success'=>'success'];
       }
-      RVMaster::where('RVNo', $id)->update(['SignatureTurn'=>'4','Status'=>'0']);
+      RVMaster::where('RVNo', $id)->update(['SignatureTurn'=>'4','Status'=>'0','UnreadNotification'=>'0','notification_date_time'=>Carbon::now()]);
       Signatureable::where('signatureable_id', $id)->where('signatureable_type', 'App\RVMaster')->where('SignatureType','ApprovalReplacer')->where('user_id', Auth::user()->id)->update(['Signature'=>'0']);
       $RequisitionerId=Signatureable::where('signatureable_id', $id)->where('signatureable_type', 'App\RVMaster')->where('SignatureType','Requisitioner')->get(['user_id']);
       $GMID=Signatureable::where('signatureable_id', $id)->where('signatureable_type', 'App\RVMaster')->where('SignatureType','ApprovedBy')->get(['user_id']);

@@ -154,7 +154,7 @@ body.noScroll
 }
 .black
 {
-  color:black!important;
+	color: rgba(0, 0, 0, 0.9)!important;
 }
 .gray
 {
@@ -1313,20 +1313,14 @@ only screen and (max-width: 1050px),
 }
 .modal-find-button button
 {
-  background: #fff;
-  border-style: none;
-  color: #002C4E;
-  padding: 5px 10px;
-  font-size:14px;
-  margin-bottom: 10px;
-  border-radius: 5px;
-  outline: none;
-  transition: background .5s;
+	padding:6px 12px;
+  margin-bottom: 5px;
+	background: #22448E;
+	color: #fff;
+	border-style: none;
+	border-radius: 3px;
 }
-.modal-find-button button:hover
-{
-  background: #fafafa;
-}
+
 @media(max-width:600px)
 {
 	.modal-find-button button
@@ -1493,8 +1487,8 @@ only screen and (max-width: 1050px),
 .modal-search-results td > button
 {
   border-radius: 50%;
-  height: 35px;
-  width: 35px;
+  height: 36px;
+  width: 36px;
 	background: #fff;
 	border-style: none;
 	-webkit-box-shadow: 0 2px 4px -1px rgba(0,0,0,0.06), 0 4px 5px 0 rgba(0,0,0,0.06), 0 1px 10px 0 rgba(0,0,0,0.08);
@@ -2515,9 +2509,8 @@ only screen and (max-width: 1050px),
   padding:3px 10px;
   border-radius: 5px;
   border-style: none;
-  border:1px solid #002C4E;
-  background: #004276;
-  color: #fff;
+  background: #fff;
+	margin-bottom: 5px;
 }
 @media (max-width:500px)
 {
@@ -2743,6 +2736,7 @@ only screen and (max-width: 1050px),
 	padding-left: 5px;
 	border-style: none;
 	border-bottom: 1px solid #ccc;
+	background: transparent;
 }
 .table-mct-itemchoices th
 {
@@ -3498,6 +3492,7 @@ only screen and (max-width: 1050px),
   padding: 6px 12px;
   font-weight: 600;
   color: #fff;
+	font-size: 14px;
   background: #3367D6;
 }
 @media
@@ -3581,10 +3576,7 @@ only screen and (max-width: 1050px),
 		margin-top: 20px;
 	}
 }
-.pick-from-items button:hover
-{
-	background: #162E5F;
-}
+
 .mrt-items-modal
 {
   height: 100vh;
@@ -6212,7 +6204,7 @@ only screen and (max-width: 1050px),
 }
 #forstock-ItemRV:hover
 {
-  background: #004276;
+  background: #5884DE;
 }
 #none-existing-itemRV i
 {
@@ -6629,6 +6621,7 @@ text-align: center;
 {
 	color: #22448E;
 	vertical-align: middle;
+	font-size: 17px;
 }
 @media (max-width:845px)
 {
@@ -7258,9 +7251,7 @@ only screen and (max-width: 1050px),
 }
 .lowqtyactive
 {
-  background: #004276!important;
-  border-style: inset!important;
-  border-color: #004276!important;
+  background: #5884DE!important;
 }
 .for-stock-Modal
 {
@@ -7325,10 +7316,6 @@ only screen and (max-width: 1050px),
 {
 	vertical-align: middle;
 	font-size: 20px;
-}
-.low-qty-items button:active
-{
-  border-style: inset;
 }
 .searchboxes-forstock > div
 {
@@ -9227,6 +9214,7 @@ only screen and (max-width: 1050px),
 {
   padding:44px 15px 15px 15px;
   flex:1;
+	border-radius: 3px;
   background: #3367D6;
   margin-left: 20px;
 	margin-bottom: 20px;
@@ -9356,12 +9344,10 @@ only screen and (max-width: 1310px),
 }
 .addfromrr-btn button
 {
-  padding:7px 14px;
+  padding:5px 10px;
   border-radius: 5px;
-  color: #fff;
   border-style: none;
-  border:1px solid #e1e1e1;
-  background: #004276;
+  background: #fff;
   outline: none;
   margin-bottom: 6px;
 }
@@ -9455,6 +9441,8 @@ only screen and (max-width: 1310px),
 		border: 1px solid #ccc;
 		text-align: center;
 		width: 100%;
+		height: 20px;
+		border-radius: 3px;
 }
 .table-container-mr-form td button:hover
 {
@@ -9470,21 +9458,18 @@ only screen and (max-width: 1310px),
 .table-container-mr-form td button
 {
   border-style: none;
+	border:1px solid #fff;
   background-color: transparent;
   font-size: 23px;
 	border-radius: 50%;
 	background: #fff;
-	height: 35px;
-	width: 35px;
+	height: 36px;
+	padding-bottom: 3px!important;
+	width: 36px;
 	-webkit-box-shadow: 0 2px 4px -1px rgba(0,0,0,0.06), 0 4px 5px 0 rgba(0,0,0,0.06), 0 1px 10px 0 rgba(0,0,0,0.08);
     box-shadow: 0 2px 4px -1px rgba(0,0,0,0.06), 0 4px 5px 0 rgba(0,0,0,0.06), 0 1px 10px 0 rgba(0,0,0,0.08);
 }
-.table-container-mr-form td button i
-{
-	margin-bottom: 2px;
-}
-@media
-only screen and (max-width: 1310px),
+@media only screen and (max-width: 1310px),
 (min-device-width: 768px) and (max-device-width: 1050px)  {
 	/* Force table to not be like tables anymore */
 
@@ -10142,9 +10127,10 @@ only screen and (max-width: 1050px),
 .form-input-rrnopo input,.form-input-rrnopo select
 {
   margin-bottom: 20px;
-  font-size: 15px;
+  font-size: 14px;
   border-radius: 3px;
   padding: 5px;
+	font-family: 'Comfortaa',sans-serif;
 }
 .form-input-rrnopo select
 {
@@ -10157,7 +10143,8 @@ only screen and (max-width: 1050px),
 .selected-received-items-table table
 {
   text-align: center;
-  font-size: 14px;
+  font-size: 13px!important;
+	font-family: 'Comfortaa',sans-serif;
   width: 100%;
 }
 .selected-received-items-table tr:nth-child(odd)
@@ -10166,13 +10153,13 @@ only screen and (max-width: 1050px),
 }
 .selected-received-items-table th
 {
-  padding:5px;
+  padding:10px 5px;
   background: #3367D6;
   color: #fff;
 }
 .selected-received-items-table td
 {
-  padding:15px;
+  padding:14px;
 }
 .selected-received-items-table td i
 {
@@ -12764,6 +12751,18 @@ only screen and (max-width: 1050px),
 	margin-top: 70px;
 	justify-content: space-between;
 }
+.dash-high
+{
+	background: #3367D6;
+}
+.dash-low
+{
+	background: #fdd835;
+}
+.dash-empty
+{
+	background:#F44336;
+}
 .dashbox
 {
 	position:relative;
@@ -13327,7 +13326,7 @@ only screen and (max-width: 1050px),
 }
 .notification-drop-line
 {
-	padding:5px 10px;
+	padding:15px 10px;
 	display: flex;
 	height:auto;
 }
@@ -13393,6 +13392,10 @@ only screen and (max-width: 1050px),
 {
 	background: #f2f2f2;
 }
+.notification-navs h2 p
+{
+	display: inline-block;
+}
 .notification-navs h2
 {
 	flex:1;
@@ -13409,8 +13412,15 @@ only screen and (max-width: 1050px),
 	margin-top: 5px;
 	color: rgba(0, 0, 0, 0.7);
 }
-.empty-mirs-notif
+.empty-global-notif
 {
 	margin:auto;
 	color: rgba(0, 0, 0, 0.5);
+}
+.notification-dot-mark
+{
+	height: 5px;
+	width: 5px;
+	border-radius: 50%;
+	background:#F9A825;
 }
