@@ -68,7 +68,7 @@
         <th class="right-part">Show</th>
       </tr>
       <tr v-if="mctResults!=null" v-for="mct in mctResults">
-        <td>{{mct.MCTNo}}</td>
+        <td> <h3 class="reversed-marking" v-if="mct.IsRollBack==0"></h3>{{mct.MCTNo}}</td>
         <td>{{mct.MCTDate}}</td>
         <td>{{mct.AddressTo}}</td>
         <td>{{mct.Particulars}}</td>
@@ -90,7 +90,7 @@
         <th>Show</th>
       </tr>
       <tr v-for="mrt in mrtResults">
-        <td>{{mrt.MRTNo}}</td>
+        <td><h3 class="reversed-marking" v-if="mrt.IsRollBack==0"></h3>{{mrt.MRTNo}}</td>
         <td>{{mrt.ReturnDate}}</td>
         <td>{{mrt.Particulars}}</td>
         <td>{{mrt.AddressTo}}</td>
@@ -149,7 +149,7 @@
         <th>Show</th>
       </tr>
       <tr v-for="rr in rrResults">
-        <td>{{rr.RRNo}}</td>
+        <td><h3 class="reversed-marking" v-if="rr.IsRollBack==0"></h3>{{rr.RRNo}}</td>
         <td>{{rr.RRDate}}</td>
         <td>{{rr.RVNo}}</td>
         <td>

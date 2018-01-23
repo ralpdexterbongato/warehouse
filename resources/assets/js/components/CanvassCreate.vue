@@ -64,21 +64,21 @@
                 <tr v-for="(rvdata, count) in RVdata" v-if="Update==false">
                   <td>{{rvdata.Particulars}}</td>
                   <td>{{rvdata.Unit}}</td>
-                  <input type="text" name="Particulars[]" v-model="Particulars[count]=rvdata.Particulars" style="display:none">
-                  <input type="text" name="Unit[]" v-model="Unit[count]=rvdata.Unit" style="display:none">
-                  <input type="text" name="Qty[]" v-model="Qty[count]=rvdata.QuantityValidator" style="display:none">
-                  <input type="text" name="AccountCode[]" v-model="AccountCode[count]=rvdata.AccountCode" style="display:none">
-                  <input type="text" name="ItemCode[]" v-model="ItemCode[count]=rvdata.ItemCode" style="display:none">
+                  <input type="text"  v-model="Particulars[count]=rvdata.Particulars" style="display:none">
+                  <input type="text"  v-model="Unit[count]=rvdata.Unit" style="display:none">
+                  <input type="text"  v-model="Qty[count]=rvdata.QuantityValidator" style="display:none">
+                  <input type="text"  v-model="AccountCode[count]=rvdata.AccountCode" style="display:none">
+                  <input type="text"  v-model="ItemCode[count]=rvdata.ItemCode" style="display:none">
                   <td>
 
-                    <vue-numeric v-bind:minus="false" v-bind:precision="2" min="0" currency="₱"  v-model="PriceNew[count]=Integ[count].price" placeholder="price"></vue-numeric>
+                    <vue-numeric v-bind:minus="false" v-bind:precision="2" min="0" currency="₱"  v-model="PriceNew[count]" placeholder="price"></vue-numeric>
                   </td>
                 </tr>
                 <tr v-for="(canvassData, loop) in fetchUpdatedata.canvass_detail" v-if="Update==true">
                   <td>{{canvassData.Article}}</td>
                   <td>{{canvassData.Unit}}</td>
                 <td>
-                  <vue-numeric v-bind:minus="false" v-bind:precision="2" min="0" currency="₱" v-model="UpdatePrice[loop]=canvassData.Price" placeholder="price"></vue-numeric>
+                  <vue-numeric v-bind:minus="false" v-bind:precision="2" min="0" currency="₱" v-model="UpdatePrice[loop]" placeholder="price"></vue-numeric>
                 </td>
                 </tr>
             </table>
@@ -119,7 +119,6 @@ Vue.use(VueNumeric);
         AccountCode:[],
         UpdatePrice:[],
         PriceNew:[],
-        Integ:[],
         Particulars:[],
         Unit:[],
         Qty:[],
@@ -142,7 +141,10 @@ Vue.use(VueNumeric);
              console.log(response)
              Vue.set(vm.$data,'Suppliers',response.data.supplierdata);
              Vue.set(vm.$data,'RVdata',response.data.rvdata);
-             Vue.set(vm.$data,'Integ',response.data.integ);
+            for (var i = 0; i < vm.RVdata.length; i++)
+            {
+              vm.PriceNew[i] = 0;
+            }
            },function(error)
            {
             console.log(error);
@@ -174,8 +176,11 @@ Vue.use(VueNumeric);
               console.log(response);
               Vue.set(vm.$data,'formSupplier','');
               Vue.set(vm.$data,'formAddress','');
-              Vue.set(vm.$data,'PriceNew',[]);
               Vue.set(vm.$data,'formTelephone','');
+              for (var i = 0; i < vm.RVdata.length; i++)
+              {
+                vm.PriceNew[i] = 0;
+              }
               vm.getSuppliers();
               vm.$toast.top('Supplier saved');
               vm.$loading.close();
@@ -239,6 +244,10 @@ Vue.use(VueNumeric);
             Vue.set(vm.$data,'UpdateformSupplier',response.data[0].Supplier);
             Vue.set(vm.$data,'UpdateformAddress',response.data[0].Address);
             Vue.set(vm.$data,'UpdateformTelephone',response.data[0].Telephone);
+            for (var i = 0; i < response.data[0].canvass_detail.length; i++)
+            {
+              vm.UpdatePrice[i] = response.data[0].canvass_detail[i].Price;
+            }
           });
         },
 

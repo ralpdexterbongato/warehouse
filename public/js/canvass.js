@@ -11935,7 +11935,6 @@ Vue.use(__WEBPACK_IMPORTED_MODULE_2_vue_numeric___default.a);
       AccountCode: [],
       UpdatePrice: [],
       PriceNew: [],
-      Integ: [],
       Particulars: [],
       Unit: [],
       Qty: [],
@@ -11956,7 +11955,9 @@ Vue.use(__WEBPACK_IMPORTED_MODULE_2_vue_numeric___default.a);
         console.log(response);
         Vue.set(vm.$data, 'Suppliers', response.data.supplierdata);
         Vue.set(vm.$data, 'RVdata', response.data.rvdata);
-        Vue.set(vm.$data, 'Integ', response.data.integ);
+        for (var i = 0; i < vm.RVdata.length; i++) {
+          vm.PriceNew[i] = 0;
+        }
       }, function (error) {
         console.log(error);
       });
@@ -11984,8 +11985,10 @@ Vue.use(__WEBPACK_IMPORTED_MODULE_2_vue_numeric___default.a);
           console.log(response);
           Vue.set(vm.$data, 'formSupplier', '');
           Vue.set(vm.$data, 'formAddress', '');
-          Vue.set(vm.$data, 'PriceNew', []);
           Vue.set(vm.$data, 'formTelephone', '');
+          for (var i = 0; i < vm.RVdata.length; i++) {
+            vm.PriceNew[i] = 0;
+          }
           vm.getSuppliers();
           vm.$toast.top('Supplier saved');
           vm.$loading.close();
@@ -12038,6 +12041,9 @@ Vue.use(__WEBPACK_IMPORTED_MODULE_2_vue_numeric___default.a);
         Vue.set(vm.$data, 'UpdateformSupplier', response.data[0].Supplier);
         Vue.set(vm.$data, 'UpdateformAddress', response.data[0].Address);
         Vue.set(vm.$data, 'UpdateformTelephone', response.data[0].Telephone);
+        for (var i = 0; i < response.data[0].canvass_detail.length; i++) {
+          vm.UpdatePrice[i] = response.data[0].canvass_detail[i].Price;
+        }
       });
     },
     saveUpdate: function saveUpdate() {
@@ -12428,7 +12434,7 @@ var Component = __webpack_require__(2)(
   /* cssModules */
   null
 )
-Component.options.__file = "c:\\xampp\\htdocs\\warehouse\\resources\\assets\\js\\components\\CanvassCreate.vue"
+Component.options.__file = "C:\\xampp\\htdocs\\warehouse\\resources\\assets\\js\\components\\CanvassCreate.vue"
 if (Component.esModule && Object.keys(Component.esModule).some(function (key) {return key !== "default" && key !== "__esModule"})) {console.error("named exports are not supported in *.vue files.")}
 if (Component.options.functional) {console.error("[vue-loader] CanvassCreate.vue: functional components are not supported with templates, they should use render functions.")}
 
@@ -12910,8 +12916,7 @@ module.exports={render:function (){var _vm=this;var _h=_vm.$createElement;var _c
         "display": "none"
       },
       attrs: {
-        "type": "text",
-        "name": "Particulars[]"
+        "type": "text"
       },
       domProps: {
         "value": (_vm.Particulars[count] = rvdata.Particulars)
@@ -12933,8 +12938,7 @@ module.exports={render:function (){var _vm=this;var _h=_vm.$createElement;var _c
         "display": "none"
       },
       attrs: {
-        "type": "text",
-        "name": "Unit[]"
+        "type": "text"
       },
       domProps: {
         "value": (_vm.Unit[count] = rvdata.Unit)
@@ -12956,8 +12960,7 @@ module.exports={render:function (){var _vm=this;var _h=_vm.$createElement;var _c
         "display": "none"
       },
       attrs: {
-        "type": "text",
-        "name": "Qty[]"
+        "type": "text"
       },
       domProps: {
         "value": (_vm.Qty[count] = rvdata.QuantityValidator)
@@ -12979,8 +12982,7 @@ module.exports={render:function (){var _vm=this;var _h=_vm.$createElement;var _c
         "display": "none"
       },
       attrs: {
-        "type": "text",
-        "name": "AccountCode[]"
+        "type": "text"
       },
       domProps: {
         "value": (_vm.AccountCode[count] = rvdata.AccountCode)
@@ -13002,8 +13004,7 @@ module.exports={render:function (){var _vm=this;var _h=_vm.$createElement;var _c
         "display": "none"
       },
       attrs: {
-        "type": "text",
-        "name": "ItemCode[]"
+        "type": "text"
       },
       domProps: {
         "value": (_vm.ItemCode[count] = rvdata.ItemCode)
@@ -13023,11 +13024,11 @@ module.exports={render:function (){var _vm=this;var _h=_vm.$createElement;var _c
         "placeholder": "price"
       },
       model: {
-        value: (_vm.PriceNew[count] = _vm.Integ[count].price),
+        value: (_vm.PriceNew[count]),
         callback: function($$v) {
-          _vm.$set(_vm.PriceNew[count] = _vm.Integ[count], "price", $$v)
+          _vm.$set(_vm.PriceNew, count, $$v)
         },
-        expression: "PriceNew[count]=Integ[count].price"
+        expression: "PriceNew[count]"
       }
     })], 1)]) : _vm._e()
   }), _vm._v(" "), _vm._l((_vm.fetchUpdatedata.canvass_detail), function(canvassData, loop) {
@@ -13040,11 +13041,11 @@ module.exports={render:function (){var _vm=this;var _h=_vm.$createElement;var _c
         "placeholder": "price"
       },
       model: {
-        value: (_vm.UpdatePrice[loop] = canvassData.Price),
+        value: (_vm.UpdatePrice[loop]),
         callback: function($$v) {
-          _vm.$set(_vm.UpdatePrice[loop] = canvassData, "Price", $$v)
+          _vm.$set(_vm.UpdatePrice, loop, $$v)
         },
-        expression: "UpdatePrice[loop]=canvassData.Price"
+        expression: "UpdatePrice[loop]"
       }
     })], 1)]) : _vm._e()
   })], 2)]), _vm._v(" "), _c('div', {

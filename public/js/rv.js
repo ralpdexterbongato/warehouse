@@ -20141,7 +20141,7 @@ var Component = __webpack_require__(2)(
   /* cssModules */
   null
 )
-Component.options.__file = "c:\\xampp\\htdocs\\warehouse\\resources\\assets\\js\\components\\FullRVpreview.vue"
+Component.options.__file = "C:\\xampp\\htdocs\\warehouse\\resources\\assets\\js\\components\\FullRVpreview.vue"
 if (Component.esModule && Object.keys(Component.esModule).some(function (key) {return key !== "default" && key !== "__esModule"})) {console.error("named exports are not supported in *.vue files.")}
 if (Component.options.functional) {console.error("[vue-loader] FullRVpreview.vue: functional components are not supported with templates, they should use render functions.")}
 
@@ -20248,7 +20248,7 @@ var Component = __webpack_require__(2)(
   /* cssModules */
   null
 )
-Component.options.__file = "c:\\xampp\\htdocs\\warehouse\\resources\\assets\\js\\components\\RVCreate.vue"
+Component.options.__file = "C:\\xampp\\htdocs\\warehouse\\resources\\assets\\js\\components\\RVCreate.vue"
 if (Component.esModule && Object.keys(Component.esModule).some(function (key) {return key !== "default" && key !== "__esModule"})) {console.error("named exports are not supported in *.vue files.")}
 if (Component.options.functional) {console.error("[vue-loader] RVCreate.vue: functional components are not supported with templates, they should use render functions.")}
 
@@ -20283,7 +20283,7 @@ var Component = __webpack_require__(2)(
   /* cssModules */
   null
 )
-Component.options.__file = "c:\\xampp\\htdocs\\warehouse\\resources\\assets\\js\\components\\RVindex.vue"
+Component.options.__file = "C:\\xampp\\htdocs\\warehouse\\resources\\assets\\js\\components\\RVindex.vue"
 if (Component.esModule && Object.keys(Component.esModule).some(function (key) {return key !== "default" && key !== "__esModule"})) {console.error("named exports are not supported in *.vue files.")}
 if (Component.options.functional) {console.error("[vue-loader] RVindex.vue: functional components are not supported with templates, they should use render functions.")}
 
@@ -20392,6 +20392,7 @@ module.exports={render:function (){var _vm=this;var _h=_vm.$createElement;var _c
   }, [_c('div', {
     staticClass: "add-item-RV"
   }, [(_vm.user.Role == 3 || _vm.user.Role == 4) ? _c('button', {
+    staticClass: "z-depth-1",
     attrs: {
       "type": "button",
       "name": "button",
@@ -20405,7 +20406,7 @@ module.exports={render:function (){var _vm=this;var _h=_vm.$createElement;var _c
   }, [(_vm.user.Role == 3 || _vm.user.Role == 4) ? _c('i', {
     staticClass: "material-icons"
   }, [_vm._v("widgets")]) : _vm._e(), _vm._v(" For stocks")]) : _vm._e(), _vm._v(" "), _c('button', {
-    staticClass: " z-depth-1",
+    staticClass: "z-depth-1",
     attrs: {
       "type": "button",
       "id": "none-existing-itemRV"

@@ -6190,7 +6190,7 @@ only screen and (max-width: 1050px),
 #forstock-ItemRV
 {
     outline: none;
-    padding:8px;
+    padding:7px 16px;;
     margin-bottom: 10px;
     border-radius: 3px;
     border-style:none;
@@ -6213,7 +6213,7 @@ only screen and (max-width: 1050px),
 #none-existing-itemRV
 {
   outline: none;
-  padding:8px;
+  padding:7px 16px;
   margin-bottom: 10px;
   border-radius: 3px;
   border-style: none;
@@ -7138,6 +7138,7 @@ only screen and (max-width: 1050px),
 .RVbottom-left-signature h4
 {
   width:230px;
+	min-height: 20px;
   border-bottom: 1px solid black;
   margin:0 auto;
   margin-top: 10px;

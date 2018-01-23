@@ -149,7 +149,8 @@
                   0
                 </span>
               </h1>
-              <p>Items</p>
+              <p v-if="DashGood>1">Items</p>
+              <p v-else>Item</p>
             </span>
             <h2><i class="material-icons">equalizer</i></h2>
           </div>
@@ -174,7 +175,8 @@
                   0
                 </span>
               </h1>
-              <p>Items</p>
+              <p v-if="DashWarn>1">Items</p>
+              <p v-else>Item</p>
             </span>
             <h2><i class="material-icons">equalizer</i></h2>
           </div>
@@ -201,7 +203,8 @@
                   0
                 </span>
               </h1>
-              <p>Items</p>
+              <p v-if="DashEmpty>1">Items</p>
+              <p v-else>Item</p>
             </span>
             <h2><i class="material-icons">equalizer</i></h2>
           </div>

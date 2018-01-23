@@ -15,7 +15,7 @@
         <h2 v-if="user.Role == '4' || user.Role == '3'" :class="[RRBtn==true?'active':'']"  v-on:click="MRTBtn=false,MCTBtn=false,RRBtn=true,MRBtn=false,MIRSBtn=false,RVBtn=false,POBtn=false,[RRNotifs[0]==null?fetchRR(RRCurrentPage):'']">RR <p class="notification-dot-mark" v-if="NotificationCounts.unreadRR!=0"></p></h2>
         <h2 v-if="user.Role == '4' || user.Role == '3'" :class="[MRBtn==true?'active':'']"  v-on:click="MRTBtn=false,MCTBtn=false,MRBtn=true,RRBtn=false,MIRSBtn=false,RVBtn=false,POBtn=false,[MRNotifs[0]==null?fetchMR(MRCurrentPage):'']">MR <p class="notification-dot-mark" v-if="NotificationCounts.unreadMR!=0"></p></h2>
         <h2 v-if="user.Role == '4' || user.Role == '3'" :class="[MCTBtn==true?'active':'']"  v-on:click="MRTBtn=false,MCTBtn=true,MRBtn=false,RRBtn=false,MIRSBtn=false,RVBtn=false,POBtn=false,[MCTNotifs[0]==null?fetchMCT(MCTCurrentPage):'']">MCT <p class="notification-dot-mark" v-if="NotificationCounts.unreadMCT!=0"></p></h2>
-        <h2 v-if="user.Role == '4' || user.Role == '3'" :class="[MRTBtn==true?'active':'']"  v-on:click="MRTBtn=true,MCTBtn=false,MRBtn=false,RRBtn=false,MIRSBtn=false,RVBtn=false,POBtn=false,[MCTNotifs[0]==null?fetchMRT(MRTCurrentPage):'']">MRT <p class="notification-dot-mark" v-if="NotificationCounts.unreadMRT!=0"></p></h2>
+        <h2 v-if="user.Role == '4' || user.Role == '3'" :class="[MRTBtn==true?'active':'']"  v-on:click="MRTBtn=true,MCTBtn=false,MRBtn=false,RRBtn=false,MIRSBtn=false,RVBtn=false,POBtn=false,[MRTNotifs[0]==null?fetchMRT(MRTCurrentPage):'']">MRT <p class="notification-dot-mark" v-if="NotificationCounts.unreadMRT!=0"></p></h2>
       </div>
       <div class="notification-line-container">
         <!-- mirs start -->

@@ -34,7 +34,7 @@ class CanvassController extends Controller
        'Address'=>'required',
        'Telephone'=>'required|max:11',
        'Particulars.*'=>'required',
-       'Price.*'=>'required|numeric|min:0',
+       'Price.*'=>'required',
        'Qty.*'=>'required|max:18',
        'Unit.*'=>'required|max:20',
      ]);
@@ -56,17 +56,12 @@ class CanvassController extends Controller
 
   public function getSupplierRecords($id)
   {
-    $FromRVDetail=RVDetail::where('RVNo', $id)->get(); //i am using RVDetail QuantityValidator for this so i can use it validate if the item already have PO.
-    $integ =[];
-    foreach ($FromRVDetail as $key => $rvdetail) {
-      $integ[] = array('price' =>0); //passed 0 every item to be the default value of arrays in vue price.
-    }
+    $FromRVDetail=RVDetail::where('RVNo', $id)->get();
      $SupplierRecords=CanvassMaster::where('RVNo',$id)->get(['Supplier','id']);
      $supplier= $SupplierRecords->load('CanvassDetail');
      $response=[
        'supplierdata'=>$supplier,
        'rvdata'=>$FromRVDetail,
-       'integ'=>$integ,
      ];
      return response()->json($response);
   }
@@ -81,7 +76,7 @@ class CanvassController extends Controller
       'Supplier'=>'required|max:50',
       'Address'=>'required',
       'Telephone'=>'required|max:11',
-      'Prices.*'=>'numeric|required|min:0',
+      'Prices.*'=>'required',
     ]);
     $canvassMasterDB=CanvassMaster::find($id);
     $canvassMasterDB->Supplier=$request->Supplier;
@@ -93,7 +88,7 @@ class CanvassController extends Controller
     foreach ($itemdetails as $key=>$item)
     {
       $noComma=str_replace(',','',$request->Prices[$key]);
-      $item->Price=$noComma;
+      $item->Price=number_format($noComma,2);
       $item->save();
     }
   }
