@@ -45,7 +45,7 @@
                 <th class="monthof">Month of {{$ForDisplay[0][0]->MTDate->format('M')}}</th>
               @endif
             </tr>
-            <tr>
+            <tr class="not-for-mobile">
               <th>Code</th>
               <th></th>
               <th></th>

@@ -3,7 +3,7 @@
   <div class="printable-paper">
     <div class="print-btn-container">
       <div class="download-form" v-if="approved">
-        <a :href="'/MIRS.pdf/'+mirsno.MIRSNo"><button type="submit"><i class="material-icons">print</i> Print</button></a>
+        <a :href="'/MIRS.pdf/'+mirsno.MIRSNo" v-if="user.id==MIRSMaster.users[0].id"><button type="submit"><i class="material-icons">print</i> Print</button></a>
         <div class="not-claimed-qty">
           Not-claimed:<span class="color-blue">{{unclaimed}}</span>
         </div>

@@ -12,9 +12,9 @@ Vue.use(VeeValidate);
  * the page. Then, you may begin adding components to this application
  * or customize the JavaScript scaffolding to fit your unique needs.
  */
-Vue.component('rvtable', require('./components/RVindex.vue'));
-Vue.component('rvpreview', require('./components/FullRVpreview.vue'));
-Vue.component('rvcreate', require('./components/RVCreate.vue'));
+Vue.component('rvtable', require('./components/RV/RVindex.vue'));
+Vue.component('rvpreview', require('./components/RV/FullRVpreview.vue'));
+Vue.component('rvcreate', require('./components/RV/RVCreate.vue'));
 new Vue({
     el:'#rv',
 });

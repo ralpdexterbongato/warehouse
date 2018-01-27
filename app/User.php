@@ -38,8 +38,8 @@ class User extends Authenticatable
     public function MCTSignatureTurn()
     {
         return $this->morphedByMany('App\MCTMaster', 'Signatureable')->orderBy('MCTNo','DESC')->withPivot(['SignatureType','Signature'])
-        ->wherePivot('Signature',null)->where('SignatureTurn','0')->wherePivot('SignatureType','IssuedBy')->wherePivot('user_id', Auth::user()->id)
-        ->orWhere('Signature',null)->where('SignatureTurn','1')->wherePivot('SignatureType','ReceivedBy')->where('user_id', Auth::user()->id);
+        ->wherePivot('Signature',null)->where('SignatureTurn','0')->wherePivot('SignatureType','IssuedBy')->wherePivot('user_id', Auth::user()->id)->whereNull('Status')
+        ->orWhere('Signature',null)->where('SignatureTurn','1')->wherePivot('SignatureType','ReceivedBy')->wherePivot('user_id', Auth::user()->id)->whereNull('Status');
     }
     public function MCTHistory($date)
     {

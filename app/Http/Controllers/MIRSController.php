@@ -90,10 +90,11 @@ class MIRSController extends Controller
     $this->storingMIRSValidator($request);
     if (count(Session::get('ItemSelected'))>0)
     {
-      $date=Carbon::now();
-      $year=Carbon::now()->format('y');
+        $date=Carbon::now();
+        $year=Carbon::now()->format('y');
         $lastinserted=MIRSMaster::orderBy('MIRSNo','DESC')->take(1)->value('MIRSNo');
-        if (count($lastinserted)>0)
+        $explodedMIRSNo = explode('-',$lastinserted);
+        if (count($lastinserted)>0 && $explodedMIRSNo[0]==$year)
         {
           $numOnly=substr($lastinserted,'3');
           $numOnly = (int)$numOnly;
@@ -257,11 +258,6 @@ class MIRSController extends Controller
     $myrequestMIRS = $user->MIRSSignatureTurn()->paginate(10);
     return view('Warehouse.MIRS.myMIRSrequest',compact('myrequestMIRS'));
   }
-  public function readyForMCT()
-  {
-    $readyformct=MIRSMaster::orderBy('MIRSNo','DESC')->where('Status', '0')->whereNull('WithMCT')->paginate(10);
-    return view('Warehouse.MIRS.MIRSReadyList',compact('readyformct'));
-  }
   public function CancelApproveMIRSinBehalf($id)
   {
     Signatureable::where('signatureable_id',$id)->where('signatureable_type', 'App\MIRSMaster')->where('SignatureType', 'ApprovalReplacer')->delete();
@@ -344,12 +340,6 @@ class MIRSController extends Controller
     $user=User::find(Auth::user()->id);
     $myrequestMIRS = $user->MIRSSignatureTurn()->count();
     $response = ['MIRSrequest' =>$myrequestMIRS];
-    return response()->json($response);
-  }
-  public function newlyApprovedMIRSCount()
-  {
-    $readyformct=MIRSMaster::orderBy('MIRSNo','DESC')->where('Status', '0')->whereNull('WithMCT')->count();
-    $response=['NewlyApprovedMIRS'=>$readyformct];
     return response()->json($response);
   }
 }

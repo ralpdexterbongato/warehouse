@@ -121,7 +121,7 @@
             $('body').removeClass('noScroll');
           }).children().click(function(event) {
             return false;
-          });;
+          });
 
           $('#forstock-ItemRV').click(function(event)
           {

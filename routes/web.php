@@ -82,7 +82,6 @@ Route::put('/Signature-for-mct/{id}','MCTController@SignatureMCT')->name('MCTsig
 Route::put('/decline-mct/{id}','MCTController@declineMCT')->name('MCTDecline');
 Route::get('/mirs-signature-list','MIRSController@mirsRequestcheck')->name('checkmyMIRSrequest');
 Route::get('/mct-signature-request','MCTController@mctRequestcheck')->name('checkmyMCTrequest');
-Route::get('/ready-mirs','MIRSController@readyForMCT')->name('mirs-ready')->middleware('IsWarehouse');
 Route::put('/cancel-request-approval/{id}','MIRSController@CancelApproveMIRSinBehalf')->name('cancel-request-to-asigned');
 Route::put('/confirm-manager-toreplace-gm-signature/{id}','MIRSController@AcceptApprovalRequest')->name('letManagerApprove');
 Route::get('/fetch-all-managers','MIRSController@fetchAllManager');

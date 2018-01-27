@@ -11623,7 +11623,7 @@ module.exports.default = axios;
 __webpack_require__(206);
 window.Vue = __webpack_require__(15);
 Vue.component('mynotification', __webpack_require__(238));
-Vue.component('globalnotification', __webpack_require__(224));
+Vue.component('globalnotification', __webpack_require__(237));
 new Vue({
    el: '#master'
 });
@@ -11788,7 +11788,67 @@ module.exports = Axios;
 
 /***/ }),
 
-/***/ 182:
+/***/ 19:
+/***/ (function(module, exports, __webpack_require__) {
+
+"use strict";
+
+
+var utils = __webpack_require__(1);
+
+function InterceptorManager() {
+  this.handlers = [];
+}
+
+/**
+ * Add a new interceptor to the stack
+ *
+ * @param {Function} fulfilled The function to handle `then` for a `Promise`
+ * @param {Function} rejected The function to handle `reject` for a `Promise`
+ *
+ * @return {Number} An ID used to remove interceptor later
+ */
+InterceptorManager.prototype.use = function use(fulfilled, rejected) {
+  this.handlers.push({
+    fulfilled: fulfilled,
+    rejected: rejected
+  });
+  return this.handlers.length - 1;
+};
+
+/**
+ * Remove an interceptor from the stack
+ *
+ * @param {Number} id The ID that was returned by `use`
+ */
+InterceptorManager.prototype.eject = function eject(id) {
+  if (this.handlers[id]) {
+    this.handlers[id] = null;
+  }
+};
+
+/**
+ * Iterate over all the registered interceptors
+ *
+ * This method is particularly useful for skipping over any
+ * interceptors that may have become `null` calling `eject`.
+ *
+ * @param {Function} fn The function to call for each interceptor
+ */
+InterceptorManager.prototype.forEach = function forEach(fn) {
+  utils.forEach(this.handlers, function forEachHandler(h) {
+    if (h !== null) {
+      fn(h);
+    }
+  });
+};
+
+module.exports = InterceptorManager;
+
+
+/***/ }),
+
+/***/ 195:
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
 "use strict";
@@ -12242,66 +12302,6 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
 
 /***/ }),
 
-/***/ 19:
-/***/ (function(module, exports, __webpack_require__) {
-
-"use strict";
-
-
-var utils = __webpack_require__(1);
-
-function InterceptorManager() {
-  this.handlers = [];
-}
-
-/**
- * Add a new interceptor to the stack
- *
- * @param {Function} fulfilled The function to handle `then` for a `Promise`
- * @param {Function} rejected The function to handle `reject` for a `Promise`
- *
- * @return {Number} An ID used to remove interceptor later
- */
-InterceptorManager.prototype.use = function use(fulfilled, rejected) {
-  this.handlers.push({
-    fulfilled: fulfilled,
-    rejected: rejected
-  });
-  return this.handlers.length - 1;
-};
-
-/**
- * Remove an interceptor from the stack
- *
- * @param {Number} id The ID that was returned by `use`
- */
-InterceptorManager.prototype.eject = function eject(id) {
-  if (this.handlers[id]) {
-    this.handlers[id] = null;
-  }
-};
-
-/**
- * Iterate over all the registered interceptors
- *
- * This method is particularly useful for skipping over any
- * interceptors that may have become `null` calling `eject`.
- *
- * @param {Function} fn The function to call for each interceptor
- */
-InterceptorManager.prototype.forEach = function forEach(fn) {
-  utils.forEach(this.handlers, function forEachHandler(h) {
-    if (h !== null) {
-      fn(h);
-    }
-  });
-};
-
-module.exports = InterceptorManager;
-
-
-/***/ }),
-
 /***/ 196:
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
@@ -12499,17 +12499,6 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
 //
 //
 //
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
 
 
 
@@ -12519,7 +12508,6 @@ Vue.use(__WEBPACK_IMPORTED_MODULE_2_vue2_toast___default.a);
   data: function data() {
     return {
       MIRSNotif: 0,
-      NewlyApprovedMIRS: 0,
       modalOpen: false,
       MIRSNew: false,
       ApproveMIRSNew: false,
@@ -12551,13 +12539,6 @@ Vue.use(__WEBPACK_IMPORTED_MODULE_2_vue2_toast___default.a);
       _this.playsound();
     });
     if (this.user.Role == 3 || this.user.Role == 4) {
-      Echo.private('WarehouseRole').listen('NewApprovedMIRSEvent', function (e) {
-        console.log(e);
-        _this.RefreshNewlyApprovedMIRSNotification();
-        _this.modalOpen = true;
-        _this.ApproveMIRSNew = true;
-        _this.playsound();
-      });
       Echo.private('NewRVApprovedchannel').listen('NewRVApprovedEvent', function (e) {
         console.log(e);
         _this.refreshCountRVWaitingForRR();
@@ -12630,13 +12611,6 @@ Vue.use(__WEBPACK_IMPORTED_MODULE_2_vue2_toast___default.a);
         window.location = response.data.redirect;
       });
     },
-    RefreshNewlyApprovedMIRSNotification: function RefreshNewlyApprovedMIRSNotification() {
-      var vm = this;
-      __WEBPACK_IMPORTED_MODULE_0_axios___default.a.get('/mirs-approved-new-notify').then(function (response) {
-        console.log(response);
-        Vue.set(vm.$data, 'NewlyApprovedMIRS', response.data.NewlyApprovedMIRS);
-      });
-    },
     refreshnewlyCreatedMCT: function refreshnewlyCreatedMCT() {
       var vm = this;
       __WEBPACK_IMPORTED_MODULE_0_axios___default.a.get('/mct-new-created-notify').then(function (response) {
@@ -12694,7 +12668,6 @@ Vue.use(__WEBPACK_IMPORTED_MODULE_2_vue2_toast___default.a);
       this.refreshNewlyCreatedRV();
       this.refreshCountMRNewlyCreated();
       if (this.user.Role == 3 || this.user.Role == 4) {
-        this.RefreshNewlyApprovedMIRSNotification();
         this.refreshCountRVWaitingForRR();
       }
       if (this.user.Role == 2 || this.user.Role == 0) {
@@ -43507,41 +43480,6 @@ module.exports = function settle(resolve, reject, response) {
 
 /***/ }),
 
-/***/ 224:
-/***/ (function(module, exports, __webpack_require__) {
-
-var Component = __webpack_require__(2)(
-  /* script */
-  __webpack_require__(182),
-  /* template */
-  __webpack_require__(273),
-  /* scopeId */
-  null,
-  /* cssModules */
-  null
-)
-Component.options.__file = "C:\\xampp\\htdocs\\warehouse\\resources\\assets\\js\\components\\GlobalNotif.vue"
-if (Component.esModule && Object.keys(Component.esModule).some(function (key) {return key !== "default" && key !== "__esModule"})) {console.error("named exports are not supported in *.vue files.")}
-if (Component.options.functional) {console.error("[vue-loader] GlobalNotif.vue: functional components are not supported with templates, they should use render functions.")}
-
-/* hot reload */
-if (false) {(function () {
-  var hotAPI = require("vue-hot-reload-api")
-  hotAPI.install(require("vue"), false)
-  if (!hotAPI.compatible) return
-  module.hot.accept()
-  if (!module.hot.data) {
-    hotAPI.createRecord("data-v-62b42bb2", Component.options)
-  } else {
-    hotAPI.reload("data-v-62b42bb2", Component.options)
-  }
-})()}
-
-module.exports = Component.exports
-
-
-/***/ }),
-
 /***/ 23:
 /***/ (function(module, exports, __webpack_require__) {
 
@@ -43570,6 +43508,41 @@ module.exports = function transformData(data, headers, fns) {
 
 /***/ }),
 
+/***/ 237:
+/***/ (function(module, exports, __webpack_require__) {
+
+var Component = __webpack_require__(2)(
+  /* script */
+  __webpack_require__(195),
+  /* template */
+  __webpack_require__(251),
+  /* scopeId */
+  null,
+  /* cssModules */
+  null
+)
+Component.options.__file = "C:\\xampp\\htdocs\\warehouse\\resources\\assets\\js\\components\\Master\\GlobalNotif.vue"
+if (Component.esModule && Object.keys(Component.esModule).some(function (key) {return key !== "default" && key !== "__esModule"})) {console.error("named exports are not supported in *.vue files.")}
+if (Component.options.functional) {console.error("[vue-loader] GlobalNotif.vue: functional components are not supported with templates, they should use render functions.")}
+
+/* hot reload */
+if (false) {(function () {
+  var hotAPI = require("vue-hot-reload-api")
+  hotAPI.install(require("vue"), false)
+  if (!hotAPI.compatible) return
+  module.hot.accept()
+  if (!module.hot.data) {
+    hotAPI.createRecord("data-v-142beeaa", Component.options)
+  } else {
+    hotAPI.reload("data-v-142beeaa", Component.options)
+  }
+})()}
+
+module.exports = Component.exports
+
+
+/***/ }),
+
 /***/ 238:
 /***/ (function(module, exports, __webpack_require__) {
 
@@ -43577,13 +43550,13 @@ var Component = __webpack_require__(2)(
   /* script */
   __webpack_require__(196),
   /* template */
-  __webpack_require__(248),
+  __webpack_require__(261),
   /* scopeId */
   null,
   /* cssModules */
   null
 )
-Component.options.__file = "C:\\xampp\\htdocs\\warehouse\\resources\\assets\\js\\components\\NotificationModal.vue"
+Component.options.__file = "C:\\xampp\\htdocs\\warehouse\\resources\\assets\\js\\components\\Master\\NotificationModal.vue"
 if (Component.esModule && Object.keys(Component.esModule).some(function (key) {return key !== "default" && key !== "__esModule"})) {console.error("named exports are not supported in *.vue files.")}
 if (Component.options.functional) {console.error("[vue-loader] NotificationModal.vue: functional components are not supported with templates, they should use render functions.")}
 
@@ -43594,9 +43567,9 @@ if (false) {(function () {
   if (!hotAPI.compatible) return
   module.hot.accept()
   if (!module.hot.data) {
-    hotAPI.createRecord("data-v-0521e2b2", Component.options)
+    hotAPI.createRecord("data-v-3880e640", Component.options)
   } else {
-    hotAPI.reload("data-v-0521e2b2", Component.options)
+    hotAPI.reload("data-v-3880e640", Component.options)
   }
 })()}
 
@@ -43646,285 +43619,6 @@ function btoa(input) {
 
 module.exports = btoa;
 
-
-/***/ }),
-
-/***/ 248:
-/***/ (function(module, exports, __webpack_require__) {
-
-module.exports={render:function (){var _vm=this;var _h=_vm.$createElement;var _c=_vm._self._c||_h;
-  return _c('span', [_c('div', {
-    staticClass: "top-nav-container"
-  }, [_c('div', {
-    staticClass: "left-nav-content"
-  }, [_c('button', {
-    staticClass: "burger-button",
-    attrs: {
-      "type": "button"
-    },
-    on: {
-      "click": function($event) {
-        _vm.modalOpen = true, _vm.refreshall()
-      }
-    }
-  }, [_c('i', {
-    staticClass: "material-icons"
-  }, [_vm._v("menu")])]), _vm._v(" "), _vm._m(0)]), _vm._v(" "), _vm._m(1)]), _vm._v(" "), _c('div', {
-    staticClass: "Account-modal",
-    class: [_vm.modalOpen == true ? 'active' : ''],
-    on: {
-      "click": function($event) {
-        _vm.modalOpen = !_vm.modalOpen
-      }
-    }
-  }), _vm._v(" "), _c('div', {
-    staticClass: "middle-account-modal",
-    class: [_vm.modalOpen == true ? 'active' : '']
-  }, [_c('ul', [_c('a', [_c('li', {
-    staticClass: "sidebar-title CurrentUser"
-  }, [_c('div', {
-    staticClass: "flex"
-  }, [_c('i', {
-    staticClass: "material-icons"
-  }, [_vm._v("person")]), _vm._v(" " + _vm._s(_vm.user.FullName) + "\n          ")])])]), _vm._v(" "), _vm._m(2), _vm._v(" "), _c('a', {
-    attrs: {
-      "href": "/mirs-signature-list"
-    }
-  }, [_c('li', {
-    staticClass: "clickable waves-effect waves"
-  }, [_vm._m(3), _vm._v(" "), _c('span', {
-    staticClass: "notif",
-    class: [_vm.MIRSNotif != 0 ? 'active' : '']
-  }, [_vm._v("\n            " + _vm._s(_vm.MIRSNotif) + "\n            "), (_vm.MIRSNew == true) ? _c('small', {
-    staticClass: "new-notif"
-  }, [_vm._v("new !")]) : _vm._e()])])]), _vm._v(" "), _c('a', {
-    attrs: {
-      "href": "/mct-signature-request"
-    }
-  }, [_c('li', {
-    staticClass: "clickable waves-effect waves"
-  }, [_vm._m(4), _vm._v(" "), _c('span', {
-    staticClass: "notif",
-    class: [_vm.NewlyCreatedMCT != 0 ? 'active' : '']
-  }, [_vm._v(_vm._s(_vm.NewlyCreatedMCT) + "\n            "), (_vm.MCTNew == true) ? _c('small', {
-    staticClass: "new-notif"
-  }, [_vm._v("new !")]) : _vm._e()])])]), _vm._v(" "), _c('a', {
-    attrs: {
-      "href": "/my-mrt-signature-request"
-    }
-  }, [_c('li', {
-    staticClass: "clickable waves-effect waves"
-  }, [_vm._m(5), _vm._v(" "), _c('span', {
-    staticClass: "notif",
-    class: [_vm.NewlyCreatedMRT != 0 ? 'active' : '']
-  }, [_vm._v(_vm._s(_vm.NewlyCreatedMRT) + "\n            "), (_vm.MRTNew == true) ? _c('small', {
-    staticClass: "new-notif"
-  }, [_vm._v("new !")]) : _vm._e()])])]), _vm._v(" "), _c('a', {
-    attrs: {
-      "href": "/checkout-rr-request"
-    }
-  }, [_c('li', {
-    staticClass: "clickable waves-effect waves"
-  }, [_vm._m(6), _vm._v(" "), _c('span', {
-    staticClass: "notif",
-    class: [_vm.RRRequestCount != 0 ? 'active' : '']
-  }, [_vm._v(_vm._s(_vm.RRRequestCount) + "\n            "), (_vm.RRNew == true) ? _c('small', {
-    staticClass: "new-notif"
-  }, [_vm._v("new !\n            ")]) : _vm._e()])])]), _vm._v(" "), _c('a', {
-    attrs: {
-      "href": "/myRVrequest"
-    }
-  }, [_c('li', {
-    staticClass: "clickable waves-effect waves"
-  }, [_vm._m(7), _vm._v(" "), _c('span', {
-    staticClass: "notif",
-    class: [_vm.NewlyCreatedRV != 0 ? 'active' : '']
-  }, [_vm._v(_vm._s(_vm.NewlyCreatedRV) + "\n            "), (_vm.RVNew == true) ? _c('small', {
-    staticClass: "new-notif"
-  }, [_vm._v("new !\n            ")]) : _vm._e()])])]), _vm._v(" "), _c('a', {
-    attrs: {
-      "href": "/my-mr-request"
-    }
-  }, [_c('li', {
-    staticClass: "clickable waves-effect waves"
-  }, [_vm._m(8), _vm._v(" "), _c('span', {
-    staticClass: "notif",
-    class: [_vm.CountMRRequest != 0 ? 'active' : '']
-  }, [_vm._v(_vm._s(_vm.CountMRRequest) + "\n            "), (_vm.MRNew == true) ? _c('small', {
-    staticClass: "new-notif"
-  }, [_vm._v("new !\n            ")]) : _vm._e()])])]), _vm._v(" "), (_vm.user.Role == 0 || _vm.user.Role == 2) ? _c('a', {
-    attrs: {
-      "href": "/my-PO-request"
-    }
-  }, [_c('li', {
-    staticClass: "clickable waves-effect waves"
-  }, [_vm._m(9), _vm._v(" "), _c('span', {
-    staticClass: "notif",
-    class: [_vm.CountPOrequest != 0 ? 'active' : '']
-  }, [_vm._v(_vm._s(_vm.CountPOrequest) + "\n            "), (_vm.PONew == true) ? _c('small', {
-    staticClass: "new-notif"
-  }, [_vm._v("new !\n            ")]) : _vm._e()])])]) : _vm._e(), _vm._v(" "), (_vm.user.Role == 3 || _vm.user.Role == 4) ? _c('span', [_c('a', {
-    attrs: {
-      "href": "/ready-mirs"
-    }
-  }, [_c('li', {
-    staticClass: "clickable waves-effect waves"
-  }, [_vm._m(10), _vm._v(" "), _c('span', {
-    staticClass: "notif",
-    class: [_vm.NewlyApprovedMIRS != 0 ? 'active' : '']
-  }, [_vm._v(_vm._s(_vm.NewlyApprovedMIRS) + "\n              "), (_vm.ApproveMIRSNew == true) ? _c('small', {
-    staticClass: "new-notif"
-  }, [_vm._v("new !\n              ")]) : _vm._e()])])]), _vm._v(" "), _c('a', {
-    attrs: {
-      "href": "/waiting-to-be-purchased-rv"
-    }
-  }, [_c('li', {
-    staticClass: "clickable waves-effect waves"
-  }, [_vm._m(11), _vm._v(" "), _c('span', {
-    staticClass: "notif",
-    class: [_vm.RVWaitingRRCount != 0 ? 'active' : '']
-  }, [_vm._v(_vm._s(_vm.RVWaitingRRCount) + "\n              "), (_vm.RVwaitingRRNew == true) ? _c('small', {
-    staticClass: "new-notif"
-  }, [_vm._v("new !\n              ")]) : _vm._e()])])])]) : _vm._e(), _vm._v(" "), _vm._m(12), _vm._v(" "), (_vm.user.Role == 2) ? _c('a', {
-    attrs: {
-      "href": "/manager-take-placer-setting"
-    }
-  }, [_vm._m(13)]) : _vm._e(), _vm._v(" "), (_vm.user.Role == 1) ? _c('span', [_vm._m(14), _vm._v(" "), _vm._m(15)]) : _c('span', [_vm._m(16)]), _vm._v(" "), _vm._m(17), _vm._v(" "), _vm._m(18), _vm._v(" "), _c('a', [_c('li', {
-    staticClass: "logout-btn clickable waves-effect waves",
-    on: {
-      "click": function($event) {
-        _vm.logout()
-      }
-    }
-  }, [_vm._m(19)])])])]), _vm._v(" "), _c('audio', {
-    ref: "audioElm",
-    attrs: {
-      "src": "/audio/NotificationSound.mp3"
-    }
-  })])
-},staticRenderFns: [function (){var _vm=this;var _h=_vm.$createElement;var _c=_vm._self._c||_h;
-  return _c('h1', [_c('a', {
-    attrs: {
-      "href": "/"
-    }
-  }, [_c('img', {
-    attrs: {
-      "src": "/DesignIMG/logo.png",
-      "alt": "logo"
-    }
-  })])])
-},function (){var _vm=this;var _h=_vm.$createElement;var _c=_vm._self._c||_h;
-  return _c('div', {
-    staticClass: "right-nav-content"
-  }, [_c('div', {
-    staticClass: "title-top"
-  }, [_c('p', [_vm._v(" Warehouse Inventory")])])])
-},function (){var _vm=this;var _h=_vm.$createElement;var _c=_vm._self._c||_h;
-  return _c('a', [_c('li', {
-    staticClass: "sidebar-title"
-  }, [_c('span', [_vm._v("\n            Notifications\n          ")])])])
-},function (){var _vm=this;var _h=_vm.$createElement;var _c=_vm._self._c||_h;
-  return _c('span', [_c('i', {
-    staticClass: "material-icons"
-  }, [_vm._v("notifications_none")]), _vm._v("MIRS\n          ")])
-},function (){var _vm=this;var _h=_vm.$createElement;var _c=_vm._self._c||_h;
-  return _c('span', [_c('i', {
-    staticClass: "material-icons"
-  }, [_vm._v("notifications_none")]), _vm._v("MCT\n          ")])
-},function (){var _vm=this;var _h=_vm.$createElement;var _c=_vm._self._c||_h;
-  return _c('span', [_c('i', {
-    staticClass: "material-icons"
-  }, [_vm._v("notifications_none")]), _vm._v(" MRT\n          ")])
-},function (){var _vm=this;var _h=_vm.$createElement;var _c=_vm._self._c||_h;
-  return _c('span', [_c('i', {
-    staticClass: "material-icons"
-  }, [_vm._v("notifications_none")]), _vm._v(" RR\n          ")])
-},function (){var _vm=this;var _h=_vm.$createElement;var _c=_vm._self._c||_h;
-  return _c('span', [_c('i', {
-    staticClass: "material-icons"
-  }, [_vm._v("notifications_none")]), _vm._v(" RV\n          ")])
-},function (){var _vm=this;var _h=_vm.$createElement;var _c=_vm._self._c||_h;
-  return _c('span', [_c('i', {
-    staticClass: "material-icons"
-  }, [_vm._v("notifications_none")]), _vm._v(" MR\n          ")])
-},function (){var _vm=this;var _h=_vm.$createElement;var _c=_vm._self._c||_h;
-  return _c('span', [_c('i', {
-    staticClass: "material-icons"
-  }, [_vm._v("notifications_none")]), _vm._v("PO\n          ")])
-},function (){var _vm=this;var _h=_vm.$createElement;var _c=_vm._self._c||_h;
-  return _c('span', [_c('i', {
-    staticClass: "material-icons"
-  }, [_vm._v("notifications_none")]), _vm._v("Approved mirs\n            ")])
-},function (){var _vm=this;var _h=_vm.$createElement;var _c=_vm._self._c||_h;
-  return _c('span', [_c('i', {
-    staticClass: "material-icons"
-  }, [_vm._v("notifications_none")]), _vm._v("Approved rv\n            ")])
-},function (){var _vm=this;var _h=_vm.$createElement;var _c=_vm._self._c||_h;
-  return _c('a', [_c('li', {
-    staticClass: "sidebar-title"
-  }, [_c('span', [_vm._v("\n              Settings\n            ")])])])
-},function (){var _vm=this;var _h=_vm.$createElement;var _c=_vm._self._c||_h;
-  return _c('li', {
-    staticClass: "clickable waves-effect waves"
-  }, [_c('span', [_c('i', {
-    staticClass: "material-icons"
-  }, [_vm._v("face")]), _vm._v("Assign a Manager\n            ")])])
-},function (){var _vm=this;var _h=_vm.$createElement;var _c=_vm._self._c||_h;
-  return _c('a', {
-    attrs: {
-      "href": "/create-non-existing-item-in-warehouse"
-    }
-  }, [_c('li', {
-    staticClass: "clickable waves-effect waves"
-  }, [_c('span', [_c('i', {
-    staticClass: "material-icons"
-  }, [_vm._v("fiber_new")]), _vm._v(" Add new item\n            ")])])])
-},function (){var _vm=this;var _h=_vm.$createElement;var _c=_vm._self._c||_h;
-  return _c('a', {
-    attrs: {
-      "href": "/settings-accounts-list"
-    }
-  }, [_c('li', {
-    staticClass: "clickable waves-effect waves"
-  }, [_c('span', [_c('i', {
-    staticClass: "material-icons"
-  }, [_vm._v("people")]), _vm._v(" Manage accounts\n            ")])])])
-},function (){var _vm=this;var _h=_vm.$createElement;var _c=_vm._self._c||_h;
-  return _c('a', {
-    attrs: {
-      "href": "/my-own-account-settings-page"
-    }
-  }, [_c('li', {
-    staticClass: "clickable waves-effect waves"
-  }, [_c('span', [_c('i', {
-    staticClass: "material-icons"
-  }, [_vm._v("account_circle")]), _vm._v("My account\n            ")])])])
-},function (){var _vm=this;var _h=_vm.$createElement;var _c=_vm._self._c||_h;
-  return _c('a', [_c('li', {
-    staticClass: "sidebar-title"
-  }, [_c('span', [_vm._v("\n            History\n          ")])])])
-},function (){var _vm=this;var _h=_vm.$createElement;var _c=_vm._self._c||_h;
-  return _c('a', {
-    attrs: {
-      "href": "/show-my-history"
-    }
-  }, [_c('li', {
-    staticClass: "clickable waves-effect waves"
-  }, [_c('span', [_c('i', {
-    staticClass: "material-icons"
-  }, [_vm._v("history")]), _vm._v(" My history\n          ")])])])
-},function (){var _vm=this;var _h=_vm.$createElement;var _c=_vm._self._c||_h;
-  return _c('span', [_c('i', {
-    staticClass: "material-icons"
-  }, [_vm._v("exit_to_app")]), _vm._v(" Logout\n        ")])
-}]}
-module.exports.render._withStripped = true
-if (false) {
-  module.hot.accept()
-  if (module.hot.data) {
-     require("vue-hot-reload-api").rerender("data-v-0521e2b2", module.exports)
-  }
-}
 
 /***/ }),
 
@@ -44004,88 +43698,7 @@ module.exports = function buildURL(url, params, paramsSerializer) {
 
 /***/ }),
 
-/***/ 26:
-/***/ (function(module, exports, __webpack_require__) {
-
-"use strict";
-
-
-/**
- * Creates a new URL by combining the specified URLs
- *
- * @param {string} baseURL The base URL
- * @param {string} relativeURL The relative URL
- * @returns {string} The combined URL
- */
-module.exports = function combineURLs(baseURL, relativeURL) {
-  return baseURL.replace(/\/+$/, '') + '/' + relativeURL.replace(/^\/+/, '');
-};
-
-
-/***/ }),
-
-/***/ 27:
-/***/ (function(module, exports, __webpack_require__) {
-
-"use strict";
-
-
-var utils = __webpack_require__(1);
-
-module.exports = (
-  utils.isStandardBrowserEnv() ?
-
-  // Standard browser envs support document.cookie
-  (function standardBrowserEnv() {
-    return {
-      write: function write(name, value, expires, path, domain, secure) {
-        var cookie = [];
-        cookie.push(name + '=' + encodeURIComponent(value));
-
-        if (utils.isNumber(expires)) {
-          cookie.push('expires=' + new Date(expires).toGMTString());
-        }
-
-        if (utils.isString(path)) {
-          cookie.push('path=' + path);
-        }
-
-        if (utils.isString(domain)) {
-          cookie.push('domain=' + domain);
-        }
-
-        if (secure === true) {
-          cookie.push('secure');
-        }
-
-        document.cookie = cookie.join('; ');
-      },
-
-      read: function read(name) {
-        var match = document.cookie.match(new RegExp('(^|;\\s*)(' + name + ')=([^;]*)'));
-        return (match ? decodeURIComponent(match[3]) : null);
-      },
-
-      remove: function remove(name) {
-        this.write(name, '', Date.now() - 86400000);
-      }
-    };
-  })() :
-
-  // Non standard browser env (web workers, react-native) lack needed support.
-  (function nonStandardBrowserEnv() {
-    return {
-      write: function write() {},
-      read: function read() { return null; },
-      remove: function remove() {}
-    };
-  })()
-);
-
-
-/***/ }),
-
-/***/ 273:
+/***/ 251:
 /***/ (function(module, exports, __webpack_require__) {
 
 module.exports={render:function (){var _vm=this;var _h=_vm.$createElement;var _c=_vm._self._c||_h;
@@ -44483,9 +44096,354 @@ module.exports.render._withStripped = true
 if (false) {
   module.hot.accept()
   if (module.hot.data) {
-     require("vue-hot-reload-api").rerender("data-v-62b42bb2", module.exports)
+     require("vue-hot-reload-api").rerender("data-v-142beeaa", module.exports)
   }
 }
+
+/***/ }),
+
+/***/ 26:
+/***/ (function(module, exports, __webpack_require__) {
+
+"use strict";
+
+
+/**
+ * Creates a new URL by combining the specified URLs
+ *
+ * @param {string} baseURL The base URL
+ * @param {string} relativeURL The relative URL
+ * @returns {string} The combined URL
+ */
+module.exports = function combineURLs(baseURL, relativeURL) {
+  return baseURL.replace(/\/+$/, '') + '/' + relativeURL.replace(/^\/+/, '');
+};
+
+
+/***/ }),
+
+/***/ 261:
+/***/ (function(module, exports, __webpack_require__) {
+
+module.exports={render:function (){var _vm=this;var _h=_vm.$createElement;var _c=_vm._self._c||_h;
+  return _c('span', [_c('div', {
+    staticClass: "top-nav-container"
+  }, [_c('div', {
+    staticClass: "left-nav-content"
+  }, [_c('button', {
+    staticClass: "burger-button",
+    attrs: {
+      "type": "button"
+    },
+    on: {
+      "click": function($event) {
+        _vm.modalOpen = true, _vm.refreshall()
+      }
+    }
+  }, [_c('i', {
+    staticClass: "material-icons"
+  }, [_vm._v("menu")])]), _vm._v(" "), _vm._m(0)]), _vm._v(" "), _vm._m(1)]), _vm._v(" "), _c('div', {
+    staticClass: "Account-modal",
+    class: [_vm.modalOpen == true ? 'active' : ''],
+    on: {
+      "click": function($event) {
+        _vm.modalOpen = !_vm.modalOpen
+      }
+    }
+  }), _vm._v(" "), _c('div', {
+    staticClass: "middle-account-modal",
+    class: [_vm.modalOpen == true ? 'active' : '']
+  }, [_c('ul', [_c('a', [_c('li', {
+    staticClass: "sidebar-title CurrentUser"
+  }, [_c('div', {
+    staticClass: "flex"
+  }, [_c('i', {
+    staticClass: "material-icons"
+  }, [_vm._v("person")]), _vm._v(" " + _vm._s(_vm.user.FullName) + "\n          ")])])]), _vm._v(" "), _vm._m(2), _vm._v(" "), _c('a', {
+    attrs: {
+      "href": "/mirs-signature-list"
+    }
+  }, [_c('li', {
+    staticClass: "clickable waves-effect waves"
+  }, [_vm._m(3), _vm._v(" "), _c('span', {
+    staticClass: "notif",
+    class: [_vm.MIRSNotif != 0 ? 'active' : '']
+  }, [_vm._v("\n            " + _vm._s(_vm.MIRSNotif) + "\n            "), (_vm.MIRSNew == true) ? _c('small', {
+    staticClass: "new-notif"
+  }, [_vm._v("new !")]) : _vm._e()])])]), _vm._v(" "), _c('a', {
+    attrs: {
+      "href": "/mct-signature-request"
+    }
+  }, [_c('li', {
+    staticClass: "clickable waves-effect waves"
+  }, [_vm._m(4), _vm._v(" "), _c('span', {
+    staticClass: "notif",
+    class: [_vm.NewlyCreatedMCT != 0 ? 'active' : '']
+  }, [_vm._v(_vm._s(_vm.NewlyCreatedMCT) + "\n            "), (_vm.MCTNew == true) ? _c('small', {
+    staticClass: "new-notif"
+  }, [_vm._v("new !")]) : _vm._e()])])]), _vm._v(" "), _c('a', {
+    attrs: {
+      "href": "/my-mrt-signature-request"
+    }
+  }, [_c('li', {
+    staticClass: "clickable waves-effect waves"
+  }, [_vm._m(5), _vm._v(" "), _c('span', {
+    staticClass: "notif",
+    class: [_vm.NewlyCreatedMRT != 0 ? 'active' : '']
+  }, [_vm._v(_vm._s(_vm.NewlyCreatedMRT) + "\n            "), (_vm.MRTNew == true) ? _c('small', {
+    staticClass: "new-notif"
+  }, [_vm._v("new !")]) : _vm._e()])])]), _vm._v(" "), _c('a', {
+    attrs: {
+      "href": "/checkout-rr-request"
+    }
+  }, [_c('li', {
+    staticClass: "clickable waves-effect waves"
+  }, [_vm._m(6), _vm._v(" "), _c('span', {
+    staticClass: "notif",
+    class: [_vm.RRRequestCount != 0 ? 'active' : '']
+  }, [_vm._v(_vm._s(_vm.RRRequestCount) + "\n            "), (_vm.RRNew == true) ? _c('small', {
+    staticClass: "new-notif"
+  }, [_vm._v("new !\n            ")]) : _vm._e()])])]), _vm._v(" "), _c('a', {
+    attrs: {
+      "href": "/myRVrequest"
+    }
+  }, [_c('li', {
+    staticClass: "clickable waves-effect waves"
+  }, [_vm._m(7), _vm._v(" "), _c('span', {
+    staticClass: "notif",
+    class: [_vm.NewlyCreatedRV != 0 ? 'active' : '']
+  }, [_vm._v(_vm._s(_vm.NewlyCreatedRV) + "\n            "), (_vm.RVNew == true) ? _c('small', {
+    staticClass: "new-notif"
+  }, [_vm._v("new !\n            ")]) : _vm._e()])])]), _vm._v(" "), _c('a', {
+    attrs: {
+      "href": "/my-mr-request"
+    }
+  }, [_c('li', {
+    staticClass: "clickable waves-effect waves"
+  }, [_vm._m(8), _vm._v(" "), _c('span', {
+    staticClass: "notif",
+    class: [_vm.CountMRRequest != 0 ? 'active' : '']
+  }, [_vm._v(_vm._s(_vm.CountMRRequest) + "\n            "), (_vm.MRNew == true) ? _c('small', {
+    staticClass: "new-notif"
+  }, [_vm._v("new !\n            ")]) : _vm._e()])])]), _vm._v(" "), (_vm.user.Role == 0 || _vm.user.Role == 2) ? _c('a', {
+    attrs: {
+      "href": "/my-PO-request"
+    }
+  }, [_c('li', {
+    staticClass: "clickable waves-effect waves"
+  }, [_vm._m(9), _vm._v(" "), _c('span', {
+    staticClass: "notif",
+    class: [_vm.CountPOrequest != 0 ? 'active' : '']
+  }, [_vm._v(_vm._s(_vm.CountPOrequest) + "\n            "), (_vm.PONew == true) ? _c('small', {
+    staticClass: "new-notif"
+  }, [_vm._v("new !\n            ")]) : _vm._e()])])]) : _vm._e(), _vm._v(" "), (_vm.user.Role == 3 || _vm.user.Role == 4) ? _c('span', [_c('a', {
+    attrs: {
+      "href": "/waiting-to-be-purchased-rv"
+    }
+  }, [_c('li', {
+    staticClass: "clickable waves-effect waves"
+  }, [_vm._m(10), _vm._v(" "), _c('span', {
+    staticClass: "notif",
+    class: [_vm.RVWaitingRRCount != 0 ? 'active' : '']
+  }, [_vm._v(_vm._s(_vm.RVWaitingRRCount) + "\n              "), (_vm.RVwaitingRRNew == true) ? _c('small', {
+    staticClass: "new-notif"
+  }, [_vm._v("new !\n              ")]) : _vm._e()])])])]) : _vm._e(), _vm._v(" "), _vm._m(11), _vm._v(" "), (_vm.user.Role == 2) ? _c('a', {
+    attrs: {
+      "href": "/manager-take-placer-setting"
+    }
+  }, [_vm._m(12)]) : _vm._e(), _vm._v(" "), (_vm.user.Role == 1) ? _c('span', [_vm._m(13), _vm._v(" "), _vm._m(14)]) : _c('span', [_vm._m(15)]), _vm._v(" "), _vm._m(16), _vm._v(" "), _vm._m(17), _vm._v(" "), _c('a', [_c('li', {
+    staticClass: "logout-btn clickable waves-effect waves",
+    on: {
+      "click": function($event) {
+        _vm.logout()
+      }
+    }
+  }, [_vm._m(18)])])])]), _vm._v(" "), _c('audio', {
+    ref: "audioElm",
+    attrs: {
+      "src": "/audio/NotificationSound.mp3"
+    }
+  })])
+},staticRenderFns: [function (){var _vm=this;var _h=_vm.$createElement;var _c=_vm._self._c||_h;
+  return _c('h1', [_c('a', {
+    attrs: {
+      "href": "/"
+    }
+  }, [_c('img', {
+    attrs: {
+      "src": "/DesignIMG/logo.png",
+      "alt": "logo"
+    }
+  })])])
+},function (){var _vm=this;var _h=_vm.$createElement;var _c=_vm._self._c||_h;
+  return _c('div', {
+    staticClass: "right-nav-content"
+  }, [_c('div', {
+    staticClass: "title-top"
+  }, [_c('p', [_vm._v(" Warehouse Inventory")])])])
+},function (){var _vm=this;var _h=_vm.$createElement;var _c=_vm._self._c||_h;
+  return _c('a', [_c('li', {
+    staticClass: "sidebar-title"
+  }, [_c('span', [_vm._v("\n            Notifications\n          ")])])])
+},function (){var _vm=this;var _h=_vm.$createElement;var _c=_vm._self._c||_h;
+  return _c('span', [_c('i', {
+    staticClass: "material-icons"
+  }, [_vm._v("notifications_none")]), _vm._v("MIRS\n          ")])
+},function (){var _vm=this;var _h=_vm.$createElement;var _c=_vm._self._c||_h;
+  return _c('span', [_c('i', {
+    staticClass: "material-icons"
+  }, [_vm._v("notifications_none")]), _vm._v("MCT\n          ")])
+},function (){var _vm=this;var _h=_vm.$createElement;var _c=_vm._self._c||_h;
+  return _c('span', [_c('i', {
+    staticClass: "material-icons"
+  }, [_vm._v("notifications_none")]), _vm._v(" MRT\n          ")])
+},function (){var _vm=this;var _h=_vm.$createElement;var _c=_vm._self._c||_h;
+  return _c('span', [_c('i', {
+    staticClass: "material-icons"
+  }, [_vm._v("notifications_none")]), _vm._v(" RR\n          ")])
+},function (){var _vm=this;var _h=_vm.$createElement;var _c=_vm._self._c||_h;
+  return _c('span', [_c('i', {
+    staticClass: "material-icons"
+  }, [_vm._v("notifications_none")]), _vm._v(" RV\n          ")])
+},function (){var _vm=this;var _h=_vm.$createElement;var _c=_vm._self._c||_h;
+  return _c('span', [_c('i', {
+    staticClass: "material-icons"
+  }, [_vm._v("notifications_none")]), _vm._v(" MR\n          ")])
+},function (){var _vm=this;var _h=_vm.$createElement;var _c=_vm._self._c||_h;
+  return _c('span', [_c('i', {
+    staticClass: "material-icons"
+  }, [_vm._v("notifications_none")]), _vm._v("PO\n          ")])
+},function (){var _vm=this;var _h=_vm.$createElement;var _c=_vm._self._c||_h;
+  return _c('span', [_c('i', {
+    staticClass: "material-icons"
+  }, [_vm._v("notifications_none")]), _vm._v("Approved rv\n            ")])
+},function (){var _vm=this;var _h=_vm.$createElement;var _c=_vm._self._c||_h;
+  return _c('a', [_c('li', {
+    staticClass: "sidebar-title"
+  }, [_c('span', [_vm._v("\n              Settings\n            ")])])])
+},function (){var _vm=this;var _h=_vm.$createElement;var _c=_vm._self._c||_h;
+  return _c('li', {
+    staticClass: "clickable waves-effect waves"
+  }, [_c('span', [_c('i', {
+    staticClass: "material-icons"
+  }, [_vm._v("face")]), _vm._v("Assign a Manager\n            ")])])
+},function (){var _vm=this;var _h=_vm.$createElement;var _c=_vm._self._c||_h;
+  return _c('a', {
+    attrs: {
+      "href": "/create-non-existing-item-in-warehouse"
+    }
+  }, [_c('li', {
+    staticClass: "clickable waves-effect waves"
+  }, [_c('span', [_c('i', {
+    staticClass: "material-icons"
+  }, [_vm._v("fiber_new")]), _vm._v(" Add new item\n            ")])])])
+},function (){var _vm=this;var _h=_vm.$createElement;var _c=_vm._self._c||_h;
+  return _c('a', {
+    attrs: {
+      "href": "/settings-accounts-list"
+    }
+  }, [_c('li', {
+    staticClass: "clickable waves-effect waves"
+  }, [_c('span', [_c('i', {
+    staticClass: "material-icons"
+  }, [_vm._v("people")]), _vm._v(" Manage accounts\n            ")])])])
+},function (){var _vm=this;var _h=_vm.$createElement;var _c=_vm._self._c||_h;
+  return _c('a', {
+    attrs: {
+      "href": "/my-own-account-settings-page"
+    }
+  }, [_c('li', {
+    staticClass: "clickable waves-effect waves"
+  }, [_c('span', [_c('i', {
+    staticClass: "material-icons"
+  }, [_vm._v("account_circle")]), _vm._v("My account\n            ")])])])
+},function (){var _vm=this;var _h=_vm.$createElement;var _c=_vm._self._c||_h;
+  return _c('a', [_c('li', {
+    staticClass: "sidebar-title"
+  }, [_c('span', [_vm._v("\n            History\n          ")])])])
+},function (){var _vm=this;var _h=_vm.$createElement;var _c=_vm._self._c||_h;
+  return _c('a', {
+    attrs: {
+      "href": "/show-my-history"
+    }
+  }, [_c('li', {
+    staticClass: "clickable waves-effect waves"
+  }, [_c('span', [_c('i', {
+    staticClass: "material-icons"
+  }, [_vm._v("history")]), _vm._v(" My history\n          ")])])])
+},function (){var _vm=this;var _h=_vm.$createElement;var _c=_vm._self._c||_h;
+  return _c('span', [_c('i', {
+    staticClass: "material-icons"
+  }, [_vm._v("exit_to_app")]), _vm._v(" Logout\n        ")])
+}]}
+module.exports.render._withStripped = true
+if (false) {
+  module.hot.accept()
+  if (module.hot.data) {
+     require("vue-hot-reload-api").rerender("data-v-3880e640", module.exports)
+  }
+}
+
+/***/ }),
+
+/***/ 27:
+/***/ (function(module, exports, __webpack_require__) {
+
+"use strict";
+
+
+var utils = __webpack_require__(1);
+
+module.exports = (
+  utils.isStandardBrowserEnv() ?
+
+  // Standard browser envs support document.cookie
+  (function standardBrowserEnv() {
+    return {
+      write: function write(name, value, expires, path, domain, secure) {
+        var cookie = [];
+        cookie.push(name + '=' + encodeURIComponent(value));
+
+        if (utils.isNumber(expires)) {
+          cookie.push('expires=' + new Date(expires).toGMTString());
+        }
+
+        if (utils.isString(path)) {
+          cookie.push('path=' + path);
+        }
+
+        if (utils.isString(domain)) {
+          cookie.push('domain=' + domain);
+        }
+
+        if (secure === true) {
+          cookie.push('secure');
+        }
+
+        document.cookie = cookie.join('; ');
+      },
+
+      read: function read(name) {
+        var match = document.cookie.match(new RegExp('(^|;\\s*)(' + name + ')=([^;]*)'));
+        return (match ? decodeURIComponent(match[3]) : null);
+      },
+
+      remove: function remove(name) {
+        this.write(name, '', Date.now() - 86400000);
+      }
+    };
+  })() :
+
+  // Non standard browser env (web workers, react-native) lack needed support.
+  (function nonStandardBrowserEnv() {
+    return {
+      write: function write() {},
+      read: function read() { return null; },
+      remove: function remove() {}
+    };
+  })()
+);
+
 
 /***/ }),
 

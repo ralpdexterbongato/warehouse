@@ -50,7 +50,8 @@ class MRController extends Controller
      $year=Carbon::now()->format('y');
      $MRNum=MRMaster::orderBy('MRNo','DESC')->take(1)->value('MRNo');
      $ApprovalReplacer=User::whereNotNull('IfApproveReplacer')->get(['id']);
-     if (count($MRNum)>0)
+     $explodedMRNum=explode('-',$MRNum);
+     if (count($MRNum)>0 && $explodedMRNum[0] ==$year)
      {
        $numOnly=substr($MRNum,'3');
        $numOnly = (int)$numOnly;

@@ -30,11 +30,12 @@ class POController extends Controller
     $toDBMaster = array();
     $toDBSignatures = array();
     $toDBDetails = array();
+    $explodedPOid = explode('-',$POid);
     foreach ($SupplierGrouped as $key => $SupplierG)
     {
     if ($SupplierG!=null)
     {
-      if (($POid!=null)&&($incremented==null))
+      if (($POid!=null)&&($incremented==null)&&($explodedPOid[0] == $year))
       {
         $numonly=substr($POid,'3');
         $numonlyint=(int)$numonly;

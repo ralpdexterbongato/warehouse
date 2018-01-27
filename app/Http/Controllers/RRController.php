@@ -165,7 +165,8 @@ class RRController extends Controller
     $year=Carbon::now()->format('y');
     $date=Carbon::now();
     $latestID=RRMaster::orderBy('RRNo','DESC')->take(1)->value('RRNo');
-    if (isset($latestID[0]))
+    $explodedRRNo = explode('-',$latestID);
+    if (isset($latestID[0]) && $explodedRRNo[0]==$year)
     {
       $numOnly=substr($latestID,'3');
       $numOnly=(int)$numOnly;
@@ -234,7 +235,8 @@ class RRController extends Controller
     $year=Carbon::now()->format('y');
     $date=Carbon::now();
     $latestID=RRMaster::orderBy('RRNo','DESC')->take(1)->value('RRNo');
-    if (isset($latestID[0]))
+    $explodedRRNo = explode('-',$latestID);
+    if (isset($latestID[0]) && $explodedRRNo[0]==$year)
     {
       $numOnly=substr($latestID,'3');
       $numOnly=(int)$numOnly;
@@ -500,6 +502,10 @@ class RRController extends Controller
     $ForMTDetailsTable = array();
     foreach ($dataToRollBack as $data)
     {
+      $idOfRRHistory=MaterialsTicketDetail::where('MTType', 'RR')->where('MTNo', $rrNo)->whereNull('IsRollBack')->value('id');
+      $UCostOfPrevious= MaterialsTicketDetail::orderBy('id','DESC')->where('ItemCode', $data->ItemCode)->where('id','<',$idOfRRHistory)->whereNull('IsRollBack')->first()->UnitCost;
+      // continue here
+
       $LatestDataOfItem = MaterialsTicketDetail::orderBy('id','DESC')->where('ItemCode', $data->ItemCode)->take(1)->get(['CurrentAmount','CurrentQuantity']);
       $newAmount = $LatestDataOfItem[0]->CurrentAmount - $data->Amount;
       $newQty = $LatestDataOfItem[0]->CurrentQuantity - $data->Quantity;
@@ -510,7 +516,7 @@ class RRController extends Controller
       {
         $currentCost='0';
       }
-      $ForMTDetailsTable[] = array('ItemCode' =>$data->ItemCode,'MTType'=>$data->MTType,'MTNo'=>$data->MTNo,'AccountCode'=>$data->AccountCode,'UnitCost'=>$data->UnitCost,'Quantity'=>$data->Quantity,'CurrentCost'=>$currentCost,'Amount'=>$data->Amount,'CurrentQuantity'=>$newQty,'CurrentAmount'=>$newAmount,'MTDate'=>$data->MTDate,'IsCurrent'=>'0');
+      $ForMTDetailsTable[] = array('ItemCode' =>$data->ItemCode,'MTType'=>$data->MTType,'MTNo'=>$data->MTNo,'AccountCode'=>$data->AccountCode,'UnitCost'=>$data->UnitCost,'Quantity'=>$data->Quantity,'CurrentCost'=>$currentCost,'Amount'=>$data->Amount,'CurrentQuantity'=>$newQty,'CurrentAmount'=>$newAmount,'MTDate'=>$data->MTDate);
       MasterItem::where('ItemCode',$data->ItemCode)->update(['CurrentQuantity'=>$newQty]);
     }
     MaterialsTicketDetail::where('MTType', 'RR')->where('MTNo', $rrNo)->whereNull('IsRollBack')->update(['IsRollBack'=>'0']);
@@ -568,7 +574,7 @@ class RRController extends Controller
       {
         $currentCost='0';
       }
-      $ForMTDetailsTable[] = array('ItemCode' =>$data->ItemCode,'MTType'=>$data->MTType,'MTNo'=>$data->MTNo,'AccountCode'=>$data->AccountCode,'UnitCost'=>$data->UnitCost,'Quantity'=>$data->Quantity,'CurrentCost'=>$currentCost,'Amount'=>$data->Amount,'CurrentQuantity'=>$newQty,'CurrentAmount'=>$newAmount,'MTDate'=>$data->MTDate,'IsCurrent'=>'0');
+      $ForMTDetailsTable[] = array('ItemCode' =>$data->ItemCode,'MTType'=>$data->MTType,'MTNo'=>$data->MTNo,'AccountCode'=>$data->AccountCode,'UnitCost'=>$data->UnitCost,'Quantity'=>$data->Quantity,'CurrentCost'=>$currentCost,'Amount'=>$data->Amount,'CurrentQuantity'=>$newQty,'CurrentAmount'=>$newAmount,'MTDate'=>$data->MTDate);
       MasterItem::where('ItemCode',$data->ItemCode)->update(['CurrentQuantity'=>$newQty]);
     }
     MaterialsTicketDetail::where('MTType', 'RR')->where('MTNo', $rrNo)->whereNull('IsRollBack')->update(['IsRollBack'=>'0']);

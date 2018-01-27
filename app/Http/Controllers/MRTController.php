@@ -58,7 +58,8 @@ class MRTController extends Controller
         $year=Carbon::now()->format('y');
         $datenow=Carbon::now();
         $MRTNum=MRTMaster::orderBy('id','DESC')->take(1)->value('MRTNo');
-        if (count($MRTNum)>0)
+        $explodedMRTNum = explode('-',$MRTNum);
+        if (count($MRTNum)>0 && $explodedMRTNum[0]==$year)
         {
           $numOnly=substr($MRTNum,'3');
           $numOnly = (int)$numOnly;
@@ -278,7 +279,7 @@ class MRTController extends Controller
         {
           $currentCost='0';
         }
-        $ForMTDetailsTable[] = array('ItemCode' =>$data->ItemCode,'MTType'=>$data->MTType,'MTNo'=>$data->MTNo,'AccountCode'=>$data->AccountCode,'UnitCost'=>$data->UnitCost,'Quantity'=>$data->Quantity,'CurrentCost'=>$currentCost,'Amount'=>$data->Amount,'CurrentQuantity'=>$newQty,'CurrentAmount'=>$newAmount,'MTDate'=>$data->MTDate,'IsCurrent'=>'0');
+        $ForMTDetailsTable[] = array('ItemCode' =>$data->ItemCode,'MTType'=>$data->MTType,'MTNo'=>$data->MTNo,'AccountCode'=>$data->AccountCode,'UnitCost'=>$data->UnitCost,'Quantity'=>$data->Quantity,'CurrentCost'=>$currentCost,'Amount'=>$data->Amount,'CurrentQuantity'=>$newQty,'CurrentAmount'=>$newAmount,'MTDate'=>$data->MTDate);
         MasterItem::where('ItemCode',$data->ItemCode)->update(['CurrentQuantity'=>$newQty]);
       }
       MaterialsTicketDetail::where('MTType', 'MRT')->where('MTNo', $mrtNo)->whereNull('IsRollBack')->update(['IsRollBack'=>'0']);
@@ -301,7 +302,7 @@ class MRTController extends Controller
         {
           $currentCost='0';
         }
-        $ForMTDetailsTable[] = array('ItemCode' =>$data->ItemCode,'MTType'=>$data->MTType,'MTNo'=>$data->MTNo,'AccountCode'=>$data->AccountCode,'UnitCost'=>$data->UnitCost,'Quantity'=>$data->Quantity,'CurrentCost'=>$currentCost,'Amount'=>$data->Amount,'CurrentQuantity'=>$newQty,'CurrentAmount'=>$newAmount,'MTDate'=>$data->MTDate,'IsCurrent'=>'0');
+        $ForMTDetailsTable[] = array('ItemCode' =>$data->ItemCode,'MTType'=>$data->MTType,'MTNo'=>$data->MTNo,'AccountCode'=>$data->AccountCode,'UnitCost'=>$data->UnitCost,'Quantity'=>$data->Quantity,'CurrentCost'=>$currentCost,'Amount'=>$data->Amount,'CurrentQuantity'=>$newQty,'CurrentAmount'=>$newAmount,'MTDate'=>$data->MTDate);
         MasterItem::where('ItemCode',$data->ItemCode)->update(['CurrentQuantity'=>$newQty]);
       }
       MaterialsTicketDetail::where('MTType', 'MRT')->where('MTNo', $mrtNo)->whereNull('IsRollBack')->update(['IsRollBack'=>'0']);

@@ -11720,9 +11720,9 @@ module.exports.default = axios;
 /***/ (function(module, exports, __webpack_require__) {
 
 window.Vue = __webpack_require__(15);
-Vue.component('mrcreate', __webpack_require__(219));
-Vue.component('mrpreview', __webpack_require__(230));
-Vue.component('mrindex', __webpack_require__(234));
+Vue.component('mrcreate', __webpack_require__(234));
+Vue.component('mrpreview', __webpack_require__(235));
+Vue.component('mrindex', __webpack_require__(236));
 new Vue({
     el: '#mr'
 });
@@ -11794,7 +11794,160 @@ module.exports = CancelToken;
 
 /***/ }),
 
-/***/ 177:
+/***/ 18:
+/***/ (function(module, exports, __webpack_require__) {
+
+"use strict";
+
+
+var defaults = __webpack_require__(4);
+var utils = __webpack_require__(1);
+var InterceptorManager = __webpack_require__(19);
+var dispatchRequest = __webpack_require__(20);
+var isAbsoluteURL = __webpack_require__(28);
+var combineURLs = __webpack_require__(26);
+
+/**
+ * Create a new instance of Axios
+ *
+ * @param {Object} instanceConfig The default config for the instance
+ */
+function Axios(instanceConfig) {
+  this.defaults = instanceConfig;
+  this.interceptors = {
+    request: new InterceptorManager(),
+    response: new InterceptorManager()
+  };
+}
+
+/**
+ * Dispatch a request
+ *
+ * @param {Object} config The config specific for this request (merged with this.defaults)
+ */
+Axios.prototype.request = function request(config) {
+  /*eslint no-param-reassign:0*/
+  // Allow for axios('example/url'[, config]) a la fetch API
+  if (typeof config === 'string') {
+    config = utils.merge({
+      url: arguments[0]
+    }, arguments[1]);
+  }
+
+  config = utils.merge(defaults, this.defaults, { method: 'get' }, config);
+
+  // Support baseURL config
+  if (config.baseURL && !isAbsoluteURL(config.url)) {
+    config.url = combineURLs(config.baseURL, config.url);
+  }
+
+  // Hook up interceptors middleware
+  var chain = [dispatchRequest, undefined];
+  var promise = Promise.resolve(config);
+
+  this.interceptors.request.forEach(function unshiftRequestInterceptors(interceptor) {
+    chain.unshift(interceptor.fulfilled, interceptor.rejected);
+  });
+
+  this.interceptors.response.forEach(function pushResponseInterceptors(interceptor) {
+    chain.push(interceptor.fulfilled, interceptor.rejected);
+  });
+
+  while (chain.length) {
+    promise = promise.then(chain.shift(), chain.shift());
+  }
+
+  return promise;
+};
+
+// Provide aliases for supported request methods
+utils.forEach(['delete', 'get', 'head'], function forEachMethodNoData(method) {
+  /*eslint func-names:0*/
+  Axios.prototype[method] = function(url, config) {
+    return this.request(utils.merge(config || {}, {
+      method: method,
+      url: url
+    }));
+  };
+});
+
+utils.forEach(['post', 'put', 'patch'], function forEachMethodWithData(method) {
+  /*eslint func-names:0*/
+  Axios.prototype[method] = function(url, data, config) {
+    return this.request(utils.merge(config || {}, {
+      method: method,
+      url: url,
+      data: data
+    }));
+  };
+});
+
+module.exports = Axios;
+
+
+/***/ }),
+
+/***/ 19:
+/***/ (function(module, exports, __webpack_require__) {
+
+"use strict";
+
+
+var utils = __webpack_require__(1);
+
+function InterceptorManager() {
+  this.handlers = [];
+}
+
+/**
+ * Add a new interceptor to the stack
+ *
+ * @param {Function} fulfilled The function to handle `then` for a `Promise`
+ * @param {Function} rejected The function to handle `reject` for a `Promise`
+ *
+ * @return {Number} An ID used to remove interceptor later
+ */
+InterceptorManager.prototype.use = function use(fulfilled, rejected) {
+  this.handlers.push({
+    fulfilled: fulfilled,
+    rejected: rejected
+  });
+  return this.handlers.length - 1;
+};
+
+/**
+ * Remove an interceptor from the stack
+ *
+ * @param {Number} id The ID that was returned by `use`
+ */
+InterceptorManager.prototype.eject = function eject(id) {
+  if (this.handlers[id]) {
+    this.handlers[id] = null;
+  }
+};
+
+/**
+ * Iterate over all the registered interceptors
+ *
+ * This method is particularly useful for skipping over any
+ * interceptors that may have become `null` calling `eject`.
+ *
+ * @param {Function} fn The function to call for each interceptor
+ */
+InterceptorManager.prototype.forEach = function forEach(fn) {
+  utils.forEach(this.handlers, function forEachHandler(h) {
+    if (h !== null) {
+      fn(h);
+    }
+  });
+};
+
+module.exports = InterceptorManager;
+
+
+/***/ }),
+
+/***/ 192:
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
 "use strict";
@@ -12001,100 +12154,7 @@ Vue.use(__WEBPACK_IMPORTED_MODULE_3_vue2_toast___default.a);
 
 /***/ }),
 
-/***/ 18:
-/***/ (function(module, exports, __webpack_require__) {
-
-"use strict";
-
-
-var defaults = __webpack_require__(4);
-var utils = __webpack_require__(1);
-var InterceptorManager = __webpack_require__(19);
-var dispatchRequest = __webpack_require__(20);
-var isAbsoluteURL = __webpack_require__(28);
-var combineURLs = __webpack_require__(26);
-
-/**
- * Create a new instance of Axios
- *
- * @param {Object} instanceConfig The default config for the instance
- */
-function Axios(instanceConfig) {
-  this.defaults = instanceConfig;
-  this.interceptors = {
-    request: new InterceptorManager(),
-    response: new InterceptorManager()
-  };
-}
-
-/**
- * Dispatch a request
- *
- * @param {Object} config The config specific for this request (merged with this.defaults)
- */
-Axios.prototype.request = function request(config) {
-  /*eslint no-param-reassign:0*/
-  // Allow for axios('example/url'[, config]) a la fetch API
-  if (typeof config === 'string') {
-    config = utils.merge({
-      url: arguments[0]
-    }, arguments[1]);
-  }
-
-  config = utils.merge(defaults, this.defaults, { method: 'get' }, config);
-
-  // Support baseURL config
-  if (config.baseURL && !isAbsoluteURL(config.url)) {
-    config.url = combineURLs(config.baseURL, config.url);
-  }
-
-  // Hook up interceptors middleware
-  var chain = [dispatchRequest, undefined];
-  var promise = Promise.resolve(config);
-
-  this.interceptors.request.forEach(function unshiftRequestInterceptors(interceptor) {
-    chain.unshift(interceptor.fulfilled, interceptor.rejected);
-  });
-
-  this.interceptors.response.forEach(function pushResponseInterceptors(interceptor) {
-    chain.push(interceptor.fulfilled, interceptor.rejected);
-  });
-
-  while (chain.length) {
-    promise = promise.then(chain.shift(), chain.shift());
-  }
-
-  return promise;
-};
-
-// Provide aliases for supported request methods
-utils.forEach(['delete', 'get', 'head'], function forEachMethodNoData(method) {
-  /*eslint func-names:0*/
-  Axios.prototype[method] = function(url, config) {
-    return this.request(utils.merge(config || {}, {
-      method: method,
-      url: url
-    }));
-  };
-});
-
-utils.forEach(['post', 'put', 'patch'], function forEachMethodWithData(method) {
-  /*eslint func-names:0*/
-  Axios.prototype[method] = function(url, data, config) {
-    return this.request(utils.merge(config || {}, {
-      method: method,
-      url: url,
-      data: data
-    }));
-  };
-});
-
-module.exports = Axios;
-
-
-/***/ }),
-
-/***/ 188:
+/***/ 193:
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
 "use strict";
@@ -12332,67 +12392,7 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
 
 /***/ }),
 
-/***/ 19:
-/***/ (function(module, exports, __webpack_require__) {
-
-"use strict";
-
-
-var utils = __webpack_require__(1);
-
-function InterceptorManager() {
-  this.handlers = [];
-}
-
-/**
- * Add a new interceptor to the stack
- *
- * @param {Function} fulfilled The function to handle `then` for a `Promise`
- * @param {Function} rejected The function to handle `reject` for a `Promise`
- *
- * @return {Number} An ID used to remove interceptor later
- */
-InterceptorManager.prototype.use = function use(fulfilled, rejected) {
-  this.handlers.push({
-    fulfilled: fulfilled,
-    rejected: rejected
-  });
-  return this.handlers.length - 1;
-};
-
-/**
- * Remove an interceptor from the stack
- *
- * @param {Number} id The ID that was returned by `use`
- */
-InterceptorManager.prototype.eject = function eject(id) {
-  if (this.handlers[id]) {
-    this.handlers[id] = null;
-  }
-};
-
-/**
- * Iterate over all the registered interceptors
- *
- * This method is particularly useful for skipping over any
- * interceptors that may have become `null` calling `eject`.
- *
- * @param {Function} fn The function to call for each interceptor
- */
-InterceptorManager.prototype.forEach = function forEach(fn) {
-  utils.forEach(this.handlers, function forEachHandler(h) {
-    if (h !== null) {
-      fn(h);
-    }
-  });
-};
-
-module.exports = InterceptorManager;
-
-
-/***/ }),
-
-/***/ 192:
+/***/ 194:
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
 "use strict";
@@ -12698,41 +12698,6 @@ module.exports = function enhanceError(error, config, code, response) {
 
 /***/ }),
 
-/***/ 219:
-/***/ (function(module, exports, __webpack_require__) {
-
-var Component = __webpack_require__(2)(
-  /* script */
-  __webpack_require__(177),
-  /* template */
-  __webpack_require__(269),
-  /* scopeId */
-  null,
-  /* cssModules */
-  null
-)
-Component.options.__file = "C:\\xampp\\htdocs\\warehouse\\resources\\assets\\js\\components\\CreateMRViews.vue"
-if (Component.esModule && Object.keys(Component.esModule).some(function (key) {return key !== "default" && key !== "__esModule"})) {console.error("named exports are not supported in *.vue files.")}
-if (Component.options.functional) {console.error("[vue-loader] CreateMRViews.vue: functional components are not supported with templates, they should use render functions.")}
-
-/* hot reload */
-if (false) {(function () {
-  var hotAPI = require("vue-hot-reload-api")
-  hotAPI.install(require("vue"), false)
-  if (!hotAPI.compatible) return
-  module.hot.accept()
-  if (!module.hot.data) {
-    hotAPI.createRecord("data-v-4caf8e72", Component.options)
-  } else {
-    hotAPI.reload("data-v-4caf8e72", Component.options)
-  }
-})()}
-
-module.exports = Component.exports
-
-
-/***/ }),
-
 /***/ 22:
 /***/ (function(module, exports, __webpack_require__) {
 
@@ -12794,20 +12759,55 @@ module.exports = function transformData(data, headers, fns) {
 
 /***/ }),
 
-/***/ 230:
+/***/ 234:
 /***/ (function(module, exports, __webpack_require__) {
 
 var Component = __webpack_require__(2)(
   /* script */
-  __webpack_require__(188),
+  __webpack_require__(192),
   /* template */
-  __webpack_require__(266),
+  __webpack_require__(262),
   /* scopeId */
   null,
   /* cssModules */
   null
 )
-Component.options.__file = "C:\\xampp\\htdocs\\warehouse\\resources\\assets\\js\\components\\MRPreview.vue"
+Component.options.__file = "C:\\xampp\\htdocs\\warehouse\\resources\\assets\\js\\components\\MR\\CreateMRViews.vue"
+if (Component.esModule && Object.keys(Component.esModule).some(function (key) {return key !== "default" && key !== "__esModule"})) {console.error("named exports are not supported in *.vue files.")}
+if (Component.options.functional) {console.error("[vue-loader] CreateMRViews.vue: functional components are not supported with templates, they should use render functions.")}
+
+/* hot reload */
+if (false) {(function () {
+  var hotAPI = require("vue-hot-reload-api")
+  hotAPI.install(require("vue"), false)
+  if (!hotAPI.compatible) return
+  module.hot.accept()
+  if (!module.hot.data) {
+    hotAPI.createRecord("data-v-39ecb30e", Component.options)
+  } else {
+    hotAPI.reload("data-v-39ecb30e", Component.options)
+  }
+})()}
+
+module.exports = Component.exports
+
+
+/***/ }),
+
+/***/ 235:
+/***/ (function(module, exports, __webpack_require__) {
+
+var Component = __webpack_require__(2)(
+  /* script */
+  __webpack_require__(193),
+  /* template */
+  __webpack_require__(274),
+  /* scopeId */
+  null,
+  /* cssModules */
+  null
+)
+Component.options.__file = "C:\\xampp\\htdocs\\warehouse\\resources\\assets\\js\\components\\MR\\MRPreview.vue"
 if (Component.esModule && Object.keys(Component.esModule).some(function (key) {return key !== "default" && key !== "__esModule"})) {console.error("named exports are not supported in *.vue files.")}
 if (Component.options.functional) {console.error("[vue-loader] MRPreview.vue: functional components are not supported with templates, they should use render functions.")}
 
@@ -12818,9 +12818,9 @@ if (false) {(function () {
   if (!hotAPI.compatible) return
   module.hot.accept()
   if (!module.hot.data) {
-    hotAPI.createRecord("data-v-45e275b0", Component.options)
+    hotAPI.createRecord("data-v-8c22d078", Component.options)
   } else {
-    hotAPI.reload("data-v-45e275b0", Component.options)
+    hotAPI.reload("data-v-8c22d078", Component.options)
   }
 })()}
 
@@ -12829,20 +12829,20 @@ module.exports = Component.exports
 
 /***/ }),
 
-/***/ 234:
+/***/ 236:
 /***/ (function(module, exports, __webpack_require__) {
 
 var Component = __webpack_require__(2)(
   /* script */
-  __webpack_require__(192),
+  __webpack_require__(194),
   /* template */
-  __webpack_require__(252),
+  __webpack_require__(267),
   /* scopeId */
   null,
   /* cssModules */
   null
 )
-Component.options.__file = "C:\\xampp\\htdocs\\warehouse\\resources\\assets\\js\\components\\MRindex.vue"
+Component.options.__file = "C:\\xampp\\htdocs\\warehouse\\resources\\assets\\js\\components\\MR\\MRindex.vue"
 if (Component.esModule && Object.keys(Component.esModule).some(function (key) {return key !== "default" && key !== "__esModule"})) {console.error("named exports are not supported in *.vue files.")}
 if (Component.options.functional) {console.error("[vue-loader] MRindex.vue: functional components are not supported with templates, they should use render functions.")}
 
@@ -12853,9 +12853,9 @@ if (false) {(function () {
   if (!hotAPI.compatible) return
   module.hot.accept()
   if (!module.hot.data) {
-    hotAPI.createRecord("data-v-1011315c", Component.options)
+    hotAPI.createRecord("data-v-50a330ee", Component.options)
   } else {
-    hotAPI.reload("data-v-1011315c", Component.options)
+    hotAPI.reload("data-v-50a330ee", Component.options)
   }
 })()}
 
@@ -12984,125 +12984,6 @@ module.exports = function buildURL(url, params, paramsSerializer) {
 
 /***/ }),
 
-/***/ 252:
-/***/ (function(module, exports, __webpack_require__) {
-
-module.exports={render:function (){var _vm=this;var _h=_vm.$createElement;var _c=_vm._self._c||_h;
-  return _c('div', {
-    staticClass: "mr-index-vue"
-  }, [_c('div', {
-    staticClass: "mr-index-search-and-fetch"
-  }, [_vm._m(0), _vm._v(" "), _c('input', {
-    directives: [{
-      name: "model",
-      rawName: "v-model",
-      value: (_vm.MRNoSearch),
-      expression: "MRNoSearch"
-    }],
-    attrs: {
-      "type": "text",
-      "placeholder": "MR #"
-    },
-    domProps: {
-      "value": (_vm.MRNoSearch)
-    },
-    on: {
-      "keyup": function($event) {
-        _vm.fetchAndSearch(1)
-      },
-      "input": function($event) {
-        if ($event.target.composing) { return; }
-        _vm.MRNoSearch = $event.target.value
-      }
-    }
-  })]), _vm._v(" "), _c('div', {
-    staticClass: "mr-index-table"
-  }, [_c('table', [_vm._m(1), _vm._v(" "), _vm._l((_vm.MRindexData), function(data) {
-    return (data.users[0].pivot != null) ? _c('tr', [_c('td', [_vm._v(_vm._s(data.MRNo))]), _vm._v(" "), _c('td', [_vm._v(_vm._s(data.MRDate))]), _vm._v(" "), _c('td', [_vm._v(_vm._s(data.RVNo))]), _vm._v(" "), _c('td', [_vm._v(_vm._s(data.RRNo))]), _vm._v(" "), (data.PONo != null) ? _c('td', [_vm._v(_vm._s(data.PONo))]) : _c('td', [_vm._v("N/A")]), _vm._v(" "), _c('td', [_vm._v(_vm._s(data.Supplier))]), _vm._v(" "), _c('td', [_vm._v("\n          " + _vm._s(data.users[0].FullName)), _c('br'), _vm._v(" "), (data.users[0].pivot.Signature == '0') ? _c('i', {
-      staticClass: "material-icons"
-    }, [_vm._v("check")]) : (data.users[0].pivot.Signature == '1') ? _c('i', {
-      staticClass: "material-icons decliner"
-    }, [_vm._v("close")]) : _vm._e()]), _vm._v(" "), _c('td', [_vm._v("\n          " + _vm._s(data.users[1].FullName)), _c('br'), _vm._v(" "), (((data.users[1].pivot.Signature == '0') || (data.users[3] != null && data.users[3].pivot.Signature == '0'))) ? _c('i', {
-      staticClass: "material-icons"
-    }, [_vm._v("check")]) : (data.users[1].pivot.Signature == '1') ? _c('i', {
-      staticClass: "material-icons decliner"
-    }, [_vm._v("close")]) : _vm._e()]), _vm._v(" "), _c('td', [_vm._v("\n          " + _vm._s(data.users[2].FullName)), _c('br'), _vm._v(" "), (data.users[2].pivot.Signature == '0') ? _c('i', {
-      staticClass: "material-icons"
-    }, [_vm._v("check")]) : (data.users[2].pivot.Signature == '1') ? _c('i', {
-      staticClass: "material-icons decliner"
-    }, [_vm._v("close")]) : _vm._e()]), _vm._v(" "), _c('td', [(data.Status == '0') ? _c('i', {
-      staticClass: "material-icons"
-    }, [_vm._v("thumb_up")]) : (data.Status == '1') ? _c('i', {
-      staticClass: "material-icons decliner"
-    }, [_vm._v("close")]) : _c('i', {
-      staticClass: "material-icons"
-    }, [_vm._v("access_time")])]), _vm._v(" "), _c('td', [_c('a', {
-      attrs: {
-        "href": '/full-preview-MR/' + data.MRNo
-      }
-    }, [_c('i', {
-      staticClass: "material-icons"
-    }, [_vm._v("remove_red_eye")])])])]) : _vm._e()
-  })], 2), _vm._v(" "), _c('div', {
-    staticClass: "paginate-container"
-  }, [_c('ul', {
-    staticClass: "pagination"
-  }, [(_vm.pagination.current_page > 1) ? _c('li', [_c('a', {
-    attrs: {
-      "href": "#"
-    },
-    on: {
-      "click": function($event) {
-        $event.preventDefault();
-        _vm.changepage(_vm.pagination.current_page - 1)
-      }
-    }
-  }, [_c('i', {
-    staticClass: "fa fa-angle-left"
-  })])]) : _vm._e(), _vm._v(" "), _vm._l((_vm.pagesNumber), function(page) {
-    return _c('li', {
-      class: [page == _vm.isActive ? 'active' : '']
-    }, [_c('a', {
-      attrs: {
-        "href": "#"
-      },
-      on: {
-        "click": function($event) {
-          $event.preventDefault();
-          _vm.changepage(page)
-        }
-      }
-    }, [_vm._v(_vm._s(page))])])
-  }), _vm._v(" "), (_vm.pagination.current_page < _vm.pagination.last_page) ? _c('li', [_c('a', {
-    attrs: {
-      "href": "#"
-    },
-    on: {
-      "click": function($event) {
-        $event.preventDefault();
-        _vm.changepage(_vm.pagination.current_page + 1)
-      }
-    }
-  }, [_c('i', {
-    staticClass: "fa fa-angle-right"
-  })])]) : _vm._e()], 2)])])])
-},staticRenderFns: [function (){var _vm=this;var _h=_vm.$createElement;var _c=_vm._self._c||_h;
-  return _c('h1', [_c('i', {
-    staticClass: "material-icons"
-  }, [_vm._v("show_chart")]), _vm._v(" Memorandum Receipt index")])
-},function (){var _vm=this;var _h=_vm.$createElement;var _c=_vm._self._c||_h;
-  return _c('tr', [_c('th', [_vm._v("MR #")]), _vm._v(" "), _c('th', [_vm._v("MR Date")]), _vm._v(" "), _c('th', [_vm._v("RV #")]), _vm._v(" "), _c('th', [_vm._v("RR #")]), _vm._v(" "), _c('th', [_vm._v("PO #")]), _vm._v(" "), _c('th', [_vm._v("Supplier")]), _vm._v(" "), _c('th', [_vm._v("Recommended by")]), _vm._v(" "), _c('th', [_vm._v("Approved by")]), _vm._v(" "), _c('th', [_vm._v("Received by")]), _vm._v(" "), _c('th', [_vm._v("Status")]), _vm._v(" "), _c('th', [_vm._v("View")])])
-}]}
-module.exports.render._withStripped = true
-if (false) {
-  module.hot.accept()
-  if (module.hot.data) {
-     require("vue-hot-reload-api").rerender("data-v-1011315c", module.exports)
-  }
-}
-
-/***/ }),
-
 /***/ 26:
 /***/ (function(module, exports, __webpack_require__) {
 
@@ -13123,168 +13004,7 @@ module.exports = function combineURLs(baseURL, relativeURL) {
 
 /***/ }),
 
-/***/ 266:
-/***/ (function(module, exports, __webpack_require__) {
-
-module.exports={render:function (){var _vm=this;var _h=_vm.$createElement;var _c=_vm._self._c||_h;
-  return (_vm.MRMaster.users != null) ? _c('div', [_c('div', {
-    staticClass: "btns-mr-full"
-  }, [_c('div', [(_vm.AlreadyApproved) ? _c('a', {
-    attrs: {
-      "href": '/MR.pdf/' + this.mrno.MRNo
-    }
-  }, [_vm._m(0)]) : _vm._e(), _vm._v(" "), (_vm.replacerCanSignature) ? _c('h6', {
-    staticClass: "approve-managerreplace-note"
-  }, [_c('i', {
-    staticClass: "fa fa-info-circle color-blue"
-  }), _vm._v("\r\n        The "), _c('span', {
-    staticClass: "color-blue"
-  }, [_vm._v(_vm._s(_vm.MRMaster.WarehouseMan))]), _vm._v(" is asking for your signature b/c the General Manager is not available\r\n      ")]) : _vm._e()]), _vm._v(" "), _c('div', {
-    staticClass: "signature-MR-btns"
-  }, [(_vm.replacerCanSignature) ? _c('span', {
-    staticClass: "Approve-MR-inBehalf-btn",
-    class: {
-      'hide': _vm.SignatureApproveReplacer
-    }
-  }, [_c('longpress', {
-    staticClass: "rvapprovebtn waves-effect waves-light",
-    attrs: {
-      "duration": "3",
-      "on-confirm": _vm.SignatureApproveInBehalf,
-      "pressing-text": "confirm in {$rcounter}",
-      "action-text": "Loading . . ."
-    }
-  }, [_c('i', {
-    staticClass: "material-icons"
-  }, [_vm._v("edit")]), _vm._v(" Signature\r\n        ")]), _vm._v(" "), _c('longpress', {
-    staticClass: "RVdeclineBtn waves-effect waves-light",
-    attrs: {
-      "duration": "3",
-      "on-confirm": _vm.refuseApproveInBehalf,
-      "pressing-text": "confirm in {$rcounter}",
-      "action-text": "Loading . . ."
-    }
-  }, [_c('i', {
-    staticClass: "material-icons"
-  }, [_vm._v("close")]), _vm._v(" I can't\r\n        ")])], 1) : _vm._e(), _vm._v(" "), (_vm.UserCanSignature) ? _c('span', {
-    class: {
-      'hide': _vm.SignatureBtnHide
-    }
-  }, [_c('longpress', {
-    staticClass: "waves-effect waves-light",
-    attrs: {
-      "id": "signatureMRbtn",
-      "duration": "3",
-      "on-confirm": _vm.signatureMR,
-      "pressing-text": "confirm in {$rcounter}",
-      "action-text": "Loading . . ."
-    }
-  }, [_c('i', {
-    staticClass: "material-icons"
-  }, [_vm._v("edit")]), _vm._v(" Signature\r\n        ")]), _vm._v(" "), _c('longpress', {
-    staticClass: "waves-effect waves-light",
-    attrs: {
-      "id": "declineMRbtn",
-      "duration": "3",
-      "on-confirm": _vm.declineMR,
-      "pressing-text": "confirm in {$rcounter}",
-      "action-text": "Loading . . ."
-    }
-  }, [_c('i', {
-    staticClass: "material-icons"
-  }, [_vm._v("close")]), _vm._v(" Decline\r\n        ")])], 1) : _vm._e()])]), _vm._v(" "), _c('div', {
-    staticClass: "mr-full-bondpaper"
-  }, [_vm._m(1), _vm._v(" "), _c('div', {
-    staticClass: "list-number-dates"
-  }, [_c('div', {
-    staticClass: "DateNumBox"
-  }, [_c('h1', [_vm._v("RR No. " + _vm._s(_vm.MRMaster.RRNo))]), _vm._v(" "), _c('p', [_vm._v(_vm._s(_vm.MRMaster.RRDate))])]), _vm._v(" "), _c('div', {
-    staticClass: "DateNumBox"
-  }, [_c('h1', [_vm._v("RV No. " + _vm._s(_vm.MRMaster.RVNo))]), _vm._v(" "), _c('p', [_vm._v(_vm._s(_vm.MRMaster.RVDate))])]), _vm._v(" "), _c('div', {
-    staticClass: "DateNumBox"
-  }, [_c('h1', [_vm._v("MR No." + _vm._s(_vm.MRMaster.MRNo))]), _vm._v(" "), _c('p', [_vm._v(_vm._s(_vm.MRMaster.MRDate))])])]), _vm._v(" "), _c('div', {
-    staticClass: "acknowledgeParagraph"
-  }, [_c('p', [_vm._v("I HEREBY ACKNOWLEGE to have received from\r\n        "), _c('span', {
-    staticClass: "bold"
-  }, [_vm._v(_vm._s(_vm.MRMaster.WarehouseMan))]), _vm._v(" Warehouseman,\r\n        the following"), _c('br'), _vm._v(" property\r\n        for which I am responsible, subject to the provision of the usual accounting and auditing rules and regulations\r\n        and which will be used for General Services.\r\n      ")])]), _vm._v(" "), _c('div', {
-    staticClass: "table-mr-list-container"
-  }, [_c('table', [_vm._m(2), _vm._v(" "), _vm._l((_vm.MRDetail), function(mrdata) {
-    return _c('tr', [_c('td', [_vm._v(_vm._s(mrdata.Quantity))]), _vm._v(" "), _c('td', [_vm._v(_vm._s(mrdata.Unit))]), _vm._v(" "), _c('td', [_vm._v(_vm._s(mrdata.NameDescription))]), _vm._v(" "), _c('td'), _vm._v(" "), _c('td', [_vm._v(_vm._s(_vm.formatPrice(mrdata.UnitValue)))]), _vm._v(" "), _c('td', [_vm._v(_vm._s(_vm.formatPrice(mrdata.TotalValue)))]), _vm._v(" "), _c('td', [_vm._v(_vm._s(mrdata.Remarks))])])
-  })], 2)]), _vm._v(" "), _c('div', {
-    staticClass: "note-mr-container"
-  }, [_c('p', [_vm._v("Note:" + _vm._s(_vm.MRMaster.Note))])]), _vm._v(" "), _c('div', {
-    staticClass: "bottom-mr-bondpaper"
-  }, [_c('div', {
-    staticClass: "left-reference-box"
-  }, [_c('div', {
-    staticClass: "reference-box"
-  }, [_c('h3', [_vm._v("REFERENCE:")]), _vm._v(" "), _c('p', [_vm._v("Purchase from: " + _vm._s(_vm.MRMaster.Supplier))]), _vm._v(" "), _c('p', [_vm._v("Invoice number: " + _vm._s(_vm.MRMaster.InvoiceNo))])]), _vm._v(" "), _vm._m(3)]), _vm._v(" "), _c('div', {
-    staticClass: "MR-Signatures-container"
-  }, [_c('h4', [_vm._v("P.O. Number: " + _vm._s(_vm.MRMaster.PONo))]), _vm._v(" "), _c('div', {
-    staticClass: "signature-mr-box"
-  }, [_c('label', [_vm._v("RECOMMENDING APPROVAL:")]), _vm._v(" "), (_vm.MRMaster.users[0].pivot.Signature == '0') ? _c('h5', [_c('img', {
-    attrs: {
-      "src": '/storage/signatures/' + _vm.MRMaster.users[0].Signature,
-      "alt": "signature"
-    }
-  })]) : _vm._e(), _vm._v(" "), _c('h3', [_vm._v("\r\n            " + _vm._s(_vm.MRMaster.users[0].FullName) + "\r\n              "), ((_vm.MRMaster.users[0].pivot.Signature == '1')) ? _c('i', {
-    staticClass: "material-icons decliner"
-  }, [_vm._v("close")]) : _vm._e()]), _vm._v(" "), _c('p', [_vm._v(_vm._s(_vm.MRMaster.users[0].Position))])]), _vm._v(" "), _c('div', {
-    staticClass: "signature-mr-box"
-  }, [_c('label', [_vm._v("APPROVED:")]), _vm._v(" "), (_vm.MRMaster.users[1].pivot.Signature == '0') ? _c('h5', [_c('img', {
-    attrs: {
-      "src": '/storage/signatures/' + _vm.MRMaster.users[1].Signature,
-      "alt": "signature"
-    }
-  })]) : (((_vm.MRMaster.users[3] != null) && (_vm.MRMaster.users[3].pivot.Signature == '0'))) ? _c('h5', [_c('p', [_vm._v("For :")]), _c('img', {
-    attrs: {
-      "src": '/storage/signatures/' + _vm.MRMaster.users[3].Signature,
-      "alt": "signature"
-    }
-  })]) : _vm._e(), _vm._v(" "), _c('h3', [_vm._v("\r\n            " + _vm._s(_vm.MRMaster.users[1].FullName) + "\r\n              "), (_vm.MRMaster.users[1].pivot.Signature == '1') ? _c('i', {
-    staticClass: "material-icons decliner"
-  }, [_vm._v("close")]) : _vm._e()]), _vm._v(" "), _c('p', [_vm._v(_vm._s(_vm.MRMaster.users[1].Position))])]), _vm._v(" "), _c('div', {
-    staticClass: "signature-mr-box"
-  }, [_c('label', [_vm._v("RECEIVED:")]), _vm._v(" "), (_vm.MRMaster.users[2].pivot.Signature == '0') ? _c('h5', [_c('img', {
-    attrs: {
-      "src": '/storage/signatures/' + _vm.MRMaster.users[2].Signature,
-      "alt": "signature"
-    }
-  })]) : _vm._e(), _vm._v(" "), _c('h3', [_vm._v(_vm._s(_vm.MRMaster.users[2].FullName)), (_vm.MRMaster.users[2].pivot.Signature == '1') ? _c('i', {
-    staticClass: "material-icons decliner"
-  }, [_vm._v("close")]) : _vm._e()]), _vm._v(" "), _c('p', [_vm._v(_vm._s(_vm.MRMaster.users[2].Position))])])])])])]) : _vm._e()
-},staticRenderFns: [function (){var _vm=this;var _h=_vm.$createElement;var _c=_vm._self._c||_h;
-  return _c('button', {
-    attrs: {
-      "type": "submit",
-      "name": "MRNo",
-      "value": "mrnohere"
-    }
-  }, [_c('i', {
-    staticClass: "material-icons"
-  }, [_vm._v("print")])])
-},function (){var _vm=this;var _h=_vm.$createElement;var _c=_vm._self._c||_h;
-  return _c('div', {
-    staticClass: "mr-top-titles"
-  }, [_c('h1', [_vm._v("BOHOL I ELECTRIC COOPERATIVE, INC.")]), _vm._v(" "), _c('h3', [_vm._v("Cabulijan, Tubigon, Bohol")]), _vm._v(" "), _c('h2', [_vm._v("MEMORANDUM RECEIPT FOR EQUIPMENT . SEMI-EXPENDABLE AND NON EXPENDABLE PROPERTY")])])
-},function (){var _vm=this;var _h=_vm.$createElement;var _c=_vm._self._c||_h;
-  return _c('tr', [_c('th', [_vm._v("QUANTITY")]), _vm._v(" "), _c('th', [_vm._v("UNIT")]), _vm._v(" "), _c('th', [_vm._v("NAME AND DESCRIPTION")]), _vm._v(" "), _c('th', [_vm._v("PROPERTY NUMBER")]), _vm._v(" "), _c('th', [_vm._v("UNIT VALUE")]), _vm._v(" "), _c('th', [_vm._v("TOTAL VALUE")]), _vm._v(" "), _c('th', [_vm._v("REMARKS")])])
-},function (){var _vm=this;var _h=_vm.$createElement;var _c=_vm._self._c||_h;
-  return _c('div', {
-    staticClass: "instruction-for-mr"
-  }, [_c('h3', [_vm._v("INSTRUCTION")]), _vm._v(" "), _c('p', [_vm._v("\r\n            This form shall be prepared in FOUR (4)"), _c('br'), _vm._v("\r\n            LEGIBLE COPIES,DISTRIBUTION:(1) ORIGINAL"), _c('br'), _vm._v("\r\n            should be KEPT by the Accountable Officer"), _c('br'), _vm._v("\r\n            (2) DUPLICATE must be FILED in the Personal"), _c('br'), _vm._v("\r\n             file of the Employee Concerned. (3) TRIPLICATE "), _c('br'), _vm._v("\r\n             should be FILED in the OFFICE OF THE "), _c('br'), _vm._v("\r\n             Accounting Section.(4) QUADRUPLICATE "), _c('br'), _vm._v("\r\n             must be KEPT by the Responsible Employee.\r\n           ")])])
-}]}
-module.exports.render._withStripped = true
-if (false) {
-  module.hot.accept()
-  if (module.hot.data) {
-     require("vue-hot-reload-api").rerender("data-v-45e275b0", module.exports)
-  }
-}
-
-/***/ }),
-
-/***/ 269:
+/***/ 262:
 /***/ (function(module, exports, __webpack_require__) {
 
 module.exports={render:function (){var _vm=this;var _h=_vm.$createElement;var _c=_vm._self._c||_h;
@@ -13499,7 +13219,126 @@ module.exports.render._withStripped = true
 if (false) {
   module.hot.accept()
   if (module.hot.data) {
-     require("vue-hot-reload-api").rerender("data-v-4caf8e72", module.exports)
+     require("vue-hot-reload-api").rerender("data-v-39ecb30e", module.exports)
+  }
+}
+
+/***/ }),
+
+/***/ 267:
+/***/ (function(module, exports, __webpack_require__) {
+
+module.exports={render:function (){var _vm=this;var _h=_vm.$createElement;var _c=_vm._self._c||_h;
+  return _c('div', {
+    staticClass: "mr-index-vue"
+  }, [_c('div', {
+    staticClass: "mr-index-search-and-fetch"
+  }, [_vm._m(0), _vm._v(" "), _c('input', {
+    directives: [{
+      name: "model",
+      rawName: "v-model",
+      value: (_vm.MRNoSearch),
+      expression: "MRNoSearch"
+    }],
+    attrs: {
+      "type": "text",
+      "placeholder": "MR #"
+    },
+    domProps: {
+      "value": (_vm.MRNoSearch)
+    },
+    on: {
+      "keyup": function($event) {
+        _vm.fetchAndSearch(1)
+      },
+      "input": function($event) {
+        if ($event.target.composing) { return; }
+        _vm.MRNoSearch = $event.target.value
+      }
+    }
+  })]), _vm._v(" "), _c('div', {
+    staticClass: "mr-index-table"
+  }, [_c('table', [_vm._m(1), _vm._v(" "), _vm._l((_vm.MRindexData), function(data) {
+    return (data.users[0].pivot != null) ? _c('tr', [_c('td', [_vm._v(_vm._s(data.MRNo))]), _vm._v(" "), _c('td', [_vm._v(_vm._s(data.MRDate))]), _vm._v(" "), _c('td', [_vm._v(_vm._s(data.RVNo))]), _vm._v(" "), _c('td', [_vm._v(_vm._s(data.RRNo))]), _vm._v(" "), (data.PONo != null) ? _c('td', [_vm._v(_vm._s(data.PONo))]) : _c('td', [_vm._v("N/A")]), _vm._v(" "), _c('td', [_vm._v(_vm._s(data.Supplier))]), _vm._v(" "), _c('td', [_vm._v("\n          " + _vm._s(data.users[0].FullName)), _c('br'), _vm._v(" "), (data.users[0].pivot.Signature == '0') ? _c('i', {
+      staticClass: "material-icons"
+    }, [_vm._v("check")]) : (data.users[0].pivot.Signature == '1') ? _c('i', {
+      staticClass: "material-icons decliner"
+    }, [_vm._v("close")]) : _vm._e()]), _vm._v(" "), _c('td', [_vm._v("\n          " + _vm._s(data.users[1].FullName)), _c('br'), _vm._v(" "), (((data.users[1].pivot.Signature == '0') || (data.users[3] != null && data.users[3].pivot.Signature == '0'))) ? _c('i', {
+      staticClass: "material-icons"
+    }, [_vm._v("check")]) : (data.users[1].pivot.Signature == '1') ? _c('i', {
+      staticClass: "material-icons decliner"
+    }, [_vm._v("close")]) : _vm._e()]), _vm._v(" "), _c('td', [_vm._v("\n          " + _vm._s(data.users[2].FullName)), _c('br'), _vm._v(" "), (data.users[2].pivot.Signature == '0') ? _c('i', {
+      staticClass: "material-icons"
+    }, [_vm._v("check")]) : (data.users[2].pivot.Signature == '1') ? _c('i', {
+      staticClass: "material-icons decliner"
+    }, [_vm._v("close")]) : _vm._e()]), _vm._v(" "), _c('td', [(data.Status == '0') ? _c('i', {
+      staticClass: "material-icons"
+    }, [_vm._v("thumb_up")]) : (data.Status == '1') ? _c('i', {
+      staticClass: "material-icons decliner"
+    }, [_vm._v("close")]) : _c('i', {
+      staticClass: "material-icons"
+    }, [_vm._v("access_time")])]), _vm._v(" "), _c('td', [_c('a', {
+      attrs: {
+        "href": '/full-preview-MR/' + data.MRNo
+      }
+    }, [_c('i', {
+      staticClass: "material-icons"
+    }, [_vm._v("remove_red_eye")])])])]) : _vm._e()
+  })], 2), _vm._v(" "), _c('div', {
+    staticClass: "paginate-container"
+  }, [_c('ul', {
+    staticClass: "pagination"
+  }, [(_vm.pagination.current_page > 1) ? _c('li', [_c('a', {
+    attrs: {
+      "href": "#"
+    },
+    on: {
+      "click": function($event) {
+        $event.preventDefault();
+        _vm.changepage(_vm.pagination.current_page - 1)
+      }
+    }
+  }, [_c('i', {
+    staticClass: "fa fa-angle-left"
+  })])]) : _vm._e(), _vm._v(" "), _vm._l((_vm.pagesNumber), function(page) {
+    return _c('li', {
+      class: [page == _vm.isActive ? 'active' : '']
+    }, [_c('a', {
+      attrs: {
+        "href": "#"
+      },
+      on: {
+        "click": function($event) {
+          $event.preventDefault();
+          _vm.changepage(page)
+        }
+      }
+    }, [_vm._v(_vm._s(page))])])
+  }), _vm._v(" "), (_vm.pagination.current_page < _vm.pagination.last_page) ? _c('li', [_c('a', {
+    attrs: {
+      "href": "#"
+    },
+    on: {
+      "click": function($event) {
+        $event.preventDefault();
+        _vm.changepage(_vm.pagination.current_page + 1)
+      }
+    }
+  }, [_c('i', {
+    staticClass: "fa fa-angle-right"
+  })])]) : _vm._e()], 2)])])])
+},staticRenderFns: [function (){var _vm=this;var _h=_vm.$createElement;var _c=_vm._self._c||_h;
+  return _c('h1', [_c('i', {
+    staticClass: "material-icons"
+  }, [_vm._v("show_chart")]), _vm._v(" Memorandum Receipt index")])
+},function (){var _vm=this;var _h=_vm.$createElement;var _c=_vm._self._c||_h;
+  return _c('tr', [_c('th', [_vm._v("MR #")]), _vm._v(" "), _c('th', [_vm._v("MR Date")]), _vm._v(" "), _c('th', [_vm._v("RV #")]), _vm._v(" "), _c('th', [_vm._v("RR #")]), _vm._v(" "), _c('th', [_vm._v("PO #")]), _vm._v(" "), _c('th', [_vm._v("Supplier")]), _vm._v(" "), _c('th', [_vm._v("Recommended by")]), _vm._v(" "), _c('th', [_vm._v("Approved by")]), _vm._v(" "), _c('th', [_vm._v("Received by")]), _vm._v(" "), _c('th', [_vm._v("Status")]), _vm._v(" "), _c('th', [_vm._v("View")])])
+}]}
+module.exports.render._withStripped = true
+if (false) {
+  module.hot.accept()
+  if (module.hot.data) {
+     require("vue-hot-reload-api").rerender("data-v-50a330ee", module.exports)
   }
 }
 
@@ -13563,6 +13402,167 @@ module.exports = (
   })()
 );
 
+
+/***/ }),
+
+/***/ 274:
+/***/ (function(module, exports, __webpack_require__) {
+
+module.exports={render:function (){var _vm=this;var _h=_vm.$createElement;var _c=_vm._self._c||_h;
+  return (_vm.MRMaster.users != null) ? _c('div', [_c('div', {
+    staticClass: "btns-mr-full"
+  }, [_c('div', [(_vm.AlreadyApproved) ? _c('a', {
+    attrs: {
+      "href": '/MR.pdf/' + this.mrno.MRNo
+    }
+  }, [_vm._m(0)]) : _vm._e(), _vm._v(" "), (_vm.replacerCanSignature) ? _c('h6', {
+    staticClass: "approve-managerreplace-note"
+  }, [_c('i', {
+    staticClass: "fa fa-info-circle color-blue"
+  }), _vm._v("\r\n        The "), _c('span', {
+    staticClass: "color-blue"
+  }, [_vm._v(_vm._s(_vm.MRMaster.WarehouseMan))]), _vm._v(" is asking for your signature b/c the General Manager is not available\r\n      ")]) : _vm._e()]), _vm._v(" "), _c('div', {
+    staticClass: "signature-MR-btns"
+  }, [(_vm.replacerCanSignature) ? _c('span', {
+    staticClass: "Approve-MR-inBehalf-btn",
+    class: {
+      'hide': _vm.SignatureApproveReplacer
+    }
+  }, [_c('longpress', {
+    staticClass: "rvapprovebtn waves-effect waves-light",
+    attrs: {
+      "duration": "3",
+      "on-confirm": _vm.SignatureApproveInBehalf,
+      "pressing-text": "confirm in {$rcounter}",
+      "action-text": "Loading . . ."
+    }
+  }, [_c('i', {
+    staticClass: "material-icons"
+  }, [_vm._v("edit")]), _vm._v(" Signature\r\n        ")]), _vm._v(" "), _c('longpress', {
+    staticClass: "RVdeclineBtn waves-effect waves-light",
+    attrs: {
+      "duration": "3",
+      "on-confirm": _vm.refuseApproveInBehalf,
+      "pressing-text": "confirm in {$rcounter}",
+      "action-text": "Loading . . ."
+    }
+  }, [_c('i', {
+    staticClass: "material-icons"
+  }, [_vm._v("close")]), _vm._v(" I can't\r\n        ")])], 1) : _vm._e(), _vm._v(" "), (_vm.UserCanSignature) ? _c('span', {
+    class: {
+      'hide': _vm.SignatureBtnHide
+    }
+  }, [_c('longpress', {
+    staticClass: "waves-effect waves-light",
+    attrs: {
+      "id": "signatureMRbtn",
+      "duration": "3",
+      "on-confirm": _vm.signatureMR,
+      "pressing-text": "confirm in {$rcounter}",
+      "action-text": "Loading . . ."
+    }
+  }, [_c('i', {
+    staticClass: "material-icons"
+  }, [_vm._v("edit")]), _vm._v(" Signature\r\n        ")]), _vm._v(" "), _c('longpress', {
+    staticClass: "waves-effect waves-light",
+    attrs: {
+      "id": "declineMRbtn",
+      "duration": "3",
+      "on-confirm": _vm.declineMR,
+      "pressing-text": "confirm in {$rcounter}",
+      "action-text": "Loading . . ."
+    }
+  }, [_c('i', {
+    staticClass: "material-icons"
+  }, [_vm._v("close")]), _vm._v(" Decline\r\n        ")])], 1) : _vm._e()])]), _vm._v(" "), _c('div', {
+    staticClass: "mr-full-bondpaper"
+  }, [_vm._m(1), _vm._v(" "), _c('div', {
+    staticClass: "list-number-dates"
+  }, [_c('div', {
+    staticClass: "DateNumBox"
+  }, [_c('h1', [_vm._v("RR No. " + _vm._s(_vm.MRMaster.RRNo))]), _vm._v(" "), _c('p', [_vm._v(_vm._s(_vm.MRMaster.RRDate))])]), _vm._v(" "), _c('div', {
+    staticClass: "DateNumBox"
+  }, [_c('h1', [_vm._v("RV No. " + _vm._s(_vm.MRMaster.RVNo))]), _vm._v(" "), _c('p', [_vm._v(_vm._s(_vm.MRMaster.RVDate))])]), _vm._v(" "), _c('div', {
+    staticClass: "DateNumBox"
+  }, [_c('h1', [_vm._v("MR No." + _vm._s(_vm.MRMaster.MRNo))]), _vm._v(" "), _c('p', [_vm._v(_vm._s(_vm.MRMaster.MRDate))])])]), _vm._v(" "), _c('div', {
+    staticClass: "acknowledgeParagraph"
+  }, [_c('p', [_vm._v("I HEREBY ACKNOWLEGE to have received from\r\n        "), _c('span', {
+    staticClass: "bold"
+  }, [_vm._v(_vm._s(_vm.MRMaster.WarehouseMan))]), _vm._v(" Warehouseman,\r\n        the following"), _c('br'), _vm._v(" property\r\n        for which I am responsible, subject to the provision of the usual accounting and auditing rules and regulations\r\n        and which will be used for General Services.\r\n      ")])]), _vm._v(" "), _c('div', {
+    staticClass: "table-mr-list-container"
+  }, [_c('table', [_vm._m(2), _vm._v(" "), _vm._l((_vm.MRDetail), function(mrdata) {
+    return _c('tr', [_c('td', [_vm._v(_vm._s(mrdata.Quantity))]), _vm._v(" "), _c('td', [_vm._v(_vm._s(mrdata.Unit))]), _vm._v(" "), _c('td', [_vm._v(_vm._s(mrdata.NameDescription))]), _vm._v(" "), _c('td'), _vm._v(" "), _c('td', [_vm._v(_vm._s(_vm.formatPrice(mrdata.UnitValue)))]), _vm._v(" "), _c('td', [_vm._v(_vm._s(_vm.formatPrice(mrdata.TotalValue)))]), _vm._v(" "), _c('td', [_vm._v(_vm._s(mrdata.Remarks))])])
+  })], 2)]), _vm._v(" "), _c('div', {
+    staticClass: "note-mr-container"
+  }, [_c('p', [_vm._v("Note:" + _vm._s(_vm.MRMaster.Note))])]), _vm._v(" "), _c('div', {
+    staticClass: "bottom-mr-bondpaper"
+  }, [_c('div', {
+    staticClass: "left-reference-box"
+  }, [_c('div', {
+    staticClass: "reference-box"
+  }, [_c('h3', [_vm._v("REFERENCE:")]), _vm._v(" "), _c('p', [_vm._v("Purchase from: " + _vm._s(_vm.MRMaster.Supplier))]), _vm._v(" "), _c('p', [_vm._v("Invoice number: " + _vm._s(_vm.MRMaster.InvoiceNo))])]), _vm._v(" "), _vm._m(3)]), _vm._v(" "), _c('div', {
+    staticClass: "MR-Signatures-container"
+  }, [_c('h4', [_vm._v("P.O. Number: " + _vm._s(_vm.MRMaster.PONo))]), _vm._v(" "), _c('div', {
+    staticClass: "signature-mr-box"
+  }, [_c('label', [_vm._v("RECOMMENDING APPROVAL:")]), _vm._v(" "), (_vm.MRMaster.users[0].pivot.Signature == '0') ? _c('h5', [_c('img', {
+    attrs: {
+      "src": '/storage/signatures/' + _vm.MRMaster.users[0].Signature,
+      "alt": "signature"
+    }
+  })]) : _vm._e(), _vm._v(" "), _c('h3', [_vm._v("\r\n            " + _vm._s(_vm.MRMaster.users[0].FullName) + "\r\n              "), ((_vm.MRMaster.users[0].pivot.Signature == '1')) ? _c('i', {
+    staticClass: "material-icons decliner"
+  }, [_vm._v("close")]) : _vm._e()]), _vm._v(" "), _c('p', [_vm._v(_vm._s(_vm.MRMaster.users[0].Position))])]), _vm._v(" "), _c('div', {
+    staticClass: "signature-mr-box"
+  }, [_c('label', [_vm._v("APPROVED:")]), _vm._v(" "), (_vm.MRMaster.users[1].pivot.Signature == '0') ? _c('h5', [_c('img', {
+    attrs: {
+      "src": '/storage/signatures/' + _vm.MRMaster.users[1].Signature,
+      "alt": "signature"
+    }
+  })]) : (((_vm.MRMaster.users[3] != null) && (_vm.MRMaster.users[3].pivot.Signature == '0'))) ? _c('h5', [_c('p', [_vm._v("For :")]), _c('img', {
+    attrs: {
+      "src": '/storage/signatures/' + _vm.MRMaster.users[3].Signature,
+      "alt": "signature"
+    }
+  })]) : _vm._e(), _vm._v(" "), _c('h3', [_vm._v("\r\n            " + _vm._s(_vm.MRMaster.users[1].FullName) + "\r\n              "), (_vm.MRMaster.users[1].pivot.Signature == '1') ? _c('i', {
+    staticClass: "material-icons decliner"
+  }, [_vm._v("close")]) : _vm._e()]), _vm._v(" "), _c('p', [_vm._v(_vm._s(_vm.MRMaster.users[1].Position))])]), _vm._v(" "), _c('div', {
+    staticClass: "signature-mr-box"
+  }, [_c('label', [_vm._v("RECEIVED:")]), _vm._v(" "), (_vm.MRMaster.users[2].pivot.Signature == '0') ? _c('h5', [_c('img', {
+    attrs: {
+      "src": '/storage/signatures/' + _vm.MRMaster.users[2].Signature,
+      "alt": "signature"
+    }
+  })]) : _vm._e(), _vm._v(" "), _c('h3', [_vm._v(_vm._s(_vm.MRMaster.users[2].FullName)), (_vm.MRMaster.users[2].pivot.Signature == '1') ? _c('i', {
+    staticClass: "material-icons decliner"
+  }, [_vm._v("close")]) : _vm._e()]), _vm._v(" "), _c('p', [_vm._v(_vm._s(_vm.MRMaster.users[2].Position))])])])])])]) : _vm._e()
+},staticRenderFns: [function (){var _vm=this;var _h=_vm.$createElement;var _c=_vm._self._c||_h;
+  return _c('button', {
+    attrs: {
+      "type": "submit",
+      "name": "MRNo",
+      "value": "mrnohere"
+    }
+  }, [_c('i', {
+    staticClass: "material-icons"
+  }, [_vm._v("print")])])
+},function (){var _vm=this;var _h=_vm.$createElement;var _c=_vm._self._c||_h;
+  return _c('div', {
+    staticClass: "mr-top-titles"
+  }, [_c('h1', [_vm._v("BOHOL I ELECTRIC COOPERATIVE, INC.")]), _vm._v(" "), _c('h3', [_vm._v("Cabulijan, Tubigon, Bohol")]), _vm._v(" "), _c('h2', [_vm._v("MEMORANDUM RECEIPT FOR EQUIPMENT . SEMI-EXPENDABLE AND NON EXPENDABLE PROPERTY")])])
+},function (){var _vm=this;var _h=_vm.$createElement;var _c=_vm._self._c||_h;
+  return _c('tr', [_c('th', [_vm._v("QUANTITY")]), _vm._v(" "), _c('th', [_vm._v("UNIT")]), _vm._v(" "), _c('th', [_vm._v("NAME AND DESCRIPTION")]), _vm._v(" "), _c('th', [_vm._v("PROPERTY NUMBER")]), _vm._v(" "), _c('th', [_vm._v("UNIT VALUE")]), _vm._v(" "), _c('th', [_vm._v("TOTAL VALUE")]), _vm._v(" "), _c('th', [_vm._v("REMARKS")])])
+},function (){var _vm=this;var _h=_vm.$createElement;var _c=_vm._self._c||_h;
+  return _c('div', {
+    staticClass: "instruction-for-mr"
+  }, [_c('h3', [_vm._v("INSTRUCTION")]), _vm._v(" "), _c('p', [_vm._v("\r\n            This form shall be prepared in FOUR (4)"), _c('br'), _vm._v("\r\n            LEGIBLE COPIES,DISTRIBUTION:(1) ORIGINAL"), _c('br'), _vm._v("\r\n            should be KEPT by the Accountable Officer"), _c('br'), _vm._v("\r\n            (2) DUPLICATE must be FILED in the Personal"), _c('br'), _vm._v("\r\n             file of the Employee Concerned. (3) TRIPLICATE "), _c('br'), _vm._v("\r\n             should be FILED in the OFFICE OF THE "), _c('br'), _vm._v("\r\n             Accounting Section.(4) QUADRUPLICATE "), _c('br'), _vm._v("\r\n             must be KEPT by the Responsible Employee.\r\n           ")])])
+}]}
+module.exports.render._withStripped = true
+if (false) {
+  module.hot.accept()
+  if (module.hot.data) {
+     require("vue-hot-reload-api").rerender("data-v-8c22d078", module.exports)
+  }
+}
 
 /***/ }),
 

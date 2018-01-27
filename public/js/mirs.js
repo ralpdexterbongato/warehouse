@@ -30223,6 +30223,7 @@ Vue.use(__WEBPACK_IMPORTED_MODULE_4_vue2_toast___default.a);
       }).then(function (response) {
         if (response.data.error == null) {
           window.location = response.data.redirect;
+          console.log(response);
         } else {
           vm.$toast.top(response.data.error);
           vm.HideButton = false;
@@ -30901,13 +30902,13 @@ var Component = __webpack_require__(2)(
   /* script */
   __webpack_require__(185),
   /* template */
-  __webpack_require__(260),
+  __webpack_require__(252),
   /* scopeId */
   null,
   /* cssModules */
   null
 )
-Component.options.__file = "C:\\xampp\\htdocs\\warehouse\\resources\\assets\\js\\components\\MIRSCreate.vue"
+Component.options.__file = "C:\\xampp\\htdocs\\warehouse\\resources\\assets\\js\\components\\MIRS\\MIRSCreate.vue"
 if (Component.esModule && Object.keys(Component.esModule).some(function (key) {return key !== "default" && key !== "__esModule"})) {console.error("named exports are not supported in *.vue files.")}
 if (Component.options.functional) {console.error("[vue-loader] MIRSCreate.vue: functional components are not supported with templates, they should use render functions.")}
 
@@ -30918,9 +30919,9 @@ if (false) {(function () {
   if (!hotAPI.compatible) return
   module.hot.accept()
   if (!module.hot.data) {
-    hotAPI.createRecord("data-v-31b7b644", Component.options)
+    hotAPI.createRecord("data-v-1df994a0", Component.options)
   } else {
-    hotAPI.reload("data-v-31b7b644", Component.options)
+    hotAPI.reload("data-v-1df994a0", Component.options)
   }
 })()}
 
@@ -30935,13 +30936,13 @@ var Component = __webpack_require__(2)(
   /* script */
   __webpack_require__(186),
   /* template */
-  __webpack_require__(270),
+  __webpack_require__(248),
   /* scopeId */
   null,
   /* cssModules */
   null
 )
-Component.options.__file = "C:\\xampp\\htdocs\\warehouse\\resources\\assets\\js\\components\\MIRSPreview.vue"
+Component.options.__file = "C:\\xampp\\htdocs\\warehouse\\resources\\assets\\js\\components\\MIRS\\MIRSPreview.vue"
 if (Component.esModule && Object.keys(Component.esModule).some(function (key) {return key !== "default" && key !== "__esModule"})) {console.error("named exports are not supported in *.vue files.")}
 if (Component.options.functional) {console.error("[vue-loader] MIRSPreview.vue: functional components are not supported with templates, they should use render functions.")}
 
@@ -30952,9 +30953,9 @@ if (false) {(function () {
   if (!hotAPI.compatible) return
   module.hot.accept()
   if (!module.hot.data) {
-    hotAPI.createRecord("data-v-4f5770a0", Component.options)
+    hotAPI.createRecord("data-v-0278b5c4", Component.options)
   } else {
-    hotAPI.reload("data-v-4f5770a0", Component.options)
+    hotAPI.reload("data-v-0278b5c4", Component.options)
   }
 })()}
 
@@ -30969,13 +30970,13 @@ var Component = __webpack_require__(2)(
   /* script */
   __webpack_require__(187),
   /* template */
-  __webpack_require__(262),
+  __webpack_require__(269),
   /* scopeId */
   null,
   /* cssModules */
   null
 )
-Component.options.__file = "C:\\xampp\\htdocs\\warehouse\\resources\\assets\\js\\components\\MIRSindex.vue"
+Component.options.__file = "C:\\xampp\\htdocs\\warehouse\\resources\\assets\\js\\components\\MIRS\\MIRSindex.vue"
 if (Component.esModule && Object.keys(Component.esModule).some(function (key) {return key !== "default" && key !== "__esModule"})) {console.error("named exports are not supported in *.vue files.")}
 if (Component.options.functional) {console.error("[vue-loader] MIRSindex.vue: functional components are not supported with templates, they should use render functions.")}
 
@@ -30986,9 +30987,9 @@ if (false) {(function () {
   if (!hotAPI.compatible) return
   module.hot.accept()
   if (!module.hot.data) {
-    hotAPI.createRecord("data-v-364bebda", Component.options)
+    hotAPI.createRecord("data-v-5dc66224", Component.options)
   } else {
-    hotAPI.reload("data-v-364bebda", Component.options)
+    hotAPI.reload("data-v-5dc66224", Component.options)
   }
 })()}
 
@@ -31014,389 +31015,7 @@ module.exports = Component.exports
 /* 245 */,
 /* 246 */,
 /* 247 */,
-/* 248 */,
-/* 249 */,
-/* 250 */,
-/* 251 */,
-/* 252 */,
-/* 253 */,
-/* 254 */,
-/* 255 */,
-/* 256 */,
-/* 257 */,
-/* 258 */,
-/* 259 */,
-/* 260 */
-/***/ (function(module, exports, __webpack_require__) {
-
-module.exports={render:function (){var _vm=this;var _h=_vm.$createElement;var _c=_vm._self._c||_h;
-  return _c('div', {
-    staticClass: "MIRS-create-wrap"
-  }, [_c('div', {
-    staticClass: "Search-item-container"
-  }, [_c('div', {
-    staticClass: "Added-Items"
-  }, [_c('div', {
-    staticClass: "modal-find-button"
-  }, [_c('button', {
-    staticClass: "waves-effect waves-light",
-    attrs: {
-      "type": "button",
-      "name": "button"
-    },
-    on: {
-      "click": function($event) {
-        _vm.isActive = !_vm.isActive
-      }
-    }
-  }, [_c('i', {
-    staticClass: "material-icons"
-  }, [_vm._v("add")]), _vm._v("item")])]), _vm._v(" "), _c('div', {
-    staticClass: "added-table-wrapper"
-  }, [_c('table', [_vm._m(0), _vm._v(" "), _vm._l((_vm.SessionItems), function(sessionitem) {
-    return _c('tr', [_c('td', [_vm._v(_vm._s(sessionitem.ItemCode))]), _vm._v(" "), _c('td', [_vm._v(_vm._s(sessionitem.Particulars))]), _vm._v(" "), _c('td', [_vm._v(_vm._s(sessionitem.Quantity))]), _vm._v(" "), _c('td', [_vm._v(_vm._s(sessionitem.Unit))]), _vm._v(" "), _c('td', [_vm._v(_vm._s(sessionitem.Remarks))]), _vm._v(" "), _c('td', {
-      staticClass: "delete-trash"
-    }, [_c('i', {
-      staticClass: "material-icons",
-      on: {
-        "click": function($event) {
-          _vm.deleteSession(sessionitem.ItemCode)
-        }
-      }
-    }, [_vm._v("close")])])])
-  })], 2)])])]), _vm._v(" "), _c('div', {
-    staticClass: "MIRSform-container z-depth-0"
-  }, [_c('div', {
-    staticClass: "form-wrap-mirs"
-  }, [_c('ul', [_c('li', [_c('input', {
-    directives: [{
-      name: "model",
-      rawName: "v-model",
-      value: (_vm.purpose),
-      expression: "purpose"
-    }],
-    attrs: {
-      "type": "text",
-      "autocomplete": "off",
-      "name": "Purpose",
-      "placeholder": "Purpose"
-    },
-    domProps: {
-      "value": (_vm.purpose)
-    },
-    on: {
-      "input": function($event) {
-        if ($event.target.composing) { return; }
-        _vm.purpose = $event.target.value
-      }
-    }
-  })]), _vm._v(" "), (_vm.manager[0] != null) ? _c('li', [_c('h3', {
-    staticClass: "mymanagerName"
-  }, [_vm._v(_vm._s(_vm.manager[0].FullName))]), _vm._v(" "), _c('p', [_vm._v("Recommended by")])]) : _vm._e(), _vm._v(" "), (_vm.gm[0] != null) ? _c('li', [_c('h3', {
-    staticClass: "gm-name"
-  }, [_vm._v(_vm._s(_vm.gm[0].FullName))]), _vm._v(" "), _c('p', [_vm._v("General Manager")])]) : _vm._e(), _vm._v(" "), _c('longpress', {
-    staticClass: "submitMCT-btn",
-    class: {
-      'hide': _vm.HideButton
-    },
-    attrs: {
-      "id": "go-btn",
-      "duration": "3",
-      "on-confirm": _vm.submitWholePage,
-      "pressing-text": "Submit confirmed in {$rcounter}",
-      "action-text": "Please wait..."
-    }
-  }, [_vm._v("\r\n          Submit\r\n        ")])], 1)])]), _vm._v(" "), _c('div', {
-    staticClass: "modal-search-item",
-    class: {
-      'active': _vm.isActive
-    },
-    on: {
-      "click": function($event) {
-        _vm.isActive = !_vm.isActive
-      }
-    }
-  }, [_c('div', {
-    staticClass: "middle-modal-search"
-  }, [_c('h1', [_vm._v("MIRS")]), _vm._v(" "), _c('div', {
-    staticClass: "table-mirs-modalcontain"
-  }, [_c('div', {
-    staticClass: "search-item-bar"
-  }, [_c('div', {
-    staticClass: "search-mirs-modal"
-  }, [_c('input', {
-    directives: [{
-      name: "model",
-      rawName: "v-model",
-      value: (_vm.ItemSearch),
-      expression: "ItemSearch"
-    }],
-    attrs: {
-      "type": "text",
-      "autocomplete": "off",
-      "name": "Description",
-      "placeholder": "Search Name/Code"
-    },
-    domProps: {
-      "value": (_vm.ItemSearch)
-    },
-    on: {
-      "keyup": function($event) {
-        _vm.searchItem()
-      },
-      "input": function($event) {
-        if ($event.target.composing) { return; }
-        _vm.ItemSearch = $event.target.value
-      }
-    }
-  })])]), _vm._v(" "), _c('div', {
-    staticClass: "modal-search-results"
-  }, [_c('table', [_vm._m(1), _vm._v(" "), _vm._l((_vm.SearchResults), function(itemcoderesult, count) {
-    return _c('tr', [_c('td', [_vm._v(_vm._s(itemcoderesult.ItemCode))]), _vm._v(" "), _c('td', [_vm._v(_vm._s(itemcoderesult.Description))]), _vm._v(" "), _c('td', [_c('input', {
-      directives: [{
-        name: "model",
-        rawName: "v-model",
-        value: (_vm.Quantity[count]),
-        expression: "Quantity[count]"
-      }],
-      attrs: {
-        "type": "number",
-        "min": "1"
-      },
-      domProps: {
-        "value": (_vm.Quantity[count])
-      },
-      on: {
-        "input": function($event) {
-          if ($event.target.composing) { return; }
-          _vm.$set(_vm.Quantity, count, $event.target.value)
-        }
-      }
-    })]), _vm._v(" "), _c('td', [_vm._v(_vm._s(itemcoderesult.Unit))]), _vm._v(" "), _c('td', [_c('input', {
-      directives: [{
-        name: "model",
-        rawName: "v-model",
-        value: (_vm.Remarks[count]),
-        expression: "Remarks[count]"
-      }],
-      attrs: {
-        "type": "text",
-        "autocomplete": "off",
-        "min": "1",
-        "name": "Remarks[]"
-      },
-      domProps: {
-        "value": (_vm.Remarks[count])
-      },
-      on: {
-        "input": function($event) {
-          if ($event.target.composing) { return; }
-          _vm.$set(_vm.Remarks, count, $event.target.value)
-        }
-      }
-    })]), _vm._v(" "), _c('td', [_c('button', {
-      attrs: {
-        "type": "button"
-      },
-      on: {
-        "click": function($event) {
-          _vm.submitTosession(itemcoderesult, count)
-        }
-      }
-    }, [_c('i', {
-      staticClass: "material-icons"
-    }, [_vm._v("add")])])])])
-  })], 2), _vm._v(" "), _c('div', {
-    staticClass: "pagination-container"
-  }, [_c('ul', {
-    staticClass: "pagination"
-  }, [(_vm.Pagination.current_page > 1) ? _c('li', [_c('a', {
-    attrs: {
-      "href": "#"
-    },
-    on: {
-      "click": function($event) {
-        $event.preventDefault();
-        _vm.changePage(_vm.Pagination.current_page - 1)
-      }
-    }
-  }, [_c('i', {
-    staticClass: "fa fa-angle-left"
-  })])]) : _vm._e(), _vm._v(" "), _vm._l((_vm.pagesNumber), function(page) {
-    return _c('li', {
-      class: [page == _vm.PageActive ? 'active' : '']
-    }, [_c('a', {
-      attrs: {
-        "href": "#"
-      },
-      on: {
-        "click": function($event) {
-          $event.preventDefault();
-          _vm.changePage(page)
-        }
-      }
-    }, [_vm._v(_vm._s(page))])])
-  }), _vm._v(" "), (_vm.Pagination.current_page < _vm.Pagination.last_page) ? _c('li', [_c('a', {
-    attrs: {
-      "href": "#"
-    },
-    on: {
-      "click": function($event) {
-        $event.preventDefault();
-        _vm.changePage(_vm.Pagination.current_page + 1)
-      }
-    }
-  }, [_c('i', {
-    staticClass: "fa fa-angle-right"
-  })])]) : _vm._e()], 2)])])])])])])
-},staticRenderFns: [function (){var _vm=this;var _h=_vm.$createElement;var _c=_vm._self._c||_h;
-  return _c('tr', [_c('th', [_vm._v("Item Code")]), _vm._v(" "), _c('th', [_vm._v("Particular")]), _vm._v(" "), _c('th', [_vm._v("Quantity")]), _vm._v(" "), _c('th', [_vm._v("Unit")]), _vm._v(" "), _c('th', [_vm._v("Remarks")]), _vm._v(" "), _c('th', [_vm._v("Cancel")])])
-},function (){var _vm=this;var _h=_vm.$createElement;var _c=_vm._self._c||_h;
-  return _c('tr', [_c('th', [_vm._v("Item code")]), _vm._v(" "), _c('th', [_vm._v("Particular")]), _vm._v(" "), _c('th', [_vm._v("Quantity")]), _vm._v(" "), _c('th', [_vm._v("Unit")]), _vm._v(" "), _c('th', [_vm._v("Remarks")]), _vm._v(" "), _c('th', [_vm._v("Action")])])
-}]}
-module.exports.render._withStripped = true
-if (false) {
-  module.hot.accept()
-  if (module.hot.data) {
-     require("vue-hot-reload-api").rerender("data-v-31b7b644", module.exports)
-  }
-}
-
-/***/ }),
-/* 261 */,
-/* 262 */
-/***/ (function(module, exports, __webpack_require__) {
-
-module.exports={render:function (){var _vm=this;var _h=_vm.$createElement;var _c=_vm._self._c||_h;
-  return _c('div', {
-    staticClass: "mirs-index-vue"
-  }, [_c('div', {
-    staticClass: "top-wrap-index-mirs"
-  }, [_vm._m(0), _vm._v(" "), _c('div', {
-    staticClass: "search-mirs-container"
-  }, [_c('input', {
-    directives: [{
-      name: "model",
-      rawName: "v-model",
-      value: (_vm.SearchInput),
-      expression: "SearchInput"
-    }],
-    attrs: {
-      "type": "text",
-      "autocomplete": "off",
-      "placeholder": "Enter MIRS #"
-    },
-    domProps: {
-      "value": (_vm.SearchInput)
-    },
-    on: {
-      "keyup": function($event) {
-        _vm.SearchAndFetch()
-      },
-      "input": function($event) {
-        if ($event.target.composing) { return; }
-        _vm.SearchInput = $event.target.value
-      }
-    }
-  })])]), _vm._v(" "), _c('div', {
-    staticClass: "table-mirs-list"
-  }, [_c('table', [_vm._m(1), _vm._v(" "), _vm._l((_vm.SearchResult), function(result) {
-    return (result.users[0] != null) ? _c('tr', [_c('td', [_vm._v(_vm._s(result.MIRSNo))]), _vm._v(" "), _c('td', [_vm._v(_vm._s(result.Purpose))]), _vm._v(" "), _c('td', [_vm._v(_vm._s(result.users[0].FullName) + "\r\n            "), ((result.users[0].pivot.Signature == '0')) ? _c('i', {
-      staticClass: "material-icons"
-    }, [_vm._v("check")]) : (result.users[0].pivot.Signature == '1') ? _c('i', {
-      staticClass: "material-icons decliner"
-    }, [_vm._v("close")]) : _vm._e()]), _vm._v(" "), _c('td', [_vm._v(_vm._s(result.users[1].FullName) + "\r\n             "), (((result.users[1].pivot.Signature == '0') || ((result.users[3] != null) && (result.users[3].pivot.Signature == '0') && (result.users[3].pivot.SignatureType == 'ManagerReplacer')) || ((result.users[4] != null) && (result.users[4].pivot.Signature == '0') && (result.users[4].pivot.SignatureType == 'ManagerReplacer')))) ? _c('i', {
-      staticClass: "material-icons"
-    }, [_vm._v("check")]) : (result.users[1].pivot.Signature == '1') ? _c('i', {
-      staticClass: "material-icons decliner"
-    }, [_vm._v("close")]) : _vm._e()]), _vm._v(" "), _c('td', [_vm._v(_vm._s(result.users[2].FullName) + "\r\n            "), (((result.users[2].pivot.Signature == '0') || ((result.users[3] != null) && (result.users[3].pivot.Signature == '0') && (result.users[3].pivot.SignatureType == 'ApprovalReplacer')) || ((result.users[4] != null) && (result.users[4].pivot.Signature == '0') && (result.users[4].pivot.SignatureType == 'ApprovalReplacer')))) ? _c('i', {
-      staticClass: "material-icons"
-    }, [_vm._v("check")]) : (result.users[2].pivot.Signature == '1') ? _c('i', {
-      staticClass: "material-icons decliner"
-    }, [_vm._v("close")]) : _vm._e()]), _vm._v(" "), _c('td', [_vm._v(_vm._s(result.MIRSDate))]), _vm._v(" "), _c('td', [(((result.users[0].pivot.Signature == '0') && ((result.users[1].pivot.Signature == '0') || (result.users[3] != null) && (result.users[3].pivot.Signature == '0') && (result.users[3].pivot.SignatureType == 'ManagerReplacer') || (result.users[4] != null) && (result.users[4].pivot.Signature == '0') && (result.users[4].pivot.SignatureType == 'ManagerReplacer')) && ((result.users[2].pivot.Signature == '0') || (result.users[3] != null) && (result.users[3].pivot.Signature == '0') && (result.users[3].pivot.SignatureType == 'ApprovalReplacer') || (result.users[4] != null) && (result.users[4].pivot.Signature == '0') && (result.users[4].pivot.SignatureType == 'ApprovalReplacer')))) ? _c('i', {
-      staticClass: "material-icons"
-    }, [_vm._v("thumb_up")]) : (((result.users[0].pivot.Signature == '1') || (result.users[1].pivot.Signature == '1') || (result.users[2].pivot.Signature == '1'))) ? _c('i', {
-      staticClass: "material-icons decliner"
-    }, [_vm._v("close")]) : _c('i', {
-      staticClass: "material-icons"
-    }, [_vm._v("access_time")])]), _vm._v(" "), _c('td', {
-      staticClass: "fullmirsClick"
-    }, [_c('a', {
-      attrs: {
-        "href": '/previewFullMIRS/' + result.MIRSNo
-      }
-    }, [_c('i', {
-      staticClass: "material-icons"
-    }, [_vm._v("remove_red_eye")])])])]) : _vm._e()
-  })], 2), _vm._v(" "), _c('div', {
-    staticClass: "paginate-container"
-  }, [_c('ul', {
-    staticClass: "pagination"
-  }, [(_vm.pagination.current_page > 1) ? _c('li', [_c('a', {
-    attrs: {
-      "href": "#"
-    },
-    on: {
-      "click": function($event) {
-        $event.preventDefault();
-        _vm.changepage(_vm.pagination.current_page - 1)
-      }
-    }
-  }, [_c('i', {
-    staticClass: "fa fa-angle-left"
-  })])]) : _vm._e(), _vm._v(" "), _vm._l((_vm.pagesNumber), function(page) {
-    return _c('li', {
-      class: [page == _vm.isActive ? 'active' : '']
-    }, [_c('a', {
-      attrs: {
-        "href": "#"
-      },
-      on: {
-        "click": function($event) {
-          $event.preventDefault();
-          _vm.changepage(page)
-        }
-      }
-    }, [_vm._v(_vm._s(page))])])
-  }), _vm._v(" "), (_vm.pagination.current_page < _vm.pagination.last_page) ? _c('li', [_c('a', {
-    attrs: {
-      "href": "#"
-    },
-    on: {
-      "click": function($event) {
-        $event.preventDefault();
-        _vm.changepage(_vm.pagination.current_page + 1)
-      }
-    }
-  }, [_c('i', {
-    staticClass: "fa fa-angle-right"
-  })])]) : _vm._e()], 2)])])])
-},staticRenderFns: [function (){var _vm=this;var _h=_vm.$createElement;var _c=_vm._self._c||_h;
-  return _c('div', {
-    staticClass: "Title-MIRS-Index"
-  }, [_c('i', {
-    staticClass: "material-icons"
-  }, [_vm._v("show_chart")]), _vm._v(" Materials Issuance Requisition Slip index\r\n    ")])
-},function (){var _vm=this;var _h=_vm.$createElement;var _c=_vm._self._c||_h;
-  return _c('tr', [_c('th', [_vm._v("MIRSNo")]), _vm._v(" "), _c('th', [_vm._v("Purpose")]), _vm._v(" "), _c('th', [_vm._v("Prepared by")]), _vm._v(" "), _c('th', [_vm._v("Recommended by")]), _vm._v(" "), _c('th', [_vm._v("Approved by")]), _vm._v(" "), _c('th', [_vm._v("Date")]), _vm._v(" "), _c('th', [_vm._v("Status")]), _vm._v(" "), _c('th', [_vm._v("View")])])
-}]}
-module.exports.render._withStripped = true
-if (false) {
-  module.hot.accept()
-  if (module.hot.data) {
-     require("vue-hot-reload-api").rerender("data-v-364bebda", module.exports)
-  }
-}
-
-/***/ }),
-/* 263 */,
-/* 264 */,
-/* 265 */,
-/* 266 */,
-/* 267 */,
-/* 268 */,
-/* 269 */,
-/* 270 */
+/* 248 */
 /***/ (function(module, exports, __webpack_require__) {
 
 module.exports={render:function (){var _vm=this;var _h=_vm.$createElement;var _c=_vm._self._c||_h;
@@ -31406,11 +31025,11 @@ module.exports={render:function (){var _vm=this;var _h=_vm.$createElement;var _c
     staticClass: "print-btn-container"
   }, [(_vm.approved) ? _c('div', {
     staticClass: "download-form"
-  }, [_c('a', {
+  }, [(_vm.user.id == _vm.MIRSMaster.users[0].id) ? _c('a', {
     attrs: {
       "href": '/MIRS.pdf/' + _vm.mirsno.MIRSNo
     }
-  }, [_vm._m(0)]), _vm._v(" "), _c('div', {
+  }, [_vm._m(0)]) : _vm._e(), _vm._v(" "), _c('div', {
     staticClass: "not-claimed-qty"
   }, [_vm._v("\r\n          Not-claimed:"), _c('span', {
     staticClass: "color-blue"
@@ -31749,11 +31368,393 @@ module.exports.render._withStripped = true
 if (false) {
   module.hot.accept()
   if (module.hot.data) {
-     require("vue-hot-reload-api").rerender("data-v-4f5770a0", module.exports)
+     require("vue-hot-reload-api").rerender("data-v-0278b5c4", module.exports)
   }
 }
 
 /***/ }),
+/* 249 */,
+/* 250 */,
+/* 251 */,
+/* 252 */
+/***/ (function(module, exports, __webpack_require__) {
+
+module.exports={render:function (){var _vm=this;var _h=_vm.$createElement;var _c=_vm._self._c||_h;
+  return _c('div', {
+    staticClass: "MIRS-create-wrap"
+  }, [_c('div', {
+    staticClass: "Search-item-container"
+  }, [_c('div', {
+    staticClass: "Added-Items"
+  }, [_c('div', {
+    staticClass: "modal-find-button"
+  }, [_c('button', {
+    staticClass: "waves-effect waves-light",
+    attrs: {
+      "type": "button",
+      "name": "button"
+    },
+    on: {
+      "click": function($event) {
+        _vm.isActive = !_vm.isActive
+      }
+    }
+  }, [_c('i', {
+    staticClass: "material-icons"
+  }, [_vm._v("add")]), _vm._v("item")])]), _vm._v(" "), _c('div', {
+    staticClass: "added-table-wrapper"
+  }, [_c('table', [_vm._m(0), _vm._v(" "), _vm._l((_vm.SessionItems), function(sessionitem) {
+    return _c('tr', [_c('td', [_vm._v(_vm._s(sessionitem.ItemCode))]), _vm._v(" "), _c('td', [_vm._v(_vm._s(sessionitem.Particulars))]), _vm._v(" "), _c('td', [_vm._v(_vm._s(sessionitem.Quantity))]), _vm._v(" "), _c('td', [_vm._v(_vm._s(sessionitem.Unit))]), _vm._v(" "), _c('td', [_vm._v(_vm._s(sessionitem.Remarks))]), _vm._v(" "), _c('td', {
+      staticClass: "delete-trash"
+    }, [_c('i', {
+      staticClass: "material-icons",
+      on: {
+        "click": function($event) {
+          _vm.deleteSession(sessionitem.ItemCode)
+        }
+      }
+    }, [_vm._v("close")])])])
+  })], 2)])])]), _vm._v(" "), _c('div', {
+    staticClass: "MIRSform-container z-depth-0"
+  }, [_c('div', {
+    staticClass: "form-wrap-mirs"
+  }, [_c('ul', [_c('li', [_c('input', {
+    directives: [{
+      name: "model",
+      rawName: "v-model",
+      value: (_vm.purpose),
+      expression: "purpose"
+    }],
+    attrs: {
+      "type": "text",
+      "autocomplete": "off",
+      "name": "Purpose",
+      "placeholder": "Purpose"
+    },
+    domProps: {
+      "value": (_vm.purpose)
+    },
+    on: {
+      "input": function($event) {
+        if ($event.target.composing) { return; }
+        _vm.purpose = $event.target.value
+      }
+    }
+  })]), _vm._v(" "), (_vm.manager[0] != null) ? _c('li', [_c('h3', {
+    staticClass: "mymanagerName"
+  }, [_vm._v(_vm._s(_vm.manager[0].FullName))]), _vm._v(" "), _c('p', [_vm._v("Recommended by")])]) : _vm._e(), _vm._v(" "), (_vm.gm[0] != null) ? _c('li', [_c('h3', {
+    staticClass: "gm-name"
+  }, [_vm._v(_vm._s(_vm.gm[0].FullName))]), _vm._v(" "), _c('p', [_vm._v("General Manager")])]) : _vm._e(), _vm._v(" "), _c('longpress', {
+    staticClass: "submitMCT-btn",
+    class: {
+      'hide': _vm.HideButton
+    },
+    attrs: {
+      "id": "go-btn",
+      "duration": "3",
+      "on-confirm": _vm.submitWholePage,
+      "pressing-text": "Submit confirmed in {$rcounter}",
+      "action-text": "Please wait..."
+    }
+  }, [_vm._v("\r\n          Submit\r\n        ")])], 1)])]), _vm._v(" "), _c('div', {
+    staticClass: "modal-search-item",
+    class: {
+      'active': _vm.isActive
+    },
+    on: {
+      "click": function($event) {
+        _vm.isActive = !_vm.isActive
+      }
+    }
+  }, [_c('div', {
+    staticClass: "middle-modal-search"
+  }, [_c('h1', [_vm._v("MIRS")]), _vm._v(" "), _c('div', {
+    staticClass: "table-mirs-modalcontain"
+  }, [_c('div', {
+    staticClass: "search-item-bar"
+  }, [_c('div', {
+    staticClass: "search-mirs-modal"
+  }, [_c('input', {
+    directives: [{
+      name: "model",
+      rawName: "v-model",
+      value: (_vm.ItemSearch),
+      expression: "ItemSearch"
+    }],
+    attrs: {
+      "type": "text",
+      "autocomplete": "off",
+      "name": "Description",
+      "placeholder": "Search Name/Code"
+    },
+    domProps: {
+      "value": (_vm.ItemSearch)
+    },
+    on: {
+      "keyup": function($event) {
+        _vm.searchItem()
+      },
+      "input": function($event) {
+        if ($event.target.composing) { return; }
+        _vm.ItemSearch = $event.target.value
+      }
+    }
+  })])]), _vm._v(" "), _c('div', {
+    staticClass: "modal-search-results"
+  }, [_c('table', [_vm._m(1), _vm._v(" "), _vm._l((_vm.SearchResults), function(itemcoderesult, count) {
+    return _c('tr', [_c('td', [_vm._v(_vm._s(itemcoderesult.ItemCode))]), _vm._v(" "), _c('td', [_vm._v(_vm._s(itemcoderesult.Description))]), _vm._v(" "), _c('td', [_c('input', {
+      directives: [{
+        name: "model",
+        rawName: "v-model",
+        value: (_vm.Quantity[count]),
+        expression: "Quantity[count]"
+      }],
+      attrs: {
+        "type": "number",
+        "min": "1"
+      },
+      domProps: {
+        "value": (_vm.Quantity[count])
+      },
+      on: {
+        "input": function($event) {
+          if ($event.target.composing) { return; }
+          _vm.$set(_vm.Quantity, count, $event.target.value)
+        }
+      }
+    })]), _vm._v(" "), _c('td', [_vm._v(_vm._s(itemcoderesult.Unit))]), _vm._v(" "), _c('td', [_c('input', {
+      directives: [{
+        name: "model",
+        rawName: "v-model",
+        value: (_vm.Remarks[count]),
+        expression: "Remarks[count]"
+      }],
+      attrs: {
+        "type": "text",
+        "autocomplete": "off",
+        "min": "1",
+        "name": "Remarks[]"
+      },
+      domProps: {
+        "value": (_vm.Remarks[count])
+      },
+      on: {
+        "input": function($event) {
+          if ($event.target.composing) { return; }
+          _vm.$set(_vm.Remarks, count, $event.target.value)
+        }
+      }
+    })]), _vm._v(" "), _c('td', [_c('button', {
+      attrs: {
+        "type": "button"
+      },
+      on: {
+        "click": function($event) {
+          _vm.submitTosession(itemcoderesult, count)
+        }
+      }
+    }, [_c('i', {
+      staticClass: "material-icons"
+    }, [_vm._v("add")])])])])
+  })], 2), _vm._v(" "), _c('div', {
+    staticClass: "pagination-container"
+  }, [_c('ul', {
+    staticClass: "pagination"
+  }, [(_vm.Pagination.current_page > 1) ? _c('li', [_c('a', {
+    attrs: {
+      "href": "#"
+    },
+    on: {
+      "click": function($event) {
+        $event.preventDefault();
+        _vm.changePage(_vm.Pagination.current_page - 1)
+      }
+    }
+  }, [_c('i', {
+    staticClass: "fa fa-angle-left"
+  })])]) : _vm._e(), _vm._v(" "), _vm._l((_vm.pagesNumber), function(page) {
+    return _c('li', {
+      class: [page == _vm.PageActive ? 'active' : '']
+    }, [_c('a', {
+      attrs: {
+        "href": "#"
+      },
+      on: {
+        "click": function($event) {
+          $event.preventDefault();
+          _vm.changePage(page)
+        }
+      }
+    }, [_vm._v(_vm._s(page))])])
+  }), _vm._v(" "), (_vm.Pagination.current_page < _vm.Pagination.last_page) ? _c('li', [_c('a', {
+    attrs: {
+      "href": "#"
+    },
+    on: {
+      "click": function($event) {
+        $event.preventDefault();
+        _vm.changePage(_vm.Pagination.current_page + 1)
+      }
+    }
+  }, [_c('i', {
+    staticClass: "fa fa-angle-right"
+  })])]) : _vm._e()], 2)])])])])])])
+},staticRenderFns: [function (){var _vm=this;var _h=_vm.$createElement;var _c=_vm._self._c||_h;
+  return _c('tr', [_c('th', [_vm._v("Item Code")]), _vm._v(" "), _c('th', [_vm._v("Particular")]), _vm._v(" "), _c('th', [_vm._v("Quantity")]), _vm._v(" "), _c('th', [_vm._v("Unit")]), _vm._v(" "), _c('th', [_vm._v("Remarks")]), _vm._v(" "), _c('th', [_vm._v("Cancel")])])
+},function (){var _vm=this;var _h=_vm.$createElement;var _c=_vm._self._c||_h;
+  return _c('tr', [_c('th', [_vm._v("Item code")]), _vm._v(" "), _c('th', [_vm._v("Particular")]), _vm._v(" "), _c('th', [_vm._v("Quantity")]), _vm._v(" "), _c('th', [_vm._v("Unit")]), _vm._v(" "), _c('th', [_vm._v("Remarks")]), _vm._v(" "), _c('th', [_vm._v("Action")])])
+}]}
+module.exports.render._withStripped = true
+if (false) {
+  module.hot.accept()
+  if (module.hot.data) {
+     require("vue-hot-reload-api").rerender("data-v-1df994a0", module.exports)
+  }
+}
+
+/***/ }),
+/* 253 */,
+/* 254 */,
+/* 255 */,
+/* 256 */,
+/* 257 */,
+/* 258 */,
+/* 259 */,
+/* 260 */,
+/* 261 */,
+/* 262 */,
+/* 263 */,
+/* 264 */,
+/* 265 */,
+/* 266 */,
+/* 267 */,
+/* 268 */,
+/* 269 */
+/***/ (function(module, exports, __webpack_require__) {
+
+module.exports={render:function (){var _vm=this;var _h=_vm.$createElement;var _c=_vm._self._c||_h;
+  return _c('div', {
+    staticClass: "mirs-index-vue"
+  }, [_c('div', {
+    staticClass: "top-wrap-index-mirs"
+  }, [_vm._m(0), _vm._v(" "), _c('div', {
+    staticClass: "search-mirs-container"
+  }, [_c('input', {
+    directives: [{
+      name: "model",
+      rawName: "v-model",
+      value: (_vm.SearchInput),
+      expression: "SearchInput"
+    }],
+    attrs: {
+      "type": "text",
+      "autocomplete": "off",
+      "placeholder": "Enter MIRS #"
+    },
+    domProps: {
+      "value": (_vm.SearchInput)
+    },
+    on: {
+      "keyup": function($event) {
+        _vm.SearchAndFetch()
+      },
+      "input": function($event) {
+        if ($event.target.composing) { return; }
+        _vm.SearchInput = $event.target.value
+      }
+    }
+  })])]), _vm._v(" "), _c('div', {
+    staticClass: "table-mirs-list"
+  }, [_c('table', [_vm._m(1), _vm._v(" "), _vm._l((_vm.SearchResult), function(result) {
+    return (result.users[0] != null) ? _c('tr', [_c('td', [_vm._v(_vm._s(result.MIRSNo))]), _vm._v(" "), _c('td', [_vm._v(_vm._s(result.Purpose))]), _vm._v(" "), _c('td', [_vm._v(_vm._s(result.users[0].FullName) + "\r\n            "), ((result.users[0].pivot.Signature == '0')) ? _c('i', {
+      staticClass: "material-icons"
+    }, [_vm._v("check")]) : (result.users[0].pivot.Signature == '1') ? _c('i', {
+      staticClass: "material-icons decliner"
+    }, [_vm._v("close")]) : _vm._e()]), _vm._v(" "), _c('td', [_vm._v(_vm._s(result.users[1].FullName) + "\r\n             "), (((result.users[1].pivot.Signature == '0') || ((result.users[3] != null) && (result.users[3].pivot.Signature == '0') && (result.users[3].pivot.SignatureType == 'ManagerReplacer')) || ((result.users[4] != null) && (result.users[4].pivot.Signature == '0') && (result.users[4].pivot.SignatureType == 'ManagerReplacer')))) ? _c('i', {
+      staticClass: "material-icons"
+    }, [_vm._v("check")]) : (result.users[1].pivot.Signature == '1') ? _c('i', {
+      staticClass: "material-icons decliner"
+    }, [_vm._v("close")]) : _vm._e()]), _vm._v(" "), _c('td', [_vm._v(_vm._s(result.users[2].FullName) + "\r\n            "), (((result.users[2].pivot.Signature == '0') || ((result.users[3] != null) && (result.users[3].pivot.Signature == '0') && (result.users[3].pivot.SignatureType == 'ApprovalReplacer')) || ((result.users[4] != null) && (result.users[4].pivot.Signature == '0') && (result.users[4].pivot.SignatureType == 'ApprovalReplacer')))) ? _c('i', {
+      staticClass: "material-icons"
+    }, [_vm._v("check")]) : (result.users[2].pivot.Signature == '1') ? _c('i', {
+      staticClass: "material-icons decliner"
+    }, [_vm._v("close")]) : _vm._e()]), _vm._v(" "), _c('td', [_vm._v(_vm._s(result.MIRSDate))]), _vm._v(" "), _c('td', [(((result.users[0].pivot.Signature == '0') && ((result.users[1].pivot.Signature == '0') || (result.users[3] != null) && (result.users[3].pivot.Signature == '0') && (result.users[3].pivot.SignatureType == 'ManagerReplacer') || (result.users[4] != null) && (result.users[4].pivot.Signature == '0') && (result.users[4].pivot.SignatureType == 'ManagerReplacer')) && ((result.users[2].pivot.Signature == '0') || (result.users[3] != null) && (result.users[3].pivot.Signature == '0') && (result.users[3].pivot.SignatureType == 'ApprovalReplacer') || (result.users[4] != null) && (result.users[4].pivot.Signature == '0') && (result.users[4].pivot.SignatureType == 'ApprovalReplacer')))) ? _c('i', {
+      staticClass: "material-icons"
+    }, [_vm._v("thumb_up")]) : (((result.users[0].pivot.Signature == '1') || (result.users[1].pivot.Signature == '1') || (result.users[2].pivot.Signature == '1'))) ? _c('i', {
+      staticClass: "material-icons decliner"
+    }, [_vm._v("close")]) : _c('i', {
+      staticClass: "material-icons"
+    }, [_vm._v("access_time")])]), _vm._v(" "), _c('td', {
+      staticClass: "fullmirsClick"
+    }, [_c('a', {
+      attrs: {
+        "href": '/previewFullMIRS/' + result.MIRSNo
+      }
+    }, [_c('i', {
+      staticClass: "material-icons"
+    }, [_vm._v("remove_red_eye")])])])]) : _vm._e()
+  })], 2), _vm._v(" "), _c('div', {
+    staticClass: "paginate-container"
+  }, [_c('ul', {
+    staticClass: "pagination"
+  }, [(_vm.pagination.current_page > 1) ? _c('li', [_c('a', {
+    attrs: {
+      "href": "#"
+    },
+    on: {
+      "click": function($event) {
+        $event.preventDefault();
+        _vm.changepage(_vm.pagination.current_page - 1)
+      }
+    }
+  }, [_c('i', {
+    staticClass: "fa fa-angle-left"
+  })])]) : _vm._e(), _vm._v(" "), _vm._l((_vm.pagesNumber), function(page) {
+    return _c('li', {
+      class: [page == _vm.isActive ? 'active' : '']
+    }, [_c('a', {
+      attrs: {
+        "href": "#"
+      },
+      on: {
+        "click": function($event) {
+          $event.preventDefault();
+          _vm.changepage(page)
+        }
+      }
+    }, [_vm._v(_vm._s(page))])])
+  }), _vm._v(" "), (_vm.pagination.current_page < _vm.pagination.last_page) ? _c('li', [_c('a', {
+    attrs: {
+      "href": "#"
+    },
+    on: {
+      "click": function($event) {
+        $event.preventDefault();
+        _vm.changepage(_vm.pagination.current_page + 1)
+      }
+    }
+  }, [_c('i', {
+    staticClass: "fa fa-angle-right"
+  })])]) : _vm._e()], 2)])])])
+},staticRenderFns: [function (){var _vm=this;var _h=_vm.$createElement;var _c=_vm._self._c||_h;
+  return _c('div', {
+    staticClass: "Title-MIRS-Index"
+  }, [_c('i', {
+    staticClass: "material-icons"
+  }, [_vm._v("show_chart")]), _vm._v(" Materials Issuance Requisition Slip index\r\n    ")])
+},function (){var _vm=this;var _h=_vm.$createElement;var _c=_vm._self._c||_h;
+  return _c('tr', [_c('th', [_vm._v("MIRSNo")]), _vm._v(" "), _c('th', [_vm._v("Purpose")]), _vm._v(" "), _c('th', [_vm._v("Prepared by")]), _vm._v(" "), _c('th', [_vm._v("Recommended by")]), _vm._v(" "), _c('th', [_vm._v("Approved by")]), _vm._v(" "), _c('th', [_vm._v("Date")]), _vm._v(" "), _c('th', [_vm._v("Status")]), _vm._v(" "), _c('th', [_vm._v("View")])])
+}]}
+module.exports.render._withStripped = true
+if (false) {
+  module.hot.accept()
+  if (module.hot.data) {
+     require("vue-hot-reload-api").rerender("data-v-5dc66224", module.exports)
+  }
+}
+
+/***/ }),
+/* 270 */,
 /* 271 */,
 /* 272 */,
 /* 273 */,

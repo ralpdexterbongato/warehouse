@@ -41,11 +41,6 @@
             <th>Date</th>
           </tr>
           <tr>
-            <td class="rollback-sign">
-              <h2 v-if="latestFound.IsRollBack=='0'"></h2>
-              <h3 v-if="latestFound.IsCurrent=='0'"></h3>
-              {{latestFound.MTType}}
-            </td>
             <td>{{latestFound.MTNo}}</td>
             <td>{{latestFound.AccountCode}}</td>
             <td>{{latestFound.ItemCode}}</td>
@@ -77,11 +72,6 @@
             <th>Date</th>
           </tr>
           <tr v-for="history in historiesfound" v-if="history.id!=latestFound.id">
-            <td class="rollback-sign">
-              <h2 v-if="history.IsRollBack=='0'"></h2>
-              <h3 v-if="history.IsCurrent=='0'"></h3>
-              {{history.MTType}}
-            </td>
             <td>{{history.MTNo}}</td>
             <td>{{formatPrice(history.UnitCost)}}</td>
             <td>{{history.Quantity}}</td>
@@ -105,22 +95,6 @@
               <a href="#" @click.prevent="changepage(pagination.current_page+1)"><i class="fa fa-angle-right"></i></a>
             </li>
           </ul>
-        </div>
-        <div class="rollback-info">
-          <div class="colors-container">
-            <h2></h2>
-          </div>
-          <p>old data reversed</p><br>
-
-          <div class="colors-container">
-          <h3></h3>
-          </div>
-
-          <p>new data after reversed</p><br>
-          <div class="colors-container">
-            <h2></h2><h3></h3>
-          </div>
-          <p>reversed again</p>
         </div>
       </div>
     </div><!--  end of v-if result is not empty -->

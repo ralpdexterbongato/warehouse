@@ -19,10 +19,6 @@ Broadcast::channel('MIRSChannel.{tobeNotify}', function ($newmirs) {
  return Auth::check();
 });
 
-Broadcast::channel('WarehouseRole', function ($role) {
-    return Auth::check();
-});
-
 Broadcast::channel('MCTchannel.{ReceiverID}', function ($ReceiverID) {
     return Auth::check();
 });

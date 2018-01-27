@@ -195,7 +195,10 @@ Vue.use(VueNumeric)
             }else if(error.response.data.AlertIfBelow!=null)
             {
               vm.$toast.top(error.response.data.AlertIfBelow[0]);
-            }
+            }else if(error.response.data.CurrentCost!=null)
+              {
+                vm.$toast.top(error.response.data.CurrentCost[0]);
+              }
             vm.$loading.close();
           });
        },

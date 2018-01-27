@@ -105,17 +105,6 @@
           </li>
         </a>
         <span v-if="user.Role==3||user.Role==4">
-          <a href="/ready-mirs">
-            <li class="clickable waves-effect waves">
-              <span>
-                <i class="material-icons">notifications_none</i>Approved mirs
-              </span>
-              <span class="notif" :class="[NewlyApprovedMIRS!=0?'active':'']">{{NewlyApprovedMIRS}}
-                <small class="new-notif" v-if="ApproveMIRSNew==true">new !
-                </small>
-              </span>
-            </li>
-          </a>
           <a href="/waiting-to-be-purchased-rv">
             <li class="clickable waves-effect waves">
               <span>
@@ -204,7 +193,6 @@ Vue.use(Toast);
      data () {
        return {
          MIRSNotif:0,
-         NewlyApprovedMIRS:0,
          modalOpen:false,
          MIRSNew:false,
          ApproveMIRSNew:false,
@@ -237,14 +225,6 @@ Vue.use(Toast);
        });
        if (this.user.Role==3||this.user.Role==4)
        {
-         Echo.private('WarehouseRole')
-         .listen('NewApprovedMIRSEvent', (e) => {
-             console.log(e);
-             this.RefreshNewlyApprovedMIRSNotification();
-             this.modalOpen=true;
-             this.ApproveMIRSNew=true;
-             this.playsound();
-         });
          Echo.private('NewRVApprovedchannel')
          .listen('NewRVApprovedEvent', (e) => {
              console.log(e);
@@ -329,15 +309,6 @@ Vue.use(Toast);
           window.location=response.data.redirect;
         });
       },
-      RefreshNewlyApprovedMIRSNotification()
-      {
-        var vm=this;
-        axios.get(`/mirs-approved-new-notify`).then(function(response)
-        {
-          console.log(response);
-          Vue.set(vm.$data,'NewlyApprovedMIRS',response.data.NewlyApprovedMIRS)
-        });
-      },
       refreshnewlyCreatedMCT()
       {
         var vm=this;
@@ -411,7 +382,6 @@ Vue.use(Toast);
         this.refreshCountMRNewlyCreated();
         if (this.user.Role==3||this.user.Role==4)
         {
-           this.RefreshNewlyApprovedMIRSNotification();
            this.refreshCountRVWaitingForRR();
         }
         if (this.user.Role==2||this.user.Role==0)

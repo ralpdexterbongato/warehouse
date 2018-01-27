@@ -501,7 +501,6 @@ input[type='radio']:after {
 .empty-left-btn > ul > li > h1:hover
 {
   cursor: default;
-	background: #6189DE;
 }
 .empty-left-btn > ul > li h1
 {
@@ -772,15 +771,15 @@ input[type='radio']:after {
 .data-results-container table
 {
   width: 100%;
-  font-family:Roboto, 'Segoe UI', Tahoma, sans-serif;
-  font-size: 14px;
+  font-family: 'Comfortaa',sans-serif;
+  font-size: 13px!important;
 }
 .latest-data th
 {
   background: #3367D6;
   color: #fff;
   padding: 10px;
-  font-size: 15px;
+  font-size: 14px!important;
 }
 	@media
 	only screen and (max-width: 1050px),
@@ -2506,10 +2505,11 @@ only screen and (max-width: 1050px),
 }
 .button-find-item-container button
 {
-  padding:3px 10px;
-  border-radius: 5px;
+  padding:6px 15px;
+  border-radius: 3px;
   border-style: none;
-  background: #fff;
+  color: #fff;
+	background: #22448E;
 	margin-bottom: 5px;
 }
 @media (max-width:500px)
@@ -3875,6 +3875,14 @@ only screen and (max-width: 1050px),
 {
   min-height: 100vh;
   background: #fff;
+	padding:30px;
+}
+@media (max-width:600px)
+{
+	.Summary-MRT-Container
+	{
+		padding:10px;
+	}
 }
 .search-mrt-summary
 {
@@ -3885,12 +3893,27 @@ only screen and (max-width: 1050px),
   margin:0 auto;
   justify-content: space-between;
 }
+@media (max-width:650px)
+{
+	.search-mrt-summary
+	{
+		flex-direction: column;
+	}
+}
 .search-mrt-summary h1
 {
- text-align: center;
  font-family:Roboto, 'Segoe UI', Tahoma, sans-serif;
  font-size: 20px;
  color: #002847;
+}
+@media (max-width:450px)
+{
+	.search-mrt-summary h1
+	{
+		font-size: 14px;
+		font-weight: 600;
+		text-align: center;
+	}
 }
 .print-mrt-summary button
 {
@@ -3917,11 +3940,26 @@ only screen and (max-width: 1050px),
 {
   display: flex;
 }
+@media (max-width:650px)
+{
+	.searchbox-summary-mrt
+	{
+		margin-top: 30px!important;
+		justify-content: flex-end;
+	}
+}
 .searchbox-summary-mrt input
 {
   border-top-left-radius: 5px;
   border-bottom-left-radius: 5px;
   padding: 6px 12px;
+}
+@media (max-width:450px)
+{
+	.searchbox-summary-mrt input
+	{
+		width: 100%;
+	}
 }
 .searchbox-summary-mrt input,.searchbox-summary-mrt>button
 {
@@ -3945,7 +3983,15 @@ only screen and (max-width: 1050px),
   box-sizing: border-box;
   position: relative;
 	-webkit-box-shadow: 0 2px 4px -1px rgba(0,0,0,0.06), 0 4px 5px 0 rgba(0,0,0,0.06), 0 1px 10px 0 rgba(0,0,0,0.08);
-    box-shadow: 0 2px 4px -1px rgba(0,0,0,0.06), 0 4px 5px 0 rgba(0,0,0,0.06), 0 1px 10px 0 rgba(0,0,0,0.08);
+  box-shadow: 0 2px 4px -1px rgba(0,0,0,0.06), 0 4px 5px 0 rgba(0,0,0,0.06), 0 1px 10px 0 rgba(0,0,0,0.08);
+}
+@media (max-width:882px)
+{
+	.bondpaper-sample-mrt
+	{
+		width: auto;
+		padding:70px 0px 10px 0px;
+	}
 }
 .results-summary-mrt
 {
@@ -3980,6 +4026,13 @@ only screen and (max-width: 1050px),
   left: -80px;
   top:-20px;
 }
+@media (max-width:700px)
+{
+	.header-summary-content img
+	{
+		display: none;
+	}
+}
 .body-summary-mrt
 {
   padding-top: 50px;
@@ -3999,6 +4052,57 @@ only screen and (max-width: 1050px),
 {
   text-align:left;
   padding:3px 6px;
+}
+@media
+only screen and (max-width: 1050px),
+(min-device-width: 768px) and (max-device-width: 1050px)  {
+	/* Force table to not be like tables anymore */
+	.body-summary-mrt table, .body-summary-mrt thead,.body-summary-mrt th, .body-summary-mrt tbody, .body-summary-mrt td, .body-summary-mrt tr {
+		display: block;
+	}
+	.body-summary-mrt table
+	{
+		border-style: none;
+	}
+	.body-summary-mrt th
+	{
+		display: none;
+	}
+	.body-summary-mrt tr:first-child
+	{
+		display: none;
+	}
+	.body-summary-mrt tr
+	{
+		border:1px solid #e5e5e5;
+		margin-top: 20px;
+	}
+
+	.body-summary-mrt td {
+		/* Behave  like a "row" */
+		border: none!important;
+		position: relative!important;
+		padding-left: 50%!important;
+		text-align: left!important;
+		word-wrap: break-word;
+		padding:10px 20px;
+	}
+
+	.body-summary-mrt td:before {
+		/* Now like a table header */
+		position: absolute!important;
+		/* Top/left values mimic padding */
+		top: 6px!important;
+		left: 6px!important;
+		width: 45%!important;
+		padding-right: 20px!important;
+		white-space: nowrap!important;
+	}
+
+	.body-summary-mrt td:nth-of-type(1):before { content: "ItemCode"; }
+	.body-summary-mrt td:nth-of-type(2):before { content: "Description"; }
+	.body-summary-mrt td:nth-of-type(3):before { content: "Unit"; }
+	.body-summary-mrt td:nth-of-type(4):before { content: "Summary"; }
 }
 .reciever-signature
 {
@@ -4021,6 +4125,13 @@ only screen and (max-width: 1050px),
   text-align: center;
   width: 250px;
   position: relative;
+}
+@media (max-width:600px)
+{
+	.recievers-name
+	{
+		margin-left: 0px;
+	}
 }
 .recievers-name h5 img
 {
@@ -4405,9 +4516,9 @@ only screen and (max-width: 1050px),
 {
  min-height: 100vh;
  background: #fff;
- padding-top: 30px;
- padding-bottom: 30px;
+ padding: 30px;
 }
+
 .landscape-bondpaper-mct
 {
   background: #fff;
@@ -4419,7 +4530,25 @@ only screen and (max-width: 1050px),
   padding: 20px;
   box-sizing: border-box;
 	-webkit-box-shadow: 0 2px 4px -1px rgba(0,0,0,0.06), 0 4px 5px 0 rgba(0,0,0,0.06), 0 1px 10px 0 rgba(0,0,0,0.08);
-	    box-shadow: 0 2px 4px -1px rgba(0,0,0,0.06), 0 4px 5px 0 rgba(0,0,0,0.06), 0 1px 10px 0 rgba(0,0,0,0.08);
+	 box-shadow: 0 2px 4px -1px rgba(0,0,0,0.06), 0 4px 5px 0 rgba(0,0,0,0.06), 0 1px 10px 0 rgba(0,0,0,0.08);
+}
+@media (max-width:1150px)
+{
+	.landscape-bondpaper-mct
+	{
+		width: auto;
+	}
+}
+@media (max-width:400px)
+{
+	.summary-mct-container
+	{
+		padding:10px;
+	}
+	.landscape-bondpaper-mct
+	{
+		padding:15px 0px;
+	}
 }
 .top-titles-mctSum
 {
@@ -4454,8 +4583,61 @@ only screen and (max-width: 1050px),
   padding:3px 6px;
   font-size: 13px;
 }
+@media
+only screen and (max-width: 1050px),
+(min-device-width: 768px) and (max-device-width: 1050px)  {
+	/* Force table to not be like tables anymore */
+	.mct-summary-table table, .mct-summary-table thead,.mct-summary-table th, .mct-summary-table tbody, .mct-summary-table td, .mct-summary-table tr {
+		display: block;
+	}
+	.mct-summary-table th
+	{
+		display: none;
+	}
+	.mct-summary-table tr:first-child
+	{
+		display: none;
+	}
+	.not-for-mobile
+	{
+		display: none!important;
+	}
+	.mct-summary-table tr
+	{
+		border:1px solid #e5e5e5;
+		margin-top: 20px;
+	}
 
+	.mct-summary-table td {
+		/* Behave  like a "row" */
+		border: none!important;
+		border-bottom: 1px solid #e5e5e5!important;
+		position: relative!important;
+		padding-left: 50%!important;
+		text-align: left!important;
+		word-wrap: break-word;
+		padding:10px 20px;
+	}
 
+	.mct-summary-table td:before {
+		/* Now like a table header */
+		position: absolute!important;
+		/* Top/left values mimic padding */
+		top: 6px!important;
+		left: 6px!important;
+		width: 45%!important;
+		padding-right: 20px!important;
+		white-space: nowrap!important;
+	}
+
+	.mct-summary-table td:nth-of-type(1):before { content: "Accnt code"; }
+	.mct-summary-table td:nth-of-type(2):before { content: "Item code"; }
+	.mct-summary-table td:nth-of-type(3):before { content: "Description"; }
+	.mct-summary-table td:nth-of-type(4):before { content: "UnitCost"; }
+	.mct-summary-table td:nth-of-type(5):before { content: "Unit"; }
+	.mct-summary-table td:nth-of-type(6):before { content: "Stock"; }
+	.mct-summary-table td:nth-of-type(7):before { content: "Issued"; }
+}
 .MCTSummaryForm
 {
   margin:0 auto;
@@ -4465,9 +4647,22 @@ only screen and (max-width: 1050px),
   max-width: 1077px;
   padding-bottom: 10px;
 }
+
 .mct-sum-search
 {
   display: flex;
+}
+@media (max-width:630px)
+{
+	.MCTSummaryForm
+	{
+		flex-direction: column;
+	}
+	.mct-sum-search
+	{
+		justify-content: flex-end;
+		margin-top: 20px;
+	}
 }
 .mct-sum-search input
 {
@@ -4475,6 +4670,13 @@ only screen and (max-width: 1050px),
   padding:5px 12px;
   border-bottom-left-radius: 5px;
   border-top-left-radius:5px;
+}
+@media (max-width:540px)
+{
+	.mct-sum-search input
+	{
+		width: 100%;
+	}
 }
 .mct-sum-search button
 {
@@ -4489,11 +4691,29 @@ only screen and (max-width: 1050px),
   width: 1077px;
   margin:0 auto;
 }
+@media (max-width:1150px)
+{
+	.print-mct-summary
+	{
+		width: auto;
+		max-width: 1077px;
+	}
+}
+
 .title-summary-mct
 {
   font-size: 20px;
   font-family:Roboto, 'Segoe UI', Tahoma, sans-serif;
   color: #002C4E;
+}
+@media (max-width:450px)
+{
+	.title-summary-mct
+	{
+		text-align: center;
+		font-size: 14px;
+		font-weight: 600;
+	}
 }
 .no-mct-summary
 {
@@ -4504,7 +4724,8 @@ only screen and (max-width: 1050px),
 }
 .bondpapercontainer-mct
 {
-  overflow-x: auto;
+  overflow-x: hidden;
+	overflow-y: auto;
 }
 .print-summary-mct-btn button
 {
@@ -5157,121 +5378,6 @@ only screen and (max-width: 1050px),
   color: #BFBFBF;
 
 }
-/*MIRS ready for MCT css*/
-.MIRS-Ready-Container
-{
-  min-height: 100vh;
-  padding: 40px;
-}
-@media (max-width:700px)
-{
-	.MIRS-Ready-Container
-	{
-		padding:10px;
-	}
-}
-.ready-mirs-title
-{
-  padding:20px 5px;
-  font-size: 20px;
-  color: #002C4E;
-  font-family:Roboto, 'Segoe UI', Tahoma, sans-serif;
-}
-@media (max-width:700px)
-{
-	.ready-mirs-title
-	{
-		font-size: 16px;
-	}
-}
-.MIRS-Ready-Container table
-{
-  width: 100%;
-  text-align: center;
-  font-family:Roboto, 'Segoe UI', Tahoma, sans-serif;
-}
-.MIRS-Ready-Container th
-{
-  padding:6px 12px;
-  font-size: 15px;
-  font-weight: 600;
-  color: #fff;
-  background: #3367D6
-}
-.MIRS-Ready-Container td i
-{
-  font-size:25px;
-  color: #004275;
-}
-.MIRS-Ready-Container tr:nth-child(odd)
-{
-  background: #f2f2f2;
-}
-.MIRS-Ready-Container td
-{
-  font-size: 14px;
-  padding:20px 10px;
-}
-@media
-only screen and (max-width: 1050px),
-(min-device-width: 768px) and (max-device-width: 1050px)  {
-	/* Force table to not be like tables anymore */
-	.MIRS-Ready-Container table, .MIRS-Ready-Container thead,.MIRS-Ready-Container th, .MIRS-Ready-Container tbody, .MIRS-Ready-Container td, .MIRS-Ready-Container tr {
-		display: block;
-		font-size: 14px;
-	}
-
-	.MIRS-Ready-Container th
-	{
-		display: none;
-	}
-	.MIRS-Ready-Container tr:first-child
-	{
-		display: none;
-	}
-	.MIRS-Ready-Container tr
-	{
-		border:1px solid #e5e5e5;
-		margin-top: 20px;
-	}
-
-	.MIRS-Ready-Container td {
-		/* Behave  like a "row" */
-		border: none!important;
-		border-bottom: 1px solid #e5e5e5!important;
-		position: relative!important;
-		padding-left: 50%!important;
-		text-align: left!important;
-		word-wrap: break-word;
-		padding:10px 20px;
-	}
-
-	.MIRS-Ready-Container td:before {
-		/* Now like a table header */
-		position: absolute!important;
-		/* Top/left values mimic padding */
-		top: 6px!important;
-		left: 6px!important;
-		width: 45%!important;
-		padding-right: 20px!important;
-		white-space: nowrap!important;
-	}
-
-	.MIRS-Ready-Container td:nth-of-type(1):before { content: "MIRS No."; }
-	.MIRS-Ready-Container td:nth-of-type(2):before { content: "MIRS Date"; }
-	.MIRS-Ready-Container td:nth-of-type(3):before { content: "Purpose"; }
-	.MIRS-Ready-Container td:nth-of-type(4):before { content: "View"; }
-}
-.no-waitingMIRS
-{
-  text-align: center;
-  font-family:Roboto, 'Segoe UI', Tahoma, sans-serif;
-  font-size: 25px;
-  font-weight: 600;
-  margin-top: 180px;
-  color: #a1a1a1;
-}
-
 /*RRindex*/
 .RR-index-container
 {
@@ -6323,8 +6429,7 @@ only screen and (max-width: 1050px),
 .rv-modal-centered h1
 {
  text-align: center;
- font-family:Roboto, 'Segoe UI', Tahoma, sans-serif;
- font-weight: 600;
+font-family: 'Comfortaa',sans-serif;
  font-size: 20px;
  padding: 30px;
  background: #3367D6;
@@ -6351,6 +6456,7 @@ only screen and (max-width: 1050px),
   padding-left: 10px;
   font-size: 15px;
   border:1px solid #ccc;
+	border-radius: 3px;
   font-family:Roboto, 'Segoe UI', Tahoma, sans-serif;
 }
 @media (max-width:400px)
@@ -6376,11 +6482,13 @@ only screen and (max-width: 1050px),
 }
 #addtolistRV
 {
-  padding:7px 14px;
+  padding:10px 14px;
   color: #fff;
   background: #3367D6;
   border-color:#3367D6;
   border-style: none;
+	border-radius: 3px;
+	text-transform: uppercase;
 }
 #addtolistRV:hover
 {
@@ -7430,6 +7538,10 @@ only screen and (max-width: 1050px),
 .searchResults-forstock td input
 {
 	width: 100%;
+	border-radius: 3px;
+	border-style: none;
+	padding:3px;
+	border:1px solid #e0e0e0;
 }
 .searchResults-forstock td button
 {
@@ -10067,7 +10179,7 @@ only screen and (max-width: 1050px),
 .form-input-rrnopo
 {
   border-radius: 3px;
-  height:590px;
+  min-height:590px;
   flex:1;
   background: #3367D6;
   margin-left: 20px;
@@ -10127,7 +10239,7 @@ only screen and (max-width: 1050px),
 }
 .form-input-rrnopo input,.form-input-rrnopo select
 {
-  margin-bottom: 20px;
+  margin-bottom: 30px;
   font-size: 14px;
   border-radius: 3px;
   padding: 5px;
@@ -10260,6 +10372,7 @@ only screen and (max-width: 1310px),
 {
   width: 100%;
 	text-align:center;
+	font-family: 'Comfortaa',sans-serif;
 }
 .items-from-rv-nopo-table
 {
@@ -11385,7 +11498,7 @@ only screen and (max-width: 1050px),
 {
   margin-left: 4px;
   margin-right: 4px;
-  margin-bottom:5px;
+  margin-bottom:20px;
   padding:10px;
   font-size: 15px;
   font-family:Roboto, 'Segoe UI', Tahoma, sans-serif;
@@ -11913,7 +12026,7 @@ only screen and (max-width: 1050px),
 
 .newuserinputs input[type=text],.newuserinputs input[type=password]
 {
-  margin-bottom: 5px;
+  margin-bottom: 20px;
   border-style: none;
   border-bottom: 1px solid gray;
   padding:10px;

@@ -205,6 +205,7 @@ Vue.use(Toast);
             if (response.data.error==null)
             {
               window.location=response.data.redirect;
+              console.log(response);
             }else
             {
               vm.$toast.top(response.data.error);

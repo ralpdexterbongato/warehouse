@@ -1,8 +1,8 @@
 window.Vue = require('vue');
-Vue.component('createrrnopo', require('./components/CreateRRNoPO.vue'));
-Vue.component('createrrwithpo', require('./components/CreateRRWithPO.vue'));
-Vue.component('rrindex', require('./components/RRindex.vue'));
-Vue.component('rrpreview', require('./components/RRfullpreview.vue'));
+Vue.component('createrrnopo', require('./components/RR/CreateRRNoPO.vue'));
+Vue.component('createrrwithpo', require('./components/RR/CreateRRWithPO.vue'));
+Vue.component('rrindex', require('./components/RR/RRindex.vue'));
+Vue.component('rrpreview', require('./components/RR/RRfullpreview.vue'));
 new Vue({
     el:'#rr',
 });

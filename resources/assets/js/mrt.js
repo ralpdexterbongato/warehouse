@@ -1,8 +1,8 @@
 window.Vue = require('vue');
-  Vue.component('mrtpreview', require('./components/MRTPreview.vue'));
-  Vue.component('mrtindex', require('./components/MRTindex.vue'));
-  Vue.component('mrtcreate', require('./components/MRTcreate.vue'));
-  Vue.component('mrtrequesttable', require('./components/myMRTSignatureRequest.vue'));
+  Vue.component('mrtpreview', require('./components/MRT/MRTPreview.vue'));
+  Vue.component('mrtindex', require('./components/MRT/MRTindex.vue'));
+  Vue.component('mrtcreate', require('./components/MRT/MRTcreate.vue'));
+  Vue.component('mrtrequesttable', require('./components/MRT/myMRTSignatureRequest.vue'));
 new Vue({
     el:'#mrt',
 });
