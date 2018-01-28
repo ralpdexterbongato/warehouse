@@ -30,8 +30,8 @@ class ItemsController extends Controller
 
     public function FetchAndsearchItemCode(Request $request)
     {
-      $historiesfound= MaterialsTicketDetail::where('ItemCode',$request->ItemCode)->orderBy('id','DESC')->paginate(10);
-      $latestFound=MaterialsTicketDetail::where('ItemCode',$request->ItemCode)->orderBy('id','DESC')->take(1)->get();
+      $historiesfound= MaterialsTicketDetail::where('ItemCode',$request->ItemCode)->orderBy('id','DESC')->whereNull('IsRollBack')->paginate(10);
+      $latestFound=MaterialsTicketDetail::where('ItemCode',$request->ItemCode)->whereNull('IsRollBack')->orderBy('id','DESC')->take(1)->get();
       $latestFound->load('MasterItems');
 
       $response = array('historiesfound'=>$historiesfound ,'latestFound'=>$latestFound);

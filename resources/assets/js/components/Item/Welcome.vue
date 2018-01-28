@@ -41,6 +41,7 @@
             <th>Date</th>
           </tr>
           <tr>
+            <td>{{latestFound.MTType}}</td>
             <td>{{latestFound.MTNo}}</td>
             <td>{{latestFound.AccountCode}}</td>
             <td>{{latestFound.ItemCode}}</td>
@@ -72,6 +73,7 @@
             <th>Date</th>
           </tr>
           <tr v-for="history in historiesfound" v-if="history.id!=latestFound.id">
+            <td>{{history.MTType}}</td>
             <td>{{history.MTNo}}</td>
             <td>{{formatPrice(history.UnitCost)}}</td>
             <td>{{history.Quantity}}</td>

@@ -323,25 +323,68 @@ class MCTController extends Controller
   public function RollBack($mctNo,$mirsNo)
   {
     $dataToRollBack=MaterialsTicketDetail::where('MTType', 'MCT')->where('MTNo', $mctNo)->whereNull('IsRollBack')->get();
-    $ForMTDetailsTable = array();
+    MCTMaster::where('MCTNo',$mctNo)->update(['IsRollBack'=>'0','notification_date_time'=>Carbon::now(),'UnreadNotification'=>'0']);
     foreach ($dataToRollBack as $data)
     {
-      $LatestDataOfItem = MaterialsTicketDetail::orderBy('id','DESC')->where('ItemCode', $data->ItemCode)->take(1)->get(['CurrentAmount','CurrentQuantity']);
-      $newAmount = $LatestDataOfItem[0]->CurrentAmount + $data->Amount;
-      $newQty = $LatestDataOfItem[0]->CurrentQuantity + $data->Quantity;
-      if ($newQty>0)
+      $idOfMCTHistory = MaterialsTicketDetail::where('MTType', 'MCT')->where('MTNo', $mctNo)->where('ItemCode',$data->ItemCode)->value('id');
+      MaterialsTicketDetail::where('id', $idOfMCTHistory)->update(['IsRollBack'=>'0']);
+      $affectedRows = MaterialsTicketDetail::where('ItemCode',$data->ItemCode)->whereNull('IsRollBack')->where('id','>',$idOfMCTHistory)
+      ->chunk(5, function ($affectedRows) use ($data)
       {
-        $currentCost= $newAmount / $newQty;
-      }else
-      {
-        $currentCost='0';
-      }
-      $ForMTDetailsTable[] = array('ItemCode' =>$data->ItemCode,'MTType'=>$data->MTType,'MTNo'=>$data->MTNo,'AccountCode'=>$data->AccountCode,'UnitCost'=>$data->UnitCost,'Quantity'=>$data->Quantity,'CurrentCost'=>$currentCost,'Amount'=>$data->Amount,'CurrentQuantity'=>$newQty,'CurrentAmount'=>$newAmount,'MTDate'=>$data->MTDate);
-      MasterItem::where('ItemCode',$data->ItemCode)->update(['CurrentQuantity'=>$newQty]);
+           foreach ($affectedRows as $affectedrow)
+           {
+             if ($affectedrow->MTType=='MCT')
+             {
+              $uCostLatestRR=MaterialsTicketDetail::orderBy('id','DESC')->where('MTType', 'RR')->where('ItemCode',$data->ItemCode)->where('id','<',$affectedrow->id)->whereNull('IsRollBack')->take(1)->value('UnitCost');
+              $dataBelowTheRow=MaterialsTicketDetail::orderBy('id','DESC')->where('ItemCode', $data->ItemCode)->where('id','<',$affectedrow->id)->whereNull('IsRollBack')->take(1)->get();
+              $newAmt = $affectedrow->Quantity * $uCostLatestRR;
+              $newCurrentQty = $dataBelowTheRow[0]->CurrentQuantity - $affectedrow->Quantity;
+              $newCurrentAmount= $dataBelowTheRow[0]->CurrentAmount - $newAmt;
+              if ($newCurrentQty!=0)
+              {
+                $newCurrentCost= $newCurrentAmount / $newCurrentQty;
+              }else
+              {
+                $newCurrentCost = 0;
+              }
+              $affectedrow->update(['UnitCost'=>$uCostLatestRR,'Amount'=>$newAmt,'CurrentQuantity'=>$newCurrentQty,'CurrentAmount'=>$newCurrentAmount,'CurrentCost'=>$newCurrentCost]);
+             }
+             if ($affectedrow->MTType=='MRT')
+             {
+              $uCostLatestRR=MaterialsTicketDetail::orderBy('id','DESC')->where('MTType', 'RR')->where('ItemCode',$data->ItemCode)->where('id','<',$affectedrow->id)->whereNull('IsRollBack')->take(1)->value('UnitCost');
+              $dataBelowTheRow=MaterialsTicketDetail::orderBy('id','DESC')->where('ItemCode', $data->ItemCode)->where('id','<',$affectedrow->id)->whereNull('IsRollBack')->take(1)->get();
+              $newAmt = $affectedrow->Quantity * $uCostLatestRR;
+              $newCurrentQty = $dataBelowTheRow[0]->CurrentQuantity + $affectedrow->Quantity;
+              $newCurrentAmount= $dataBelowTheRow[0]->CurrentAmount + $newAmt;
+              if ($newCurrentQty!=0)
+              {
+                $newCurrentCost= $newCurrentAmount / $newCurrentQty;
+              }else
+              {
+                $newCurrentCost = 0;
+              }
+              $affectedrow->update(['UnitCost'=>$uCostLatestRR,'Amount'=>$newAmt,'CurrentQuantity'=>$newCurrentQty,'CurrentAmount'=>$newCurrentAmount,'CurrentCost'=>$newCurrentCost]);
+             }
+             if ($affectedrow->MTType=='RR')
+             {
+              $dataBelowTheRow=MaterialsTicketDetail::orderBy('id','DESC')->where('ItemCode', $data->ItemCode)->where('id','<',$affectedrow->id)->whereNull('IsRollBack')->take(1)->get();
+              $newAmt = $affectedrow->Quantity * $affectedrow->UnitCost;
+              $newCurrentQty = $dataBelowTheRow[0]->CurrentQuantity + $affectedrow->Quantity;
+              $newCurrentAmount= $dataBelowTheRow[0]->CurrentAmount + $newAmt;
+              if ($newCurrentQty!=0)
+              {
+                $newCurrentCost= $newCurrentAmount / $newCurrentQty;
+              }else
+              {
+                $newCurrentCost = 0;
+              }
+              $affectedrow->update(['UnitCost'=>$affectedrow->UnitCost,'Amount'=>$newAmt,'CurrentQuantity'=>$newCurrentQty,'CurrentAmount'=>$newCurrentAmount,'CurrentCost'=>$newCurrentCost]);
+             }
+           }
+       });
+       $CurrentQuantityOfItem=MaterialsTicketDetail::orderBy('id','DESC')->whereNull('IsRollBack')->where('ItemCode', $data->ItemCode)->take(1)->value('CurrentQuantity');
+       MasterItem::where('ItemCode',$data->ItemCode)->update(['CurrentQuantity' => $CurrentQuantityOfItem]);
     }
-    MaterialsTicketDetail::where('MTType', 'MCT')->where('MTNo', $mctNo)->whereNull('IsRollBack')->update(['IsRollBack'=>'0']);
-    MaterialsTicketDetail::insert($ForMTDetailsTable);
-    MCTMaster::where('MCTNo',$mctNo)->update(['IsRollBack'=>'0','UnreadNotification'=>0,'notification_date_time'=>Carbon::now()]);
 
     $MCTconfirmation=MCTConfirmationDetail::where('MCTNo',$mctNo)->get(['ItemCode','Quantity']);
     foreach ($MCTconfirmation as $confirmation)
@@ -353,26 +396,69 @@ class MCTController extends Controller
   }
   public function UndoRollBack($mctNo,$mirsNo)
   {
-    $dataToUndoRollBack=MaterialsTicketDetail::where('MTType', 'MCT')->where('MTNo', $mctNo)->whereNull('IsRollBack')->get();
-    $ForMTDetailsTable = array();
+    $dataToUndoRollBack=MaterialsTicketDetail::where('MTType', 'MCT')->where('MTNo', $mctNo)->get();
+    MCTMaster::where('MCTNo',$mctNo)->update(['IsRollBack'=>'1','notification_date_time'=>Carbon::now(),'UnreadNotification'=>'0']);
     foreach ($dataToUndoRollBack as $data)
     {
-      $LatestDataOfItem = MaterialsTicketDetail::orderBy('id','DESC')->where('ItemCode', $data->ItemCode)->take(1)->get(['CurrentAmount','CurrentQuantity']);
-      $newAmount = $LatestDataOfItem[0]->CurrentAmount - $data->Amount;
-      $newQty = $LatestDataOfItem[0]->CurrentQuantity - $data->Quantity;
-      if ($newQty>0)
+      MaterialsTicketDetail::where('MTType', 'MCT')->where('MTNo', $mctNo)->where('ItemCode',$data->ItemCode)->update(['IsRollBack'=>NULL]);
+      $idOfMCTHistory = MaterialsTicketDetail::where('MTType', 'MCT')->where('MTNo', $mctNo)->where('ItemCode',$data->ItemCode)->value('id');
+      $affectedRows = MaterialsTicketDetail::where('ItemCode',$data->ItemCode)->whereNull('IsRollBack')->where('id','>',$idOfMCTHistory)
+      ->chunk(5, function ($affectedRows) use ($data)
       {
-        $currentCost= $newAmount / $newQty;
-      }else
-      {
-        $currentCost='0';
-      }
-      MasterItem::where('ItemCode',$data->ItemCode)->update(['CurrentQuantity'=>$newQty]);
-      $ForMTDetailsTable[] = array('ItemCode' =>$data->ItemCode,'MTType'=>'MCT','MTNo'=>$mctNo,'AccountCode'=>$data->AccountCode,'UnitCost'=>$data->UnitCost,'Quantity'=>$data->Quantity,'CurrentCost'=>$currentCost,'Amount'=>$data->Amount,'CurrentQuantity'=>$newQty,'CurrentAmount'=>$newAmount,'MTDate'=>$data->MTDate);
+           foreach ($affectedRows as $affectedrow)
+           {
+             if ($affectedrow->MTType=='MCT')
+             {
+              $uCostLatestRR=MaterialsTicketDetail::orderBy('id','DESC')->where('MTType', 'RR')->where('ItemCode',$data->ItemCode)->where('id','<',$affectedrow->id)->whereNull('IsRollBack')->take(1)->value('UnitCost');
+              $dataBelowTheRow=MaterialsTicketDetail::orderBy('id','DESC')->where('ItemCode', $data->ItemCode)->where('id','<',$affectedrow->id)->whereNull('IsRollBack')->take(1)->get();
+              $newAmt = $affectedrow->Quantity * $uCostLatestRR;
+              $newCurrentQty = $dataBelowTheRow[0]->CurrentQuantity - $affectedrow->Quantity;
+              $newCurrentAmount= $dataBelowTheRow[0]->CurrentAmount - $newAmt;
+              if ($newCurrentQty!=0)
+              {
+                $newCurrentCost= $newCurrentAmount / $newCurrentQty;
+              }else
+              {
+                $newCurrentCost = 0;
+              }
+              $affectedrow->update(['UnitCost'=>$uCostLatestRR,'Amount'=>$newAmt,'CurrentQuantity'=>$newCurrentQty,'CurrentAmount'=>$newCurrentAmount,'CurrentCost'=>$newCurrentCost]);
+             }
+             if ($affectedrow->MTType=='MRT')
+             {
+              $uCostLatestRR=MaterialsTicketDetail::orderBy('id','DESC')->where('MTType', 'RR')->where('ItemCode',$data->ItemCode)->where('id','<',$affectedrow->id)->whereNull('IsRollBack')->take(1)->value('UnitCost');
+              $dataBelowTheRow=MaterialsTicketDetail::orderBy('id','DESC')->where('ItemCode', $data->ItemCode)->where('id','<',$affectedrow->id)->whereNull('IsRollBack')->take(1)->get();
+              $newAmt = $affectedrow->Quantity * $uCostLatestRR;
+              $newCurrentQty = $dataBelowTheRow[0]->CurrentQuantity + $affectedrow->Quantity;
+              $newCurrentAmount= $dataBelowTheRow[0]->CurrentAmount + $newAmt;
+              if ($newCurrentQty!=0)
+              {
+                $newCurrentCost= $newCurrentAmount / $newCurrentQty;
+              }else
+              {
+                $newCurrentCost = 0;
+              }
+              $affectedrow->update(['UnitCost'=>$uCostLatestRR,'Amount'=>$newAmt,'CurrentQuantity'=>$newCurrentQty,'CurrentAmount'=>$newCurrentAmount,'CurrentCost'=>$newCurrentCost]);
+             }
+             if ($affectedrow->MTType=='RR')
+             {
+              $dataBelowTheRow=MaterialsTicketDetail::orderBy('id','DESC')->where('ItemCode', $data->ItemCode)->where('id','<',$affectedrow->id)->whereNull('IsRollBack')->take(1)->get();
+              $newAmt = $affectedrow->Quantity * $affectedrow->UnitCost;
+              $newCurrentQty = $dataBelowTheRow[0]->CurrentQuantity + $affectedrow->Quantity;
+              $newCurrentAmount= $dataBelowTheRow[0]->CurrentAmount + $newAmt;
+              if ($newCurrentQty!=0)
+              {
+                $newCurrentCost= $newCurrentAmount / $newCurrentQty;
+              }else
+              {
+                $newCurrentCost = 0;
+              }
+              $affectedrow->update(['UnitCost'=>$affectedrow->UnitCost,'Amount'=>$newAmt,'CurrentQuantity'=>$newCurrentQty,'CurrentAmount'=>$newCurrentAmount,'CurrentCost'=>$newCurrentCost]);
+             }
+           }
+       });
+       $CurrentQuantityOfItem=MaterialsTicketDetail::orderBy('id','DESC')->whereNull('IsRollBack')->where('ItemCode', $data->ItemCode)->take(1)->value('CurrentQuantity');
+       MasterItem::where('ItemCode',$data->ItemCode)->update(['CurrentQuantity' => $CurrentQuantityOfItem]);
     }
-    MaterialsTicketDetail::where('MTType', 'MCT')->where('MTNo', $mctNo)->whereNull('IsRollBack')->update(['IsRollBack'=>'0']);
-    MaterialsTicketDetail::insert($ForMTDetailsTable);
-    MCTMaster::where('MCTNo',$mctNo)->update(['IsRollBack'=>1,'UnreadNotification'=>0,'notification_date_time'=>Carbon::now()]);
 
     $MCTconfirmation=MCTConfirmationDetail::where('MCTNo',$mctNo)->get(['ItemCode','Quantity']);
     foreach ($MCTconfirmation as $confirmation)
