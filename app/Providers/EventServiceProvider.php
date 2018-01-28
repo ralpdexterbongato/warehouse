@@ -40,6 +40,12 @@ class EventServiceProvider extends ServiceProvider
         'App\Events\NewMREvent' => [
             'App\Listeners\NewMREventListener',
         ],
+        'App\Events\GlobalNotif' => [
+            'App\Listeners\GlobalNotif',
+        ],
+        'App\Events\GlobalNotifWarehouse' => [
+            'App\Listeners\GlobalNotifWArehouse',
+        ],
 
     ];
 
