@@ -10,9 +10,10 @@ use Illuminate\Foundation\Events\Dispatchable;
 use Illuminate\Broadcasting\InteractsWithSockets;
 use Illuminate\Contracts\Broadcasting\ShouldBroadcast;
 
-class NewApprovedMIRSEvent implements ShouldBroadcast
+class GlobalNotifWarehouseEvent
 {
     use Dispatchable, InteractsWithSockets, SerializesModels;
+
     /**
      * Create a new event instance.
      *
@@ -20,7 +21,7 @@ class NewApprovedMIRSEvent implements ShouldBroadcast
      */
     public function __construct()
     {
-
+        //
     }
 
     /**
@@ -30,6 +31,6 @@ class NewApprovedMIRSEvent implements ShouldBroadcast
      */
     public function broadcastOn()
     {
-      return new PrivateChannel('WarehouseRole');
+        return new PrivateChannel('channel-name');
     }
 }

@@ -16,9 +16,6 @@ class EventServiceProvider extends ServiceProvider
         'App\Events\NewMIRSEvent' => [
             'App\Listeners\NewMIRSEventListener',
         ],
-        'App\Events\NewApprovedMIRSEvent' => [
-            'App\Listeners\NewApprovedMIRSEventListener',
-        ],
         'App\Events\NewMCTEvent' => [
             'App\Listeners\NewMCTEventListener',
         ],
@@ -40,11 +37,11 @@ class EventServiceProvider extends ServiceProvider
         'App\Events\NewMREvent' => [
             'App\Listeners\NewMREventListener',
         ],
-        'App\Events\GlobalNotif' => [
-            'App\Listeners\GlobalNotif',
+        'App\Events\GlobalNotifEvent' => [
+            'App\Listeners\GlobalNotifEventListener',
         ],
-        'App\Events\GlobalNotifWarehouse' => [
-            'App\Listeners\GlobalNotifWArehouse',
+        'App\Events\GlobalNotifWarehouseEvent' => [
+            'App\Listeners\GlobalNotifWarehouseEventListener',
         ],
 
     ];

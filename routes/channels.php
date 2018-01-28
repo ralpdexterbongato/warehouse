@@ -40,3 +40,6 @@ Broadcast::channel('RRchannel.{Notifyname}', function ($nameToNotify) {
 Broadcast::channel('MRchannel.{notifythis}', function ($notifythis) {
     return Auth::check();
 });
+Broadcast::channel('GlobalNotif.{ReceiverID}', function ($ReceiverID) {
+    return Auth::check();
+});

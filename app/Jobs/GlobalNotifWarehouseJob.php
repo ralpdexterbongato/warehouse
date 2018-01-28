@@ -7,18 +7,19 @@ use Illuminate\Queue\SerializesModels;
 use Illuminate\Queue\InteractsWithQueue;
 use Illuminate\Contracts\Queue\ShouldQueue;
 use Illuminate\Foundation\Bus\Dispatchable;
-class NewApprovedMIRSJob implements ShouldQueue
+
+class GlobalNotifWarehouseJob implements ShouldQueue
 {
     use Dispatchable, InteractsWithQueue, Queueable, SerializesModels;
-    public $NotifData;
+
     /**
      * Create a new job instance.
      *
      * @return void
      */
-    public function __construct($NotifData)
+    public function __construct()
     {
-        $this->NotifData=$NotifData;
+        //
     }
 
     /**
@@ -28,7 +29,6 @@ class NewApprovedMIRSJob implements ShouldQueue
      */
     public function handle()
     {
-      chdir('c:/xampp/htdocs/gnokii');
-      shell_exec('echo Your MIRS '.$this->NotifData->MIRSNo.' is now approved | gnokii --sendsms '.$this->NotifData->RequisitionerMobile);
+        //
     }
 }

@@ -12161,7 +12161,13 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
 
   props: ['user'],
   mounted: function mounted() {
+    var _this = this;
+
     this.countNotif();
+    Echo.private('GlobalNotif.' + this.user.id).listen('GlobalNotifEvent', function (e) {
+      console.log(e);
+      _this.countNotif();
+    });
   },
 
   methods: {

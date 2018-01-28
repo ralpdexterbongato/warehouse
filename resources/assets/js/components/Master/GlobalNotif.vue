@@ -304,6 +304,11 @@
     props: ['user'],
     mounted () {
       this.countNotif();
+      Echo.private('GlobalNotif.'+this.user.id)
+      .listen('GlobalNotifEvent', (e) => {
+          console.log(e);
+          this.countNotif();
+      });
     },
     methods:
     {

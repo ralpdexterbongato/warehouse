@@ -19,6 +19,7 @@ use App\Jobs\RVApprovalReplacer;
 use App\Jobs\RVManagerReplacer;
 use App\Jobs\SMSDeclinedRV;
 use App\Signatureable;
+use App\Jobs\GlobalNotifJob;
 class RVController extends Controller
 {
     public function __construct()
@@ -214,7 +215,15 @@ class RVController extends Controller
         $notifyData=(object)$notifyData;
         $job = (new NewRVApprovedJob($notifyData))->delay(Carbon::now()->addSeconds(5));
         dispatch($job);
+
+        // global notif trigger
+        $ReceiverID = array('id' =>$RequisitionerID[0]->user_id);
+        $ReceiverID = (object)$ReceiverID;
+        $job = (new GlobalNotifJob($ReceiverID))
+        ->delay(Carbon::now()->addSeconds(5));
+        dispatch($job);
       }
+
     }
     public function RVrequest()
     {
@@ -239,6 +248,12 @@ class RVController extends Controller
         ->delay(Carbon::now()->addSeconds(5));
         dispatch($job);
       }
+      // global notif trigger
+      $ReceiverID = array('id' =>$requisitioner[0]->user_id);
+      $ReceiverID = (object)$ReceiverID;
+      $job = (new GlobalNotifJob($ReceiverID))
+      ->delay(Carbon::now()->addSeconds(5));
+      dispatch($job);
     }
     public function searchRV(Request $request)
     {
@@ -313,6 +328,13 @@ class RVController extends Controller
       $NotifData = array('RequisitionerMobile' =>$RequisitionerMobile[0]->Mobile,'RVNo'=>$id,'ApprovalReplacer'=>Auth::user()->FullName,'GMMobile'=>$GMMoble[0]->Mobile);
       $NotifData=(object)$NotifData;
       $job = (new RVApprovalReplacer($NotifData))->delay(Carbon::now()->addSeconds(5));
+      dispatch($job);
+
+      // global notif trigger
+      $ReceiverID = array('id' =>$RequisitionerId[0]->user_id);
+      $ReceiverID = (object)$ReceiverID;
+      $job = (new GlobalNotifJob($ReceiverID))
+      ->delay(Carbon::now()->addSeconds(5));
       dispatch($job);
       return ['success'=>'success'];
     }

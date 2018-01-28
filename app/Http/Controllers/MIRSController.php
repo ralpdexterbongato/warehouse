@@ -17,12 +17,21 @@ use App\Jobs\MIRSApprovalReplacer;
 use App\Jobs\MIRSManagerReplacer;
 use App\Signatureable;
 use App\Jobs\SMSDeclinedMIRS;
+use App\Jobs\GlobalNotifJob;
 class MIRSController extends Controller
 {
   public function __construct()
   {
     $this->middleware('auth');
   }
+  // public function ApprovedSample()
+  // {
+  //   $ReceiverID = array('id' => '32');
+  //   $ReceiverID = (object)$ReceiverID;
+  //   $job = (new GlobalNotifJob($ReceiverID))
+  //   ->delay(Carbon::now()->addSeconds(5));
+  //   dispatch($job);
+  // }
   public function MIRScreate()
   {
     Session::forget('ItemSelected');
@@ -200,6 +209,12 @@ class MIRSController extends Controller
       ->delay(Carbon::now()->addSeconds(5));
       dispatch($job);
     }
+    // global notif trigger
+    $ReceiverID = array('id' =>$requisitioner[0]->user_id);
+    $ReceiverID = (object)$ReceiverID;
+    $job = (new GlobalNotifJob($ReceiverID))
+    ->delay(Carbon::now()->addSeconds(5));
+    dispatch($job);
 
   }
   public function MIRSSignature($id)
@@ -250,6 +265,13 @@ class MIRSController extends Controller
       $NotifData=(object)$NotifData;
       $job=(new NewApprovedMIRSJob($NotifData))->delay(Carbon::now()->addSeconds(5));
       dispatch($job);
+
+      // global notif trigger
+      $ReceiverID = array('id' =>$PreparedId[0]->user_id);
+      $ReceiverID = (object)$ReceiverID;
+      $job = (new GlobalNotifJob($ReceiverID))
+      ->delay(Carbon::now()->addSeconds(5));
+      dispatch($job);
     }
   }
   public function mirsRequestcheck()
@@ -280,6 +302,14 @@ class MIRSController extends Controller
     $NotifData=(object)$NotifData;
     $job=(new MIRSApprovalReplacer($NotifData))->delay(Carbon::now()->addSeconds(5));
     dispatch($job);
+
+    //global notif trigger
+    $ReceiverID = array('id' =>$PreparedId[0]->user_id);
+    $ReceiverID = (object)$ReceiverID;
+    $job = (new GlobalNotifJob($ReceiverID))
+    ->delay(Carbon::now()->addSeconds(5));
+    dispatch($job);
+
     return ['success'=>'success'];
   }
   public function fetchAllManager()

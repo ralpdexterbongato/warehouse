@@ -32,6 +32,5 @@ class MIRSApprovalReplacer implements ShouldQueue
         chdir('c:/xampp/htdocs/gnokii');
         shell_exec('echo The MIRS '.$this->NotifData->MIRSNo.' is now approved by '.$this->NotifData->ApprovalReplacer.' in behalf of you | gnokii --sendsms '.$this->NotifData->GMMobile);
         shell_exec('echo Your MIRS '.$this->NotifData->MIRSNo.' is now approved! | gnokii --sendsms '.$this->NotifData->RequisitionerMobile);
-        Event(new NewApprovedMIRSEvent($this->NotifData));
     }
 }

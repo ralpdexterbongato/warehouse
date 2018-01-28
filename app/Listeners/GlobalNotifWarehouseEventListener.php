@@ -2,11 +2,11 @@
 
 namespace App\Listeners;
 
-use App\Events\GlobalNotif;
+use App\Events\GlobalNotifWarehouseEvent;
 use Illuminate\Queue\InteractsWithQueue;
 use Illuminate\Contracts\Queue\ShouldQueue;
 
-class GlobalNotif
+class GlobalNotifWarehouseEventListener
 {
     /**
      * Create the event listener.
@@ -21,10 +21,10 @@ class GlobalNotif
     /**
      * Handle the event.
      *
-     * @param  GlobalNotif  $event
+     * @param  GlobalNotifWarehouseEvent  $event
      * @return void
      */
-    public function handle(GlobalNotif $event)
+    public function handle(GlobalNotifWarehouseEvent $event)
     {
         //
     }
