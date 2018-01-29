@@ -19,6 +19,7 @@ use App\Jobs\NewCreatedRRJob;
 use App\PODetail;
 use App\Signatureable;
 use App\Jobs\RRNewAlertReceiver;
+use App\Jobs\GlobalNotifWarehouseJob;
 class RRController extends Controller
 {
   public function __construct()
@@ -402,6 +403,10 @@ class RRController extends Controller
           RVMaster::where('RVNo',$RRMaster[0]->RVNo)->update(['IfPurchased'=>'0']);
         }
       }
+      // global notify warehouseman
+      $job = (new GlobalNotifWarehouseJob)
+      ->delay(Carbon::now()->addSeconds(5));
+      dispatch($job);
     }
   }
   public function RRsignatureRequest()
@@ -445,6 +450,10 @@ class RRController extends Controller
         }
       }
     }
+    // global notify warehouseman
+    $job = (new GlobalNotifWarehouseJob)
+    ->delay(Carbon::now()->addSeconds(5));
+    dispatch($job);
   }
   public function displayRRcurrentSession()
   {
@@ -596,6 +605,10 @@ class RRController extends Controller
         }
       }
     }
+    // global notify warehouseman
+    $job = (new GlobalNotifWarehouseJob)
+    ->delay(Carbon::now()->addSeconds(5));
+    dispatch($job);
   }
   public function UndoRollBack($rrNo)
   {
@@ -696,5 +709,9 @@ class RRController extends Controller
         }
       }
     }
+    // global notify warehouseman
+    $job = (new GlobalNotifWarehouseJob)
+    ->delay(Carbon::now()->addSeconds(5));
+    dispatch($job);
   }
 }

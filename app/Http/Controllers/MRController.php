@@ -15,6 +15,7 @@ use Auth;
 use App\Jobs\NewMRCreatedJob;
 use App\Signatureable;
 use App\Jobs\MRApprovedAlert;
+use App\Jobs\GlobalNotifWarehouseJob;
 class MRController extends Controller
 {
     public function __construct()
@@ -24,7 +25,7 @@ class MRController extends Controller
     public function SaveMR(Request $request)
     {
      $this->validate($request,[
-       'Note'=>'max:50',
+       'Note'=>'max:191',
        'RecommendedBy'=>'required|max:2',
        'ReceivedBy'=>'required|max:2',
        'RRNo'=>'required'
@@ -209,7 +210,13 @@ class MRController extends Controller
       {
         MRMaster::where('MRNo',$id)->update(['SignatureTurn'=>'3','Status'=>'0','UnreadNotification'=>'0','notification_date_time'=>Carbon::now()]);
         Signatureable::where('user_id', Auth::user()->id)->where('signatureable_id',$id)->where('signatureable_type', 'App\MRMaster')->where('SignatureType', 'ReceivedBy')->update(['Signature'=>'0']);
+
+        // global notify warehouseman
+        $job = (new GlobalNotifWarehouseJob)
+        ->delay(Carbon::now()->addSeconds(5));
+        dispatch($job);
       }
+
     }
     public function DeclineMR($id)
     {
@@ -230,6 +237,10 @@ class MRController extends Controller
           }
         }
       }
+      // global notify warehouseman
+      $job = (new GlobalNotifWarehouseJob)
+      ->delay(Carbon::now()->addSeconds(5));
+      dispatch($job);
     }
     public function myMRrequest()
     {

@@ -24,14 +24,6 @@ class MIRSController extends Controller
   {
     $this->middleware('auth');
   }
-  // public function ApprovedSample()
-  // {
-  //   $ReceiverID = array('id' => '32');
-  //   $ReceiverID = (object)$ReceiverID;
-  //   $job = (new GlobalNotifJob($ReceiverID))
-  //   ->delay(Carbon::now()->addSeconds(5));
-  //   dispatch($job);
-  // }
   public function MIRScreate()
   {
     Session::forget('ItemSelected');

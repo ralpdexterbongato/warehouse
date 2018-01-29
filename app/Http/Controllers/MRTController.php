@@ -16,6 +16,7 @@ use App\MasterItem;
 use App\Jobs\NewCreatedMRTJob;
 use App\User;
 use App\Signatureable;
+use App\Jobs\GlobalNotifWarehouseJob;
 class MRTController extends Controller
 {
     public function __construct()
@@ -211,12 +212,21 @@ class MRTController extends Controller
         MaterialsTicketDetail::insert($forMRTtbl);
         Signatureable::where('signatureable_id',$id)->where('signatureable_type', 'App\MRTMaster')->where('SignatureType', 'ReturnedBy')->where('user_id', Auth::user()->id)->update(['Signature'=>'0']);
         MRTMaster::where('MRTNo', $id)->update(['Status'=>'0','UnreadNotification'=>'0','notification_date_time'=>Carbon::now()]);
+
+        // global notify warehouseman
+        $job = (new GlobalNotifWarehouseJob)
+        ->delay(Carbon::now()->addSeconds(5));
+        dispatch($job);
       }
     }
     public function DeclineMRT($id)
     {
       Signatureable::where('signatureable_id',$id)->where('signatureable_type','App\MRTMaster')->where('user_id', Auth::user()->id)->update(['Signature'=>'1']);
       MRTMaster::where('MRTNo', $id)->update(['Status'=>'1','UnreadNotification'=>'0','notification_date_time'=>Carbon::now()]);
+      // global notify warehouseman
+      $job = (new GlobalNotifWarehouseJob)
+      ->delay(Carbon::now()->addSeconds(5));
+      dispatch($job);
     }
     public function updateQuantityMRT($id,Request $request)
     {
@@ -328,6 +338,10 @@ class MRTController extends Controller
          $CurrentQuantityOfItem=MaterialsTicketDetail::orderBy('id','DESC')->whereNull('IsRollBack')->where('ItemCode', $data->ItemCode)->take(1)->value('CurrentQuantity');
          MasterItem::where('ItemCode',$data->ItemCode)->update(['CurrentQuantity' => $CurrentQuantityOfItem]);
        }
+       // global notify warehouseman
+       $job = (new GlobalNotifWarehouseJob)
+       ->delay(Carbon::now()->addSeconds(5));
+       dispatch($job);
     }
     public function UndoRollBack($mrtNo)
     {
@@ -394,5 +408,9 @@ class MRTController extends Controller
          $CurrentQuantityOfItem=MaterialsTicketDetail::orderBy('id','DESC')->whereNull('IsRollBack')->where('ItemCode', $data->ItemCode)->take(1)->value('CurrentQuantity');
          MasterItem::where('ItemCode',$data->ItemCode)->update(['CurrentQuantity' => $CurrentQuantityOfItem]);
       }
+      // global notify warehouseman
+      $job = (new GlobalNotifWarehouseJob)
+      ->delay(Carbon::now()->addSeconds(5));
+      dispatch($job);
     }
 }

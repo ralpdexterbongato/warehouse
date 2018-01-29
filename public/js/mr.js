@@ -12140,6 +12140,8 @@ Vue.use(__WEBPACK_IMPORTED_MODULE_3_vue2_toast___default.a);
           vm.$toast.top(error.response.data.ReceivedBy[0]);
         } else if (error.response.data.RecommendedBy != null) {
           vm.$toast.top(error.response.data.RecommendedBy[0]);
+        } else if (error.response.data.Note != null) {
+          vm.$toast.top(error.response.data.Note[0]);
         }
         Vue.set(vm.$data, 'HideSubmitBtn', false);
         vm.$loading.close();

@@ -3,7 +3,10 @@
     <h1 class="waves-effect waves-light">
       <i class="material-icons">notifications</i>
     </h1>
-    <h2 class="number-of-unread z-depth-1" v-if="AddedCounts!='0'">{{AddedCounts}}</h2>
+    <h2 class="number-of-unread z-depth-1" v-if="AddedCounts!='0'">
+      <span v-if="AddedCounts < 10">{{AddedCounts}}</span>
+      <span v-else>9+</span>
+    </h2>
     <div class="notification-drop z-depth-1" v-on:click="dropIsActive=!dropIsActive" :class="[dropIsActive == true?'active':'']">
       <div class="notification-header">
         <h2> Notifications</h2>
@@ -125,7 +128,7 @@
               <p>
                 <span v-if="rr.IsRollBack==0">receiving report has been reversed/rollbacked by the administrator</span>
                 <span v-if="rr.IsRollBack==1">the administrator undid the reversed/rollbacked data</span>
-                <span v-if="rr.Status==0 && rr.IsRollBack==null">receiving report has been approved</span>
+                <span v-if="rr.Status==0 && rr.IsRollBack==null">receiving report signatures are complete</span>
                 <span v-if="rr.Status==1 && rr.IsRollBack==null">receiving report has been declined</span>
               </p><br>
               <div class="time-notified">
@@ -193,7 +196,7 @@
               <p>
                 <span v-if="mct.IsRollBack==0">material charge ticket has been reversed/rollbacked by the administrator</span>
                 <span v-if="mct.IsRollBack==1">the administrator undid the reversed/rollbacked data</span>
-                <span v-if="mct.Status==0 && mct.IsRollBack==null">Materials charge ticket has been approved</span>
+                <span v-if="mct.Status==0 && mct.IsRollBack==null">Materials charge ticket signatures are complete</span>
                 <span v-if="mct.Status==1 && mct.IsRollBack==null">Materials charge ticket has been declined</span>
               </p><br>
               <div class="time-notified">
@@ -229,7 +232,7 @@
               <p>
                 <span v-if="mrt.IsRollBack==0">materials return ticket has been reversed/rollbacked by the administrator</span>
                 <span v-if="mrt.IsRollBack==1">the administrator undid the reversed/rollbacked data</span>
-                <span v-if="mrt.Status==0 && mrt.IsRollBack==null">materials return ticket has been approved</span>
+                <span v-if="mrt.Status==0 && mrt.IsRollBack==null">materials return ticket signatures are complete</span>
                 <span v-if="mrt.Status==1 && mrt.IsRollBack==null">materials return ticket has been declined</span>
               </p><br>
               <div class="time-notified">
@@ -309,6 +312,14 @@
           console.log(e);
           this.countNotif();
       });
+      if (this.user.Role==3 || this.user.Role==4)
+      {
+        Echo.private('Global.Warehouse')
+        .listen('GlobalNotifWarehouseEvent', (e) => {
+            console.log(e);
+            this.countNotif();
+        });
+      }
     },
     methods:
     {

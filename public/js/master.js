@@ -12118,6 +12118,9 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
 //
 //
 //
+//
+//
+//
 
 
 /* harmony default export */ __webpack_exports__["default"] = ({
@@ -12168,6 +12171,12 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
       console.log(e);
       _this.countNotif();
     });
+    if (this.user.Role == 3 || this.user.Role == 4) {
+      Echo.private('Global.Warehouse').listen('GlobalNotifWarehouseEvent', function (e) {
+        console.log(e);
+        _this.countNotif();
+      });
+    }
   },
 
   methods: {
@@ -43717,7 +43726,7 @@ module.exports={render:function (){var _vm=this;var _h=_vm.$createElement;var _c
     }
   }, [_vm._m(0), _vm._v(" "), (_vm.AddedCounts != '0') ? _c('h2', {
     staticClass: "number-of-unread z-depth-1"
-  }, [_vm._v(_vm._s(_vm.AddedCounts))]) : _vm._e(), _vm._v(" "), _c('div', {
+  }, [(_vm.AddedCounts < 10) ? _c('span', [_vm._v(_vm._s(_vm.AddedCounts))]) : _c('span', [_vm._v("9+")])]) : _vm._e(), _vm._v(" "), _c('div', {
     staticClass: "notification-drop z-depth-1",
     class: [_vm.dropIsActive == true ? 'active' : ''],
     on: {
@@ -43892,7 +43901,7 @@ module.exports={render:function (){var _vm=this;var _h=_vm.$createElement;var _c
       class: [rr.UnreadNotification == '0' ? 'active' : '']
     }, [_vm._m(8, true), _vm._v(" "), _c('div', {
       staticClass: "drop-line-detail"
-    }, [_c('h5', [_vm._v("RR : " + _vm._s(rr.RRNo))]), _vm._v(" "), _c('p', [(rr.IsRollBack == 0) ? _c('span', [_vm._v("receiving report has been reversed/rollbacked by the administrator")]) : _vm._e(), _vm._v(" "), (rr.IsRollBack == 1) ? _c('span', [_vm._v("the administrator undid the reversed/rollbacked data")]) : _vm._e(), _vm._v(" "), (rr.Status == 0 && rr.IsRollBack == null) ? _c('span', [_vm._v("receiving report has been approved")]) : _vm._e(), _vm._v(" "), (rr.Status == 1 && rr.IsRollBack == null) ? _c('span', [_vm._v("receiving report has been declined")]) : _vm._e()]), _c('br'), _vm._v(" "), _c('div', {
+    }, [_c('h5', [_vm._v("RR : " + _vm._s(rr.RRNo))]), _vm._v(" "), _c('p', [(rr.IsRollBack == 0) ? _c('span', [_vm._v("receiving report has been reversed/rollbacked by the administrator")]) : _vm._e(), _vm._v(" "), (rr.IsRollBack == 1) ? _c('span', [_vm._v("the administrator undid the reversed/rollbacked data")]) : _vm._e(), _vm._v(" "), (rr.Status == 0 && rr.IsRollBack == null) ? _c('span', [_vm._v("receiving report signatures are complete")]) : _vm._e(), _vm._v(" "), (rr.Status == 1 && rr.IsRollBack == null) ? _c('span', [_vm._v("receiving report has been declined")]) : _vm._e()]), _c('br'), _vm._v(" "), _c('div', {
       staticClass: "time-notified"
     }, [(rr.Status == 0 && rr.IsRollBack == null) ? _c('i', {
       staticClass: "material-icons color-blue"
@@ -43956,7 +43965,7 @@ module.exports={render:function (){var _vm=this;var _h=_vm.$createElement;var _c
       class: [mct.UnreadNotification == '0' ? 'active' : '']
     }, [_vm._m(12, true), _vm._v(" "), _c('div', {
       staticClass: "drop-line-detail"
-    }, [_c('h5', [_vm._v("MCT : " + _vm._s(mct.MCTNo))]), _vm._v(" "), _c('p', [(mct.IsRollBack == 0) ? _c('span', [_vm._v("material charge ticket has been reversed/rollbacked by the administrator")]) : _vm._e(), _vm._v(" "), (mct.IsRollBack == 1) ? _c('span', [_vm._v("the administrator undid the reversed/rollbacked data")]) : _vm._e(), _vm._v(" "), (mct.Status == 0 && mct.IsRollBack == null) ? _c('span', [_vm._v("Materials charge ticket has been approved")]) : _vm._e(), _vm._v(" "), (mct.Status == 1 && mct.IsRollBack == null) ? _c('span', [_vm._v("Materials charge ticket has been declined")]) : _vm._e()]), _c('br'), _vm._v(" "), _c('div', {
+    }, [_c('h5', [_vm._v("MCT : " + _vm._s(mct.MCTNo))]), _vm._v(" "), _c('p', [(mct.IsRollBack == 0) ? _c('span', [_vm._v("material charge ticket has been reversed/rollbacked by the administrator")]) : _vm._e(), _vm._v(" "), (mct.IsRollBack == 1) ? _c('span', [_vm._v("the administrator undid the reversed/rollbacked data")]) : _vm._e(), _vm._v(" "), (mct.Status == 0 && mct.IsRollBack == null) ? _c('span', [_vm._v("Materials charge ticket signatures are complete")]) : _vm._e(), _vm._v(" "), (mct.Status == 1 && mct.IsRollBack == null) ? _c('span', [_vm._v("Materials charge ticket has been declined")]) : _vm._e()]), _c('br'), _vm._v(" "), _c('div', {
       staticClass: "time-notified"
     }, [(mct.Status == 0 && mct.IsRollBack == null) ? _c('i', {
       staticClass: "material-icons color-blue"
@@ -43990,7 +43999,7 @@ module.exports={render:function (){var _vm=this;var _h=_vm.$createElement;var _c
       class: [mrt.UnreadNotification == '0' ? 'active' : '']
     }, [_vm._m(14, true), _vm._v(" "), _c('div', {
       staticClass: "drop-line-detail"
-    }, [_c('h5', [_vm._v("MRT : " + _vm._s(mrt.MRTNo))]), _vm._v(" "), _c('p', [(mrt.IsRollBack == 0) ? _c('span', [_vm._v("materials return ticket has been reversed/rollbacked by the administrator")]) : _vm._e(), _vm._v(" "), (mrt.IsRollBack == 1) ? _c('span', [_vm._v("the administrator undid the reversed/rollbacked data")]) : _vm._e(), _vm._v(" "), (mrt.Status == 0 && mrt.IsRollBack == null) ? _c('span', [_vm._v("materials return ticket has been approved")]) : _vm._e(), _vm._v(" "), (mrt.Status == 1 && mrt.IsRollBack == null) ? _c('span', [_vm._v("materials return ticket has been declined")]) : _vm._e()]), _c('br'), _vm._v(" "), _c('div', {
+    }, [_c('h5', [_vm._v("MRT : " + _vm._s(mrt.MRTNo))]), _vm._v(" "), _c('p', [(mrt.IsRollBack == 0) ? _c('span', [_vm._v("materials return ticket has been reversed/rollbacked by the administrator")]) : _vm._e(), _vm._v(" "), (mrt.IsRollBack == 1) ? _c('span', [_vm._v("the administrator undid the reversed/rollbacked data")]) : _vm._e(), _vm._v(" "), (mrt.Status == 0 && mrt.IsRollBack == null) ? _c('span', [_vm._v("materials return ticket signatures are complete")]) : _vm._e(), _vm._v(" "), (mrt.Status == 1 && mrt.IsRollBack == null) ? _c('span', [_vm._v("materials return ticket has been declined")]) : _vm._e()]), _c('br'), _vm._v(" "), _c('div', {
       staticClass: "time-notified"
     }, [(mrt.Status == 0 && mrt.IsRollBack == null) ? _c('i', {
       staticClass: "material-icons color-blue"

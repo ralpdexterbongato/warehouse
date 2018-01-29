@@ -14,6 +14,7 @@ use App\Jobs\NewCreatedPOJob;
 use App\Jobs\POApprovalReplacer;
 use App\RVDetail;
 use App\Signatureable;
+use App\Jobs\GlobalNotifWarehouseJob;
 class POController extends Controller
 {
     public function GeneratePOfromCanvass(Request $request)
@@ -142,6 +143,10 @@ class POController extends Controller
     POMaster::where('PONo',$id)->update(['Status'=>'0','UnreadNotification'=>'0','notification_date_time'=>Carbon::now()]);
     Signatureable::where('user_id', Auth::user()->id)->where('signatureable_id', $id)->where('signatureable_type','App\POMaster')->where('SignatureType','ApprovedBy')->update(['Signature'=>'0']);
     Signatureable::where('signatureable_id', $id)->where('signatureable_type','App\POMaster')->where('SignatureType','ApprovalReplacer')->delete();
+    // global notify warehouseman
+    $job = (new GlobalNotifWarehouseJob)
+    ->delay(Carbon::now()->addSeconds(5));
+    dispatch($job);
   }
   public function GMDeclined($id)
   {
@@ -161,6 +166,10 @@ class POController extends Controller
         }
       }
     }
+    // global notify warehouseman
+    $job = (new GlobalNotifWarehouseJob)
+    ->delay(Carbon::now()->addSeconds(5));
+    dispatch($job);
   }
   public function MyPOrequestlist()
   {

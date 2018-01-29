@@ -16,6 +16,7 @@ use App\User;
 use App\MCTConfirmationDetail;
 use App\MasterItem;
 use App\Jobs\NewCreatedMCTJob;
+use App\Jobs\GlobalNotifWarehouseJob;
 use App\Signatureable;
 class MCTController extends Controller
 {
@@ -156,6 +157,11 @@ class MCTController extends Controller
       MaterialsTicketDetail::insert($forMTDetailstable);
       Signatureable::where('signatureable_id',$id)->where('signatureable_type', 'App\MCTMaster')->where('SignatureType', 'ReceivedBy')->update(['Signature'=>'0']);
       MCTMaster::where('MCTNo',$id)->update(['Status'=>0,'UnreadNotification'=>'0','notification_date_time'=>Carbon::now()]);
+
+      // global notify warehouseman
+      $job = (new GlobalNotifWarehouseJob)
+      ->delay(Carbon::now()->addSeconds(5));
+      dispatch($job);
     }
   }
   public function mctRequestcheck()
@@ -304,6 +310,11 @@ class MCTController extends Controller
     }
     Signatureable::where('signatureable_id',$id)->where('signatureable_type', 'App\MCTMaster')->where('user_id', Auth::user()->id)->update(['Signature'=>'1']);
     MCTMaster::where('MCTNo',$id)->update(['Status'=>1,'UnreadNotification'=>'0','notification_date_time'=>Carbon::now()]);
+
+    // global notif trigger
+    $job = (new GlobalNotifWarehouseJob)
+    ->delay(Carbon::now()->addSeconds(5));
+    dispatch($job);
   }
   public function MCTRequestSignatureCount()
   {
@@ -393,6 +404,10 @@ class MCTController extends Controller
       $newMCTValidatorQty=$currentMCTValidatorQty[0]->QuantityValidator+$confirmation->Quantity;
       MIRSDetail::where('MIRSNo',$mirsNo)->where('ItemCode', $confirmation->ItemCode)->update(['QuantityValidator'=>$newMCTValidatorQty]);
     }
+    // global notif trigger
+    $job = (new GlobalNotifWarehouseJob)
+    ->delay(Carbon::now()->addSeconds(5));
+    dispatch($job);
   }
   public function UndoRollBack($mctNo,$mirsNo)
   {
@@ -467,5 +482,10 @@ class MCTController extends Controller
       $newMCTValidatorQty=$currentMCTValidatorQty[0]->QuantityValidator - $confirmation->Quantity;
       MIRSDetail::where('MIRSNo',$mirsNo)->where('ItemCode', $confirmation->ItemCode)->update(['QuantityValidator'=>$newMCTValidatorQty]);
     }
+
+    // global notif trigger
+    $job = (new GlobalNotifWarehouseJob)
+    ->delay(Carbon::now()->addSeconds(5));
+    dispatch($job);
   }
 }

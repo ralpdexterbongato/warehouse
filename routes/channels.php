@@ -43,3 +43,6 @@ Broadcast::channel('MRchannel.{notifythis}', function ($notifythis) {
 Broadcast::channel('GlobalNotif.{ReceiverID}', function ($ReceiverID) {
     return Auth::check();
 });
+Broadcast::channel('Global.Warehouse', function () {
+    return Auth::check();
+});

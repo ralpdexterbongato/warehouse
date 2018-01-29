@@ -10,10 +10,9 @@ use Illuminate\Foundation\Events\Dispatchable;
 use Illuminate\Broadcasting\InteractsWithSockets;
 use Illuminate\Contracts\Broadcasting\ShouldBroadcast;
 
-class GlobalNotifWarehouseEvent
+class GlobalNotifWarehouseEvent implements ShouldBroadcast
 {
     use Dispatchable, InteractsWithSockets, SerializesModels;
-
     /**
      * Create a new event instance.
      *
@@ -21,7 +20,7 @@ class GlobalNotifWarehouseEvent
      */
     public function __construct()
     {
-        //
+
     }
 
     /**
@@ -31,6 +30,6 @@ class GlobalNotifWarehouseEvent
      */
     public function broadcastOn()
     {
-        return new PrivateChannel('channel-name');
+        return new PrivateChannel('Global.Warehouse');
     }
 }

@@ -224,5 +224,3 @@ Route::get('/fetch-mr-global-notifications','globalNotificationController@fetchM
 Route::get('/fetch-mct-global-notifications','globalNotificationController@fetchMCT');
 Route::get('/fetch-mrt-global-notifications','globalNotificationController@fetchMRT');
 Route::get('/notif-global-count','globalNotificationController@countInfoNotification');
-
-Route::get('/sample-global-realtime','MIRSController@ApprovedSample');

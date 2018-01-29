@@ -26,7 +26,7 @@ footer, header, hgroup, menu, nav, section {
 }
 html{
 	line-height: 1.5;
-	font-family: "Roboto", sans-serif;
+	font-family: -apple-system,BlinkMacSystemFont,"Segoe UI",Helvetica,Arial,sans-serif,"Apple Color Emoji","Segoe UI Emoji","Segoe UI Symbol";
 	font-weight: normal;
 	color: rgba(0,0,0,0.87);
 }
@@ -641,6 +641,8 @@ input[type='radio']:after {
 {
   display: flex;
   flex-wrap: nowrap;
+	position: relative;
+	text-align: left;
 }
 
 .search-box input
@@ -649,7 +651,8 @@ input[type='radio']:after {
   border-top-left-radius: 5px;
   border-bottom-left-radius: 5px;
   letter-spacing: 1px;
-  text-align: center;
+  text-align:left;
+	padding:1px 7px;
   font-size: 15px;
   border:1px solid #fff;
   font-family:Roboto, 'Segoe UI', Tahoma, sans-serif;
@@ -9299,9 +9302,8 @@ only screen and (max-width: 1050px),
   border-radius:3px;
   border-style: none;
   background-color:#002C4E;
-  border:1px solid #001D34;
   color: #fff;
-  padding:7px;
+  padding:8px;
   text-align: center;
   font-size: 14px;
   transition: background-color .5s;
@@ -13367,12 +13369,12 @@ only screen and (max-width: 1050px),
 	color:#fff;
 	position:absolute;
 	top: 5px;
-	right: 0;
+	right:0px;
 	text-align: center;
 	z-index:15;
 	padding:5px;
-	height:10px;
-	min-width: 10px;
+	height:13px;
+	min-width: 13px;
 	font-size: 12px;
 	font-weight:bold;
 	border-radius: 50%;
@@ -13537,4 +13539,26 @@ only screen and (max-width: 1050px),
 	width: 5px;
 	border-radius: 50%;
 	background:#F9A825;
+}
+
+/*auto complete css*/
+.own-autocomplete
+{
+	background: #fff;
+	width: 100%;
+	position: absolute;
+	top:34px;
+	left: 0;
+}
+.autocomplete-row:hover
+{
+	background: #f3f3f3;
+}
+.autocomplete-row
+{
+	padding:7px 10px;
+	font-size: 14px;
+	border-bottom: 1px solid #e0e0e0;
+	color: rgba(0, 0, 0, 0.7);
+	cursor: pointer;
 }

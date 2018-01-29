@@ -11,8 +11,13 @@
         </h1>
       </div>
       <div class="Search-item-box">
-        <input id="search-code-input" autocomplete="off" type="text" v-on:keyup.enter="SearchItemHistory(1)" v-model="ItemCodeSearch" placeholder="Item code" required>
+        <input id="search-code-input" autocomplete="off" type="text" v-on:keyup.enter="SearchItemHistory(1)" v-model="ItemCodeSearch" placeholder="Search" required>
         <button id="search-go" type="submit" v-on:click="SearchItemHistory(1)"><i class="material-icons">search</i></button>
+        <div class="own-autocomplete z-depth-1">
+          <p class="autocomplete-row">Apple</p>
+          <p class="autocomplete-row">Apple Pen</p>
+          <p class="autocomplete-row">Pine apple</p>
+        </div>
       </div>
     </div>
   </div>
@@ -213,6 +218,7 @@ Vue.use(VueAnimateNumber);
   export default {
     data () {
       return {
+        autocomplete:[],
         ItemCodeSearch: '',
         pagination: [],
         offset: 4,
@@ -318,6 +324,17 @@ Vue.use(VueAnimateNumber);
       }
     },
     methods: {
+      SearchForSuggestions()
+      {
+        axios.get(``).then(function(response)
+        {
+          console.log(response);
+          vm.autocomplete;
+        }).catch(function(error)
+        {
+          console.log(error);
+        });
+      },
       DashData()
       {
         var vm=this;
