@@ -643,6 +643,7 @@ input[type='radio']:after {
   flex-wrap: nowrap;
 	position: relative;
 	text-align: left;
+	height: 28px;
 }
 
 .search-box input
@@ -854,11 +855,11 @@ input[type='radio']:after {
 		.Search-item-box input
 		{
 			width: 100%;
-			height: 100%;
+			height: 24px!important;
 		}
 		.search-box button
 		{
-			height:24px;
+			height:28px;
 		}
 		.search-box button i
 		{
@@ -13549,6 +13550,7 @@ only screen and (max-width: 1050px),
 	position: absolute;
 	top:34px;
 	left: 0;
+	z-index: 20!important
 }
 .autocomplete-row:hover
 {

@@ -12343,8 +12343,6 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
 //
 //
 //
-//
-//
 
 
 
@@ -12357,7 +12355,7 @@ __WEBPACK_IMPORTED_MODULE_4_vue___default.a.use(__WEBPACK_IMPORTED_MODULE_3_vue_
   data: function data() {
     return {
       autocomplete: [],
-      ItemCodeSearch: '',
+      ItemSearchInput: '',
       pagination: [],
       offset: 4,
       latestFound: [],
@@ -12456,12 +12454,22 @@ __WEBPACK_IMPORTED_MODULE_4_vue___default.a.use(__WEBPACK_IMPORTED_MODULE_3_vue_
 
   methods: {
     SearchForSuggestions: function SearchForSuggestions() {
-      __WEBPACK_IMPORTED_MODULE_0_axios___default.a.get('').then(function (response) {
-        console.log(response);
-        vm.autocomplete;
-      }).catch(function (error) {
-        console.log(error);
-      });
+      if (this.ItemSearchInput.length > 3) {
+        var vm = this;
+        __WEBPACK_IMPORTED_MODULE_0_axios___default.a.get('/search-item-autocomplete?typed=' + vm.ItemSearchInput).then(function (response) {
+          console.log(response);
+          vm.autocomplete = response.data;
+        }).catch(function (error) {
+          console.log(error);
+        });
+      } else {
+        this.autocomplete = [];
+      }
+    },
+    SelectSuggestion: function SelectSuggestion(Description) {
+      this.ItemSearchInput = Description;
+      this.autocomplete = [];
+      this.SearchItemHistory(1);
     },
     DashData: function DashData() {
       var vm = this;
@@ -12475,7 +12483,7 @@ __WEBPACK_IMPORTED_MODULE_4_vue___default.a.use(__WEBPACK_IMPORTED_MODULE_3_vue_
     SearchItemHistory: function SearchItemHistory(page) {
       this.$loading('Please wait');
       var vm = this;
-      __WEBPACK_IMPORTED_MODULE_0_axios___default.a.get('/search-item-code?ItemCode=' + this.ItemCodeSearch + '&page=' + page).then(function (response) {
+      __WEBPACK_IMPORTED_MODULE_0_axios___default.a.get('/search-item-data?SearchInput=' + this.ItemSearchInput + '&page=' + page).then(function (response) {
         console.log(response);
         if (response.data.latestFound[0] == null) {
           vm.$loading.close();
@@ -12498,7 +12506,7 @@ __WEBPACK_IMPORTED_MODULE_4_vue___default.a.use(__WEBPACK_IMPORTED_MODULE_3_vue_
       var vm = this;
       __WEBPACK_IMPORTED_MODULE_0_axios___default.a.get('/line-chart-data').then(function (response) {
         console.log(response);
-        for (var i = 0; i < 12; i++) {
+        for (var i = 0; i < response.data.length; i++) {
           vm.LinechartData.datasets[0].data.push(response.data[i].total);
           vm.LinechartData.labels.push(response.data[i].month);
           myLineChart.update();
@@ -13545,16 +13553,16 @@ module.exports={render:function (){var _vm=this;var _h=_vm.$createElement;var _c
     staticClass: "text-left"
   }, [(_vm.latestFound.MTNo == null) ? _c('p', [_vm._m(0), _vm._v(" & "), _c('span', {
     staticClass: "big"
-  }, [_vm._v("check")]), _vm._v(" item's latest & previous data here.\r\n        ")]) : _c('h1', [_c('i', {
+  }, [_vm._v("check")]), _vm._v(" item's latest & previous data here.\r\n        ")]) : (_vm.NotFoundSearch == '') ? _c('h1', [_c('i', {
     staticClass: "fa fa-th-large"
-  }), _vm._v(" Item # " + _vm._s(_vm.ItemCodeSearch) + " data\r\n        ")])]), _vm._v(" "), _c('div', {
+  }), _vm._v(" Item # " + _vm._s(_vm.latestFound.ItemCode) + " data\r\n        ")]) : _vm._e()]), _vm._v(" "), _c('div', {
     staticClass: "Search-item-box"
   }, [_c('input', {
     directives: [{
       name: "model",
       rawName: "v-model",
-      value: (_vm.ItemCodeSearch),
-      expression: "ItemCodeSearch"
+      value: (_vm.ItemSearchInput),
+      expression: "ItemSearchInput"
     }],
     attrs: {
       "id": "search-code-input",
@@ -13564,16 +13572,18 @@ module.exports={render:function (){var _vm=this;var _h=_vm.$createElement;var _c
       "required": ""
     },
     domProps: {
-      "value": (_vm.ItemCodeSearch)
+      "value": (_vm.ItemSearchInput)
     },
     on: {
-      "keyup": function($event) {
+      "keyup": [function($event) {
         if (!('button' in $event) && _vm._k($event.keyCode, "enter", 13, $event.key)) { return null; }
         _vm.SearchItemHistory(1)
-      },
+      }, function($event) {
+        _vm.SearchForSuggestions()
+      }],
       "input": function($event) {
         if ($event.target.composing) { return; }
-        _vm.ItemCodeSearch = $event.target.value
+        _vm.ItemSearchInput = $event.target.value
       }
     }
   }), _vm._v(" "), _c('button', {
@@ -13588,15 +13598,26 @@ module.exports={render:function (){var _vm=this;var _h=_vm.$createElement;var _c
     }
   }, [_c('i', {
     staticClass: "material-icons"
-  }, [_vm._v("search")])]), _vm._v(" "), _vm._m(1)])])]), _vm._v(" "), (_vm.NotFoundSearch == '') ? _c('div', {
+  }, [_vm._v("search")])]), _vm._v(" "), _c('div', {
+    staticClass: "own-autocomplete z-depth-1"
+  }, _vm._l((_vm.autocomplete), function(suggestion) {
+    return _c('p', {
+      staticClass: "autocomplete-row",
+      on: {
+        "click": function($event) {
+          _vm.SelectSuggestion(suggestion.Description)
+        }
+      }
+    }, [_vm._v(_vm._s(suggestion.Description))])
+  }))])])]), _vm._v(" "), (_vm.NotFoundSearch == '') ? _c('div', {
     staticClass: "data-results-container"
   }, [(_vm.latestFound.MTNo != null) ? _c('div', {
     staticClass: "animated bounceInUp"
-  }, [_vm._m(2), _vm._v(" "), _c('div', {
+  }, [_vm._m(1), _vm._v(" "), _c('div', {
     staticClass: "latest-data"
-  }, [_c('table', [_vm._m(3), _vm._v(" "), _c('tr', [_c('td', [_vm._v(_vm._s(_vm.latestFound.MTType))]), _vm._v(" "), _c('td', [_vm._v(_vm._s(_vm.latestFound.MTNo))]), _vm._v(" "), _c('td', [_vm._v(_vm._s(_vm.latestFound.AccountCode))]), _vm._v(" "), _c('td', [_vm._v(_vm._s(_vm.latestFound.ItemCode))]), _vm._v(" "), _c('td', [_vm._v(_vm._s(_vm.latestFound.master_items.Description))]), _vm._v(" "), _c('td', [_vm._v(_vm._s(_vm.formatPrice(_vm.latestFound.UnitCost)))]), _vm._v(" "), _c('td', [_vm._v(_vm._s(_vm.latestFound.Quantity))]), _vm._v(" "), _c('td', [_vm._v(_vm._s(_vm.latestFound.master_items.Unit))]), _vm._v(" "), _c('td', [_vm._v(_vm._s(_vm.formatPrice(_vm.latestFound.Amount)))]), _vm._v(" "), _c('td', [_vm._v(_vm._s(_vm.formatPrice(_vm.latestFound.CurrentCost)))]), _vm._v(" "), _c('td', [_vm._v(_vm._s(_vm.latestFound.CurrentQuantity))]), _vm._v(" "), _c('td', [_vm._v(_vm._s(_vm.formatPrice(_vm.latestFound.CurrentAmount)))]), _vm._v(" "), _c('td', [_vm._v(_vm._s(_vm.latestFound.MTDate))])])])]), _vm._v(" "), _c('div', {
+  }, [_c('table', [_vm._m(2), _vm._v(" "), _c('tr', [_c('td', [_vm._v(_vm._s(_vm.latestFound.MTType))]), _vm._v(" "), _c('td', [_vm._v(_vm._s(_vm.latestFound.MTNo))]), _vm._v(" "), _c('td', [_vm._v(_vm._s(_vm.latestFound.AccountCode))]), _vm._v(" "), _c('td', [_vm._v(_vm._s(_vm.latestFound.ItemCode))]), _vm._v(" "), _c('td', [_vm._v(_vm._s(_vm.latestFound.master_items.Description))]), _vm._v(" "), _c('td', [_vm._v(_vm._s(_vm.formatPrice(_vm.latestFound.UnitCost)))]), _vm._v(" "), _c('td', [_vm._v(_vm._s(_vm.latestFound.Quantity))]), _vm._v(" "), _c('td', [_vm._v(_vm._s(_vm.latestFound.master_items.Unit))]), _vm._v(" "), _c('td', [_vm._v(_vm._s(_vm.formatPrice(_vm.latestFound.Amount)))]), _vm._v(" "), _c('td', [_vm._v(_vm._s(_vm.formatPrice(_vm.latestFound.CurrentCost)))]), _vm._v(" "), _c('td', [_vm._v(_vm._s(_vm.latestFound.CurrentQuantity))]), _vm._v(" "), _c('td', [_vm._v(_vm._s(_vm.formatPrice(_vm.latestFound.CurrentAmount)))]), _vm._v(" "), _c('td', [_vm._v(_vm._s(_vm.latestFound.MTDate))])])])]), _vm._v(" "), _c('div', {
     staticClass: "history-found"
-  }, [_vm._m(4), _vm._v(" "), _c('table', [_vm._m(5), _vm._v(" "), _vm._l((_vm.historiesfound), function(history) {
+  }, [_vm._m(3), _vm._v(" "), _c('table', [_vm._m(4), _vm._v(" "), _vm._l((_vm.historiesfound), function(history) {
     return (history.id != _vm.latestFound.id) ? _c('tr', [_c('td', [_vm._v(_vm._s(history.MTType))]), _vm._v(" "), _c('td', [_vm._v(_vm._s(history.MTNo))]), _vm._v(" "), _c('td', [_vm._v(_vm._s(_vm.formatPrice(history.UnitCost)))]), _vm._v(" "), _c('td', [_vm._v(_vm._s(history.Quantity))]), _vm._v(" "), _c('td', [_vm._v(_vm._s(_vm.latestFound.master_items.Unit))]), _vm._v(" "), _c('td', [_vm._v(_vm._s(_vm.formatPrice(history.Amount)))]), _vm._v(" "), _c('td', [_vm._v(_vm._s(_vm.formatPrice(history.CurrentCost)))]), _vm._v(" "), _c('td', [_vm._v(_vm._s(history.CurrentQuantity))]), _vm._v(" "), _c('td', [_vm._v(_vm._s(_vm.formatPrice(history.CurrentAmount)))]), _vm._v(" "), _c('td', [_vm._v(_vm._s(history.MTDate))])]) : _vm._e()
   })], 2), _vm._v(" "), _c('div', {
     staticClass: "paginate-container"
@@ -13653,7 +13674,7 @@ module.exports={render:function (){var _vm=this;var _h=_vm.$createElement;var _c
     staticClass: "dash-home"
   }, [_c('div', {
     staticClass: "dashbox dash-high"
-  }, [_vm._m(6), _vm._v(" "), _c('div', {
+  }, [_vm._m(5), _vm._v(" "), _c('div', {
     staticClass: "right-dash"
   }, [_c('span', [_c('h1', {
     staticClass: "dash-totals"
@@ -13664,9 +13685,9 @@ module.exports={render:function (){var _vm=this;var _h=_vm.$createElement;var _c
       "duration": "1000",
       "easing": "easeOutQuad"
     }
-  }) : _c('span', [_vm._v("\r\n                  0\r\n                ")])], 1), _vm._v(" "), (_vm.DashGood > 1) ? _c('p', [_vm._v("Items")]) : _c('p', [_vm._v("Item")])]), _vm._v(" "), _vm._m(7)])]), _vm._v(" "), _c('div', {
+  }) : _c('span', [_vm._v("\r\n                  0\r\n                ")])], 1), _vm._v(" "), (_vm.DashGood > 1) ? _c('p', [_vm._v("Items")]) : _c('p', [_vm._v("Item")])]), _vm._v(" "), _vm._m(6)])]), _vm._v(" "), _c('div', {
     staticClass: "dashbox dash-low"
-  }, [_vm._m(8), _vm._v(" "), _c('div', {
+  }, [_vm._m(7), _vm._v(" "), _c('div', {
     staticClass: "right-dash"
   }, [_c('span', [_c('h1', {
     staticClass: "dash-totals"
@@ -13677,9 +13698,9 @@ module.exports={render:function (){var _vm=this;var _h=_vm.$createElement;var _c
       "duration": "1500",
       "easing": "easeOutQuad"
     }
-  }) : _c('span', [_vm._v("\r\n                  0\r\n                ")])], 1), _vm._v(" "), (_vm.DashWarn > 1) ? _c('p', [_vm._v("Items")]) : _c('p', [_vm._v("Item")])]), _vm._v(" "), _vm._m(9)])]), _vm._v(" "), _c('div', {
+  }) : _c('span', [_vm._v("\r\n                  0\r\n                ")])], 1), _vm._v(" "), (_vm.DashWarn > 1) ? _c('p', [_vm._v("Items")]) : _c('p', [_vm._v("Item")])]), _vm._v(" "), _vm._m(8)])]), _vm._v(" "), _c('div', {
     staticClass: "dashbox dash-empty"
-  }, [_vm._m(10), _vm._v(" "), _c('div', {
+  }, [_vm._m(9), _vm._v(" "), _c('div', {
     staticClass: "right-dash"
   }, [_c('span', [_c('h1', {
     staticClass: "dash-totals"
@@ -13690,7 +13711,7 @@ module.exports={render:function (){var _vm=this;var _h=_vm.$createElement;var _c
       "duration": "2000",
       "easing": "easeOutQuad"
     }
-  }) : _c('span', [_vm._v("\r\n                  0\r\n                ")])], 1), _vm._v(" "), (_vm.DashEmpty > 1) ? _c('p', [_vm._v("Items")]) : _c('p', [_vm._v("Item")])]), _vm._v(" "), _vm._m(11)])])]), _vm._v(" "), _vm._m(12)])]) : _vm._e(), _vm._v(" "), (_vm.NotFoundSearch != '') ? _c('div', {
+  }) : _c('span', [_vm._v("\r\n                  0\r\n                ")])], 1), _vm._v(" "), (_vm.DashEmpty > 1) ? _c('p', [_vm._v("Items")]) : _c('p', [_vm._v("Item")])]), _vm._v(" "), _vm._m(10)])])]), _vm._v(" "), _vm._m(11)])]) : _vm._e(), _vm._v(" "), (_vm.NotFoundSearch != '') ? _c('div', {
     staticClass: "not-found-msg"
   }, [_c('h2', [_c('i', {
     staticClass: "material-icons"
@@ -13701,16 +13722,6 @@ module.exports={render:function (){var _vm=this;var _h=_vm.$createElement;var _c
   }, [_c('i', {
     staticClass: "material-icons"
   }, [_vm._v("dashboard")]), _vm._v(" Search")])
-},function (){var _vm=this;var _h=_vm.$createElement;var _c=_vm._self._c||_h;
-  return _c('div', {
-    staticClass: "own-autocomplete z-depth-1"
-  }, [_c('p', {
-    staticClass: "autocomplete-row"
-  }, [_vm._v("Apple")]), _vm._v(" "), _c('p', {
-    staticClass: "autocomplete-row"
-  }, [_vm._v("Apple Pen")]), _vm._v(" "), _c('p', {
-    staticClass: "autocomplete-row"
-  }, [_vm._v("Pine apple")])])
 },function (){var _vm=this;var _h=_vm.$createElement;var _c=_vm._self._c||_h;
   return _c('div', {
     staticClass: "search-welcome-title"

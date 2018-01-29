@@ -6,17 +6,15 @@
         <p v-if="latestFound.MTNo==null">
           <span class="big"><i class="material-icons">dashboard</i> Search</span> & <span class="big">check</span> item's latest & previous data here.
         </p>
-        <h1 v-else>
-          <i class="fa fa-th-large"></i> Item # {{ItemCodeSearch}} data
+        <h1 v-else-if="NotFoundSearch==''">
+          <i class="fa fa-th-large"></i> Item # {{latestFound.ItemCode}} data
         </h1>
       </div>
       <div class="Search-item-box">
-        <input id="search-code-input" autocomplete="off" type="text" v-on:keyup.enter="SearchItemHistory(1)" v-model="ItemCodeSearch" placeholder="Search" required>
+        <input id="search-code-input" autocomplete="off" type="text" v-on:keyup.enter="SearchItemHistory(1)" v-on:keyup="SearchForSuggestions()" v-model="ItemSearchInput" placeholder="Search" required>
         <button id="search-go" type="submit" v-on:click="SearchItemHistory(1)"><i class="material-icons">search</i></button>
         <div class="own-autocomplete z-depth-1">
-          <p class="autocomplete-row">Apple</p>
-          <p class="autocomplete-row">Apple Pen</p>
-          <p class="autocomplete-row">Pine apple</p>
+          <p v-for="suggestion in autocomplete" v-on:click="SelectSuggestion(suggestion.Description)" class="autocomplete-row">{{suggestion.Description}}</p>
         </div>
       </div>
     </div>
@@ -219,7 +217,7 @@ Vue.use(VueAnimateNumber);
     data () {
       return {
         autocomplete:[],
-        ItemCodeSearch: '',
+        ItemSearchInput: '',
         pagination: [],
         offset: 4,
         latestFound: [],
@@ -326,14 +324,27 @@ Vue.use(VueAnimateNumber);
     methods: {
       SearchForSuggestions()
       {
-        axios.get(``).then(function(response)
+        if (this.ItemSearchInput.length > 3)
         {
-          console.log(response);
-          vm.autocomplete;
-        }).catch(function(error)
+          var vm=this;
+          axios.get(`/search-item-autocomplete?typed=`+vm.ItemSearchInput).then(function(response)
+          {
+            console.log(response);
+            vm.autocomplete = response.data;
+          }).catch(function(error)
+          {
+            console.log(error);
+          });
+        }else
         {
-          console.log(error);
-        });
+          this.autocomplete = [];
+        }
+      },
+      SelectSuggestion(Description)
+      {
+        this.ItemSearchInput = Description;
+        this.autocomplete=[];
+        this.SearchItemHistory(1);
       },
       DashData()
       {
@@ -350,7 +361,7 @@ Vue.use(VueAnimateNumber);
       {
         this.$loading('Please wait');
         var vm=this;
-        axios.get(`/search-item-code?ItemCode=`+this.ItemCodeSearch+`&page=`+page).then(function(response)
+        axios.get(`/search-item-data?SearchInput=`+this.ItemSearchInput+`&page=`+page).then(function(response)
         {
           console.log(response);
           if (response.data.latestFound[0]==null) {
@@ -378,7 +389,7 @@ Vue.use(VueAnimateNumber);
         axios.get(`/line-chart-data`).then(function(response)
         {
           console.log(response);
-          for (var i = 0; i < 12; i++)
+          for (var i = 0; i < response.data.length ; i++)
           {
             vm.LinechartData.datasets[0].data.push(response.data[i].total);
             vm.LinechartData.labels.push(response.data[i].month);

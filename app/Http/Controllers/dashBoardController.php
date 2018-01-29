@@ -38,12 +38,6 @@ class dashBoardController extends Controller
       ->orderBy('month', 'asc')
       ->get();
 
-      //  $RV = RVMaster::select(DB::raw('month(RVDate) as month'), DB::raw('count(*) as total'))
-      // ->whereYear('RVDate', '=', $yearNow)->whereMonth('RVDate','<=',$MonthNow)
-      // ->groupBy(DB::raw('month(RVDate)'))
-      // ->orderBy('month', 'asc')
-      // ->get();
-
     }
     public function barChart()
     {

@@ -20,7 +20,6 @@ class ItemsController extends Controller
      public function __construct()
      {
       $this->middleware('auth');
-      $this->middleware('IsWarehouse',['except'=>['index','UpdateItem','FetchItemToEdit','SearchDescriptionAndRecentAdded','SaveNewItem','addNonexistinwarehouseItem','ItemMasterSearch','FetchAndsearchItemCode','searchItemMaster']]);
      }
 
     public function index()
@@ -28,16 +27,26 @@ class ItemsController extends Controller
         return view('welcome');
     }
 
-    public function FetchAndsearchItemCode(Request $request)
+    public function FetchAndsearchItemData(Request $request)
     {
-      $historiesfound= MaterialsTicketDetail::where('ItemCode',$request->ItemCode)->orderBy('id','DESC')->whereNull('IsRollBack')->paginate(10);
-      $latestFound=MaterialsTicketDetail::where('ItemCode',$request->ItemCode)->whereNull('IsRollBack')->orderBy('id','DESC')->take(1)->get();
-      $latestFound->load('MasterItems');
-
-      $response = array('historiesfound'=>$historiesfound ,'latestFound'=>$latestFound);
+      $ItemCode=MasterItem::where('ItemCode',$request->SearchInput)->orWhere('Description',$request->SearchInput)->value('ItemCode');
+      if (isset($ItemCode))
+      {
+        $historiesfound= MaterialsTicketDetail::orderBy('id','DESC')->where('ItemCode',$ItemCode)->whereNull('IsRollBack')->paginate(10);
+        $latestFound=MaterialsTicketDetail::orderBy('id','DESC')->where('ItemCode',$ItemCode)->whereNull('IsRollBack')->take(1)->get();
+        $latestFound->load('MasterItems');
+        $response = array('historiesfound'=>$historiesfound ,'latestFound'=>$latestFound);
+      }else
+      {
+        $response = array('historiesfound'=>'' ,'latestFound'=>'');
+      }
       return response()->json($response);
-    }
 
+    }
+    public function autocompleteSearch(Request $request)
+    {
+      return MasterItem::where('Description','LIKE','%'.$request->typed.'%')->take(10)->get(['Description']);
+    }
     public function searchItemMaster(Request $request)
     {
        return $itemMasters=MasterItem::where('ItemCode','LIKE','%'.$request->ItemCode.'%')->paginate(5);
