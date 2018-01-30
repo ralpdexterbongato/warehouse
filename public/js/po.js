@@ -12607,7 +12607,7 @@ module.exports={render:function (){var _vm=this;var _h=_vm.$createElement;var _c
     }],
     attrs: {
       "type": "text",
-      "placeholder": "PO #"
+      "placeholder": "Enter PO #"
     },
     domProps: {
       "value": (_vm.ponumsearch)

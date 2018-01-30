@@ -12023,7 +12023,7 @@ Vue.use(__WEBPACK_IMPORTED_MODULE_1_vue_numeric___default.a);
       }).then(function (response) {
         if (response.data.error == null) {
           console.log(response);
-          vm.RecentAddedAndSearch();
+          vm.RecentAddedAndSearch(vm.pagination.current_page);
           Vue.set(vm.$data, 'AccountCode', '');
           Vue.set(vm.$data, 'ItemCode', '');
           Vue.set(vm.$data, 'CurrentQuantity', '');
@@ -13612,7 +13612,7 @@ module.exports={render:function (){var _vm=this;var _h=_vm.$createElement;var _c
   }))])])]), _vm._v(" "), (_vm.NotFoundSearch == '') ? _c('div', {
     staticClass: "data-results-container"
   }, [(_vm.latestFound.MTNo != null) ? _c('div', {
-    staticClass: "animated bounceInUp"
+    staticClass: "animated bounceInUp result-wrapper"
   }, [_vm._m(1), _vm._v(" "), _c('div', {
     staticClass: "latest-data"
   }, [_c('table', [_vm._m(2), _vm._v(" "), _c('tr', [_c('td', [_vm._v(_vm._s(_vm.latestFound.MTType))]), _vm._v(" "), _c('td', [_vm._v(_vm._s(_vm.latestFound.MTNo))]), _vm._v(" "), _c('td', [_vm._v(_vm._s(_vm.latestFound.AccountCode))]), _vm._v(" "), _c('td', [_vm._v(_vm._s(_vm.latestFound.ItemCode))]), _vm._v(" "), _c('td', [_vm._v(_vm._s(_vm.latestFound.master_items.Description))]), _vm._v(" "), _c('td', [_vm._v(_vm._s(_vm.formatPrice(_vm.latestFound.UnitCost)))]), _vm._v(" "), _c('td', [_vm._v(_vm._s(_vm.latestFound.Quantity))]), _vm._v(" "), _c('td', [_vm._v(_vm._s(_vm.latestFound.master_items.Unit))]), _vm._v(" "), _c('td', [_vm._v(_vm._s(_vm.formatPrice(_vm.latestFound.Amount)))]), _vm._v(" "), _c('td', [_vm._v(_vm._s(_vm.formatPrice(_vm.latestFound.CurrentCost)))]), _vm._v(" "), _c('td', [_vm._v(_vm._s(_vm.latestFound.CurrentQuantity))]), _vm._v(" "), _c('td', [_vm._v(_vm._s(_vm.formatPrice(_vm.latestFound.CurrentAmount)))]), _vm._v(" "), _c('td', [_vm._v(_vm._s(_vm.latestFound.MTDate))])])])]), _vm._v(" "), _c('div', {

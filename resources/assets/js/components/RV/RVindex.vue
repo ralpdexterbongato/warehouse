@@ -6,7 +6,7 @@
       <h1><i class="material-icons">show_chart</i> Requisition Voucher index</h1>
     </div>
     <div class="searchbox-RV">
-      <input @keyup="fetchdataRV()" type="text" name="search" v-model="search" placeholder="Search RV Number">
+      <input @keyup="fetchdataRV()" type="text" name="search" v-model="search" placeholder="Enter RV #">
     </div>
   </div>
   <table>

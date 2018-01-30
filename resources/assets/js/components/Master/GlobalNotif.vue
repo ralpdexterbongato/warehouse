@@ -301,7 +301,6 @@
         MRTNotifs:[],
         AddedCounts:0,
         Loaded:false,
-
       }
     },
     props: ['user'],
@@ -311,6 +310,36 @@
       .listen('GlobalNotifEvent', (e) => {
           console.log(e);
           this.countNotif();
+          if (this.dropIsActive==true)
+          {
+            this.fetchData(1);
+          }else
+          {
+            this.Loaded = false;
+          }
+          if (this.user.Role!=3 && this.user.Role!=4)
+          {
+            this.MIRSBtn=true;
+            this.RVBtn=false;
+            this.MIRSNotifs=[];
+            this.RVNotifs=[];
+          }else
+          {
+            this.MIRSBtn=true;
+            this.RVBtn=false;
+            this.POBtn=false;
+            this.MRTBtn=false;
+            this.MCTBtn=false;
+            this.RRBtn=false;
+            this.MRBtn=false;
+            this.MIRSNotifs=[];
+            this.RVNotifs=[];
+            this.PONotifs=[];
+            this.RRNotifs=[];
+            this.MRNotifs=[];
+            this.MCTNotifs=[];
+            this.MRTNotifs=[];
+          }
       });
       if (this.user.Role==3 || this.user.Role==4)
       {
@@ -318,6 +347,27 @@
         .listen('GlobalNotifWarehouseEvent', (e) => {
             console.log(e);
             this.countNotif();
+            if (this.dropIsActive==true)
+            {
+              this.fetchData(1);
+            }else
+            {
+              this.Loaded = false;
+            }
+            this.MIRSBtn=true;
+            this.RVBtn=false;
+            this.POBtn=false;
+            this.MRTBtn=false;
+            this.MCTBtn=false;
+            this.RRBtn=false;
+            this.MRBtn=false;
+            this.MIRSNotifs=[];
+            this.RVNotifs=[];
+            this.PONotifs=[];
+            this.RRNotifs=[];
+            this.MRNotifs=[];
+            this.MCTNotifs=[];
+            this.MRTNotifs=[];
         });
       }
     },

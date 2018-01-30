@@ -129,7 +129,7 @@ body
 }
 .big
 {
-  font-size:30px;
+  font-size:25px;
   font-weight: bold;
 }
 body.noScroll
@@ -245,8 +245,7 @@ input[type='radio']:after {
 /*home*/
 .top-nav-container
 {
-  padding:0 100px;
-  height: 65px;
+  padding:4px 100px;
   display: flex;
   justify-content: space-between;
   background-color:#3367D6;
@@ -308,7 +307,7 @@ input[type='radio']:after {
 .title-top
 {
   color: #fff;
-  font-size: 25px;
+  font-size: 20px;
   font-family: 'Comfortaa', cursive;
 	margin: auto 0;
 }
@@ -614,6 +613,7 @@ input[type='radio']:after {
 {
   background: #fff!important;
   transition:all .5s;
+	padding:30px 0px!important;
 }
 .SearchItemSuccess input
 {
@@ -628,7 +628,7 @@ input[type='radio']:after {
 }
 .search-box
 {
-  padding:30px;
+  padding:30px 30px;
   flex: 1;
   display: flex;
   justify-content:space-between;
@@ -636,6 +636,13 @@ input[type='radio']:after {
   background: #3367D6;
   margin-top: 40px;
   height: 20px;
+}
+@media (max-width: 730px)
+{
+	.search-box
+	{
+		padding:25px 10px;
+	}
 }
 .Search-item-box
 {
@@ -649,14 +656,18 @@ input[type='radio']:after {
 .search-box input
 {
   height:26px;
-  border-top-left-radius: 5px;
-  border-bottom-left-radius: 5px;
+  border-top-left-radius: 3px;
+  border-bottom-left-radius: 3px;
   letter-spacing: 1px;
   text-align:left;
 	padding:1px 7px;
-  font-size: 15px;
+  font-size: 14px;
   border:1px solid #fff;
   font-family:Roboto, 'Segoe UI', Tahoma, sans-serif;
+}
+.search-box button i
+{
+	font-size: 23px;
 }
 .search-box button
 {
@@ -665,8 +676,8 @@ input[type='radio']:after {
   box-sizing: border-box;
   border-style:none;
   padding: 3px 6px;
-  border-bottom-right-radius: 5px;
-  border-top-right-radius: 5px;
+  border-bottom-right-radius: 3px;
+  border-top-right-radius: 3px;
   color: #1A407E;
   background:#fff;
   font-size: 14px;
@@ -712,7 +723,7 @@ input[type='radio']:after {
 	margin: 0 auto;
 	display: flex;
 	overflow: hidden;
-	min-height: 100vh;
+	min-height:50vh;
 }
 .background-pic img
 {
@@ -768,9 +779,23 @@ input[type='radio']:after {
     padding: 10px;
     background: #fff;
 }
-.data-results-container
+.result-wrapper
 {
-	padding:10px;
+	padding:10px 100px;
+}
+@media (max-width:1200px)
+{
+	.result-wrapper
+	{
+		padding:10px 50px;
+	}
+}
+@media (max-width: 730px)
+{
+	.result-wrapper
+	{
+		padding:10px;
+	}
 }
 .data-results-container table
 {
@@ -783,7 +808,6 @@ input[type='radio']:after {
   background: #3367D6;
   color: #fff;
   padding: 10px;
-  font-size: 14px!important;
 }
 	@media
 	only screen and (max-width: 1050px),
@@ -840,10 +864,6 @@ input[type='radio']:after {
 		.latest-data td:nth-of-type(12):before { content: "Current amt"; }
 		.latest-data td:nth-of-type(13):before { content: "Month"; }
 
-		.search-box
-		{
-			padding:20px;
-		}
 		.text-left
 		{
 			display: none;
@@ -855,11 +875,11 @@ input[type='radio']:after {
 		.Search-item-box input
 		{
 			width: 100%;
-			height: 24px!important;
+			height: 29px!important;
 		}
 		.search-box button
 		{
-			height:28px;
+			height:33px;
 		}
 		.search-box button i
 		{
@@ -874,6 +894,7 @@ input[type='radio']:after {
 }
 .history-found table
 {
+	font-size: 13px!important;
 	-webkit-box-shadow: 0 2px 4px -1px rgba(0,0,0,0.06), 0 4px 5px 0 rgba(0,0,0,0.06), 0 1px 10px 0 rgba(0,0,0,0.08);
 	    box-shadow: 0 2px 4px -1px rgba(0,0,0,0.06), 0 4px 5px 0 rgba(0,0,0,0.06), 0 1px 10px 0 rgba(0,0,0,0.08);
 }
@@ -881,7 +902,6 @@ input[type='radio']:after {
 {
   color:#383838;
   padding:10px;
-  font-weight: 600;
 }
 .history-found tr:nth-child(odd)
 {
@@ -901,7 +921,7 @@ input[type='radio']:after {
   font-size: 15px;
   margin-bottom: 25px;
   text-align: center;
-  color: #2A2D37;
+  color: #162E5F;
 }
 @media (max-width:1050px)
 {
@@ -932,10 +952,15 @@ input[type='radio']:after {
   font-size: 20px;
   color: #2A2D37;
 }
+.Current-title h1 i
+{
+	color: #162E5F;
+}
 .Current-title h1
 {
 margin:auto;
 font-size: 16px;
+color: #162E5F;
 }
 /*MAKE MIRS*/
 .mirs-container h1
@@ -3741,7 +3766,7 @@ only screen and (max-width: 1050px),
 
 .Title-MIRS-Index
 {
-  font-size: 20px;
+  font-size: 16px;
   color: #00213B;
   font-weight: 600;
   font-family:Roboto, 'Segoe UI', Tahoma, sans-serif;
@@ -4564,6 +4589,13 @@ only screen and (max-width: 1050px),
   width: 60px;
   height: 60px;
 }
+@media (max-width: 700px)
+{
+	.top-titles-mctSum img
+	{
+		display: none;
+	}
+}
 .titles-mct-content
 {
   font-size: 14px;
@@ -4945,7 +4977,7 @@ only screen and (max-width: 1050px),
 }
 .burger-button i
 {
-	font-size: 35px
+	font-size: 28px
 }
 .left-nav-content button
 {
@@ -4959,7 +4991,7 @@ only screen and (max-width: 1050px),
 }
 .left-nav-content h1 img
 {
-	width: 60px;
+	width: 45px;
 }
 .Account-modal
 {
@@ -4997,7 +5029,7 @@ only screen and (max-width: 1050px),
  background: #fff;
  height:100%;
  margin-right: 10px;
- width: 276px;
+ width: 250px;
  border-bottom-right-radius: 5px;
  z-index: 17;
  left:-400px;
@@ -5049,7 +5081,7 @@ only screen and (max-width: 1050px),
 	font-family:Roboto, 'Segoe UI', Tahoma, sans-serif;
   text-align:left;
   padding:10px 10px 10px 20px;
-  font-size:13px;
+  font-size:12px;
 	font-weight:600;
   color:#5A5A5A;
   display: flex;
@@ -5401,16 +5433,15 @@ only screen and (max-width: 1050px),
 {
   padding:5px;
   border:1px solid #3367D6;
-  border-radius:4px;
+  border-radius:3px;
   padding-left: 5px;
   width: 200px;
-  text-align: center;
 }
 .index-RRtitle-container h1
 {
   font-family:Roboto, 'Segoe UI', Tahoma, sans-serif;
   font-weight: 600;
-  font-size: 20px;
+  font-size: 16px;
   margin-bottom: 20px;
   color: #004275;
 }
@@ -5434,7 +5465,6 @@ only screen and (max-width: 1050px),
 	.index-RRtitle-container h1
 	{
 		text-align: center;
-		font-size: 16px;
 	}
 	.searchbox-RR
 	{
@@ -6534,7 +6564,7 @@ text-align: center;
 .rv-index-title h1
 {
   font-family:Roboto, 'Segoe UI', Tahoma, sans-serif;
-  font-size: 20px;
+  font-size: 16px;
   font-weight: 600;
   color: #00213B;
 }
@@ -6547,11 +6577,10 @@ text-align: center;
 .searchbox-RV input
 {
   height: 23px;
-  border-radius: 5px;
+  border-radius: 3px;
   outline: none;
   border-style: none;
   border:1px solid #3367D6;
-  text-align: center;
   padding-left: 5px;
   font-size: 15px;
   font-family:Roboto, 'Segoe UI', Tahoma, sans-serif;
@@ -6566,7 +6595,6 @@ text-align: center;
 	{
 		margin-bottom: 20px;
 		text-align: center;
-		font-size: 16px;
 	}
 	.searchbox-RV
 	{
@@ -7628,7 +7656,7 @@ only screen and (max-width: 1050px),
 }
 .table-rv-container th
 {
-  background: #337AB7;
+  background: #3367D6;
   color: #fff;
   padding:10px;
 }
@@ -11635,7 +11663,7 @@ only screen and (max-width: 1310px),
 }
 .form-item-right-inputs
 {
-  padding:30px;
+  padding:30px 25px;
   display: flex;
   flex-direction: column;
 }
@@ -12092,7 +12120,6 @@ only screen and (max-width: 1050px),
 	.index-mct-title-and-search h1
 	{
 		text-align: center;
-		font-size: 16px!important;
 		margin-bottom: 20px;
 	}
 	.search-mct-index
@@ -12106,7 +12133,7 @@ only screen and (max-width: 1050px),
 }
 .index-mct-title-and-search h1
 {
-  font-size: 20px;
+  font-size: 16px;
   color: #00213B;
   font-family:Roboto, 'Segoe UI', Tahoma, sans-serif;
   font-weight: 600;
@@ -12224,7 +12251,7 @@ only screen and (max-width: 1050px),
 }
 .title-mrt-index-and-search > h1
 {
-  font-size: 20px;
+  font-size: 16px;
   font-weight: 600;
   font-family:Roboto, 'Segoe UI', Tahoma, sans-serif;
   color: #002C4E;
@@ -12246,7 +12273,6 @@ only screen and (max-width: 1050px),
 	.title-mrt-index-and-search > h1
 	{
 		margin-bottom: 20px;
-		font-size: 16px;
 		text-align: center;
 	}
 }
@@ -12347,19 +12373,19 @@ only screen and (max-width: 1050px),
 }
 .po-index-title-and-search h1
 {
-  font-size: 20px;
+  font-size: 16px;
 	font-weight: 600;
 	color: #162E5F;
   font-family:Roboto, 'Segoe UI', Tahoma, sans-serif;
 }
 .po-index-title-and-search input
 {
-  border-radius: 4px;
+  border-radius: 3px;
   border:1px solid #3367D6;
   padding:4px;
-  font-size: 15px;
+  font-size: 14px;
+	width: 200px;
   letter-spacing:2px;
-  text-align: center;
 }
 @media (max-width:700px)
 {
@@ -12370,7 +12396,6 @@ only screen and (max-width: 1050px),
 	.po-index-title-and-search h1
 	{
 		text-align: center;
-		font-size: 16px;
 		margin-bottom: 20px;
 	}
 }
@@ -12483,15 +12508,14 @@ only screen and (max-width: 1050px),
 }
 .mr-index-search-and-fetch h1
 {
-  font-size: 20px;
+  font-size: 16px;
 	font-weight: 600;
 	color: #162E5F;
 }
 .mr-index-search-and-fetch input
 {
-  border-radius: 4px;
+  border-radius: 3px;
   padding:5px;
-  text-align: center;
   border:1px solid #3367D6;
 }
 @media (max-width:700px)
@@ -12504,7 +12528,7 @@ only screen and (max-width: 1050px),
 	{
 		flex-direction: column;
 	}
-	.mr-index-search-and-fetch h1
+
 	{
 		font-size: 16px;
 		margin-bottom: 25px;
@@ -12617,7 +12641,7 @@ only screen and (max-width: 1050px),
   padding: 6px 12px;
   line-height: 1.42857143;
   text-decoration: none;
-  color: #337ab7;
+  color: #3367D6;
   background-color: #ffffff;
   border: 1px solid #dddddd;
   margin-left: -1px;
@@ -12651,8 +12675,8 @@ only screen and (max-width: 1050px),
 .pagination > .active > span:focus {
   z-index: 3;
   color: #ffffff;
-  background-color: #337ab7;
-  border-color: #337ab7;
+  background-color: #3367D6;
+  border-color: #3367D6;
   cursor: default;
 }
 .pagination > .disabled > span,
@@ -12867,6 +12891,13 @@ only screen and (max-width: 1050px),
 	display: flex;
 	margin-top: 70px;
 	justify-content: space-between;
+}
+@media (max-width:700px)
+{
+	.dash-home
+	{
+		margin-top: 10px!important;
+	}
 }
 .dash-high
 {
@@ -13315,7 +13346,9 @@ only screen and (max-width: 1050px),
 /*charts*/
 .charts-container
 {
-
+	-webkit-touch-callout: none;
+	-webkit-user-select: none; /* Webkit */
+	-ms-user-select: none;
 	width: 100%;
 	margin-top: 40px;
 	margin-bottom: 40px;

@@ -12158,7 +12158,6 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
       MRTNotifs: [],
       AddedCounts: 0,
       Loaded: false
-
     };
   },
 
@@ -12170,11 +12169,56 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
     Echo.private('GlobalNotif.' + this.user.id).listen('GlobalNotifEvent', function (e) {
       console.log(e);
       _this.countNotif();
+      if (_this.dropIsActive == true) {
+        _this.fetchData(1);
+      } else {
+        _this.Loaded = false;
+      }
+      if (_this.user.Role != 3 && _this.user.Role != 4) {
+        _this.MIRSBtn = true;
+        _this.RVBtn = false;
+        _this.MIRSNotifs = [];
+        _this.RVNotifs = [];
+      } else {
+        _this.MIRSBtn = true;
+        _this.RVBtn = false;
+        _this.POBtn = false;
+        _this.MRTBtn = false;
+        _this.MCTBtn = false;
+        _this.RRBtn = false;
+        _this.MRBtn = false;
+        _this.MIRSNotifs = [];
+        _this.RVNotifs = [];
+        _this.PONotifs = [];
+        _this.RRNotifs = [];
+        _this.MRNotifs = [];
+        _this.MCTNotifs = [];
+        _this.MRTNotifs = [];
+      }
     });
     if (this.user.Role == 3 || this.user.Role == 4) {
       Echo.private('Global.Warehouse').listen('GlobalNotifWarehouseEvent', function (e) {
         console.log(e);
         _this.countNotif();
+        if (_this.dropIsActive == true) {
+          _this.fetchData(1);
+        } else {
+          _this.Loaded = false;
+        }
+        _this.MIRSBtn = true;
+        _this.RVBtn = false;
+        _this.POBtn = false;
+        _this.MRTBtn = false;
+        _this.MCTBtn = false;
+        _this.RRBtn = false;
+        _this.MRBtn = false;
+        _this.MIRSNotifs = [];
+        _this.RVNotifs = [];
+        _this.PONotifs = [];
+        _this.RRNotifs = [];
+        _this.MRNotifs = [];
+        _this.MCTNotifs = [];
+        _this.MRTNotifs = [];
       });
     }
   },
@@ -44351,7 +44395,7 @@ module.exports={render:function (){var _vm=this;var _h=_vm.$createElement;var _c
     staticClass: "clickable waves-effect waves"
   }, [_c('span', [_c('i', {
     staticClass: "material-icons"
-  }, [_vm._v("fiber_new")]), _vm._v(" Add new item\n            ")])])])
+  }, [_vm._v("fiber_new")]), _vm._v(" Items\n            ")])])])
 },function (){var _vm=this;var _h=_vm.$createElement;var _c=_vm._self._c||_h;
   return _c('a', {
     attrs: {
@@ -44361,7 +44405,7 @@ module.exports={render:function (){var _vm=this;var _h=_vm.$createElement;var _c
     staticClass: "clickable waves-effect waves"
   }, [_c('span', [_c('i', {
     staticClass: "material-icons"
-  }, [_vm._v("people")]), _vm._v(" Manage accounts\n            ")])])])
+  }, [_vm._v("people")]), _vm._v("Accounts\n            ")])])])
 },function (){var _vm=this;var _h=_vm.$createElement;var _c=_vm._self._c||_h;
   return _c('a', {
     attrs: {

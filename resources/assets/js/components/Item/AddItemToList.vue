@@ -262,7 +262,7 @@ Vue.use(VueNumeric)
            if (response.data.error==null)
            {
              console.log(response);
-             vm.RecentAddedAndSearch();
+             vm.RecentAddedAndSearch(vm.pagination.current_page);
              Vue.set(vm.$data,'AccountCode','');
              Vue.set(vm.$data,'ItemCode','');
              Vue.set(vm.$data,'CurrentQuantity','');

@@ -135,14 +135,14 @@
           <a href="/create-non-existing-item-in-warehouse">
             <li class="clickable waves-effect waves">
               <span>
-                <i class="material-icons">fiber_new</i> Add new item
+                <i class="material-icons">fiber_new</i> Items
               </span>
             </li>
           </a>
           <a href="/settings-accounts-list">
             <li class="clickable waves-effect waves">
               <span>
-                <i class="material-icons">people</i> Manage accounts
+                <i class="material-icons">people</i>Accounts
               </span>
             </li>
           </a>

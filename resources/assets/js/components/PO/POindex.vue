@@ -2,7 +2,7 @@
   <div class="po-index-vue">
     <div class="po-index-title-and-search">
       <h1><i class="material-icons">show_chart</i> Purchase Order index</h1>
-      <input type="text" placeholder="PO #" v-model="ponumsearch" v-on:keyup="FetchAndSearch(1)">
+      <input type="text" placeholder="Enter PO #" v-model="ponumsearch" v-on:keyup="FetchAndSearch(1)">
     </div>
     <div class="po-index-table">
       <table>

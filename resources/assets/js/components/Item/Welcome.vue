@@ -20,7 +20,7 @@
     </div>
   </div>
   <div class="data-results-container" v-if="NotFoundSearch==''">
-    <div v-if="latestFound.MTNo!=null" class="animated bounceInUp">
+    <div v-if="latestFound.MTNo!=null" class="animated bounceInUp result-wrapper">
       <div class="search-welcome-title">
         <div class="Current-title">
           <h1><i class="material-icons">whatshot</i> Latest info</h1>

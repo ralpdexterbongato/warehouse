@@ -3,8 +3,10 @@
 namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
-use \App\MasterItem;
+use App\MasterItem;
 use App\MaterialsTicketDetail;
+use App\MIRSDetail;
+use App\RVDetail;
 use Carbon\Carbon;
 use DB;
 use Session;
@@ -158,16 +160,84 @@ class ItemsController extends Controller
         return ['error'=>'The currentcost must be 0 if the quantity is 0'];
       }
       $OldItemCode=MaterialsTicketDetail::where('id', $id)->get(['ItemCode']);
+
+       if ($request->ItemCode!=$OldItemCode[0]->ItemCode)
+       {
+         $updateItemCodeValidatorMIRS = MIRSDetail::where('ItemCode', $OldItemCode[0]->ItemCode)->take(3)->count();
+         $updateItemCodeValidatorRV = RVDetail::where('ItemCode', $OldItemCode[0]->ItemCode)->take(3)->count();
+         if (($updateItemCodeValidatorMIRS!=0)||($updateItemCodeValidatorRV!=0))
+         {
+           return ['error'=> 'Not allowed to update item code'];
+         }
+       }
        $nocommaCost=str_replace(',','',$request->CurrentCost);
        $AMT=$nocommaCost*$request->CurrentQuantity;
-      $checkifnew=MaterialsTicketDetail::where('ItemCode', $OldItemCode[0]->ItemCode)->take(2)->get(['ItemCode']);
-      if (count($checkifnew)>1)
-      {
-        MasterItem::where('ItemCode', $OldItemCode[0]->ItemCode)->update(['AccountCode'=>$request->AccountCode,'ItemCode'=>$request->ItemCode,'Description'=>$request->Description,'Unit'=>$request->Unit,'AlertIfBelow'=>$request->AlertIfBelow]);
-      }else
-      {
-        MasterItem::where('ItemCode', $OldItemCode[0]->ItemCode)->update(['AccountCode'=>$request->AccountCode,'ItemCode'=>$request->ItemCode,'CurrentQuantity'=>$request->CurrentQuantity,'Description'=>$request->Description,'Unit'=>$request->Unit,'AlertIfBelow'=>$request->AlertIfBelow]);
-      }
-      $MTdetailsTBL=MaterialsTicketDetail::where('id',$id)->update(['AccountCode'=>$request->AccountCode,'ItemCode'=>$request->ItemCode,'Quantity'=>$request->CurrentQuantity,'UnitCost'=>$nocommaCost,'Amount'=>$AMT,'CurrentQuantity'=>$request->CurrentQuantity,'CurrentCost'=>$nocommaCost]);
+
+       $checkifnew=MaterialsTicketDetail::where('ItemCode',$OldItemCode[0]->ItemCode)->count();
+       if ($checkifnew>1)
+       {
+         $MTdetailsTBL=MaterialsTicketDetail::where('id',$id)->update(['AccountCode'=>$request->AccountCode,'Quantity'=>$request->CurrentQuantity,'UnitCost'=>$nocommaCost,'Amount'=>$AMT,'CurrentQuantity'=>$request->CurrentQuantity,'CurrentCost'=>$nocommaCost]);
+         $affectedRows = MaterialsTicketDetail::where('ItemCode',$OldItemCode[0]->ItemCode)->whereNull('IsRollBack')->where('id','>',$id)
+         ->chunk(5, function ($affectedRows) use ($OldItemCode)
+         {
+              foreach ($affectedRows as $affectedrow)
+              {
+                if ($affectedrow->MTType=='MCT')
+                {
+                 $uCostLatestRR=MaterialsTicketDetail::orderBy('id','DESC')->where('MTType', 'RR')->where('ItemCode',$OldItemCode[0]->ItemCode)->where('id','<',$affectedrow->id)->whereNull('IsRollBack')->take(1)->value('UnitCost');
+                 $dataBelowTheRow=MaterialsTicketDetail::orderBy('id','DESC')->where('ItemCode', $OldItemCode[0]->ItemCode)->where('id','<',$affectedrow->id)->whereNull('IsRollBack')->take(1)->get();
+                 $newAmt = $affectedrow->Quantity * $uCostLatestRR;
+                 $newCurrentQty = $dataBelowTheRow[0]->CurrentQuantity - $affectedrow->Quantity;
+                 $newCurrentAmount= $dataBelowTheRow[0]->CurrentAmount - $newAmt;
+                 if ($newCurrentQty!=0)
+                 {
+                   $newCurrentCost= $newCurrentAmount / $newCurrentQty;
+                 }else
+                 {
+                   $newCurrentCost = 0;
+                 }
+                 $affectedrow->update(['UnitCost'=>$uCostLatestRR,'Amount'=>$newAmt,'CurrentQuantity'=>$newCurrentQty,'CurrentAmount'=>$newCurrentAmount,'CurrentCost'=>$newCurrentCost]);
+                }
+                if ($affectedrow->MTType=='MRT')
+                {
+                 $uCostLatestRR=MaterialsTicketDetail::orderBy('id','DESC')->where('MTType', 'RR')->where('ItemCode',$OldItemCode[0]->ItemCode)->where('id','<',$affectedrow->id)->whereNull('IsRollBack')->take(1)->value('UnitCost');
+                 $dataBelowTheRow=MaterialsTicketDetail::orderBy('id','DESC')->where('ItemCode', $OldItemCode[0]->ItemCode)->where('id','<',$affectedrow->id)->whereNull('IsRollBack')->take(1)->get();
+                 $newAmt = $affectedrow->Quantity * $uCostLatestRR;
+                 $newCurrentQty = $dataBelowTheRow[0]->CurrentQuantity + $affectedrow->Quantity;
+                 $newCurrentAmount= $dataBelowTheRow[0]->CurrentAmount + $newAmt;
+                 if ($newCurrentQty!=0)
+                 {
+                   $newCurrentCost= $newCurrentAmount / $newCurrentQty;
+                 }else
+                 {
+                   $newCurrentCost = 0;
+                 }
+                 $affectedrow->update(['UnitCost'=>$uCostLatestRR,'Amount'=>$newAmt,'CurrentQuantity'=>$newCurrentQty,'CurrentAmount'=>$newCurrentAmount,'CurrentCost'=>$newCurrentCost]);
+                }
+                if ($affectedrow->MTType=='RR')
+                {
+                 $dataBelowTheRow=MaterialsTicketDetail::orderBy('id','DESC')->where('ItemCode', $OldItemCode[0]->ItemCode)->where('id','<',$affectedrow->id)->whereNull('IsRollBack')->take(1)->get();
+                 $newAmt = $affectedrow->Quantity * $affectedrow->UnitCost;
+                 $newCurrentQty = $dataBelowTheRow[0]->CurrentQuantity + $affectedrow->Quantity;
+                 $newCurrentAmount= $dataBelowTheRow[0]->CurrentAmount + $newAmt;
+                 if ($newCurrentQty!=0)
+                 {
+                   $newCurrentCost= $newCurrentAmount / $newCurrentQty;
+                 }else
+                 {
+                   $newCurrentCost = 0;
+                 }
+                 $affectedrow->update(['UnitCost'=>$affectedrow->UnitCost,'Amount'=>$newAmt,'CurrentQuantity'=>$newCurrentQty,'CurrentAmount'=>$newCurrentAmount,'CurrentCost'=>$newCurrentCost]);
+                }
+              }
+          });
+          $CurrentQuantityOfItem=MaterialsTicketDetail::orderBy('id','DESC')->whereNull('IsRollBack')->where('ItemCode', $OldItemCode[0]->ItemCode)->take(1)->value('CurrentQuantity');
+          MasterItem::where('ItemCode',$OldItemCode[0]->ItemCode)->update(['CurrentQuantity'=>$CurrentQuantityOfItem,'AccountCode'=>$request->AccountCode,'Description'=>$request->Description,'Unit'=>$request->Unit,'AlertIfBelow'=>$request->AlertIfBelow]);
+       }else
+       {
+         MasterItem::where('ItemCode', $OldItemCode[0]->ItemCode)->update(['AccountCode'=>$request->AccountCode,'ItemCode'=>$request->ItemCode,'CurrentQuantity'=>$request->CurrentQuantity,'Description'=>$request->Description,'Unit'=>$request->Unit,'AlertIfBelow'=>$request->AlertIfBelow]);
+         MaterialsTicketDetail::where('id',$id)->update(['AccountCode'=>$request->AccountCode,'Quantity'=>$request->CurrentQuantity,'UnitCost'=>$nocommaCost,'Amount'=>$AMT,'CurrentQuantity'=>$request->CurrentQuantity,'CurrentCost'=>$nocommaCost]);
+       }
+
     }
 }

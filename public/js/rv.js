@@ -21364,7 +21364,7 @@ module.exports={render:function (){var _vm=this;var _h=_vm.$createElement;var _c
     attrs: {
       "type": "text",
       "name": "search",
-      "placeholder": "Search RV Number"
+      "placeholder": "Enter RV #"
     },
     domProps: {
       "value": (_vm.search)
