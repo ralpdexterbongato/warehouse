@@ -519,7 +519,7 @@ class RRController extends Controller
       {
            foreach ($affectedRows as $affectedrow)
            {
-             if ($affectedrow->MTType=='MCT')
+             if ($affectedrow->MTType=='MCT' || $affectedrow->MTType=='DMG')
              {
               $uCostLatestRR=MaterialsTicketDetail::orderBy('id','DESC')->where('MTType', 'RR')->where('ItemCode',$data->ItemCode)->where('id','<',$affectedrow->id)->whereNull('IsRollBack')->take(1)->value('UnitCost');
               $dataBelowTheRow=MaterialsTicketDetail::orderBy('id','DESC')->where('ItemCode', $data->ItemCode)->where('id','<',$affectedrow->id)->whereNull('IsRollBack')->take(1)->get();
@@ -623,7 +623,7 @@ class RRController extends Controller
       {
            foreach ($affectedRows as $affectedrow)
            {
-             if ($affectedrow->MTType=='MCT')
+             if ($affectedrow->MTType=='MCT' || $affectedrow->MTType=='DMG')
              {
               $uCostLatestRR=MaterialsTicketDetail::orderBy('id','DESC')->where('MTType', 'RR')->where('ItemCode',$data->ItemCode)->where('id','<',$affectedrow->id)->whereNull('IsRollBack')->take(1)->value('UnitCost');
               $dataBelowTheRow=MaterialsTicketDetail::orderBy('id','DESC')->where('ItemCode', $data->ItemCode)->where('id','<',$affectedrow->id)->whereNull('IsRollBack')->take(1)->get();

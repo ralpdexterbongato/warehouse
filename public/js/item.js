@@ -12343,6 +12343,40 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
 //
 //
 //
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
 
 
 
@@ -12354,6 +12388,11 @@ __WEBPACK_IMPORTED_MODULE_4_vue___default.a.use(__WEBPACK_IMPORTED_MODULE_3_vue_
 /* harmony default export */ __webpack_exports__["default"] = ({
   data: function data() {
     return {
+      deleteDmgShow: false,
+      QtyError: '',
+      dmgQty: '',
+      dmgQtyConfirm: '',
+      dmgModalActive: false,
       autocomplete: [],
       ItemSearchInput: '',
       pagination: [],
@@ -12453,6 +12492,42 @@ __WEBPACK_IMPORTED_MODULE_4_vue___default.a.use(__WEBPACK_IMPORTED_MODULE_3_vue_
   },
 
   methods: {
+    recordDamageSubmit: function recordDamageSubmit() {
+      if (this.dmgQty != this.dmgQtyConfirm) {
+        this.QtyError = 'Quantities did not match';
+        return false;
+      } else if (this.dmgQty == '' || this.dmgQtyConfirm == '') {
+        this.QtyError = 'Please fill-up the fields';
+        return false;
+      }
+      this.QtyError = '';
+      var vm = this;
+      __WEBPACK_IMPORTED_MODULE_0_axios___default.a.post('/damage-item-store/' + vm.latestFound.ItemCode, {
+        'quantity': this.dmgQtyConfirm
+      }).then(function (response) {
+        console.log(response);
+        vm.dmgQty = '';
+        vm.dmgQtyConfirm = '';
+        vm.dmgModalActive = false;
+        vm.$toast.top('Recorded successfully');
+        vm.SearchItemHistory(1);
+      }).catch(function (error) {
+        console.log(error);
+        vm.QtyError = error.response.data.quantity[0];
+      });
+    },
+    DeleteRecordDamage: function DeleteRecordDamage(id, itemcode) {
+      if (confirm('Are you sure? you wont be able to revert this!')) {
+        var vm = this;
+        __WEBPACK_IMPORTED_MODULE_0_axios___default.a.delete('/damage-item-delete/' + id + '/' + itemcode).then(function (response) {
+          console.log(response);
+          vm.$toast.top('removed successfully');
+          vm.SearchItemHistory(1);
+        }).catch(function (error) {
+          console.log(error);
+        });
+      }
+    },
     SearchForSuggestions: function SearchForSuggestions() {
       if (this.ItemSearchInput.length > 3) {
         var vm = this;
@@ -13609,16 +13684,72 @@ module.exports={render:function (){var _vm=this;var _h=_vm.$createElement;var _c
         }
       }
     }, [_vm._v(_vm._s(suggestion.Description))])
-  }))])])]), _vm._v(" "), (_vm.NotFoundSearch == '') ? _c('div', {
+  }))])])]), _vm._v(" "), (((_vm.latestFound.MTNo != null) && (_vm.NotFoundSearch == '') && (_vm.user.Role == 3 || _vm.user.Role == 4))) ? _c('div', {
+    staticClass: "report-damage-button"
+  }, [_c('button', {
+    staticClass: "z-depth-1",
+    attrs: {
+      "type": "button",
+      "name": "button"
+    },
+    on: {
+      "click": function($event) {
+        _vm.dmgModalActive = true
+      }
+    }
+  }, [_c('i', {
+    staticClass: "material-icons"
+  }, [_vm._v("broken_image")])]), _vm._v(" "), _c('button', {
+    staticClass: "z-depth-1",
+    attrs: {
+      "type": "button",
+      "name": "button"
+    },
+    on: {
+      "click": function($event) {
+        _vm.deleteDmgShow = !_vm.deleteDmgShow
+      }
+    }
+  }, [(_vm.deleteDmgShow == false) ? _c('i', {
+    staticClass: "material-icons"
+  }, [_vm._v("delete")]) : _c('i', {
+    staticClass: "material-icons"
+  }, [_vm._v("visibility_off")])])]) : _vm._e(), _vm._v(" "), (_vm.NotFoundSearch == '') ? _c('div', {
     staticClass: "data-results-container"
   }, [(_vm.latestFound.MTNo != null) ? _c('div', {
     staticClass: "animated bounceInUp result-wrapper"
   }, [_vm._m(1), _vm._v(" "), _c('div', {
     staticClass: "latest-data"
-  }, [_c('table', [_vm._m(2), _vm._v(" "), _c('tr', [_c('td', [_vm._v(_vm._s(_vm.latestFound.MTType))]), _vm._v(" "), _c('td', [_vm._v(_vm._s(_vm.latestFound.MTNo))]), _vm._v(" "), _c('td', [_vm._v(_vm._s(_vm.latestFound.AccountCode))]), _vm._v(" "), _c('td', [_vm._v(_vm._s(_vm.latestFound.ItemCode))]), _vm._v(" "), _c('td', [_vm._v(_vm._s(_vm.latestFound.master_items.Description))]), _vm._v(" "), _c('td', [_vm._v(_vm._s(_vm.formatPrice(_vm.latestFound.UnitCost)))]), _vm._v(" "), _c('td', [_vm._v(_vm._s(_vm.latestFound.Quantity))]), _vm._v(" "), _c('td', [_vm._v(_vm._s(_vm.latestFound.master_items.Unit))]), _vm._v(" "), _c('td', [_vm._v(_vm._s(_vm.formatPrice(_vm.latestFound.Amount)))]), _vm._v(" "), _c('td', [_vm._v(_vm._s(_vm.formatPrice(_vm.latestFound.CurrentCost)))]), _vm._v(" "), _c('td', [_vm._v(_vm._s(_vm.latestFound.CurrentQuantity))]), _vm._v(" "), _c('td', [_vm._v(_vm._s(_vm.formatPrice(_vm.latestFound.CurrentAmount)))]), _vm._v(" "), _c('td', [_vm._v(_vm._s(_vm.latestFound.MTDate))])])])]), _vm._v(" "), _c('div', {
+  }, [_c('table', [_vm._m(2), _vm._v(" "), _c('tr', [_c('td', [(_vm.latestFound.MTType == 'DMG' && _vm.deleteDmgShow == true) ? _c('button', {
+    staticClass: "remove-damage-item-btn",
+    attrs: {
+      "type": "button",
+      "name": "button"
+    },
+    on: {
+      "click": function($event) {
+        _vm.DeleteRecordDamage(_vm.latestFound.id, _vm.latestFound.ItemCode)
+      }
+    }
+  }, [_c('i', {
+    staticClass: "material-icons"
+  }, [_vm._v("delete")])]) : _c('span', [_vm._v(_vm._s(_vm.latestFound.MTType))])]), _vm._v(" "), _c('td', [_vm._v(_vm._s(_vm.latestFound.MTNo))]), _vm._v(" "), _c('td', [_vm._v(_vm._s(_vm.latestFound.AccountCode))]), _vm._v(" "), _c('td', [_vm._v(_vm._s(_vm.latestFound.ItemCode))]), _vm._v(" "), _c('td', [_vm._v(_vm._s(_vm.latestFound.master_items.Description))]), _vm._v(" "), _c('td', [_vm._v(_vm._s(_vm.formatPrice(_vm.latestFound.UnitCost)))]), _vm._v(" "), _c('td', [_vm._v(_vm._s(_vm.latestFound.Quantity))]), _vm._v(" "), _c('td', [_vm._v(_vm._s(_vm.latestFound.master_items.Unit))]), _vm._v(" "), _c('td', [_vm._v(_vm._s(_vm.formatPrice(_vm.latestFound.Amount)))]), _vm._v(" "), _c('td', [_vm._v(_vm._s(_vm.formatPrice(_vm.latestFound.CurrentCost)))]), _vm._v(" "), _c('td', [_vm._v(_vm._s(_vm.latestFound.CurrentQuantity))]), _vm._v(" "), _c('td', [_vm._v(_vm._s(_vm.formatPrice(_vm.latestFound.CurrentAmount)))]), _vm._v(" "), _c('td', [_vm._v(_vm._s(_vm.latestFound.MTDate))])])])]), _vm._v(" "), _c('div', {
     staticClass: "history-found"
   }, [_vm._m(3), _vm._v(" "), _c('table', [_vm._m(4), _vm._v(" "), _vm._l((_vm.historiesfound), function(history) {
-    return (history.id != _vm.latestFound.id) ? _c('tr', [_c('td', [_vm._v(_vm._s(history.MTType))]), _vm._v(" "), _c('td', [_vm._v(_vm._s(history.MTNo))]), _vm._v(" "), _c('td', [_vm._v(_vm._s(_vm.formatPrice(history.UnitCost)))]), _vm._v(" "), _c('td', [_vm._v(_vm._s(history.Quantity))]), _vm._v(" "), _c('td', [_vm._v(_vm._s(_vm.latestFound.master_items.Unit))]), _vm._v(" "), _c('td', [_vm._v(_vm._s(_vm.formatPrice(history.Amount)))]), _vm._v(" "), _c('td', [_vm._v(_vm._s(_vm.formatPrice(history.CurrentCost)))]), _vm._v(" "), _c('td', [_vm._v(_vm._s(history.CurrentQuantity))]), _vm._v(" "), _c('td', [_vm._v(_vm._s(_vm.formatPrice(history.CurrentAmount)))]), _vm._v(" "), _c('td', [_vm._v(_vm._s(history.MTDate))])]) : _vm._e()
+    return (history.id != _vm.latestFound.id) ? _c('tr', [_c('td', [(history.MTType == 'DMG' && _vm.deleteDmgShow == true) ? _c('button', {
+      staticClass: "remove-damage-item-btn",
+      attrs: {
+        "type": "button",
+        "name": "button"
+      },
+      on: {
+        "click": function($event) {
+          _vm.DeleteRecordDamage(history.id, history.ItemCode)
+        }
+      }
+    }, [_c('i', {
+      staticClass: "material-icons"
+    }, [_vm._v("delete")])]) : _c('span', [_vm._v(_vm._s(history.MTType))])]), _vm._v(" "), _c('td', [_vm._v(_vm._s(history.MTNo))]), _vm._v(" "), _c('td', [_vm._v(_vm._s(_vm.formatPrice(history.UnitCost)))]), _vm._v(" "), _c('td', [_vm._v(_vm._s(history.Quantity))]), _vm._v(" "), _c('td', [_vm._v(_vm._s(_vm.latestFound.master_items.Unit))]), _vm._v(" "), _c('td', [_vm._v(_vm._s(_vm.formatPrice(history.Amount)))]), _vm._v(" "), _c('td', [_vm._v(_vm._s(_vm.formatPrice(history.CurrentCost)))]), _vm._v(" "), _c('td', [_vm._v(_vm._s(history.CurrentQuantity))]), _vm._v(" "), _c('td', [_vm._v(_vm._s(_vm.formatPrice(history.CurrentAmount)))]), _vm._v(" "), _c('td', [_vm._v(_vm._s(history.MTDate))])]) : _vm._e()
   })], 2), _vm._v(" "), _c('div', {
     staticClass: "paginate-container"
   }, [_c('ul', {
@@ -13715,7 +13846,93 @@ module.exports={render:function (){var _vm=this;var _h=_vm.$createElement;var _c
     staticClass: "not-found-msg"
   }, [_c('h2', [_c('i', {
     staticClass: "material-icons"
-  }, [_vm._v("search")]), _vm._v(" " + _vm._s(_vm.NotFoundSearch))])]) : _vm._e()])
+  }, [_vm._v("search")]), _vm._v(" " + _vm._s(_vm.NotFoundSearch))])]) : _vm._e(), _vm._v(" "), _c('div', {
+    staticClass: "Report-Damage-Modal",
+    class: [_vm.dmgModalActive == true ? 'active' : ''],
+    on: {
+      "click": function($event) {
+        _vm.dmgModalActive = !_vm.dmgModalActive
+      }
+    }
+  }, [_c('div', {
+    staticClass: "damage-item-modal-form z-depth-5",
+    on: {
+      "click": function($event) {
+        _vm.dmgModalActive = !_vm.dmgModalActive
+      }
+    }
+  }, [_c('h1', [_vm._v("Record damages")]), _vm._v(" "), _c('div', {
+    staticClass: "input-container-material"
+  }, [_c('input', {
+    directives: [{
+      name: "model",
+      rawName: "v-model",
+      value: (_vm.dmgQty),
+      expression: "dmgQty"
+    }],
+    class: [_vm.dmgQty != '' ? 'active' : ''],
+    attrs: {
+      "type": "text",
+      "id": "Qty"
+    },
+    domProps: {
+      "value": (_vm.dmgQty)
+    },
+    on: {
+      "input": function($event) {
+        if ($event.target.composing) { return; }
+        _vm.dmgQty = $event.target.value
+      }
+    }
+  }), _vm._v(" "), _c('label', {
+    attrs: {
+      "for": "Qty"
+    }
+  }, [_vm._v("Quantity")])]), _vm._v(" "), _c('div', {
+    staticClass: "input-container-material"
+  }, [_c('input', {
+    directives: [{
+      name: "model",
+      rawName: "v-model",
+      value: (_vm.dmgQtyConfirm),
+      expression: "dmgQtyConfirm"
+    }],
+    class: [_vm.dmgQtyConfirm != '' ? 'active' : ''],
+    attrs: {
+      "type": "text",
+      "id": "Qtyconfirm"
+    },
+    domProps: {
+      "value": (_vm.dmgQtyConfirm)
+    },
+    on: {
+      "input": function($event) {
+        if ($event.target.composing) { return; }
+        _vm.dmgQtyConfirm = $event.target.value
+      }
+    }
+  }), _vm._v(" "), _c('label', {
+    attrs: {
+      "for": "Qtyconfirm"
+    }
+  }, [_vm._v("Retype quantity")])]), _vm._v(" "), _c('p', {
+    staticClass: "qty-error"
+  }, [_vm._v(_vm._s(_vm.QtyError))]), _vm._v(" "), _c('div', {
+    staticClass: "report-dmg-actions"
+  }, [_c('p', {
+    on: {
+      "click": function($event) {
+        _vm.dmgModalActive = false
+      }
+    }
+  }, [_vm._v("CANCEL")]), _vm._v(" "), _c('p', {
+    staticClass: "active",
+    on: {
+      "click": function($event) {
+        _vm.recordDamageSubmit()
+      }
+    }
+  }, [_vm._v("RECORD")])])])])])
 },staticRenderFns: [function (){var _vm=this;var _h=_vm.$createElement;var _c=_vm._self._c||_h;
   return _c('span', {
     staticClass: "big"

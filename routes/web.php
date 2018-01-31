@@ -225,3 +225,7 @@ Route::get('/fetch-mr-global-notifications','globalNotificationController@fetchM
 Route::get('/fetch-mct-global-notifications','globalNotificationController@fetchMCT');
 Route::get('/fetch-mrt-global-notifications','globalNotificationController@fetchMRT');
 Route::get('/notif-global-count','globalNotificationController@countInfoNotification');
+
+// damage item recording
+Route::post('/damage-item-store/{itemcode}','DamagedItemController@store');
+Route::delete('/damage-item-delete/{id}/{itemcode}','DamagedItemController@delete');

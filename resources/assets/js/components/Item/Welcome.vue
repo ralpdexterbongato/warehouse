@@ -19,6 +19,13 @@
       </div>
     </div>
   </div>
+  <div class="report-damage-button" v-if="((latestFound.MTNo!=null) && (NotFoundSearch=='') && (user.Role==3 || user.Role==4))">
+    <button v-on:click="dmgModalActive=true" type="button" class="z-depth-1" name="button"><i class="material-icons">broken_image</i></button>
+    <button  type="button" v-on:click="deleteDmgShow=!deleteDmgShow" class="z-depth-1" name="button">
+      <i v-if="deleteDmgShow==false" class="material-icons">delete</i>
+      <i v-else class="material-icons">visibility_off</i>
+    </button>
+  </div>
   <div class="data-results-container" v-if="NotFoundSearch==''">
     <div v-if="latestFound.MTNo!=null" class="animated bounceInUp result-wrapper">
       <div class="search-welcome-title">
@@ -44,7 +51,12 @@
             <th>Date</th>
           </tr>
           <tr>
-            <td>{{latestFound.MTType}}</td>
+            <td>
+              <button v-on:click="DeleteRecordDamage(latestFound.id,latestFound.ItemCode)" v-if="latestFound.MTType=='DMG' && deleteDmgShow==true" type="button" class="remove-damage-item-btn" name="button">
+                <i class="material-icons">delete</i>
+              </button>
+              <span v-else>{{latestFound.MTType}}</span>
+            </td>
             <td>{{latestFound.MTNo}}</td>
             <td>{{latestFound.AccountCode}}</td>
             <td>{{latestFound.ItemCode}}</td>
@@ -76,7 +88,12 @@
             <th>Date</th>
           </tr>
           <tr v-for="history in historiesfound" v-if="history.id!=latestFound.id">
-            <td>{{history.MTType}}</td>
+            <td>
+              <button v-on:click="DeleteRecordDamage(history.id,history.ItemCode)" v-if="history.MTType=='DMG' && deleteDmgShow==true" type="button" class="remove-damage-item-btn" name="button">
+                <i class="material-icons">delete</i>
+              </button>
+              <span v-else>{{history.MTType}}</span>
+            </td>
             <td>{{history.MTNo}}</td>
             <td>{{formatPrice(history.UnitCost)}}</td>
             <td>{{history.Quantity}}</td>
@@ -203,6 +220,23 @@
   <div class="not-found-msg" v-if="NotFoundSearch!=''">
     <h2><i class="material-icons">search</i> {{NotFoundSearch}}</h2>
   </div>
+  <div class="Report-Damage-Modal" v-on:click="dmgModalActive= !dmgModalActive" :class="[dmgModalActive==true?'active':'']">
+    <div class="damage-item-modal-form z-depth-5" v-on:click="dmgModalActive= !dmgModalActive">
+      <h1>Record damages</h1>
+      <div class="input-container-material">
+        <input type="text" v-model="dmgQty" id="Qty" :class="[dmgQty!=''?'active':'']">
+        <label for="Qty">Quantity</label>
+      </div>
+      <div class="input-container-material">
+        <input type="text" v-model="dmgQtyConfirm" id="Qtyconfirm"  :class="[dmgQtyConfirm!=''?'active':'']">
+        <label for="Qtyconfirm">Retype quantity</label>
+      </div>
+      <p class="qty-error">{{QtyError}}</p>
+      <div class="report-dmg-actions">
+        <p v-on:click="dmgModalActive=false">CANCEL</p> <p v-on:click="recordDamageSubmit()" class="active">RECORD</p>
+      </div>
+    </div>
+  </div>
 </div>
 </template>
 <script>
@@ -216,6 +250,11 @@ Vue.use(VueAnimateNumber);
   export default {
     data () {
       return {
+        deleteDmgShow:false,
+        QtyError:'',
+        dmgQty:'',
+        dmgQtyConfirm:'',
+        dmgModalActive:false,
         autocomplete:[],
         ItemSearchInput: '',
         pagination: [],
@@ -322,6 +361,52 @@ Vue.use(VueAnimateNumber);
       }
     },
     methods: {
+      recordDamageSubmit()
+      {
+        if (this.dmgQty!=this.dmgQtyConfirm)
+        {
+          this.QtyError = 'Quantities did not match';
+          return false;
+        }else if (this.dmgQty=='' || this.dmgQtyConfirm=='')
+        {
+          this.QtyError = 'Please fill-up the fields';
+          return false;
+        }
+        this.QtyError='';
+        var vm=this;
+        axios.post(`/damage-item-store/`+vm.latestFound.ItemCode,
+        {
+          'quantity':this.dmgQtyConfirm
+        }).then(function(response)
+        {
+          console.log(response);
+          vm.dmgQty ='';
+          vm.dmgQtyConfirm = '';
+          vm.dmgModalActive=false;
+          vm.$toast.top('Recorded successfully');
+          vm.SearchItemHistory(1);
+        }).catch(function(error)
+        {
+          console.log(error);
+          vm.QtyError = error.response.data.quantity[0];
+        })
+      },
+      DeleteRecordDamage(id,itemcode)
+      {
+        if (confirm('Are you sure? you wont be able to revert this!'))
+        {
+          var vm=this;
+          axios.delete(`/damage-item-delete/`+id+`/`+itemcode).then(function(response)
+          {
+            console.log(response);
+            vm.$toast.top('removed successfully');
+            vm.SearchItemHistory(1);
+          }).catch(function(error)
+          {
+            console.log(error);
+          });
+        }
+      },
       SearchForSuggestions()
       {
         if (this.ItemSearchInput.length > 3)

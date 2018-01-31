@@ -801,7 +801,7 @@ input[type='radio']:after {
 {
   width: 100%;
   font-family: 'Comfortaa',sans-serif;
-  font-size: 13px!important;
+  font-size: 12px!important;
 }
 .latest-data th
 {
@@ -886,6 +886,134 @@ input[type='radio']:after {
 			font-size: 21px;
 		}
 	}
+.report-damage-button button
+{
+	background:#f44336;
+	color: #fff;
+	border-style: none;
+	border-radius:50%;
+	font-size: 13px;
+	height: 40px;
+	width: 40px;
+	margin-left:15px;
+}
+.remove-damage-item-btn i
+{
+	font-size: 20px;
+}
+.remove-damage-item-btn
+{
+	border-style: none;
+	color: #f44336;
+	background: #fff;
+	top:0;
+	right: -20px;
+}
+.qty-error
+{
+	height: 30px;
+	color:#f44336;
+}
+.report-damage-button
+{
+	padding:5px 100px;
+	display: flex;
+	justify-content: flex-end;
+}
+@media (max-width:730px)
+{
+	.report-damage-button
+	{
+		padding:5px 10px;
+	}
+}
+.Report-Damage-Modal
+{
+	height: 100vh;
+	width: 100%;
+	position: fixed;
+	top: -2000px;
+	left: 0;
+	background: rgba(0, 0, 0, 0.5);
+	z-index: 20;
+	display: flex;
+}
+.Report-Damage-Modal.active
+{
+	top: 0;
+}
+.damage-item-modal-form
+{
+	width: 280px;
+	background: #fff;
+	margin: auto;
+	border-radius: 3px;
+	padding:25px;
+}
+.report-dmg-actions .active
+{
+	color: #4285F4;
+}
+.report-dmg-actions
+{
+	margin-top: 70px;
+	display: flex;
+	justify-content: flex-end;
+}
+.report-dmg-actions p
+{
+	margin-left: 20px;
+	font-weight:600;;
+	font-size: 14px;
+	cursor: pointer;
+}
+.damage-item-modal-form h1 i
+{
+	color:rgba(0, 0, 0, 0.7);
+}
+.damage-item-modal-form input:focus,.damage-item-modal-form input.active
+{
+	border-bottom: 2px solid #4285F4;
+}
+.damage-item-modal-form input
+{
+	padding: 0px 0px 5px 0px;
+	color: rgba(0, 0, 0, 0.9);
+	border-style: none;
+	width: auto;
+	border-bottom: 1px solid #e0e0e0;
+	font: 400 16px Roboto,RobotoDraft,Helvetica,Arial,sans-serif;
+}
+.input-container-material
+{
+	position: relative;
+	display: flex;
+	flex-direction: column;
+	margin-top:40px;
+	height: 30px;
+}
+.input-container-material label.active
+{
+	top: -25px;
+	left:0px;
+	font-size: 13px;
+	color:#4285F4;
+}
+.input-container-material label
+{
+	position: absolute;
+	top: 0px;
+	left: 10px;
+	color: #b1b1b1;
+	transition:all .3s;
+}
+.damage-item-modal-form h1
+{
+	font-size: 20px;
+	font-weight: 600;
+	padding:0px 0px 7px 0px;
+	margin-bottom: 60px;
+}
 .data-results-container td
 {
   color: #383B44;
