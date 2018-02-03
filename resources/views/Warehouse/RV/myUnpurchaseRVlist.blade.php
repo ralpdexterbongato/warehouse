@@ -5,7 +5,7 @@
 @section('body')
 <div class="Unpurchase-RV-list">
   <div class="rv-unpurchased-list">
-    <h1><i class="material-icons">store</i> RV purchase pending</h1>
+    <h1><i class="material-icons">shopping_basket</i> RV purchase pending</h1>
   </div>
   <div class="pending-purchase-table">
     @if (!empty($unpurchaselist[0]))

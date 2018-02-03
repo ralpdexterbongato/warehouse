@@ -10,11 +10,14 @@ class DamagedItemController extends Controller
 {
     public function store(Request $request, $itemcode)
     {
-      $this->validate($request,[
-        'quantity'=>'required|numeric|max:99999|min:1',
-      ]);
+
       //quantity param
       $latest=MaterialsTicketDetail::orderBy('id','DESC')->where('ItemCode', $itemcode)->take(1)->get();
+
+      $this->validate($request,[
+        'quantity'=>'required|numeric|max:'.$latest[0]->CurrentQuantity.'|min:1',
+      ]);
+
       $latestUnitCost=MaterialsTicketDetail::orderBy('id','DESC')->where('ItemCode', $itemcode)->where('MTType', 'RR')->whereNull('IsRollBack')->take(1)->value('UnitCost');
       $amt = $request->quantity * $latestUnitCost;
       $newQty=$latest[0]->CurrentQuantity - $request->quantity;

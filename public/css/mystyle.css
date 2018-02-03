@@ -635,7 +635,7 @@ input[type='radio']:after {
   border-radius: 3px;
   background: #3367D6;
   margin-top: 40px;
-  height: 20px;
+  /*height: 20px;*/
 }
 @media (max-width: 730px)
 {
@@ -913,6 +913,7 @@ input[type='radio']:after {
 {
 	height: 30px;
 	color:#f44336;
+	font-size: 13px;
 }
 .report-damage-button
 {
@@ -949,6 +950,14 @@ input[type='radio']:after {
 	margin: auto;
 	border-radius: 3px;
 	padding:25px;
+}
+@media (max-width:370px)
+{
+	.damage-item-modal-form
+	{
+		width: auto;
+		margin:15px;
+	}
 }
 .report-dmg-actions .active
 {
@@ -8395,7 +8404,7 @@ only screen and (max-width: 1050px),
 }
 .print-po-btn button,.rr-with-po-btn button
 {
-  font-size: 17px!important;
+  font-size: 14px!important;
   border-radius: 3px;
   padding:5px 10px;
 	background: #fff;
@@ -8958,7 +8967,7 @@ only screen and (max-width: 1050px),
 }
 .pending-purchase-table th
 {
-  background: #337AB7;
+  background: #3367D6;
   color: #fff;
   font-weight: 600;
   padding:7px;
@@ -13027,13 +13036,22 @@ only screen and (max-width: 1050px),
 		margin-top: 10px!important;
 	}
 }
+@media (max-width:528px)
+{
+	.dash-home
+	{
+		flex-direction: column;
+	}
+}
 .dash-high
 {
 	background: #3367D6;
+	margin-right: 2%;
 }
 .dash-low
 {
 	background: #fdd835;
+	margin-right: 2%;
 }
 .dash-empty
 {
@@ -13043,22 +13061,19 @@ only screen and (max-width: 1050px),
 {
 	position:relative;
 	height:200px;
-	width: 350px;
+	width: 31%;
 	border-radius:4px;
 	display: flex;
 }
-@media (max-width:1295px)
+@media (max-width:528px)
 {
-	.dash-home
-	{
-		flex-direction: column;
-	}
 	.dashbox
 	{
 		width: 100%;
-		margin:10px auto;
+		margin:5px auto;
 	}
 }
+
 .left-dash
 {
 	flex:1;
@@ -13113,6 +13128,23 @@ only screen and (max-width: 1050px),
 	text-align: center;
 	display: flex;
 }
+@media (max-width:1200px)
+{
+	.circle-dash-icon
+	{
+		height: 8vw;
+		width: 8vw;
+	}
+}
+@media (max-width:528px)
+{
+	.circle-dash-icon
+	{
+		height:80px;
+		width: 80px;
+	}
+}
+
 .circle-dash-icon i
 {
 	color: #fff;
