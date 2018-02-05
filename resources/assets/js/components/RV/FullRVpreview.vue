@@ -99,7 +99,7 @@
     </div>
   </div>
   <div class="bondpaper-RV-container">
-    <div class="bondpaper-RV">
+    <div class="bondpaper-RV z-depth-1">
 
           <div v-if="(RVMaster.Status=='0')" class="status-rv approved">
             <i class="material-icons">thumb_up</i>

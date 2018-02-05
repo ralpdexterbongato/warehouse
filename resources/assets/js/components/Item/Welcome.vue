@@ -1,7 +1,7 @@
 <template lang="html">
 <div class="welcome.vue">
   <div class="new-search-container">
-    <div class="search-box" :class="[latestFound.MTNo!=null?'SearchItemSuccess':'']">
+    <div class="search-box z-depth-4" :class="[latestFound.MTNo!=null?'SearchItemSuccess':'']">
       <div class="text-left">
         <p v-if="latestFound.MTNo==null">
           <span class="big"><i class="material-icons">dashboard</i> Search</span> & <span class="big">check</span> item's latest & previous data here.
@@ -13,15 +13,15 @@
       <div class="Search-item-box">
         <input id="search-code-input" autocomplete="off" type="text" v-on:keyup.enter="SearchItemHistory(1)" v-on:keyup="SearchForSuggestions()" v-model="ItemSearchInput" placeholder="Search" required>
         <button id="search-go" type="submit" v-on:click="SearchItemHistory(1)"><i class="material-icons">search</i></button>
-        <div class="own-autocomplete z-depth-1">
+        <div class="own-autocomplete z-depth-4">
           <p v-for="suggestion in autocomplete" v-on:click="SelectSuggestion(suggestion.Description)" class="autocomplete-row">{{suggestion.Description}}</p>
         </div>
       </div>
     </div>
   </div>
   <div class="report-damage-button" v-if="((latestFound.MTNo!=null) && (NotFoundSearch=='') && (user.Role==3 || user.Role==4))">
-    <button v-on:click="dmgModalActive=true" type="button" class="z-depth-1" name="button"><i class="material-icons">broken_image</i></button>
-    <button  type="button" v-on:click="deleteDmgShow=!deleteDmgShow" class="z-depth-1" name="button">
+    <button v-on:click="dmgModalActive=true" type="button" class="z-depth-4" name="button"><i class="material-icons">broken_image</i></button>
+    <button  type="button" v-on:click="deleteDmgShow=!deleteDmgShow" class="z-depth-4" name="button">
       <i v-if="deleteDmgShow==false" class="material-icons">delete</i>
       <i v-else class="material-icons">visibility_off</i>
     </button>
@@ -125,7 +125,7 @@
     </div>
     <div v-else class="dash-container">
       <div class="dash-home">
-        <div class="dashbox dash-high">
+        <div class="dashbox dash-high z-depth-4">
           <div class="left-dash">
             <h1 class="circle-dash-icon">
               <i class="material-icons">filter_hdr</i>
@@ -151,7 +151,7 @@
             <h2><i class="material-icons">equalizer</i></h2>
           </div>
         </div>
-        <div class="dashbox dash-low">
+        <div class="dashbox dash-low z-depth-4">
           <div class="left-dash">
             <h1 class="circle-dash-icon">
               <i class="material-icons">trending_down</i>
@@ -177,7 +177,7 @@
             <h2><i class="material-icons">equalizer</i></h2>
           </div>
         </div>
-        <div class="dashbox dash-empty">
+        <div class="dashbox dash-empty z-depth-4">
           <div class="left-dash">
             <h1 class="circle-dash-icon">
               <i class="material-icons">shopping_basket</i>

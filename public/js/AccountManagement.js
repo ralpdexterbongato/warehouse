@@ -33133,6 +33133,8 @@ module.exports={render:function (){var _vm=this;var _h=_vm.$createElement;var _c
       "value": "8"
     }
   }, [_vm._v("Basic-roles")])]), _vm._v(" "), _c('li', [_c('button', {
+    staticClass: "waves-effect waves-light",
+    class: [_vm.createAccMenu == false ? 'pulse' : ''],
     attrs: {
       "type": "button"
     },

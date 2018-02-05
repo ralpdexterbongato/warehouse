@@ -32,6 +32,7 @@ html{
 }
 body {
 	line-height: 1;
+	background: #FFF;
 }
 ol, ul {
 	list-style: none;
@@ -63,8 +64,8 @@ table {
 }
 
 .z-depth-1-half, .btn:hover, .btn-large:hover, .btn-floating:hover {
-  -webkit-box-shadow: 0 3px 3px 0 rgba(0, 0, 0, 0.14), 0 1px 7px 0 rgba(0, 0, 0, 0.12), 0 3px 1px -1px rgba(0, 0, 0, 0.2);
-          box-shadow: 0 3px 3px 0 rgba(0, 0, 0, 0.14), 0 1px 7px 0 rgba(0, 0, 0, 0.12), 0 3px 1px -1px rgba(0, 0, 0, 0.2);
+  -webkit-box-shadow: 0 3px 3px 0 rgba(158, 158, 158, 0.14), 0 1px 7px 0 rgba(158, 158, 158, 0.12), 0 3px 1px -1px rgba(158, 158, 158, 0.2);
+          box-shadow: 0 3px 3px 0 rgba(158, 158, 158, 0.14), 0 1px 7px 0 rgba(158, 158, 158, 0.12), 0 3px 1px -1px rgba(158, 158, 158, 0.2);
 }
 
 .z-depth-2 {
@@ -78,8 +79,8 @@ table {
 }
 
 .z-depth-4, .modal {
-  -webkit-box-shadow: 0 8px 10px 1px rgba(0, 0, 0, 0.14), 0 3px 14px 2px rgba(0, 0, 0, 0.12), 0 5px 5px -3px rgba(0, 0, 0, 0.3);
-          box-shadow: 0 8px 10px 1px rgba(0, 0, 0, 0.14), 0 3px 14px 2px rgba(0, 0, 0, 0.12), 0 5px 5px -3px rgba(0, 0, 0, 0.3);
+  -webkit-box-shadow: 0 8px 10px 1px rgba(158, 158, 158, 0.14), 0 3px 14px 2px rgba(158, 158, 158, 0.12), 0 5px 5px -3px rgba(158, 158, 158, 0.3);
+          box-shadow: 0 8px 10px 1px rgba(158, 158, 158, 0.14), 0 3px 14px 2px rgba(158, 158, 158, 0.12), 0 5px 5px -3px rgba(158, 158, 158, 0.3);
 }
 
 .z-depth-5 {
@@ -129,7 +130,7 @@ body
 }
 .big
 {
-  font-size:25px;
+  font-size:2vw;
   font-weight: bold;
 }
 body.noScroll
@@ -558,7 +559,7 @@ input[type='radio']:after {
 }
 .dropping li:hover,.dropping li.active
 {
-  background: #f0f0f0;
+  background: #f2f2f2!important;
 }
 .dropping a
 {
@@ -579,6 +580,7 @@ input[type='radio']:after {
   font-weight: 600;
   padding:15px 20px;
   letter-spacing: 3px;
+	transition: padding .5s;
 }
 .dropping-parent
 {
@@ -597,7 +599,7 @@ input[type='radio']:after {
 .text-left
 {
   color: #fff;
-  font-size: 18px;
+  font-size: 1.5vw;
   font-family:'Comfortaa', sans-serif;
 }
 .text-left span i
@@ -611,7 +613,7 @@ input[type='radio']:after {
 }
 .SearchItemSuccess
 {
-  background: #fff!important;
+  background: transparent!important;
   transition:all .5s;
 	padding:30px 0px!important;
 }
@@ -864,6 +866,9 @@ input[type='radio']:after {
 		.latest-data td:nth-of-type(12):before { content: "Current amt"; }
 		.latest-data td:nth-of-type(13):before { content: "Month"; }
 
+	}
+	@media (max-width:890px)
+	{
 		.text-left
 		{
 			display: none;
@@ -1738,7 +1743,6 @@ input[type=number]::-webkit-inner-spin-button {
 .printable-view-container
 {
   display: flex;
-  background: #fff;
   overflow-x: auto;
   flex-direction: column;
 }
@@ -2064,6 +2068,7 @@ only screen and (max-width: 1050px),
   margin-right: 20px;
   margin-bottom: 30px;
   background:#3367D6;
+	min-height: 100vh;
 }
 @media (max-width:800px)
 {
@@ -3018,7 +3023,6 @@ only screen and (max-width: 1050px),
 /*MCT PREVIEW css*/
 .Preview-MCT-container
 {
-  background-color:#fff;
   padding-bottom: 35px;
   overflow-x: auto;
 	min-height: 100vh;
@@ -3116,6 +3120,7 @@ only screen and (max-width: 1050px),
 	.mct-print-form button
 	{
 		flex:1;
+		margin:4px;
 	}
 	.mrt-done a
 	{
@@ -3889,7 +3894,6 @@ only screen and (max-width: 1050px),
 {
   display: flex;
   flex-wrap: wrap;
-  min-height: 100vh;
 	padding:10px;
 }
 .search-mirs-container input
@@ -4040,7 +4044,6 @@ only screen and (max-width: 1050px),
 .Summary-MRT-Container
 {
   min-height: 100vh;
-  background: #fff;
 	padding:30px;
 }
 @media (max-width:600px)
@@ -4681,7 +4684,6 @@ only screen and (max-width: 1050px),
 .summary-mct-container
 {
  min-height: 100vh;
- background: #fff;
  padding: 30px;
 }
 
@@ -5116,11 +5118,17 @@ only screen and (max-width: 1050px),
 {
 	font-size: 28px
 }
+.left-nav-content button.active
+{
+	transform: rotate(90deg);
+}
 .left-nav-content button
 {
  padding: 10px;
  color: #fff;
  border-style: none;
+ background: transparent;
+ transition: transform .5s;
 }
 .left-nav-content h1
 {
@@ -5713,7 +5721,6 @@ only screen and (max-width: 1050px),
 {
   min-height: 100vh;
   padding:60px;
-  background-color: #fff;
 }
 .bondpaper-RR
 {
@@ -6745,7 +6752,6 @@ text-align: center;
 /*Full RV view CSS*/
 .fullRV-container
 {
-  background: #fff;
   min-height: 100vh;
 }
 .bondpaper-RV-container
@@ -6963,10 +6969,6 @@ text-align: center;
   margin-top: 10px;
   background: #fff;
   position: relative;
-}
-.bondpaper-RV
-{
-  box-shadow: 0 2px 4px -1px rgba(0,0,0,0.3), 0 4px 5px 0 rgba(0,0,0,0.3), 0 1px 10px 0 rgba(0,0,0,0.3);
 }
 @media (max-width:845px)
 {
@@ -7269,6 +7271,7 @@ only screen and (max-width: 1050px),
   margin-bottom: 5px;
   word-wrap:none;
   flex-wrap:nowrap;
+	min-width: 200px;
 }
 .bottom-RV-signatures
 {
@@ -8310,7 +8313,6 @@ only screen and (max-width: 1050px),
 }
 .full-PO-container
 {
-  background: #fff;
   padding:50px 10px;
   display: flex;
   flex-direction: column;
@@ -9156,7 +9158,6 @@ only screen and (max-width: 1050px),
 }
 .MR-full-container
 {
-  background: #fff;
   padding:40px;
 	font-family: sans-serif;
 }
@@ -10196,7 +10197,7 @@ only screen and (max-width: 1050px),
 	width: 40px;
   margin:5px;
   border-radius:50%;
-  background:#3367D6;
+  background:#4072D9;
   color: #fff;
   font-size: 16px;
 	padding-bottom:4px;
@@ -10293,7 +10294,7 @@ only screen and (max-width: 1050px),
 }
 .top-right-menu-accounts button:hover
 {
-  background: #004276;
+  background: #3367D6;
 }
 .ActiveList
 {
@@ -10410,8 +10411,9 @@ only screen and (max-width: 1050px),
   margin-bottom: 30px;
   font-size: 14px;
   border-radius: 3px;
-  padding: 5px;
+  padding: 8px 5px;
 	font-family: 'Comfortaa',sans-serif;
+	border-style: none;
 }
 .form-input-rrnopo select
 {
@@ -10519,7 +10521,6 @@ only screen and (max-width: 1310px),
   overflow-x: auto;
   margin:auto;
   height: 100vh;
-  border-radius: 5px;
 	width: 1000px;
   background: #fff;
 }
@@ -10586,7 +10587,7 @@ only screen and (max-width: 1310px),
   padding:5px;
   border-style: none;
   border: 1px solid #ccc;
-	border-radius: 4px;
+	border-radius: 3px;
 	width: 100%;
 }
 @media

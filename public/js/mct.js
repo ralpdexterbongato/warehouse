@@ -12268,8 +12268,6 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
 //
 //
 //
-//
-//
 
 
 
@@ -13080,7 +13078,7 @@ module.exports={render:function (){var _vm=this;var _h=_vm.$createElement;var _c
     }
   }, [_c('i', {
     staticClass: "material-icons"
-  }, [_vm._v("print")])]), _vm._v(" "), (_vm.user.Role == 1 && _vm.MCTMaster.Status == '0') ? _c('span', [(_vm.MCTMaster.IsRollBack == null || _vm.MCTMaster.IsRollBack == 1) ? _c('button', {
+  }, [_vm._v("print")])]), _vm._v(" "), ((_vm.MCTMaster.IsRollBack == null || _vm.MCTMaster.IsRollBack == 1) && (_vm.user.Role == 1 && _vm.MCTMaster.Status == '0')) ? _c('button', {
     staticClass: "undo-btn",
     attrs: {
       "type": "button",
@@ -13093,7 +13091,7 @@ module.exports={render:function (){var _vm=this;var _h=_vm.$createElement;var _c
     }
   }, [_c('i', {
     staticClass: "material-icons"
-  }, [_vm._v("replay")]), _vm._v(" reverse")]) : _vm._e(), _vm._v(" "), (_vm.MCTMaster.IsRollBack == 0) ? _c('button', {
+  }, [_vm._v("replay")]), _vm._v(" reverse")]) : _vm._e(), _vm._v(" "), ((_vm.MCTMaster.IsRollBack == 0) && (_vm.user.Role == 1 && _vm.MCTMaster.Status == '0')) ? _c('button', {
     staticClass: "undo-btn",
     attrs: {
       "type": "button",
@@ -13106,7 +13104,7 @@ module.exports={render:function (){var _vm=this;var _h=_vm.$createElement;var _c
     }
   }, [_c('i', {
     staticClass: "material-icons"
-  }, [_vm._v("refresh")]), _vm._v(" Undo reverse")]) : _vm._e()]) : _vm._e()])]) : _vm._e(), _vm._v(" "), ((_vm.user.id == _vm.MCTMaster.users[0].id) && (_vm.MCTMaster.users[1].pivot.Signature == null) && (_vm.MCTMaster.users[0].pivot.Signature != '1')) ? _c('div', {
+  }, [_vm._v("refresh")]), _vm._v(" Undo reverse")]) : _vm._e()])]) : _vm._e(), _vm._v(" "), ((_vm.user.id == _vm.MCTMaster.users[0].id) && (_vm.MCTMaster.users[1].pivot.Signature == null) && (_vm.MCTMaster.users[0].pivot.Signature != '1')) ? _c('div', {
     staticClass: "empty-div-left mct-edit-container"
   }, [_c('span', {
     staticClass: "edit-mct",

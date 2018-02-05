@@ -21011,7 +21011,7 @@ module.exports={render:function (){var _vm=this;var _h=_vm.$createElement;var _c
   }, [_vm._m(8)])]) : _vm._e()]) : _vm._e()])]), _vm._v(" "), _c('div', {
     staticClass: "bondpaper-RV-container"
   }, [_c('div', {
-    staticClass: "bondpaper-RV"
+    staticClass: "bondpaper-RV z-depth-1"
   }, [((_vm.RVMaster.Status == '0')) ? _c('div', {
     staticClass: "status-rv approved"
   }, [_c('i', {

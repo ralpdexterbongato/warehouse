@@ -44191,6 +44191,7 @@ module.exports={render:function (){var _vm=this;var _h=_vm.$createElement;var _c
     staticClass: "left-nav-content"
   }, [_c('button', {
     staticClass: "burger-button",
+    class: [_vm.modalOpen == true ? 'active' : ''],
     attrs: {
       "type": "button"
     },

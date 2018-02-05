@@ -23,7 +23,7 @@
           <option value="8">Basic-roles</option>
         </select>
         <li>
-          <button type="button" v-on:click="createAccMenu=!createAccMenu">
+          <button type="button" class="waves-effect waves-light" :class="[createAccMenu == false?'pulse':'']" v-on:click="createAccMenu=!createAccMenu">
             <i class="material-icons" v-if="createAccMenu==false">person_add</i>
             <i class="material-icons"v-else>close</i>
           </button>

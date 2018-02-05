@@ -7,10 +7,8 @@
     <span v-if="AlreadySignatured">
       <form action="/MCT.pdf" method="get" class="mct-print-form">
         <button type="submit" :value="this.mctno.MCTNo" name="MCTNo"><i class="material-icons">print</i></button>
-        <span v-if="user.Role==1 && MCTMaster.Status=='0'">
-          <button v-if="MCTMaster.IsRollBack==null || MCTMaster.IsRollBack==1" v-on:click="rollbackMCT()" type="button" class="undo-btn" name="button"><i class="material-icons">replay</i> reverse</button>
-          <button v-if="MCTMaster.IsRollBack==0" v-on:click="undoRollbackMCT()"  type="button" class="undo-btn" name="button"><i class="material-icons">refresh</i> Undo reverse</button>
-        </span>
+        <button v-if="(MCTMaster.IsRollBack==null || MCTMaster.IsRollBack==1)&&(user.Role==1 && MCTMaster.Status=='0')" v-on:click="rollbackMCT()" type="button" class="undo-btn" name="button"><i class="material-icons">replay</i> reverse</button>
+        <button v-if="(MCTMaster.IsRollBack==0)&&(user.Role==1 && MCTMaster.Status=='0')" v-on:click="undoRollbackMCT()"  type="button" class="undo-btn" name="button"><i class="material-icons">refresh</i> Undo reverse</button>
       </form>
     </span>
     <div class="empty-div-left mct-edit-container" v-if="(user.id==MCTMaster.users[0].id)&&(MCTMaster.users[1].pivot.Signature==null)&&(MCTMaster.users[0].pivot.Signature!='1')">
