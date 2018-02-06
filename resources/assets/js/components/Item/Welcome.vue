@@ -1,7 +1,7 @@
 <template lang="html">
 <div class="welcome.vue">
   <div class="new-search-container">
-    <div class="search-box z-depth-4" :class="[latestFound.MTNo!=null?'SearchItemSuccess':'']">
+    <div class="search-box" :class="[latestFound.MTNo!=null?'SearchItemSuccess':'z-depth-4']">
       <div class="text-left">
         <p v-if="latestFound.MTNo==null">
           <span class="big"><i class="material-icons">dashboard</i> Search</span> & <span class="big">check</span> item's latest & previous data here.

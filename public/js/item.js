@@ -13622,8 +13622,8 @@ module.exports={render:function (){var _vm=this;var _h=_vm.$createElement;var _c
   }, [_c('div', {
     staticClass: "new-search-container"
   }, [_c('div', {
-    staticClass: "search-box z-depth-4",
-    class: [_vm.latestFound.MTNo != null ? 'SearchItemSuccess' : '']
+    staticClass: "search-box",
+    class: [_vm.latestFound.MTNo != null ? 'SearchItemSuccess' : 'z-depth-4']
   }, [_c('div', {
     staticClass: "text-left"
   }, [(_vm.latestFound.MTNo == null) ? _c('p', [_vm._m(0), _vm._v(" & "), _c('span', {

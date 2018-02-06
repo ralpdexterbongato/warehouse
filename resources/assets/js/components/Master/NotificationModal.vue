@@ -22,161 +22,163 @@
             </div>
           </li>
         </a>
-        <a>
-          <li class="sidebar-title">
-            <span>
-              Notifications
-            </span>
-          </li>
-        </a>
-        <a href="/mirs-signature-list">
-          <li class="clickable waves-effect waves">
-            <span>
-              <i class="material-icons">notifications_none</i>MIRS
-            </span>
-            <span class="notif" :class="[MIRSNotif!=0?'active':'']">
-              {{MIRSNotif}}
-              <small class="new-notif" v-if="MIRSNew==true">new !</small>
-            </span>
-          </li>
-        </a>
-        <a href="/mct-signature-request">
-          <li class="clickable waves-effect waves">
-            <span>
-              <i class="material-icons">notifications_none</i>MCT
-            </span>
-            <span class="notif" :class="[NewlyCreatedMCT!=0?'active':'']">{{NewlyCreatedMCT}}
-              <small class="new-notif" v-if="MCTNew==true">new !</small>
-            </span>
-          </li>
-        </a>
-        <a href="/my-mrt-signature-request">
-          <li class="clickable waves-effect waves">
-            <span>
-              <i class="material-icons">notifications_none</i> MRT
-            </span>
-            <span class="notif" :class="[NewlyCreatedMRT!=0?'active':'']">{{NewlyCreatedMRT}}
-              <small class="new-notif" v-if="MRTNew==true">new !</small>
-            </span>
-          </li>
-        </a>
-        <a href="/checkout-rr-request">
-          <li class="clickable waves-effect waves">
-            <span>
-              <i class="material-icons">notifications_none</i> RR
-            </span>
-            <span class="notif" :class="[RRRequestCount!=0?'active':'']">{{RRRequestCount}}
-              <small class="new-notif" v-if="RRNew==true">new !
-              </small>
-            </span>
-          </li>
-        </a>
-        <a href="/myRVrequest">
-          <li class="clickable waves-effect waves">
-            <span>
-              <i class="material-icons">notifications_none</i> RV
-            </span>
-            <span class="notif" :class="[NewlyCreatedRV!=0?'active':'']">{{NewlyCreatedRV}}
-              <small class="new-notif" v-if="RVNew==true">new !
-              </small>
-            </span>
-          </li>
-        </a>
-        <a href="/my-mr-request">
-          <li class="clickable waves-effect waves">
-            <span>
-              <i class="material-icons">notifications_none</i> MR
-            </span>
-            <span class="notif" :class="[CountMRRequest!=0?'active':'']">{{CountMRRequest}}
-              <small class="new-notif" v-if="MRNew==true">new !
-              </small>
-            </span>
-          </li>
-        </a>
-        <a v-if="user.Role==0||user.Role==2" href="/my-PO-request">
-          <li class="clickable waves-effect waves">
-            <span>
-              <i class="material-icons">notifications_none</i>PO
-            </span>
-            <span class="notif" :class="[CountPOrequest!=0?'active':'']">{{CountPOrequest}}
-              <small class="new-notif" v-if="PONew==true">new !
-              </small>
-            </span>
-          </li>
-        </a>
-        <span v-if="user.Role==3||user.Role==4">
-          <a href="/waiting-to-be-purchased-rv">
+        <div class="sidebar-scrolling-container">
+          <a>
+            <li class="sidebar-title">
+              <span>
+                Notifications
+              </span>
+            </li>
+          </a>
+          <a href="/mirs-signature-list">
             <li class="clickable waves-effect waves">
               <span>
-                <i class="material-icons">notifications_none</i>Approved rv
+                <i class="material-icons">notifications_none</i>MIRS
               </span>
-              <span class="notif" :class="[RVWaitingRRCount!=0?'active':'']">{{RVWaitingRRCount}}
-                <small class="new-notif" v-if="RVwaitingRRNew==true">new !
+              <span class="notif" :class="[MIRSNotif!=0?'active':'']">
+                {{MIRSNotif}}
+                <small class="new-notif" v-if="MIRSNew==true">new !</small>
+              </span>
+            </li>
+          </a>
+          <a href="/mct-signature-request">
+            <li class="clickable waves-effect waves">
+              <span>
+                <i class="material-icons">notifications_none</i>MCT
+              </span>
+              <span class="notif" :class="[NewlyCreatedMCT!=0?'active':'']">{{NewlyCreatedMCT}}
+                <small class="new-notif" v-if="MCTNew==true">new !</small>
+              </span>
+            </li>
+          </a>
+          <a href="/my-mrt-signature-request">
+            <li class="clickable waves-effect waves">
+              <span>
+                <i class="material-icons">notifications_none</i> MRT
+              </span>
+              <span class="notif" :class="[NewlyCreatedMRT!=0?'active':'']">{{NewlyCreatedMRT}}
+                <small class="new-notif" v-if="MRTNew==true">new !</small>
+              </span>
+            </li>
+          </a>
+          <a href="/checkout-rr-request">
+            <li class="clickable waves-effect waves">
+              <span>
+                <i class="material-icons">notifications_none</i> RR
+              </span>
+              <span class="notif" :class="[RRRequestCount!=0?'active':'']">{{RRRequestCount}}
+                <small class="new-notif" v-if="RRNew==true">new !
                 </small>
               </span>
             </li>
           </a>
-        </span>
+          <a href="/myRVrequest">
+            <li class="clickable waves-effect waves">
+              <span>
+                <i class="material-icons">notifications_none</i> RV
+              </span>
+              <span class="notif" :class="[NewlyCreatedRV!=0?'active':'']">{{NewlyCreatedRV}}
+                <small class="new-notif" v-if="RVNew==true">new !
+                </small>
+              </span>
+            </li>
+          </a>
+          <a href="/my-mr-request">
+            <li class="clickable waves-effect waves">
+              <span>
+                <i class="material-icons">notifications_none</i> MR
+              </span>
+              <span class="notif" :class="[CountMRRequest!=0?'active':'']">{{CountMRRequest}}
+                <small class="new-notif" v-if="MRNew==true">new !
+                </small>
+              </span>
+            </li>
+          </a>
+          <a v-if="user.Role==0||user.Role==2" href="/my-PO-request">
+            <li class="clickable waves-effect waves">
+              <span>
+                <i class="material-icons">notifications_none</i>PO
+              </span>
+              <span class="notif" :class="[CountPOrequest!=0?'active':'']">{{CountPOrequest}}
+                <small class="new-notif" v-if="PONew==true">new !
+                </small>
+              </span>
+            </li>
+          </a>
+          <span v-if="user.Role==3||user.Role==4">
+            <a href="/waiting-to-be-purchased-rv">
+              <li class="clickable waves-effect waves">
+                <span>
+                  <i class="material-icons">notifications_none</i>Approved rv
+                </span>
+                <span class="notif" :class="[RVWaitingRRCount!=0?'active':'']">{{RVWaitingRRCount}}
+                  <small class="new-notif" v-if="RVwaitingRRNew==true">new !
+                  </small>
+                </span>
+              </li>
+            </a>
+          </span>
+            <a>
+              <li class="sidebar-title">
+                <span>
+                  Settings
+                </span>
+              </li>
+            </a>
+            <a v-if="user.Role==2" href="/manager-take-placer-setting">
+              <li class="clickable waves-effect waves">
+                <span>
+                  <i class="material-icons">face</i>Assign a Manager
+                </span>
+              </li>
+            </a>
+          <span v-if="user.Role==1">
+            <a href="/create-non-existing-item-in-warehouse">
+              <li class="clickable waves-effect waves">
+                <span>
+                  <i class="material-icons">fiber_new</i> Items
+                </span>
+              </li>
+            </a>
+            <a href="/settings-accounts-list">
+              <li class="clickable waves-effect waves">
+                <span>
+                  <i class="material-icons">people</i>Accounts
+                </span>
+              </li>
+            </a>
+          </span>
+          <span v-else>
+            <a href="/my-own-account-settings-page">
+              <li class="clickable waves-effect waves">
+                <span>
+                  <i class="material-icons">account_circle</i>My account
+                </span>
+              </li>
+            </a>
+          </span>
           <a>
             <li class="sidebar-title">
               <span>
-                Settings
+                History
               </span>
             </li>
           </a>
-          <a v-if="user.Role==2" href="/manager-take-placer-setting">
+          <a href="/show-my-history">
             <li class="clickable waves-effect waves">
               <span>
-                <i class="material-icons">face</i>Assign a Manager
+                <i class="material-icons">history</i> My history
               </span>
             </li>
           </a>
-        <span v-if="user.Role==1">
-          <a href="/create-non-existing-item-in-warehouse">
-            <li class="clickable waves-effect waves">
-              <span>
-                <i class="material-icons">fiber_new</i> Items
-              </span>
-            </li>
-          </a>
-          <a href="/settings-accounts-list">
-            <li class="clickable waves-effect waves">
-              <span>
-                <i class="material-icons">people</i>Accounts
-              </span>
-            </li>
-          </a>
-        </span>
-        <span v-else>
-          <a href="/my-own-account-settings-page">
-            <li class="clickable waves-effect waves">
-              <span>
-                <i class="material-icons">account_circle</i>My account
-              </span>
-            </li>
-          </a>
-        </span>
-        <a>
-          <li class="sidebar-title">
+          <a>
+            <li v-on:click="logout()" class="logout-btn clickable waves-effect waves">
             <span>
-              History
+            <i class="material-icons">exit_to_app</i> Logout
             </span>
-          </li>
-        </a>
-        <a href="/show-my-history">
-          <li class="clickable waves-effect waves">
-            <span>
-              <i class="material-icons">history</i> My history
-            </span>
-          </li>
-        </a>
-        <a>
-          <li v-on:click="logout()" class="logout-btn clickable waves-effect waves">
-          <span>
-          <i class="material-icons">exit_to_app</i> Logout
-          </span>
-          </li>
-        </a>
+            </li>
+          </a>
+        </div>
       </ul>
     </div>
     <audio ref="audioElm" src="/audio/NotificationSound.mp3">

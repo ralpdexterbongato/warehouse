@@ -428,7 +428,7 @@ input[type='radio']:after {
 }
 .pending-remarks-btn button:nth-child(even)
 {
-  background:#004276;
+  background:#2850A7;
   border-style: none;
   color: #fff;
 }
@@ -948,6 +948,7 @@ input[type='radio']:after {
 {
 	top: 0;
 }
+
 .damage-item-modal-form
 {
 	width: 280px;
@@ -955,13 +956,15 @@ input[type='radio']:after {
 	margin: auto;
 	border-radius: 3px;
 	padding:25px;
+	overflow-x: hidden;
+	overflow-y: auto;
 }
 @media (max-width:370px)
 {
 	.damage-item-modal-form
 	{
 		width: auto;
-		margin:15px;
+		margin:auto;
 	}
 }
 .report-dmg-actions .active
@@ -970,7 +973,6 @@ input[type='radio']:after {
 }
 .report-dmg-actions
 {
-	margin-top: 70px;
 	display: flex;
 	justify-content: flex-end;
 }
@@ -1131,7 +1133,7 @@ color: #162E5F;
 }
 .title-of-page-container i
 {
-	color: #22448E;
+	color: #2850A7;
 }
 @media (max-width:600px)
 {
@@ -1164,7 +1166,7 @@ color: #162E5F;
 }
 .table-mct-of-mirs td i
 {
-  color: #004276;
+  color: #2850A7;
   font-size: 25px;
 }
 .table-mct-of-mirs th
@@ -1296,10 +1298,11 @@ only screen and (max-width: 1050px),
 }
 #go-btn
 {
-  background: #004276;
+  background: #2850A7;
   color: #fff;
 	font-family: sans-serif;
 	font-size: 14px;
+	text-transform: uppercase;
 }
 #go-btn:hover
 {
@@ -1485,7 +1488,8 @@ only screen and (max-width: 1050px),
 {
 	padding:6px 12px;
   margin-bottom: 5px;
-	background: #22448E;
+	text-transform: uppercase;
+	background: #2850A7;
 	color: #fff;
 	border-style: none;
 	border-radius: 3px;
@@ -2498,7 +2502,7 @@ only screen and (max-width: 1050px),
 .print-btn-container .download-form button i
 {
   font-size: 20px;
-  color:#22448E;
+  color:#2850A7;
 }
 .searchMIRSNo
 {
@@ -2510,14 +2514,14 @@ only screen and (max-width: 1050px),
 }
 .searchMIRSNo button i
 {
-  color: #004276;
+  color: #2850A7;
 }
 .print-btn-container h1
 {
   font-family:Roboto, 'Segoe UI', Tahoma, sans-serif;
   font-size: 15px;
 	text-align: center;
-  color: #004276;
+  color: #2850A7;
 }
 .mirs-managerreplace-info
 {
@@ -2612,12 +2616,12 @@ only screen and (max-width: 1050px),
 {
   font-family:Roboto, 'Segoe UI', Tahoma, sans-serif;
   border-style: none;
-  background-color:#004276;
+  background-color:#2850A7;
   color: #fff;
   display: flex;
   outline: none;
   font-size: 15px;
-  border-color:#004276;
+  border-color:#2850A7;
   padding:7px 14px;
   width:100px;
 }
@@ -2680,8 +2684,9 @@ only screen and (max-width: 1050px),
   border-radius: 3px;
   border-style: none;
   color: #fff;
-	background: #22448E;
+	background: #2850A7;
 	margin-bottom: 5px;
+	text-transform: uppercase;
 }
 @media (max-width:500px)
 {
@@ -2730,7 +2735,7 @@ only screen and (max-width: 1050px),
 }
 .SubmitMCTButton
 {
-  background:#004276;
+  background:#2850A7;
   border-radius: 3px;
   color: #fff;
   border-style:none;
@@ -3108,7 +3113,7 @@ only screen and (max-width: 1050px),
 .MCT-title button i
 {
   font-size: 20px;
-	color: #22448E;
+	color: #2850A7;
 }
 @media (max-width:600px)
 {
@@ -3169,10 +3174,10 @@ only screen and (max-width: 1050px),
 #signatureMCT
 {
   color: #fff;
-  background: #004276;
+  background: #2850A7;
   border-style:none;
   border-radius: 2px;
-  border-color: #004276;
+  border-color: #2850A7;
   margin-right: 10px;
   padding: 7px 14px;
   width: 100px;
@@ -3647,7 +3652,7 @@ only screen and (max-width: 1050px),
 .items-from-mct td i
 {
   font-size: 20px!important;
-  color: #004276;
+  color: #2850A7;
 }
 .items-from-mct td i:hover
 {
@@ -3731,7 +3736,7 @@ only screen and (max-width: 1050px),
 {
   padding:6px 12px;
   margin-bottom: 5px;
-	background: #22448E;
+	background: #2850A7;
 	color: #fff;
 	border-style: none;
 	border-radius: 3px;
@@ -3939,7 +3944,7 @@ only screen and (max-width: 1050px),
 }
 .table-mirs-list td i
 {
-  color: #004276;
+  color: #2850A7;
   font-size: 25px;
 }
 
@@ -5154,23 +5159,29 @@ only screen and (max-width: 1050px),
 {
   display: flex;
 }
-.middle-account-modal::-webkit-scrollbar
+.sidebar-scrolling-container::-webkit-scrollbar
 {
 	width: 8px;
 	background-color: #F5F5F5;
 }
-.middle-account-modal::-webkit-scrollbar-thumb
+.sidebar-scrolling-container::-webkit-scrollbar-thumb
 {
 	border-radius: 10px;
 	-webkit-box-shadow: inset 0 0 6px rgba(.64,.62,.65);
 	background-color: #C1C1C1;
 }
+.sidebar-scrolling-container
+{
+	height: 87vh;
+	overflow-x: auto;
+	overflow-y: scroll;
+}
 .middle-account-modal
 {
  position:fixed;
  top: 0;
- overflow-y:scroll;
- overflow-x: hidden;
+ /*overflow-y:scroll;
+ overflow-x: hidden;*/
  background: #fff;
  height:100%;
  margin-right: 10px;
@@ -5457,7 +5468,7 @@ only screen and (max-width: 1050px),
 }
 .mct-request-table td i
 {
-  color: #004276;
+  color: #2850A7;
   font-size: 25px;
 }
 .mct-request-table td i:hover
@@ -5640,7 +5651,7 @@ only screen and (max-width: 1050px),
 .index-RR-table-container td i
 {
   font-size: 25px;
-  color: #004276;
+  color: #2850A7;
 }
 .index-RR-table-container td i.index-decline
 {
@@ -5775,7 +5786,7 @@ only screen and (max-width: 1050px),
 }
 #RRsignature
 {
-  background: #004276;
+  background: #2850A7;
   color: #fff;
   border-style: none;
   transition: background .5s;
@@ -5839,7 +5850,7 @@ only screen and (max-width: 1050px),
 }
 .print-RR-btn button i
 {
-  color:#22448E;
+  color:#2850A7;
 	font-size: 16px;
 }
 .top-title-rr
@@ -6473,6 +6484,7 @@ only screen and (max-width: 1050px),
 
 #forstock-ItemRV
 {
+		text-transform: uppercase;
     outline: none;
     padding:7px 16px;;
     margin-bottom: 10px;
@@ -6496,12 +6508,13 @@ only screen and (max-width: 1050px),
 }
 #none-existing-itemRV
 {
+	text-transform: uppercase;
   outline: none;
   padding:7px 16px;
   margin-bottom: 10px;
   border-radius: 3px;
   border-style: none;
-  color: #004276;
+  color: #2850A7;
   background:#fff;
   font-size: 14px;
   font-family:Roboto, 'Segoe UI', Tahoma, sans-serif;
@@ -6788,7 +6801,7 @@ text-align: center;
 .rvapprovebtn
 {
   font-family:Roboto, 'Segoe UI', Tahoma, sans-serif;
-  background:#004276;
+  background:#2850A7;
   border-style: none;
   padding:7px 14px;
   color: #fff;
@@ -6902,7 +6915,7 @@ text-align: center;
 }
 .RV-signature-print-container button i
 {
-	color: #22448E;
+	color: #2850A7;
 	vertical-align: middle;
 	font-size: 17px;
 }
@@ -7386,7 +7399,7 @@ only screen and (max-width: 1050px),
   background: #fff;
   border-style: none;
   border-radius:2px;
-  color: #004276;
+  color: #2850A7;
   padding:3px 6px;
   height: 30px;
   width: 30px;
@@ -7462,7 +7475,7 @@ only screen and (max-width: 1050px),
 .rv-request-table td i
 {
   font-size: 25px;
-  color: #004276;
+  color: #2850A7;
 }
 .rv-request-table tr:nth-child(odd)
 {
@@ -7812,7 +7825,7 @@ only screen and (max-width: 1050px),
 .table-rv-container td i
 {
   font-size: 25px;
-  color: #004276;
+  color: #2850A7;
 }
 @media
 only screen and (max-width: 1050px),
@@ -8174,7 +8187,7 @@ only screen and (max-width: 1050px),
 }
 .generate-po-btn:hover,.generate-po-btn:focus
 {
-  background: #004276;
+  background: #2850A7;
 }
 .generate-po-btn
 {
@@ -8411,7 +8424,7 @@ only screen and (max-width: 1050px),
   padding:5px 10px;
 	background: #fff;
 	border:none;
-	color: #22448E;
+	color: #2850A7;
 	-webkit-box-shadow: 0 2px 4px -1px rgba(0,0,0,0.06), 0 4px 5px 0 rgba(0,0,0,0.06), 0 1px 10px 0 rgba(0,0,0,0.08);
     box-shadow: 0 2px 4px -1px rgba(0,0,0,0.06), 0 4px 5px 0 rgba(0,0,0,0.06), 0 1px 10px 0 rgba(0,0,0,0.08);
 }
@@ -8768,7 +8781,7 @@ only screen and (max-width: 1050px),
 }
 .signaturePObtn
 {
- background: #004276;
+ background: #2850A7;
  cursor: pointer;
  border-radius: 3px;
  text-align: center;
@@ -8853,7 +8866,7 @@ only screen and (max-width: 1050px),
 .po-request-table td i
 {
   font-size: 25px;
-  color: #004276;
+  color: #2850A7;
 }
 .po-request-table tr:nth-child(odd)
 {
@@ -9051,7 +9064,7 @@ only screen and (max-width: 1050px),
 /*MR full-bondpaper*/
 #full-mr-preview-btn i
 {
-  color: #22448E;
+  color: #2850A7;
 	vertical-align: middle;
 }
 .btns-mr-full
@@ -9085,7 +9098,7 @@ only screen and (max-width: 1050px),
 }
 #signatureMRbtn
 {
-  background:#004276;
+  background:#2850A7;
   color: #fff;
   margin-right:5px;
   border-style: none;
@@ -9128,8 +9141,8 @@ only screen and (max-width: 1050px),
 }
 .Approve-MR-inBehalf-btn button:nth-child(odd)
 {
-  background: #004276;
-  border-color:#004276;
+  background: #2850A7;
+  border-color:#2850A7;
 }
 .signature-MR-btns > span
 {
@@ -9153,7 +9166,7 @@ only screen and (max-width: 1050px),
 }
 .btns-mr-full button i
 {
-	color: #22448E;
+	color: #2850A7;
 	font-size: 20px;
 }
 .MR-full-container
@@ -10112,7 +10125,7 @@ only screen and (max-width: 1050px),
   padding-left: 5px;
   padding-right: 5px;
 	font-size: 25px;
-  color: #004276;
+  color: #2850A7;
 }
 .userstatus i.active
 {
@@ -10298,7 +10311,7 @@ only screen and (max-width: 1050px),
 }
 .ActiveList
 {
-  background: #004276!important;
+  background: #2850A7!important;
 }
 /*RRCREATE-Without PO*/
 .CreateRR-No-PO
@@ -10399,7 +10412,7 @@ only screen and (max-width: 1050px),
   color: #fff;
   font-size: 15px;
   text-align: center;
-  background: #004276;
+  background: #2850A7;
   border-radius: 3px;
 }
 #submitNoPO:hover
@@ -10912,7 +10925,7 @@ only screen and (max-width: 1050px),
 .middle-rr-withpo td button
 {
 	height: 35px;
-	color: #22448E;
+	color: #2850A7;
 	background:#fff;
 	border-style: none;
   border-radius: 50%;
@@ -11311,7 +11324,7 @@ only screen and (max-width: 1050px),
 }
 .update-inputs button:hover
 {
-  background: #004276;
+  background: #2850A7;
 }
 .update-modal-center h1
 {
@@ -11457,7 +11470,7 @@ only screen and (max-width: 1050px),
   height: 30px;
   width: 70px;
   border-radius: 3px;
-  background: #22448E;
+  background: #2850A7;
 }
 .mini-unit-menu:after {
 	top: 100%;
@@ -11565,7 +11578,7 @@ only screen and (max-width: 1050px),
   font-size: 13px;
   font-family:Roboto, 'Segoe UI', Tahoma, sans-serif;
   color: #fff;
-  background: #22448E;
+  background: #2850A7;
 }
 .delete-unit-form > h2 i
 {
@@ -12291,7 +12304,7 @@ only screen and (max-width: 1050px),
 .mct-index-table td i
 {
   font-size: 25px;
-  color: #004276;
+  color: #2850A7;
 }
 .mct-index-table table
 {
@@ -13393,7 +13406,7 @@ only screen and (max-width: 1050px),
 	border-radius: 4px;
 	background: #fff;
 	border: none;
-	color: #22448E;
+	color: #2850A7;
 	font-weight: 600;
 	font-family: helvetica;
 	-webkit-box-shadow: 0 2px 4px -1px rgba(0,0,0,0.06), 0 4px 5px 0 rgba(0,0,0,0.06), 0 1px 10px 0 rgba(0,0,0,0.08);
