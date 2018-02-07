@@ -5,7 +5,7 @@
 @section('body')
   <div class="my-mr-request-container">
     <div class="mr-request-title">
-      <h1><i class="fa fa-pencil"></i> Signature request MR</h1>
+      <h1><i class="material-icons">mode_edit</i> Signature request MR</h1>
     </div>
     @if (!empty($MRRequest[0]))
     <div class="mr-table-container">

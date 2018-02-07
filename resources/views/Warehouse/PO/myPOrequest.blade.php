@@ -5,7 +5,7 @@
 @section('body')
 <div class="myPOrequest-container">
   <div class="title-po-list-request">
-    <h1><i class="fa fa-pencil"></i> Signature request PO</h1>
+    <h1><i class="material-icons">mode_edit</i> Signature request PO</h1>
   </div>
   <div class="po-request-table">
     @if (!empty($myPOlist[0]))

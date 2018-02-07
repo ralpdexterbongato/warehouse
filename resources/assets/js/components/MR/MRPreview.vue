@@ -3,7 +3,7 @@
   <div class="btns-mr-full">
     <div>
       <a :href="'/MR.pdf/'+this.mrno.MRNo" v-if="AlreadyApproved"><button type="submit" name="MRNo" value="mrnohere"><i class="material-icons">print</i></button></a>
-      <h6 class="approve-managerreplace-note" v-if="replacerCanSignature"><i class="fa fa-info-circle color-blue"></i>
+      <h6 class="approve-managerreplace-note" v-if="replacerCanSignature"><i class="material-icons color-blue">info</i>
         The <span class="color-blue">{{MRMaster.WarehouseMan}}</span> is asking for your signature b/c the General Manager is not available
       </h6>
     </div>

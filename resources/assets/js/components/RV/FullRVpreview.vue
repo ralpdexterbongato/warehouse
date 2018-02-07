@@ -214,7 +214,7 @@
                           <button type="button" class="editbudget cancel-edit" v-on:click="editbudgetActive=false,fetchData();"><i class="material-icons">close</i></button>
                         </span>
                       </span>
-                      <button type="button" v-on:click="editbudgetActive=true" class="edit-budget-opener" v-if="editbudgetActive==false"><i class="fa fa-pencil-square-o"></i></button>
+                      <button type="button" v-on:click="editbudgetActive=true" class="edit-budget-opener" v-if="editbudgetActive==false"><i class="material-icons">mode_edit</i></button>
                     </span>
               </h4>
               <p>

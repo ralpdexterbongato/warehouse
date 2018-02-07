@@ -12652,8 +12652,8 @@ module.exports={render:function (){var _vm=this;var _h=_vm.$createElement;var _c
       }
     }
   }, [_c('i', {
-    staticClass: "fa fa-angle-left"
-  })])]) : _vm._e(), _vm._v(" "), _vm._l((_vm.pagesNumber), function(page) {
+    staticClass: "material-icons"
+  }, [_vm._v("keyboard_arrow_left")])])]) : _vm._e(), _vm._v(" "), _vm._l((_vm.pagesNumber), function(page) {
     return _c('li', {
       class: [page == _vm.isActive ? 'active' : '']
     }, [_c('a', {
@@ -12678,8 +12678,8 @@ module.exports={render:function (){var _vm=this;var _h=_vm.$createElement;var _c
       }
     }
   }, [_c('i', {
-    staticClass: "fa fa-angle-right"
-  })])]) : _vm._e()], 2)])])])
+    staticClass: "material-icons"
+  }, [_vm._v("keyboard_arrow_right")])])]) : _vm._e()], 2)])])])
 },staticRenderFns: [function (){var _vm=this;var _h=_vm.$createElement;var _c=_vm._self._c||_h;
   return _c('h1', [_c('i', {
     staticClass: "material-icons"

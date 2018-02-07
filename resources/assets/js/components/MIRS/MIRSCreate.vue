@@ -39,7 +39,7 @@
           <h3 class="gm-name">{{gm[0].FullName}}</h3>
           <p>General Manager</p>
         </li>
-        <longpress id="go-btn"  class="submitMCT-btn" :class="{'hide':HideButton}" duration="3" :on-confirm="submitWholePage" pressing-text="Submit confirmed in {$rcounter}" action-text="Please wait...">
+        <longpress id="go-btn"  class="submitMCT-btn" :class="{'hide':HideButton}" duration="3" :on-confirm="submitWholePage" pressing-text="Confirmed in {$rcounter}" action-text="Please wait...">
           Submit
         </longpress>
       </ul>
@@ -77,13 +77,13 @@
               <div class="pagination-container">
                 <ul class="pagination" >
                   <li v-if="Pagination.current_page > 1">
-                    <a href="#" @click.prevent="changePage(Pagination.current_page - 1)"><i class="fa fa-angle-left"></i></a>
+                    <a href="#" @click.prevent="changePage(Pagination.current_page - 1)"><i class="material-icons">keyboard_arrow_left</i></a>
                   </li>
                   <li v-for="page in pagesNumber" v-bind:class="[ page == PageActive ? 'active':'']">
                     <a href="#" @click.prevent="changePage(page)">{{page}}</a>
                   </li>
                   <li v-if="Pagination.current_page < Pagination.last_page">
-                    <a href="#" @click.prevent="changePage(Pagination.current_page+1)"><i class="fa fa-angle-right"></i></a>
+                    <a href="#" @click.prevent="changePage(Pagination.current_page+1)"><i class="material-icons">keyboard_arrow_right</i></a>
                   </li>
                 </ul>
               </div>

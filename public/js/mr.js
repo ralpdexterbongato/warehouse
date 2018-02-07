@@ -13301,8 +13301,8 @@ module.exports={render:function (){var _vm=this;var _h=_vm.$createElement;var _c
       }
     }
   }, [_c('i', {
-    staticClass: "fa fa-angle-left"
-  })])]) : _vm._e(), _vm._v(" "), _vm._l((_vm.pagesNumber), function(page) {
+    staticClass: "material-icons"
+  }, [_vm._v("keyboard_arrow_left")])])]) : _vm._e(), _vm._v(" "), _vm._l((_vm.pagesNumber), function(page) {
     return _c('li', {
       class: [page == _vm.isActive ? 'active' : '']
     }, [_c('a', {
@@ -13327,8 +13327,8 @@ module.exports={render:function (){var _vm=this;var _h=_vm.$createElement;var _c
       }
     }
   }, [_c('i', {
-    staticClass: "fa fa-angle-right"
-  })])]) : _vm._e()], 2)])])])
+    staticClass: "material-icons"
+  }, [_vm._v("keyboard_arrow_right")])])]) : _vm._e()], 2)])])])
 },staticRenderFns: [function (){var _vm=this;var _h=_vm.$createElement;var _c=_vm._self._c||_h;
   return _c('h1', [_c('i', {
     staticClass: "material-icons"
@@ -13420,8 +13420,8 @@ module.exports={render:function (){var _vm=this;var _h=_vm.$createElement;var _c
   }, [_vm._m(0)]) : _vm._e(), _vm._v(" "), (_vm.replacerCanSignature) ? _c('h6', {
     staticClass: "approve-managerreplace-note"
   }, [_c('i', {
-    staticClass: "fa fa-info-circle color-blue"
-  }), _vm._v("\r\n        The "), _c('span', {
+    staticClass: "material-icons color-blue"
+  }, [_vm._v("info")]), _vm._v("\r\n        The "), _c('span', {
     staticClass: "color-blue"
   }, [_vm._v(_vm._s(_vm.MRMaster.WarehouseMan))]), _vm._v(" is asking for your signature b/c the General Manager is not available\r\n      ")]) : _vm._e()]), _vm._v(" "), _c('div', {
     staticClass: "signature-MR-btns"

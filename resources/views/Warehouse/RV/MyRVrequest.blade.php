@@ -5,7 +5,7 @@
 @section('body')
   <div class="my-rv-container">
     <div class="RV-request-title">
-      <h1><i class="fa fa-pencil"></i> Signature request RV</h1>
+      <h1><i class="material-icons">mode_edit</i> Signature request RV</h1>
     </div>
     <div class="rv-request-table">
       @if (isset($myRVPendingrequest[0]))

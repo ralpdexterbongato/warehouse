@@ -7,7 +7,7 @@
           <span class="big"><i class="material-icons">dashboard</i> Search</span> & <span class="big">check</span> item's latest & previous data here.
         </p>
         <h1 v-else-if="NotFoundSearch==''">
-          <i class="fa fa-th-large"></i> Item # {{latestFound.ItemCode}} data
+          <i class="material-icons">star</i> Item # {{latestFound.ItemCode}} data
         </h1>
       </div>
       <div class="Search-item-box">
@@ -108,13 +108,13 @@
         <div class="paginate-container">
           <ul class="pagination">
             <li v-if="pagination.current_page > 1">
-              <a href="#" @click.prevent="changepage(pagination.current_page - 1)"><i class="fa fa-angle-left"></i></a>
+              <a href="#" @click.prevent="changepage(pagination.current_page - 1)"><i class="material-icons">keyboard_arrow_left</i></a>
             </li>
             <li v-for="page in pagesNumber" v-bind:class="[ page == isActive ? 'active':'']">
               <a href="#" @click.prevent="changepage(page)">{{page}}</a>
             </li>
             <li v-if="pagination.current_page < pagination.last_page">
-              <a href="#" @click.prevent="changepage(pagination.current_page+1)"><i class="fa fa-angle-right"></i></a>
+              <a href="#" @click.prevent="changepage(pagination.current_page+1)"><i class="material-icons">keyboard_arrow_right</i></a>
             </li>
           </ul>
         </div>

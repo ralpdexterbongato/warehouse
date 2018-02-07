@@ -4,7 +4,7 @@
 @endsection
 @section('body')
   <div class="mct-request-list-Container">
-    <h1><i class="fa fa-pencil"></i> Signature request MCT</h1>
+    <h1><i class="material-icons">mode_edit</i> Signature request MCT</h1>
     <div class="mct-request-table">
       @if (!empty($myrequestMCT[0]))
       <table>

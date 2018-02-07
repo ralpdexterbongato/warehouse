@@ -5,7 +5,7 @@
 @section('body')
   <div class="RRrequest-container">
     <div class="title-rr-request">
-      <h1><i class="fa fa-pencil"></i> Signature request RR</h1>
+      <h1><i class="material-icons">mode_edit</i> Signature request RR</h1>
     </div>
     <div class="requestRR-table">
       @if (!empty($requestRR[0]))

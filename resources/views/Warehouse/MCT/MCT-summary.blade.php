@@ -6,10 +6,10 @@
   <div class="summary-mct-container">
     <div class="MCTSummaryForm">
       <div class="title-summary-mct">
-        <i class="fa fa-calendar"></i>  Summary of Charges
+        <i class="material-icons">today</i>  Summary of Charges
       </div>
       <form class="mct-sum-search" action="{{route('mct-search-date')}}" method="get">
-        <input type="month" autocomplete="off" name="monthInput" placeholder="Year-Month(yyyy-mm)"><button type="submit"><i class="fa fa-search"></i></button>
+        <input type="month" autocomplete="off" name="monthInput" placeholder="Year-Month(yyyy-mm)"><button type="submit"><i class="material-icons">search</i></button>
       </form>
     </div>
     @if (isset($ForDisplay[0]))
@@ -17,7 +17,7 @@
       <form class="print-summary-mct-btn" action="{{route('mct-summary-print')}}" method="post">
         {{ csrf_field() }}
         <input type="text" name="DateSearched" value="{{$datesearch}}" style="display:none">
-        <button type="submit"><i class="fa fa-print"></i> Print</button>
+        <button type="submit">PDF</button>
       </form>
     </div>
     <div class="bondpapercontainer-mct">
@@ -74,7 +74,7 @@
       </div>
     </div>
     @else
-      <h4 class="no-mct-summary"> No results found  <i class="fa fa-search"></i></h4>
+      <h4 class="no-mct-summary"> No results found  <i class="material-icons">search</i></h4>
     @endif
   </div>
 @endsection

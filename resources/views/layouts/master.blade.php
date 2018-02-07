@@ -10,7 +10,6 @@
     <link rel="stylesheet" href="/css/mystyle.css">
     <link rel="stylesheet" href="/css/animate.min.css">
     <link rel="stylesheet" href="/css/bttn.min.css">
-    <link rel="stylesheet" href="/css/font-awesome.min.css">
     <link href="https://fonts.googleapis.com/icon?family=Material+Icons|Comfortaa|Kaushan+Script" rel="stylesheet">
     <title>@yield('title')</title>
     <script>

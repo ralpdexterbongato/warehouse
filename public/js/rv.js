@@ -20740,8 +20740,8 @@ module.exports={render:function (){var _vm=this;var _h=_vm.$createElement;var _c
       }
     }
   }, [_c('i', {
-    staticClass: "fa fa-angle-left"
-  })])]) : _vm._e(), _vm._v(" "), _vm._l((_vm.pagesNumber), function(page) {
+    staticClass: "material-icons"
+  }, [_vm._v("keyboard_arrow_left")])])]) : _vm._e(), _vm._v(" "), _vm._l((_vm.pagesNumber), function(page) {
     return _c('li', {
       class: [page == _vm.isActive ? 'active' : '']
     }, [_c('a', {
@@ -20766,8 +20766,8 @@ module.exports={render:function (){var _vm=this;var _h=_vm.$createElement;var _c
       }
     }
   }, [_c('i', {
-    staticClass: "fa fa-angle-right"
-  })])]) : _vm._e()], 2)])])])])]) : _vm._e()])
+    staticClass: "material-icons"
+  }, [_vm._v("keyboard_arrow_right")])])]) : _vm._e()], 2)])])])])]) : _vm._e()])
 },staticRenderFns: [function (){var _vm=this;var _h=_vm.$createElement;var _c=_vm._self._c||_h;
   return _c('div', {
     staticClass: "title-RV"
@@ -21237,8 +21237,8 @@ module.exports={render:function (){var _vm=this;var _h=_vm.$createElement;var _c
       }
     }
   }, [_c('i', {
-    staticClass: "fa fa-pencil-square-o"
-  })]) : _vm._e()]) : _vm._e()]), _vm._v(" "), _c('p', [_vm._v("\r\n                  " + _vm._s(_vm.RVMaster.users[2].FullName) + "\r\n                  "), (_vm.RVMaster.users[2].pivot.Signature == '1') ? _c('i', {
+    staticClass: "material-icons"
+  }, [_vm._v("mode_edit")])]) : _vm._e()]) : _vm._e()]), _vm._v(" "), _c('p', [_vm._v("\r\n                  " + _vm._s(_vm.RVMaster.users[2].FullName) + "\r\n                  "), (_vm.RVMaster.users[2].pivot.Signature == '1') ? _c('i', {
     staticClass: "material-icons decliner"
   }, [_vm._v("close")]) : _vm._e()]), _vm._v(" "), _c('label', [_vm._v(_vm._s(_vm.RVMaster.users[2].Position))])]), _vm._v(" "), _c('div', {
     staticClass: "RVbottom-right-signature"
@@ -21423,8 +21423,8 @@ module.exports={render:function (){var _vm=this;var _h=_vm.$createElement;var _c
       }
     }
   }, [_c('i', {
-    staticClass: "fa fa-angle-left"
-  })])]) : _vm._e(), _vm._v(" "), _vm._l((_vm.pagesNumber), function(page) {
+    staticClass: "material-icons"
+  }, [_vm._v("keyboard_arrow_left")])])]) : _vm._e(), _vm._v(" "), _vm._l((_vm.pagesNumber), function(page) {
     return _c('li', {
       class: [page == _vm.isActive ? 'active' : '']
     }, [_c('a', {
@@ -21449,8 +21449,8 @@ module.exports={render:function (){var _vm=this;var _h=_vm.$createElement;var _c
       }
     }
   }, [_c('i', {
-    staticClass: "fa fa-angle-right"
-  })])]) : _vm._e()], 2)])])
+    staticClass: "material-icons"
+  }, [_vm._v("keyboard_arrow_right")])])]) : _vm._e()], 2)])])
 },staticRenderFns: [function (){var _vm=this;var _h=_vm.$createElement;var _c=_vm._self._c||_h;
   return _c('div', {
     staticClass: "rv-index-title"

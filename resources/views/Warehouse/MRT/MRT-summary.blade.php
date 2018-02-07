@@ -6,16 +6,16 @@
 <div class="Summary-MRT-Container">
   <div class="MRT-summary-body">
     <div class="search-mrt-summary">
-      <h1><i class="fa fa-calendar"></i> Summary of materials returned</h1>
+      <h1><i class="material-icons">today</i> Summary of materials returned</h1>
       <form class="searchbox-summary-mrt" action="{{route('mrt.summary.find')}}" method="get">
-        <input type="month" autocomplete="off" name="monthInput"  placeholder="Year-Month (yyyy-mm)"><button type="submit"><i class="fa fa-search"></i></button>
+        <input type="month" autocomplete="off" name="monthInput"  placeholder="Year-Month (yyyy-mm)"><button type="submit"><i class="material-icons">search</i></button>
       </form>
     </div>
     <div class="results-summary-mrt">
       @if (!empty($MaterialDate))
       <div class="print-summary-mrt-container">
         <form class="print-mrt-summary" action="{{route('mrt-summary-print')}}" method="get">
-          <button type="submit" name="monthInput" value="{{$MaterialDate->format('Y-m')}}"><i class="fa fa-file-pdf-o"></i> Print</button>
+          <button type="submit" name="monthInput" value="{{$MaterialDate->format('Y-m')}}">PDF</button>
         </form>
       </div>
       <div class="bondpaper-sample-mrt">
@@ -62,7 +62,7 @@
         </div>
       </div>
       @else
-        <h1 class="no-MRT-summary">No Current Result <i class="fa fa-search"></i></h1>
+        <h1 class="no-MRT-summary">No Current Result <i class="material-icons">search</i></h1>
       @endif
     </div>
   </div>

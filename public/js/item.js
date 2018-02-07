@@ -13231,8 +13231,8 @@ module.exports={render:function (){var _vm=this;var _h=_vm.$createElement;var _c
       }
     }
   }, [_c('i', {
-    staticClass: "fa fa-angle-left"
-  })])]) : _vm._e(), _vm._v(" "), _vm._l((_vm.pagesNumber), function(page) {
+    staticClass: "material-icons"
+  }, [_vm._v("keyboard_arrow_left")])])]) : _vm._e(), _vm._v(" "), _vm._l((_vm.pagesNumber), function(page) {
     return _c('li', {
       class: [page == _vm.isActive ? 'active' : '']
     }, [_c('a', {
@@ -13257,8 +13257,8 @@ module.exports={render:function (){var _vm=this;var _h=_vm.$createElement;var _c
       }
     }
   }, [_c('i', {
-    staticClass: "fa fa-angle-right"
-  })])]) : _vm._e()], 2)])]), _vm._v(" "), _c('div', {
+    staticClass: "material-icons"
+  }, [_vm._v("keyboard_arrow_right")])])]) : _vm._e()], 2)])]), _vm._v(" "), _c('div', {
     staticClass: "right-item-adding-form"
   }, [_c('div', {
     staticClass: "form-item-right"
@@ -13629,8 +13629,8 @@ module.exports={render:function (){var _vm=this;var _h=_vm.$createElement;var _c
   }, [(_vm.latestFound.MTNo == null) ? _c('p', [_vm._m(0), _vm._v(" & "), _c('span', {
     staticClass: "big"
   }, [_vm._v("check")]), _vm._v(" item's latest & previous data here.\r\n        ")]) : (_vm.NotFoundSearch == '') ? _c('h1', [_c('i', {
-    staticClass: "fa fa-th-large"
-  }), _vm._v(" Item # " + _vm._s(_vm.latestFound.ItemCode) + " data\r\n        ")]) : _vm._e()]), _vm._v(" "), _c('div', {
+    staticClass: "material-icons"
+  }, [_vm._v("star")]), _vm._v(" Item # " + _vm._s(_vm.latestFound.ItemCode) + " data\r\n        ")]) : _vm._e()]), _vm._v(" "), _c('div', {
     staticClass: "Search-item-box"
   }, [_c('input', {
     directives: [{
@@ -13765,8 +13765,8 @@ module.exports={render:function (){var _vm=this;var _h=_vm.$createElement;var _c
       }
     }
   }, [_c('i', {
-    staticClass: "fa fa-angle-left"
-  })])]) : _vm._e(), _vm._v(" "), _vm._l((_vm.pagesNumber), function(page) {
+    staticClass: "material-icons"
+  }, [_vm._v("keyboard_arrow_left")])])]) : _vm._e(), _vm._v(" "), _vm._l((_vm.pagesNumber), function(page) {
     return _c('li', {
       class: [page == _vm.isActive ? 'active' : '']
     }, [_c('a', {
@@ -13791,8 +13791,8 @@ module.exports={render:function (){var _vm=this;var _h=_vm.$createElement;var _c
       }
     }
   }, [_c('i', {
-    staticClass: "fa fa-angle-right"
-  })])]) : _vm._e()], 2)])])]) : (((_vm.user.Role != 1) && (_vm.user.Role != 3) && (_vm.user.Role != 4))) ? _c('div', {
+    staticClass: "material-icons"
+  }, [_vm._v("keyboard_arrow_right")])])]) : _vm._e()], 2)])])]) : (((_vm.user.Role != 1) && (_vm.user.Role != 3) && (_vm.user.Role != 4))) ? _c('div', {
     staticClass: "background-pic"
   }, [_c('img', {
     attrs: {

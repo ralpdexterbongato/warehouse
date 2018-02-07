@@ -104,13 +104,13 @@
             <div class="paginate-container">
               <ul class="pagination">
                 <li v-if="pagination.current_page > 1">
-                  <a href="#" @click.prevent="changepage(pagination.current_page - 1)"><i class="fa fa-angle-left"></i></a>
+                  <a href="#" @click.prevent="changepage(pagination.current_page - 1)"><i class="material-icons">keyboard_arrow_left</i></a>
                 </li>
                 <li v-for="page in pagesNumber" v-bind:class="[ page == isActive ? 'active':'']">
                   <a href="#" @click.prevent="changepage(page)">{{page}}</a>
                 </li>
                 <li v-if="pagination.current_page < pagination.last_page">
-                  <a href="#" @click.prevent="changepage(pagination.current_page+1)"><i class="fa fa-angle-right"></i></a>
+                  <a href="#" @click.prevent="changepage(pagination.current_page+1)"><i class="material-icons">keyboard_arrow_right</i></a>
                 </li>
               </ul>
             </div>

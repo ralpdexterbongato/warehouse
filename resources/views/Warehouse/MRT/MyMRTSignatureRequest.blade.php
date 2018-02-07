@@ -4,7 +4,7 @@
 @endsection
 @section('body')
   <div class="myMRTSignatureRequest">
-      <h1><i class="fa fa-pencil"></i> Signature request MRT</h1>
+      <h1><i class="material-icons">mode_edit</i> Signature request MRT</h1>
       <div id="mrt">
         <mrtrequesttable></mrtrequesttable>
       </div>

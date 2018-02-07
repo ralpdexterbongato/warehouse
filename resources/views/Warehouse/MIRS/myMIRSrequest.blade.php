@@ -4,7 +4,7 @@ MIRS signature request list
 @endsection
 @section('body')
   <div class="MIRS-request-container">
-    <h1><i class="fa fa-pencil"></i> Signature request MIRS</h1>
+    <h1><i class="material-icons">mode_edit</i> Signature request MIRS</h1>
       @if (!empty($myrequestMIRS[0]))
     <div class="mirs-request-table-list">
       <table>
