@@ -44,6 +44,7 @@ Route::get('/fetchpreview-full-mirs-/{id}','MIRSController@fetchFullMIRSData');
 Route::put('/deniedmirs/{id}','MIRSController@DeniedMIRS')->name('DeniedMIRS');
 Route::get('/findmirs-and-fetch','MIRSController@searchMIRSNoAndFetch')->name('finding.mirs');
 Route::get('/mirs-index-page','MIRSController@MIRSIndexPage')->name('MIRSgridview');
+Route::put('/mirs-update/{mirsNo}','MIRSController@QuickUpdate');
 Route::post('/MCTstore','MCTController@StoreMCT')->name('Storing.MCT');
 Route::get('/preview-mct-page-only/{id}','MCTController@previewMCTPage')->name('MCTpageOnly');
 Route::get('MCTpreview/{id}','MCTController@previewMCT')->name('previewMCT');
@@ -112,6 +113,7 @@ Route::get('/create-rr-wo-po/{id}','RRController@CreateRRNoPO')->name('CreatingR
 Route::get('/create-rr-w-po/{id}','RRController@CreateRRWithPO')->name('CreateingRR.with.po');
 Route::get('/rr-of-rv-list/{id}','RRController@RRofRVlist')->name('showRR-ofRV');
 Route::get('/rr-of-po-list/{id}','RRController@RRofPOlist');
+Route::put('/rv-update/{RVNo}','RVController@updateRV');
 Route::get('RV-create','RVController@RVcreate')->name('Creating.RV')->middleware('MustNotGMorManager');
 Route::get('/fetch-rv-session','RVController@fetchSessionRV');
 Route::post('/session-saving-rv','RVController@SaveSession')->name('SavingSessionRV');

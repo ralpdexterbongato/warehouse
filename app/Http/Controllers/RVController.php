@@ -26,6 +26,54 @@ class RVController extends Controller
     {
       $this->middleware('auth');
     }
+    public function updateRV(Request $request,$RVNo)
+    {
+      foreach ($request->Qty as $key => $qty)
+      {
+        $INumber = 0;
+        $INumber = $key+1;
+        $qty =$qty + 0;
+        if ($qty=='')
+        {
+          return ['error'=>'Item number '.$INumber.' Qty cannot be empty'];
+        }elseif (is_int($qty) == false)
+        {
+          return ['error' => 'Item number '.$INumber.' Qty must be a number/integer'];
+        }elseif ($qty < 1)
+        {
+          return ['error' => 'Qty must be atleast 1'];
+        }
+      }
+      $CurrentMasterData=RVMaster::where('RVNo', $RVNo)->get(['Purpose','Status']);
+      if ($CurrentMasterData[0]->Status!=null)
+      {
+        return ['error'=>'Refreshed'];
+      }
+      $rvDetails = RVDetail::where('RVNo', $RVNo)->get(['id','ItemCode','Quantity','Remarks']);
+      $hasChanges = false;
+      foreach ($rvDetails as $key => $rvdetail)
+      {
+        if ($rvdetail->Quantity != $request->Qty[$key] || $rvdetail->Remarks != $request->remarks[$key] )
+        {
+          $hasChanges = true;
+        }
+      }
+      if ($CurrentMasterData[0]->Purpose!=$request->purpose)
+      {
+        $hasChanges = true;
+      }
+      if ($hasChanges == false)
+      {
+        return ['error'=>'No changes found'];
+      }
+      RVMaster::where('RVNo', $RVNo)->update(['SignatureTurn'=>0,'Purpose'=>$request->purpose]);
+      Signatureable::where('signatureable_type', 'App\RVMaster')->where('signatureable_id',$RVNo)->update(['Signature'=>NULL]);
+      Signatureable::where('signatureable_type', 'App\RVMaster')->where('signatureable_id',$RVNo)->where('SignatureType', 'ManagerReplacer')->delete();
+      foreach ($rvDetails as $key => $detail)
+      {
+        RVDetail::where('id', $detail->id)->update(['Quantity'=>$request->Qty[$key],'Remarks'=>$request->remarks[$key]]);
+      }
+    }
     public function RVcreate()
     {
       Session::forget('ItemSessionList');

@@ -1,6 +1,16 @@
 <template lang="html">
 <div v-if="RVMaster.users!=null">
   <div class="RV-signature-print-container">
+    <div class="" v-if="AlreadyApproved==false && RVMaster.Status!='1'">
+      <div class="empty-div-left file-edit-container" v-if="RVMaster.users[0].id == user.id">
+        <span class="edit-file" :class="ShowEdit==true?'hide':'show'" v-on:click="ShowEdit=true"><i class="material-icons">edit</i>Edit</span>
+        <span class="edit-file" :class="ShowEdit==false?'hide':'show'">
+          <span class="color-blue">Save?</span>
+          <button type="button" v-on:click="ShowEdit=false,fetchData()">cancel</button>
+          <button v-on:click="ShowEdit=false,updateRV()" type="button" name="button">Save</button>
+          </span>
+      </div>
+    </div>
     <div class="print-and-unreceved" v-if="AlreadyApproved">
       <a :href="'/RV.pdf/'+rvno.RVNo"><button type="submit"  name="RVNo" value="RVNohere"><i class="material-icons">print</i></button></a>
       <li class="pending-delivery-number" v-if="((RVMaster.IfPurchased==null)&&(checkPO==null)&&(checkRR!=null))"><h1>pending item: <span class="color-blue">{{undeliveredTotal}}</span></h1></li>
@@ -128,7 +138,9 @@
       <div class="to-gm-container">
         <p>TO: The General Manager</p>
         <div class="toGM-parag">
-          <p>Please furnish the following Materials/Supplies for</p><h3>{{RVMaster.Purpose}}</h3>
+          <p>Please furnish the following Materials/Supplies for</p>
+          <h3 v-if="ShowEdit==false">{{RVMaster.Purpose}}</h3>
+          <h3 v-else> <input type="text" class="form-purpose-update" v-model="updatePurpose = RVMaster.Purpose"></h3>
         </div>
       </div>
       <div class="full-RVtable">
@@ -139,11 +151,25 @@
             <th>Qty</th>
             <th>Remarks</th>
           </tr>
-            <tr v-for="rvdata in RVDetails">
+            <tr v-for="(rvdata,loopcount) in RVDetails">
               <td>{{rvdata.Particulars}}</td>
               <td>{{rvdata.Unit}}</td>
-              <td>{{rvdata.Quantity}}</td>
-              <td>{{rvdata.Remarks}}</td>
+              <td>
+                <span v-if="ShowEdit==false">
+                  {{rvdata.Quantity}}
+                </span>
+                <span v-else>
+                  <input type="text" v-model="updateQty[loopcount] = rvdata.Quantity" class="update-qty-input">
+                </span>
+              </td>
+              <td>
+                <span v-if="ShowEdit==false">
+                  {{rvdata.Remarks}}
+                </span>
+                <span v-else>
+                  <input type="text" class="update-remarks-input" v-model="updateRemarks[loopcount] = rvdata.Remarks">
+                </span>
+              </td>
             </tr>
         </table>
         <div class="certify-RV">
@@ -274,10 +300,39 @@ Vue.use(VueNumeric);
           SignatureRVBtnHide:false,
           SignatureManagerReplacerHide:false,
           SignatureApprovalReplacerHide:false,
+          ShowEdit:false,
+          updateQty:[],
+          updatePurpose:'',
+          updateRemarks:[]
         }
       },
      props: ['rvno','user'],
      methods: {
+       updateRV()
+       {
+         var vm=this;
+         axios.put(`/rv-update/`+vm.rvno.RVNo,{
+           purpose: this.updatePurpose,
+           Qty:this.updateQty,
+           remarks:this.updateRemarks
+         }).then(function(response)
+        {
+          console.log(response);
+          if (response.data.error!=null)
+          {
+            vm.$toast.top(response.data.error);
+          }else
+          {
+            vm.$toast.top('Successfully updated');
+            vm.SignatureRVBtnHide=false;
+          }
+          vm.fetchData();
+        }).catch(function(error)
+        {
+          console.log(error);
+          vm.fetchData();
+        })
+       },
        fetchData()
        {
          var vm=this;

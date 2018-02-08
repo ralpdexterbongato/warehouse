@@ -12381,6 +12381,32 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
 //
 //
 //
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
 
 
 
@@ -12412,12 +12438,36 @@ Vue.use(__WEBPACK_IMPORTED_MODULE_1_vue_numeric___default.a);
       BudgetUpdate: '',
       SignatureRVBtnHide: false,
       SignatureManagerReplacerHide: false,
-      SignatureApprovalReplacerHide: false
+      SignatureApprovalReplacerHide: false,
+      ShowEdit: false,
+      updateQty: [],
+      updatePurpose: '',
+      updateRemarks: []
     };
   },
 
   props: ['rvno', 'user'],
   methods: {
+    updateRV: function updateRV() {
+      var vm = this;
+      __WEBPACK_IMPORTED_MODULE_0_axios___default.a.put('/rv-update/' + vm.rvno.RVNo, {
+        purpose: this.updatePurpose,
+        Qty: this.updateQty,
+        remarks: this.updateRemarks
+      }).then(function (response) {
+        console.log(response);
+        if (response.data.error != null) {
+          vm.$toast.top(response.data.error);
+        } else {
+          vm.$toast.top('Successfully updated');
+          vm.SignatureRVBtnHide = false;
+        }
+        vm.fetchData();
+      }).catch(function (error) {
+        console.log(error);
+        vm.fetchData();
+      });
+    },
     fetchData: function fetchData() {
       var vm = this;
       __WEBPACK_IMPORTED_MODULE_0_axios___default.a.get('/rv-full-preview-fetch/' + this.rvno.RVNo).then(function (response) {
@@ -20795,7 +20845,43 @@ if (false) {
 module.exports={render:function (){var _vm=this;var _h=_vm.$createElement;var _c=_vm._self._c||_h;
   return (_vm.RVMaster.users != null) ? _c('div', [_c('div', {
     staticClass: "RV-signature-print-container"
-  }, [(_vm.AlreadyApproved) ? _c('div', {
+  }, [(_vm.AlreadyApproved == false && _vm.RVMaster.Status != '1') ? _c('div', {}, [(_vm.RVMaster.users[0].id == _vm.user.id) ? _c('div', {
+    staticClass: "empty-div-left file-edit-container"
+  }, [_c('span', {
+    staticClass: "edit-file",
+    class: _vm.ShowEdit == true ? 'hide' : 'show',
+    on: {
+      "click": function($event) {
+        _vm.ShowEdit = true
+      }
+    }
+  }, [_c('i', {
+    staticClass: "material-icons"
+  }, [_vm._v("edit")]), _vm._v("Edit")]), _vm._v(" "), _c('span', {
+    staticClass: "edit-file",
+    class: _vm.ShowEdit == false ? 'hide' : 'show'
+  }, [_c('span', {
+    staticClass: "color-blue"
+  }, [_vm._v("Save?")]), _vm._v(" "), _c('button', {
+    attrs: {
+      "type": "button"
+    },
+    on: {
+      "click": function($event) {
+        _vm.ShowEdit = false, _vm.fetchData()
+      }
+    }
+  }, [_vm._v("cancel")]), _vm._v(" "), _c('button', {
+    attrs: {
+      "type": "button",
+      "name": "button"
+    },
+    on: {
+      "click": function($event) {
+        _vm.ShowEdit = false, _vm.updateRV()
+      }
+    }
+  }, [_vm._v("Save")])])]) : _vm._e()]) : _vm._e(), _vm._v(" "), (_vm.AlreadyApproved) ? _c('div', {
     staticClass: "print-and-unreceved"
   }, [_c('a', {
     attrs: {
@@ -21030,10 +21116,70 @@ module.exports={render:function (){var _vm=this;var _h=_vm.$createElement;var _c
     staticClass: "to-gm-container"
   }, [_c('p', [_vm._v("TO: The General Manager")]), _vm._v(" "), _c('div', {
     staticClass: "toGM-parag"
-  }, [_c('p', [_vm._v("Please furnish the following Materials/Supplies for")]), _c('h3', [_vm._v(_vm._s(_vm.RVMaster.Purpose))])])]), _vm._v(" "), _c('div', {
+  }, [_c('p', [_vm._v("Please furnish the following Materials/Supplies for")]), _vm._v(" "), (_vm.ShowEdit == false) ? _c('h3', [_vm._v(_vm._s(_vm.RVMaster.Purpose))]) : _c('h3', [_c('input', {
+    directives: [{
+      name: "model",
+      rawName: "v-model",
+      value: (_vm.updatePurpose = _vm.RVMaster.Purpose),
+      expression: "updatePurpose = RVMaster.Purpose"
+    }],
+    staticClass: "form-purpose-update",
+    attrs: {
+      "type": "text"
+    },
+    domProps: {
+      "value": (_vm.updatePurpose = _vm.RVMaster.Purpose)
+    },
+    on: {
+      "input": function($event) {
+        if ($event.target.composing) { return; }
+        _vm.$set(_vm.updatePurpose = _vm.RVMaster, "Purpose", $event.target.value)
+      }
+    }
+  })])])]), _vm._v(" "), _c('div', {
     staticClass: "full-RVtable"
-  }, [_c('table', [_vm._m(10), _vm._v(" "), _vm._l((_vm.RVDetails), function(rvdata) {
-    return _c('tr', [_c('td', [_vm._v(_vm._s(rvdata.Particulars))]), _vm._v(" "), _c('td', [_vm._v(_vm._s(rvdata.Unit))]), _vm._v(" "), _c('td', [_vm._v(_vm._s(rvdata.Quantity))]), _vm._v(" "), _c('td', [_vm._v(_vm._s(rvdata.Remarks))])])
+  }, [_c('table', [_vm._m(10), _vm._v(" "), _vm._l((_vm.RVDetails), function(rvdata, loopcount) {
+    return _c('tr', [_c('td', [_vm._v(_vm._s(rvdata.Particulars))]), _vm._v(" "), _c('td', [_vm._v(_vm._s(rvdata.Unit))]), _vm._v(" "), _c('td', [(_vm.ShowEdit == false) ? _c('span', [_vm._v("\r\n                  " + _vm._s(rvdata.Quantity) + "\r\n                ")]) : _c('span', [_c('input', {
+      directives: [{
+        name: "model",
+        rawName: "v-model",
+        value: (_vm.updateQty[loopcount] = rvdata.Quantity),
+        expression: "updateQty[loopcount] = rvdata.Quantity"
+      }],
+      staticClass: "update-qty-input",
+      attrs: {
+        "type": "text"
+      },
+      domProps: {
+        "value": (_vm.updateQty[loopcount] = rvdata.Quantity)
+      },
+      on: {
+        "input": function($event) {
+          if ($event.target.composing) { return; }
+          _vm.$set(_vm.updateQty[loopcount] = rvdata, "Quantity", $event.target.value)
+        }
+      }
+    })])]), _vm._v(" "), _c('td', [(_vm.ShowEdit == false) ? _c('span', [_vm._v("\r\n                  " + _vm._s(rvdata.Remarks) + "\r\n                ")]) : _c('span', [_c('input', {
+      directives: [{
+        name: "model",
+        rawName: "v-model",
+        value: (_vm.updateRemarks[loopcount] = rvdata.Remarks),
+        expression: "updateRemarks[loopcount] = rvdata.Remarks"
+      }],
+      staticClass: "update-remarks-input",
+      attrs: {
+        "type": "text"
+      },
+      domProps: {
+        "value": (_vm.updateRemarks[loopcount] = rvdata.Remarks)
+      },
+      on: {
+        "input": function($event) {
+          if ($event.target.composing) { return; }
+          _vm.$set(_vm.updateRemarks[loopcount] = rvdata, "Remarks", $event.target.value)
+        }
+      }
+    })])])])
   })], 2), _vm._v(" "), _vm._m(11), _vm._v(" "), _c('div', {
     staticClass: "RVsignatures-container"
   }, [_c('div', {

@@ -9,6 +9,14 @@
         </div>
       </div>
       <div class="empty-left" v-else>
+        <div class="empty-div-left file-edit-container" v-if="MIRSMaster.users[0].id == user.id && declinedistrue==false">
+          <span class="edit-file" :class="ShowEdit==true?'hide':'show'" v-on:click="ShowEdit=true"><i class="material-icons">edit</i>Edit</span>
+          <span class="edit-file" :class="ShowEdit==false?'hide':'show'">
+            <span class="color-blue">Save?</span>
+            <button type="button" v-on:click="ShowEdit=false,fetchMIRSData()">cancel</button>
+            <button v-on:click="ShowEdit=false,QuickUpdate()" type="button" name="button">Save</button>
+            </span>
+        </div>
       </div>
       <div class="Request-manager-replace" v-if="managerReplaceistrue">
         <h6 class="mirs-managerreplace-info"><i class="material-icons color-blue">info</i>
@@ -86,7 +94,8 @@
           Please furnish the following materials for :
         </p>
         <div class="purpose-container">
-          <h2>{{MIRSMaster.Purpose}}</h2>
+          <h2 v-if="ShowEdit==false">{{MIRSMaster.Purpose}}</h2>
+          <h2 v-else><input type="text" v-model="updatePurpose = MIRSMaster.Purpose" class="form-purpose-update"></h2>
         </div>
       </div>
       <div class="mirs-details-container">
@@ -99,11 +108,14 @@
               <th>QUANTITY</th>
               <th class="noborder-right">REMARKS</th>
             </tr>
-            <tr v-for="mirsdata in MIRSDetail">
+            <tr v-for="(mirsdata,loop) in MIRSDetail">
               <td class="noborder-left">{{mirsdata.ItemCode}}</td>
               <td class="particular">{{mirsdata.Particulars}}</td>
               <td>{{mirsdata.Unit}}</td>
-              <td>{{mirsdata.Quantity}}</td>
+              <td>
+                <span v-if="ShowEdit==false">{{mirsdata.Quantity}}</span>
+                <span v-else><input v-model="updateQty[loop] = mirsdata.Quantity" class="update-qty-input" type="text" ></span>
+              </td>
               <td>{{mirsdata.Remarks}}</td>
             </tr>
           </table>
@@ -215,11 +227,39 @@ Vue.use(Toast);
           ApproveReplacerName:'',
           SignatureBtnHide:false,
           SignatureApproveBtnHide:false,
-          SignatureManagerRelacerBtnHide:false
+          SignatureManagerRelacerBtnHide:false,
+          ShowEdit:false,
+          updatePurpose:'',
+          updateQty:[]
         }
       },
      props: ['mirsno','user'],
      methods: {
+       QuickUpdate()
+       {
+         var vm=this;
+         axios.put(`/mirs-update/`+this.mirsno.MIRSNo,{
+           purpose:this.updatePurpose,
+           Qty:this.updateQty
+         }).then(function(response)
+        {
+          vm.fetchMIRSData();
+          console.log(response);
+          if (response.data.error!=null)
+          {
+            vm.$toast.top(response.data.error);
+          }else
+          {
+            vm.$toast.top('Updated successfully');
+          }
+        }).catch(function(error)
+        {
+          vm.fetchMIRSData();
+          console.log(error);
+          vm.$toast.top(error.response.data.purpose[0]);
+
+        })
+       },
        fetchMIRSData()
        {
          var vm=this;

@@ -18,6 +18,7 @@ use App\Jobs\MIRSManagerReplacer;
 use App\Signatureable;
 use App\Jobs\SMSDeclinedMIRS;
 use App\Jobs\GlobalNotifJob;
+use App\MasterItem;
 class MIRSController extends Controller
 {
   public function __construct()
@@ -363,5 +364,63 @@ class MIRSController extends Controller
     $myrequestMIRS = $user->MIRSSignatureTurn()->count();
     $response = ['MIRSrequest' =>$myrequestMIRS];
     return response()->json($response);
+  }
+  public function QuickUpdate(Request $request,$mirsNo)
+  {
+    $this->validate($request,[
+      'purpose'=>'required|max:100'
+    ]);
+    foreach ($request->Qty as $loopingCount => $itemQuantity)
+    {
+      $INumber = 0;
+      $INumber = $loopingCount+1;
+      $itemQuantity =$itemQuantity + 0;
+      if ($itemQuantity=='')
+      {
+
+        return ['error'=>'Item number '.$INumber.' Qty cannot be empty'];
+      }elseif (is_int($itemQuantity) == false)
+      {
+        return ['error' => 'Item number '.$INumber.' Qty must be a number/integer'];
+      }elseif ($itemQuantity < 1)
+      {
+        return ['error' => 'Qty must be atleast 1'];
+      }
+    }
+
+    $tobeUpdated = MIRSDetail::where('MIRSNo', $mirsNo)->get(['id','ItemCode','Quantity']);
+    $MIRSMasterCurrent = MIRSMaster::where('MIRSNo', $mirsNo)->get(['Purpose','Status']);
+    if ($MIRSMasterCurrent[0]->Status!=NULL)
+    {
+      return ['error'=>'Refreshed'];
+    }
+    $hasChanges = false;
+    foreach ($tobeUpdated as $countkey => $data)
+    {
+      $currentQtyOfItem = MasterItem::where('ItemCode', $data->ItemCode)->value('CurrentQuantity');
+      if ($currentQtyOfItem < $request->Qty[$countkey])
+      {
+        return ['error'=>'Sorry warehouse stocks is not enough'];
+      }
+      if ($data->Quantity != $request->Qty[$countkey])
+      {
+        $hasChanges =true;
+      }
+    }
+    if ($MIRSMasterCurrent[0]->Purpose != $request->purpose)
+    {
+      $hasChanges =true;
+    }
+    if ($hasChanges == false)
+    {
+      return ['error'=>'No changes found'];
+    }
+
+    MIRSMaster::where('MIRSNo', $mirsNo)->update(['Purpose'=>$request->purpose,'SignatureTurn'=>0]);
+    Signatureable::where('signatureable_type','App\MIRSMaster')->where('signatureable_id',$mirsNo)->update(['Signature'=>NULL]);
+    foreach ($tobeUpdated as $key => $dataToUpdate)
+    {
+      MIRSDetail::where('id', $dataToUpdate->id)->update(['Quantity'=>$request->Qty[$key],'QuantityValidator'=>$request->Qty[$key]]);
+    }
   }
 }

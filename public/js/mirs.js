@@ -30487,6 +30487,18 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
 //
 //
 //
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
 
 
 
@@ -30507,12 +30519,34 @@ Vue.use(__WEBPACK_IMPORTED_MODULE_3_vue2_toast___default.a);
       ApproveReplacerName: '',
       SignatureBtnHide: false,
       SignatureApproveBtnHide: false,
-      SignatureManagerRelacerBtnHide: false
+      SignatureManagerRelacerBtnHide: false,
+      ShowEdit: false,
+      updatePurpose: '',
+      updateQty: []
     };
   },
 
   props: ['mirsno', 'user'],
   methods: {
+    QuickUpdate: function QuickUpdate() {
+      var vm = this;
+      __WEBPACK_IMPORTED_MODULE_0_axios___default.a.put('/mirs-update/' + this.mirsno.MIRSNo, {
+        purpose: this.updatePurpose,
+        Qty: this.updateQty
+      }).then(function (response) {
+        vm.fetchMIRSData();
+        console.log(response);
+        if (response.data.error != null) {
+          vm.$toast.top(response.data.error);
+        } else {
+          vm.$toast.top('Updated successfully');
+        }
+      }).catch(function (error) {
+        vm.fetchMIRSData();
+        console.log(error);
+        vm.$toast.top(error.response.data.purpose[0]);
+      });
+    },
     fetchMIRSData: function fetchMIRSData() {
       var vm = this;
       __WEBPACK_IMPORTED_MODULE_0_axios___default.a.get('/fetchpreview-full-mirs-/' + this.mirsno.MIRSNo).then(function (response) {
@@ -31035,7 +31069,43 @@ module.exports={render:function (){var _vm=this;var _h=_vm.$createElement;var _c
     staticClass: "color-blue"
   }, [_vm._v(_vm._s(_vm.unclaimed))])])]) : _c('div', {
     staticClass: "empty-left"
-  }), _vm._v(" "), (_vm.managerReplaceistrue) ? _c('div', {
+  }, [(_vm.MIRSMaster.users[0].id == _vm.user.id && _vm.declinedistrue == false) ? _c('div', {
+    staticClass: "empty-div-left file-edit-container"
+  }, [_c('span', {
+    staticClass: "edit-file",
+    class: _vm.ShowEdit == true ? 'hide' : 'show',
+    on: {
+      "click": function($event) {
+        _vm.ShowEdit = true
+      }
+    }
+  }, [_c('i', {
+    staticClass: "material-icons"
+  }, [_vm._v("edit")]), _vm._v("Edit")]), _vm._v(" "), _c('span', {
+    staticClass: "edit-file",
+    class: _vm.ShowEdit == false ? 'hide' : 'show'
+  }, [_c('span', {
+    staticClass: "color-blue"
+  }, [_vm._v("Save?")]), _vm._v(" "), _c('button', {
+    attrs: {
+      "type": "button"
+    },
+    on: {
+      "click": function($event) {
+        _vm.ShowEdit = false, _vm.fetchMIRSData()
+      }
+    }
+  }, [_vm._v("cancel")]), _vm._v(" "), _c('button', {
+    attrs: {
+      "type": "button",
+      "name": "button"
+    },
+    on: {
+      "click": function($event) {
+        _vm.ShowEdit = false, _vm.QuickUpdate()
+      }
+    }
+  }, [_vm._v("Save")])])]) : _vm._e()]), _vm._v(" "), (_vm.managerReplaceistrue) ? _c('div', {
     staticClass: "Request-manager-replace"
   }, [_c('h6', {
     staticClass: "mirs-managerreplace-info"
@@ -31168,16 +31238,56 @@ module.exports={render:function (){var _vm=this;var _h=_vm.$createElement;var _c
     staticClass: "top-part-box3"
   }, [_vm._m(6), _vm._v(" "), _c('div', {
     staticClass: "purpose-container"
-  }, [_c('h2', [_vm._v(_vm._s(_vm.MIRSMaster.Purpose))])])]), _vm._v(" "), _c('div', {
+  }, [(_vm.ShowEdit == false) ? _c('h2', [_vm._v(_vm._s(_vm.MIRSMaster.Purpose))]) : _c('h2', [_c('input', {
+    directives: [{
+      name: "model",
+      rawName: "v-model",
+      value: (_vm.updatePurpose = _vm.MIRSMaster.Purpose),
+      expression: "updatePurpose = MIRSMaster.Purpose"
+    }],
+    staticClass: "form-purpose-update",
+    attrs: {
+      "type": "text"
+    },
+    domProps: {
+      "value": (_vm.updatePurpose = _vm.MIRSMaster.Purpose)
+    },
+    on: {
+      "input": function($event) {
+        if ($event.target.composing) { return; }
+        _vm.$set(_vm.updatePurpose = _vm.MIRSMaster, "Purpose", $event.target.value)
+      }
+    }
+  })])])]), _vm._v(" "), _c('div', {
     staticClass: "mirs-details-container"
   }, [_c('div', {
     staticClass: "table-mirs-container"
-  }, [_c('table', [_vm._m(7), _vm._v(" "), _vm._l((_vm.MIRSDetail), function(mirsdata) {
+  }, [_c('table', [_vm._m(7), _vm._v(" "), _vm._l((_vm.MIRSDetail), function(mirsdata, loop) {
     return _c('tr', [_c('td', {
       staticClass: "noborder-left"
     }, [_vm._v(_vm._s(mirsdata.ItemCode))]), _vm._v(" "), _c('td', {
       staticClass: "particular"
-    }, [_vm._v(_vm._s(mirsdata.Particulars))]), _vm._v(" "), _c('td', [_vm._v(_vm._s(mirsdata.Unit))]), _vm._v(" "), _c('td', [_vm._v(_vm._s(mirsdata.Quantity))]), _vm._v(" "), _c('td', [_vm._v(_vm._s(mirsdata.Remarks))])])
+    }, [_vm._v(_vm._s(mirsdata.Particulars))]), _vm._v(" "), _c('td', [_vm._v(_vm._s(mirsdata.Unit))]), _vm._v(" "), _c('td', [(_vm.ShowEdit == false) ? _c('span', [_vm._v(_vm._s(mirsdata.Quantity))]) : _c('span', [_c('input', {
+      directives: [{
+        name: "model",
+        rawName: "v-model",
+        value: (_vm.updateQty[loop] = mirsdata.Quantity),
+        expression: "updateQty[loop] = mirsdata.Quantity"
+      }],
+      staticClass: "update-qty-input",
+      attrs: {
+        "type": "text"
+      },
+      domProps: {
+        "value": (_vm.updateQty[loop] = mirsdata.Quantity)
+      },
+      on: {
+        "input": function($event) {
+          if ($event.target.composing) { return; }
+          _vm.$set(_vm.updateQty[loop] = mirsdata, "Quantity", $event.target.value)
+        }
+      }
+    })])]), _vm._v(" "), _c('td', [_vm._v(_vm._s(mirsdata.Remarks))])])
   })], 2)]), _vm._v(" "), _vm._m(8), _vm._v(" "), _c('div', {
     staticClass: "bottom-mirs-part"
   }, [_c('div', {
