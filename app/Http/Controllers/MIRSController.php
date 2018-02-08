@@ -368,7 +368,8 @@ class MIRSController extends Controller
   public function QuickUpdate(Request $request,$mirsNo)
   {
     $this->validate($request,[
-      'purpose'=>'required|max:100'
+      'purpose'=>'required|max:100',
+      'remarks.*'=>'max:100'
     ]);
     foreach ($request->Qty as $loopingCount => $itemQuantity)
     {
@@ -388,7 +389,7 @@ class MIRSController extends Controller
       }
     }
 
-    $tobeUpdated = MIRSDetail::where('MIRSNo', $mirsNo)->get(['id','ItemCode','Quantity']);
+    $tobeUpdated = MIRSDetail::where('MIRSNo', $mirsNo)->get(['id','ItemCode','Quantity','Remarks']);
     $MIRSMasterCurrent = MIRSMaster::where('MIRSNo', $mirsNo)->get(['Purpose','Status']);
     if ($MIRSMasterCurrent[0]->Status!=NULL)
     {
@@ -402,7 +403,7 @@ class MIRSController extends Controller
       {
         return ['error'=>'Sorry warehouse stocks is not enough'];
       }
-      if ($data->Quantity != $request->Qty[$countkey])
+      if ($data->Quantity != $request->Qty[$countkey]||$data->Remarks!=$request->remarks[$countkey])
       {
         $hasChanges =true;
       }
@@ -418,9 +419,10 @@ class MIRSController extends Controller
 
     MIRSMaster::where('MIRSNo', $mirsNo)->update(['Purpose'=>$request->purpose,'SignatureTurn'=>0]);
     Signatureable::where('signatureable_type','App\MIRSMaster')->where('signatureable_id',$mirsNo)->update(['Signature'=>NULL]);
+    Signatureable::where('signatureable_type','App\MIRSMaster')->where('signatureable_id',$mirsNo)->where('SignatureType','ManagerReplacer')->delete();
     foreach ($tobeUpdated as $key => $dataToUpdate)
     {
-      MIRSDetail::where('id', $dataToUpdate->id)->update(['Quantity'=>$request->Qty[$key],'QuantityValidator'=>$request->Qty[$key]]);
+      MIRSDetail::where('id', $dataToUpdate->id)->update(['Quantity'=>$request->Qty[$key],'QuantityValidator'=>$request->Qty[$key],'Remarks'=>$request->remarks[$key]]);
     }
   }
 }

@@ -3,15 +3,27 @@
   <div class="reversed-alert">
     <p v-if="RRMaster.IsRollBack==0"><i class="material-icons">warning</i>Rolled back</p>
   </div>
-  <div class="signature-btn" :class="{'hide':SignatureBtnHide}" v-if="UserCanSignature">
-    <longpress id="RRsignature" class="waves-effect waves-light" duration="3" :on-confirm="signature"  pressing-text="confirm in {$rcounter}" action-text="Loading . . .">
-      <i class="material-icons">edit</i> Signature
-    </longpress>
-    <longpress id="RRdecline" class="waves-effect waves-light" duration="3" :on-confirm="declinesignature"  pressing-text="confirm in {$rcounter}" action-text="Loading . . .">
-      <i class="material-icons">close</i> Decline
-    </longpress>
+  <div class="signature-btn">
+    <div class="empty-div-left file-edit-container">
+      <div class="" v-if="RRMaster.Status==null">
+        <span class="edit-file" :class="ShowEdit==true?'hide':'show'" v-on:click="ShowEdit=true"><i class="material-icons">edit</i>Edit</span>
+        <span class="edit-file" :class="ShowEdit==false?'hide':'show'">
+          <span class="color-blue">Save?</span>
+          <button type="button" v-on:click="ShowEdit=false">cancel</button>
+          <button v-on:click="ShowEdit=false,updateData()" type="button" name="button">Save</button>
+        </span>
+      </div>
+    </div>
+    <div :class="{'hide':SignatureBtnHide}" v-if="UserCanSignature">
+      <longpress id="RRsignature" class="waves-effect waves-light" duration="3" :on-confirm="signature"  pressing-text="confirm in {$rcounter}" action-text="Loading . . .">
+        <i class="material-icons">edit</i> Signature
+      </longpress>
+      <longpress id="RRdecline" class="waves-effect waves-light" duration="3" :on-confirm="declinesignature"  pressing-text="confirm in {$rcounter}" action-text="Loading . . .">
+        <i class="material-icons">close</i> Decline
+      </longpress>
+    </div>
   </div>
-  <div class="print-RR-btn" v-else-if="(RRMaster.Status=='0')">
+  <div class="print-RR-btn" v-if="(RRMaster.Status=='0')">
     <span>
       <a :href="'/RR.pdf/'+RRMaster.RRNo"><button type="submit"  name="RRNo" value="RRNohere"><i class="material-icons">print</i></button></a>
       <span v-if="user.Role==1 && RRMaster.Status =='0'">
@@ -74,12 +86,18 @@
             <th>U-Cost</th>
             <th class="right-side-th">Amount</th>
           </tr>
-          <tr v-for="data in RRconfirmationDetails">
+          <tr v-for="(data,key) in RRconfirmationDetails">
             <td>{{data.ItemCode}}</td>
             <td>{{data.Description}}</td>
             <td>{{data.Unit}}</td>
-            <td>{{data.RRQuantityDelivered}}</td>
-            <td>{{data.QuantityAccepted}}</td>
+            <td>
+              <span v-if="ShowEdit==false">{{data.RRQuantityDelivered}}</span>
+              <span v-else><input type="text" v-model="updateQtyDelivered[key] = data.RRQuantityDelivered" class="update-qty-input"></span>
+            </td>
+            <td>
+              <span v-if="ShowEdit==false">{{data.QuantityAccepted}}</span>
+              <span v-else><input type="text" v-model="updateQtyAccepted[key] = data.QuantityAccepted" class="update-qty-input"></span>
+            </td>
             <td>{{formatPrice(data.UnitCost)}}</td>
             <td>{{formatPrice(data.Amount)}}</td>
           </tr>
@@ -161,10 +179,28 @@ import Toast from 'vue2-toast'
       VAT:0,
       TOTALamt:0,
       SignatureBtnHide:false,
+      ShowEdit:false,
+      updateQtyDelivered:[],
+      updateQtyAccepted:[],
      }
     },
     props: ['user','rrno'],
     methods: {
+    updateData()
+    {
+        var vm = this;
+        axios.put(`/update-rr-file/`+this.rrno.RRNo,{
+          newQtyDelivered:this.updateQtyDelivered,
+          newQty:this.updateQtyAccepted,
+        }).then(function(response)
+        {
+          console.log(response);
+          vm.FetchData();
+        }).catch(function(error)
+        {
+          console.log(error);
+        });
+      },
       FetchData()
       {
         var vm=this;

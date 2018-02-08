@@ -106,7 +106,7 @@ body
 /*date picker*/
 .cov-date-monthly[data-v-345e1238]
 {
-	background: #0066CC;
+	background: #3367D6;
 }
 .cov-date-caption
 {
@@ -230,7 +230,7 @@ input[type='radio']:after {
 }
 .darker-blue
 {
-  color:#0066CC;
+  color:#3367D6;
 }
 .bold
 {
@@ -242,7 +242,7 @@ input[type='radio']:after {
 }
 .color-blue
 {
-  color: #0066CC;
+  color: #3367D6;
   font-weight: 600;
 }
 .color-orange
@@ -261,7 +261,7 @@ input[type='radio']:after {
 	min-height: 55px;
   display: flex;
   justify-content: space-between;
-  background-color:#0066CC;
+  background-color:#3367D6;
 	-webkit-box-shadow: 0 2px 4px -1px rgba(0,0,0,0.06), 0 4px 5px 0 rgba(0,0,0,0.06), 0 1px 10px 0 rgba(0,0,0,0.08);
   box-shadow: 0 2px 4px -1px rgba(0,0,0,0.06), 0 4px 5px 0 rgba(0,0,0,0.06), 0 1px 10px 0 rgba(0,0,0,0.08);
 	position: fixed;
@@ -320,7 +320,6 @@ input[type='radio']:after {
 .title-top
 {
   color: #fff;
-  font-size: 20px;
   font-family: 'Comfortaa', cursive;
 	margin: auto 0;
 }
@@ -386,7 +385,7 @@ input[type='radio']:after {
   top:50px;
   left:5px;
   position: absolute;
-  background: #0066CC;
+  background: #3367D6;
 	-webkit-box-shadow: 0 2px 4px -1px rgba(0,0,0,0.06), 0 4px 5px 0 rgba(0,0,0,0.06), 0 1px 10px 0 rgba(0,0,0,0.08);
     box-shadow: 0 2px 4px -1px rgba(0,0,0,0.06), 0 4px 5px 0 rgba(0,0,0,0.06), 0 1px 10px 0 rgba(0,0,0,0.08);
 
@@ -453,7 +452,7 @@ input[type='radio']:after {
 {
   display: flex;
   flex-direction: column;
-  background: #0066CC;
+  background: #3367D6;
   padding:5px;
   border-radius: 3px;
   position: absolute;
@@ -473,7 +472,7 @@ input[type='radio']:after {
 	width: 0;
 	position: absolute;
 	pointer-events: none;
-	border-bottom-color: #0066CC;
+	border-bottom-color: #3367D6;
 	border-width: 10px;
 	margin-left: 0px;
 }
@@ -518,7 +517,7 @@ input[type='radio']:after {
 {
   position: relative;
   font-family:Roboto, 'Segoe UI', Tahoma, sans-serif;
-  background: #0066CC;
+  background: #3367D6;
   color: #fff;
   display: flex;
   transition: background .3s;
@@ -581,7 +580,7 @@ input[type='radio']:after {
 {
   margin-right: 10px;
 	vertical-align: middle;
-  color:#0066CC;
+  color:#3367D6;
 }
 .dropping li
 {
@@ -655,7 +654,7 @@ input[type='radio']:after {
   display: flex;
   justify-content:space-between;
   border-radius: 3px;
-  background: #0066CC;
+  background: #3367D6;
   margin-top: 40px;
   /*height: 20px;*/
 }
@@ -717,7 +716,7 @@ input[type='radio']:after {
 /*footer*/
 .simple-footer
 {
-  background: #0066CC;
+  background: #3367D6;
 	padding:15px 100px;
 }
 
@@ -827,7 +826,7 @@ input[type='radio']:after {
 }
 .latest-data th
 {
-  background: #0066CC;
+  background: #3367D6;
   color: #fff;
   padding: 10px;
 }
@@ -1041,7 +1040,7 @@ input[type='radio']:after {
 	top: 0px;
 	left: 10px;
 	color: #b1b1b1;
-	transition:all .3s;
+	transition:all .4s;
 }
 .damage-item-modal-form h1
 {
@@ -1134,7 +1133,7 @@ color: #162E5F;
   font-weight: 400;
   font-size: 30px;
   margin-top: 30px;
-  color:#0066CC;
+  color:#3367D6;
 }
 .mirs-container
 {
@@ -1193,7 +1192,7 @@ color: #162E5F;
 {
   font-size: 15px;
   padding:10px;
-  background: #0066CC;
+  background: #3367D6;
   color: #fff;
   font-weight: 600;
 }
@@ -1269,7 +1268,7 @@ only screen and (max-width: 1050px),
   margin-top: 30px;
   margin-right: 20px;
   margin-bottom: 30px;
-  background:#0066CC;
+  background:#3367D6;
 	-webkit-box-shadow: 0 2px 4px -1px rgba(0,0,0,0.06), 0 4px 5px 0 rgba(0,0,0,0.06), 0 1px 10px 0 rgba(0,0,0,0.08);
     box-shadow: 0 2px 4px -1px rgba(0,0,0,0.06), 0 4px 5px 0 rgba(0,0,0,0.06), 0 1px 10px 0 rgba(0,0,0,0.08);
 }
@@ -1423,7 +1422,7 @@ border-radius: 3px;
 
 .added-table-wrapper th
 {
-  background: #0066CC;
+  background: #3367D6;
   color: #fff;
 }
 .added-table-wrapper td
@@ -1550,7 +1549,7 @@ only screen and (max-width: 1050px),
 }
 .middle-modal-search h1
 {
- background: #0066CC;
+ background: #3367D6;
  color: #fff;
  padding:8px;
  text-align: center;
@@ -1838,7 +1837,7 @@ input[type=number]::-webkit-inner-spin-button {
   display: flex;
   box-sizing: border-box;
   color:#fff;
-  background: #0066CC;
+  background: #3367D6;
 }
 .status-mirs.approved
 {
@@ -1890,6 +1889,7 @@ input[type=number]::-webkit-inner-spin-button {
 .top-part-box1 h1
 {
   font-weight: bold;
+	font-size: 14px;
 	font-family: sans-serif;
 }
 @media (max-width:750px)
@@ -2100,7 +2100,7 @@ only screen and (max-width: 1050px),
   margin-top: 30px;
   margin-right: 20px;
   margin-bottom: 30px;
-  background:#0066CC;
+  background:#3367D6;
 	min-height: 100vh;
 }
 @media (max-width:800px)
@@ -2235,7 +2235,7 @@ only screen and (max-width: 1050px),
 }
 .mini-menu-managers >h1
 {
-  background: #0066CC;
+  background: #3367D6;
   color: #fff;
   border-top-left-radius: 3px;
   border-top-right-radius: 3px;
@@ -2305,8 +2305,8 @@ only screen and (max-width: 1050px),
   margin-left: 4px;
   border-radius: 2px;
   color: #fff;
-  background: #0066CC;
-  border:1px solid #0066CC;
+  background: #3367D6;
+  border:1px solid #3367D6;
 }
 .send-cancel-btns > button:nth-child(even):hover
 {
@@ -2789,7 +2789,7 @@ only screen and (max-width: 1050px),
   margin-left: 30px;
   flex:1;
   box-sizing: border-box;
-  background: #0066CC;
+  background: #3367D6;
 	min-height: 100vh;
 }
 .selected-items-session-mct table
@@ -2802,7 +2802,7 @@ only screen and (max-width: 1050px),
 }
 .selected-items-session-mct th
 {
-  background:#0066CC;
+  background:#3367D6;
   color: #fff;
   font-weight: 600;
   padding:10px;
@@ -2895,7 +2895,7 @@ only screen and (max-width: 1050px),
 .mct-modal-center h1
 {
  color: #fff;
- background: #0066CC;
+ background: #3367D6;
  text-align: center;
  font-size: 14px;
  padding:10px;
@@ -3414,9 +3414,13 @@ only screen and (max-width: 1050px),
 }
 .edit-file button
 {
- border-radius:2px;
- border:none;
- background: #fff;
+ border-radius:2px!important;
+ border:none!important;
+ padding: 5px 11px;
+ font-weight: 600;
+ background: #fff!important;
+ -webkit-box-shadow: 0 2px 4px -1px rgba(0,0,0,0.06), 0 4px 5px 0 rgba(0,0,0,0.06), 0 1px 10px 0 rgba(0,0,0,0.08);
+box-shadow: 0 2px 4px -1px rgba(0,0,0,0.06), 0 4px 5px 0 rgba(0,0,0,0.06), 0 1px 10px 0 rgba(0,0,0,0.08);
 }
 .form-purpose-update
 {
@@ -3628,7 +3632,7 @@ only screen and (max-width: 1050px),
 }
 .MRT-middle-form
 {
-  background:#0066CC;
+  background:#3367D6;
   flex:1;
   padding: 0px 40px 40px 40px;
   border-radius: 2px;
@@ -3739,7 +3743,7 @@ only screen and (max-width: 1050px),
   font-weight: 600;
   color: #fff;
 	font-size: 14px;
-  background: #0066CC;
+  background: #3367D6;
 }
 @media
 only screen and (max-width: 1050px),
@@ -3867,7 +3871,7 @@ only screen and (max-width: 1050px),
 {
   padding: 6px 12px;
   font-size: 15px;
-  background: #0066CC;
+  background: #3367D6;
   color:#fff;
 }
 .mrt-items tr:nth-child(odd)
@@ -3974,7 +3978,7 @@ only screen and (max-width: 1050px),
 .search-mirs-container input
 {
   padding:6px 12px;
-  border: 1px solid #0066CC;
+  border: 1px solid #3367D6;
   outline: none;
   border-radius: 4px;
   font-family:Roboto, 'Segoe UI', Tahoma, sans-serif;
@@ -4031,7 +4035,7 @@ only screen and (max-width: 1050px),
 .table-mirs-list th
 {
   color: #fff;
-  background: #0066CC;
+  background: #3367D6;
   font-weight: 600;
   padding:6px 12px;
 }
@@ -4212,12 +4216,12 @@ only screen and (max-width: 1050px),
 }
 .searchbox-summary-mrt input,.searchbox-summary-mrt>button
 {
- border: 1px solid #0066CC;
+ border: 1px solid #3367D6;
  outline: none;
 }
 .searchbox-summary-mrt>button
 {
-  background:#0066CC;
+  background:#3367D6;
   border-top-right-radius: 3px;
   border-bottom-right-radius: 3px;
   color: #fff;
@@ -4926,7 +4930,7 @@ only screen and (max-width: 1050px),
 }
 .mct-sum-search input
 {
-  border: 1px solid #0066CC;
+  border: 1px solid #3367D6;
   border-bottom-left-radius:3px;
   border-top-left-radius:3px;
 }
@@ -4941,7 +4945,7 @@ only screen and (max-width: 1050px),
 {
   border-top-right-radius:3px;
   border-bottom-right-radius:3px;
-  background: #0066CC;
+  background: #3367D6;
   color: #fff;
   border-style: none;
 }
@@ -5015,7 +5019,7 @@ only screen and (max-width: 1050px),
 {
 	flex:1;
 	display: flex;
-	background: #0066CC;
+	background: #3367D6;
 }
 @media (max-width:800px)
 {
@@ -5128,7 +5132,7 @@ only screen and (max-width: 1050px),
 }
 .submit-btn-login-container button
 {
-	background: #0066CC;
+	background: #3367D6;
 	border-radius: 3px;
 	padding:7px 14px;
 	font-weight: 700;
@@ -5171,7 +5175,7 @@ only screen and (max-width: 1050px),
 }
 .icon-and-input i.active
 {
-	color: #0066CC;
+	color: #3367D6;
 }
 /*REGISTRAION CSS*/
 #signaturePreview,#signatureUpdate
@@ -5194,7 +5198,7 @@ only screen and (max-width: 1050px),
 .burger-button
 {
   box-sizing: border-box;
-  background: #0066CC;
+  background: #3367D6;
   outline: none;
 }
 .burger-button i
@@ -5358,7 +5362,7 @@ only screen and (max-width: 1050px),
 }
 .notif.active
 {
-  background:#0066CC;
+  background:#3367D6;
 }
 .middle-account-modal ul a li i
 {
@@ -5437,7 +5441,7 @@ only screen and (max-width: 1050px),
 }
 .mirs-request-table-list th
 {
-  background: #0066CC;
+  background: #3367D6;
   color: #fff;
   text-align: center;
   font-weight: 600;
@@ -5570,7 +5574,7 @@ only screen and (max-width: 1050px),
 .mct-request-table th
 {
   font-size: 14px;
-  background: #0066CC;
+  background: #3367D6;
   color: #fff;
   padding: 6px 12px;
 }
@@ -5670,7 +5674,7 @@ only screen and (max-width: 1050px),
 .searchbox-RR input
 {
   padding:5px;
-  border:1px solid #0066CC;
+  border:1px solid #3367D6;
   border-radius:3px;
   padding-left: 5px;
   width: 200px;
@@ -5717,7 +5721,7 @@ only screen and (max-width: 1050px),
 {
   text-align: center;
   padding:10px;
-  background: #0066CC;
+  background: #3367D6;
   color: #fff;
 }
 .index-RR-table-container tr:nth-child(odd)
@@ -5844,7 +5848,7 @@ only screen and (max-width: 1050px),
   width: 816px;
   margin:auto;
   display: flex;
-  justify-content: flex-end;
+  justify-content: space-between;
   margin-bottom:5px;
   font-family:Roboto, 'Segoe UI', Tahoma, sans-serif;
 }
@@ -6077,10 +6081,6 @@ only screen and (max-width: 1050px),
 	{
 		display: none;
 	}
-	.RR-table-container tr:last-child td::before
-	{
-		content: '';
-	}
 	.RR-table-container tr
 	{
 		border:1px solid #e5e5e5;
@@ -6095,10 +6095,6 @@ only screen and (max-width: 1050px),
 		text-align: left!important;
 		word-wrap: break-word;
 		padding:10px 20px;
-	}
-	.RR-table-container tr:last-child td
-	{
-		padding-left: 5px!important;
 	}
 	.RR-table-container td:before {
 		/* Now like a table header */
@@ -6323,7 +6319,7 @@ only screen and (max-width: 1050px),
 {
   text-align: center;
   padding:10px;
-  background: #0066CC;
+  background: #3367D6;
   color: #fff;
 	font-size:14px;
 }
@@ -6446,7 +6442,7 @@ only screen and (max-width: 1050px),
 .added-items-table th
 {
   text-align: center;
-  background: #0066CC;
+  background: #3367D6;
   color: #fff;
   padding:6px 12px;
 }
@@ -6523,7 +6519,7 @@ only screen and (max-width: 1050px),
 {
   flex:1;
   margin-left: 20px;
-  background: #0066CC;
+  background: #3367D6;
   padding:20px;
   border-radius: 3px;
 
@@ -6573,7 +6569,7 @@ only screen and (max-width: 1050px),
     border-radius: 3px;
     border-style:none;
     color: #fff;
-    background: #0066CC;
+    background: #3367D6;
     font-size: 14px;
     font-weight: 600;
     font-family:Roboto, 'Segoe UI', Tahoma, sans-serif;
@@ -6705,7 +6701,7 @@ only screen and (max-width: 1050px),
 font-family: 'Comfortaa',sans-serif;
  font-size: 20px;
  padding: 30px;
- background: #0066CC;
+ background: #3367D6;
  color:#fff;
 }
 .itemRV-form
@@ -6757,8 +6753,8 @@ font-family: 'Comfortaa',sans-serif;
 {
   padding:10px 14px;
   color: #fff;
-  background: #0066CC;
-  border-color:#0066CC;
+  background: #3367D6;
+  border-color:#3367D6;
   border-style: none;
 	border-radius: 3px;
 	text-transform: uppercase;
@@ -6819,7 +6815,7 @@ text-align: center;
   border-radius: 3px;
   outline: none;
   border-style: none;
-  border:1px solid #0066CC;
+  border:1px solid #3367D6;
   padding-left: 5px;
   font-size: 15px;
   font-family:Roboto, 'Segoe UI', Tahoma, sans-serif;
@@ -7095,7 +7091,7 @@ text-align: center;
 .status-rv
 {
   position: absolute;
-  background: #0066CC;
+  background: #3367D6;
   color: #fff;
   font-size: 16px;
   border-radius: 50%;
@@ -7574,7 +7570,7 @@ only screen and (max-width: 1050px),
   font-weight: 600;
   color: #fff;
   text-align: center;
-  background: #0066CC;
+  background: #3367D6;
 }
 @media
 only screen and (max-width: 1050px),
@@ -7657,7 +7653,7 @@ only screen and (max-width: 1050px),
 }
 .middle-forStock-div h1
 {
-  background: #0066CC;
+  background: #3367D6;
   text-align: center;
   color: #fff;
   padding:10px;
@@ -7682,8 +7678,8 @@ only screen and (max-width: 1050px),
 {
   border-radius: 3px;
   border-style: outset;
-  border-color: #0066CC;
-  background: #0066CC;
+  border-color: #3367D6;
+  background: #3367D6;
   padding:5px;
   color: #fff;
   font-family:Roboto, 'Segoe UI', Tahoma, sans-serif;
@@ -7732,7 +7728,7 @@ only screen and (max-width: 1050px),
   border-style: none;
   border-top-right-radius: 4px;
   border-bottom-right-radius: 4px;
-  background: #0066CC;
+  background: #3367D6;
   color: #fff;
 }
 .searchboxes-forstock div button i
@@ -7743,7 +7739,7 @@ only screen and (max-width: 1050px),
 .searchboxes-forstock input
 {
   border-style: none;
-  border:1px solid #0066CC;
+  border:1px solid #3367D6;
   border-top-left-radius:4px;
   border-bottom-left-radius:4px;
   padding:5px;
@@ -7760,14 +7756,14 @@ only screen and (max-width: 1050px),
   border-bottom-right-radius: 5px;
   border-style: none;
   width: 30px;
-  border:1px solid #0066CC;
-  background: #0066CC;
+  border:1px solid #3367D6;
+  background: #3367D6;
   color: #fff;
 }
 .search-description-RV input
 {
   height: 22px;
-  border:1px solid #0066CC;
+  border:1px solid #3367D6;
   border-top-left-radius: 5px;
   border-bottom-left-radius: 5px;
   outline: none;
@@ -7800,7 +7796,7 @@ only screen and (max-width: 1050px),
 }
 .searchResults-forstock td i:hover
 {
-  color: #0066CC;
+  color: #3367D6;
 }
 .searchResults-forstock td input
 {
@@ -7891,7 +7887,7 @@ only screen and (max-width: 1050px),
 }
 .table-rv-container th
 {
-  background: #0066CC;
+  background: #3367D6;
   color: #fff;
   padding:10px;
 }
@@ -7999,7 +7995,7 @@ only screen and (max-width: 1050px),
 {
  color:#fff;
  border-style: none;
- background: #0066CC;
+ background: #3367D6;
  padding:9px 12px;
  font-size: 15px;
  border-radius: 5px;
@@ -8044,7 +8040,7 @@ only screen and (max-width: 1050px),
 {
   text-transform: uppercase;
   text-align: left;
-  background: #0066CC;
+  background: #3367D6;
   color: #fff;
   padding:10px 15px;
   font-weight: 600;
@@ -8117,7 +8113,7 @@ only screen and (max-width: 1050px),
 }
 .canvass-center-form h1
 {
-  background: #0066CC;
+  background: #3367D6;
   color: #fff;
   font-size:17px;
 	text-align:center;
@@ -8170,7 +8166,7 @@ only screen and (max-width: 1050px),
 .table-wrap-canvass th
 {
   text-align: center;
-  background: #0066CC;
+  background: #3367D6;
   color: #fff;
   font-weight: 600;
   padding:5px;
@@ -8250,7 +8246,7 @@ only screen and (max-width: 1050px),
 }
 .done-canvass
 {
-  background: #0066CC;
+  background: #3367D6;
   border-style: none;
   color: #fff;
   border-radius: 4px;
@@ -8278,7 +8274,7 @@ only screen and (max-width: 1050px),
   padding:7px 12px;
   border-style: none;
   border:1px solid #aaa;
-  background: #0066CC;
+  background: #3367D6;
   border-radius: 5px;
   font-size: 16px;
   color: #fff;
@@ -8345,7 +8341,7 @@ only screen and (max-width: 1050px),
 .PO-box h3
 {
   margin:auto;
-  color: #0066CC;
+  color: #3367D6;
 }
 .PO-box i
 {
@@ -8848,7 +8844,7 @@ only screen and (max-width: 1050px),
   left: 0;
   color:#fff;
   font-family:Roboto, 'Segoe UI', Tahoma, sans-serif;
-  background: #0066CC;
+  background: #3367D6;
   padding:8px;
   box-sizing: border-box;
   width: 300px;
@@ -8941,7 +8937,7 @@ only screen and (max-width: 1050px),
 .po-request-table th
 {
   padding:6px;
-  background: #0066CC;
+  background: #3367D6;
   color: #fff;
   font-weight: 600;
 }
@@ -9064,7 +9060,7 @@ only screen and (max-width: 1050px),
 }
 .pending-purchase-table th
 {
-  background: #0066CC;
+  background: #3367D6;
   color: #fff;
   font-weight: 600;
   padding:7px;
@@ -9592,7 +9588,7 @@ only screen and (max-width: 1050px),
   padding:44px 15px 15px 15px;
   flex:1;
 	border-radius: 3px;
-  background: #0066CC;
+  background: #3367D6;
   margin-left: 20px;
 	margin-bottom: 20px;
 	-webkit-box-shadow: 0 2px 4px -1px rgba(0,0,0,0.06), 0 4px 5px 0 rgba(0,0,0,0.06), 0 1px 10px 0 rgba(0,0,0,0.08);
@@ -9644,7 +9640,7 @@ only screen and (max-width: 1050px),
 }
 .selected-mr-session th
 {
-  background: #0066CC;
+  background: #3367D6;
   color: #fff;
   padding:5px;
 }
@@ -9774,7 +9770,7 @@ only screen and (max-width: 1310px),
 {
   border-top-right-radius: 4px;
   border-top-left-radius:4px;
-  background:#0066CC;
+  background:#3367D6;
   padding:20px;
   text-align: center;
   color: #fff;
@@ -9948,7 +9944,7 @@ only screen and (max-width: 1310px),
   left:0;
   font-size:20px;
   color: #fff;
-  background-color: #0066CC;
+  background-color: #3367D6;
   position: absolute;
 }
 .big-x
@@ -9958,7 +9954,7 @@ only screen and (max-width: 1310px),
 }
 .big-clock
 {
-  color: #0066CC;
+  color: #3367D6;
   font-size:200px!important;
 }
 /*MY MR REQUEST */
@@ -10000,7 +9996,7 @@ padding:50px 30px;
 }
 .mr-table-container th
 {
-  background: #0066CC;
+  background: #3367D6;
   padding:10px;
   color: #fff;
   font-weight: 600;
@@ -10220,7 +10216,7 @@ only screen and (max-width: 1050px),
 .setting-accounts-table th
 {
   padding:10px;
-  background: #0066CC;
+  background: #3367D6;
   color: #fff;
 }
 .setting-accounts-table tr:nth-child(odd)
@@ -10331,7 +10327,7 @@ only screen and (max-width: 1050px),
 }
 .create-acc-minimenu h1
 {
-  background: #0066CC;
+  background: #3367D6;
   font-size: 14px;
   font-family:Roboto, 'Segoe UI', Tahoma, sans-serif;
   color: #fff;
@@ -10352,7 +10348,7 @@ only screen and (max-width: 1050px),
 }
 .create-acc-minimenu h2 input
 {
-  background: #0066CC;
+  background: #3367D6;
   padding:3px 7px;
   font-size: 14px;
   font-family:Roboto, 'Segoe UI', Tahoma, sans-serif;
@@ -10389,7 +10385,7 @@ only screen and (max-width: 1050px),
 }
 .top-right-menu-accounts button:hover
 {
-  background: #0066CC;
+  background: #3367D6;
 }
 .ActiveList
 {
@@ -10445,7 +10441,7 @@ only screen and (max-width: 1050px),
   border-radius: 3px;
   min-height:590px;
   flex:1;
-  background: #0066CC;
+  background: #3367D6;
   margin-left: 20px;
 	-webkit-box-shadow: 0 2px 4px -1px rgba(0,0,0,0.06), 0 4px 5px 0 rgba(0,0,0,0.06), 0 1px 10px 0 rgba(0,0,0,0.08);
     box-shadow: 0 2px 4px -1px rgba(0,0,0,0.06), 0 4px 5px 0 rgba(0,0,0,0.06), 0 1px 10px 0 rgba(0,0,0,0.08);
@@ -10532,7 +10528,7 @@ only screen and (max-width: 1050px),
 .selected-received-items-table th
 {
   padding:10px 5px;
-  background: #0066CC;
+  background: #3367D6;
   color: #fff;
 }
 .selected-received-items-table td
@@ -10646,7 +10642,7 @@ only screen and (max-width: 1310px),
 {
   padding:10px 5px;
   font-size: 14px;
-  background: #0066CC;
+  background: #3367D6;
   color: #fff;
   font-weight: 100;
 }
@@ -10772,7 +10768,7 @@ only screen and (max-width: 1310px),
 {
   flex:1;
   margin-left: 20px;
-  background: #0066CC;
+  background: #3367D6;
   border-radius: 3px;
   display: flex;
   flex-direction: column;
@@ -10848,7 +10844,7 @@ only screen and (max-width: 1310px),
 }
 .table-rr-w-po th
 {
-  background: #0066CC;
+  background: #3367D6;
   color: #fff;
   padding:10px;
 }
@@ -10976,7 +10972,7 @@ only screen and (max-width: 1050px),
 .middle-rr-withpo th
 {
   padding:15px;
-  background: #0066CC;
+  background: #3367D6;
   color: #fff;
   font-size: 15px;
   font-weight: 600;
@@ -10996,7 +10992,7 @@ only screen and (max-width: 1050px),
   width: 110px;
   border-style: none;
   background: transparent;
-  border-bottom: 1px solid #0066CC;
+  border-bottom: 1px solid #3367D6;
 }
 .middle-rr-withpo td button:focus
 {
@@ -11112,7 +11108,7 @@ only screen and (max-width: 1050px),
   top:0px;
   left: -10px;
   width: 80%;
-  background: #0066CC;
+  background: #3367D6;
   color: #fff;
   font-size: 20px;
   text-align:left;
@@ -11199,7 +11195,7 @@ only screen and (max-width: 1050px),
 	padding:5px 10px;
 	font-family: 'Comfortaa',sans-serif;
 	border-style: none;
-	border-bottom: 1px solid #0066CC;
+	border-bottom: 1px solid #3367D6;
 }
 .table-history-container
 {
@@ -11215,7 +11211,7 @@ only screen and (max-width: 1050px),
 
 .table-history-container th
 {
-  background: #0066CC;
+  background: #3367D6;
   color: #fff;
   padding:10px;
 }
@@ -11303,7 +11299,7 @@ only screen and (max-width: 1050px),
 	box-shadow: rgba(0, 0, 0, 0.2) 0px 1px 3px 0px;
 	border-radius: 2px;
 	color: #fff;
-	background:#0066CC;
+	background:#3367D6;
 }
 
 .searchbar-month-history input
@@ -11312,7 +11308,7 @@ only screen and (max-width: 1050px),
   padding:5px;
   font-size: 16px;
   border-style: none;
-  border-bottom:1px solid #0066CC;
+  border-bottom:1px solid #3367D6;
 }
 .searchbox-for-admin-warehouse
 {
@@ -11398,7 +11394,7 @@ only screen and (max-width: 1050px),
 {
   border-style: none;
   border-radius: 4px;
-  background: #0066CC;
+  background: #3367D6;
   color: #fff;
   font-size: 16px;
   padding:5px;
@@ -11410,7 +11406,7 @@ only screen and (max-width: 1050px),
 }
 .update-modal-center h1
 {
-  background: #0066CC;
+  background: #3367D6;
   color: #fff;
   padding:20px;
   position:absolute;
@@ -11616,7 +11612,7 @@ only screen and (max-width: 1050px),
 {
   border-radius: 3px;
   border-style: none;
-  border-color: #0066CC;
+  border-color: #3367D6;
   background: #004275;
   padding:3px 6px;
   font-size: 14px;
@@ -11698,7 +11694,7 @@ only screen and (max-width: 1050px),
 .center-manager-create-form h1
 {
   padding:20px 55px;
-  background: #0066CC;
+  background: #3367D6;
   color: #fff;
   border-top-right-radius: 3px;
   border-top-left-radius: 3px;
@@ -11742,7 +11738,7 @@ only screen and (max-width: 1050px),
   border-radius: 3px;
   padding:8px;
   color: #fff;
-  background: #0066CC;
+  background: #3367D6;
   border-style: none;
   font-family:Roboto, 'Segoe UI', Tahoma, sans-serif;
   margin-top: 20px;
@@ -11789,7 +11785,7 @@ only screen and (max-width: 1050px),
 .left-item-adding-form th
 {
   padding:10px;
-  background: #0066CC;
+  background: #3367D6;
   color: #fff;
 }
 .left-item-adding-form tr:nth-child(odd)
@@ -11910,7 +11906,7 @@ only screen and (max-width: 1310px),
 .form-item-right
 {
   box-sizing: border-box;
-  background: #0066CC;
+  background: #3367D6;
   box-sizing: border-box;
   height: 100%;
   border-radius: 2px;
@@ -12018,7 +12014,7 @@ only screen and (max-width: 1310px),
 }
 .table-container-mrt-request th
 {
-  background: #0066CC;
+  background: #3367D6;
   color: #fff;
   padding:10px;
 }
@@ -12096,7 +12092,7 @@ only screen and (max-width: 1050px),
 .search-added-master input
 {
   font-family:Roboto, 'Segoe UI', Tahoma, sans-serif;
-  border:1px solid #0066CC;
+  border:1px solid #3367D6;
   padding:3px 5px;
   font-size: 15px;
   border-top-left-radius: 4px;
@@ -12115,7 +12111,7 @@ only screen and (max-width: 1050px),
  }
 .search-added-master button
 {
-  background: #0066CC;
+  background: #3367D6;
   color: #fff;
   border-style: none;
   border-top-right-radius: 4px;
@@ -12242,7 +12238,7 @@ only screen and (max-width: 1050px),
 .center-form-newuser h1
 {
   color: #fff;
-  background: #0066CC;
+  background: #3367D6;
   font-size: 14px;
   text-align: left;
   border-top-right-radius: 3px;
@@ -12320,7 +12316,7 @@ only screen and (max-width: 1050px),
   border-radius: 3px;
   padding:8px;
   color: #fff;
-  background: #0066CC;
+  background: #3367D6;
   border-style: none;
   font-family:Roboto, 'Segoe UI', Tahoma, sans-serif;
   margin-top: 10px;
@@ -12376,7 +12372,7 @@ only screen and (max-width: 1050px),
   padding:5px;
   font-size: 15px;
   border-radius: 3px;
-  border:1px solid #0066CC;
+  border:1px solid #3367D6;
   text-align: center;
 }
 .mct-index-table
@@ -12402,7 +12398,7 @@ only screen and (max-width: 1050px),
 .mct-index-table th
 {
   padding:10px;
-  background: #0066CC;
+  background: #3367D6;
   color: #fff;
 }
 .mct-index-table td
@@ -12495,7 +12491,7 @@ only screen and (max-width: 1050px),
   border-radius: 4px;
   border-style: none;
   font-size: 15px;
-  border: 1px solid #0066CC;
+  border: 1px solid #3367D6;
 }
 @media (max-width:700px)
 {
@@ -12522,7 +12518,7 @@ only screen and (max-width: 1050px),
 }
 .mrt-index-table-container th
 {
-  background: #0066CC;
+  background: #3367D6;
   color: #fff;
   padding:10px;
 }
@@ -12614,7 +12610,7 @@ only screen and (max-width: 1050px),
 .po-index-title-and-search input
 {
   border-radius: 3px;
-  border:1px solid #0066CC;
+  border:1px solid #3367D6;
   padding:4px;
   font-size: 14px;
 	width: 200px;
@@ -12656,7 +12652,7 @@ only screen and (max-width: 1050px),
 }
 .po-index-table th
 {
-  background:#0066CC;
+  background:#3367D6;
   color: #fff;
   padding:10px;
 }
@@ -12749,7 +12745,7 @@ only screen and (max-width: 1050px),
 {
   border-radius: 3px;
   padding:5px;
-  border:1px solid #0066CC;
+  border:1px solid #3367D6;
 }
 @media (max-width:700px)
 {
@@ -12785,7 +12781,7 @@ only screen and (max-width: 1050px),
 }
 .mr-index-table th
 {
-  background: #0066CC;
+  background: #3367D6;
   color:#fff;
   padding:10px;
 }
@@ -12874,7 +12870,7 @@ only screen and (max-width: 1050px),
   padding: 6px 12px;
   line-height: 1.42857143;
   text-decoration: none;
-  color: #0066CC;
+  color: #3367D6;
   background-color: #ffffff;
   border: 1px solid #dddddd;
   margin-left: -1px;
@@ -12912,8 +12908,8 @@ only screen and (max-width: 1050px),
 .pagination > .active > span:focus {
   z-index: 3;
   color: #ffffff;
-  background-color: #0066CC;
-  border-color: #0066CC;
+  background-color: #3367D6;
+  border-color: #3367D6;
   cursor: default;
 }
 .pagination > .disabled > span,
@@ -13064,7 +13060,7 @@ only screen and (max-width: 1050px),
 .myaccount-settings-table-container td button
 {
 	text-decoration: none;
-	color: #0066CC;
+	color: #3367D6;
 }
 .myaccount-settings-table-container td img
 {
@@ -13078,7 +13074,7 @@ only screen and (max-width: 1050px),
 }
 .myaccount-settings-table-container td i
 {
-	color:#0066CC;
+	color:#3367D6;
 	font-size: 24px;
 	right: 10px;
 }
@@ -13104,7 +13100,7 @@ only screen and (max-width: 1050px),
 }
 .save-new-pass-btn
 {
-	background: #0066CC;
+	background: #3367D6;
 	border-radius: 3px;
 	width:150px;
 	text-align: center;
@@ -13145,7 +13141,7 @@ only screen and (max-width: 1050px),
 }
 .dash-high
 {
-	background: #0066CC;
+	background: #3367D6;
 	margin-right: 2%;
 }
 .dash-low
@@ -13438,7 +13434,7 @@ only screen and (max-width: 1050px),
 .rr-box-head
 {
 	height: 30px;
-	background:#0066CC;
+	background:#3367D6;
 	color: #fff;
 }
 .rr-box-head h5
@@ -13517,7 +13513,7 @@ only screen and (max-width: 1050px),
 {
 	height: 10px;
 	width: 10px;
-	background:#0066CC;
+	background:#3367D6;
 	border-radius: 50%;
 }
 .rollback-info h2
@@ -13533,7 +13529,7 @@ only screen and (max-width: 1050px),
 {
 	height: 10px;
 	width: 10px;
-	background:#0066CC;
+	background:#3367D6;
 	display: inline-block;
 	margin-right: 5px;
 	border-radius: 50%;

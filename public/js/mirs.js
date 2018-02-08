@@ -30499,6 +30499,9 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
 //
 //
 //
+//
+//
+//
 
 
 
@@ -30522,7 +30525,8 @@ Vue.use(__WEBPACK_IMPORTED_MODULE_3_vue2_toast___default.a);
       SignatureManagerRelacerBtnHide: false,
       ShowEdit: false,
       updatePurpose: '',
-      updateQty: []
+      updateQty: [],
+      updateRemarks: []
     };
   },
 
@@ -30532,7 +30536,8 @@ Vue.use(__WEBPACK_IMPORTED_MODULE_3_vue2_toast___default.a);
       var vm = this;
       __WEBPACK_IMPORTED_MODULE_0_axios___default.a.put('/mirs-update/' + this.mirsno.MIRSNo, {
         purpose: this.updatePurpose,
-        Qty: this.updateQty
+        Qty: this.updateQty,
+        remarks: this.updateRemarks
       }).then(function (response) {
         vm.fetchMIRSData();
         console.log(response);
@@ -30540,6 +30545,7 @@ Vue.use(__WEBPACK_IMPORTED_MODULE_3_vue2_toast___default.a);
           vm.$toast.top(response.data.error);
         } else {
           vm.$toast.top('Updated successfully');
+          vm.SignatureBtnHide = false;
         }
       }).catch(function (error) {
         vm.fetchMIRSData();
@@ -31287,7 +31293,27 @@ module.exports={render:function (){var _vm=this;var _h=_vm.$createElement;var _c
           _vm.$set(_vm.updateQty[loop] = mirsdata, "Quantity", $event.target.value)
         }
       }
-    })])]), _vm._v(" "), _c('td', [_vm._v(_vm._s(mirsdata.Remarks))])])
+    })])]), _vm._v(" "), _c('td', [(_vm.ShowEdit == false) ? _c('span', [_vm._v(_vm._s(mirsdata.Remarks))]) : _c('span', [_c('input', {
+      directives: [{
+        name: "model",
+        rawName: "v-model",
+        value: (_vm.updateRemarks[loop] = mirsdata.Remarks),
+        expression: "updateRemarks[loop] = mirsdata.Remarks"
+      }],
+      staticClass: "update-remarks-input",
+      attrs: {
+        "type": "text"
+      },
+      domProps: {
+        "value": (_vm.updateRemarks[loop] = mirsdata.Remarks)
+      },
+      on: {
+        "input": function($event) {
+          if ($event.target.composing) { return; }
+          _vm.$set(_vm.updateRemarks[loop] = mirsdata, "Remarks", $event.target.value)
+        }
+      }
+    })])])])
   })], 2)]), _vm._v(" "), _vm._m(8), _vm._v(" "), _c('div', {
     staticClass: "bottom-mirs-part"
   }, [_c('div', {

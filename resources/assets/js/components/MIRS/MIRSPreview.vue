@@ -116,7 +116,10 @@
                 <span v-if="ShowEdit==false">{{mirsdata.Quantity}}</span>
                 <span v-else><input v-model="updateQty[loop] = mirsdata.Quantity" class="update-qty-input" type="text" ></span>
               </td>
-              <td>{{mirsdata.Remarks}}</td>
+              <td>
+                <span v-if="ShowEdit==false">{{mirsdata.Remarks}}</span>
+                <span v-else><input v-model="updateRemarks[loop] = mirsdata.Remarks" class="update-remarks-input" type="text" ></span>
+              </td>
             </tr>
           </table>
         </div>
@@ -230,7 +233,8 @@ Vue.use(Toast);
           SignatureManagerRelacerBtnHide:false,
           ShowEdit:false,
           updatePurpose:'',
-          updateQty:[]
+          updateQty:[],
+          updateRemarks:[]
         }
       },
      props: ['mirsno','user'],
@@ -240,7 +244,8 @@ Vue.use(Toast);
          var vm=this;
          axios.put(`/mirs-update/`+this.mirsno.MIRSNo,{
            purpose:this.updatePurpose,
-           Qty:this.updateQty
+           Qty:this.updateQty,
+           remarks:this.updateRemarks
          }).then(function(response)
         {
           vm.fetchMIRSData();
@@ -251,6 +256,7 @@ Vue.use(Toast);
           }else
           {
             vm.$toast.top('Updated successfully');
+            vm.SignatureBtnHide = false;
           }
         }).catch(function(error)
         {

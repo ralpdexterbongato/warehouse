@@ -12747,6 +12747,24 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
 //
 //
 //
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
 
 
 
@@ -12761,12 +12779,27 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
       Netsales: 0,
       VAT: 0,
       TOTALamt: 0,
-      SignatureBtnHide: false
+      SignatureBtnHide: false,
+      ShowEdit: false,
+      updateQtyDelivered: [],
+      updateQtyAccepted: []
     };
   },
 
   props: ['user', 'rrno'],
   methods: {
+    updateData: function updateData() {
+      var vm = this;
+      __WEBPACK_IMPORTED_MODULE_0_axios___default.a.put('/update-rr-file/' + this.rrno.RRNo, {
+        newQtyDelivered: this.updateQtyDelivered,
+        newQty: this.updateQtyAccepted
+      }).then(function (response) {
+        console.log(response);
+        vm.FetchData();
+      }).catch(function (error) {
+        console.log(error);
+      });
+    },
     FetchData: function FetchData() {
       var vm = this;
       __WEBPACK_IMPORTED_MODULE_0_axios___default.a.get('/RR-fullpreview-fetch-data/' + this.rrno.RRNo).then(function (response) {
@@ -14376,8 +14409,45 @@ module.exports={render:function (){var _vm=this;var _h=_vm.$createElement;var _c
     staticClass: "reversed-alert"
   }, [(_vm.RRMaster.IsRollBack == 0) ? _c('p', [_c('i', {
     staticClass: "material-icons"
-  }, [_vm._v("warning")]), _vm._v("Rolled back")]) : _vm._e()]), _vm._v(" "), (_vm.UserCanSignature) ? _c('div', {
-    staticClass: "signature-btn",
+  }, [_vm._v("warning")]), _vm._v("Rolled back")]) : _vm._e()]), _vm._v(" "), _c('div', {
+    staticClass: "signature-btn"
+  }, [_c('div', {
+    staticClass: "empty-div-left file-edit-container"
+  }, [(_vm.RRMaster.Status == null) ? _c('div', {}, [_c('span', {
+    staticClass: "edit-file",
+    class: _vm.ShowEdit == true ? 'hide' : 'show',
+    on: {
+      "click": function($event) {
+        _vm.ShowEdit = true
+      }
+    }
+  }, [_c('i', {
+    staticClass: "material-icons"
+  }, [_vm._v("edit")]), _vm._v("Edit")]), _vm._v(" "), _c('span', {
+    staticClass: "edit-file",
+    class: _vm.ShowEdit == false ? 'hide' : 'show'
+  }, [_c('span', {
+    staticClass: "color-blue"
+  }, [_vm._v("Save?")]), _vm._v(" "), _c('button', {
+    attrs: {
+      "type": "button"
+    },
+    on: {
+      "click": function($event) {
+        _vm.ShowEdit = false
+      }
+    }
+  }, [_vm._v("cancel")]), _vm._v(" "), _c('button', {
+    attrs: {
+      "type": "button",
+      "name": "button"
+    },
+    on: {
+      "click": function($event) {
+        _vm.ShowEdit = false, _vm.updateData()
+      }
+    }
+  }, [_vm._v("Save")])])]) : _vm._e()]), _vm._v(" "), (_vm.UserCanSignature) ? _c('div', {
     class: {
       'hide': _vm.SignatureBtnHide
     }
@@ -14392,7 +14462,7 @@ module.exports={render:function (){var _vm=this;var _h=_vm.$createElement;var _c
     }
   }, [_c('i', {
     staticClass: "material-icons"
-  }, [_vm._v("edit")]), _vm._v(" Signature\r\n    ")]), _vm._v(" "), _c('longpress', {
+  }, [_vm._v("edit")]), _vm._v(" Signature\r\n      ")]), _vm._v(" "), _c('longpress', {
     staticClass: "waves-effect waves-light",
     attrs: {
       "id": "RRdecline",
@@ -14403,7 +14473,7 @@ module.exports={render:function (){var _vm=this;var _h=_vm.$createElement;var _c
     }
   }, [_c('i', {
     staticClass: "material-icons"
-  }, [_vm._v("close")]), _vm._v(" Decline\r\n    ")])], 1) : ((_vm.RRMaster.Status == '0')) ? _c('div', {
+  }, [_vm._v("close")]), _vm._v(" Decline\r\n      ")])], 1) : _vm._e()]), _vm._v(" "), ((_vm.RRMaster.Status == '0')) ? _c('div', {
     staticClass: "print-RR-btn"
   }, [_c('span', [_c('a', {
     attrs: {
@@ -14461,8 +14531,48 @@ module.exports={render:function (){var _vm=this;var _h=_vm.$createElement;var _c
     staticClass: "RRmaster-right"
   }, [_c('ul', [_c('li', [_c('label', [_vm._v("Carrier:")]), _vm._v(" "), ((_vm.RRMaster.Carrier != null)) ? _c('h4', [_vm._v(_vm._s(_vm.RRMaster.Carrier))]) : _vm._e()]), _vm._v(" "), _c('li', [_c('label', [_vm._v("Delivery Receipt No:")]), _vm._v(" "), (_vm.RRMaster.DeliveryReceiptNo != null) ? _c('h4', [_vm._v(_vm._s(_vm.RRMaster.DeliveryReceiptNo))]) : _vm._e()]), _vm._v(" "), _c('li', [_c('label', [_vm._v("P.O. No:")]), _vm._v(" "), (_vm.RRMaster.PONo != null) ? _c('h4', [_vm._v(_vm._s(_vm.RRMaster.PONo))]) : _vm._e()])])])]), _vm._v(" "), _c('div', {
     staticClass: "RR-table-container"
-  }, [_c('table', [_vm._m(4), _vm._v(" "), _vm._l((_vm.RRconfirmationDetails), function(data) {
-    return _c('tr', [_c('td', [_vm._v(_vm._s(data.ItemCode))]), _vm._v(" "), _c('td', [_vm._v(_vm._s(data.Description))]), _vm._v(" "), _c('td', [_vm._v(_vm._s(data.Unit))]), _vm._v(" "), _c('td', [_vm._v(_vm._s(data.RRQuantityDelivered))]), _vm._v(" "), _c('td', [_vm._v(_vm._s(data.QuantityAccepted))]), _vm._v(" "), _c('td', [_vm._v(_vm._s(_vm.formatPrice(data.UnitCost)))]), _vm._v(" "), _c('td', [_vm._v(_vm._s(_vm.formatPrice(data.Amount)))])])
+  }, [_c('table', [_vm._m(4), _vm._v(" "), _vm._l((_vm.RRconfirmationDetails), function(data, key) {
+    return _c('tr', [_c('td', [_vm._v(_vm._s(data.ItemCode))]), _vm._v(" "), _c('td', [_vm._v(_vm._s(data.Description))]), _vm._v(" "), _c('td', [_vm._v(_vm._s(data.Unit))]), _vm._v(" "), _c('td', [(_vm.ShowEdit == false) ? _c('span', [_vm._v(_vm._s(data.RRQuantityDelivered))]) : _c('span', [_c('input', {
+      directives: [{
+        name: "model",
+        rawName: "v-model",
+        value: (_vm.updateQtyDelivered[key] = data.RRQuantityDelivered),
+        expression: "updateQtyDelivered[key] = data.RRQuantityDelivered"
+      }],
+      staticClass: "update-qty-input",
+      attrs: {
+        "type": "text"
+      },
+      domProps: {
+        "value": (_vm.updateQtyDelivered[key] = data.RRQuantityDelivered)
+      },
+      on: {
+        "input": function($event) {
+          if ($event.target.composing) { return; }
+          _vm.$set(_vm.updateQtyDelivered[key] = data, "RRQuantityDelivered", $event.target.value)
+        }
+      }
+    })])]), _vm._v(" "), _c('td', [(_vm.ShowEdit == false) ? _c('span', [_vm._v(_vm._s(data.QuantityAccepted))]) : _c('span', [_c('input', {
+      directives: [{
+        name: "model",
+        rawName: "v-model",
+        value: (_vm.updateQtyAccepted[key] = data.QuantityAccepted),
+        expression: "updateQtyAccepted[key] = data.QuantityAccepted"
+      }],
+      staticClass: "update-qty-input",
+      attrs: {
+        "type": "text"
+      },
+      domProps: {
+        "value": (_vm.updateQtyAccepted[key] = data.QuantityAccepted)
+      },
+      on: {
+        "input": function($event) {
+          if ($event.target.composing) { return; }
+          _vm.$set(_vm.updateQtyAccepted[key] = data, "QuantityAccepted", $event.target.value)
+        }
+      }
+    })])]), _vm._v(" "), _c('td', [_vm._v(_vm._s(_vm.formatPrice(data.UnitCost)))]), _vm._v(" "), _c('td', [_vm._v(_vm._s(_vm.formatPrice(data.Amount)))])])
   })], 2)]), _vm._v(" "), _c('div', {
     staticClass: "RRNetsales-Total"
   }, [_c('div', {

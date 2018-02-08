@@ -93,6 +93,7 @@ Route::put('/signature-replacer-accepted/{id}','MIRSController@SignatureManagerR
 Route::get('/mct-summary-search','MCTController@searchMCTsummary')->name('mct-search-date')->middleware('IsWarehouseAndAdmin');
 Route::delete('/delete-session-with-po/{id}','RRController@deleteSessionStored')->name('RRDeleteSession');
 Route::delete('/delete-session-no-po/{id}','RRController@deleteSessionNoPo');
+Route::put('/update-rr-file/{RRNo}','RRController@updateRR');
 Route::get('RRsearchitembyCode','RRController@searchbyItemMasterCode')->name('RRSearchItemCode');
 Route::post('/rr-storing-session-no-po','RRController@StoreSessionRRNoPO')->name('storeSessionRR');
 Route::post('/rr-storing-session-with-po','RRController@StoreSessionRRWithPO');

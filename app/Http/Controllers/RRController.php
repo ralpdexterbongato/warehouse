@@ -25,7 +25,16 @@ class RRController extends Controller
   public function __construct()
   {
     $this->middleware('auth');
-    $this->middleware('IsWarehouse',['except'=>['RRofRVlist','UndoRollBack','RollBack','RRofPOlist','previewRRfetchdata','RRindexSearchAndFetch','refreshRRSignatureCount','RRindex','previewRR','signatureRR','declineRR','RRsignatureRequest','displayRRcurrentSession']]);
+  }
+  public function updateRR(Request $request,$RRno)
+  {
+    $MasterCurrent= RRMaster::where('RRNo', $RRno)->get(['RRNo','PONo','RVNo']);
+    $tobeUpdated=RRconfirmationDetails::where('RRNo',$RRno)->get(['QuantityAccepted','ItemCode','id','UnitCost']);
+    foreach ($tobeUpdated as $key => $tobe)
+    {
+      $newAmt = $request->newQty[$key] * $tobe->UnitCost;
+      RRconfirmationDetails::where('id',$tobe->id)->update(['QuantityAccepted'=>$request->newQty[$key],'RRQuantityDelivered'=>$request->newQtyDelivered[$key],'Amount'=>$newAmt]);
+    }
   }
   public function storeRRSessionValidatorNoPO($request)
   {
