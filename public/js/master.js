@@ -12562,11 +12562,6 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
 //
 //
 //
-//
-//
-//
-//
-//
 
 
 
@@ -44200,6 +44195,7 @@ module.exports={render:function (){var _vm=this;var _h=_vm.$createElement;var _c
     staticClass: "left-nav-content"
   }, [_c('button', {
     staticClass: "burger-button",
+    class: [_vm.modalOpen == true ? 'active' : ''],
     attrs: {
       "type": "button"
     },
@@ -44208,12 +44204,9 @@ module.exports={render:function (){var _vm=this;var _h=_vm.$createElement;var _c
         _vm.modalOpen = true, _vm.refreshall()
       }
     }
-  }, [_c('div', {
-    class: [_vm.modalOpen == true ? 'open' : ''],
-    attrs: {
-      "id": "nav-icon3"
-    }
-  }, [_c('span'), _vm._v(" "), _c('span'), _vm._v(" "), _c('span'), _vm._v(" "), _c('span')])]), _vm._v(" "), _vm._m(0)]), _vm._v(" "), _vm._m(1)]), _vm._v(" "), _c('div', {
+  }, [_c('i', {
+    staticClass: "material-icons"
+  }, [_vm._v("menu")])]), _vm._v(" "), _vm._m(0)]), _vm._v(" "), _vm._m(1)]), _vm._v(" "), _c('div', {
     staticClass: "Account-modal",
     class: [_vm.modalOpen == true ? 'active' : ''],
     on: {

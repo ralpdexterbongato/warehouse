@@ -12765,6 +12765,24 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
 //
 //
 //
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
 
 
 
@@ -12782,23 +12800,72 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
       SignatureBtnHide: false,
       ShowEdit: false,
       updateQtyDelivered: [],
-      updateQtyAccepted: []
+      updateQtyAccepted: [],
+      updateSupplier: '',
+      updateAddress: '',
+      updateInvoiceNum: '',
+      updateCarrier: '',
+      updateDeliveryReceipt: '',
+      updateNote: ''
     };
   },
 
   props: ['user', 'rrno'],
   methods: {
     updateData: function updateData() {
-      var vm = this;
-      __WEBPACK_IMPORTED_MODULE_0_axios___default.a.put('/update-rr-file/' + this.rrno.RRNo, {
-        newQtyDelivered: this.updateQtyDelivered,
-        newQty: this.updateQtyAccepted
-      }).then(function (response) {
-        console.log(response);
-        vm.FetchData();
-      }).catch(function (error) {
-        console.log(error);
-      });
+      this.SignatureBtnHide = false;
+      if (confirm('Warning! - Signatures will be restarted, continue?')) {
+        this.$loading('Please wait');
+        for (var i = 0; i < this.RRconfirmationDetails.length; i++) {
+          if (isNaN(this.updateQtyDelivered[i]) || isNaN(this.updateQtyAccepted[i])) {
+            this.$toast.top('Qty must be a number');
+            this.FetchData();
+            this.$loading.close();
+            return false;
+          }
+          if (this.updateQtyDelivered[i] == '' || this.updateQtyAccepted[i] == '') {
+            this.$toast.top('You cannot leave a blank field');
+            this.FetchData();
+            this.$loading.close();
+            return false;
+          }
+          if (Number(this.updateQtyDelivered[i]) < Number(this.updateQtyAccepted[i])) {
+            this.$toast.top('Qty accepted cannot be higher than it`s Qty delivered');
+            this.FetchData();
+            this.$loading.close();
+            return false;
+          }
+          if (this.updateQtyDelivered[i] < 1 || this.updateQtyAccepted[i] < 1) {
+            this.$toast.top('Qty must be atleast 1');
+            this.FetchData();
+            this.$loading.close();
+            return false;
+          }
+        }
+        var vm = this;
+        __WEBPACK_IMPORTED_MODULE_0_axios___default.a.put('/update-rr-file/' + this.rrno.RRNo, {
+          newQtyDelivered: this.updateQtyDelivered,
+          newQty: this.updateQtyAccepted,
+          newSupplier: this.updateSupplier,
+          newAddress: this.updateAddress,
+          newInvoice: this.updateInvoiceNum,
+          newCarrier: this.updateCarrier,
+          newDeliveryReceipt: this.updateDeliveryReceipt,
+          newNote: this.updateNote
+        }).then(function (response) {
+          console.log(response);
+          if (response.data.error != null) {
+            vm.$toast.top(response.data.error);
+          } else {
+            vm.$toast.top('updated sucessfully');
+          }
+          vm.FetchData();
+          vm.$loading.close();
+        }).catch(function (error) {
+          console.log(error);
+          vm.$loading.close();
+        });
+      }
     },
     FetchData: function FetchData() {
       var vm = this;
@@ -14413,7 +14480,7 @@ module.exports={render:function (){var _vm=this;var _h=_vm.$createElement;var _c
     staticClass: "signature-btn"
   }, [_c('div', {
     staticClass: "empty-div-left file-edit-container"
-  }, [(_vm.RRMaster.Status == null) ? _c('div', {}, [_c('span', {
+  }, [((_vm.RRMaster.Status == null && ((_vm.user.Role == 3) || (_vm.user.Role == 4)))) ? _c('div', {}, [_c('span', {
     staticClass: "edit-file",
     class: _vm.ShowEdit == true ? 'hide' : 'show',
     on: {
@@ -14527,9 +14594,104 @@ module.exports={render:function (){var _vm=this;var _h=_vm.$createElement;var _c
     staticClass: "RRmasters-details"
   }, [_c('div', {
     staticClass: "RRmaster-left"
-  }, [_c('ul', [_c('li', [_c('label', [_vm._v("Supplier:")]), _c('h4', [_vm._v(_vm._s(_vm.RRMaster.Supplier))])]), _vm._v(" "), _c('li', [_c('label', [_vm._v("Address:")]), _c('h4', [_vm._v(_vm._s(_vm.RRMaster.Address))])]), _vm._v(" "), _c('li', [_c('label', [_vm._v("Invoice No.:")]), _c('h4', [_vm._v(_vm._s(_vm.RRMaster.InvoiceNo))])]), _vm._v(" "), _c('li', [_c('label', [_vm._v("R.V. No.:")]), _c('h4', [_vm._v(_vm._s(_vm.RRMaster.RVNo))])])])]), _vm._v(" "), _c('div', {
+  }, [_c('ul', [_c('li', [_c('label', [_vm._v("Supplier:")]), _vm._v(" "), (_vm.ShowEdit == false || _vm.RRMaster.PONo != null) ? _c('h4', [_vm._v(_vm._s(_vm.RRMaster.Supplier))]) : (_vm.RRMaster.PONo == null && _vm.ShowEdit == true) ? _c('h4', [_c('input', {
+    directives: [{
+      name: "model",
+      rawName: "v-model",
+      value: (_vm.updateSupplier = _vm.RRMaster.Supplier),
+      expression: "updateSupplier = RRMaster.Supplier"
+    }],
+    attrs: {
+      "type": "text"
+    },
+    domProps: {
+      "value": (_vm.updateSupplier = _vm.RRMaster.Supplier)
+    },
+    on: {
+      "input": function($event) {
+        if ($event.target.composing) { return; }
+        _vm.$set(_vm.updateSupplier = _vm.RRMaster, "Supplier", $event.target.value)
+      }
+    }
+  })]) : _vm._e()]), _vm._v(" "), _c('li', [_c('label', [_vm._v("Address:")]), _vm._v(" "), (_vm.ShowEdit == false || _vm.RRMaster.PONo != null) ? _c('h4', [_vm._v(_vm._s(_vm.RRMaster.Address))]) : (_vm.RRMaster.PONo == null && _vm.ShowEdit == true) ? _c('h4', [_c('input', {
+    directives: [{
+      name: "model",
+      rawName: "v-model",
+      value: (_vm.updateAddress = _vm.RRMaster.Address),
+      expression: "updateAddress = RRMaster.Address"
+    }],
+    attrs: {
+      "type": "text"
+    },
+    domProps: {
+      "value": (_vm.updateAddress = _vm.RRMaster.Address)
+    },
+    on: {
+      "input": function($event) {
+        if ($event.target.composing) { return; }
+        _vm.$set(_vm.updateAddress = _vm.RRMaster, "Address", $event.target.value)
+      }
+    }
+  })]) : _vm._e()]), _vm._v(" "), _c('li', [_c('label', [_vm._v("Invoice No.:")]), _vm._v(" "), (_vm.ShowEdit == false) ? _c('h4', [_vm._v(_vm._s(_vm.RRMaster.InvoiceNo))]) : _c('h4', [_c('input', {
+    directives: [{
+      name: "model",
+      rawName: "v-model",
+      value: (_vm.updateInvoiceNum = _vm.RRMaster.InvoiceNo),
+      expression: "updateInvoiceNum = RRMaster.InvoiceNo"
+    }],
+    attrs: {
+      "type": "text"
+    },
+    domProps: {
+      "value": (_vm.updateInvoiceNum = _vm.RRMaster.InvoiceNo)
+    },
+    on: {
+      "input": function($event) {
+        if ($event.target.composing) { return; }
+        _vm.$set(_vm.updateInvoiceNum = _vm.RRMaster, "InvoiceNo", $event.target.value)
+      }
+    }
+  })])]), _vm._v(" "), _c('li', [_c('label', [_vm._v("R.V. No.:")]), _c('h4', [_vm._v(_vm._s(_vm.RRMaster.RVNo))])])])]), _vm._v(" "), _c('div', {
     staticClass: "RRmaster-right"
-  }, [_c('ul', [_c('li', [_c('label', [_vm._v("Carrier:")]), _vm._v(" "), ((_vm.RRMaster.Carrier != null)) ? _c('h4', [_vm._v(_vm._s(_vm.RRMaster.Carrier))]) : _vm._e()]), _vm._v(" "), _c('li', [_c('label', [_vm._v("Delivery Receipt No:")]), _vm._v(" "), (_vm.RRMaster.DeliveryReceiptNo != null) ? _c('h4', [_vm._v(_vm._s(_vm.RRMaster.DeliveryReceiptNo))]) : _vm._e()]), _vm._v(" "), _c('li', [_c('label', [_vm._v("P.O. No:")]), _vm._v(" "), (_vm.RRMaster.PONo != null) ? _c('h4', [_vm._v(_vm._s(_vm.RRMaster.PONo))]) : _vm._e()])])])]), _vm._v(" "), _c('div', {
+  }, [_c('ul', [_c('li', [_c('label', [_vm._v("Carrier:")]), _vm._v(" "), (_vm.ShowEdit == false) ? _c('h4', [_vm._v(_vm._s(_vm.RRMaster.Carrier))]) : _c('h4', [_c('input', {
+    directives: [{
+      name: "model",
+      rawName: "v-model",
+      value: (_vm.updateCarrier = _vm.RRMaster.Carrier),
+      expression: "updateCarrier = RRMaster.Carrier"
+    }],
+    attrs: {
+      "type": "text"
+    },
+    domProps: {
+      "value": (_vm.updateCarrier = _vm.RRMaster.Carrier)
+    },
+    on: {
+      "input": function($event) {
+        if ($event.target.composing) { return; }
+        _vm.$set(_vm.updateCarrier = _vm.RRMaster, "Carrier", $event.target.value)
+      }
+    }
+  })])]), _vm._v(" "), _c('li', [_c('label', [_vm._v("Delivery Receipt No:")]), _vm._v(" "), (_vm.ShowEdit == false) ? _c('h4', [_vm._v(_vm._s(_vm.RRMaster.DeliveryReceiptNo))]) : _c('h4', [_c('input', {
+    directives: [{
+      name: "model",
+      rawName: "v-model",
+      value: (_vm.updateDeliveryReceipt = _vm.RRMaster.DeliveryReceiptNo),
+      expression: "updateDeliveryReceipt = RRMaster.DeliveryReceiptNo"
+    }],
+    attrs: {
+      "type": "text"
+    },
+    domProps: {
+      "value": (_vm.updateDeliveryReceipt = _vm.RRMaster.DeliveryReceiptNo)
+    },
+    on: {
+      "input": function($event) {
+        if ($event.target.composing) { return; }
+        _vm.$set(_vm.updateDeliveryReceipt = _vm.RRMaster, "DeliveryReceiptNo", $event.target.value)
+      }
+    }
+  })])]), _vm._v(" "), _c('li', [_c('label', [_vm._v("P.O. No:")]), _vm._v(" "), (_vm.RRMaster.PONo != null) ? _c('h4', [_vm._v(_vm._s(_vm.RRMaster.PONo))]) : _vm._e()])])])]), _vm._v(" "), _c('div', {
     staticClass: "RR-table-container"
   }, [_c('table', [_vm._m(4), _vm._v(" "), _vm._l((_vm.RRconfirmationDetails), function(data, key) {
     return _c('tr', [_c('td', [_vm._v(_vm._s(data.ItemCode))]), _vm._v(" "), _c('td', [_vm._v(_vm._s(data.Description))]), _vm._v(" "), _c('td', [_vm._v(_vm._s(data.Unit))]), _vm._v(" "), _c('td', [(_vm.ShowEdit == false) ? _c('span', [_vm._v(_vm._s(data.RRQuantityDelivered))]) : _c('span', [_c('input', {
@@ -14581,7 +14743,28 @@ module.exports={render:function (){var _vm=this;var _h=_vm.$createElement;var _c
     staticClass: "RRadded-VAT"
   }, [_c('h5', [_vm._v("Add:Vat")]), _vm._v(" "), _c('h5', [_vm._v("12%")]), _c('h5', [_vm._v(_vm._s(_vm.formatPrice(_vm.VAT)))])]), _vm._v(" "), _c('li', [_c('label', [_vm._v("TOTAL AMOUNT")]), _c('h4', [_vm._v(_vm._s(_vm.formatPrice(_vm.TOTALamt)))])])])]), _vm._v(" "), _c('h1', {
     staticClass: "noteRR"
-  }, [_c('label', [_vm._v("Note:")]), _c('p', [_vm._v(_vm._s(_vm.RRMaster.Note))])]), _vm._v(" "), _c('div', {
+  }, [_c('label', [_vm._v("Note:")]), _vm._v(" "), (_vm.ShowEdit == false) ? _c('p', [_vm._v(_vm._s(_vm.RRMaster.Note))]) : _c('p', [_c('input', {
+    directives: [{
+      name: "model",
+      rawName: "v-model",
+      value: (_vm.updateNote = _vm.RRMaster.Note),
+      expression: "updateNote = RRMaster.Note"
+    }],
+    attrs: {
+      "type": "text",
+      "name": "",
+      "value": ""
+    },
+    domProps: {
+      "value": (_vm.updateNote = _vm.RRMaster.Note)
+    },
+    on: {
+      "input": function($event) {
+        if ($event.target.composing) { return; }
+        _vm.$set(_vm.updateNote = _vm.RRMaster, "Note", $event.target.value)
+      }
+    }
+  })])]), _vm._v(" "), _c('div', {
     staticClass: "RRSignatures-container"
   }, [_c('div', {
     staticClass: "bottom-signatures-rr"

@@ -166,7 +166,7 @@ body.noScroll
 }
 .longpress-button
 {
-	min-height: 25px;
+	min-height: 20px;
 }
 .gray
 {
@@ -1562,7 +1562,7 @@ only screen and (max-width: 1050px),
 	height: 100vh;
   margin:auto;
   background: #fff;
-  border-radius: 5px;
+  border-radius: 3px;
 	-webkit-box-shadow: 0 2px 4px -1px rgba(0,0,0,0.06), 0 4px 5px 0 rgba(0,0,0,0.06), 0 1px 10px 0 rgba(0,0,0,0.08);
     box-shadow: 0 2px 4px -1px rgba(0,0,0,0.06), 0 4px 5px 0 rgba(0,0,0,0.06), 0 1px 10px 0 rgba(0,0,0,0.08);
 	overflow-y: auto;
@@ -2905,7 +2905,7 @@ only screen and (max-width: 1050px),
 .mct-modal-center
 {
  margin:auto;
- border-radius: 4px;
+ border-radius: 3px;
  width: 80vw;
  height:100vh;
  background: #fff;
@@ -3980,7 +3980,7 @@ only screen and (max-width: 1050px),
   padding:6px 12px;
   border: 1px solid #3367D6;
   outline: none;
-  border-radius: 4px;
+  border-radius: 3px;
   font-family:Roboto, 'Segoe UI', Tahoma, sans-serif;
 }
 
@@ -4437,7 +4437,7 @@ only screen and (max-width: 1050px),
 	font-weight: 600;
   margin-left:5px;
   padding:8px;
-  border-radius: 4px;
+  border-radius: 3px;
   background: #fff;
 	border:none;
 	-webkit-box-shadow: 0 2px 4px -1px rgba(0,0,0,0.06), 0 4px 5px 0 rgba(0,0,0,0.06), 0 1px 10px 0 rgba(0,0,0,0.08);
@@ -6020,6 +6020,11 @@ only screen and (max-width: 1050px),
 {
   min-width: 120px;
 }
+.RRmaster-left ul li h4 input,.RRmaster-right h4 input
+{
+	border-style: none;
+	border-bottom: 1px solid rgba(0, 0, 0, 0.5);
+}
 @media (max-width:700px)
 {
 	.RRmaster-right label
@@ -6535,7 +6540,7 @@ only screen and (max-width: 1050px),
   height: 35px;
   font-size: 15px;
   padding-left: 10px;
-  border-radius: 4px;
+  border-radius: 3px;
   border-style:inset;
   font-family:Roboto, 'Segoe UI', Tahoma, sans-serif;
 }
@@ -6768,7 +6773,7 @@ font-family: 'Comfortaa',sans-serif;
 text-align: center;
  width: 100%;
  height: 40px;
- border-radius: 5px;
+ border-radius: 3px;
  background: #002C4E;
  color: #fff!important;
  border-style: none;
@@ -7648,7 +7653,7 @@ only screen and (max-width: 1050px),
   padding-bottom: 30px;
   margin:auto;
   background: #fff;
-  border-radius: 4px;
+  border-radius: 3px;
 	overflow-y:scroll;
 }
 .middle-forStock-div h1
@@ -7998,7 +8003,7 @@ only screen and (max-width: 1050px),
  background: #3367D6;
  padding:9px 12px;
  font-size: 15px;
- border-radius: 5px;
+ border-radius: 3px;
  outline: none;
    transition: background .5s;
 }
@@ -8147,7 +8152,7 @@ only screen and (max-width: 1050px),
 {
   font-size: 15px;
   padding:5px;
-  border-radius: 4px;
+  border-radius: 3px;
   border-style: none;
   border:1px solid #aaa;
   outline: none;
@@ -8180,7 +8185,7 @@ only screen and (max-width: 1050px),
 {
   text-align: center;
 	width:90%;
-  border-radius: 4px;
+  border-radius: 3px;
   border-style: none;
   border:1px solid #aaa;
   outline: none;
@@ -8249,7 +8254,7 @@ only screen and (max-width: 1050px),
   background: #3367D6;
   border-style: none;
   color: #fff;
-  border-radius: 4px;
+  border-radius: 3px;
 	width: 200px;
 }
 .done-canvass:hover
@@ -8275,7 +8280,7 @@ only screen and (max-width: 1050px),
   border-style: none;
   border:1px solid #aaa;
   background: #3367D6;
-  border-radius: 5px;
+  border-radius: 3px;
   font-size: 16px;
   color: #fff;
   text-align: center;
@@ -9559,7 +9564,7 @@ only screen and (max-width: 1050px),
 {
   border-radius:3px;
   border-style: none;
-  background-color:#002C4E;
+  background-color:#22448E;
   color: #fff;
   padding:8px;
   text-align: center;
@@ -9568,7 +9573,7 @@ only screen and (max-width: 1050px),
 }
 #submitMRbtn:hover
 {
-  background-color: #001D34;
+  background-color: #162D5E;
 }
 .form-left-box-mr input,.form-left-box-mr select,.form-left-box-mr textarea
 {
@@ -9718,7 +9723,7 @@ only screen and (max-width: 1310px),
 .addfromrr-btn button
 {
   padding:5px 10px;
-  border-radius: 5px;
+  border-radius: 3px;
   border-style: none;
   background: #fff;
   outline: none;
@@ -9753,7 +9758,7 @@ only screen and (max-width: 1310px),
 	width:1000px;
   background: #fff;
   margin:auto;
-  border-radius: 4px;
+  border-radius: 3px;
 	overflow-x:hidden;
 	overflow-y: auto;
 }
@@ -10674,12 +10679,12 @@ only screen and (max-width: 1310px),
 .items-from-rv-nopo-table td input
 {
   text-align: center;
+	width:90%;
   background-color:transparent;
   padding:5px;
   border-style: none;
   border: 1px solid #ccc;
 	border-radius: 3px;
-	width: 100%;
 }
 @media
 only screen and (max-width: 1310px),
@@ -10726,6 +10731,10 @@ only screen and (max-width: 1310px),
 	.items-from-rv-nopo-table td:nth-of-type(5):before { content: "Qty accepted"; }
 	.items-from-rv-nopo-table td:nth-of-type(6):before { content: "Unit"; }
 	.items-from-rv-nopo-table td:nth-of-type(7):before { content: "Add"; }
+}
+.items-from-rv-nopo-table table
+{
+	font-size: 13px!important;
 }
 /* create RR with PO*/
 .vue-rr-create-withpo
@@ -10784,7 +10793,7 @@ only screen and (max-width: 1310px),
 }
 .right-form-rr-with-po input,.right-form-rr-with-po select
 {
-  border-radius: 4px;
+  border-radius: 3px;
   padding:6px;
   margin-bottom: 20px;
   font-size: 15px;
@@ -10822,7 +10831,7 @@ only screen and (max-width: 1310px),
 .add-item-rr-w-pobtn button
 {
   font-size:16px!important;
-  border-radius: 4px;
+  border-radius: 3px;
 	background:#fff;
 	padding:4px 10px;
 	border-style: none;
@@ -10938,7 +10947,7 @@ only screen and (max-width: 1050px),
 {
   overflow-x:hidden;
   overflow-y:auto;
-  border-radius: 4px;
+  border-radius: 3px;
   height:100vh;
   margin:auto;
   width:1000px;
@@ -11372,7 +11381,7 @@ only screen and (max-width: 1050px),
   padding:5px;
   font-size: 15px;
   margin-bottom:25px;
-  border-radius: 5px;
+  border-radius: 3px;
   border-style: none;
   border: 1px solid #ccc;
 }
@@ -11393,7 +11402,7 @@ only screen and (max-width: 1050px),
 .update-inputs button
 {
   border-style: none;
-  border-radius: 4px;
+  border-radius: 3px;
   background: #3367D6;
   color: #fff;
   font-size: 16px;
@@ -11589,7 +11598,7 @@ only screen and (max-width: 1050px),
 .small-unit-form
 {
   display: flex;
-  border-radius: 5px;
+  border-radius: 3px;
   flex-direction: column;
   width: 100%;
   height: 100px;
@@ -11638,7 +11647,7 @@ only screen and (max-width: 1050px),
   right:0px;
 	-webkit-box-shadow: 0 2px 4px -1px rgba(0,0,0,0.06), 0 4px 5px 0 rgba(0,0,0,0.06), 0 1px 10px 0 rgba(0,0,0,0.08);
 	    box-shadow: 0 2px 4px -1px rgba(0,0,0,0.06), 0 4px 5px 0 rgba(0,0,0,0.06), 0 1px 10px 0 rgba(0,0,0,0.08);
-  border-radius: 4px;
+  border-radius: 3px;
 }
 .delete-unit-form select
 {
@@ -11682,7 +11691,7 @@ only screen and (max-width: 1050px),
 }
 .center-manager-create-form
 {
-  border-radius: 5px;
+  border-radius: 3px;
   height: 100vh;
   width:600px;
   margin:auto;
@@ -11931,7 +11940,7 @@ only screen and (max-width: 1310px),
   padding:10px;
   background: #004275;
   border-style: none;
-  border-radius: 5px;
+  border-radius: 3px;
   color: #fff;
   margin-top: 10px;
   font-size: 15px;
@@ -12226,7 +12235,7 @@ only screen and (max-width: 1050px),
 }
 .center-form-newuser
 {
-	border-radius: 5px;
+	border-radius: 3px;
   height: 100vh;
   width:600px;
   margin:auto;
@@ -12488,7 +12497,7 @@ only screen and (max-width: 1050px),
 .title-mrt-index-and-search input
 {
   padding:5px;
-  border-radius: 4px;
+  border-radius: 3px;
   border-style: none;
   font-size: 15px;
   border: 1px solid #3367D6;
@@ -12857,7 +12866,7 @@ only screen and (max-width: 1050px),
   display: inline-block;
   padding-left: 0;
   margin: 20px 0;
-  border-radius: 4px;
+  border-radius: 3px;
 }
 .pagination > li
 {
@@ -12884,7 +12893,7 @@ only screen and (max-width: 1050px),
 }
 .pagination > li:last-child > a i,.pagination > li:first-child > a i
 {
-	font-size: 18px;
+	font-size: 16px;
 }
 .pagination > li:last-child > a,
 .pagination > li:last-child > span {
@@ -13485,7 +13494,7 @@ only screen and (max-width: 1050px),
 .undo-btn
 {
 	padding:7px 14px;
-	border-radius: 4px;
+	border-radius: 3px;
 	background: #fff;
 	border: none;
 	color: #004488;
@@ -13853,74 +13862,4 @@ only screen and (max-width: 1050px),
 	border-bottom: 1px solid #e0e0e0;
 	color: rgba(0, 0, 0, 0.7);
 	cursor: pointer;
-}
-/*burger icon menu */
-#nav-icon3 span:nth-child(1) {
-  top: -6px;
-}
-
-#nav-icon3 span:nth-child(2),#nav-icon3 span:nth-child(3) {
-  top: 0px;
-}
-
-#nav-icon3 span:nth-child(4) {
-  top: 6px;
-}
-
-#nav-icon3.open span:nth-child(1) {
-  top: 12px;
-  width: 0%;
-  left: 50%;
-}
-
-#nav-icon3.open span:nth-child(2) {
-  -webkit-transform: rotate(45deg);
-  -moz-transform: rotate(45deg);
-  -o-transform: rotate(45deg);
-  transform: rotate(45deg);
-}
-
-#nav-icon3.open span:nth-child(3) {
-  -webkit-transform: rotate(-45deg);
-  -moz-transform: rotate(-45deg);
-  -o-transform: rotate(-45deg);
-  transform: rotate(-45deg);
-}
-
-#nav-icon3.open span:nth-child(4) {
-  top: 0px;
-  width: 0%;
-  left: 50%;
-}
-#nav-icon3{
-  width:25px;
-  position: relative;
-  -webkit-transform: rotate(0deg);
-  -moz-transform: rotate(0deg);
-  -o-transform: rotate(0deg);
-  transform: rotate(0deg);
-  -webkit-transition: .5s ease-in-out;
-  -moz-transition: .5s ease-in-out;
-  -o-transition: .5s ease-in-out;
-  transition: .5s ease-in-out;
-  cursor: pointer;
-}
-
-#nav-icon3 span{
-  display: block;
-  height: 2px;
-  width: 100%;
-	position: absolute;
-  background: #fff;
-  border-radius: 9px;
-  opacity: 1;
-  left: 0;
-  -webkit-transform: rotate(0deg);
-  -moz-transform: rotate(0deg);
-  -o-transform: rotate(0deg);
-  transform: rotate(0deg);
-  -webkit-transition: .25s ease-in-out;
-  -moz-transition: .25s ease-in-out;
-  -o-transition: .25s ease-in-out;
-  transition: .25s ease-in-out;
 }

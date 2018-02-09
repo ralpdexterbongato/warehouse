@@ -28,13 +28,158 @@ class RRController extends Controller
   }
   public function updateRR(Request $request,$RRno)
   {
-    $MasterCurrent= RRMaster::where('RRNo', $RRno)->get(['RRNo','PONo','RVNo']);
-    $tobeUpdated=RRconfirmationDetails::where('RRNo',$RRno)->get(['QuantityAccepted','ItemCode','id','UnitCost']);
-    foreach ($tobeUpdated as $key => $tobe)
+    $MasterCurrent= RRMaster::where('RRNo', $RRno)->get(['RRNo','PONo','RVNo','Status']);
+    if ($MasterCurrent[0]->Status!=null)
     {
-      $newAmt = $request->newQty[$key] * $tobe->UnitCost;
-      RRconfirmationDetails::where('id',$tobe->id)->update(['QuantityAccepted'=>$request->newQty[$key],'RRQuantityDelivered'=>$request->newQtyDelivered[$key],'Amount'=>$newAmt]);
+      return ['error'=>'Refreshed'];
     }
+    // validation process
+    $tobeUpdated=RRconfirmationDetails::where('RRNo',$RRno)->get(['QuantityAccepted','ItemCode','id','UnitCost','Description']);
+    if ($MasterCurrent[0]->PONo != null)
+    {
+      foreach ($tobeUpdated as $key => $tobe)
+      {
+        $itemrow=$key + 1;
+        if ($tobe->ItemCode!=null)
+        {
+          $RVCurrentDetail=PODetail::where('PONo', $MasterCurrent[0]->PONo)->where('ItemCode',$tobe->ItemCode)->get(['QtyValidator','id']);
+          if ($tobe->QuantityAccepted < $request->newQty[$key])
+          {
+            $QtyToSub =$request->newQty[$key] - $tobe->QuantityAccepted;
+            if ($QtyToSub > $RVCurrentDetail[0]->QtyValidator)
+            {
+              return ['error'=>'Item row '.$itemrow.',the remaining unreceived items is '.$RVCurrentDetail[0]->QtyValidator];
+            }
+          }
+        }else
+        {
+          $RVCurrentDetail=PODetail::where('PONo', $MasterCurrent[0]->PONo)->where('Particulars',$tobe->Description)->get(['QtyValidator','id']);
+          if ($tobe->QuantityAccepted < $request->newQty[$key])
+          {
+            $QtyToSub =$request->newQty[$key] - $tobe->QuantityAccepted;
+            if ($QtyToSub > $RVCurrentDetail[0]->QtyValidator)
+            {
+              return ['error'=>'Item row '.$itemrow.',the remaining unreceived items is '.$RVCurrentDetail[0]->QtyValidator];
+            }
+          }
+        }
+      }
+    }else
+    {
+      foreach ($tobeUpdated as $key => $tobe)
+      {
+        $itemrow=$key + 1;
+        if ($tobe->ItemCode!=null)
+        {
+          $RVCurrentDetail=RVDetail::where('RVNo', $MasterCurrent[0]->RVNo)->where('ItemCode',$tobe->ItemCode)->get(['QuantityValidator','id']);
+          if ($tobe->QuantityAccepted < $request->newQty[$key])
+          {
+            $QtyToSub =$request->newQty[$key] - $tobe->QuantityAccepted;
+            if ($QtyToSub > $RVCurrentDetail[0]->QuantityValidator)
+            {
+              return ['error'=>'Item row '.$itemrow.',the remaining unreceived items is '.$RVCurrentDetail[0]->QuantityValidator];
+            }
+          }
+        }else
+        {
+          $RVCurrentDetail=RVDetail::where('RVNo', $MasterCurrent[0]->RVNo)->where('Particulars',$tobe->Description)->get(['QuantityValidator','id']);
+          if ($tobe->QuantityAccepted < $request->newQty[$key])
+          {
+            $QtyToSub =$request->newQty[$key] - $tobe->QuantityAccepted;
+            if ($QtyToSub > $RVCurrentDetail[0]->QuantityValidator)
+            {
+              return ['error'=>'Item row '.$itemrow.',the remaining unreceived items is '.$RVCurrentDetail[0]->QuantityValidator];
+            }
+          }
+        }
+      }
+    }
+    // updating process
+    if ($MasterCurrent[0]->PONo != null)
+    {
+      $tobeUpdated=RRconfirmationDetails::where('RRNo',$RRno)->get(['QuantityAccepted','ItemCode','id','UnitCost','Description']);
+      foreach ($tobeUpdated as $key => $tobe)
+      {
+        if ($tobe->ItemCode!=null)
+        {
+          $RVCurrentDetail=PODetail::where('PONo', $MasterCurrent[0]->PONo)->where('ItemCode',$tobe->ItemCode)->get(['QtyValidator','id']);
+          if ($tobe->QuantityAccepted > $request->newQty[$key])
+          {
+            $QtyToReturn = $tobe->QuantityAccepted - $request->newQty[$key];
+            $newValidator = $RVCurrentDetail[0]->QtyValidator + $QtyToReturn;
+            PODetail::where('PONo', $MasterCurrent[0]->PONo)->where('id',$RVCurrentDetail[0]->id)->update(['QtyValidator'=>$newValidator]);
+          }elseif ($tobe->QuantityAccepted < $request->newQty[$key])
+          {
+            $QtyToSub =$request->newQty[$key] - $tobe->QuantityAccepted;
+            $newValidator = $RVCurrentDetail[0]->QtyValidator - $QtyToSub;
+            PODetail::where('PONo', $MasterCurrent[0]->PONo)->where('id',$RVCurrentDetail[0]->id)->update(['QtyValidator'=>$newValidator]);
+          }
+        }else
+        {
+          $RVCurrentDetail=PODetail::where('PONo', $MasterCurrent[0]->PONo)->where('Particulars',$tobe->Description)->get(['QtyValidator','id']);
+          if ($tobe->QuantityAccepted > $request->newQty[$key])
+          {
+            $QtyToReturn = $tobe->QuantityAccepted - $request->newQty[$key];
+            $newValidator = $RVCurrentDetail[0]->QtyValidator + $QtyToReturn;
+            PODetail::where('PONo', $MasterCurrent[0]->PONo)->where('id',$RVCurrentDetail[0]->id)->update(['QtyValidator'=>$newValidator]);
+          }elseif ($tobe->QuantityAccepted < $request->newQty[$key])
+          {
+            $QtyToSub =$request->newQty[$key] - $tobe->QuantityAccepted;
+            $newValidator = $RVCurrentDetail[0]->QtyValidator - $QtyToSub;
+            PODetail::where('PONo', $MasterCurrent[0]->PONo)->where('id',$RVCurrentDetail[0]->id)->update(['QuantityValidator'=>$newValidator]);
+          }
+        }
+        $newAmt = $request->newQty[$key] * $tobe->UnitCost;
+        RRconfirmationDetails::where('id',$tobe->id)->update(['QuantityAccepted'=>$request->newQty[$key],'RRQuantityDelivered'=>$request->newQtyDelivered[$key],'Amount'=>$newAmt]);
+      }
+    }else
+    {
+      $tobeUpdated=RRconfirmationDetails::where('RRNo',$RRno)->get(['QuantityAccepted','ItemCode','id','UnitCost','Description']);
+      foreach ($tobeUpdated as $key => $tobe)
+      {
+        if ($tobe->ItemCode!=null)
+        {
+          $RVCurrentDetail=RVDetail::where('RVNo', $MasterCurrent[0]->RVNo)->where('ItemCode',$tobe->ItemCode)->get(['QuantityValidator','id']);
+          if ($tobe->QuantityAccepted > $request->newQty[$key])
+          {
+            $QtyToReturn = $tobe->QuantityAccepted - $request->newQty[$key];
+            $newValidator = $RVCurrentDetail[0]->QuantityValidator + $QtyToReturn;
+            RVDetail::where('RVNo', $MasterCurrent[0]->RVNo)->where('id',$RVCurrentDetail[0]->id)->update(['QuantityValidator'=>$newValidator]);
+          }elseif ($tobe->QuantityAccepted < $request->newQty[$key])
+          {
+            $QtyToSub =$request->newQty[$key] - $tobe->QuantityAccepted;
+            $newValidator = $RVCurrentDetail[0]->QuantityValidator - $QtyToSub;
+            RVDetail::where('RVNo', $MasterCurrent[0]->RVNo)->where('id',$RVCurrentDetail[0]->id)->update(['QuantityValidator'=>$newValidator]);
+          }
+        }else
+        {
+          $RVCurrentDetail=RVDetail::where('RVNo', $MasterCurrent[0]->RVNo)->where('Particulars',$tobe->Description)->get(['QuantityValidator','id']);
+          if ($tobe->QuantityAccepted > $request->newQty[$key])
+          {
+            $QtyToReturn = $tobe->QuantityAccepted - $request->newQty[$key];
+            $newValidator = $RVCurrentDetail[0]->QuantityValidator + $QtyToReturn;
+            RVDetail::where('RVNo', $MasterCurrent[0]->RVNo)->where('id',$RVCurrentDetail[0]->id)->update(['QuantityValidator'=>$newValidator]);
+          }elseif ($tobe->QuantityAccepted < $request->newQty[$key])
+          {
+            $QtyToSub =$request->newQty[$key] - $tobe->QuantityAccepted;
+            $newValidator = $RVCurrentDetail[0]->QuantityValidator - $QtyToSub;
+            RVDetail::where('RVNo', $MasterCurrent[0]->RVNo)->where('id',$RVCurrentDetail[0]->id)->update(['QuantityValidator'=>$newValidator]);
+          }
+        }
+        $newAmt = $request->newQty[$key] * $tobe->UnitCost;
+        RRconfirmationDetails::where('id',$tobe->id)->update(['QuantityAccepted'=>$request->newQty[$key],'RRQuantityDelivered'=>$request->newQtyDelivered[$key],'Amount'=>$newAmt]);
+      }
+    }
+
+    if ($MasterCurrent[0]->PONo==null)
+    {
+      RRMaster::where('RRNo', $RRno)->update(['Supplier'=>$request->newSupplier,'Address'=>$request->newAddress,'InvoiceNo'=>$request->newInvoice,'Carrier'=>$request->newCarrier,'DeliveryReceiptNo'=>$request->newDeliveryReceipt,'Note'=>$request->newNote]);
+    }else
+    {
+      RRMaster::where('RRNo', $RRno)->update(['InvoiceNo'=>$request->newInvoice,'Carrier'=>$request->newCarrier,'DeliveryReceiptNo'=>$request->newDeliveryReceipt,'Note'=>$request->newNote]);
+    }
+
+    Signatureable::where('signatureable_type','App\RRMaster')->where('signatureable_id',$RRno)->update(['Signature'=>NULL]);
   }
   public function storeRRSessionValidatorNoPO($request)
   {

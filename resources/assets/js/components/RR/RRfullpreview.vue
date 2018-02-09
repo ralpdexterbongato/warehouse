@@ -5,7 +5,7 @@
   </div>
   <div class="signature-btn">
     <div class="empty-div-left file-edit-container">
-      <div class="" v-if="RRMaster.Status==null">
+      <div class="" v-if="(RRMaster.Status==null && ((user.Role==3) || (user.Role==4))) ">
         <span class="edit-file" :class="ShowEdit==true?'hide':'show'" v-on:click="ShowEdit=true"><i class="material-icons">edit</i>Edit</span>
         <span class="edit-file" :class="ShowEdit==false?'hide':'show'">
           <span class="color-blue">Save?</span>
@@ -55,19 +55,33 @@
       <div class="RRmasters-details">
         <div class="RRmaster-left">
           <ul>
-            <li><label>Supplier:</label><h4>{{RRMaster.Supplier}}</h4></li>
-            <li><label>Address:</label><h4>{{RRMaster.Address}}</h4></li>
-            <li><label>Invoice No.:</label><h4>{{RRMaster.InvoiceNo}}</h4></li>
+            <li>
+              <label>Supplier:</label>
+              <h4 v-if="ShowEdit==false||RRMaster.PONo!=null">{{RRMaster.Supplier}}</h4>
+              <h4 v-else-if="RRMaster.PONo ==null && ShowEdit==true"><input v-model="updateSupplier = RRMaster.Supplier" type="text"></h4>
+            </li>
+            <li>
+              <label>Address:</label>
+              <h4 v-if="ShowEdit==false || RRMaster.PONo!=null">{{RRMaster.Address}}</h4>
+              <h4 v-else-if="RRMaster.PONo ==null && ShowEdit==true"><input type="text" v-model="updateAddress = RRMaster.Address"></h4>
+            </li>
+            <li><label>Invoice No.:</label>
+              <h4 v-if="ShowEdit==false">{{RRMaster.InvoiceNo}}</h4>
+              <h4 v-else><input type="text" v-model="updateInvoiceNum = RRMaster.InvoiceNo"></h4>
+            </li>
             <li><label>R.V. No.:</label><h4>{{RRMaster.RVNo}}</h4></li>
           </ul>
         </div>
         <div class="RRmaster-right">
           <ul>
             <li><label>Carrier:</label>
-              <h4 v-if="(RRMaster.Carrier!=null)">{{RRMaster.Carrier}}</h4>
+              <h4 v-if="ShowEdit==false">{{RRMaster.Carrier}}</h4>
+              <h4 v-else><input type="text" v-model="updateCarrier = RRMaster.Carrier"></h4>
             </li>
-            <li><label>Delivery Receipt No:</label>
-              <h4 v-if="RRMaster.DeliveryReceiptNo!=null">{{RRMaster.DeliveryReceiptNo}}</h4>
+            <li>
+              <label>Delivery Receipt No:</label>
+              <h4 v-if="ShowEdit==false">{{RRMaster.DeliveryReceiptNo}}</h4>
+              <h4 v-else><input type="text" v-model="updateDeliveryReceipt = RRMaster.DeliveryReceiptNo"></h4>
             </li>
             <li><label>P.O. No:</label>
               <h4 v-if="RRMaster.PONo!=null">{{RRMaster.PONo}}</h4>
@@ -110,7 +124,11 @@
           <li><label>TOTAL AMOUNT</label><h4>{{formatPrice(TOTALamt)}}</h4></li>
         </div>
       </div>
-      <h1 class="noteRR"><label>Note:</label><p>{{RRMaster.Note}}</p></h1>
+      <h1 class="noteRR">
+        <label>Note:</label>
+        <p v-if="ShowEdit==false">{{RRMaster.Note}}</p>
+        <p v-else><input type="text" v-model="updateNote = RRMaster.Note" name="" value=""></p>
+      </h1>
       <div class="RRSignatures-container">
         <div class="bottom-signatures-rr">
           <div class="signature-rr-left">
@@ -182,24 +200,81 @@ import Toast from 'vue2-toast'
       ShowEdit:false,
       updateQtyDelivered:[],
       updateQtyAccepted:[],
+      updateSupplier:'',
+      updateAddress:'',
+      updateInvoiceNum:'',
+      updateCarrier:'',
+      updateDeliveryReceipt:'',
+      updateNote:''
      }
     },
     props: ['user','rrno'],
     methods: {
     updateData()
     {
-        var vm = this;
-        axios.put(`/update-rr-file/`+this.rrno.RRNo,{
-          newQtyDelivered:this.updateQtyDelivered,
-          newQty:this.updateQtyAccepted,
-        }).then(function(response)
+      this.SignatureBtnHide=false;
+      if (confirm('Warning! - Signatures will be restarted, continue?'))
+      {
+        this.$loading('Please wait');
+        for (var i = 0; i < this.RRconfirmationDetails.length; i++)
         {
-          console.log(response);
-          vm.FetchData();
-        }).catch(function(error)
-        {
-          console.log(error);
-        });
+          if ((isNaN(this.updateQtyDelivered[i]) || isNaN(this.updateQtyAccepted[i])))
+          {
+            this.$toast.top('Qty must be a number');
+            this.FetchData();
+            this.$loading.close();
+            return false;
+          }
+          if (this.updateQtyDelivered[i] == '' || this.updateQtyAccepted[i] == '')
+          {
+            this.$toast.top('You cannot leave a blank field');
+            this.FetchData();
+            this.$loading.close();
+            return false;
+          }
+          if(Number(this.updateQtyDelivered[i]) < Number(this.updateQtyAccepted[i]))
+          {
+            this.$toast.top('Qty accepted cannot be higher than it`s Qty delivered');
+            this.FetchData();
+            this.$loading.close();
+            return false;
+          }
+          if (this.updateQtyDelivered[i] < 1 || this.updateQtyAccepted[i] < 1)
+          {
+            this.$toast.top('Qty must be atleast 1');
+            this.FetchData();
+            this.$loading.close();
+            return false;
+          }
+        }
+          var vm = this;
+          axios.put(`/update-rr-file/`+this.rrno.RRNo,{
+            newQtyDelivered:this.updateQtyDelivered,
+            newQty:this.updateQtyAccepted,
+            newSupplier:this.updateSupplier,
+            newAddress:this.updateAddress,
+            newInvoice:this.updateInvoiceNum,
+            newCarrier:this.updateCarrier,
+            newDeliveryReceipt:this.updateDeliveryReceipt,
+            newNote:this.updateNote,
+          }).then(function(response)
+          {
+            console.log(response);
+            if (response.data.error!=null)
+            {
+              vm.$toast.top(response.data.error);
+            }else
+            {
+              vm.$toast.top('updated sucessfully');
+            }
+            vm.FetchData();
+            vm.$loading.close();
+          }).catch(function(error)
+          {
+            console.log(error);
+            vm.$loading.close();
+          });
+      }
       },
       FetchData()
       {

@@ -13623,7 +13623,7 @@ module.exports={render:function (){var _vm=this;var _h=_vm.$createElement;var _c
     staticClass: "new-search-container"
   }, [_c('div', {
     staticClass: "search-box",
-    class: [_vm.latestFound.MTNo != null ? 'SearchItemSuccess' : 'z-depth-4']
+    class: [_vm.latestFound.MTNo != null ? 'SearchItemSuccess' : '']
   }, [_c('div', {
     staticClass: "text-left"
   }, [(_vm.latestFound.MTNo == null) ? _c('p', [_vm._m(0), _vm._v(" & "), _c('span', {
@@ -13674,7 +13674,7 @@ module.exports={render:function (){var _vm=this;var _h=_vm.$createElement;var _c
   }, [_c('i', {
     staticClass: "material-icons"
   }, [_vm._v("search")])]), _vm._v(" "), _c('div', {
-    staticClass: "own-autocomplete z-depth-4"
+    staticClass: "own-autocomplete "
   }, _vm._l((_vm.autocomplete), function(suggestion) {
     return _c('p', {
       staticClass: "autocomplete-row",
@@ -13687,7 +13687,6 @@ module.exports={render:function (){var _vm=this;var _h=_vm.$createElement;var _c
   }))])])]), _vm._v(" "), (((_vm.latestFound.MTNo != null) && (_vm.NotFoundSearch == '') && (_vm.user.Role == 3 || _vm.user.Role == 4))) ? _c('div', {
     staticClass: "report-damage-button"
   }, [_c('button', {
-    staticClass: "z-depth-4",
     attrs: {
       "type": "button",
       "name": "button"
@@ -13700,7 +13699,6 @@ module.exports={render:function (){var _vm=this;var _h=_vm.$createElement;var _c
   }, [_c('i', {
     staticClass: "material-icons"
   }, [_vm._v("broken_image")])]), _vm._v(" "), _c('button', {
-    staticClass: "z-depth-4",
     attrs: {
       "type": "button",
       "name": "button"
@@ -13804,7 +13802,7 @@ module.exports={render:function (){var _vm=this;var _h=_vm.$createElement;var _c
   }, [_c('div', {
     staticClass: "dash-home"
   }, [_c('div', {
-    staticClass: "dashbox dash-high z-depth-4"
+    staticClass: "dashbox dash-high "
   }, [_vm._m(5), _vm._v(" "), _c('div', {
     staticClass: "right-dash"
   }, [_c('span', [_c('h1', {
@@ -13817,7 +13815,7 @@ module.exports={render:function (){var _vm=this;var _h=_vm.$createElement;var _c
       "easing": "easeOutQuad"
     }
   }) : _c('span', [_vm._v("\r\n                  0\r\n                ")])], 1), _vm._v(" "), (_vm.DashGood > 1) ? _c('p', [_vm._v("Items")]) : _c('p', [_vm._v("Item")])]), _vm._v(" "), _vm._m(6)])]), _vm._v(" "), _c('div', {
-    staticClass: "dashbox dash-low z-depth-4"
+    staticClass: "dashbox dash-low "
   }, [_vm._m(7), _vm._v(" "), _c('div', {
     staticClass: "right-dash"
   }, [_c('span', [_c('h1', {
@@ -13830,7 +13828,7 @@ module.exports={render:function (){var _vm=this;var _h=_vm.$createElement;var _c
       "easing": "easeOutQuad"
     }
   }) : _c('span', [_vm._v("\r\n                  0\r\n                ")])], 1), _vm._v(" "), (_vm.DashWarn > 1) ? _c('p', [_vm._v("Items")]) : _c('p', [_vm._v("Item")])]), _vm._v(" "), _vm._m(8)])]), _vm._v(" "), _c('div', {
-    staticClass: "dashbox dash-empty z-depth-4"
+    staticClass: "dashbox dash-empty "
   }, [_vm._m(9), _vm._v(" "), _c('div', {
     staticClass: "right-dash"
   }, [_c('span', [_c('h1', {

@@ -2,13 +2,8 @@
   <span>
     <div class="top-nav-container">
       <div class="left-nav-content">
-          <button type="button" class="burger-button" v-on:click="modalOpen=true,refreshall()">
-            <div id="nav-icon3" :class="[modalOpen==true?'open':'']">
-            <span></span>
-            <span></span>
-            <span></span>
-            <span></span>
-            </div>
+          <button type="button" class="burger-button" :class="[modalOpen==true?'active':'']" v-on:click="modalOpen=true,refreshall()">
+            <i class="material-icons">menu</i>
           </button>
         <h1><a href="/"><img src="/DesignIMG/logo.png" alt="logo"></a></h1>
       </div>
