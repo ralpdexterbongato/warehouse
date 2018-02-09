@@ -119,6 +119,15 @@ body
 .main-master-container
 {
 	min-height: 100vh;
+	display: flex;
+	width: 100%;
+	padding-top:90px;
+}
+
+.sidebar-static
+{
+	background: #fff;
+	border-right: 1px solid #e0e0e0;
 }
 .material-icons
 {
@@ -257,7 +266,7 @@ input[type='radio']:after {
 /*home*/
 .top-nav-container
 {
-  padding:4px 100px;
+  padding:4px 20px;
 	min-height: 55px;
   display: flex;
   justify-content: space-between;
@@ -295,7 +304,7 @@ input[type='radio']:after {
 {
 	.drop-add .dropping
 	{
-		left:0px!important;
+		left:-80px!important;
 	}
 }
 @media (max-width:600px) {
@@ -303,15 +312,7 @@ input[type='radio']:after {
   {
     display: none;
   }
-	.left-nav-content
-	{
-		flex:1;
-		justify-content:space-between;
-	}
-	.dropping
-	{
-		left: -60px!important;
-	}
+
 	.dropping:after
 	{
 		display: none;
@@ -322,13 +323,14 @@ input[type='radio']:after {
   color: #fff;
   font-family: 'Comfortaa', cursive;
 	margin: auto 0;
+	display: none;
 }
 .new-search-container
 {
   display: flex;
 	display: block;
 	margin:0 auto;
-  padding: 0px 100px;
+  padding: 0px 20px;
 }
 @media (max-width:750px)
 {
@@ -517,21 +519,14 @@ input[type='radio']:after {
 {
   position: relative;
   font-family:Roboto, 'Segoe UI', Tahoma, sans-serif;
-  background: #3367D6;
-  color: #fff;
+  color: #FFF;
   display: flex;
-  transition: background .3s;
   justify-content:center;
   border-radius:50%;
   height:40px;
   width: 40px;
   padding-top:12px;
 	box-sizing: border-box;
-	-webkit-transition: box-shadow .28s cubic-bezier(0.4,0.0,0.2,1);
-	transition: box-shadow .28s cubic-bezier(0.4,0.0,0.2,1);
-	-webkit-box-shadow: 0 2px 2px 0 rgba(0,0,0,0.14), 0 3px 1px -2px rgba(0,0,0,0.12), 0 1px 5px 0 rgba(0,0,0,0.2);
-	box-shadow: 0 2px 2px 0 rgba(0,0,0,0.14), 0 3px 1px -2px rgba(0,0,0,0.12), 0 1px 5px 0 rgba(0,0,0,0.2);
-	transition: background .3s ease-in-out;
 }
 .empty-left-btn > ul > li h1 i
 {
@@ -552,7 +547,7 @@ input[type='radio']:after {
 }
 .empty-left-btn >ul >li
 {
-  padding:10px;
+  padding:10px 5px;
 }
 
 .dropping
@@ -634,7 +629,7 @@ input[type='radio']:after {
 {
   background: transparent!important;
   transition:all .5s;
-	padding:30px 0px!important;
+	padding:0px 0px!important;
 }
 .SearchItemSuccess input
 {
@@ -655,8 +650,7 @@ input[type='radio']:after {
   justify-content:space-between;
   border-radius: 3px;
   background: #3367D6;
-  margin-top: 40px;
-  /*height: 20px;*/
+
 }
 @media (max-width: 730px)
 {
@@ -802,15 +796,9 @@ input[type='radio']:after {
 }
 .result-wrapper
 {
-	padding:10px 100px;
+	padding:10px 20px;
 }
-@media (max-width:1200px)
-{
-	.result-wrapper
-	{
-		padding:10px 50px;
-	}
-}
+
 @media (max-width: 730px)
 {
 	.result-wrapper
@@ -941,7 +929,7 @@ input[type='radio']:after {
 }
 .report-damage-button
 {
-	padding:5px 100px;
+	padding:10px 20px;
 	display: flex;
 	justify-content: flex-end;
 }
@@ -949,7 +937,7 @@ input[type='radio']:after {
 {
 	.report-damage-button
 	{
-		padding:5px 10px;
+		padding:10px;
 	}
 }
 .Report-Damage-Modal
@@ -1379,7 +1367,7 @@ border-radius: 3px;
 }
 .Search-item-container
 {
-  padding: 30px;
+  padding: 30px 10px;
   flex:3;
 }
 
@@ -3968,6 +3956,7 @@ only screen and (max-width: 1050px),
 .MIRS-CONTAINER
 {
   min-height: 100vh;
+	width: 98%;
 }
 .MIRS-create-wrap
 {
@@ -5211,15 +5200,30 @@ only screen and (max-width: 1050px),
 }
 .left-nav-content button
 {
+ display: none;
  padding: 10px;
  color: #fff;
  border-style: none;
  background: transparent;
  transition: transform .5s;
 }
+@media (max-width: 868px)
+{
+	.left-nav-content button
+	{
+		display: block;
+	}
+}
 .left-nav-content h1
 {
-	margin-left: 40px;
+	margin-left: 20px;
+}
+@media (max-width:600px)
+{
+	.left-nav-content h1
+	{
+		display: none;
+	}
 }
 .left-nav-content h1 img
 {
@@ -5239,7 +5243,14 @@ only screen and (max-width: 1050px),
 }
 .Account-modal.active
 {
-  display: flex;
+  display:none;
+}
+@media (max-width: 868px)
+{
+	.Account-modal.active
+	{
+		display: flex;
+	}
 }
 .sidebar-scrolling-container::-webkit-scrollbar {
     width: 9px;
@@ -5256,9 +5267,9 @@ only screen and (max-width: 1050px),
 }
 .sidebar-scrolling-container
 {
-	height: 87vh;
-	overflow-x: auto;
-	overflow-y: scroll;
+	overflow-x: hidden;
+	overflow-y: auto;
+	height: 100%
 }
 .middle-account-modal ul
 {
@@ -5267,21 +5278,41 @@ only screen and (max-width: 1050px),
 }
 .middle-account-modal
 {
- position:fixed;
- top: 0;
+ /*position:fixed;
+ top: 0;*/
  background: #fff;
  height:100%;
- margin-right: 10px;
  width: 250px;
  border-bottom-right-radius: 5px;
- z-index: 17;
- left:-400px;
+ /*z-index: 17;
+ left:-400px;*/
  transition: left .5s cubic-bezier(0.06, 0.03, 0.07, 0.65);
  -webkit-overflow-scrolling: touch;
 }
 .middle-account-modal.active
 {
 	left: 0;
+}
+@media (max-width:868px)
+{
+	.middle-account-modal
+	{
+	 position:fixed;
+	 top: 0;
+	 background: #fff;
+	 height:100%;
+	 margin-right: 10px;
+	 width: 250px;
+	 border-bottom-right-radius: 5px;
+	 z-index: 17;
+	 left:-400px;
+	 transition: left .5s cubic-bezier(0.06, 0.03, 0.07, 0.65);
+	 -webkit-overflow-scrolling: touch;
+	}
+	.sidebar-scrolling-container
+	{
+		height: 87vh;
+	}
 }
 @media (max-width:400px)
 {
@@ -12208,15 +12239,13 @@ only screen and (max-width: 1050px),
 .top-nav-boxes
 {
   height: 54px;
-  padding:55px 90px 25px 90px;
+  padding:0px;
+	position: fixed;
+	top:-24px;
+	right:0px;
+	z-index: 16;
 }
-@media (max-width:730px)
-{
-	.top-nav-boxes
-	{
-		padding:55px 10px 25px 10px;
-	}
-}
+
 /*CREATE NEW USER ACCOUNT*/
 .CreateNEwUserModal
 {
@@ -13614,17 +13643,10 @@ only screen and (max-width: 1050px),
 	-webkit-touch-callout: none;
 	-webkit-user-select: none; /* Webkit */
 	-ms-user-select: none;
-	width: 100%;
 	margin-top: 40px;
 	margin-bottom: 40px;
 	display: flex;
-}
-@media (max-width:940px)
-{
-	.charts-container
-	{
-		flex-wrap: wrap;
-	}
+	display: none;
 }
 @media (max-width:340px)
 {
@@ -13633,9 +13655,13 @@ only screen and (max-width: 1050px),
 		display: none;
 	}
 }
+.body-container
+{
+	width: 100vw;
+}
 .dash-container
 {
-	padding:0px 100px;
+	padding:0px 20px;
 }
 @media (max-width:750px)
 {
@@ -13689,7 +13715,7 @@ only screen and (max-width: 1050px),
 	width: 370px;
 	position: absolute;
 	top: 60px;
-	right: 0;
+	right: 10px;
 	background: #fff;
 	border-radius: 3px;
 	border:1px solid #e0e0e0;
@@ -13698,8 +13724,8 @@ only screen and (max-width: 1050px),
 {
 	.notification-drop
 	{
+		right: 5px;
 		width: 265px;
-		right: -5px;
 	}
 }
 .notification-line-container

@@ -63,7 +63,7 @@
 /******/ 	__webpack_require__.p = "";
 /******/
 /******/ 	// Load entry module and return exports
-/******/ 	return __webpack_require__(__webpack_require__.s = 289);
+/******/ 	return __webpack_require__(__webpack_require__.s = 290);
 /******/ })
 /************************************************************************/
 /******/ ({
@@ -582,131 +582,6 @@ process.chdir = function (dir) {
 };
 process.umask = function() { return 0; };
 
-
-/***/ }),
-
-/***/ 12:
-/***/ (function(module, exports, __webpack_require__) {
-
-// style-loader: Adds some css to the DOM by adding a <style> tag
-
-// load the styles
-var content = __webpack_require__(36);
-if(typeof content === 'string') content = [[module.i, content, '']];
-// add the styles to the DOM
-var update = __webpack_require__(37)(content, {});
-if(content.locals) module.exports = content.locals;
-// Hot Module Replacement
-if(false) {
-	// When the styles change, update the <style> tags
-	if(!content.locals) {
-		module.hot.accept("!!../../css-loader/index.js!./toast.css", function() {
-			var newContent = require("!!../../css-loader/index.js!./toast.css");
-			if(typeof newContent === 'string') newContent = [[module.id, newContent, '']];
-			update(newContent);
-		});
-	}
-	// When the module is disposed, remove the <style> tags
-	module.hot.dispose(function() { update(); });
-}
-
-/***/ }),
-
-/***/ 13:
-/***/ (function(module, exports) {
-
-/**
- * Updated by linxin on 2017/7/27.
- */
-var Toast = {};
-var showToast = false, // 存储toast显示状态
-    showLoad = false, // 存储loading显示状态
-    toastVM = null, // 存储toast vm
-    loadNode = null; // 存储loading节点元素
-
-Toast.install = function (Vue, options) {
-
-    var opt = {
-        defaultType: 'bottom',
-        duration: '2500',
-        wordWrap: false
-    };
-    for (var property in options) {
-        opt[property] = options[property];
-    }
-
-    Vue.prototype.$toast = function (tips, type) {
-
-        var curType = type ? type : opt.defaultType;
-        var wordWrap = opt.wordWrap ? 'lx-word-wrap' : '';
-        var style = opt.width ? 'style="width: ' + opt.width + '"' : '';
-        var tmp = '<div v-show="show" :class="type" class="lx-toast ' + wordWrap + '" ' + style + '>{{tip}}</div>';
-
-        if (showToast) {
-            // 如果toast还在，则不再执行
-            return;
-        }
-        if (!toastVM) {
-            var toastTpl = Vue.extend({
-                data: function () {
-                    return {
-                        show: showToast,
-                        tip: tips,
-                        type: 'lx-toast-' + curType
-                    }
-                },
-                template: tmp
-            });
-            toastVM = new toastTpl()
-            var tpl = toastVM.$mount().$el;
-            document.body.appendChild(tpl);
-        }
-        toastVM.type = 'lx-toast-' + curType;
-        toastVM.tip = tips;
-        toastVM.show = showToast = true;
-
-        setTimeout(function () {
-            toastVM.show = showToast = false;
-        }, opt.duration)
-    };
-    ['bottom', 'center', 'top'].forEach(function (type) {
-        Vue.prototype.$toast[type] = function (tips) {
-            return Vue.prototype.$toast(tips, type)
-        }
-    });
-
-    Vue.prototype.$loading = function (tips, type) {
-        if (type == 'close') {
-            loadNode.show = showLoad = false;
-            document.querySelector('.lx-load-mark').remove();
-        } else {
-            if (showLoad) {
-                // 如果loading还在，则不再执行
-                return;
-            }
-            var loadTpl = Vue.extend({
-                data: function () {
-                    return {
-                        show: showLoad
-                    }
-                },
-                template: '<div v-show="show" class="lx-load-mark"><div class="lx-load-box"><div class="lx-loading"><div class="loading_leaf loading_leaf_0"></div><div class="loading_leaf loading_leaf_1"></div><div class="loading_leaf loading_leaf_2"></div><div class="loading_leaf loading_leaf_3"></div><div class="loading_leaf loading_leaf_4"></div><div class="loading_leaf loading_leaf_5"></div><div class="loading_leaf loading_leaf_6"></div><div class="loading_leaf loading_leaf_7"></div><div class="loading_leaf loading_leaf_8"></div><div class="loading_leaf loading_leaf_9"></div><div class="loading_leaf loading_leaf_10"></div><div class="loading_leaf loading_leaf_11"></div></div><div class="lx-load-content">' + tips + '</div></div></div>'
-            });
-            loadNode = new loadTpl();
-            var tpl = loadNode.$mount().$el;
-
-            document.body.appendChild(tpl);
-            loadNode.show = showLoad = true;
-        }
-    };
-
-    ['open', 'close'].forEach(function (type) {
-        Vue.prototype.$loading[type] = function (tips) {
-            return Vue.prototype.$loading(tips, type)
-        }
-    });
-}
-module.exports = Toast;
 
 /***/ }),
 
@@ -11585,6 +11460,519 @@ module.exports = axios;
 // Allow use of default import syntax in TypeScript
 module.exports.default = axios;
 
+
+/***/ }),
+
+/***/ 159:
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_0_axios__ = __webpack_require__(3);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_0_axios___default = __webpack_require__.n(__WEBPACK_IMPORTED_MODULE_0_axios__);
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+
+
+/* harmony default export */ __webpack_exports__["default"] = ({
+  data: function data() {
+    return {
+      dropIsActive: false,
+      MIRSNotifs: [],
+      MIRSBtn: true,
+      POBtn: false,
+      RVBtn: false,
+      RRBtn: false,
+      MRBtn: false,
+      MCTBtn: false,
+      MRTBtn: false,
+      NotificationCounts: 0,
+      MIRSCurrentPage: 1,
+      MIRSLastPage: 1,
+      RVNotifs: [],
+      RVCurrentPage: 1,
+      RVLastPage: 1,
+      POCurrentPage: 1,
+      POLastPage: 1,
+      PONotifs: [],
+      RRCurrentPage: 1,
+      RRLastPage: 1,
+      RRNotifs: [],
+      MRCurrentPage: 1,
+      MRLastPage: 1,
+      MRNotifs: [],
+      MCTCurrentPage: 1,
+      MCTLastPage: 1,
+      MCTNotifs: [],
+      MRTCurrentPage: 1,
+      MRTLastPage: 1,
+      MRTNotifs: [],
+      AddedCounts: 0,
+      Loaded: false
+    };
+  },
+
+  props: ['user'],
+  mounted: function mounted() {
+    var _this = this;
+
+    this.countNotif();
+    Echo.private('GlobalNotif.' + this.user.id).listen('GlobalNotifEvent', function (e) {
+      console.log(e);
+      _this.countNotif();
+      if (_this.dropIsActive == true) {
+        _this.fetchData(1);
+      } else {
+        _this.Loaded = false;
+      }
+      if (_this.user.Role != 3 && _this.user.Role != 4) {
+        _this.MIRSBtn = true;
+        _this.RVBtn = false;
+        _this.MIRSNotifs = [];
+        _this.RVNotifs = [];
+      } else {
+        _this.MIRSBtn = true;
+        _this.RVBtn = false;
+        _this.POBtn = false;
+        _this.MRTBtn = false;
+        _this.MCTBtn = false;
+        _this.RRBtn = false;
+        _this.MRBtn = false;
+        _this.MIRSNotifs = [];
+        _this.RVNotifs = [];
+        _this.PONotifs = [];
+        _this.RRNotifs = [];
+        _this.MRNotifs = [];
+        _this.MCTNotifs = [];
+        _this.MRTNotifs = [];
+      }
+    });
+    if (this.user.Role == 3 || this.user.Role == 4) {
+      Echo.private('Global.Warehouse').listen('GlobalNotifWarehouseEvent', function (e) {
+        console.log(e);
+        _this.countNotif();
+        if (_this.dropIsActive == true) {
+          _this.fetchData(1);
+        } else {
+          _this.Loaded = false;
+        }
+        _this.MIRSBtn = true;
+        _this.RVBtn = false;
+        _this.POBtn = false;
+        _this.MRTBtn = false;
+        _this.MCTBtn = false;
+        _this.RRBtn = false;
+        _this.MRBtn = false;
+        _this.MIRSNotifs = [];
+        _this.RVNotifs = [];
+        _this.PONotifs = [];
+        _this.RRNotifs = [];
+        _this.MRNotifs = [];
+        _this.MCTNotifs = [];
+        _this.MRTNotifs = [];
+      });
+    }
+  },
+
+  methods: {
+    fetchData: function fetchData(page) {
+      this.Loaded = true;
+      var vm = this;
+      __WEBPACK_IMPORTED_MODULE_0_axios___default.a.get('/fetch-mirs-global-notifications?page=' + page).then(function (response) {
+        console.log(response);
+        if (response.data.current_page == 1) {
+          vm.MIRSNotifs = response.data.data;
+        } else {
+          for (var i = 0; i < response.data.data.length; i++) {
+            vm.MIRSNotifs.push(response.data.data[i]);
+          }
+        }
+        vm.MIRSCurrentPage = response.data.current_page;
+        vm.MIRSLastPage = response.data.last_page;
+      });
+    },
+    fetchRV: function fetchRV(page) {
+      var vm = this;
+      __WEBPACK_IMPORTED_MODULE_0_axios___default.a.get('/fetch-rv-global-notifications?page=' + page).then(function (response) {
+        console.log(response);
+        vm.RVCurrentPage = response.data.current_page;
+        vm.RVLastPage = response.data.last_page;
+        if (response.data.current_page == 1) {
+          vm.RVNotifs = response.data.data;
+        } else {
+          for (var i = 0; i < response.data.data.length; i++) {
+            vm.RVNotifs.push(response.data.data[i]);
+          }
+        }
+      }).then(function (error) {
+        console.log(error);
+      });
+    },
+    fetchPO: function fetchPO(page) {
+      var vm = this;
+      __WEBPACK_IMPORTED_MODULE_0_axios___default.a.get('/fetch-po-global-notifications?page=' + page).then(function (response) {
+        console.log(response);
+        if (response.data.current_page == 1) {
+          vm.PONotifs = response.data.data;
+        } else {
+          for (var i = 0; i < response.data.data.length; i++) {
+            vm.PONotifs.push(response.data.data[i]);
+          }
+        }
+        vm.POCurrentPage = response.data.current_page;
+        vm.POLastPage = response.data.last_page;
+      }).then(function (error) {
+        console.log(error);
+      });
+    },
+    fetchRR: function fetchRR(page) {
+      var vm = this;
+      __WEBPACK_IMPORTED_MODULE_0_axios___default.a.get('/fetch-rr-global-notifications?page=' + page).then(function (response) {
+        console.log(response);
+        if (response.data.current_page == 1) {
+          vm.RRNotifs = response.data.data;
+        } else {
+          for (var i = 0; i < response.data.data.length; i++) {
+            vm.RRNotifs.push(response.data.data[i]);
+          }
+        }
+        vm.RRCurrentPage = response.data.current_page;
+        vm.RRLastPage = response.data.last_page;
+      }).then(function (error) {
+        console.log(error);
+      });
+    },
+    fetchMR: function fetchMR(page) {
+      var vm = this;
+      __WEBPACK_IMPORTED_MODULE_0_axios___default.a.get('/fetch-mr-global-notifications?page=' + page).then(function (response) {
+        console.log(response);
+        if (response.data.current_page == 1) {
+          vm.MRNotifs = response.data.data;
+        } else {
+          for (var i = 0; i < response.data.data.length; i++) {
+            vm.MRNotifs.push(response.data.data[i]);
+          }
+        }
+        vm.MRCurrentPage = response.data.current_page;
+        vm.MRLastPage = response.data.last_page;
+      }).then(function (error) {
+        console.log(error);
+      });
+    },
+    fetchMCT: function fetchMCT(page) {
+      var vm = this;
+      __WEBPACK_IMPORTED_MODULE_0_axios___default.a.get('/fetch-mct-global-notifications?page=' + page).then(function (response) {
+        console.log(response);
+        if (response.data.current_page == 1) {
+          vm.MCTNotifs = response.data.data;
+        } else {
+          for (var i = 0; i < response.data.data.length; i++) {
+            vm.MCTNotifs.push(response.data.data[i]);
+          }
+        }
+        vm.MCTCurrentPage = response.data.current_page;
+        vm.MCTLastPage = response.data.last_page;
+      }).then(function (error) {
+        console.log(error);
+      });
+    },
+    fetchMRT: function fetchMRT(page) {
+      var vm = this;
+      __WEBPACK_IMPORTED_MODULE_0_axios___default.a.get('/fetch-mrt-global-notifications?page=' + page).then(function (response) {
+        console.log(response);
+        if (response.data.current_page == 1) {
+          vm.MRTNotifs = response.data.data;
+        } else {
+          for (var i = 0; i < response.data.data.length; i++) {
+            vm.MRTNotifs.push(response.data.data[i]);
+          }
+        }
+        vm.MRTCurrentPage = response.data.current_page;
+        vm.MRTLastPage = response.data.last_page;
+      }).then(function (error) {
+        console.log(error);
+      });
+    },
+    countNotif: function countNotif() {
+      var vm = this;
+      __WEBPACK_IMPORTED_MODULE_0_axios___default.a.get('/notif-global-count').then(function (response) {
+        console.log(response);
+        vm.NotificationCounts = response.data;
+        if (vm.user.Role == 3 || vm.user.Role == 4) {
+          vm.AddedCounts = response.data.unreadMIRS + response.data.unreadMR + response.data.unreadPO + response.data.unreadRR + response.data.unreadRV + response.data.unreadMCT + response.data.unreadMRT;
+        } else {
+          vm.AddedCounts = response.data.unreadMIRS + response.data.unreadRV;
+        }
+      }).then(function (error) {
+        console.log(error);
+      });
+    }
+  }
+});
 
 /***/ }),
 
@@ -42248,6 +42636,445 @@ module.exports = Echo;
 
 /***/ }),
 
+/***/ 166:
+/***/ (function(module, exports, __webpack_require__) {
+
+var Component = __webpack_require__(4)(
+  /* script */
+  __webpack_require__(159),
+  /* template */
+  __webpack_require__(167),
+  /* scopeId */
+  null,
+  /* cssModules */
+  null
+)
+Component.options.__file = "C:\\xampp\\htdocs\\warehouse\\resources\\assets\\js\\components\\Master\\GlobalNotif.vue"
+if (Component.esModule && Object.keys(Component.esModule).some(function (key) {return key !== "default" && key !== "__esModule"})) {console.error("named exports are not supported in *.vue files.")}
+if (Component.options.functional) {console.error("[vue-loader] GlobalNotif.vue: functional components are not supported with templates, they should use render functions.")}
+
+/* hot reload */
+if (false) {(function () {
+  var hotAPI = require("vue-hot-reload-api")
+  hotAPI.install(require("vue"), false)
+  if (!hotAPI.compatible) return
+  module.hot.accept()
+  if (!module.hot.data) {
+    hotAPI.createRecord("data-v-142beeaa", Component.options)
+  } else {
+    hotAPI.reload("data-v-142beeaa", Component.options)
+  }
+})()}
+
+module.exports = Component.exports
+
+
+/***/ }),
+
+/***/ 167:
+/***/ (function(module, exports, __webpack_require__) {
+
+module.exports={render:function (){var _vm=this;var _h=_vm.$createElement;var _c=_vm._self._c||_h;
+  return _c('li', {
+    staticClass: "dropping-parent",
+    on: {
+      "click": function($event) {
+        _vm.dropIsActive = !_vm.dropIsActive, [_vm.Loaded == false ? _vm.fetchData(1) : '']
+      }
+    }
+  }, [_vm._m(0), _vm._v(" "), (_vm.AddedCounts != '0') ? _c('h2', {
+    staticClass: "number-of-unread z-depth-1"
+  }, [(_vm.AddedCounts < 10) ? _c('span', [_vm._v(_vm._s(_vm.AddedCounts))]) : _c('span', [_vm._v("9+")])]) : _vm._e(), _vm._v(" "), _c('div', {
+    staticClass: "notification-drop z-depth-1",
+    class: [_vm.dropIsActive == true ? 'active' : ''],
+    on: {
+      "click": function($event) {
+        _vm.dropIsActive = !_vm.dropIsActive
+      }
+    }
+  }, [_vm._m(1), _vm._v(" "), _c('div', {
+    staticClass: "notification-navs"
+  }, [_c('h2', {
+    class: [_vm.MIRSBtn == true ? 'active' : ''],
+    on: {
+      "click": function($event) {
+        _vm.MRTBtn = false, _vm.MCTBtn = false, _vm.MIRSBtn = true, _vm.MRBtn = false, _vm.RVBtn = false, _vm.POBtn = false, _vm.RRBtn = false
+      }
+    }
+  }, [_vm._v("MIRS "), (_vm.NotificationCounts.unreadMIRS != 0) ? _c('p', {
+    staticClass: "notification-dot-mark"
+  }) : _vm._e()]), _vm._v(" "), _c('h2', {
+    class: [_vm.RVBtn == true ? 'active' : ''],
+    on: {
+      "click": function($event) {
+        _vm.MRTBtn = false, _vm.MCTBtn = false, _vm.RVBtn = true, _vm.MRBtn = false, _vm.MIRSBtn = false, _vm.POBtn = false, _vm.RRBtn = false, [_vm.RVNotifs[0] == null ? _vm.fetchRV(_vm.RVCurrentPage) : '']
+      }
+    }
+  }, [_vm._v("RV "), (_vm.NotificationCounts.unreadRV != 0) ? _c('p', {
+    staticClass: "notification-dot-mark"
+  }) : _vm._e()]), _vm._v(" "), (_vm.user.Role == '3' || _vm.user.Role == '4') ? _c('h2', {
+    class: [_vm.POBtn == true ? 'active' : ''],
+    on: {
+      "click": function($event) {
+        _vm.MRTBtn = false, _vm.MCTBtn = false, _vm.POBtn = true, _vm.MRBtn = false, _vm.MIRSBtn = false, _vm.RVBtn = false, _vm.RRBtn = false, [_vm.PONotifs[0] == null ? _vm.fetchPO(_vm.POCurrentPage) : '']
+      }
+    }
+  }, [_vm._v("PO "), (_vm.NotificationCounts.unreadPO != 0) ? _c('p', {
+    staticClass: "notification-dot-mark"
+  }) : _vm._e()]) : _vm._e(), _vm._v(" "), (_vm.user.Role == '4' || _vm.user.Role == '3') ? _c('h2', {
+    class: [_vm.RRBtn == true ? 'active' : ''],
+    on: {
+      "click": function($event) {
+        _vm.MRTBtn = false, _vm.MCTBtn = false, _vm.RRBtn = true, _vm.MRBtn = false, _vm.MIRSBtn = false, _vm.RVBtn = false, _vm.POBtn = false, [_vm.RRNotifs[0] == null ? _vm.fetchRR(_vm.RRCurrentPage) : '']
+      }
+    }
+  }, [_vm._v("RR "), (_vm.NotificationCounts.unreadRR != 0) ? _c('p', {
+    staticClass: "notification-dot-mark"
+  }) : _vm._e()]) : _vm._e(), _vm._v(" "), (_vm.user.Role == '4' || _vm.user.Role == '3') ? _c('h2', {
+    class: [_vm.MRBtn == true ? 'active' : ''],
+    on: {
+      "click": function($event) {
+        _vm.MRTBtn = false, _vm.MCTBtn = false, _vm.MRBtn = true, _vm.RRBtn = false, _vm.MIRSBtn = false, _vm.RVBtn = false, _vm.POBtn = false, [_vm.MRNotifs[0] == null ? _vm.fetchMR(_vm.MRCurrentPage) : '']
+      }
+    }
+  }, [_vm._v("MR "), (_vm.NotificationCounts.unreadMR != 0) ? _c('p', {
+    staticClass: "notification-dot-mark"
+  }) : _vm._e()]) : _vm._e(), _vm._v(" "), (_vm.user.Role == '4' || _vm.user.Role == '3') ? _c('h2', {
+    class: [_vm.MCTBtn == true ? 'active' : ''],
+    on: {
+      "click": function($event) {
+        _vm.MRTBtn = false, _vm.MCTBtn = true, _vm.MRBtn = false, _vm.RRBtn = false, _vm.MIRSBtn = false, _vm.RVBtn = false, _vm.POBtn = false, [_vm.MCTNotifs[0] == null ? _vm.fetchMCT(_vm.MCTCurrentPage) : '']
+      }
+    }
+  }, [_vm._v("MCT "), (_vm.NotificationCounts.unreadMCT != 0) ? _c('p', {
+    staticClass: "notification-dot-mark"
+  }) : _vm._e()]) : _vm._e(), _vm._v(" "), (_vm.user.Role == '4' || _vm.user.Role == '3') ? _c('h2', {
+    class: [_vm.MRTBtn == true ? 'active' : ''],
+    on: {
+      "click": function($event) {
+        _vm.MRTBtn = true, _vm.MCTBtn = false, _vm.MRBtn = false, _vm.RRBtn = false, _vm.MIRSBtn = false, _vm.RVBtn = false, _vm.POBtn = false, [_vm.MRTNotifs[0] == null ? _vm.fetchMRT(_vm.MRTCurrentPage) : '']
+      }
+    }
+  }, [_vm._v("MRT "), (_vm.NotificationCounts.unreadMRT != 0) ? _c('p', {
+    staticClass: "notification-dot-mark"
+  }) : _vm._e()]) : _vm._e()]), _vm._v(" "), _c('div', {
+    staticClass: "notification-line-container"
+  }, [_vm._l((_vm.MIRSNotifs), function(mirs) {
+    return (_vm.MIRSBtn == true) ? _c('a', {
+      attrs: {
+        "href": '/previewFullMIRS/' + mirs.MIRSNo
+      }
+    }, [_c('div', {
+      staticClass: "notification-drop-line",
+      class: [mirs.UnreadNotification == '0' ? 'active' : '']
+    }, [_vm._m(2, true), _vm._v(" "), _c('div', {
+      staticClass: "drop-line-detail"
+    }, [_c('h5', [_vm._v("MIRS : " + _vm._s(mirs.MIRSNo))]), _vm._v(" "), _c('p', [_vm._v("\n              materials issueance requisition slip has been\n              "), (mirs.Status == 0) ? _c('span', [_vm._v("approved")]) : _vm._e(), _vm._v(" "), (mirs.Status == 1) ? _c('span', [_vm._v("declined")]) : _vm._e()]), _c('br'), _vm._v(" "), _c('div', {
+      staticClass: "time-notified"
+    }, [(mirs.Status == 0) ? _c('i', {
+      staticClass: "material-icons color-blue"
+    }, [_vm._v("check_circle")]) : _vm._e(), _vm._v(" "), (mirs.Status == 1) ? _c('i', {
+      staticClass: "material-icons color-red"
+    }, [_vm._v("close")]) : _vm._e(), _vm._v(_vm._s(mirs.notification_date_time) + "\n            ")])])]), _vm._v(" "), _c('div', {
+      staticClass: "divider"
+    })]) : _vm._e()
+  }), _vm._v(" "), (_vm.MIRSCurrentPage != _vm.MIRSLastPage && _vm.MIRSNotifs[0] != null && _vm.MIRSBtn == true) ? _c('div', {
+    staticClass: "notification-drop-line load-more",
+    on: {
+      "click": function($event) {
+        _vm.fetchData(_vm.MIRSCurrentPage + 1)
+      }
+    }
+  }, [_vm._m(3)]) : _vm._e(), _vm._v(" "), (_vm.MIRSNotifs[0] == null && _vm.MIRSBtn == true) ? _c('div', {
+    staticClass: "empty-global-notif"
+  }, [_c('i', {
+    staticClass: "material-icons"
+  }, [_vm._v("notifications_none")]), _vm._v(" empty\n      ")]) : _vm._e(), _vm._v(" "), _vm._l((_vm.RVNotifs), function(rv) {
+    return (_vm.RVBtn == true) ? _c('a', {
+      attrs: {
+        "href": '/RVfullview/' + rv.RVNo
+      }
+    }, [_c('div', {
+      staticClass: "notification-drop-line",
+      class: [rv.UnreadNotification == '0' ? 'active' : '']
+    }, [_vm._m(4, true), _vm._v(" "), _c('div', {
+      staticClass: "drop-line-detail"
+    }, [_c('h5', [_vm._v("RV : " + _vm._s(rv.RVNo))]), _vm._v(" "), _c('p', [_vm._v("\n              requisition voucher has been\n              "), (rv.Status == 0) ? _c('span', [_vm._v("approved")]) : _vm._e(), _vm._v(" "), (rv.Status == 1) ? _c('span', [_vm._v("declined")]) : _vm._e()]), _c('br'), _vm._v(" "), _c('div', {
+      staticClass: "time-notified"
+    }, [(rv.Status == 0) ? _c('i', {
+      staticClass: "material-icons color-blue"
+    }, [_vm._v("check_circle")]) : _vm._e(), _vm._v(" "), (rv.Status == 1) ? _c('i', {
+      staticClass: "material-icons color-red"
+    }, [_vm._v("close")]) : _vm._e(), _vm._v(_vm._s(rv.notification_date_time) + "\n            ")])])]), _vm._v(" "), _c('div', {
+      staticClass: "divider"
+    })]) : _vm._e()
+  }), _vm._v(" "), (_vm.RVCurrentPage != _vm.RVLastPage && _vm.RVNotifs[0] != null && _vm.RVBtn == true) ? _c('div', {
+    staticClass: "notification-drop-line load-more",
+    on: {
+      "click": function($event) {
+        _vm.fetchRV(_vm.RVCurrentPage + 1)
+      }
+    }
+  }, [_vm._m(5)]) : _vm._e(), _vm._v(" "), (_vm.RVNotifs[0] == null && _vm.RVBtn == true) ? _c('div', {
+    staticClass: "empty-global-notif"
+  }, [_c('i', {
+    staticClass: "material-icons"
+  }, [_vm._v("notifications_none")]), _vm._v(" empty\n      ")]) : _vm._e(), _vm._v(" "), _vm._l((_vm.PONotifs), function(po) {
+    return (_vm.POBtn == true) ? _c('a', {
+      attrs: {
+        "href": '/po-full-preview/' + po.PONo
+      }
+    }, [_c('div', {
+      staticClass: "notification-drop-line",
+      class: [po.UnreadNotification == '0' ? 'active' : '']
+    }, [_vm._m(6, true), _vm._v(" "), _c('div', {
+      staticClass: "drop-line-detail"
+    }, [_c('h5', [_vm._v("PO : " + _vm._s(po.PONo))]), _vm._v(" "), _c('p', [_vm._v("\n              purchase order has been\n              "), (po.Status == 0) ? _c('span', [_vm._v("approved")]) : _vm._e(), _vm._v(" "), (po.Status == 1) ? _c('span', [_vm._v("declined")]) : _vm._e()]), _c('br'), _vm._v(" "), _c('div', {
+      staticClass: "time-notified"
+    }, [(po.Status == 0) ? _c('i', {
+      staticClass: "material-icons color-blue"
+    }, [_vm._v("check_circle")]) : _vm._e(), _vm._v(" "), (po.Status == 1) ? _c('i', {
+      staticClass: "material-icons color-red"
+    }, [_vm._v("close")]) : _vm._e(), _vm._v(_vm._s(po.notification_date_time) + "\n            ")])])]), _vm._v(" "), _c('div', {
+      staticClass: "divider"
+    })]) : _vm._e()
+  }), _vm._v(" "), (_vm.POCurrentPage != _vm.POLastPage && _vm.PONotifs[0] != null && _vm.POBtn == true) ? _c('div', {
+    staticClass: "notification-drop-line load-more",
+    on: {
+      "click": function($event) {
+        _vm.fetchPO(_vm.POCurrentPage + 1)
+      }
+    }
+  }, [_vm._m(7)]) : _vm._e(), _vm._v(" "), (_vm.PONotifs[0] == null && _vm.POBtn == true) ? _c('div', {
+    staticClass: "empty-global-notif"
+  }, [_c('i', {
+    staticClass: "material-icons"
+  }, [_vm._v("notifications_none")]), _vm._v(" empty\n      ")]) : _vm._e(), _vm._v(" "), _vm._l((_vm.RRNotifs), function(rr) {
+    return (_vm.RRBtn == true) ? _c('a', {
+      attrs: {
+        "href": '/RR-fullpreview/' + rr.RRNo
+      }
+    }, [_c('div', {
+      staticClass: "notification-drop-line",
+      class: [rr.UnreadNotification == '0' ? 'active' : '']
+    }, [_vm._m(8, true), _vm._v(" "), _c('div', {
+      staticClass: "drop-line-detail"
+    }, [_c('h5', [_vm._v("RR : " + _vm._s(rr.RRNo))]), _vm._v(" "), _c('p', [(rr.IsRollBack == 0) ? _c('span', [_vm._v("receiving report has been reversed/rollbacked by the administrator")]) : _vm._e(), _vm._v(" "), (rr.IsRollBack == 1) ? _c('span', [_vm._v("the administrator undid the reversed/rollbacked data")]) : _vm._e(), _vm._v(" "), (rr.Status == 0 && rr.IsRollBack == null) ? _c('span', [_vm._v("receiving report signatures are complete")]) : _vm._e(), _vm._v(" "), (rr.Status == 1 && rr.IsRollBack == null) ? _c('span', [_vm._v("receiving report has been declined")]) : _vm._e()]), _c('br'), _vm._v(" "), _c('div', {
+      staticClass: "time-notified"
+    }, [(rr.Status == 0 && rr.IsRollBack == null) ? _c('i', {
+      staticClass: "material-icons color-blue"
+    }, [_vm._v("check_circle")]) : _vm._e(), _vm._v(" "), (rr.Status == 1 && rr.IsRollBack == null) ? _c('i', {
+      staticClass: "material-icons color-red"
+    }, [_vm._v("close")]) : _vm._e(), _vm._v(" "), (rr.IsRollBack == 0) ? _c('i', {
+      staticClass: "material-icons color-red"
+    }, [_vm._v("replay")]) : _vm._e(), _vm._v(" "), (rr.IsRollBack == 1) ? _c('i', {
+      staticClass: "material-icons color-blue"
+    }, [_vm._v("refresh")]) : _vm._e(), _vm._v("\n              " + _vm._s(rr.notification_date_time) + "\n            ")])])]), _vm._v(" "), _c('div', {
+      staticClass: "divider"
+    })]) : _vm._e()
+  }), _vm._v(" "), (_vm.RRCurrentPage != _vm.RRLastPage && _vm.RRNotifs[0] != null && _vm.RRBtn == true) ? _c('div', {
+    staticClass: "notification-drop-line load-more",
+    on: {
+      "click": function($event) {
+        _vm.fetchRR(_vm.RRCurrentPage + 1)
+      }
+    }
+  }, [_vm._m(9)]) : _vm._e(), _vm._v(" "), (_vm.RRNotifs[0] == null && _vm.RRBtn == true) ? _c('div', {
+    staticClass: "empty-global-notif"
+  }, [_c('i', {
+    staticClass: "material-icons"
+  }, [_vm._v("notifications_none")]), _vm._v(" empty\n      ")]) : _vm._e(), _vm._v(" "), _vm._l((_vm.MRNotifs), function(mr) {
+    return (_vm.MRBtn == true) ? _c('a', {
+      attrs: {
+        "href": '/full-preview-MR/' + mr.MRNo
+      }
+    }, [_c('div', {
+      staticClass: "notification-drop-line",
+      class: [mr.UnreadNotification == '0' ? 'active' : '']
+    }, [_vm._m(10, true), _vm._v(" "), _c('div', {
+      staticClass: "drop-line-detail"
+    }, [_c('h5', [_vm._v("MR : " + _vm._s(mr.RRNo))]), _vm._v(" "), _c('p', [_vm._v("\n              memorandum receipt has been\n              "), (mr.Status == 0) ? _c('span', [_vm._v("approved")]) : _vm._e(), _vm._v(" "), (mr.Status == 1) ? _c('span', [_vm._v("declined")]) : _vm._e()]), _c('br'), _vm._v(" "), _c('div', {
+      staticClass: "time-notified"
+    }, [(mr.Status == 0) ? _c('i', {
+      staticClass: "material-icons color-blue"
+    }, [_vm._v("check_circle")]) : _vm._e(), _vm._v(" "), (mr.Status == 1) ? _c('i', {
+      staticClass: "material-icons color-red"
+    }, [_vm._v("close")]) : _vm._e(), _vm._v(_vm._s(mr.notification_date_time) + "\n            ")])])]), _vm._v(" "), _c('div', {
+      staticClass: "divider"
+    })]) : _vm._e()
+  }), _vm._v(" "), (_vm.MRCurrentPage != _vm.MRLastPage && _vm.MRNotifs[0] != null && _vm.MRBtn == true) ? _c('div', {
+    staticClass: "notification-drop-line load-more",
+    on: {
+      "click": function($event) {
+        _vm.fetchMR(_vm.MRCurrentPage + 1)
+      }
+    }
+  }, [_vm._m(11)]) : _vm._e(), _vm._v(" "), (_vm.MRNotifs[0] == null && _vm.MRBtn == true) ? _c('div', {
+    staticClass: "empty-global-notif"
+  }, [_c('i', {
+    staticClass: "material-icons"
+  }, [_vm._v("notifications_none")]), _vm._v(" empty\n      ")]) : _vm._e(), _vm._v(" "), _vm._l((_vm.MCTNotifs), function(mct) {
+    return (_vm.MCTBtn == true) ? _c('a', {
+      attrs: {
+        "href": '/preview-mct-page-only/' + mct.MCTNo
+      }
+    }, [_c('div', {
+      staticClass: "notification-drop-line",
+      class: [mct.UnreadNotification == '0' ? 'active' : '']
+    }, [_vm._m(12, true), _vm._v(" "), _c('div', {
+      staticClass: "drop-line-detail"
+    }, [_c('h5', [_vm._v("MCT : " + _vm._s(mct.MCTNo))]), _vm._v(" "), _c('p', [(mct.IsRollBack == 0) ? _c('span', [_vm._v("material charge ticket has been reversed/rollbacked by the administrator")]) : _vm._e(), _vm._v(" "), (mct.IsRollBack == 1) ? _c('span', [_vm._v("the administrator undid the reversed/rollbacked data")]) : _vm._e(), _vm._v(" "), (mct.Status == 0 && mct.IsRollBack == null) ? _c('span', [_vm._v("Materials charge ticket signatures are complete")]) : _vm._e(), _vm._v(" "), (mct.Status == 1 && mct.IsRollBack == null) ? _c('span', [_vm._v("Materials charge ticket has been declined")]) : _vm._e()]), _c('br'), _vm._v(" "), _c('div', {
+      staticClass: "time-notified"
+    }, [(mct.Status == 0 && mct.IsRollBack == null) ? _c('i', {
+      staticClass: "material-icons color-blue"
+    }, [_vm._v("check_circle")]) : _vm._e(), _vm._v(" "), (mct.Status == 1 && mct.IsRollBack == null) ? _c('i', {
+      staticClass: "material-icons color-red"
+    }, [_vm._v("close")]) : _vm._e(), _vm._v(" "), (mct.IsRollBack == 0) ? _c('i', {
+      staticClass: "material-icons color-red"
+    }, [_vm._v("replay")]) : _vm._e(), _vm._v(" "), (mct.IsRollBack == 1) ? _c('i', {
+      staticClass: "material-icons color-blue"
+    }, [_vm._v("refresh")]) : _vm._e(), _vm._v("\n              " + _vm._s(mct.notification_date_time) + "\n            ")])])]), _vm._v(" "), _c('div', {
+      staticClass: "divider"
+    })]) : _vm._e()
+  }), _vm._v(" "), (_vm.MCTCurrentPage != _vm.MCTLastPage && _vm.MCTNotifs[0] != null && _vm.MCTBtn == true) ? _c('div', {
+    staticClass: "notification-drop-line load-more",
+    on: {
+      "click": function($event) {
+        _vm.fetchMCT(_vm.MCTCurrentPage + 1)
+      }
+    }
+  }, [_vm._m(13)]) : _vm._e(), _vm._v(" "), (_vm.MCTNotifs[0] == null && _vm.MCTBtn == true) ? _c('div', {
+    staticClass: "empty-global-notif"
+  }, [_c('i', {
+    staticClass: "material-icons"
+  }, [_vm._v("notifications_none")]), _vm._v(" empty\n      ")]) : _vm._e(), _vm._v(" "), _vm._l((_vm.MRTNotifs), function(mrt) {
+    return (_vm.MRTBtn == true) ? _c('a', {
+      attrs: {
+        "href": '/mrt-preview-page/' + mrt.MRTNo
+      }
+    }, [_c('div', {
+      staticClass: "notification-drop-line",
+      class: [mrt.UnreadNotification == '0' ? 'active' : '']
+    }, [_vm._m(14, true), _vm._v(" "), _c('div', {
+      staticClass: "drop-line-detail"
+    }, [_c('h5', [_vm._v("MRT : " + _vm._s(mrt.MRTNo))]), _vm._v(" "), _c('p', [(mrt.IsRollBack == 0) ? _c('span', [_vm._v("materials return ticket has been reversed/rollbacked by the administrator")]) : _vm._e(), _vm._v(" "), (mrt.IsRollBack == 1) ? _c('span', [_vm._v("the administrator undid the reversed/rollbacked data")]) : _vm._e(), _vm._v(" "), (mrt.Status == 0 && mrt.IsRollBack == null) ? _c('span', [_vm._v("materials return ticket signatures are complete")]) : _vm._e(), _vm._v(" "), (mrt.Status == 1 && mrt.IsRollBack == null) ? _c('span', [_vm._v("materials return ticket has been declined")]) : _vm._e()]), _c('br'), _vm._v(" "), _c('div', {
+      staticClass: "time-notified"
+    }, [(mrt.Status == 0 && mrt.IsRollBack == null) ? _c('i', {
+      staticClass: "material-icons color-blue"
+    }, [_vm._v("check_circle")]) : _vm._e(), _vm._v(" "), (mrt.Status == 1 && mrt.IsRollBack == null) ? _c('i', {
+      staticClass: "material-icons color-red"
+    }, [_vm._v("close")]) : _vm._e(), _vm._v(" "), (mrt.IsRollBack == 0) ? _c('i', {
+      staticClass: "material-icons color-red"
+    }, [_vm._v("replay")]) : _vm._e(), _vm._v(" "), (mrt.IsRollBack == 1) ? _c('i', {
+      staticClass: "material-icons color-blue"
+    }, [_vm._v("refresh")]) : _vm._e(), _vm._v("\n              " + _vm._s(mrt.notification_date_time) + "\n            ")])])]), _vm._v(" "), _c('div', {
+      staticClass: "divider"
+    })]) : _vm._e()
+  }), _vm._v(" "), (_vm.MRTCurrentPage != _vm.MRTLastPage && _vm.MRTNotifs[0] != null && _vm.MRTBtn == true) ? _c('div', {
+    staticClass: "notification-drop-line load-more",
+    on: {
+      "click": function($event) {
+        _vm.fetchMRT(_vm.MRTCurrentPage + 1)
+      }
+    }
+  }, [_vm._m(15)]) : _vm._e(), _vm._v(" "), (_vm.MRTNotifs[0] == null && _vm.MRTBtn == true) ? _c('div', {
+    staticClass: "empty-global-notif"
+  }, [_c('i', {
+    staticClass: "material-icons"
+  }, [_vm._v("notifications_none")]), _vm._v(" empty\n      ")]) : _vm._e()], 2), _vm._v(" "), _c('div', {
+    staticClass: "notification-footer"
+  })])])
+},staticRenderFns: [function (){var _vm=this;var _h=_vm.$createElement;var _c=_vm._self._c||_h;
+  return _c('h1', {
+    staticClass: "waves-effect waves-light"
+  }, [_c('i', {
+    staticClass: "material-icons"
+  }, [_vm._v("notifications")])])
+},function (){var _vm=this;var _h=_vm.$createElement;var _c=_vm._self._c||_h;
+  return _c('div', {
+    staticClass: "notification-header"
+  }, [_c('h2', [_vm._v(" Notifications")])])
+},function (){var _vm=this;var _h=_vm.$createElement;var _c=_vm._self._c||_h;
+  return _c('div', [_c('h2', [_c('i', {
+    staticClass: "material-icons"
+  }, [_vm._v("insert_drive_file")])])])
+},function (){var _vm=this;var _h=_vm.$createElement;var _c=_vm._self._c||_h;
+  return _c('div', {
+    staticClass: "load-more-btn"
+  }, [_c('i', {
+    staticClass: "material-icons"
+  }, [_vm._v("arrow_downward")]), _vm._v("\n          Load\n        ")])
+},function (){var _vm=this;var _h=_vm.$createElement;var _c=_vm._self._c||_h;
+  return _c('div', [_c('h2', [_c('i', {
+    staticClass: "material-icons"
+  }, [_vm._v("insert_drive_file")])])])
+},function (){var _vm=this;var _h=_vm.$createElement;var _c=_vm._self._c||_h;
+  return _c('div', {
+    staticClass: "load-more-btn"
+  }, [_c('i', {
+    staticClass: "material-icons"
+  }, [_vm._v("arrow_downward")]), _vm._v("\n          Load\n        ")])
+},function (){var _vm=this;var _h=_vm.$createElement;var _c=_vm._self._c||_h;
+  return _c('div', [_c('h2', [_c('i', {
+    staticClass: "material-icons"
+  }, [_vm._v("insert_drive_file")])])])
+},function (){var _vm=this;var _h=_vm.$createElement;var _c=_vm._self._c||_h;
+  return _c('div', {
+    staticClass: "load-more-btn"
+  }, [_c('i', {
+    staticClass: "material-icons"
+  }, [_vm._v("arrow_downward")]), _vm._v("\n          Load\n        ")])
+},function (){var _vm=this;var _h=_vm.$createElement;var _c=_vm._self._c||_h;
+  return _c('div', [_c('h2', [_c('i', {
+    staticClass: "material-icons"
+  }, [_vm._v("insert_drive_file")])])])
+},function (){var _vm=this;var _h=_vm.$createElement;var _c=_vm._self._c||_h;
+  return _c('div', {
+    staticClass: "load-more-btn"
+  }, [_c('i', {
+    staticClass: "material-icons"
+  }, [_vm._v("arrow_downward")]), _vm._v("\n          Load\n        ")])
+},function (){var _vm=this;var _h=_vm.$createElement;var _c=_vm._self._c||_h;
+  return _c('div', [_c('h2', [_c('i', {
+    staticClass: "material-icons"
+  }, [_vm._v("insert_drive_file")])])])
+},function (){var _vm=this;var _h=_vm.$createElement;var _c=_vm._self._c||_h;
+  return _c('div', {
+    staticClass: "load-more-btn"
+  }, [_c('i', {
+    staticClass: "material-icons"
+  }, [_vm._v("arrow_downward")]), _vm._v("\n          Load\n        ")])
+},function (){var _vm=this;var _h=_vm.$createElement;var _c=_vm._self._c||_h;
+  return _c('div', [_c('h2', [_c('i', {
+    staticClass: "material-icons"
+  }, [_vm._v("insert_drive_file")])])])
+},function (){var _vm=this;var _h=_vm.$createElement;var _c=_vm._self._c||_h;
+  return _c('div', {
+    staticClass: "load-more-btn"
+  }, [_c('i', {
+    staticClass: "material-icons"
+  }, [_vm._v("arrow_downward")]), _vm._v("\n          Load\n        ")])
+},function (){var _vm=this;var _h=_vm.$createElement;var _c=_vm._self._c||_h;
+  return _c('div', [_c('h2', [_c('i', {
+    staticClass: "material-icons"
+  }, [_vm._v("insert_drive_file")])])])
+},function (){var _vm=this;var _h=_vm.$createElement;var _c=_vm._self._c||_h;
+  return _c('div', {
+    staticClass: "load-more-btn"
+  }, [_c('i', {
+    staticClass: "material-icons"
+  }, [_vm._v("arrow_downward")]), _vm._v("\n          Load\n        ")])
+}]}
+module.exports.render._withStripped = true
+if (false) {
+  module.hot.accept()
+  if (module.hot.data) {
+     require("vue-hot-reload-api").rerender("data-v-142beeaa", module.exports)
+  }
+}
+
+/***/ }),
+
 /***/ 17:
 /***/ (function(module, exports, __webpack_require__) {
 
@@ -42341,14 +43168,14 @@ module.exports = Axios;
 
 /***/ }),
 
-/***/ 171:
+/***/ 172:
 /***/ (function(module, exports, __webpack_require__) {
 
 __webpack_require__(160);
 window.Vue = __webpack_require__(14);
-Vue.component('mynotification', __webpack_require__(240));
+Vue.component('globalnotification', __webpack_require__(166));
 new Vue({
-   el: '#master'
+   el: '#masterGN'
 });
 
 /***/ }),
@@ -42629,388 +43456,6 @@ module.exports = function enhanceError(error, config, code, response) {
 
 /***/ }),
 
-/***/ 204:
-/***/ (function(module, __webpack_exports__, __webpack_require__) {
-
-"use strict";
-Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_0_axios__ = __webpack_require__(3);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_0_axios___default = __webpack_require__.n(__WEBPACK_IMPORTED_MODULE_0_axios__);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_1_vue2_toast_lib_toast_css__ = __webpack_require__(12);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_1_vue2_toast_lib_toast_css___default = __webpack_require__.n(__WEBPACK_IMPORTED_MODULE_1_vue2_toast_lib_toast_css__);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_2_vue2_toast__ = __webpack_require__(13);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_2_vue2_toast___default = __webpack_require__.n(__WEBPACK_IMPORTED_MODULE_2_vue2_toast__);
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-
-
-
-
-Vue.use(__WEBPACK_IMPORTED_MODULE_2_vue2_toast___default.a);
-/* harmony default export */ __webpack_exports__["default"] = ({
-  data: function data() {
-    return {
-      MIRSNotif: 0,
-      modalOpen: false,
-      MIRSNew: false,
-      ApproveMIRSNew: false,
-      sample: false,
-      MCTNew: false,
-      PONew: false,
-      MRTNew: false,
-      RVNew: false,
-      RRNew: false,
-      MRNew: false,
-      NewlyCreatedMCT: 0,
-      NewlyCreatedMRT: 0,
-      NewlyCreatedRV: 0,
-      RRRequestCount: 0,
-      RVWaitingRRCount: 0,
-      CountMRRequest: 0,
-      CountPOrequest: 0,
-      RVwaitingRRNew: false
-    };
-  },
-  created: function created() {
-    var _this = this;
-
-    Echo.private('MIRSChannel.' + this.user.id).listen('NewMIRSEvent', function (e) {
-      console.log(e);
-      _this.refreshNotifationMIRS();
-      _this.modalOpen = true;
-      _this.MIRSNew = true;
-      _this.playsound();
-    });
-    if (this.user.Role == 3 || this.user.Role == 4) {
-      Echo.private('NewRVApprovedchannel').listen('NewRVApprovedEvent', function (e) {
-        console.log(e);
-        _this.refreshCountRVWaitingForRR();
-        _this.modalOpen = true;
-        _this.RVwaitingRRNew = true;
-        _this.playsound();
-      });
-    }
-    Echo.private('MCTchannel.' + this.user.id).listen('NewMCTEvent', function (e) {
-      console.log(e);
-      _this.refreshnewlyCreatedMCT();
-      _this.modalOpen = true;
-      _this.MCTNew = true;
-      _this.playsound();
-    });
-    Echo.private('MRTchannel.' + this.user.id).listen('NewMRTEvent', function (e) {
-      console.log(e);
-      _this.refreshNewlyCreatedMRT();
-      _this.modalOpen = true;
-      _this.MRTNew = true;
-      _this.playsound();
-    });
-    Echo.private('RVchannel.' + this.user.id).listen('NewRVEvent', function (e) {
-      console.log(e);
-      _this.refreshNewlyCreatedRV();
-      _this.modalOpen = true;
-      _this.RVNew = true;
-      _this.playsound();
-    });
-    if (this.user.Role == 2 || this.user.Role == 0) {
-      Echo.private('POchannel.' + this.user.id).listen('NewPOEvent', function (e) {
-        console.log(e);
-        _this.refreshCountNewlyCreatedPO();
-        _this.modalOpen = true;
-        _this.PONew = true;
-        _this.playsound();
-      });
-    }
-    Echo.private('RRchannel.' + this.user.id).listen('NewRREvent', function (e) {
-      console.log(e);
-      _this.refresCountRRnewCreated();
-      _this.modalOpen = true;
-      _this.RRNew = true;
-      _this.playsound();
-    });
-    Echo.private('MRchannel.' + this.user.id).listen('NewMREvent', function (e) {
-      console.log(e);
-      _this.refreshCountMRNewlyCreated();
-      _this.modalOpen = true;
-      _this.MRNew = true;
-      _this.playsound();
-    });
-  },
-
-  props: ['user'],
-  methods: {
-    refreshNotifationMIRS: function refreshNotifationMIRS() {
-      var vm = this;
-      __WEBPACK_IMPORTED_MODULE_0_axios___default.a.get('/mirs-notify').then(function (response) {
-        console.log(response);
-        Vue.set(vm.$data, 'MIRSNotif', response.data.MIRSrequest);
-      });
-    },
-    playsound: function playsound() {
-      this.$refs.audioElm.play();
-    },
-    logout: function logout() {
-      this.$loading('Logging out');
-      __WEBPACK_IMPORTED_MODULE_0_axios___default.a.post('/logout').then(function (response) {
-        window.location = response.data.redirect;
-      });
-    },
-    refreshnewlyCreatedMCT: function refreshnewlyCreatedMCT() {
-      var vm = this;
-      __WEBPACK_IMPORTED_MODULE_0_axios___default.a.get('/mct-new-created-notify').then(function (response) {
-        console.log(response);
-        Vue.set(vm.$data, 'NewlyCreatedMCT', response.data.MCTRequestCount);
-      });
-    },
-    refreshNewlyCreatedMRT: function refreshNewlyCreatedMRT() {
-      var vm = this;
-      __WEBPACK_IMPORTED_MODULE_0_axios___default.a.get('/mrt-new-created-notify').then(function (response) {
-        console.log(response);
-        Vue.set(vm.$data, 'NewlyCreatedMRT', response.data.MRTRequestCount);
-      });
-    },
-    refreshNewlyCreatedRV: function refreshNewlyCreatedRV() {
-      var vm = this;
-      __WEBPACK_IMPORTED_MODULE_0_axios___default.a.get('/rv-new-created-notify').then(function (response) {
-        console.log(response);
-        Vue.set(vm.$data, 'NewlyCreatedRV', response.data.RVRequestCount);
-      });
-    },
-    refreshCountRVWaitingForRR: function refreshCountRVWaitingForRR() {
-      var vm = this;
-      __WEBPACK_IMPORTED_MODULE_0_axios___default.a.get('/rv-waiting-for-all-items-receiving-report').then(function (response) {
-        console.log(response);
-        Vue.set(vm.$data, 'RVWaitingRRCount', response.data.RVwaitingRR);
-      });
-    },
-    refresCountRRnewCreated: function refresCountRRnewCreated() {
-      var vm = this;
-      __WEBPACK_IMPORTED_MODULE_0_axios___default.a.get('/rv-new-created-rr-notify').then(function (response) {
-        console.log(response);
-        Vue.set(vm.$data, 'RRRequestCount', response.data.RRrequestCount);
-      });
-    },
-    refreshCountMRNewlyCreated: function refreshCountMRNewlyCreated() {
-      var vm = this;
-      __WEBPACK_IMPORTED_MODULE_0_axios___default.a.get('/rv-new-created-mr-notify').then(function (response) {
-        console.log(response);
-        Vue.set(vm.$data, 'CountMRRequest', response.data.CountMRRequest);
-      });
-    },
-    refreshCountNewlyCreatedPO: function refreshCountNewlyCreatedPO() {
-      var vm = this;
-      __WEBPACK_IMPORTED_MODULE_0_axios___default.a.get('/po-count-notification').then(function (response) {
-        console.log(response);
-        Vue.set(vm.$data, 'CountPOrequest', response.data.PONotifCount);
-      });
-    },
-    refreshall: function refreshall() {
-      this.refreshNotifationMIRS();
-      this.refreshnewlyCreatedMCT();
-      this.refreshNewlyCreatedMRT();
-      this.refresCountRRnewCreated();
-      this.refreshNewlyCreatedRV();
-      this.refreshCountMRNewlyCreated();
-      if (this.user.Role == 3 || this.user.Role == 4) {
-        this.refreshCountRVWaitingForRR();
-      }
-      if (this.user.Role == 2 || this.user.Role == 0) {
-        this.refreshCountNewlyCreatedPO();
-      }
-    }
-  }
-
-});
-
-/***/ }),
-
 /***/ 21:
 /***/ (function(module, exports, __webpack_require__) {
 
@@ -43192,41 +43637,6 @@ module.exports = function buildURL(url, params, paramsSerializer) {
 
 /***/ }),
 
-/***/ 240:
-/***/ (function(module, exports, __webpack_require__) {
-
-var Component = __webpack_require__(4)(
-  /* script */
-  __webpack_require__(204),
-  /* template */
-  __webpack_require__(262),
-  /* scopeId */
-  null,
-  /* cssModules */
-  null
-)
-Component.options.__file = "C:\\xampp\\htdocs\\warehouse\\resources\\assets\\js\\components\\Master\\NotificationModal.vue"
-if (Component.esModule && Object.keys(Component.esModule).some(function (key) {return key !== "default" && key !== "__esModule"})) {console.error("named exports are not supported in *.vue files.")}
-if (Component.options.functional) {console.error("[vue-loader] NotificationModal.vue: functional components are not supported with templates, they should use render functions.")}
-
-/* hot reload */
-if (false) {(function () {
-  var hotAPI = require("vue-hot-reload-api")
-  hotAPI.install(require("vue"), false)
-  if (!hotAPI.compatible) return
-  module.hot.accept()
-  if (!module.hot.data) {
-    hotAPI.createRecord("data-v-3880e640", Component.options)
-  } else {
-    hotAPI.reload("data-v-3880e640", Component.options)
-  }
-})()}
-
-module.exports = Component.exports
-
-
-/***/ }),
-
 /***/ 25:
 /***/ (function(module, exports, __webpack_require__) {
 
@@ -43305,273 +43715,6 @@ module.exports = (
   })()
 );
 
-
-/***/ }),
-
-/***/ 262:
-/***/ (function(module, exports, __webpack_require__) {
-
-module.exports={render:function (){var _vm=this;var _h=_vm.$createElement;var _c=_vm._self._c||_h;
-  return _c('span', [_c('div', {
-    staticClass: "top-nav-container"
-  }, [_c('div', {
-    staticClass: "left-nav-content"
-  }, [_c('button', {
-    staticClass: "burger-button",
-    class: [_vm.modalOpen == true ? 'active' : ''],
-    attrs: {
-      "type": "button"
-    },
-    on: {
-      "click": function($event) {
-        _vm.modalOpen = true, _vm.refreshall()
-      }
-    }
-  }, [_c('i', {
-    staticClass: "material-icons"
-  }, [_vm._v("menu")])]), _vm._v(" "), _vm._m(0)]), _vm._v(" "), _vm._m(1)]), _vm._v(" "), _c('div', {
-    staticClass: "Account-modal",
-    class: [_vm.modalOpen == true ? 'active' : ''],
-    on: {
-      "click": function($event) {
-        _vm.modalOpen = !_vm.modalOpen
-      }
-    }
-  }), _vm._v(" "), _c('div', {
-    staticClass: "middle-account-modal",
-    class: [_vm.modalOpen == true ? 'active' : '']
-  }, [_c('ul', [_c('a', [_c('li', {
-    staticClass: "sidebar-title CurrentUser"
-  }, [_c('div', {
-    staticClass: "flex"
-  }, [_c('i', {
-    staticClass: "material-icons"
-  }, [_vm._v("person")]), _vm._v(" " + _vm._s(_vm.user.FullName) + "\n          ")])])]), _vm._v(" "), _c('div', {
-    staticClass: "sidebar-scrolling-container"
-  }, [_vm._m(2), _vm._v(" "), _c('a', {
-    attrs: {
-      "href": "/mirs-signature-list"
-    }
-  }, [_c('li', {
-    staticClass: "clickable waves-effect waves"
-  }, [_vm._m(3), _vm._v(" "), _c('span', {
-    staticClass: "notif",
-    class: [_vm.MIRSNotif != 0 ? 'active' : '']
-  }, [_vm._v("\n              " + _vm._s(_vm.MIRSNotif) + "\n              "), (_vm.MIRSNew == true) ? _c('small', {
-    staticClass: "new-notif"
-  }, [_vm._v("new !")]) : _vm._e()])])]), _vm._v(" "), _c('a', {
-    attrs: {
-      "href": "/mct-signature-request"
-    }
-  }, [_c('li', {
-    staticClass: "clickable waves-effect waves"
-  }, [_vm._m(4), _vm._v(" "), _c('span', {
-    staticClass: "notif",
-    class: [_vm.NewlyCreatedMCT != 0 ? 'active' : '']
-  }, [_vm._v(_vm._s(_vm.NewlyCreatedMCT) + "\n              "), (_vm.MCTNew == true) ? _c('small', {
-    staticClass: "new-notif"
-  }, [_vm._v("new !")]) : _vm._e()])])]), _vm._v(" "), _c('a', {
-    attrs: {
-      "href": "/my-mrt-signature-request"
-    }
-  }, [_c('li', {
-    staticClass: "clickable waves-effect waves"
-  }, [_vm._m(5), _vm._v(" "), _c('span', {
-    staticClass: "notif",
-    class: [_vm.NewlyCreatedMRT != 0 ? 'active' : '']
-  }, [_vm._v(_vm._s(_vm.NewlyCreatedMRT) + "\n              "), (_vm.MRTNew == true) ? _c('small', {
-    staticClass: "new-notif"
-  }, [_vm._v("new !")]) : _vm._e()])])]), _vm._v(" "), _c('a', {
-    attrs: {
-      "href": "/checkout-rr-request"
-    }
-  }, [_c('li', {
-    staticClass: "clickable waves-effect waves"
-  }, [_vm._m(6), _vm._v(" "), _c('span', {
-    staticClass: "notif",
-    class: [_vm.RRRequestCount != 0 ? 'active' : '']
-  }, [_vm._v(_vm._s(_vm.RRRequestCount) + "\n              "), (_vm.RRNew == true) ? _c('small', {
-    staticClass: "new-notif"
-  }, [_vm._v("new !\n              ")]) : _vm._e()])])]), _vm._v(" "), _c('a', {
-    attrs: {
-      "href": "/myRVrequest"
-    }
-  }, [_c('li', {
-    staticClass: "clickable waves-effect waves"
-  }, [_vm._m(7), _vm._v(" "), _c('span', {
-    staticClass: "notif",
-    class: [_vm.NewlyCreatedRV != 0 ? 'active' : '']
-  }, [_vm._v(_vm._s(_vm.NewlyCreatedRV) + "\n              "), (_vm.RVNew == true) ? _c('small', {
-    staticClass: "new-notif"
-  }, [_vm._v("new !\n              ")]) : _vm._e()])])]), _vm._v(" "), _c('a', {
-    attrs: {
-      "href": "/my-mr-request"
-    }
-  }, [_c('li', {
-    staticClass: "clickable waves-effect waves"
-  }, [_vm._m(8), _vm._v(" "), _c('span', {
-    staticClass: "notif",
-    class: [_vm.CountMRRequest != 0 ? 'active' : '']
-  }, [_vm._v(_vm._s(_vm.CountMRRequest) + "\n              "), (_vm.MRNew == true) ? _c('small', {
-    staticClass: "new-notif"
-  }, [_vm._v("new !\n              ")]) : _vm._e()])])]), _vm._v(" "), (_vm.user.Role == 0 || _vm.user.Role == 2) ? _c('a', {
-    attrs: {
-      "href": "/my-PO-request"
-    }
-  }, [_c('li', {
-    staticClass: "clickable waves-effect waves"
-  }, [_vm._m(9), _vm._v(" "), _c('span', {
-    staticClass: "notif",
-    class: [_vm.CountPOrequest != 0 ? 'active' : '']
-  }, [_vm._v(_vm._s(_vm.CountPOrequest) + "\n              "), (_vm.PONew == true) ? _c('small', {
-    staticClass: "new-notif"
-  }, [_vm._v("new !\n              ")]) : _vm._e()])])]) : _vm._e(), _vm._v(" "), (_vm.user.Role == 3 || _vm.user.Role == 4) ? _c('span', [_c('a', {
-    attrs: {
-      "href": "/waiting-to-be-purchased-rv"
-    }
-  }, [_c('li', {
-    staticClass: "clickable waves-effect waves"
-  }, [_vm._m(10), _vm._v(" "), _c('span', {
-    staticClass: "notif",
-    class: [_vm.RVWaitingRRCount != 0 ? 'active' : '']
-  }, [_vm._v(_vm._s(_vm.RVWaitingRRCount) + "\n                "), (_vm.RVwaitingRRNew == true) ? _c('small', {
-    staticClass: "new-notif"
-  }, [_vm._v("new !\n                ")]) : _vm._e()])])])]) : _vm._e(), _vm._v(" "), _vm._m(11), _vm._v(" "), (_vm.user.Role == 2) ? _c('a', {
-    attrs: {
-      "href": "/manager-take-placer-setting"
-    }
-  }, [_vm._m(12)]) : _vm._e(), _vm._v(" "), (_vm.user.Role == 1) ? _c('span', [_vm._m(13), _vm._v(" "), _vm._m(14)]) : _c('span', [_vm._m(15)]), _vm._v(" "), _vm._m(16), _vm._v(" "), _vm._m(17), _vm._v(" "), _c('a', [_c('li', {
-    staticClass: "logout-btn clickable waves-effect waves",
-    on: {
-      "click": function($event) {
-        _vm.logout()
-      }
-    }
-  }, [_vm._m(18)])])])])]), _vm._v(" "), _c('audio', {
-    ref: "audioElm",
-    attrs: {
-      "src": "/audio/NotificationSound.mp3"
-    }
-  })])
-},staticRenderFns: [function (){var _vm=this;var _h=_vm.$createElement;var _c=_vm._self._c||_h;
-  return _c('h1', [_c('a', {
-    attrs: {
-      "href": "/"
-    }
-  }, [_c('img', {
-    attrs: {
-      "src": "/DesignIMG/logo.png",
-      "alt": "logo"
-    }
-  })])])
-},function (){var _vm=this;var _h=_vm.$createElement;var _c=_vm._self._c||_h;
-  return _c('div', {
-    staticClass: "right-nav-content"
-  }, [_c('div', {
-    staticClass: "title-top"
-  }, [_c('p', [_vm._v(" Warehouse Inventory")])])])
-},function (){var _vm=this;var _h=_vm.$createElement;var _c=_vm._self._c||_h;
-  return _c('a', [_c('li', {
-    staticClass: "sidebar-title"
-  }, [_c('span', [_vm._v("\n              Notifications\n            ")])])])
-},function (){var _vm=this;var _h=_vm.$createElement;var _c=_vm._self._c||_h;
-  return _c('span', [_c('i', {
-    staticClass: "material-icons"
-  }, [_vm._v("notifications_none")]), _vm._v("MIRS\n            ")])
-},function (){var _vm=this;var _h=_vm.$createElement;var _c=_vm._self._c||_h;
-  return _c('span', [_c('i', {
-    staticClass: "material-icons"
-  }, [_vm._v("notifications_none")]), _vm._v("MCT\n            ")])
-},function (){var _vm=this;var _h=_vm.$createElement;var _c=_vm._self._c||_h;
-  return _c('span', [_c('i', {
-    staticClass: "material-icons"
-  }, [_vm._v("notifications_none")]), _vm._v(" MRT\n            ")])
-},function (){var _vm=this;var _h=_vm.$createElement;var _c=_vm._self._c||_h;
-  return _c('span', [_c('i', {
-    staticClass: "material-icons"
-  }, [_vm._v("notifications_none")]), _vm._v(" RR\n            ")])
-},function (){var _vm=this;var _h=_vm.$createElement;var _c=_vm._self._c||_h;
-  return _c('span', [_c('i', {
-    staticClass: "material-icons"
-  }, [_vm._v("notifications_none")]), _vm._v(" RV\n            ")])
-},function (){var _vm=this;var _h=_vm.$createElement;var _c=_vm._self._c||_h;
-  return _c('span', [_c('i', {
-    staticClass: "material-icons"
-  }, [_vm._v("notifications_none")]), _vm._v(" MR\n            ")])
-},function (){var _vm=this;var _h=_vm.$createElement;var _c=_vm._self._c||_h;
-  return _c('span', [_c('i', {
-    staticClass: "material-icons"
-  }, [_vm._v("notifications_none")]), _vm._v("PO\n            ")])
-},function (){var _vm=this;var _h=_vm.$createElement;var _c=_vm._self._c||_h;
-  return _c('span', [_c('i', {
-    staticClass: "material-icons"
-  }, [_vm._v("notifications_none")]), _vm._v("Approved rv\n              ")])
-},function (){var _vm=this;var _h=_vm.$createElement;var _c=_vm._self._c||_h;
-  return _c('a', [_c('li', {
-    staticClass: "sidebar-title"
-  }, [_c('span', [_vm._v("\n                Settings\n              ")])])])
-},function (){var _vm=this;var _h=_vm.$createElement;var _c=_vm._self._c||_h;
-  return _c('li', {
-    staticClass: "clickable waves-effect waves"
-  }, [_c('span', [_c('i', {
-    staticClass: "material-icons"
-  }, [_vm._v("face")]), _vm._v("Assign a Manager\n              ")])])
-},function (){var _vm=this;var _h=_vm.$createElement;var _c=_vm._self._c||_h;
-  return _c('a', {
-    attrs: {
-      "href": "/create-non-existing-item-in-warehouse"
-    }
-  }, [_c('li', {
-    staticClass: "clickable waves-effect waves"
-  }, [_c('span', [_c('i', {
-    staticClass: "material-icons"
-  }, [_vm._v("fiber_new")]), _vm._v(" Items\n              ")])])])
-},function (){var _vm=this;var _h=_vm.$createElement;var _c=_vm._self._c||_h;
-  return _c('a', {
-    attrs: {
-      "href": "/settings-accounts-list"
-    }
-  }, [_c('li', {
-    staticClass: "clickable waves-effect waves"
-  }, [_c('span', [_c('i', {
-    staticClass: "material-icons"
-  }, [_vm._v("people")]), _vm._v("Accounts\n              ")])])])
-},function (){var _vm=this;var _h=_vm.$createElement;var _c=_vm._self._c||_h;
-  return _c('a', {
-    attrs: {
-      "href": "/my-own-account-settings-page"
-    }
-  }, [_c('li', {
-    staticClass: "clickable waves-effect waves"
-  }, [_c('span', [_c('i', {
-    staticClass: "material-icons"
-  }, [_vm._v("account_circle")]), _vm._v("My account\n              ")])])])
-},function (){var _vm=this;var _h=_vm.$createElement;var _c=_vm._self._c||_h;
-  return _c('a', [_c('li', {
-    staticClass: "sidebar-title"
-  }, [_c('span', [_vm._v("\n              History\n            ")])])])
-},function (){var _vm=this;var _h=_vm.$createElement;var _c=_vm._self._c||_h;
-  return _c('a', {
-    attrs: {
-      "href": "/show-my-history"
-    }
-  }, [_c('li', {
-    staticClass: "clickable waves-effect waves"
-  }, [_c('span', [_c('i', {
-    staticClass: "material-icons"
-  }, [_vm._v("history")]), _vm._v(" My history\n            ")])])])
-},function (){var _vm=this;var _h=_vm.$createElement;var _c=_vm._self._c||_h;
-  return _c('span', [_c('i', {
-    staticClass: "material-icons"
-  }, [_vm._v("exit_to_app")]), _vm._v(" Logout\n          ")])
-}]}
-module.exports.render._withStripped = true
-if (false) {
-  module.hot.accept()
-  if (module.hot.data) {
-     require("vue-hot-reload-api").rerender("data-v-3880e640", module.exports)
-  }
-}
 
 /***/ }),
 
@@ -43673,14 +43816,6 @@ module.exports = (
 
 /***/ }),
 
-/***/ 289:
-/***/ (function(module, exports, __webpack_require__) {
-
-module.exports = __webpack_require__(171);
-
-
-/***/ }),
-
 /***/ 29:
 /***/ (function(module, exports, __webpack_require__) {
 
@@ -43697,6 +43832,14 @@ module.exports = function normalizeHeaderName(headers, normalizedName) {
     }
   });
 };
+
+
+/***/ }),
+
+/***/ 290:
+/***/ (function(module, exports, __webpack_require__) {
+
+module.exports = __webpack_require__(172);
 
 
 /***/ }),
@@ -44038,324 +44181,6 @@ exports._unrefActive = exports.active = function(item) {
 __webpack_require__(32);
 exports.setImmediate = setImmediate;
 exports.clearImmediate = clearImmediate;
-
-
-/***/ }),
-
-/***/ 35:
-/***/ (function(module, exports) {
-
-/*
-	MIT License http://www.opensource.org/licenses/mit-license.php
-	Author Tobias Koppers @sokra
-*/
-// css base code, injected by the css-loader
-module.exports = function() {
-	var list = [];
-
-	// return the list of modules as css string
-	list.toString = function toString() {
-		var result = [];
-		for(var i = 0; i < this.length; i++) {
-			var item = this[i];
-			if(item[2]) {
-				result.push("@media " + item[2] + "{" + item[1] + "}");
-			} else {
-				result.push(item[1]);
-			}
-		}
-		return result.join("");
-	};
-
-	// import a list of modules into the list
-	list.i = function(modules, mediaQuery) {
-		if(typeof modules === "string")
-			modules = [[null, modules, ""]];
-		var alreadyImportedModules = {};
-		for(var i = 0; i < this.length; i++) {
-			var id = this[i][0];
-			if(typeof id === "number")
-				alreadyImportedModules[id] = true;
-		}
-		for(i = 0; i < modules.length; i++) {
-			var item = modules[i];
-			// skip already imported module
-			// this implementation is not 100% perfect for weird media query combinations
-			//  when a module is imported multiple times with different media queries.
-			//  I hope this will never occur (Hey this way we have smaller bundles)
-			if(typeof item[0] !== "number" || !alreadyImportedModules[item[0]]) {
-				if(mediaQuery && !item[2]) {
-					item[2] = mediaQuery;
-				} else if(mediaQuery) {
-					item[2] = "(" + item[2] + ") and (" + mediaQuery + ")";
-				}
-				list.push(item);
-			}
-		}
-	};
-	return list;
-};
-
-
-/***/ }),
-
-/***/ 36:
-/***/ (function(module, exports, __webpack_require__) {
-
-exports = module.exports = __webpack_require__(35)();
-exports.push([module.i, ".lx-toast {\r\n    position: fixed;\r\n    bottom: 100px;\r\n    left: 50%;\r\n    box-sizing: border-box;\r\n    max-width: 80%;\r\n    height: 40px;\r\n    line-height: 20px;\r\n    padding: 10px 20px;\r\n    transform: translateX(-50%);\r\n    -webkit-transform: translateX(-50%);\r\n    text-align: center;\r\n    z-index: 9999;\r\n    font-size: 14px;\r\n    color: #fff;\r\n    border-radius: 5px;\r\n    background: rgba(0, 0, 0, 0.7);\r\n    animation: show-toast .5s;\r\n    -webkit-animation: show-toast .5s;\r\n    overflow: hidden;\r\n    text-overflow: ellipsis;\r\n    white-space: nowrap;\r\n}\r\n\r\n.lx-toast.lx-word-wrap {\r\n    width: 80%;\r\n    white-space: inherit;\r\n    height: auto;\r\n}\r\n\r\n.lx-toast.lx-toast-top {\r\n    top: 50px;\r\n    bottom: inherit;\r\n}\r\n\r\n.lx-toast.lx-toast-center {\r\n    top: 50%;\r\n    margin-top: -20px;\r\n    bottom: inherit;\r\n}\r\n\r\n@keyframes show-toast {\r\n    from {\r\n        opacity: 0;\r\n        transform: translate(-50%, -10px);\r\n        -webkit-transform: translate(-50%, -10px);\r\n    }\r\n    to {\r\n        opacity: 1;\r\n        transform: translate(-50%, 0);\r\n        -webkit-transform: translate(-50%, 0);\r\n    }\r\n}\r\n\r\n.lx-load-mark {\r\n    position: fixed;\r\n    left: 0;\r\n    top: 0;\r\n    width: 100%;\r\n    height: 100%;\r\n    z-index: 9999;\r\n}\r\n\r\n.lx-load-box {\r\n    position: fixed;\r\n    z-index: 3;\r\n    width: 7.6em;\r\n    min-height: 7.6em;\r\n    top: 180px;\r\n    left: 50%;\r\n    margin-left: -3.8em;\r\n    background: rgba(0, 0, 0, 0.7);\r\n    text-align: center;\r\n    border-radius: 5px;\r\n    color: #FFFFFF;\r\n}\r\n\r\n.lx-load-content {\r\n    margin-top: 64%;\r\n    font-size: 14px;\r\n}\r\n\r\n.lx-loading {\r\n    position: absolute;\r\n    width: 0px;\r\n    left: 50%;\r\n    top: 38%;\r\n}\r\n\r\n.loading_leaf {\r\n    position: absolute;\r\n    top: -1px;\r\n    opacity: 0.25;\r\n}\r\n\r\n.loading_leaf:before {\r\n    content: \" \";\r\n    position: absolute;\r\n    width: 9.14px;\r\n    height: 3.08px;\r\n    background: #d1d1d5;\r\n    box-shadow: rgba(0, 0, 0, 0.0980392) 0px 0px 1px;\r\n    border-radius: 1px;\r\n    -webkit-transform-origin: left 50% 0px;\r\n    transform-origin: left 50% 0px;\r\n}\r\n\r\n.loading_leaf_0 {\r\n    -webkit-animation: opacity-0 1.25s linear infinite;\r\n    animation: opacity-0 1.25s linear infinite;\r\n}\r\n\r\n.loading_leaf_0:before {\r\n    -webkit-transform: rotate(0deg) translate(7.92px, 0px);\r\n    transform: rotate(0deg) translate(7.92px, 0px);\r\n}\r\n\r\n.loading_leaf_1 {\r\n    -webkit-animation: opacity-1 1.25s linear infinite;\r\n    animation: opacity-1 1.25s linear infinite;\r\n}\r\n\r\n.loading_leaf_1:before {\r\n    -webkit-transform: rotate(30deg) translate(7.92px, 0px);\r\n    transform: rotate(30deg) translate(7.92px, 0px);\r\n}\r\n\r\n.loading_leaf_2 {\r\n    -webkit-animation: opacity-2 1.25s linear infinite;\r\n    animation: opacity-2 1.25s linear infinite;\r\n}\r\n\r\n.loading_leaf_2:before {\r\n    -webkit-transform: rotate(60deg) translate(7.92px, 0px);\r\n    transform: rotate(60deg) translate(7.92px, 0px);\r\n}\r\n\r\n.loading_leaf_3 {\r\n    -webkit-animation: opacity-3 1.25s linear infinite;\r\n    animation: opacity-3 1.25s linear infinite;\r\n}\r\n\r\n.loading_leaf_3:before {\r\n    -webkit-transform: rotate(90deg) translate(7.92px, 0px);\r\n    transform: rotate(90deg) translate(7.92px, 0px);\r\n}\r\n\r\n.loading_leaf_4 {\r\n    -webkit-animation: opacity-4 1.25s linear infinite;\r\n    animation: opacity-4 1.25s linear infinite;\r\n}\r\n\r\n.loading_leaf_4:before {\r\n    -webkit-transform: rotate(120deg) translate(7.92px, 0px);\r\n    transform: rotate(120deg) translate(7.92px, 0px);\r\n}\r\n\r\n.loading_leaf_5 {\r\n    -webkit-animation: opacity-5 1.25s linear infinite;\r\n    animation: opacity-5 1.25s linear infinite;\r\n}\r\n\r\n.loading_leaf_5:before {\r\n    -webkit-transform: rotate(150deg) translate(7.92px, 0px);\r\n    transform: rotate(150deg) translate(7.92px, 0px);\r\n}\r\n\r\n.loading_leaf_6 {\r\n    -webkit-animation: opacity-6 1.25s linear infinite;\r\n    animation: opacity-6 1.25s linear infinite;\r\n}\r\n\r\n.loading_leaf_6:before {\r\n    -webkit-transform: rotate(180deg) translate(7.92px, 0px);\r\n    transform: rotate(180deg) translate(7.92px, 0px);\r\n}\r\n\r\n.loading_leaf_7 {\r\n    -webkit-animation: opacity-7 1.25s linear infinite;\r\n    animation: opacity-7 1.25s linear infinite;\r\n}\r\n\r\n.loading_leaf_7:before {\r\n    -webkit-transform: rotate(210deg) translate(7.92px, 0px);\r\n    transform: rotate(210deg) translate(7.92px, 0px);\r\n}\r\n\r\n.loading_leaf_8 {\r\n    -webkit-animation: opacity-8 1.25s linear infinite;\r\n    animation: opacity-8 1.25s linear infinite;\r\n}\r\n\r\n.loading_leaf_8:before {\r\n    -webkit-transform: rotate(240deg) translate(7.92px, 0px);\r\n    transform: rotate(240deg) translate(7.92px, 0px);\r\n}\r\n\r\n.loading_leaf_9 {\r\n    -webkit-animation: opacity-9 1.25s linear infinite;\r\n    animation: opacity-9 1.25s linear infinite;\r\n}\r\n\r\n.loading_leaf_9:before {\r\n    -webkit-transform: rotate(270deg) translate(7.92px, 0px);\r\n    transform: rotate(270deg) translate(7.92px, 0px);\r\n}\r\n\r\n.loading_leaf_10 {\r\n    -webkit-animation: opacity-10 1.25s linear infinite;\r\n    animation: opacity-10 1.25s linear infinite;\r\n}\r\n\r\n.loading_leaf_10:before {\r\n    -webkit-transform: rotate(300deg) translate(7.92px, 0px);\r\n    transform: rotate(300deg) translate(7.92px, 0px);\r\n}\r\n\r\n.loading_leaf_11 {\r\n    -webkit-animation: opacity-11 1.25s linear infinite;\r\n    animation: opacity-11 1.25s linear infinite;\r\n}\r\n\r\n.loading_leaf_11:before {\r\n    -webkit-transform: rotate(330deg) translate(7.92px, 0px);\r\n    transform: rotate(330deg) translate(7.92px, 0px);\r\n}\r\n\r\n@-webkit-keyframes opacity-0 {\r\n    0% {\r\n        opacity: 0.25;\r\n    }\r\n    0.01% {\r\n        opacity: 0.25;\r\n    }\r\n    0.02% {\r\n        opacity: 1;\r\n    }\r\n    60.01% {\r\n        opacity: 0.25;\r\n    }\r\n    100% {\r\n        opacity: 0.25;\r\n    }\r\n}\r\n\r\n@-webkit-keyframes opacity-1 {\r\n    0% {\r\n        opacity: 0.25;\r\n    }\r\n    8.34333% {\r\n        opacity: 0.25;\r\n    }\r\n    8.35333% {\r\n        opacity: 1;\r\n    }\r\n    68.3433% {\r\n        opacity: 0.25;\r\n    }\r\n    100% {\r\n        opacity: 0.25;\r\n    }\r\n}\r\n\r\n@-webkit-keyframes opacity-2 {\r\n    0% {\r\n        opacity: 0.25;\r\n    }\r\n    16.6767% {\r\n        opacity: 0.25;\r\n    }\r\n    16.6867% {\r\n        opacity: 1;\r\n    }\r\n    76.6767% {\r\n        opacity: 0.25;\r\n    }\r\n    100% {\r\n        opacity: 0.25;\r\n    }\r\n}\r\n\r\n@-webkit-keyframes opacity-3 {\r\n    0% {\r\n        opacity: 0.25;\r\n    }\r\n    25.01% {\r\n        opacity: 0.25;\r\n    }\r\n    25.02% {\r\n        opacity: 1;\r\n    }\r\n    85.01% {\r\n        opacity: 0.25;\r\n    }\r\n    100% {\r\n        opacity: 0.25;\r\n    }\r\n}\r\n\r\n@-webkit-keyframes opacity-4 {\r\n    0% {\r\n        opacity: 0.25;\r\n    }\r\n    33.3433% {\r\n        opacity: 0.25;\r\n    }\r\n    33.3533% {\r\n        opacity: 1;\r\n    }\r\n    93.3433% {\r\n        opacity: 0.25;\r\n    }\r\n    100% {\r\n        opacity: 0.25;\r\n    }\r\n}\r\n\r\n@-webkit-keyframes opacity-5 {\r\n    0% {\r\n        opacity: 0.270958333333333;\r\n    }\r\n    41.6767% {\r\n        opacity: 0.25;\r\n    }\r\n    41.6867% {\r\n        opacity: 1;\r\n    }\r\n    1.67667% {\r\n        opacity: 0.25;\r\n    }\r\n    100% {\r\n        opacity: 0.270958333333333;\r\n    }\r\n}\r\n\r\n@-webkit-keyframes opacity-6 {\r\n    0% {\r\n        opacity: 0.375125;\r\n    }\r\n    50.01% {\r\n        opacity: 0.25;\r\n    }\r\n    50.02% {\r\n        opacity: 1;\r\n    }\r\n    10.01% {\r\n        opacity: 0.25;\r\n    }\r\n    100% {\r\n        opacity: 0.375125;\r\n    }\r\n}\r\n\r\n@-webkit-keyframes opacity-7 {\r\n    0% {\r\n        opacity: 0.479291666666667;\r\n    }\r\n    58.3433% {\r\n        opacity: 0.25;\r\n    }\r\n    58.3533% {\r\n        opacity: 1;\r\n    }\r\n    18.3433% {\r\n        opacity: 0.25;\r\n    }\r\n    100% {\r\n        opacity: 0.479291666666667;\r\n    }\r\n}\r\n\r\n@-webkit-keyframes opacity-8 {\r\n    0% {\r\n        opacity: 0.583458333333333;\r\n    }\r\n    66.6767% {\r\n        opacity: 0.25;\r\n    }\r\n    66.6867% {\r\n        opacity: 1;\r\n    }\r\n    26.6767% {\r\n        opacity: 0.25;\r\n    }\r\n    100% {\r\n        opacity: 0.583458333333333;\r\n    }\r\n}\r\n\r\n@-webkit-keyframes opacity-9 {\r\n    0% {\r\n        opacity: 0.687625;\r\n    }\r\n    75.01% {\r\n        opacity: 0.25;\r\n    }\r\n    75.02% {\r\n        opacity: 1;\r\n    }\r\n    35.01% {\r\n        opacity: 0.25;\r\n    }\r\n    100% {\r\n        opacity: 0.687625;\r\n    }\r\n}\r\n\r\n@-webkit-keyframes opacity-10 {\r\n    0% {\r\n        opacity: 0.791791666666667;\r\n    }\r\n    83.3433% {\r\n        opacity: 0.25;\r\n    }\r\n    83.3533% {\r\n        opacity: 1;\r\n    }\r\n    43.3433% {\r\n        opacity: 0.25;\r\n    }\r\n    100% {\r\n        opacity: 0.791791666666667;\r\n    }\r\n}\r\n\r\n@-webkit-keyframes opacity-11 {\r\n    0% {\r\n        opacity: 0.895958333333333;\r\n    }\r\n    91.6767% {\r\n        opacity: 0.25;\r\n    }\r\n    91.6867% {\r\n        opacity: 1;\r\n    }\r\n    51.6767% {\r\n        opacity: 0.25;\r\n    }\r\n    100% {\r\n        opacity: 0.895958333333333;\r\n    }\r\n}", ""]);
-
-/***/ }),
-
-/***/ 37:
-/***/ (function(module, exports) {
-
-/*
-	MIT License http://www.opensource.org/licenses/mit-license.php
-	Author Tobias Koppers @sokra
-*/
-var stylesInDom = {},
-	memoize = function(fn) {
-		var memo;
-		return function () {
-			if (typeof memo === "undefined") memo = fn.apply(this, arguments);
-			return memo;
-		};
-	},
-	isOldIE = memoize(function() {
-		return /msie [6-9]\b/.test(self.navigator.userAgent.toLowerCase());
-	}),
-	getHeadElement = memoize(function () {
-		return document.head || document.getElementsByTagName("head")[0];
-	}),
-	singletonElement = null,
-	singletonCounter = 0,
-	styleElementsInsertedAtTop = [];
-
-module.exports = function(list, options) {
-	if(typeof DEBUG !== "undefined" && DEBUG) {
-		if(typeof document !== "object") throw new Error("The style-loader cannot be used in a non-browser environment");
-	}
-
-	options = options || {};
-	// Force single-tag solution on IE6-9, which has a hard limit on the # of <style>
-	// tags it will allow on a page
-	if (typeof options.singleton === "undefined") options.singleton = isOldIE();
-
-	// By default, add <style> tags to the bottom of <head>.
-	if (typeof options.insertAt === "undefined") options.insertAt = "bottom";
-
-	var styles = listToStyles(list);
-	addStylesToDom(styles, options);
-
-	return function update(newList) {
-		var mayRemove = [];
-		for(var i = 0; i < styles.length; i++) {
-			var item = styles[i];
-			var domStyle = stylesInDom[item.id];
-			domStyle.refs--;
-			mayRemove.push(domStyle);
-		}
-		if(newList) {
-			var newStyles = listToStyles(newList);
-			addStylesToDom(newStyles, options);
-		}
-		for(var i = 0; i < mayRemove.length; i++) {
-			var domStyle = mayRemove[i];
-			if(domStyle.refs === 0) {
-				for(var j = 0; j < domStyle.parts.length; j++)
-					domStyle.parts[j]();
-				delete stylesInDom[domStyle.id];
-			}
-		}
-	};
-}
-
-function addStylesToDom(styles, options) {
-	for(var i = 0; i < styles.length; i++) {
-		var item = styles[i];
-		var domStyle = stylesInDom[item.id];
-		if(domStyle) {
-			domStyle.refs++;
-			for(var j = 0; j < domStyle.parts.length; j++) {
-				domStyle.parts[j](item.parts[j]);
-			}
-			for(; j < item.parts.length; j++) {
-				domStyle.parts.push(addStyle(item.parts[j], options));
-			}
-		} else {
-			var parts = [];
-			for(var j = 0; j < item.parts.length; j++) {
-				parts.push(addStyle(item.parts[j], options));
-			}
-			stylesInDom[item.id] = {id: item.id, refs: 1, parts: parts};
-		}
-	}
-}
-
-function listToStyles(list) {
-	var styles = [];
-	var newStyles = {};
-	for(var i = 0; i < list.length; i++) {
-		var item = list[i];
-		var id = item[0];
-		var css = item[1];
-		var media = item[2];
-		var sourceMap = item[3];
-		var part = {css: css, media: media, sourceMap: sourceMap};
-		if(!newStyles[id])
-			styles.push(newStyles[id] = {id: id, parts: [part]});
-		else
-			newStyles[id].parts.push(part);
-	}
-	return styles;
-}
-
-function insertStyleElement(options, styleElement) {
-	var head = getHeadElement();
-	var lastStyleElementInsertedAtTop = styleElementsInsertedAtTop[styleElementsInsertedAtTop.length - 1];
-	if (options.insertAt === "top") {
-		if(!lastStyleElementInsertedAtTop) {
-			head.insertBefore(styleElement, head.firstChild);
-		} else if(lastStyleElementInsertedAtTop.nextSibling) {
-			head.insertBefore(styleElement, lastStyleElementInsertedAtTop.nextSibling);
-		} else {
-			head.appendChild(styleElement);
-		}
-		styleElementsInsertedAtTop.push(styleElement);
-	} else if (options.insertAt === "bottom") {
-		head.appendChild(styleElement);
-	} else {
-		throw new Error("Invalid value for parameter 'insertAt'. Must be 'top' or 'bottom'.");
-	}
-}
-
-function removeStyleElement(styleElement) {
-	styleElement.parentNode.removeChild(styleElement);
-	var idx = styleElementsInsertedAtTop.indexOf(styleElement);
-	if(idx >= 0) {
-		styleElementsInsertedAtTop.splice(idx, 1);
-	}
-}
-
-function createStyleElement(options) {
-	var styleElement = document.createElement("style");
-	styleElement.type = "text/css";
-	insertStyleElement(options, styleElement);
-	return styleElement;
-}
-
-function createLinkElement(options) {
-	var linkElement = document.createElement("link");
-	linkElement.rel = "stylesheet";
-	insertStyleElement(options, linkElement);
-	return linkElement;
-}
-
-function addStyle(obj, options) {
-	var styleElement, update, remove;
-
-	if (options.singleton) {
-		var styleIndex = singletonCounter++;
-		styleElement = singletonElement || (singletonElement = createStyleElement(options));
-		update = applyToSingletonTag.bind(null, styleElement, styleIndex, false);
-		remove = applyToSingletonTag.bind(null, styleElement, styleIndex, true);
-	} else if(obj.sourceMap &&
-		typeof URL === "function" &&
-		typeof URL.createObjectURL === "function" &&
-		typeof URL.revokeObjectURL === "function" &&
-		typeof Blob === "function" &&
-		typeof btoa === "function") {
-		styleElement = createLinkElement(options);
-		update = updateLink.bind(null, styleElement);
-		remove = function() {
-			removeStyleElement(styleElement);
-			if(styleElement.href)
-				URL.revokeObjectURL(styleElement.href);
-		};
-	} else {
-		styleElement = createStyleElement(options);
-		update = applyToTag.bind(null, styleElement);
-		remove = function() {
-			removeStyleElement(styleElement);
-		};
-	}
-
-	update(obj);
-
-	return function updateStyle(newObj) {
-		if(newObj) {
-			if(newObj.css === obj.css && newObj.media === obj.media && newObj.sourceMap === obj.sourceMap)
-				return;
-			update(obj = newObj);
-		} else {
-			remove();
-		}
-	};
-}
-
-var replaceText = (function () {
-	var textStore = [];
-
-	return function (index, replacement) {
-		textStore[index] = replacement;
-		return textStore.filter(Boolean).join('\n');
-	};
-})();
-
-function applyToSingletonTag(styleElement, index, remove, obj) {
-	var css = remove ? "" : obj.css;
-
-	if (styleElement.styleSheet) {
-		styleElement.styleSheet.cssText = replaceText(index, css);
-	} else {
-		var cssNode = document.createTextNode(css);
-		var childNodes = styleElement.childNodes;
-		if (childNodes[index]) styleElement.removeChild(childNodes[index]);
-		if (childNodes.length) {
-			styleElement.insertBefore(cssNode, childNodes[index]);
-		} else {
-			styleElement.appendChild(cssNode);
-		}
-	}
-}
-
-function applyToTag(styleElement, obj) {
-	var css = obj.css;
-	var media = obj.media;
-
-	if(media) {
-		styleElement.setAttribute("media", media)
-	}
-
-	if(styleElement.styleSheet) {
-		styleElement.styleSheet.cssText = css;
-	} else {
-		while(styleElement.firstChild) {
-			styleElement.removeChild(styleElement.firstChild);
-		}
-		styleElement.appendChild(document.createTextNode(css));
-	}
-}
-
-function updateLink(linkElement, obj) {
-	var css = obj.css;
-	var sourceMap = obj.sourceMap;
-
-	if(sourceMap) {
-		// http://stackoverflow.com/a/26603875
-		css += "\n/*# sourceMappingURL=data:application/json;base64," + btoa(unescape(encodeURIComponent(JSON.stringify(sourceMap)))) + " */";
-	}
-
-	var blob = new Blob([css], { type: "text/css" });
-
-	var oldSrc = linkElement.href;
-
-	linkElement.href = URL.createObjectURL(blob);
-
-	if(oldSrc)
-		URL.revokeObjectURL(oldSrc);
-}
 
 
 /***/ }),

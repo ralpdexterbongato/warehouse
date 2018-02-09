@@ -22,4 +22,5 @@ const { mix } = require('laravel-mix');
     .js('resources/assets/js/mrt.js', 'public/js')
     .js('resources/assets/js/po.js', 'public/js')
     .js('resources/assets/js/master.js', 'public/js')
+    .js('resources/assets/js/masterGN.js', 'public/js')
     .sass('resources/assets/sass/app.scss', 'public/css');

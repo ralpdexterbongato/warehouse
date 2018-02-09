@@ -25,16 +25,10 @@
         return strstr(request()->path(),$uri);
       }
     @endphp
-    <header id="master">
-      @if (Auth::check())
-        <span>
-          <mynotification :user="{{Auth::user()}}">
-          </mynotification>
-        </span>
-      @endif
+    <header>
       @if (Auth::check())
       <div class="top-nav-boxes empty-left-btn">
-        <ul>
+        <ul id="masterGN">
           @if ((Auth::user()->Role!=0)&&(Auth::user()->Role!=2))
           <li class="dropping-parent drop-add">
             <h1 class="waves-effect waves-light">
@@ -77,6 +71,14 @@
       @endif
     </header>
         <div class="main-master-container">
+          <div class="sidebar-static">
+            @if (Auth::check())
+              <span id="master">
+                <mynotification :user="{{Auth::user()}}">
+                </mynotification>
+              </span>
+            @endif
+          </div>
           @section('body')
           @show
         </div>
@@ -98,6 +100,8 @@
     </script>
     @if (Auth::check())
       <script type="text/javascript" src="/js/master.js">
+      </script>
+      <script type="text/javascript" src="/js/masterGN.js">
       </script>
       <script type="text/javascript">
         $(document).ready(function()

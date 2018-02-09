@@ -12,5 +12,6 @@
   "/js/item.js": "/js/item.js",
   "/js/mrt.js": "/js/mrt.js",
   "/js/po.js": "/js/po.js",
-  "/js/master.js": "/js/master.js"
+  "/js/master.js": "/js/master.js",
+  "/js/masterGN.js": "/js/masterGN.js"
 }
