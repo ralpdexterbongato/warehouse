@@ -22,6 +22,58 @@ class MRController extends Controller
     {
       $this->middleware('IsWarehouse',['except'=>['MRindexFetchAndSearch','MRindexPage','previewFullMRFetchData','MyMRrequestCount','refuseMRApproveInBehalf','confirmApproveinBehalf','myMRrequest','previewFullMR','MRofRRlist','SignatureMR','DeclineMR']]);
     }
+    public function updateMR(Request $request,$MRNo)
+    {
+      $MRMasterCurrent = MRMaster::where('MRNo', $MRNo)->get(['RRNo']);
+      $tobeUpdated=MRDetail::where('MRNo', $MRNo)->get(['id','NameDescription','Quantity','UnitValue']);
+
+      // validation
+      foreach ($tobeUpdated as $keyloop => $tobe)
+      {
+        $itemRow =$keyloop+1;
+        if ($request->NewQty[$keyloop] == null || $request->NewQty[$keyloop] == '')
+        {
+          return ['error'=>'The Qty is required'];
+        }
+        if (is_numeric($request->NewQty[$keyloop])==false)
+        {
+          return ['error'=>'Qty must be a number'];
+        }
+        if ($request->NewQty[0] < 1)
+        {
+          return ['error'=>'The Qty must be atleast 1'];
+        }
+        if ($tobe->Quantity < $request->NewQty[$keyloop])
+        {
+          $tobeSubtract =$request->NewQty[$keyloop] - $tobe->Quantity;
+          $MRvalidator=RRconfirmationDetails::where('RRNo',$MRMasterCurrent[0]->RRNo)->where('Description',$tobe->NameDescription)->get(['QuantityValidator','id']);
+          if ($MRvalidator[0]->QuantityValidator < $tobeSubtract)
+          {
+            return ['error'=>'The Qty to be added cannot be greater than '.$MRvalidator[0]->QuantityValidator.' at row '.$itemRow];
+          }
+        }
+      }
+      // updating
+      foreach ($tobeUpdated as $key => $tobe)
+      {
+        if ($tobe->Quantity > $request->NewQty[$key])
+        {
+          $tobeReturned = $tobe->Quantity - $request->NewQty[$key];
+          $MRvalidator=RRconfirmationDetails::where('RRNo',$MRMasterCurrent[0]->RRNo)->where('Description',$tobe->NameDescription)->get(['QuantityValidator','id']);
+          $newValidator = $MRvalidator[0]->QuantityValidator + $tobeReturned;
+          RRconfirmationDetails::where('id', $MRvalidator[0]->id)->update(['QuantityValidator'=>$newValidator]);
+        }else if ($tobe->Quantity < $request->NewQty[$key])
+        {
+          $tobeSubtract =$request->NewQty[$key] - $tobe->Quantity;
+          $MRvalidator=RRconfirmationDetails::where('RRNo',$MRMasterCurrent[0]->RRNo)->where('Description',$tobe->NameDescription)->get(['QuantityValidator','id']);
+          $newValidator = $MRvalidator[0]->QuantityValidator - $tobeSubtract;
+          RRconfirmationDetails::where('id', $MRvalidator[0]->id)->update(['QuantityValidator'=>$newValidator]);
+        }
+          $newTotal = $tobe->UnitValue * $request->NewQty[$key];
+          MRDetail::where('id',$tobe->id)->update(['Quantity'=>$request->NewQty[$key],'TotalValue'=>$newTotal]);
+      }
+      MRMaster::where('MRNo',$MRNo)->update(['Note'=>$request->NewNote]);
+    }
     public function SaveMR(Request $request)
     {
      $this->validate($request,[
@@ -81,7 +133,7 @@ class MRController extends Controller
      $MRMasterDB->WarehouseMan=Auth::user()->FullName;
      $MRMasterDB->notification_date_time = Carbon::now();
      $MRMasterDB->save();
-     if ($ApprovalReplacer[0]!=null)
+     if (isset($ApprovalReplacer[0]))
      {
        $forSignatures = array(
         array('user_id' =>$Recommended[0]->id,'signatureable_id'=>$incremented,'signatureable_type'=>'App\MRMaster','SignatureType'=>'RecommendedBy'),

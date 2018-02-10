@@ -11660,11 +11660,11 @@ module.exports = CancelToken;
 
 /***/ }),
 
-/***/ 169:
+/***/ 166:
 /***/ (function(module, exports, __webpack_require__) {
 
 window.Vue = __webpack_require__(14);
-Vue.component('canvasscreate', __webpack_require__(223));
+Vue.component('canvasscreate', __webpack_require__(221));
 new Vue({
     el: '#canvass'
 });
@@ -11824,7 +11824,7 @@ module.exports = InterceptorManager;
 
 /***/ }),
 
-/***/ 187:
+/***/ 184:
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
 "use strict";
@@ -12398,12 +12398,12 @@ module.exports = function transformData(data, headers, fns) {
 
 /***/ }),
 
-/***/ 223:
+/***/ 221:
 /***/ (function(module, exports, __webpack_require__) {
 
 var Component = __webpack_require__(4)(
   /* script */
-  __webpack_require__(187),
+  __webpack_require__(184),
   /* template */
   __webpack_require__(261),
   /* scopeId */
@@ -13174,7 +13174,7 @@ module.exports = (
 /***/ 287:
 /***/ (function(module, exports, __webpack_require__) {
 
-module.exports = __webpack_require__(169);
+module.exports = __webpack_require__(166);
 
 
 /***/ }),

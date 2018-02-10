@@ -29,6 +29,13 @@
       @if (Auth::check())
       <div class="top-nav-boxes empty-left-btn">
         <ul id="masterGN">
+          <li class="dropping-parent">
+            <a href="/">
+              <h1 class="waves-effect waves-light">
+                <i class="material-icons">home</i></i>
+              </h1>
+            </a>
+          </li>
           @if ((Auth::user()->Role!=0)&&(Auth::user()->Role!=2))
           <li class="dropping-parent drop-add">
             <h1 class="waves-effect waves-light">
@@ -45,13 +52,15 @@
               <i class="material-icons">search</i>
             </h1>
             <ul class="dropping">
-              <a href="{{route('MIRSgridview')}}"><li class="{{current_page('mirs-index-page')?'active':''}}"><i class="material-icons">show_chart</i> MIRS</li></a>
-              <a href="{{route('indexMCT')}}"><li class="{{current_page('mct-index-page')?'active':''}}"><i class="material-icons">show_chart</i> MCT</li></a>
-              <a href="{{route('MRTindexPageonly')}}"><li class="{{current_page('mrt-index-page')?'active':''}}"><i class="material-icons">show_chart</i> MRT</li></a>
-              <a href="{{route('RVindexView')}}"><li class="{{current_page('RVindex')?'active':''}}"><i class="material-icons">show_chart</i> RV</li></a>
-              <a href="{{route('RRindexview')}}"><li class="{{current_page('RR-index')?'active':''}}"><i class="material-icons">show_chart</i> RR</li></a>
-              <a href="{{route('POIndexPage')}}"><li class="{{current_page('po-index-page')?'active':''}}"><i class="material-icons">show_chart</i> PO</li></a>
-              <a href="{{route('MRIndexPage')}}"><li class="{{current_page('mr-index-page')?'active':''}}"><i class="material-icons">show_chart</i> MR</li></a>
+              <div class="dropping-scroller">
+                <a href="{{route('MIRSgridview')}}"><li class="{{current_page('mirs-index-page')?'active':''}}"><i class="material-icons">show_chart</i> MIRS</li></a>
+                <a href="{{route('indexMCT')}}"><li class="{{current_page('mct-index-page')?'active':''}}"><i class="material-icons">show_chart</i> MCT</li></a>
+                <a href="{{route('MRTindexPageonly')}}"><li class="{{current_page('mrt-index-page')?'active':''}}"><i class="material-icons">show_chart</i> MRT</li></a>
+                <a href="{{route('RVindexView')}}"><li class="{{current_page('RVindex')?'active':''}}"><i class="material-icons">show_chart</i> RV</li></a>
+                <a href="{{route('RRindexview')}}"><li class="{{current_page('RR-index')?'active':''}}"><i class="material-icons">show_chart</i> RR</li></a>
+                <a href="{{route('POIndexPage')}}"><li class="{{current_page('po-index-page')?'active':''}}"><i class="material-icons">show_chart</i> PO</li></a>
+                <a href="{{route('MRIndexPage')}}"><li class="{{current_page('mr-index-page')?'active':''}}"><i class="material-icons">show_chart</i> MR</li></a>
+              </div>
             </ul>
           </li>
           @if (Auth::user()->Role==1||Auth::user()->Role==3||Auth::user()->Role==4)
@@ -70,15 +79,15 @@
       </div>
       @endif
     </header>
-        <div class="main-master-container">
+        <div class="main-master-container" class="{{Auth::check()?'':'loggedout'}}">
+          @if (Auth::check())
           <div class="sidebar-static">
-            @if (Auth::check())
               <span id="master">
                 <mynotification :user="{{Auth::user()}}">
                 </mynotification>
               </span>
-            @endif
           </div>
+          @endif
           @section('body')
           @show
         </div>

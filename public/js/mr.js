@@ -11746,13 +11746,13 @@ module.exports = Axios;
 
 /***/ }),
 
-/***/ 175:
+/***/ 172:
 /***/ (function(module, exports, __webpack_require__) {
 
 window.Vue = __webpack_require__(14);
-Vue.component('mrcreate', __webpack_require__(237));
-Vue.component('mrpreview', __webpack_require__(238));
-Vue.component('mrindex', __webpack_require__(239));
+Vue.component('mrcreate', __webpack_require__(235));
+Vue.component('mrpreview', __webpack_require__(236));
+Vue.component('mrindex', __webpack_require__(237));
 new Vue({
     el: '#mr'
 });
@@ -11906,136 +11906,7 @@ module.exports = function dispatchRequest(config) {
 
 /***/ }),
 
-/***/ 2:
-/***/ (function(module, exports, __webpack_require__) {
-
-"use strict";
-/* WEBPACK VAR INJECTION */(function(process) {
-
-var utils = __webpack_require__(1);
-var normalizeHeaderName = __webpack_require__(29);
-
-var PROTECTION_PREFIX = /^\)\]\}',?\n/;
-var DEFAULT_CONTENT_TYPE = {
-  'Content-Type': 'application/x-www-form-urlencoded'
-};
-
-function setContentTypeIfUnset(headers, value) {
-  if (!utils.isUndefined(headers) && utils.isUndefined(headers['Content-Type'])) {
-    headers['Content-Type'] = value;
-  }
-}
-
-function getDefaultAdapter() {
-  var adapter;
-  if (typeof XMLHttpRequest !== 'undefined') {
-    // For browsers use XHR adapter
-    adapter = __webpack_require__(6);
-  } else if (typeof process !== 'undefined') {
-    // For node use HTTP adapter
-    adapter = __webpack_require__(6);
-  }
-  return adapter;
-}
-
-var defaults = {
-  adapter: getDefaultAdapter(),
-
-  transformRequest: [function transformRequest(data, headers) {
-    normalizeHeaderName(headers, 'Content-Type');
-    if (utils.isFormData(data) ||
-      utils.isArrayBuffer(data) ||
-      utils.isStream(data) ||
-      utils.isFile(data) ||
-      utils.isBlob(data)
-    ) {
-      return data;
-    }
-    if (utils.isArrayBufferView(data)) {
-      return data.buffer;
-    }
-    if (utils.isURLSearchParams(data)) {
-      setContentTypeIfUnset(headers, 'application/x-www-form-urlencoded;charset=utf-8');
-      return data.toString();
-    }
-    if (utils.isObject(data)) {
-      setContentTypeIfUnset(headers, 'application/json;charset=utf-8');
-      return JSON.stringify(data);
-    }
-    return data;
-  }],
-
-  transformResponse: [function transformResponse(data) {
-    /*eslint no-param-reassign:0*/
-    if (typeof data === 'string') {
-      data = data.replace(PROTECTION_PREFIX, '');
-      try {
-        data = JSON.parse(data);
-      } catch (e) { /* Ignore */ }
-    }
-    return data;
-  }],
-
-  timeout: 0,
-
-  xsrfCookieName: 'XSRF-TOKEN',
-  xsrfHeaderName: 'X-XSRF-TOKEN',
-
-  maxContentLength: -1,
-
-  validateStatus: function validateStatus(status) {
-    return status >= 200 && status < 300;
-  }
-};
-
-defaults.headers = {
-  common: {
-    'Accept': 'application/json, text/plain, */*'
-  }
-};
-
-utils.forEach(['delete', 'get', 'head'], function forEachMehtodNoData(method) {
-  defaults.headers[method] = {};
-});
-
-utils.forEach(['post', 'put', 'patch'], function forEachMethodWithData(method) {
-  defaults.headers[method] = utils.merge(DEFAULT_CONTENT_TYPE);
-});
-
-module.exports = defaults;
-
-/* WEBPACK VAR INJECTION */}.call(exports, __webpack_require__(11)))
-
-/***/ }),
-
-/***/ 20:
-/***/ (function(module, exports, __webpack_require__) {
-
-"use strict";
-
-
-/**
- * Update an Error with the specified config, error code, and response.
- *
- * @param {Error} error The error to update.
- * @param {Object} config The config.
- * @param {string} [code] The error code (for example, 'ECONNABORTED').
- @ @param {Object} [response] The response.
- * @returns {Error} The error.
- */
-module.exports = function enhanceError(error, config, code, response) {
-  error.config = config;
-  if (code) {
-    error.code = code;
-  }
-  error.response = response;
-  return error;
-};
-
-
-/***/ }),
-
-/***/ 201:
+/***/ 198:
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
 "use strict";
@@ -12244,7 +12115,7 @@ Vue.use(__WEBPACK_IMPORTED_MODULE_3_vue2_toast___default.a);
 
 /***/ }),
 
-/***/ 202:
+/***/ 199:
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
 "use strict";
@@ -12253,6 +12124,10 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_0_axios___default = __webpack_require__.n(__WEBPACK_IMPORTED_MODULE_0_axios__);
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_1_vue_longpress__ = __webpack_require__(34);
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_1_vue_longpress___default = __webpack_require__.n(__WEBPACK_IMPORTED_MODULE_1_vue_longpress__);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_2_vue2_toast_lib_toast_css__ = __webpack_require__(12);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_2_vue2_toast_lib_toast_css___default = __webpack_require__.n(__WEBPACK_IMPORTED_MODULE_2_vue2_toast_lib_toast_css__);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_3_vue2_toast__ = __webpack_require__(13);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_3_vue2_toast___default = __webpack_require__.n(__WEBPACK_IMPORTED_MODULE_3_vue2_toast__);
 //
 //
 //
@@ -12388,6 +12263,22 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
 //
 //
 //
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+
+
 
 
 
@@ -12398,17 +12289,45 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
       MRMaster: [],
       MRDetail: [],
       SignatureBtnHide: false,
-      SignatureApproveReplacer: false
+      SignatureApproveReplacer: false,
+      ShowEdit: false,
+      updateNote: '',
+      updateQty: []
     };
   },
 
   methods: {
+    updateSave: function updateSave() {
+      if (confirm('Signatures will reset , continue?')) {
+        this.$loading('Updating');
+
+        var vm = this;
+        __WEBPACK_IMPORTED_MODULE_0_axios___default.a.put('/mr-update/' + this.mrno.MRNo, {
+          NewQty: this.updateQty,
+          NewNote: this.updateNote
+        }).then(function (response) {
+          console.log(response);
+          if (response.data.error != null) {
+            vm.$toast.top(response.data.error);
+          } else {
+            vm.$toast.top('Updated successfully');
+          }
+          vm.fetchData();
+          vm.$loading.close();
+        }).catch(function (error) {
+          console.log(error);
+          vm.fetchData();
+          vm.$loading.close();
+        });
+      }
+    },
     fetchData: function fetchData() {
       var vm = this;
       __WEBPACK_IMPORTED_MODULE_0_axios___default.a.get('/full-preview-MR-Fetch/' + this.mrno.MRNo).then(function (response) {
         console.log(response);
         Vue.set(vm.$data, 'MRMaster', response.data.MRMaster[0]);
         Vue.set(vm.$data, 'MRDetail', response.data.MRDetail);
+        vm.updateNote = response.data.MRMaster[0].Note;
       });
     },
     formatPrice: function formatPrice(value) {
@@ -12482,7 +12401,136 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
 
 /***/ }),
 
-/***/ 203:
+/***/ 2:
+/***/ (function(module, exports, __webpack_require__) {
+
+"use strict";
+/* WEBPACK VAR INJECTION */(function(process) {
+
+var utils = __webpack_require__(1);
+var normalizeHeaderName = __webpack_require__(29);
+
+var PROTECTION_PREFIX = /^\)\]\}',?\n/;
+var DEFAULT_CONTENT_TYPE = {
+  'Content-Type': 'application/x-www-form-urlencoded'
+};
+
+function setContentTypeIfUnset(headers, value) {
+  if (!utils.isUndefined(headers) && utils.isUndefined(headers['Content-Type'])) {
+    headers['Content-Type'] = value;
+  }
+}
+
+function getDefaultAdapter() {
+  var adapter;
+  if (typeof XMLHttpRequest !== 'undefined') {
+    // For browsers use XHR adapter
+    adapter = __webpack_require__(6);
+  } else if (typeof process !== 'undefined') {
+    // For node use HTTP adapter
+    adapter = __webpack_require__(6);
+  }
+  return adapter;
+}
+
+var defaults = {
+  adapter: getDefaultAdapter(),
+
+  transformRequest: [function transformRequest(data, headers) {
+    normalizeHeaderName(headers, 'Content-Type');
+    if (utils.isFormData(data) ||
+      utils.isArrayBuffer(data) ||
+      utils.isStream(data) ||
+      utils.isFile(data) ||
+      utils.isBlob(data)
+    ) {
+      return data;
+    }
+    if (utils.isArrayBufferView(data)) {
+      return data.buffer;
+    }
+    if (utils.isURLSearchParams(data)) {
+      setContentTypeIfUnset(headers, 'application/x-www-form-urlencoded;charset=utf-8');
+      return data.toString();
+    }
+    if (utils.isObject(data)) {
+      setContentTypeIfUnset(headers, 'application/json;charset=utf-8');
+      return JSON.stringify(data);
+    }
+    return data;
+  }],
+
+  transformResponse: [function transformResponse(data) {
+    /*eslint no-param-reassign:0*/
+    if (typeof data === 'string') {
+      data = data.replace(PROTECTION_PREFIX, '');
+      try {
+        data = JSON.parse(data);
+      } catch (e) { /* Ignore */ }
+    }
+    return data;
+  }],
+
+  timeout: 0,
+
+  xsrfCookieName: 'XSRF-TOKEN',
+  xsrfHeaderName: 'X-XSRF-TOKEN',
+
+  maxContentLength: -1,
+
+  validateStatus: function validateStatus(status) {
+    return status >= 200 && status < 300;
+  }
+};
+
+defaults.headers = {
+  common: {
+    'Accept': 'application/json, text/plain, */*'
+  }
+};
+
+utils.forEach(['delete', 'get', 'head'], function forEachMehtodNoData(method) {
+  defaults.headers[method] = {};
+});
+
+utils.forEach(['post', 'put', 'patch'], function forEachMethodWithData(method) {
+  defaults.headers[method] = utils.merge(DEFAULT_CONTENT_TYPE);
+});
+
+module.exports = defaults;
+
+/* WEBPACK VAR INJECTION */}.call(exports, __webpack_require__(11)))
+
+/***/ }),
+
+/***/ 20:
+/***/ (function(module, exports, __webpack_require__) {
+
+"use strict";
+
+
+/**
+ * Update an Error with the specified config, error code, and response.
+ *
+ * @param {Error} error The error to update.
+ * @param {Object} config The config.
+ * @param {string} [code] The error code (for example, 'ECONNABORTED').
+ @ @param {Object} [response] The response.
+ * @returns {Error} The error.
+ */
+module.exports = function enhanceError(error, config, code, response) {
+  error.config = config;
+  if (code) {
+    error.code = code;
+  }
+  error.response = response;
+  return error;
+};
+
+
+/***/ }),
+
+/***/ 200:
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
 "use strict";
@@ -12721,12 +12769,12 @@ module.exports = btoa;
 
 /***/ }),
 
-/***/ 237:
+/***/ 235:
 /***/ (function(module, exports, __webpack_require__) {
 
 var Component = __webpack_require__(4)(
   /* script */
-  __webpack_require__(201),
+  __webpack_require__(198),
   /* template */
   __webpack_require__(263),
   /* scopeId */
@@ -12756,12 +12804,12 @@ module.exports = Component.exports
 
 /***/ }),
 
-/***/ 238:
+/***/ 236:
 /***/ (function(module, exports, __webpack_require__) {
 
 var Component = __webpack_require__(4)(
   /* script */
-  __webpack_require__(202),
+  __webpack_require__(199),
   /* template */
   __webpack_require__(275),
   /* scopeId */
@@ -12791,12 +12839,12 @@ module.exports = Component.exports
 
 /***/ }),
 
-/***/ 239:
+/***/ 237:
 /***/ (function(module, exports, __webpack_require__) {
 
 var Component = __webpack_require__(4)(
   /* script */
-  __webpack_require__(203),
+  __webpack_require__(200),
   /* template */
   __webpack_require__(268),
   /* scopeId */
@@ -13351,7 +13399,43 @@ module.exports = function isAbsoluteURL(url) {
 module.exports={render:function (){var _vm=this;var _h=_vm.$createElement;var _c=_vm._self._c||_h;
   return (_vm.MRMaster.users != null) ? _c('div', [_c('div', {
     staticClass: "btns-mr-full"
-  }, [_c('div', [(_vm.AlreadyApproved) ? _c('a', {
+  }, [_c('div', [((((_vm.user.Role == 3) || (_vm.user.Role == 4)) && (_vm.MRMaster.Status == null))) ? _c('div', {
+    staticClass: "empty-div-left file-edit-container"
+  }, [_c('span', {
+    staticClass: "edit-file",
+    class: _vm.ShowEdit == true ? 'hide' : 'show',
+    on: {
+      "click": function($event) {
+        _vm.ShowEdit = true
+      }
+    }
+  }, [_c('i', {
+    staticClass: "material-icons"
+  }, [_vm._v("edit")]), _vm._v("Edit")]), _vm._v(" "), _c('span', {
+    staticClass: "edit-file",
+    class: _vm.ShowEdit == false ? 'hide' : 'show'
+  }, [_c('span', {
+    staticClass: "color-blue"
+  }, [_vm._v("Save?")]), _vm._v(" "), _c('button', {
+    attrs: {
+      "type": "button"
+    },
+    on: {
+      "click": function($event) {
+        _vm.ShowEdit = false, _vm.fetchData()
+      }
+    }
+  }, [_vm._v("cancel")]), _vm._v(" "), _c('button', {
+    attrs: {
+      "type": "button",
+      "name": "button"
+    },
+    on: {
+      "click": function($event) {
+        _vm.ShowEdit = false, _vm.updateSave()
+      }
+    }
+  }, [_vm._v("Save")])])]) : _vm._e(), _vm._v(" "), (_vm.AlreadyApproved) ? _c('a', {
     attrs: {
       "href": '/MR.pdf/' + this.mrno.MRNo
     }
@@ -13430,11 +13514,51 @@ module.exports={render:function (){var _vm=this;var _h=_vm.$createElement;var _c
     staticClass: "bold"
   }, [_vm._v(_vm._s(_vm.MRMaster.WarehouseMan))]), _vm._v(" Warehouseman,\r\n        the following"), _c('br'), _vm._v(" property\r\n        for which I am responsible, subject to the provision of the usual accounting and auditing rules and regulations\r\n        and which will be used for General Services.\r\n      ")])]), _vm._v(" "), _c('div', {
     staticClass: "table-mr-list-container"
-  }, [_c('table', [_vm._m(2), _vm._v(" "), _vm._l((_vm.MRDetail), function(mrdata) {
-    return _c('tr', [_c('td', [_vm._v(_vm._s(mrdata.Quantity))]), _vm._v(" "), _c('td', [_vm._v(_vm._s(mrdata.Unit))]), _vm._v(" "), _c('td', [_vm._v(_vm._s(mrdata.NameDescription))]), _vm._v(" "), _c('td'), _vm._v(" "), _c('td', [_vm._v(_vm._s(_vm.formatPrice(mrdata.UnitValue)))]), _vm._v(" "), _c('td', [_vm._v(_vm._s(_vm.formatPrice(mrdata.TotalValue)))]), _vm._v(" "), _c('td', [_vm._v(_vm._s(mrdata.Remarks))])])
+  }, [_c('table', [_vm._m(2), _vm._v(" "), _vm._l((_vm.MRDetail), function(mrdata, key) {
+    return _c('tr', [_c('td', [(_vm.ShowEdit == false) ? _c('span', [_vm._v(_vm._s(mrdata.Quantity))]) : _c('span', [_c('input', {
+      directives: [{
+        name: "model",
+        rawName: "v-model",
+        value: (_vm.updateQty[key] = mrdata.Quantity),
+        expression: "updateQty[key] = mrdata.Quantity"
+      }],
+      staticClass: "update-qty-input",
+      attrs: {
+        "type": "text"
+      },
+      domProps: {
+        "value": (_vm.updateQty[key] = mrdata.Quantity)
+      },
+      on: {
+        "input": function($event) {
+          if ($event.target.composing) { return; }
+          _vm.$set(_vm.updateQty[key] = mrdata, "Quantity", $event.target.value)
+        }
+      }
+    })])]), _vm._v(" "), _c('td', [_vm._v(_vm._s(mrdata.Unit))]), _vm._v(" "), _c('td', [_vm._v(_vm._s(mrdata.NameDescription))]), _vm._v(" "), _c('td'), _vm._v(" "), _c('td', [_vm._v(_vm._s(_vm.formatPrice(mrdata.UnitValue)))]), _vm._v(" "), _c('td', [_vm._v(_vm._s(_vm.formatPrice(mrdata.TotalValue)))]), _vm._v(" "), _c('td', [_vm._v(_vm._s(mrdata.Remarks))])])
   })], 2)]), _vm._v(" "), _c('div', {
     staticClass: "note-mr-container"
-  }, [_c('p', [_vm._v("Note:" + _vm._s(_vm.MRMaster.Note))])]), _vm._v(" "), _c('div', {
+  }, [_c('p', [_vm._v("Note:\r\n        "), (_vm.ShowEdit == false) ? _c('span', [_vm._v(_vm._s(_vm.MRMaster.Note))]) : _c('span', [_c('input', {
+    directives: [{
+      name: "model",
+      rawName: "v-model",
+      value: (_vm.updateNote),
+      expression: "updateNote"
+    }],
+    staticClass: "note-update",
+    attrs: {
+      "type": "text"
+    },
+    domProps: {
+      "value": (_vm.updateNote)
+    },
+    on: {
+      "input": function($event) {
+        if ($event.target.composing) { return; }
+        _vm.updateNote = $event.target.value
+      }
+    }
+  })])])]), _vm._v(" "), _c('div', {
     staticClass: "bottom-mr-bondpaper"
   }, [_c('div', {
     staticClass: "left-reference-box"
@@ -13605,7 +13729,7 @@ module.exports = function normalizeHeaderName(headers, normalizedName) {
 /***/ 293:
 /***/ (function(module, exports, __webpack_require__) {
 
-module.exports = __webpack_require__(175);
+module.exports = __webpack_require__(172);
 
 
 /***/ }),

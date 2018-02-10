@@ -162,6 +162,7 @@ Route::put('/update-budget/{id}','RVController@updateBudgetAvailable')->name('Up
 Route::get('/PO.pdf/{id}','PDFController@POdownload')->name('downloadPO');
 Route::get('/po-index-page','POController@indexPoPage')->name('POIndexPage');
 Route::get('/po-index-fetch-and-search','POController@fetchAndSearchPOindex');
+Route::put('/mr-update/{MRNo}','MRController@updateMR');
 Route::post('save-mr','MRController@SaveMR')->name('saveMR');
 Route::get('/view-list-MR-of-RR/{id}','MRController@MRofRRlist')->name('ViewMR.ofRR');
 Route::get('/full-preview-MR/{id}','MRController@previewFullMR')->name('fullMR');

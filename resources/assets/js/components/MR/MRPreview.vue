@@ -2,6 +2,14 @@
 <div v-if="MRMaster.users!=null">
   <div class="btns-mr-full">
     <div>
+      <div class="empty-div-left file-edit-container" v-if="(((user.Role == 3)||(user.Role == 4)) && (MRMaster.Status==null))">
+        <span class="edit-file" :class="ShowEdit==true?'hide':'show'" v-on:click="ShowEdit=true"><i class="material-icons">edit</i>Edit</span>
+        <span class="edit-file" :class="ShowEdit==false?'hide':'show'">
+          <span class="color-blue">Save?</span>
+          <button type="button" v-on:click="ShowEdit=false,fetchData()">cancel</button>
+          <button v-on:click="ShowEdit=false,updateSave()" type="button" name="button">Save</button>
+          </span>
+      </div>
       <a :href="'/MR.pdf/'+this.mrno.MRNo" v-if="AlreadyApproved"><button type="submit" name="MRNo" value="mrnohere"><i class="material-icons">print</i></button></a>
       <h6 class="approve-managerreplace-note" v-if="replacerCanSignature"><i class="material-icons color-blue">info</i>
         The <span class="color-blue">{{MRMaster.WarehouseMan}}</span> is asking for your signature b/c the General Manager is not available
@@ -65,8 +73,11 @@
           <th>TOTAL VALUE</th>
           <th>REMARKS</th>
         </tr>
-        <tr v-for="mrdata in MRDetail">
-          <td>{{mrdata.Quantity}}</td>
+        <tr v-for="(mrdata,key) in MRDetail">
+          <td>
+            <span v-if="ShowEdit==false">{{mrdata.Quantity}}</span>
+            <span v-else><input type="text" class="update-qty-input"  v-model="updateQty[key] = mrdata.Quantity"></span>
+          </td>
           <td>{{mrdata.Unit}}</td>
           <td>{{mrdata.NameDescription}}</td>
           <td></td>
@@ -77,7 +88,10 @@
       </table>
     </div>
     <div class="note-mr-container">
-      <p>Note:{{MRMaster.Note}}</p>
+      <p>Note:
+        <span v-if="ShowEdit==false">{{MRMaster.Note}}</span>
+        <span v-else><input  class="note-update" type="text" v-model="updateNote"></span>
+      </p>
     </div>
     <div class="bottom-mr-bondpaper">
       <div class="left-reference-box">
@@ -136,6 +150,8 @@
 <script>
 import axios from 'axios'
 import Longpress from 'vue-longpress'
+import 'vue2-toast/lib/toast.css'
+import Toast from 'vue2-toast'
   export default {
     props: ['mrno','user'],
      data () {
@@ -144,9 +160,42 @@ import Longpress from 'vue-longpress'
           MRDetail:[],
           SignatureBtnHide:false,
           SignatureApproveReplacer:false,
+          ShowEdit:false,
+          updateNote:'',
+          updateQty:[]
         }
       },
      methods: {
+       updateSave()
+       {
+         if (confirm('Signatures will reset , continue?'))
+         {
+           this.$loading('Updating');
+
+           var vm=this;
+           axios.put(`/mr-update/`+this.mrno.MRNo,{
+             NewQty:this.updateQty,
+             NewNote:this.updateNote
+           }).then(function(response)
+          {
+            console.log(response);
+            if (response.data.error!=null)
+            {
+              vm.$toast.top(response.data.error);
+            }else
+            {
+              vm.$toast.top('Updated successfully');
+            }
+            vm.fetchData();
+            vm.$loading.close();
+          }).catch(function(error)
+          {
+            console.log(error);
+            vm.fetchData();
+            vm.$loading.close();
+          });
+         }
+       },
        fetchData()
        {
          var vm=this;
@@ -155,6 +204,7 @@ import Longpress from 'vue-longpress'
           console.log(response);
           Vue.set(vm.$data,'MRMaster',response.data.MRMaster[0]);
           Vue.set(vm.$data,'MRDetail',response.data.MRDetail);
+          vm.updateNote = response.data.MRMaster[0].Note;
         });
       },
       formatPrice(value) {

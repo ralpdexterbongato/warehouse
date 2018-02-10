@@ -1914,7 +1914,7 @@ function loadLocale(name) {
         try {
             oldLocale = globalLocale._abbr;
             var aliasedRequire = require;
-            __webpack_require__(165)("./" + name);
+            __webpack_require__(164)("./" + name);
             getSetGlobalLocale(oldLocale);
         } catch (e) {}
     }
@@ -29598,8 +29598,7 @@ return zhTw;
 /* 161 */,
 /* 162 */,
 /* 163 */,
-/* 164 */,
-/* 165 */
+/* 164 */
 /***/ (function(module, exports, __webpack_require__) {
 
 var map = {
@@ -29856,25 +29855,26 @@ webpackContext.keys = function webpackContextKeys() {
 };
 webpackContext.resolve = webpackContextResolve;
 module.exports = webpackContext;
-webpackContext.id = 165;
+webpackContext.id = 164;
 
 /***/ }),
-/* 166 */,
-/* 167 */,
-/* 168 */
+/* 165 */
 /***/ (function(module, exports, __webpack_require__) {
 
 window.Vue = __webpack_require__(14);
-Vue.component('accountsettings', __webpack_require__(218));
-Vue.component('history', __webpack_require__(221));
-Vue.component('loginpage', __webpack_require__(222));
-Vue.component('managers', __webpack_require__(219));
-Vue.component('myaccount', __webpack_require__(220));
+Vue.component('accountsettings', __webpack_require__(216));
+Vue.component('history', __webpack_require__(219));
+Vue.component('loginpage', __webpack_require__(220));
+Vue.component('managers', __webpack_require__(217));
+Vue.component('myaccount', __webpack_require__(218));
 new Vue({
     el: '#accounts'
 });
 
 /***/ }),
+/* 166 */,
+/* 167 */,
+/* 168 */,
 /* 169 */,
 /* 170 */,
 /* 171 */,
@@ -29884,10 +29884,7 @@ new Vue({
 /* 175 */,
 /* 176 */,
 /* 177 */,
-/* 178 */,
-/* 179 */,
-/* 180 */,
-/* 181 */
+/* 178 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -30723,7 +30720,7 @@ exports.default = {
 };
 
 /***/ }),
-/* 182 */
+/* 179 */
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
 "use strict";
@@ -31229,7 +31226,7 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
 });
 
 /***/ }),
-/* 183 */
+/* 180 */
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
 "use strict";
@@ -31316,7 +31313,7 @@ Vue.use(__WEBPACK_IMPORTED_MODULE_2_vue2_toast___default.a);
 });
 
 /***/ }),
-/* 184 */
+/* 181 */
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
 "use strict";
@@ -31515,7 +31512,7 @@ Vue.use(__WEBPACK_IMPORTED_MODULE_2_vue2_toast___default.a);
 });
 
 /***/ }),
-/* 185 */
+/* 182 */
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
 "use strict";
@@ -31526,7 +31523,7 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_1_vue2_toast_lib_toast_css___default = __webpack_require__.n(__WEBPACK_IMPORTED_MODULE_1_vue2_toast_lib_toast_css__);
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_2_vue2_toast__ = __webpack_require__(13);
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_2_vue2_toast___default = __webpack_require__.n(__WEBPACK_IMPORTED_MODULE_2_vue2_toast__);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_3_vue_datepicker__ = __webpack_require__(217);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_3_vue_datepicker__ = __webpack_require__(215);
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_3_vue_datepicker___default = __webpack_require__.n(__WEBPACK_IMPORTED_MODULE_3_vue_datepicker__);
 //
 //
@@ -31999,7 +31996,7 @@ Vue.use(__WEBPACK_IMPORTED_MODULE_2_vue2_toast___default.a);
 });
 
 /***/ }),
-/* 186 */
+/* 183 */
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
 "use strict";
@@ -32084,6 +32081,9 @@ Vue.use(__WEBPACK_IMPORTED_MODULE_2_vue2_toast___default.a);
 });
 
 /***/ }),
+/* 184 */,
+/* 185 */,
+/* 186 */,
 /* 187 */,
 /* 188 */,
 /* 189 */,
@@ -32109,18 +32109,16 @@ Vue.use(__WEBPACK_IMPORTED_MODULE_2_vue2_toast___default.a);
 /* 209 */,
 /* 210 */,
 /* 211 */,
-/* 212 */,
-/* 213 */,
-/* 214 */
+/* 212 */
 /***/ (function(module, exports, __webpack_require__) {
 
 exports = module.exports = __webpack_require__(35)();
 exports.push([module.i, "\n.datepicker-overlay[data-v-345e1238] {\n  position: fixed;\n  width: 100%;\n  height: 100%;\n  z-index: 998;\n  top: 0;\n  left: 0;\n  overflow: hidden;\n  -webkit-animation: fadein 0.5s;\n  /* Safari, Chrome and Opera > 12.1 */\n  /* Firefox < 16 */\n  /* Internet Explorer */\n  /* Opera < 12.1 */\n  animation: fadein 0.5s;\n}\n@keyframes fadein {\nfrom {\n    opacity: 0;\n}\nto {\n    opacity: 1;\n}\n}\n/* Firefox < 16 */\n/* Safari, Chrome and Opera > 12.1 */\n@-webkit-keyframes fadein {\nfrom {\n    opacity: 0;\n}\nto {\n    opacity: 1;\n}\n}\n/* Internet Explorer */\n/* Opera < 12.1 */\n.cov-date-body[data-v-345e1238] {\n  display: inline-block;\n  background: #3F51B5;\n  overflow: hidden;\n  position: relative;\n  font-size: 16px;\n  font-family: 'Roboto';\n  font-weight: 400;\n  position: fixed;\n  display: block;\n  width: 400px;\n  max-width: 100%;\n  z-index: 999;\n  top: 50%;\n  left: 50%;\n  -webkit-transform: translate(-50%, -50%);\n  transform: translate(-50%, -50%);\n  box-shadow: 0 1px 3px 0 rgba(0, 0, 0, 0.2);\n}\n.cov-picker-box[data-v-345e1238] {\n  background: #fff;\n  width: 100%;\n  display: inline-block;\n  padding: 25px;\n  box-sizing: border-box !important;\n  -moz-box-sizing: border-box !important;\n  -webkit-box-sizing: border-box !important;\n  -ms-box-sizing: border-box !important;\n  width: 400px;\n  max-width: 100%;\n  height: 280px;\n  text-align: start!important;\n}\n.cov-picker-box td[data-v-345e1238] {\n  height: 34px;\n  width: 34px;\n  padding: 0;\n  line-height: 34px;\n  color: #000;\n  background: #fff;\n  text-align: center;\n  cursor: pointer;\n}\n.cov-picker-box td[data-v-345e1238]:hover {\n  background: #E6E6E6;\n}\ntable[data-v-345e1238] {\n  border-collapse: collapse;\n  border-spacing: 0;\n  width: 100%;\n}\n.day[data-v-345e1238] {\n  width: 14.2857143%;\n  display: inline-block;\n  text-align: center;\n  cursor: pointer;\n  height: 34px;\n  padding: 0;\n  line-height: 34px;\n  color: #000;\n  background: #fff;\n  vertical-align: middle;\n}\n.week ul[data-v-345e1238] {\n  margin: 0 0 8px;\n  padding: 0;\n  list-style: none;\n}\n.week ul li[data-v-345e1238] {\n  width: 14.2%;\n  display: inline-block;\n  text-align: center;\n  background: transparent;\n  color: #000;\n  font-weight: bold;\n}\n.passive-day[data-v-345e1238] {\n  color: #bbb;\n}\n.checked[data-v-345e1238] {\n  background: #F50057;\n  color: #FFF !important;\n  border-radius: 3px;\n}\n.unavailable[data-v-345e1238] {\n  color: #ccc;\n  cursor: not-allowed;\n}\n.cov-date-monthly[data-v-345e1238] {\n  height: 150px;\n}\n.cov-date-monthly > div[data-v-345e1238] {\n  display: inline-block;\n  padding: 0;\n  margin: 0;\n  vertical-align: middle;\n  color: #fff;\n  height: 150px;\n  float: left;\n  text-align: center;\n  cursor: pointer;\n}\n.cov-date-previous[data-v-345e1238],\n.cov-date-next[data-v-345e1238] {\n  position: relative;\n  width: 20% !important;\n  text-indent: -300px;\n  overflow: hidden;\n  color: #fff;\n}\n.cov-date-caption[data-v-345e1238] {\n  width: 60%;\n  padding: 50px 0!important;\n  box-sizing: border-box;\n  font-size: 24px;\n}\n.cov-date-caption span[data-v-345e1238]:hover {\n  color: rgba(255, 255, 255, 0.7);\n}\n.cov-date-previous[data-v-345e1238]:hover,\n.cov-date-next[data-v-345e1238]:hover {\n  background: rgba(255, 255, 255, 0.1);\n}\n.day[data-v-345e1238]:hover {\n  background: #EAEAEA;\n}\n.unavailable[data-v-345e1238]:hover {\n  background: none;\n}\n.checked[data-v-345e1238]:hover {\n  background: #FF4F8E;\n}\n.cov-date-next[data-v-345e1238]::before,\n.cov-date-previous[data-v-345e1238]::before {\n  width: 20px;\n  height: 2px;\n  text-align: center;\n  position: absolute;\n  background: #fff;\n  top: 50%;\n  margin-top: -7px;\n  margin-left: -7px;\n  left: 50%;\n  line-height: 0;\n  content: '';\n  -webkit-transform: rotate(45deg);\n  transform: rotate(45deg);\n}\n.cov-date-next[data-v-345e1238]::after,\n.cov-date-previous[data-v-345e1238]::after {\n  width: 20px;\n  height: 2px;\n  text-align: center;\n  position: absolute;\n  background: #fff;\n  margin-top: 6px;\n  margin-left: -7px;\n  top: 50%;\n  left: 50%;\n  line-height: 0;\n  content: '';\n  -webkit-transform: rotate(-45deg);\n  transform: rotate(-45deg);\n}\n.cov-date-previous[data-v-345e1238]::after {\n  -webkit-transform: rotate(45deg);\n  transform: rotate(45deg);\n}\n.cov-date-previous[data-v-345e1238]::before {\n  -webkit-transform: rotate(-45deg);\n  transform: rotate(-45deg);\n}\n.date-item[data-v-345e1238] {\n  text-align: center;\n  font-size: 20px;\n  padding: 10px 0;\n  cursor: pointer;\n}\n.date-item[data-v-345e1238]:hover {\n  background: #e0e0e0;\n}\n.date-list[data-v-345e1238] {\n  overflow: auto;\n  vertical-align: top;\n  padding: 0;\n}\n.cov-vue-date[data-v-345e1238] {\n  display: inline-block;\n  color: #5D5D5D;\n}\n.button-box[data-v-345e1238] {\n  background: #fff;\n  vertical-align: top;\n  height: 50px;\n  line-height: 50px;\n  text-align: right;\n  padding-right: 20px;\n}\n.button-box span[data-v-345e1238] {\n  cursor: pointer;\n  padding: 10px 20px;\n}\n.watch-box[data-v-345e1238] {\n  height: 100%;\n  overflow: hidden;\n}\n.hour-box[data-v-345e1238],\n.min-box[data-v-345e1238] {\n  display: inline-block;\n  width: 50%;\n  text-align: center;\n  height: 100%;\n  overflow: auto;\n  float: left;\n}\n.hour-box ul[data-v-345e1238],\n.min-box ul[data-v-345e1238] {\n  list-style: none;\n  margin: 0;\n  padding: 0;\n}\n.hour-item[data-v-345e1238],\n.min-item[data-v-345e1238] {\n  padding: 10px;\n  font-size: 36px;\n  cursor: pointer;\n}\n.hour-item[data-v-345e1238]:hover,\n.min-item[data-v-345e1238]:hover {\n  background: #E3E3E3;\n}\n.hour-box .active[data-v-345e1238],\n.min-box .active[data-v-345e1238] {\n  background: #F50057;\n  color: #FFF !important;\n}\n[data-v-345e1238]::-webkit-scrollbar {\n  width: 2px;\n}\n[data-v-345e1238]::-webkit-scrollbar-track {\n  background: #E3E3E3;\n}\n[data-v-345e1238]::-webkit-scrollbar-thumb {\n  background: #C1C1C1;\n  border-radius: 2px;\n}\n", ""]);
 
 /***/ }),
-/* 215 */,
-/* 216 */,
-/* 217 */
+/* 213 */,
+/* 214 */,
+/* 215 */
 /***/ (function(module, exports, __webpack_require__) {
 
 
@@ -32129,7 +32127,7 @@ __webpack_require__(283)
 
 var Component = __webpack_require__(4)(
   /* script */
-  __webpack_require__(181),
+  __webpack_require__(178),
   /* template */
   __webpack_require__(260),
   /* scopeId */
@@ -32158,12 +32156,12 @@ module.exports = Component.exports
 
 
 /***/ }),
-/* 218 */
+/* 216 */
 /***/ (function(module, exports, __webpack_require__) {
 
 var Component = __webpack_require__(4)(
   /* script */
-  __webpack_require__(182),
+  __webpack_require__(179),
   /* template */
   __webpack_require__(281),
   /* scopeId */
@@ -32192,12 +32190,12 @@ module.exports = Component.exports
 
 
 /***/ }),
-/* 219 */
+/* 217 */
 /***/ (function(module, exports, __webpack_require__) {
 
 var Component = __webpack_require__(4)(
   /* script */
-  __webpack_require__(183),
+  __webpack_require__(180),
   /* template */
   __webpack_require__(280),
   /* scopeId */
@@ -32226,12 +32224,12 @@ module.exports = Component.exports
 
 
 /***/ }),
-/* 220 */
+/* 218 */
 /***/ (function(module, exports, __webpack_require__) {
 
 var Component = __webpack_require__(4)(
   /* script */
-  __webpack_require__(184),
+  __webpack_require__(181),
   /* template */
   __webpack_require__(274),
   /* scopeId */
@@ -32260,12 +32258,12 @@ module.exports = Component.exports
 
 
 /***/ }),
-/* 221 */
+/* 219 */
 /***/ (function(module, exports, __webpack_require__) {
 
 var Component = __webpack_require__(4)(
   /* script */
-  __webpack_require__(185),
+  __webpack_require__(182),
   /* template */
   __webpack_require__(282),
   /* scopeId */
@@ -32294,12 +32292,12 @@ module.exports = Component.exports
 
 
 /***/ }),
-/* 222 */
+/* 220 */
 /***/ (function(module, exports, __webpack_require__) {
 
 var Component = __webpack_require__(4)(
   /* script */
-  __webpack_require__(186),
+  __webpack_require__(183),
   /* template */
   __webpack_require__(276),
   /* scopeId */
@@ -32328,6 +32326,8 @@ module.exports = Component.exports
 
 
 /***/ }),
+/* 221 */,
+/* 222 */,
 /* 223 */,
 /* 224 */,
 /* 225 */,
@@ -34334,7 +34334,7 @@ if (false) {
 // style-loader: Adds some css to the DOM by adding a <style> tag
 
 // load the styles
-var content = __webpack_require__(214);
+var content = __webpack_require__(212);
 if(typeof content === 'string') content = [[module.i, content, '']];
 if(content.locals) module.exports = content.locals;
 // add the styles to the DOM
@@ -34611,7 +34611,7 @@ module.exports = function listToStyles (parentId, list) {
 /* 286 */
 /***/ (function(module, exports, __webpack_require__) {
 
-module.exports = __webpack_require__(168);
+module.exports = __webpack_require__(165);
 
 
 /***/ })

@@ -130,7 +130,7 @@ class RRController extends Controller
           }
         }
         $newAmt = $request->newQty[$key] * $tobe->UnitCost;
-        RRconfirmationDetails::where('id',$tobe->id)->update(['QuantityAccepted'=>$request->newQty[$key],'RRQuantityDelivered'=>$request->newQtyDelivered[$key],'Amount'=>$newAmt]);
+        RRconfirmationDetails::where('id',$tobe->id)->update(['QuantityValidator'=>$request->newQty[$key],'QuantityAccepted'=>$request->newQty[$key],'RRQuantityDelivered'=>$request->newQtyDelivered[$key],'Amount'=>$newAmt]);
       }
     }else
     {
@@ -167,7 +167,7 @@ class RRController extends Controller
           }
         }
         $newAmt = $request->newQty[$key] * $tobe->UnitCost;
-        RRconfirmationDetails::where('id',$tobe->id)->update(['QuantityAccepted'=>$request->newQty[$key],'RRQuantityDelivered'=>$request->newQtyDelivered[$key],'Amount'=>$newAmt]);
+        RRconfirmationDetails::where('id',$tobe->id)->update(['QuantityValidator'=>$request->newQty[$key],'QuantityAccepted'=>$request->newQty[$key],'RRQuantityDelivered'=>$request->newQtyDelivered[$key],'Amount'=>$newAmt]);
       }
     }
 
