@@ -5,7 +5,7 @@
   </div>
   <div class="signature-btn">
     <div class="empty-div-left file-edit-container">
-      <div class="" v-if="(RRMaster.Status==null && ((user.Role==3) || (user.Role==4))) ">
+      <div v-if="(RRMaster.Status==null && ((user.Role==3) || (user.Role==4))) ">
         <span class="edit-file" :class="ShowEdit==true?'hide':'show'" v-on:click="ShowEdit=true"><i class="material-icons">edit</i>Edit</span>
         <span class="edit-file" :class="ShowEdit==false?'hide':'show'">
           <span class="color-blue">Save?</span>
@@ -14,7 +14,7 @@
         </span>
       </div>
     </div>
-    <div :class="{'hide':SignatureBtnHide}" v-if="UserCanSignature">
+    <div class="signature-wrap" :class="{'hide':SignatureBtnHide}" v-if="UserCanSignature">
       <longpress id="RRsignature" class="waves-effect waves-light" duration="3" :on-confirm="signature"  pressing-text="confirm in {$rcounter}" action-text="Loading . . .">
         <i class="material-icons">edit</i> Signature
       </longpress>

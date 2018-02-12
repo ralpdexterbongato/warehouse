@@ -20378,7 +20378,6 @@ module.exports={render:function (){var _vm=this;var _h=_vm.$createElement;var _c
   }, [_c('div', {
     staticClass: "add-item-RV"
   }, [(_vm.user.Role == 3 || _vm.user.Role == 4) ? _c('button', {
-    staticClass: "z-depth-1",
     attrs: {
       "type": "button",
       "name": "button",
@@ -20392,7 +20391,6 @@ module.exports={render:function (){var _vm=this;var _h=_vm.$createElement;var _c
   }, [(_vm.user.Role == 3 || _vm.user.Role == 4) ? _c('i', {
     staticClass: "material-icons"
   }, [_vm._v("widgets")]) : _vm._e(), _vm._v(" For stocks")]) : _vm._e(), _vm._v(" "), _c('button', {
-    staticClass: "z-depth-1",
     attrs: {
       "type": "button",
       "id": "none-existing-itemRV"
@@ -20785,7 +20783,7 @@ module.exports={render:function (){var _vm=this;var _h=_vm.$createElement;var _c
     staticClass: "empty-div-left file-edit-container"
   }, [_c('span', {
     staticClass: "edit-file",
-    class: _vm.ShowEdit == true ? 'hide' : 'show',
+    class: _vm.ShowEdit == true ? 'hide' : 'flex',
     on: {
       "click": function($event) {
         _vm.ShowEdit = true
@@ -20795,7 +20793,7 @@ module.exports={render:function (){var _vm=this;var _h=_vm.$createElement;var _c
     staticClass: "material-icons"
   }, [_vm._v("edit")]), _vm._v("Edit")]), _vm._v(" "), _c('span', {
     staticClass: "edit-file",
-    class: _vm.ShowEdit == false ? 'hide' : 'show'
+    class: _vm.ShowEdit == false ? 'hide' : 'flex'
   }, [_c('span', {
     staticClass: "color-blue"
   }, [_vm._v("Save?")]), _vm._v(" "), _c('button', {

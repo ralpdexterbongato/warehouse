@@ -24,10 +24,14 @@ class MRController extends Controller
     }
     public function updateMR(Request $request,$MRNo)
     {
-      $MRMasterCurrent = MRMaster::where('MRNo', $MRNo)->get(['RRNo']);
+      $MRMasterCurrent = MRMaster::where('MRNo', $MRNo)->get(['RRNo','Status']);
       $tobeUpdated=MRDetail::where('MRNo', $MRNo)->get(['id','NameDescription','Quantity','UnitValue']);
 
       // validation
+      if ($MRMasterCurrent[0]->Status !=null)
+      {
+        return ['error'=>'Refreshed'];
+      }
       foreach ($tobeUpdated as $keyloop => $tobe)
       {
         $itemRow =$keyloop+1;
@@ -72,7 +76,8 @@ class MRController extends Controller
           $newTotal = $tobe->UnitValue * $request->NewQty[$key];
           MRDetail::where('id',$tobe->id)->update(['Quantity'=>$request->NewQty[$key],'TotalValue'=>$newTotal]);
       }
-      MRMaster::where('MRNo',$MRNo)->update(['Note'=>$request->NewNote]);
+      MRMaster::where('MRNo',$MRNo)->update(['Note'=>$request->NewNote,'SignatureTurn'=>'0']);
+      Signatureable::where('signatureable_type', 'App\MRMaster')->where('signatureable_id',$MRNo)->update(['Signature'=>NULL]);
     }
     public function SaveMR(Request $request)
     {

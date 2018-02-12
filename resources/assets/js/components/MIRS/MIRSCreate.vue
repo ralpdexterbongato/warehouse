@@ -3,7 +3,7 @@
   <div class="Search-item-container">
     <div class="Added-Items">
       <div class="modal-find-button" >
-          <button type="button" class="waves-effect waves-light" name="button" v-on:click="isActive = !isActive"><i class="material-icons">add</i>item</button>
+          <button type="button" name="button" v-on:click="isActive = !isActive"><i class="material-icons">add</i>item</button>
       </div>
       <div class="added-table-wrapper">
         <table>

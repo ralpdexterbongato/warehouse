@@ -731,8 +731,8 @@ input[type='radio']:after {
   display: flex;
   justify-content:space-between;
   border-radius: 3px;
-background: -webkit-gradient(linear, 218deg, color-stop(80%, FFFFFF), color-stop(18%, BBB));/* Chrome,Safari4+ */
-background: -webkit-linear-gradient(218deg,#3367D6 80%, #2E5CC0 18%);/* Chrome10+,Safari5.1+ */
+background: -webkit-gradient(linear, 218deg, color-stop(70%, FFFFFF), color-stop(18%, BBB));/* Chrome,Safari4+ */
+background: -webkit-linear-gradient(218deg,#3367D6 70%, #2E5CC0 18%);/* Chrome10+,Safari5.1+ */
 background: linear-gradient(218deg,#3367D6 70%, #2E5CC0 18%);/* W3C */
 
 }
@@ -741,6 +741,15 @@ background: linear-gradient(218deg,#3367D6 70%, #2E5CC0 18%);/* W3C */
 	.search-box
 	{
 		padding:25px 10px;
+	}
+}
+@media (max-width: 339px)
+{
+	.search-box
+	{
+		background: -webkit-gradient(linear, 218deg, color-stop(65%, FFFFFF), color-stop(18%, BBB));/* Chrome,Safari4+ */
+		background: -webkit-linear-gradient(218deg,#3367D6 65%, #2E5CC0 18%);/* Chrome10+,Safari5.1+ */
+		background: linear-gradient(218deg,#3367D6 65%, #2E5CC0 18%);/* W3C */
 	}
 }
 .Search-item-box
@@ -1217,6 +1226,7 @@ color: #162E5F;
   padding:30px;
   min-height: 100vh;
 	font-family: sans-serif;
+	flex:1;
 }
 .title-of-page-container
 {
@@ -1568,7 +1578,6 @@ only screen and (max-width: 1050px),
 {
   display: flex;
   justify-content: flex-end;
-
 }
 .modal-find-button button i
 {
@@ -1585,7 +1594,7 @@ only screen and (max-width: 1050px),
 {
 	padding:3px 5px;
   margin-bottom: 5px;
-	text-transform: uppercase;
+	text-transform:lowercase;
 	background: #fff;
 	color:#004488;
 	font-size: 13px;
@@ -1593,7 +1602,7 @@ only screen and (max-width: 1050px),
 	border:1px solid #fff;
 	border-radius: 3px;
 	-webkit-box-shadow: 0 2px 4px -1px rgba(0,0,0,0.06), 0 4px 5px 0 rgba(0,0,0,0.06), 0 1px 10px 0 rgba(0,0,0,0.08);
-    box-shadow: 0 2px 4px -1px rgba(0,0,0,0.06), 0 4px 5px 0 rgba(0,0,0,0.06), 0 1px 10px 0 rgba(0,0,0,0.08);
+box-shadow: 0 2px 4px -1px rgba(0,0,0,0.06), 0 4px 5px 0 rgba(0,0,0,0.06), 0 1px 10px 0 rgba(0,0,0,0.08);
 }
 
 @media(max-width:600px)
@@ -2527,6 +2536,7 @@ only screen and (max-width: 1050px),
 	{
 		width: auto;
 		justify-content: space-between;
+		flex-direction: column;
 	}
 }
 @media(max-width:378px)
@@ -2554,9 +2564,8 @@ only screen and (max-width: 1050px),
 	}
 	.print-btn-container button
 	{
-		margin-bottom: 15px;
+		margin:5px auto;
 		width: 80%;
-		margin: auto;
 	}
 }
 .print-btn-container button:focus
@@ -3474,6 +3483,7 @@ only screen and (max-width: 1050px),
 {
   min-height:40px;
 	color: #162E5F;
+	padding:10px;
 }
 .file-edit-container i:hover
 {
@@ -3481,14 +3491,17 @@ only screen and (max-width: 1050px),
 }
 .edit-file button
 {
+	margin:0px 5px!important;
  border-radius:2px!important;
  border:none!important;
- padding: 5px 11px;
+ padding: 5px 11px!important;
  font-weight: 600;
+ max-width: 70px!important;
  background: #fff!important;
  -webkit-box-shadow: 0 2px 4px -1px rgba(0,0,0,0.06), 0 4px 5px 0 rgba(0,0,0,0.06), 0 1px 10px 0 rgba(0,0,0,0.08);
 box-shadow: 0 2px 4px -1px rgba(0,0,0,0.06), 0 4px 5px 0 rgba(0,0,0,0.06), 0 1px 10px 0 rgba(0,0,0,0.08);
 }
+
 .form-purpose-update
 {
 	width: 100%;
@@ -4204,7 +4217,7 @@ only screen and (max-width: 1050px),
 .search-mrt-summary
 {
   display: flex;
-  padding:5px 70px;
+  padding:5px;
   flex-wrap: wrap;
   margin:0 auto;
   justify-content: space-between;
@@ -4262,6 +4275,14 @@ only screen and (max-width: 1050px),
 .searchbox-summary-mrt
 {
   display: flex;
+}
+
+@media (max-width:816px)
+{
+	.print-summary-mrt-container
+	{
+		width: auto;
+	}
 }
 @media (max-width:650px)
 {
@@ -4974,7 +4995,7 @@ only screen and (max-width: 1050px),
   display: flex;
   box-sizing: border-box;
   justify-content:space-between;
-  padding:5px 70px;
+  padding:5px;
 }
 @media (max-width:672px)
 {
@@ -5019,6 +5040,10 @@ only screen and (max-width: 1050px),
   background: #3367D6;
   color: #fff;
   border-style: none;
+}
+.mct-sum-search button i
+{
+	font-size:20px;
 }
 .print-mct-summary
 {
@@ -5919,7 +5944,7 @@ only screen and (max-width: 1050px),
 {
 	.previewRR-Container
 	{
-		padding:10px;
+		padding:10px 5px;
 	}
 	.bondpaper-RR
 	{
@@ -5947,6 +5972,12 @@ only screen and (max-width: 1050px),
 {
 	.signature-btn
 	{
+		flex-direction: column;
+	}
+	.signature-wrap
+	{
+		margin:0 auto;
+		display: flex;
 		justify-content: center;
 	}
 }
@@ -6102,23 +6133,35 @@ only screen and (max-width: 1050px),
 }
 .RRmaster-left ul li h4,.RRmaster-right h4
 {
-  min-width: 120px;
+  width: 100%;
 }
 .RRmaster-left ul li h4 input,.RRmaster-right h4 input
 {
 	border-style: none;
 	border-bottom: 1px solid rgba(0, 0, 0, 0.5);
+	width: 100%;
 }
 @media (max-width:700px)
 {
 	.RRmaster-right label
 	{
-		min-width: 90px;
+		min-width: 100px;
 	}
 	.RRmaster-left ul li h4,.RRmaster-right h4
 	{
 		min-width: 0px;
 		word-wrap: break-word;
+	}
+}
+@media (max-width:400px)
+{
+	.RRmaster-left ul li h4,.RRmaster-right h4
+	{
+		border-bottom: 1px solid black;
+	}
+	.RRmaster-left ul li h4 input,.RRmaster-right h4 input
+	{
+		border-style: none;
 	}
 }
 .RR-table-container
@@ -6253,7 +6296,7 @@ only screen and (max-width: 1050px),
 	}
 	.netsales-total-content li label
 	{
-		width:130px;
+		width:100%;
 	}
 }
 .RRadded-VAT
@@ -6273,6 +6316,12 @@ only screen and (max-width: 1050px),
   display: flex;
   margin-top: 30px;
   font-size: 14px;
+}
+.noteRR input
+{
+	width: 100%;
+	border-style: none;
+	border-bottom: 1px solid rgba(0, 0, 0, 0.7);
 }
 .noteRR label
 {
@@ -6628,7 +6677,7 @@ only screen and (max-width: 1050px),
   font-size: 15px;
   padding-left: 10px;
   border-radius: 3px;
-  border-style:inset;
+  border-style:none;
   font-family:Roboto, 'Segoe UI', Tahoma, sans-serif;
 }
 .RV-form select
@@ -6654,7 +6703,7 @@ only screen and (max-width: 1050px),
 
 #forstock-ItemRV
 {
-		text-transform: uppercase;
+		text-transform: lowercase;
     outline: none;
     padding:7px 16px;;
     margin-bottom: 10px;
@@ -6667,6 +6716,8 @@ only screen and (max-width: 1050px),
     font-family:Roboto, 'Segoe UI', Tahoma, sans-serif;
     margin-left: 5px;
     transition: background .5s;
+		-webkit-box-shadow: 0 2px 4px -1px rgba(0,0,0,0.06), 0 4px 5px 0 rgba(0,0,0,0.06), 0 1px 10px 0 rgba(0,0,0,0.08);
+		box-shadow: 0 2px 4px -1px rgba(0,0,0,0.06), 0 4px 5px 0 rgba(0,0,0,0.06), 0 1px 10px 0 rgba(0,0,0,0.08);
 }
 #forstock-ItemRV:hover
 {
@@ -6678,7 +6729,7 @@ only screen and (max-width: 1050px),
 }
 #none-existing-itemRV
 {
-	text-transform: uppercase;
+	text-transform: lowercase;
   outline: none;
   padding:7px 16px;
   margin-bottom: 10px;
@@ -6686,9 +6737,12 @@ only screen and (max-width: 1050px),
   border-style: none;
   color: #004488;
   background:#fff;
-  font-size: 12px;
+  font-size: 13px;
+	font-weight: 600;
   font-family:Roboto, 'Segoe UI', Tahoma, sans-serif;
   margin-left: 5px;
+	-webkit-box-shadow: 0 2px 4px -1px rgba(0,0,0,0.06), 0 4px 5px 0 rgba(0,0,0,0.06), 0 1px 10px 0 rgba(0,0,0,0.08);
+	box-shadow: 0 2px 4px -1px rgba(0,0,0,0.06), 0 4px 5px 0 rgba(0,0,0,0.06), 0 1px 10px 0 rgba(0,0,0,0.08);
 }
 .title-RV
 {
@@ -6697,7 +6751,8 @@ only screen and (max-width: 1050px),
  justify-content: space-between;
  font-family:Roboto, 'Segoe UI', Tahoma, sans-serif;
  font-weight: 600;
- font-size: 20px;
+ font-size: 16px;
+ margin-bottom: 20px;
  color: #00213B;
 }
 @media (max-width:400px)
@@ -6949,6 +7004,11 @@ text-align: center;
 {
   display: flex;
 }
+#canvass
+{
+	width: 100%;
+	overflow-x: hidden;
+}
 @media (max-width:845px)
 {
 	.declineOrSignatureBtn > span
@@ -7165,7 +7225,7 @@ text-align: center;
 	.RV-signature-print-container
 	{
 		width:auto;
-		flex-direction:column-reverse;
+		flex-direction:column;
 	}
 }
 @media (max-width:768px)
@@ -7456,7 +7516,7 @@ only screen and (max-width: 1050px),
   margin-bottom: 5px;
   word-wrap:none;
   flex-wrap:nowrap;
-	min-width: 200px;
+	min-width: 180px;
 }
 .bottom-RV-signatures
 {
@@ -7744,7 +7804,7 @@ only screen and (max-width: 1050px),
   margin:auto;
   background: #fff;
   border-radius: 3px;
-	overflow-y:scroll;
+	overflow-y:auto;
 }
 .middle-forStock-div h1
 {
@@ -8060,7 +8120,7 @@ only screen and (max-width: 1050px),
 .canvass-container
 {
   min-height: 100vh;
-  padding:50px;
+  padding:20px;
 }
 @media (max-width:850px)
 {
@@ -8119,7 +8179,7 @@ only screen and (max-width: 1050px),
 .items-from-rv-table
 {
   margin-top: 20px;
-  overflow-x: auto;
+  overflow-x:scroll;
 }
 .items-from-rv-table tr:nth-child(odd)
 {
@@ -8377,6 +8437,13 @@ only screen and (max-width: 1050px),
   margin-right: 10px;
   transition: background .5s
 }
+@media (max-width:700px)
+{
+	.generate-po-btn
+	{
+		width: 100%;
+	}
+}
 .viewPObtn
 {
   display: flex;
@@ -8410,26 +8477,27 @@ only screen and (max-width: 1050px),
 .list-PO-generated-container
 {
   min-height: 100vh;
-  padding:100px 170px;
+  padding:50px 20px;
   background: #fff;
+	flex:1;
 }
 @media (max-width:700px)
 {
 	.list-PO-generated-container
 	{
-		padding:40px;
+		padding:20px;
 	}
 }
 .list-Po-container
 {
   display: flex;
   flex-wrap: wrap;
-  width: 100%;
+  width:100%;
   justify-content: space-around;
 }
 .PO-box h4
 {
-  color:green;
+  color:#4caf50;
   font-size: 180px;
   margin:auto;
 }
@@ -8452,7 +8520,7 @@ only screen and (max-width: 1050px),
 {
   display: flex;
 	-webkit-box-shadow: 0 2px 4px -1px rgba(0,0,0,0.06), 0 4px 5px 0 rgba(0,0,0,0.06), 0 1px 10px 0 rgba(0,0,0,0.08);
-    box-shadow: 0 2px 4px -1px rgba(0,0,0,0.06), 0 4px 5px 0 rgba(0,0,0,0.06), 0 1px 10px 0 rgba(0,0,0,0.08);
+  box-shadow: 0 2px 4px -1px rgba(0,0,0,0.06), 0 4px 5px 0 rgba(0,0,0,0.06), 0 1px 10px 0 rgba(0,0,0,0.08);
   margin:auto;
   margin-bottom: 90px;
   height: 400px;
@@ -8473,8 +8541,8 @@ only screen and (max-width: 1050px),
 {
 	.PO-box
 	{
-		width: 240px;
-		height: 300px
+		width: 220px;
+		height: 280px
 	}
 }
 /*PO full view CSS*/
@@ -8950,7 +9018,7 @@ only screen and (max-width: 1050px),
 {
 	.PO-box h1
 	{
-		width: 240px;
+		width: 220px;
 	}
 }
 .signaturePObtn
@@ -10000,8 +10068,16 @@ only screen and (max-width: 1310px),
 /*List or MR that belongs to that RR*/
 .list-of-boxes-MR
 {
-  padding:70px 30px 30px 30px;
+  padding:30px 20px;
   background: #fff;
+	flex:1;
+}
+@media (max-width:500px)
+{
+	.list-of-boxes-MR
+	{
+		padding:30px 10px;
+	}
 }
 .MR-boxes-Container
 {
@@ -10018,8 +10094,8 @@ only screen and (max-width: 1310px),
 {
   margin:auto;
   margin-bottom: 90px;
-  width: 270px;
-  height: 370px;
+  width: 220px;
+  height: 320px;
   background-image:url('/DesignIMG/MRSAMPLE.png');
   box-sizing: border-box;
   transition: transform .5s;
@@ -10032,7 +10108,7 @@ only screen and (max-width: 1310px),
 }
 .mr-box i
 {
-	font-size: 160px;
+	font-size: 150px!important;
 }
 .mr-box:hover
 {
@@ -10046,11 +10122,12 @@ only screen and (max-width: 1310px),
 }
 .mr-box h1
 {
-  width: 270px;
+  width: 220px;
   text-align: center;
   font-weight: 600;
   top:-5px;
   left:0;
+	padding:5px 0px;
   font-size:20px;
   color: #fff;
   background-color: #3367D6;
@@ -10217,19 +10294,22 @@ only screen and (max-width: 1050px),
 }
 .setting-accounts-table
 {
-  margin-top: 20px;
-  padding:50px 10px 10px 10px;
+  padding:20px 10px 10px 10px;
 	font-family: sans-serif;
 }
 .setting-accounts-table h1
 {
   text-align: center;
-  font-size: 17px;
+  font-size: 14px;
+	font-weight: 600;
 	color: #162E5F;
   margin-bottom: 20px;
+	font-family: 'Comfortaa',sans-serif;
 }
 .setting-accounts-table table
 {
+	font-family: 'Comfortaa',sans-serif;
+	font-size: 14px;
   width: 100%;
   text-align: center;
   font-family:Roboto, 'Segoe UI', Tahoma, sans-serif;
@@ -10336,7 +10416,6 @@ only screen and (max-width: 1050px),
 }
 .SortByRole
 {
-	min-width: 140px;
 	font-size:15px;
 	padding:5px 10px;
 	border:none;
@@ -10395,8 +10474,8 @@ only screen and (max-width: 1050px),
 }
 .top-right-menu-accounts li button
 {
-  height: 40px;
-	width: 40px;
+  height: 35px;
+	width: 35px;
   margin:5px;
   border-radius:50%;
   background:#4072D9;
@@ -11181,12 +11260,21 @@ only screen and (max-width: 1050px),
 .RRlistofRV-container
 {
   min-height: 100vh;
-  padding:50px;
+  padding:20px;
   background: #fff;
+	flex:1;
+}
+@media(max-width:500px)
+{
+	.RRlistofRV-container
+	{
+		padding:20px 10px;
+	}
 }
 .title-rr-of-rv
 {
-  font-size: 20px;
+  font-size: 16px;
+	font-weight: 600;
   font-family:Roboto, 'Segoe UI', Tahoma, sans-serif;
 }
 .rr-of-rv-box-container
@@ -11205,8 +11293,8 @@ only screen and (max-width: 1050px),
 {
   position: relative;
   background: #fff;
-  height:360px;
-	width: 240px;
+  height:320px;
+	width: 220px;
   margin-bottom:50px;
   box-sizing: border-box;
   transition: transform .5s;
@@ -11272,7 +11360,6 @@ only screen and (max-width: 1050px),
 {
   margin: 0 auto;
   text-align: center;
-  margin-top:80px;
 }
 /*History css*/
 .histories-container
@@ -11803,7 +11890,8 @@ only screen and (max-width: 1050px),
 {
   border-radius: 3px;
   height: 100vh;
-  width:600px;
+  width:100%;
+	max-width:500px;
   margin:auto;
   background: #fff;
 	overflow-x: hidden;
@@ -12355,7 +12443,8 @@ only screen and (max-width: 1050px),
 {
 	border-radius: 3px;
   height: 100vh;
-  width:600px;
+	width: 100%;
+	max-width: 500px;
   margin:auto;
   background: #fff;
 	overflow-x: hidden;
@@ -13277,11 +13366,10 @@ only screen and (max-width: 1050px),
 }
 .dash-low
 {
-	margin-right: 2%;
-	background: -moz-linear-gradient(212deg, #FDF51C 17%, #FDD835 100%);/* FF3.6+ */
-	background: -webkit-gradient(linear, 212deg, color-stop(17%, FDF51C), color-stop(100%, FDD835));/* Chrome,Safari4+ */
-	background: -webkit-linear-gradient(212deg, #FDF51C 17%, #FDD835 100%);/* Chrome10+,Safari5.1+ */
-	background: linear-gradient(212deg, #FDF51C 17%, #FDD835 100%);/* W3C */
+margin-right: 3%;
+background: -moz-linear-gradient(209deg, #FFFF00 0, #FDD835 66%);/* FF3.6+ */
+background: -webkit-gradient(linear, 209deg, color-stop(0, FFFF00), color-stop(66%, FDD835));/* Chrome,Safari4+ */
+background: linear-gradient(209deg, #FFFF00 0, #FDD835 66%);/* W3C */
 }
 .dash-empty
 {
@@ -13537,7 +13625,12 @@ only screen and (max-width: 1050px),
 /*list of RR belongs to PO*/
 .RR-list-of-po-container
 {
-	padding:50px;
+	padding:20px;
+	flex:1;
+}
+.RR-list-of-po-container h5
+{
+	font-weight: 600;
 }
 @media (max-width:500px)
 {
@@ -13567,8 +13660,8 @@ only screen and (max-width: 1050px),
 }
 .RR-box
 {
-	height:350px;
-	width: 270px;
+	height:300px;
+	width: 220px;
 	border:1px solid #ccc;
 	display: flex;
 	flex-direction: column;

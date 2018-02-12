@@ -31080,7 +31080,7 @@ module.exports={render:function (){var _vm=this;var _h=_vm.$createElement;var _c
     staticClass: "empty-div-left file-edit-container"
   }, [_c('span', {
     staticClass: "edit-file",
-    class: _vm.ShowEdit == true ? 'hide' : 'show',
+    class: _vm.ShowEdit == true ? 'hide' : 'flex',
     on: {
       "click": function($event) {
         _vm.ShowEdit = true
@@ -31090,7 +31090,7 @@ module.exports={render:function (){var _vm=this;var _h=_vm.$createElement;var _c
     staticClass: "material-icons"
   }, [_vm._v("edit")]), _vm._v("Edit")]), _vm._v(" "), _c('span', {
     staticClass: "edit-file",
-    class: _vm.ShowEdit == false ? 'hide' : 'show'
+    class: _vm.ShowEdit == false ? 'hide' : 'flex'
   }, [_c('span', {
     staticClass: "color-blue"
   }, [_vm._v("Save?")]), _vm._v(" "), _c('button', {
@@ -31526,7 +31526,6 @@ module.exports={render:function (){var _vm=this;var _h=_vm.$createElement;var _c
   }, [_c('div', {
     staticClass: "modal-find-button"
   }, [_c('button', {
-    staticClass: "waves-effect waves-light",
     attrs: {
       "type": "button",
       "name": "button"

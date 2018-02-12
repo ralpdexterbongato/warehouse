@@ -3,8 +3,8 @@
   <div class="RV-signature-print-container">
     <div class="" v-if="AlreadyApproved==false && RVMaster.Status!='1'">
       <div class="empty-div-left file-edit-container" v-if="RVMaster.users[0].id == user.id">
-        <span class="edit-file" :class="ShowEdit==true?'hide':'show'" v-on:click="ShowEdit=true"><i class="material-icons">edit</i>Edit</span>
-        <span class="edit-file" :class="ShowEdit==false?'hide':'show'">
+        <span class="edit-file" :class="ShowEdit==true?'hide':'flex'" v-on:click="ShowEdit=true"><i class="material-icons">edit</i>Edit</span>
+        <span class="edit-file" :class="ShowEdit==false?'hide':'flex'">
           <span class="color-blue">Save?</span>
           <button type="button" v-on:click="ShowEdit=false,fetchData()">cancel</button>
           <button v-on:click="ShowEdit=false,updateRV()" type="button" name="button">Save</button>

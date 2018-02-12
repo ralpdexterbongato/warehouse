@@ -14418,7 +14418,7 @@ module.exports={render:function (){var _vm=this;var _h=_vm.$createElement;var _c
     staticClass: "signature-btn"
   }, [_c('div', {
     staticClass: "empty-div-left file-edit-container"
-  }, [((_vm.RRMaster.Status == null && ((_vm.user.Role == 3) || (_vm.user.Role == 4)))) ? _c('div', {}, [_c('span', {
+  }, [((_vm.RRMaster.Status == null && ((_vm.user.Role == 3) || (_vm.user.Role == 4)))) ? _c('div', [_c('span', {
     staticClass: "edit-file",
     class: _vm.ShowEdit == true ? 'hide' : 'show',
     on: {
@@ -14453,6 +14453,7 @@ module.exports={render:function (){var _vm=this;var _h=_vm.$createElement;var _c
       }
     }
   }, [_vm._v("Save")])])]) : _vm._e()]), _vm._v(" "), (_vm.UserCanSignature) ? _c('div', {
+    staticClass: "signature-wrap",
     class: {
       'hide': _vm.SignatureBtnHide
     }

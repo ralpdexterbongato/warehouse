@@ -10,8 +10,8 @@
       </div>
       <div class="empty-left" v-else>
         <div class="empty-div-left file-edit-container" v-if="MIRSMaster.users[0].id == user.id && declinedistrue==false">
-          <span class="edit-file" :class="ShowEdit==true?'hide':'show'" v-on:click="ShowEdit=true"><i class="material-icons">edit</i>Edit</span>
-          <span class="edit-file" :class="ShowEdit==false?'hide':'show'">
+          <span class="edit-file" :class="ShowEdit==true?'hide':'flex'" v-on:click="ShowEdit=true"><i class="material-icons">edit</i>Edit</span>
+          <span class="edit-file" :class="ShowEdit==false?'hide':'flex'">
             <span class="color-blue">Save?</span>
             <button type="button" v-on:click="ShowEdit=false,fetchMIRSData()">cancel</button>
             <button v-on:click="ShowEdit=false,QuickUpdate()" type="button" name="button">Save</button>

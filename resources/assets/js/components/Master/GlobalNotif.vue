@@ -1,6 +1,6 @@
 <template lang="html">
   <li class="dropping-parent" v-on:click="dropIsActive=!dropIsActive,[Loaded==false?fetchData(1):'']">
-    <h1 class="waves-effect waves-light">
+    <h1 class="waves-effect waves-light" :class="[AddedCounts!='0'?'pulse':'']">
       <i class="material-icons">notifications</i>
     </h1>
     <h2 class="number-of-unread z-depth-1" v-if="AddedCounts!='0'">

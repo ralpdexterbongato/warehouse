@@ -43264,7 +43264,12 @@ module.exports={render:function (){var _vm=this;var _h=_vm.$createElement;var _c
         _vm.dropIsActive = !_vm.dropIsActive, [_vm.Loaded == false ? _vm.fetchData(1) : '']
       }
     }
-  }, [_vm._m(0), _vm._v(" "), (_vm.AddedCounts != '0') ? _c('h2', {
+  }, [_c('h1', {
+    staticClass: "waves-effect waves-light",
+    class: [_vm.AddedCounts != '0' ? 'pulse' : '']
+  }, [_c('i', {
+    staticClass: "material-icons"
+  }, [_vm._v("notifications")])]), _vm._v(" "), (_vm.AddedCounts != '0') ? _c('h2', {
     staticClass: "number-of-unread z-depth-1"
   }, [(_vm.AddedCounts < 10) ? _c('span', [_vm._v(_vm._s(_vm.AddedCounts))]) : _c('span', [_vm._v("9+")])]) : _vm._e(), _vm._v(" "), _c('div', {
     staticClass: "notification-drop z-depth-1",
@@ -43274,7 +43279,7 @@ module.exports={render:function (){var _vm=this;var _h=_vm.$createElement;var _c
         _vm.dropIsActive = !_vm.dropIsActive
       }
     }
-  }, [_vm._m(1), _vm._v(" "), _c('div', {
+  }, [_vm._m(0), _vm._v(" "), _c('div', {
     staticClass: "notification-navs"
   }, [_c('h2', {
     class: [_vm.MIRSBtn == true ? 'active' : ''],
@@ -43349,7 +43354,7 @@ module.exports={render:function (){var _vm=this;var _h=_vm.$createElement;var _c
     }, [_c('div', {
       staticClass: "notification-drop-line",
       class: [mirs.UnreadNotification == '0' ? 'active' : '']
-    }, [_vm._m(2, true), _vm._v(" "), _c('div', {
+    }, [_vm._m(1, true), _vm._v(" "), _c('div', {
       staticClass: "drop-line-detail"
     }, [_c('h5', [_vm._v("MIRS : " + _vm._s(mirs.MIRSNo))]), _vm._v(" "), _c('p', [_vm._v("\n              materials issueance requisition slip has been\n              "), (mirs.Status == 0) ? _c('span', [_vm._v("approved")]) : _vm._e(), _vm._v(" "), (mirs.Status == 1) ? _c('span', [_vm._v("declined")]) : _vm._e()]), _c('br'), _vm._v(" "), _c('div', {
       staticClass: "time-notified"
@@ -43367,7 +43372,7 @@ module.exports={render:function (){var _vm=this;var _h=_vm.$createElement;var _c
         _vm.fetchData(_vm.MIRSCurrentPage + 1)
       }
     }
-  }, [_vm._m(3)]) : _vm._e(), _vm._v(" "), (_vm.MIRSNotifs[0] == null && _vm.MIRSBtn == true) ? _c('div', {
+  }, [_vm._m(2)]) : _vm._e(), _vm._v(" "), (_vm.MIRSNotifs[0] == null && _vm.MIRSBtn == true) ? _c('div', {
     staticClass: "empty-global-notif"
   }, [_c('i', {
     staticClass: "material-icons"
@@ -43379,7 +43384,7 @@ module.exports={render:function (){var _vm=this;var _h=_vm.$createElement;var _c
     }, [_c('div', {
       staticClass: "notification-drop-line",
       class: [rv.UnreadNotification == '0' ? 'active' : '']
-    }, [_vm._m(4, true), _vm._v(" "), _c('div', {
+    }, [_vm._m(3, true), _vm._v(" "), _c('div', {
       staticClass: "drop-line-detail"
     }, [_c('h5', [_vm._v("RV : " + _vm._s(rv.RVNo))]), _vm._v(" "), _c('p', [_vm._v("\n              requisition voucher has been\n              "), (rv.Status == 0) ? _c('span', [_vm._v("approved")]) : _vm._e(), _vm._v(" "), (rv.Status == 1) ? _c('span', [_vm._v("declined")]) : _vm._e()]), _c('br'), _vm._v(" "), _c('div', {
       staticClass: "time-notified"
@@ -43397,7 +43402,7 @@ module.exports={render:function (){var _vm=this;var _h=_vm.$createElement;var _c
         _vm.fetchRV(_vm.RVCurrentPage + 1)
       }
     }
-  }, [_vm._m(5)]) : _vm._e(), _vm._v(" "), (_vm.RVNotifs[0] == null && _vm.RVBtn == true) ? _c('div', {
+  }, [_vm._m(4)]) : _vm._e(), _vm._v(" "), (_vm.RVNotifs[0] == null && _vm.RVBtn == true) ? _c('div', {
     staticClass: "empty-global-notif"
   }, [_c('i', {
     staticClass: "material-icons"
@@ -43409,7 +43414,7 @@ module.exports={render:function (){var _vm=this;var _h=_vm.$createElement;var _c
     }, [_c('div', {
       staticClass: "notification-drop-line",
       class: [po.UnreadNotification == '0' ? 'active' : '']
-    }, [_vm._m(6, true), _vm._v(" "), _c('div', {
+    }, [_vm._m(5, true), _vm._v(" "), _c('div', {
       staticClass: "drop-line-detail"
     }, [_c('h5', [_vm._v("PO : " + _vm._s(po.PONo))]), _vm._v(" "), _c('p', [_vm._v("\n              purchase order has been\n              "), (po.Status == 0) ? _c('span', [_vm._v("approved")]) : _vm._e(), _vm._v(" "), (po.Status == 1) ? _c('span', [_vm._v("declined")]) : _vm._e()]), _c('br'), _vm._v(" "), _c('div', {
       staticClass: "time-notified"
@@ -43427,7 +43432,7 @@ module.exports={render:function (){var _vm=this;var _h=_vm.$createElement;var _c
         _vm.fetchPO(_vm.POCurrentPage + 1)
       }
     }
-  }, [_vm._m(7)]) : _vm._e(), _vm._v(" "), (_vm.PONotifs[0] == null && _vm.POBtn == true) ? _c('div', {
+  }, [_vm._m(6)]) : _vm._e(), _vm._v(" "), (_vm.PONotifs[0] == null && _vm.POBtn == true) ? _c('div', {
     staticClass: "empty-global-notif"
   }, [_c('i', {
     staticClass: "material-icons"
@@ -43439,7 +43444,7 @@ module.exports={render:function (){var _vm=this;var _h=_vm.$createElement;var _c
     }, [_c('div', {
       staticClass: "notification-drop-line",
       class: [rr.UnreadNotification == '0' ? 'active' : '']
-    }, [_vm._m(8, true), _vm._v(" "), _c('div', {
+    }, [_vm._m(7, true), _vm._v(" "), _c('div', {
       staticClass: "drop-line-detail"
     }, [_c('h5', [_vm._v("RR : " + _vm._s(rr.RRNo))]), _vm._v(" "), _c('p', [(rr.IsRollBack == 0) ? _c('span', [_vm._v("receiving report has been reversed/rollbacked by the administrator")]) : _vm._e(), _vm._v(" "), (rr.IsRollBack == 1) ? _c('span', [_vm._v("the administrator undid the reversed/rollbacked data")]) : _vm._e(), _vm._v(" "), (rr.Status == 0 && rr.IsRollBack == null) ? _c('span', [_vm._v("receiving report signatures are complete")]) : _vm._e(), _vm._v(" "), (rr.Status == 1 && rr.IsRollBack == null) ? _c('span', [_vm._v("receiving report has been declined")]) : _vm._e()]), _c('br'), _vm._v(" "), _c('div', {
       staticClass: "time-notified"
@@ -43461,7 +43466,7 @@ module.exports={render:function (){var _vm=this;var _h=_vm.$createElement;var _c
         _vm.fetchRR(_vm.RRCurrentPage + 1)
       }
     }
-  }, [_vm._m(9)]) : _vm._e(), _vm._v(" "), (_vm.RRNotifs[0] == null && _vm.RRBtn == true) ? _c('div', {
+  }, [_vm._m(8)]) : _vm._e(), _vm._v(" "), (_vm.RRNotifs[0] == null && _vm.RRBtn == true) ? _c('div', {
     staticClass: "empty-global-notif"
   }, [_c('i', {
     staticClass: "material-icons"
@@ -43473,7 +43478,7 @@ module.exports={render:function (){var _vm=this;var _h=_vm.$createElement;var _c
     }, [_c('div', {
       staticClass: "notification-drop-line",
       class: [mr.UnreadNotification == '0' ? 'active' : '']
-    }, [_vm._m(10, true), _vm._v(" "), _c('div', {
+    }, [_vm._m(9, true), _vm._v(" "), _c('div', {
       staticClass: "drop-line-detail"
     }, [_c('h5', [_vm._v("MR : " + _vm._s(mr.RRNo))]), _vm._v(" "), _c('p', [_vm._v("\n              memorandum receipt has been\n              "), (mr.Status == 0) ? _c('span', [_vm._v("approved")]) : _vm._e(), _vm._v(" "), (mr.Status == 1) ? _c('span', [_vm._v("declined")]) : _vm._e()]), _c('br'), _vm._v(" "), _c('div', {
       staticClass: "time-notified"
@@ -43491,7 +43496,7 @@ module.exports={render:function (){var _vm=this;var _h=_vm.$createElement;var _c
         _vm.fetchMR(_vm.MRCurrentPage + 1)
       }
     }
-  }, [_vm._m(11)]) : _vm._e(), _vm._v(" "), (_vm.MRNotifs[0] == null && _vm.MRBtn == true) ? _c('div', {
+  }, [_vm._m(10)]) : _vm._e(), _vm._v(" "), (_vm.MRNotifs[0] == null && _vm.MRBtn == true) ? _c('div', {
     staticClass: "empty-global-notif"
   }, [_c('i', {
     staticClass: "material-icons"
@@ -43503,7 +43508,7 @@ module.exports={render:function (){var _vm=this;var _h=_vm.$createElement;var _c
     }, [_c('div', {
       staticClass: "notification-drop-line",
       class: [mct.UnreadNotification == '0' ? 'active' : '']
-    }, [_vm._m(12, true), _vm._v(" "), _c('div', {
+    }, [_vm._m(11, true), _vm._v(" "), _c('div', {
       staticClass: "drop-line-detail"
     }, [_c('h5', [_vm._v("MCT : " + _vm._s(mct.MCTNo))]), _vm._v(" "), _c('p', [(mct.IsRollBack == 0) ? _c('span', [_vm._v("material charge ticket has been reversed/rollbacked by the administrator")]) : _vm._e(), _vm._v(" "), (mct.IsRollBack == 1) ? _c('span', [_vm._v("the administrator undid the reversed/rollbacked data")]) : _vm._e(), _vm._v(" "), (mct.Status == 0 && mct.IsRollBack == null) ? _c('span', [_vm._v("Materials charge ticket signatures are complete")]) : _vm._e(), _vm._v(" "), (mct.Status == 1 && mct.IsRollBack == null) ? _c('span', [_vm._v("Materials charge ticket has been declined")]) : _vm._e()]), _c('br'), _vm._v(" "), _c('div', {
       staticClass: "time-notified"
@@ -43525,7 +43530,7 @@ module.exports={render:function (){var _vm=this;var _h=_vm.$createElement;var _c
         _vm.fetchMCT(_vm.MCTCurrentPage + 1)
       }
     }
-  }, [_vm._m(13)]) : _vm._e(), _vm._v(" "), (_vm.MCTNotifs[0] == null && _vm.MCTBtn == true) ? _c('div', {
+  }, [_vm._m(12)]) : _vm._e(), _vm._v(" "), (_vm.MCTNotifs[0] == null && _vm.MCTBtn == true) ? _c('div', {
     staticClass: "empty-global-notif"
   }, [_c('i', {
     staticClass: "material-icons"
@@ -43537,7 +43542,7 @@ module.exports={render:function (){var _vm=this;var _h=_vm.$createElement;var _c
     }, [_c('div', {
       staticClass: "notification-drop-line",
       class: [mrt.UnreadNotification == '0' ? 'active' : '']
-    }, [_vm._m(14, true), _vm._v(" "), _c('div', {
+    }, [_vm._m(13, true), _vm._v(" "), _c('div', {
       staticClass: "drop-line-detail"
     }, [_c('h5', [_vm._v("MRT : " + _vm._s(mrt.MRTNo))]), _vm._v(" "), _c('p', [(mrt.IsRollBack == 0) ? _c('span', [_vm._v("materials return ticket has been reversed/rollbacked by the administrator")]) : _vm._e(), _vm._v(" "), (mrt.IsRollBack == 1) ? _c('span', [_vm._v("the administrator undid the reversed/rollbacked data")]) : _vm._e(), _vm._v(" "), (mrt.Status == 0 && mrt.IsRollBack == null) ? _c('span', [_vm._v("materials return ticket signatures are complete")]) : _vm._e(), _vm._v(" "), (mrt.Status == 1 && mrt.IsRollBack == null) ? _c('span', [_vm._v("materials return ticket has been declined")]) : _vm._e()]), _c('br'), _vm._v(" "), _c('div', {
       staticClass: "time-notified"
@@ -43559,7 +43564,7 @@ module.exports={render:function (){var _vm=this;var _h=_vm.$createElement;var _c
         _vm.fetchMRT(_vm.MRTCurrentPage + 1)
       }
     }
-  }, [_vm._m(15)]) : _vm._e(), _vm._v(" "), (_vm.MRTNotifs[0] == null && _vm.MRTBtn == true) ? _c('div', {
+  }, [_vm._m(14)]) : _vm._e(), _vm._v(" "), (_vm.MRTNotifs[0] == null && _vm.MRTBtn == true) ? _c('div', {
     staticClass: "empty-global-notif"
   }, [_c('i', {
     staticClass: "material-icons"
@@ -43567,12 +43572,6 @@ module.exports={render:function (){var _vm=this;var _h=_vm.$createElement;var _c
     staticClass: "notification-footer"
   })])])
 },staticRenderFns: [function (){var _vm=this;var _h=_vm.$createElement;var _c=_vm._self._c||_h;
-  return _c('h1', {
-    staticClass: "waves-effect waves-light"
-  }, [_c('i', {
-    staticClass: "material-icons"
-  }, [_vm._v("notifications")])])
-},function (){var _vm=this;var _h=_vm.$createElement;var _c=_vm._self._c||_h;
   return _c('div', {
     staticClass: "notification-header"
   }, [_c('h2', [_vm._v(" Notifications")])])
