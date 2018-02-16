@@ -13363,9 +13363,11 @@ only screen and (max-width: 1050px),
 {
 	background: #3367D6;
 	margin-right: 3%;
+	box-shadow: 0 2px 4px -1px rgba(22, 46, 95,0.06), 0 4px 5px 0 rgba(22, 46, 95,0.06), 0 1px 10px 0 rgba(22, 46, 95,0.08);
 }
 .dash-low
 {
+box-shadow: 0 2px 4px -1px rgba(168, 144, 35,0.06), 0 4px 5px 0 rgba(168, 144, 35,0.06), 0 1px 10px 0 rgba(168, 144, 35,0.08);
 margin-right: 3%;
 background: -moz-linear-gradient(209deg, #FFFF00 0, #FDD835 66%);/* FF3.6+ */
 background: -webkit-gradient(linear, 209deg, color-stop(0, FFFF00), color-stop(66%, FDD835));/* Chrome,Safari4+ */
@@ -13374,6 +13376,7 @@ background: linear-gradient(209deg, #FFFF00 0, #FDD835 66%);/* W3C */
 .dash-empty
 {
 	background:#F44336;
+	box-shadow: 0 2px 4px -1px rgba(108, 29, 24,0.06), 0 4px 5px 0 rgba(108, 29, 24,0.06), 0 1px 10px 0 rgba(108, 29, 24,0.08);
 }
 .dashbox
 {
