@@ -255,7 +255,7 @@ class RVController extends Controller
       if ($GMID[0]->user_id == Auth::user()->id)
       {
         Signatureable::where('signatureable_id', $id)->where('signatureable_type', 'App\RVMaster')->where('SignatureType', 'ApprovedBy')->where('user_id', Auth::user()->id)->update(['Signature'=>'0']);
-        RVMaster::where('RVNo',$id)->update(['SignatureTurn'=>'4','Status'=>'0','UnreadNotification'=>'0','notification_date_time'=>Carbon::now()]);
+        RVMaster::where('RVNo',$id)->update(['SignatureTurn'=>'4','Status'=>'0','UnreadNotification'=>'0','notification_date_time'=>Carbon::now(),'PendingRemarks'=>NULL]);
         Signatureable::where('signatureable_id', $id)->where('signatureable_type', 'App\RVMaster')->where('SignatureType', 'ApprovalReplacer')->delete();
 
         $requisitionerMobile=User::where('id',$RequisitionerID[0]->user_id)->get(['Mobile']);
@@ -366,7 +366,7 @@ class RVController extends Controller
       {
         return ['success'=>'success'];
       }
-      RVMaster::where('RVNo', $id)->update(['SignatureTurn'=>'4','Status'=>'0','UnreadNotification'=>'0','notification_date_time'=>Carbon::now()]);
+      RVMaster::where('RVNo', $id)->update(['SignatureTurn'=>'4','Status'=>'0','UnreadNotification'=>'0','notification_date_time'=>Carbon::now(),'PendingRemarks'=>NULL]);
       Signatureable::where('signatureable_id', $id)->where('signatureable_type', 'App\RVMaster')->where('SignatureType','ApprovalReplacer')->where('user_id', Auth::user()->id)->update(['Signature'=>'0']);
       $RequisitionerId=Signatureable::where('signatureable_id', $id)->where('signatureable_type', 'App\RVMaster')->where('SignatureType','Requisitioner')->get(['user_id']);
       $GMID=Signatureable::where('signatureable_id', $id)->where('signatureable_type', 'App\RVMaster')->where('SignatureType','ApprovedBy')->get(['user_id']);
@@ -449,7 +449,14 @@ class RVController extends Controller
       $this->validate($request,[
           'PendingRemarks'=>'required',
       ]);
-      RVMaster::where('RVNo',$id)->update(['PendingRemarks'=>$request->PendingRemarks]);
+      RVMaster::where('RVNo',$id)->update(['PendingRemarks'=>$request->PendingRemarks,'UnreadNotification'=>'0','notification_date_time'=>Carbon::now()]);
+      // global notif trigger
+      $requisitioner=Signatureable::where('signatureable_id', $id)->where('signatureable_type', 'App\RVMaster')->where('SignatureType', 'Requisitioner')->get(['user_id']);
+      $ReceiverID = array('id' =>$requisitioner[0]->user_id);
+      $ReceiverID = (object)$ReceiverID;
+      $job = (new GlobalNotifJob($ReceiverID))
+      ->delay(Carbon::now()->addSeconds(5));
+      dispatch($job);
     }
     public function PedingRemarkRemove($id)
     {

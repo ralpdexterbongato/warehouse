@@ -19,7 +19,7 @@ use App\Jobs\NewCreatedRRJob;
 use App\PODetail;
 use App\Signatureable;
 use App\Jobs\RRNewAlertReceiver;
-use App\Jobs\GlobalNotifWarehouseJob;
+use App\Jobs\GlobalNotifJob;
 class RRController extends Controller
 {
   public function __construct()
@@ -341,6 +341,7 @@ class RRController extends Controller
     $RRMasterDB->Carrier=$request->Carrier;
     $RRMasterDB->DeliveryReceiptNo=$request->DeliveryReceiptNo;
     $RRMasterDB->Note=$request->Note;
+    $RRMasterDB->CreatorID = Auth::user()->id;;
     $RRMasterDB->notification_date_time =$date;
     $RRMasterDB->save();
     $forSignatures = array(
@@ -413,6 +414,7 @@ class RRController extends Controller
     $RRMasterDB->Carrier=$request->Carrier;
     $RRMasterDB->DeliveryReceiptNo=$request->DeliveryReceiptNo;
     $RRMasterDB->Note=$request->Note;
+    $RRMasterDB->CreatorID = Auth::user()->id;
     $RRMasterDB->notification_date_time =$date;
     $RRMasterDB->save();
     $forSignatures = array(
@@ -557,8 +559,10 @@ class RRController extends Controller
           RVMaster::where('RVNo',$RRMaster[0]->RVNo)->update(['IfPurchased'=>'0']);
         }
       }
-      // global notify warehouseman
-      $job = (new GlobalNotifWarehouseJob)
+      // notify warehouseman the creator
+      $ReceiverID = array('id' =>$RRMaster[0]->CreatorID);
+      $ReceiverID = (object)$ReceiverID;
+      $job = (new GlobalNotifJob($ReceiverID))
       ->delay(Carbon::now()->addSeconds(5));
       dispatch($job);
     }
@@ -572,7 +576,7 @@ class RRController extends Controller
   {
     Signatureable::where('signatureable_id',$id)->where('signatureable_type','App\RRMaster')->where('user_id', Auth::user()->id)->update(['Signature'=>'1']);
     RRMaster::where('RRNo', $id)->update(['Status'=>'1','notification_date_time'=>Carbon::now(),'UnreadNotification'=>'0']);
-    $RRMaster=RRMaster::where('RRNo',$id)->get(['PONo','RVNo']);
+    $RRMaster=RRMaster::where('RRNo',$id)->get(['PONo','RVNo','CreatorID']);
     if ($RRMaster[0]->PONo!=null)
     {
       $Detailscanceled=RRconfirmationDetails::where('RRNo',$id)->get(['Description','QuantityAccepted']);
@@ -604,8 +608,10 @@ class RRController extends Controller
         }
       }
     }
-    // global notify warehouseman
-    $job = (new GlobalNotifWarehouseJob)
+    // notify warehouseman the creator
+    $ReceiverID = array('id' =>$RRMaster[0]->CreatorID);
+    $ReceiverID = (object)$ReceiverID;
+    $job = (new GlobalNotifJob($ReceiverID))
     ->delay(Carbon::now()->addSeconds(5));
     dispatch($job);
   }
@@ -727,7 +733,7 @@ class RRController extends Controller
     }
 
     // rollback the validator too
-    $RRMaster=RRMaster::where('RRNo',$rrNo)->get(['PONo','RVNo']);
+    $RRMaster=RRMaster::where('RRNo',$rrNo)->get(['PONo','RVNo','CreatorID']);
     if ($RRMaster[0]->PONo!=null)
     {
       $Detailscanceled=RRconfirmationDetails::where('RRNo',$rrNo)->get(['Description','QuantityAccepted']);
@@ -759,8 +765,10 @@ class RRController extends Controller
         }
       }
     }
-    // global notify warehouseman
-    $job = (new GlobalNotifWarehouseJob)
+    // notify warehouseman the creator
+    $ReceiverID = array('id' =>$RRMaster[0]->CreatorID);
+    $ReceiverID = (object)$ReceiverID;
+    $job = (new GlobalNotifJob($ReceiverID))
     ->delay(Carbon::now()->addSeconds(5));
     dispatch($job);
   }
@@ -831,7 +839,7 @@ class RRController extends Controller
     }
 
     // undo the rollbacked item validator
-    $RRMaster=RRMaster::where('RRNo',$rrNo)->get(['PONo','RVNo']);
+    $RRMaster=RRMaster::where('RRNo',$rrNo)->get(['PONo','RVNo','CreatorID']);
     if ($RRMaster[0]->PONo!=null)
     {
       $Detailscanceled=RRconfirmationDetails::where('RRNo',$rrNo)->get(['Description','QuantityAccepted']);
@@ -863,8 +871,10 @@ class RRController extends Controller
         }
       }
     }
-    // global notify warehouseman
-    $job = (new GlobalNotifWarehouseJob)
+    // notify warehouseman the creator
+    $ReceiverID = array('id' =>$RRMaster[0]->CreatorID);
+    $ReceiverID = (object)$ReceiverID;
+    $job = (new GlobalNotifJob($ReceiverID))
     ->delay(Carbon::now()->addSeconds(5));
     dispatch($job);
   }

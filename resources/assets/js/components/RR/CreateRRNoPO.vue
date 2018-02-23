@@ -247,6 +247,15 @@ Vue.use(Toast);
            }else if (error.response.data.PostedtoBINby!=null)
            {
              vm.$toast.top(error.response.data.PostedtoBINby[0]);
+           }else if (error.response.data.DeliveryReceiptNo!=null)
+           {
+             vm.$toast.top(error.response.data.DeliveryReceiptNo[0]);
+           }else if (error.response.data.InvoiceNo!=null)
+           {
+             vm.$toast.top(error.response.data.InvoiceNo[0]);
+           }else if (error.response.data.Note!=null)
+           {
+             vm.$toast.top(error.response.data.Note[0]);
            }
          });
        }

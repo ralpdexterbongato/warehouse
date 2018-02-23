@@ -28,11 +28,11 @@ class globalNotificationController extends Controller
 
      if ((Auth::user()->Role=='4')||(Auth::user()->Role=='3'))
      {
-       $poCount=POMaster::where('UnreadNotification','!=',NULL)->count();
-       $rrCount=RRMaster::where('UnreadNotification','!=',NULL)->count();
-       $mrCount=MRMaster::where('UnreadNotification','!=',NULL)->count();
-       $mctCount=MCTMaster::where('UnreadNotification','!=',NULL)->count();
-       $mrtCount=MRTMaster::where('UnreadNotification','!=',NULL)->count();
+       $poCount=POMaster::where('UnreadNotification','!=',NULL)->where('CreatorID',Auth::user()->id)->count();
+       $rrCount=RRMaster::where('UnreadNotification','!=',NULL)->where('CreatorID',Auth::user()->id)->count();
+       $mrCount=MRMaster::where('UnreadNotification','!=',NULL)->where('CreatorID',Auth::user()->id)->count();
+       $mctCount=MCTMaster::where('UnreadNotification','!=',NULL)->where('CreatorID',Auth::user()->id)->count();
+       $mrtCount=MRTMaster::where('UnreadNotification','!=',NULL)->where('CreatorID',Auth::user()->id)->count();
        $response = array('unreadPO' =>$poCount,'unreadRR'=>$rrCount,'unreadMIRS'=>$mirsCount,'unreadRV'=>$rvCount,'unreadMR'=>$mrCount,'unreadMCT'=>$mctCount,'unreadMRT'=>$mrtCount);
      }else
      {
@@ -50,32 +50,32 @@ class globalNotificationController extends Controller
     }
     public function fetchPO()
     {
-      $po = POMaster::where('Status','!=',NULL)->orderBy('notification_date_time','DESC')->paginate(8);
-      POMaster::where('Status','!=',NULL)->update(['UnreadNotification'=>NULL]);
+      $po = POMaster::where('Status','!=',NULL)->where('CreatorID',Auth::user()->id)->orderBy('notification_date_time','DESC')->paginate(8);
+      POMaster::where('Status','!=',NULL)->where('CreatorID',Auth::user()->id)->update(['UnreadNotification'=>NULL]);
       return $po;
     }
     public function fetchRR()
     {
-      $rr = RRMaster::where('Status','!=',NULL)->orderBy('notification_date_time','DESC')->paginate(8);
-      RRMaster::where('Status','!=',NULL)->update(['UnreadNotification'=>NULL]);
+      $rr = RRMaster::where('Status','!=',NULL)->where('CreatorID',Auth::user()->id)->orderBy('notification_date_time','DESC')->paginate(8);
+      RRMaster::where('Status','!=',NULL)->where('CreatorID',Auth::user()->id)->update(['UnreadNotification'=>NULL]);
       return $rr;
     }
     public function fetchMR()
     {
-      $mr = MRMaster::where('Status','!=',NULL)->orderBy('notification_date_time','DESC')->paginate(8);
-      MRMaster::where('Status','!=',NULL)->update(['UnreadNotification'=>NULL]);
+      $mr = MRMaster::where('Status','!=',NULL)->where('CreatorID',Auth::user()->id)->orderBy('notification_date_time','DESC')->paginate(8);
+      MRMaster::where('Status','!=',NULL)->where('CreatorID',Auth::user()->id)->update(['UnreadNotification'=>NULL]);
       return $mr;
     }
     public function fetchMCT()
     {
-      $mct = MCTMaster::where('Status','!=',NULL)->orderBy('notification_date_time','DESC')->paginate(8);
-      MCTMaster::where('Status','!=',NULL)->update(['UnreadNotification'=>NULL]);
+      $mct = MCTMaster::where('Status','!=',NULL)->where('CreatorID',Auth::user()->id)->orderBy('notification_date_time','DESC')->paginate(8);
+      MCTMaster::where('Status','!=',NULL)->where('CreatorID',Auth::user()->id)->update(['UnreadNotification'=>NULL]);
       return $mct;
     }
     public function fetchMRT()
     {
-      $mrt = MRTMaster::where('Status','!=',NULL)->orderBy('notification_date_time','DESC')->paginate(8);
-      MRTMaster::where('Status','!=',NULL)->update(['UnreadNotification'=>NULL]);
+      $mrt = MRTMaster::where('Status','!=',NULL)->where('CreatorID',Auth::user()->id)->orderBy('notification_date_time','DESC')->paginate(8);
+      MRTMaster::where('Status','!=',NULL)->where('CreatorID',Auth::user()->id)->update(['UnreadNotification'=>NULL]);
       return $mrt;
     }
 

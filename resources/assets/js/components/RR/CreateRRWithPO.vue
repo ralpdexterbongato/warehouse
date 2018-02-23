@@ -228,6 +228,9 @@ Vue.use(Toast);
             }else if (error.response.data.PostedtoBINby!=null)
             {
               vm.$toast.top(error.response.data.PostedtoBINby[0]);
+            }else if (error.response.data.Note!=null)
+            {
+              vm.$toast.top(error.response.data.Note[0]);
             }
             vm.$loading.close();
           });

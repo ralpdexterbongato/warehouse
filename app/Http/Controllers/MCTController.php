@@ -16,7 +16,7 @@ use App\User;
 use App\MCTConfirmationDetail;
 use App\MasterItem;
 use App\Jobs\NewCreatedMCTJob;
-use App\Jobs\GlobalNotifWarehouseJob;
+use App\Jobs\GlobalNotifJob;
 use App\Signatureable;
 class MCTController extends Controller
 {
@@ -54,6 +54,7 @@ class MCTController extends Controller
     $MCTMasterDB->Particulars = $request->Particulars;
     $MCTMasterDB->AddressTo = $request->AddressTo;
     $MCTMasterDB->notification_date_time = Carbon::now();
+    $MCTMasterDB->CreatorID = Auth::user()->id;
     $MCTMasterDB->save();
 
     $forSignatureTbl = array(
@@ -132,7 +133,7 @@ class MCTController extends Controller
       dispatch($jobs);
     }else
     {
-      $date=MCTMaster::where('MCTNo',$id)->get(['MCTDate']);
+      $MCTMaster=MCTMaster::where('MCTNo',$id)->get(['MCTDate','CreatorID']);
       $ItemsConfirmed= MCTConfirmationDetail::where('MCTNo',$id)->get();
       $forMTDetailstable = array();
       foreach ($ItemsConfirmed as $itemconfirmed)
@@ -152,14 +153,16 @@ class MCTController extends Controller
          $newAmount= $newQTY * $newcurrentcost;
          MasterItem::where('ItemCode',$itemconfirmed->ItemCode)->update(['CurrentQuantity'=>$newQTY]);
          $forMTDetailstable[]=array('ItemCode' =>$itemconfirmed->ItemCode,'MTType'=>'MCT','MTNo' =>$id,'AccountCode' =>$itemconfirmed->AccountCode ,'UnitCost' =>$latestPriceWhenCreated,'Quantity' =>$itemconfirmed->Quantity,'Amount' =>$minusAmount
-         ,'CurrentCost' =>$newcurrentcost,'CurrentQuantity' =>$newQTY ,'CurrentAmount' =>$newAmount ,'MTDate' =>$date[0]->MCTDate);
+         ,'CurrentCost' =>$newcurrentcost,'CurrentQuantity' =>$newQTY ,'CurrentAmount' =>$newAmount ,'MTDate' =>$MCTMaster[0]->MCTDate);
       }
       MaterialsTicketDetail::insert($forMTDetailstable);
       Signatureable::where('signatureable_id',$id)->where('signatureable_type', 'App\MCTMaster')->where('SignatureType', 'ReceivedBy')->update(['Signature'=>'0']);
       MCTMaster::where('MCTNo',$id)->update(['Status'=>0,'UnreadNotification'=>'0','notification_date_time'=>Carbon::now()]);
 
-      // global notify warehouseman
-      $job = (new GlobalNotifWarehouseJob)
+      // global notif trigger
+      $ReceiverID = array('id' =>$MCTMaster[0]->CreatorID);
+      $ReceiverID = (object)$ReceiverID;
+      $job = (new GlobalNotifJob($ReceiverID))
       ->delay(Carbon::now()->addSeconds(5));
       dispatch($job);
     }
@@ -300,19 +303,20 @@ class MCTController extends Controller
   }
   public function declineMCT($id)
   {
-    $MIRSNo=MCTMaster::where('MCTNo',$id)->value('MIRSNo');
+    $MCTMaster=MCTMaster::where('MCTNo',$id)->get(['MIRSNo','CreatorID']);
     $MCTconfirmation=MCTConfirmationDetail::where('MCTNo',$id)->get(['ItemCode','Quantity']);
     foreach ($MCTconfirmation as $confirmation)
     {
-      $currentMCTValidatorQty=MIRSDetail::where('MIRSNo',$MIRSNo)->where('ItemCode', $confirmation->ItemCode)->get(['QuantityValidator']);
+      $currentMCTValidatorQty=MIRSDetail::where('MIRSNo',$MCTMaster[0]->MIRSNo)->where('ItemCode', $confirmation->ItemCode)->get(['QuantityValidator']);
       $newMCTValidatorQty=$currentMCTValidatorQty[0]->QuantityValidator+$confirmation->Quantity;
-      MIRSDetail::where('MIRSNo',$MIRSNo)->where('ItemCode', $confirmation->ItemCode)->update(['QuantityValidator'=>$newMCTValidatorQty]);
+      MIRSDetail::where('MIRSNo',$MCTMaster[0]->MIRSNo)->where('ItemCode', $confirmation->ItemCode)->update(['QuantityValidator'=>$newMCTValidatorQty]);
     }
     Signatureable::where('signatureable_id',$id)->where('signatureable_type', 'App\MCTMaster')->where('user_id', Auth::user()->id)->update(['Signature'=>'1']);
     MCTMaster::where('MCTNo',$id)->update(['Status'=>1,'UnreadNotification'=>'0','notification_date_time'=>Carbon::now()]);
 
-    // global notif trigger
-    $job = (new GlobalNotifWarehouseJob)
+    $ReceiverID = array('id' =>$MCTMaster[0]->CreatorID);
+    $ReceiverID = (object)$ReceiverID;
+    $job = (new GlobalNotifJob($ReceiverID))
     ->delay(Carbon::now()->addSeconds(5));
     dispatch($job);
   }
@@ -404,8 +408,11 @@ class MCTController extends Controller
       $newMCTValidatorQty=$currentMCTValidatorQty[0]->QuantityValidator+$confirmation->Quantity;
       MIRSDetail::where('MIRSNo',$mirsNo)->where('ItemCode', $confirmation->ItemCode)->update(['QuantityValidator'=>$newMCTValidatorQty]);
     }
+    $creatorID = MCTMaster::where('MCTNo',$mctNo)->value('CreatorID');
     // global notif trigger
-    $job = (new GlobalNotifWarehouseJob)
+    $ReceiverID = array('id' =>$creatorID);
+    $ReceiverID = (object)$ReceiverID;
+    $job = (new GlobalNotifJob($ReceiverID))
     ->delay(Carbon::now()->addSeconds(5));
     dispatch($job);
   }
@@ -484,7 +491,11 @@ class MCTController extends Controller
     }
 
     // global notif trigger
-    $job = (new GlobalNotifWarehouseJob)
+    $creatorID = MCTMaster::where('MCTNo',$mctNo)->value('creatorID');
+
+    $ReceiverID = array('id' =>$creatorID);
+    $ReceiverID = (object)$ReceiverID;
+    $job = (new GlobalNotifJob($ReceiverID))
     ->delay(Carbon::now()->addSeconds(5));
     dispatch($job);
   }

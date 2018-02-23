@@ -42777,6 +42777,12 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
 //
 //
 //
+//
+//
+//
+//
+//
+//
 
 
 /* harmony default export */ __webpack_exports__["default"] = ({
@@ -42852,31 +42858,6 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
         _this.MRTNotifs = [];
       }
     });
-    if (this.user.Role == 3 || this.user.Role == 4) {
-      Echo.private('Global.Warehouse').listen('GlobalNotifWarehouseEvent', function (e) {
-        console.log(e);
-        _this.countNotif();
-        if (_this.dropIsActive == true) {
-          _this.fetchData(1);
-        } else {
-          _this.Loaded = false;
-        }
-        _this.MIRSBtn = true;
-        _this.RVBtn = false;
-        _this.POBtn = false;
-        _this.MRTBtn = false;
-        _this.MCTBtn = false;
-        _this.RRBtn = false;
-        _this.MRBtn = false;
-        _this.MIRSNotifs = [];
-        _this.RVNotifs = [];
-        _this.PONotifs = [];
-        _this.RRNotifs = [];
-        _this.MRNotifs = [];
-        _this.MCTNotifs = [];
-        _this.MRTNotifs = [];
-      });
-    }
   },
 
   methods: {
@@ -43135,7 +43116,7 @@ var Component = __webpack_require__(4)(
   /* cssModules */
   null
 )
-Component.options.__file = "C:\\xampp\\htdocs\\warehouse\\resources\\assets\\js\\components\\Master\\GlobalNotif.vue"
+Component.options.__file = "c:\\xampp\\htdocs\\warehouse\\resources\\assets\\js\\components\\Master\\GlobalNotif.vue"
 if (Component.esModule && Object.keys(Component.esModule).some(function (key) {return key !== "default" && key !== "__esModule"})) {console.error("named exports are not supported in *.vue files.")}
 if (Component.options.functional) {console.error("[vue-loader] GlobalNotif.vue: functional components are not supported with templates, they should use render functions.")}
 
@@ -43386,13 +43367,15 @@ module.exports={render:function (){var _vm=this;var _h=_vm.$createElement;var _c
       class: [rv.UnreadNotification == '0' ? 'active' : '']
     }, [_vm._m(3, true), _vm._v(" "), _c('div', {
       staticClass: "drop-line-detail"
-    }, [_c('h5', [_vm._v("RV : " + _vm._s(rv.RVNo))]), _vm._v(" "), _c('p', [_vm._v("\n              requisition voucher has been\n              "), (rv.Status == 0) ? _c('span', [_vm._v("approved")]) : _vm._e(), _vm._v(" "), (rv.Status == 1) ? _c('span', [_vm._v("declined")]) : _vm._e()]), _c('br'), _vm._v(" "), _c('div', {
+    }, [_c('h5', [_vm._v("RV : " + _vm._s(rv.RVNo))]), _vm._v(" "), (rv.PendingRemarks == null) ? _c('p', [_vm._v("\n              requisition voucher has been\n              "), (rv.Status == 0) ? _c('span', [_vm._v("approved")]) : _vm._e(), _vm._v(" "), (rv.Status == 1) ? _c('span', [_vm._v("declined")]) : _vm._e()]) : (rv.PendingRemarks != null) ? _c('p', [_vm._v("\n              requisition voucher has been marked pending by the budget officer.\n            ")]) : _vm._e(), _vm._v(" "), _c('br'), _vm._v(" "), _c('div', {
       staticClass: "time-notified"
     }, [(rv.Status == 0) ? _c('i', {
       staticClass: "material-icons color-blue"
     }, [_vm._v("check_circle")]) : _vm._e(), _vm._v(" "), (rv.Status == 1) ? _c('i', {
       staticClass: "material-icons color-red"
-    }, [_vm._v("close")]) : _vm._e(), _vm._v(_vm._s(rv.notification_date_time) + "\n            ")])])]), _vm._v(" "), _c('div', {
+    }, [_vm._v("close")]) : _vm._e(), _vm._v(" "), (rv.PendingRemarks != null) ? _c('i', {
+      staticClass: "material-icons color-blue"
+    }, [_vm._v("access_time")]) : _vm._e(), _vm._v("\n              " + _vm._s(rv.notification_date_time) + "\n            ")])])]), _vm._v(" "), _c('div', {
       staticClass: "divider"
     })]) : _vm._e()
   }), _vm._v(" "), (_vm.RVCurrentPage != _vm.RVLastPage && _vm.RVNotifs[0] != null && _vm.RVBtn == true) ? _c('div', {

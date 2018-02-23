@@ -14,7 +14,7 @@ use App\Jobs\NewCreatedPOJob;
 use App\Jobs\POApprovalReplacer;
 use App\RVDetail;
 use App\Signatureable;
-use App\Jobs\GlobalNotifWarehouseJob;
+use App\Jobs\GlobalNotifJob;
 class POController extends Controller
 {
     public function GeneratePOfromCanvass(Request $request)
@@ -59,7 +59,7 @@ class POController extends Controller
         $toDBMaster[]=array('PONo'=>$incremented,'RVNo' => $CanvasMaster[0]->RVNo,
         'Supplier' =>$CanvasMaster[0]->Supplier ,'Address'=>$CanvasMaster[0]->Address,
         'Telephone'=>$CanvasMaster[0]->Telephone,'Purpose'=>$RVMasterDB[0]->Purpose,
-        'RVDate'=>$RVMasterDB[0]->RVDate,'PODate'=>$date,'notification_date_time'=>$date);
+        'RVDate'=>$RVMasterDB[0]->RVDate,'PODate'=>$date,'notification_date_time'=>$date,'CreatorID'=>Auth::user()->id);
         $toDBSignatures[] = array('user_id' =>$GM[0]->id,'signatureable_id'=>$incremented,'signatureable_type' =>'App\POMaster','SignatureType'=>'ApprovedBy');
         $toDBSignatures[] = array('user_id' =>$ApprovalReplacer[0]->id,'signatureable_id'=>$incremented,'signatureable_type' =>'App\POMaster','SignatureType'=>'ApprovalReplacer');
       }else
@@ -67,7 +67,7 @@ class POController extends Controller
         $toDBMaster[]=array('PONo'=>$incremented,'RVNo' => $CanvasMaster[0]->RVNo,
         'Supplier' =>$CanvasMaster[0]->Supplier ,'Address'=>$CanvasMaster[0]->Address,
         'Telephone'=>$CanvasMaster[0]->Telephone,'Purpose'=>$RVMasterDB[0]->Purpose,
-        'RVDate'=>$RVMasterDB[0]->RVDate,'PODate'=>$date,'notification_date_time'=>$date);
+        'RVDate'=>$RVMasterDB[0]->RVDate,'PODate'=>$date,'notification_date_time'=>$date,'CreatorID'=>Auth::user()->id);
         $toDBSignatures[] = array('user_id' =>$GM[0]->id,'signatureable_id'=>$incremented,'signatureable_type' =>'App\POMaster','SignatureType'=>'ApprovedBy');
       }
 
@@ -143,8 +143,11 @@ class POController extends Controller
     POMaster::where('PONo',$id)->update(['Status'=>'0','UnreadNotification'=>'0','notification_date_time'=>Carbon::now()]);
     Signatureable::where('user_id', Auth::user()->id)->where('signatureable_id', $id)->where('signatureable_type','App\POMaster')->where('SignatureType','ApprovedBy')->update(['Signature'=>'0']);
     Signatureable::where('signatureable_id', $id)->where('signatureable_type','App\POMaster')->where('SignatureType','ApprovalReplacer')->delete();
-    // global notify warehouseman
-    $job = (new GlobalNotifWarehouseJob)
+    // notify warehouseman the creator
+    $POMaster=POMaster::where('PONo',$id)->get(['CreatorID']);
+    $ReceiverID = array('id' =>$POMaster[0]->CreatorID);
+    $ReceiverID = (object)$ReceiverID;
+    $job = (new GlobalNotifJob($ReceiverID))
     ->delay(Carbon::now()->addSeconds(5));
     dispatch($job);
   }
@@ -166,8 +169,11 @@ class POController extends Controller
         }
       }
     }
-    // global notify warehouseman
-    $job = (new GlobalNotifWarehouseJob)
+    // notify warehouseman the creator
+    $POMaster=POMaster::where('PONo',$id)->get(['CreatorID']);
+    $ReceiverID = array('id' =>$POMaster[0]->CreatorID);
+    $ReceiverID = (object)$ReceiverID;
+    $job = (new GlobalNotifJob($ReceiverID))
     ->delay(Carbon::now()->addSeconds(5));
     dispatch($job);
   }

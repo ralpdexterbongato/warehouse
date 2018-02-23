@@ -387,11 +387,39 @@ input[type='radio']:after {
   display: flex;
   flex-wrap:wrap;
 }
+.pending-remarks:focus
+{
+	box-shadow: none;
+	-webkit-box-shadow:none;
+	border:1px solid #ccc;
+}
 .pending-remarks
 {
-  border-radius:3px;
+	border-radius:3px;
+	margin-bottom: 20px;
   font-family:Roboto, 'Segoe UI', Tahoma, sans-serif;
+  padding:6px 12px;
+  font-size: 15px;
+	border:none;
+	background: #fff;
+	border-radius: 3px;
+	-webkit-box-shadow: 0 2px 4px -1px rgba(0,0,0,0.06), 0 4px 5px 0 rgba(0,0,0,0.06), 0 1px 10px 0 rgba(0,0,0,0.08);
+    box-shadow: 0 2px 4px -1px rgba(0,0,0,0.06), 0 4px 5px 0 rgba(0,0,0,0.06), 0 1px 10px 0 rgba(0,0,0,0.08);
 }
+@media (max-width:550px)
+{
+	.pending-remarks
+	{
+		width: 100%;
+	}
+}
+.pending-remarks i
+{
+	color: #004488;
+	vertical-align: middle;
+	font-size: 17px;
+}
+
 .pending-remarks > i
 {
   font-size:15px;
@@ -425,21 +453,21 @@ input[type='radio']:after {
   border-radius: 3px;
   min-height: 50px;
   width: 160px;
-  top:50px;
-  left:5px;
+  top:-60px;
+  left:-20px;
   position: absolute;
   background: #3367D6;
 	-webkit-box-shadow: 0 2px 4px -1px rgba(0,0,0,0.06), 0 4px 5px 0 rgba(0,0,0,0.06), 0 1px 10px 0 rgba(0,0,0,0.08);
-    box-shadow: 0 2px 4px -1px rgba(0,0,0,0.06), 0 4px 5px 0 rgba(0,0,0,0.06), 0 1px 10px 0 rgba(0,0,0,0.08);
+  box-shadow: 0 2px 4px -1px rgba(0,0,0,0.06), 0 4px 5px 0 rgba(0,0,0,0.06), 0 1px 10px 0 rgba(0,0,0,0.08);
 
 }
-@media (max-width:745px)
+@media (max-width:768px)
 {
 	.remarks-box
 	{
 		position: static;
 		flex:1;
-		margin-top: 20px;
+		margin:20px 10px;
 	}
 	.BudgetRemarkShow
 	{
@@ -712,6 +740,7 @@ input[type='radio']:after {
   background: transparent!important;
   transition:all .5s;
 	padding:0px 0px!important;
+	border:none!important;
 }
 .SearchItemSuccess input
 {
@@ -726,6 +755,7 @@ input[type='radio']:after {
 }
 .search-box
 {
+	border: 1px solid rgba(0,0,0,0.1);
   padding:30px 30px;
   flex: 1;
   display: flex;
@@ -2771,6 +2801,7 @@ only screen and (max-width: 1050px),
 .create-mct-container
 {
   min-height:100vh;
+	width: 100%;
 }
 .title-create-mct
 {
@@ -3165,6 +3196,10 @@ only screen and (max-width: 1050px),
 	}
 
 }
+.MRT-form-bigcontainer
+{
+	width: 100%;
+}
 .more-items-add
 {
   display: flex;
@@ -3481,7 +3516,6 @@ only screen and (max-width: 1050px),
 /*edit for files*/
 .file-edit-container
 {
-  min-height:40px;
 	color: #162E5F;
 	padding:10px;
 }
@@ -9066,6 +9100,7 @@ only screen and (max-width: 1050px),
 {
   min-height: 100vh;
   padding:40px;
+	width: 100%;
 }
 @media (max-width:700px)
 {
@@ -13363,23 +13398,19 @@ only screen and (max-width: 1050px),
 {
 	background: #3367D6;
 	margin-right: 3%;
-	box-shadow: 0 2px 4px -1px rgba(22, 46, 95,0.06), 0 4px 5px 0 rgba(22, 46, 95,0.06), 0 1px 10px 0 rgba(22, 46, 95,0.08);
 }
 .dash-low
 {
-box-shadow: 0 2px 4px -1px rgba(168, 144, 35,0.06), 0 4px 5px 0 rgba(168, 144, 35,0.06), 0 1px 10px 0 rgba(168, 144, 35,0.08);
 margin-right: 3%;
-background: -moz-linear-gradient(209deg, #FFFF00 0, #FDD835 66%);/* FF3.6+ */
-background: -webkit-gradient(linear, 209deg, color-stop(0, FFFF00), color-stop(66%, FDD835));/* Chrome,Safari4+ */
-background: linear-gradient(209deg, #FFFF00 0, #FDD835 66%);/* W3C */
+background: #FDD835;
 }
 .dash-empty
 {
 	background:#F44336;
-	box-shadow: 0 2px 4px -1px rgba(108, 29, 24,0.06), 0 4px 5px 0 rgba(108, 29, 24,0.06), 0 1px 10px 0 rgba(108, 29, 24,0.08);
 }
 .dashbox
 {
+	border: .5px solid rgba(0,0,0,0.1);
 	position:relative;
 	height:200px;
 	width: 32%;

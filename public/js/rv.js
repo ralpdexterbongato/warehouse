@@ -12349,7 +12349,6 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
 //
 //
 //
-//
 
 
 
@@ -20255,7 +20254,7 @@ var Component = __webpack_require__(4)(
   /* cssModules */
   null
 )
-Component.options.__file = "C:\\xampp\\htdocs\\warehouse\\resources\\assets\\js\\components\\RV\\FullRVpreview.vue"
+Component.options.__file = "c:\\xampp\\htdocs\\warehouse\\resources\\assets\\js\\components\\RV\\FullRVpreview.vue"
 if (Component.esModule && Object.keys(Component.esModule).some(function (key) {return key !== "default" && key !== "__esModule"})) {console.error("named exports are not supported in *.vue files.")}
 if (Component.options.functional) {console.error("[vue-loader] FullRVpreview.vue: functional components are not supported with templates, they should use render functions.")}
 
@@ -20290,7 +20289,7 @@ var Component = __webpack_require__(4)(
   /* cssModules */
   null
 )
-Component.options.__file = "C:\\xampp\\htdocs\\warehouse\\resources\\assets\\js\\components\\RV\\RVCreate.vue"
+Component.options.__file = "c:\\xampp\\htdocs\\warehouse\\resources\\assets\\js\\components\\RV\\RVCreate.vue"
 if (Component.esModule && Object.keys(Component.esModule).some(function (key) {return key !== "default" && key !== "__esModule"})) {console.error("named exports are not supported in *.vue files.")}
 if (Component.options.functional) {console.error("[vue-loader] RVCreate.vue: functional components are not supported with templates, they should use render functions.")}
 
@@ -20325,7 +20324,7 @@ var Component = __webpack_require__(4)(
   /* cssModules */
   null
 )
-Component.options.__file = "C:\\xampp\\htdocs\\warehouse\\resources\\assets\\js\\components\\RV\\RVindex.vue"
+Component.options.__file = "c:\\xampp\\htdocs\\warehouse\\resources\\assets\\js\\components\\RV\\RVindex.vue"
 if (Component.esModule && Object.keys(Component.esModule).some(function (key) {return key !== "default" && key !== "__esModule"})) {console.error("named exports are not supported in *.vue files.")}
 if (Component.options.functional) {console.error("[vue-loader] RVindex.vue: functional components are not supported with templates, they should use render functions.")}
 
@@ -20827,77 +20826,7 @@ module.exports={render:function (){var _vm=this;var _h=_vm.$createElement;var _c
     staticClass: "color-blue"
   }, [_vm._v(_vm._s(_vm.undeliveredTotal))])])]) : _vm._e()]) : (_vm.RVMaster.SignatureTurn != '2') ? _c('div', {
     staticClass: "empty-left"
-  }) : _vm._e(), _vm._v(" "), (((_vm.RVMaster.users[2].pivot.Signature == null) && ((_vm.RVMaster.users[1].pivot.Signature == '0') || (_vm.ManagerReplacerData != null && _vm.ManagerReplacerData.pivot.Signature == '0')))) ? _c('div', {
-    staticClass: "empty-left relative"
-  }, [(((_vm.RVMaster.users[2].id == _vm.user.id) && (_vm.pendingRemarksShow == null))) ? _c('button', {
-    staticClass: "pending-remarks",
-    attrs: {
-      "type": "button"
-    },
-    on: {
-      "click": function($event) {
-        _vm.RemarksIsActive = true
-      }
-    }
-  }, [_c('i', {
-    staticClass: "material-icons"
-  }, [_vm._v("access_time")]), _vm._v(" remarks")]) : _vm._e(), _vm._v(" "), ((_vm.pendingRemarksShow != null) && (_vm.RVMaster.users[2].pivot.Signature == null) && ((_vm.user.id == _vm.RVMaster.users[0].id) || (_vm.user.id == _vm.RVMaster.users[2].id))) ? _c('div', {
-    staticClass: "BudgetRemarkShow"
-  }, [_c('div', {
-    staticClass: "remarks-box"
-  }, [_c('h1', [_vm._v(" budget officer: "), _c('i', {
-    staticClass: "material-icons",
-    on: {
-      "click": function($event) {
-        _vm.RemovePendingRemarks()
-      }
-    }
-  }, [_vm._v("close")])]), _vm._v(" "), _c('p', [_vm._v(_vm._s(_vm.pendingRemarksShow))])])]) : _vm._e(), _vm._v(" "), (_vm.RemarksIsActive == true) ? _c('div', {
-    staticClass: "pending-remarks-input"
-  }, [_c('h1', [_vm._v("Input pending remarks")]), _vm._v(" "), _c('textarea', {
-    directives: [{
-      name: "model",
-      rawName: "v-model",
-      value: (_vm.pendingremarks),
-      expression: "pendingremarks"
-    }],
-    attrs: {
-      "name": "name",
-      "maxlength": "100",
-      "placeholder": "max:(100characters)"
-    },
-    domProps: {
-      "value": (_vm.pendingremarks)
-    },
-    on: {
-      "input": function($event) {
-        if ($event.target.composing) { return; }
-        _vm.pendingremarks = $event.target.value
-      }
-    }
-  }), _vm._v(" "), _c('span', {
-    staticClass: "pending-remarks-btn"
-  }, [_c('button', {
-    attrs: {
-      "type": "button",
-      "name": "button"
-    },
-    on: {
-      "click": function($event) {
-        _vm.RemarksIsActive = false
-      }
-    }
-  }, [_vm._v("cancel")]), _vm._v(" "), _c('button', {
-    attrs: {
-      "type": "button",
-      "name": "button"
-    },
-    on: {
-      "click": function($event) {
-        _vm.PendingRemarksSubmit()
-      }
-    }
-  }, [_vm._v("save")])])]) : _vm._e()]) : _vm._e(), _vm._v(" "), ((_vm.ManagerReplacerData != null && _vm.ManagerReplacerData.id == _vm.user.id && _vm.ManagerReplacerData.pivot.Signature == null)) ? _c('div', {
+  }) : _vm._e(), _vm._v(" "), ((_vm.ManagerReplacerData != null && _vm.ManagerReplacerData.id == _vm.user.id && _vm.ManagerReplacerData.pivot.Signature == null)) ? _c('div', {
     staticClass: "manager-replacer-accept-cant Request-manager-replace"
   }, [_c('h6', {
     staticClass: "approve-managerreplace-note"
@@ -21032,7 +20961,77 @@ module.exports={render:function (){var _vm=this;var _h=_vm.$createElement;var _c
     staticClass: "bondpaper-RV-container"
   }, [_c('div', {
     staticClass: "bondpaper-RV z-depth-1"
-  }, [((_vm.RVMaster.Status == '0')) ? _c('div', {
+  }, [(((_vm.RVMaster.users[2].pivot.Signature == null) && ((_vm.RVMaster.users[1].pivot.Signature == '0') || (_vm.ManagerReplacerData != null && _vm.ManagerReplacerData.pivot.Signature == '0')))) ? _c('div', {
+    staticClass: "empty-left relative"
+  }, [(((_vm.RVMaster.users[2].id == _vm.user.id) && (_vm.pendingRemarksShow == null))) ? _c('button', {
+    staticClass: "pending-remarks",
+    attrs: {
+      "type": "button"
+    },
+    on: {
+      "click": function($event) {
+        _vm.RemarksIsActive = true
+      }
+    }
+  }, [_c('i', {
+    staticClass: "material-icons"
+  }, [_vm._v("access_time")]), _vm._v(" remarks")]) : _vm._e(), _vm._v(" "), ((_vm.pendingRemarksShow != null) && (_vm.RVMaster.users[2].pivot.Signature == null) && ((_vm.user.id == _vm.RVMaster.users[0].id) || (_vm.user.id == _vm.RVMaster.users[2].id))) ? _c('div', {
+    staticClass: "BudgetRemarkShow"
+  }, [_c('div', {
+    staticClass: "remarks-box"
+  }, [_c('h1', [_vm._v(" budget officer: "), (_vm.RVMaster.users[2].id == _vm.user.id) ? _c('i', {
+    staticClass: "material-icons",
+    on: {
+      "click": function($event) {
+        _vm.RemovePendingRemarks()
+      }
+    }
+  }, [_vm._v("close")]) : _vm._e()]), _vm._v(" "), _c('p', [_vm._v(_vm._s(_vm.pendingRemarksShow))])])]) : _vm._e(), _vm._v(" "), (_vm.RemarksIsActive == true) ? _c('div', {
+    staticClass: "pending-remarks-input"
+  }, [_c('h1', [_vm._v("Input pending remarks")]), _vm._v(" "), _c('textarea', {
+    directives: [{
+      name: "model",
+      rawName: "v-model",
+      value: (_vm.pendingremarks),
+      expression: "pendingremarks"
+    }],
+    attrs: {
+      "name": "name",
+      "maxlength": "100",
+      "placeholder": "max:(100characters)"
+    },
+    domProps: {
+      "value": (_vm.pendingremarks)
+    },
+    on: {
+      "input": function($event) {
+        if ($event.target.composing) { return; }
+        _vm.pendingremarks = $event.target.value
+      }
+    }
+  }), _vm._v(" "), _c('span', {
+    staticClass: "pending-remarks-btn"
+  }, [_c('button', {
+    attrs: {
+      "type": "button",
+      "name": "button"
+    },
+    on: {
+      "click": function($event) {
+        _vm.RemarksIsActive = false
+      }
+    }
+  }, [_vm._v("cancel")]), _vm._v(" "), _c('button', {
+    attrs: {
+      "type": "button",
+      "name": "button"
+    },
+    on: {
+      "click": function($event) {
+        _vm.PendingRemarksSubmit()
+      }
+    }
+  }, [_vm._v("save")])])]) : _vm._e()]) : _vm._e(), _vm._v(" "), ((_vm.RVMaster.Status == '0')) ? _c('div', {
     staticClass: "status-rv approved"
   }, [_c('i', {
     staticClass: "material-icons"

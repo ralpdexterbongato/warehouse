@@ -61,14 +61,20 @@
             </div>
             <div class="drop-line-detail">
               <h5>RV : {{rv.RVNo}}</h5>
-              <p>
+              <p v-if="rv.PendingRemarks == null">
                 requisition voucher has been
                 <span v-if="rv.Status==0">approved</span>
                 <span v-if="rv.Status==1">declined</span>
-              </p><br>
+              </p>
+              <p v-else-if="rv.PendingRemarks != null">
+                requisition voucher has been marked pending by the budget officer.
+              </p>
+              <br>
               <div class="time-notified">
                 <i v-if="rv.Status==0" class="material-icons color-blue">check_circle</i>
-                <i v-if="rv.Status==1" class="material-icons color-red">close</i>{{rv.notification_date_time}}
+                <i v-if="rv.Status==1" class="material-icons color-red">close</i>
+                <i v-if="rv.PendingRemarks != null" class="material-icons color-blue">access_time</i>
+                {{rv.notification_date_time}}
               </div>
             </div>
           </div>
@@ -341,35 +347,6 @@
             this.MRTNotifs=[];
           }
       });
-      if (this.user.Role==3 || this.user.Role==4)
-      {
-        Echo.private('Global.Warehouse')
-        .listen('GlobalNotifWarehouseEvent', (e) => {
-            console.log(e);
-            this.countNotif();
-            if (this.dropIsActive==true)
-            {
-              this.fetchData(1);
-            }else
-            {
-              this.Loaded = false;
-            }
-            this.MIRSBtn=true;
-            this.RVBtn=false;
-            this.POBtn=false;
-            this.MRTBtn=false;
-            this.MCTBtn=false;
-            this.RRBtn=false;
-            this.MRBtn=false;
-            this.MIRSNotifs=[];
-            this.RVNotifs=[];
-            this.PONotifs=[];
-            this.RRNotifs=[];
-            this.MRNotifs=[];
-            this.MCTNotifs=[];
-            this.MRTNotifs=[];
-        });
-      }
     },
     methods:
     {

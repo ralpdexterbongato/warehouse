@@ -15,7 +15,7 @@ use Auth;
 use App\Jobs\NewMRCreatedJob;
 use App\Signatureable;
 use App\Jobs\MRApprovedAlert;
-use App\Jobs\GlobalNotifWarehouseJob;
+use App\Jobs\GlobalNotifJob;
 class MRController extends Controller
 {
     public function __construct()
@@ -137,6 +137,7 @@ class MRController extends Controller
      $MRMasterDB->InvoiceNo=$RRMasterData[0]->InvoiceNo;
      $MRMasterDB->WarehouseMan=Auth::user()->FullName;
      $MRMasterDB->notification_date_time = Carbon::now();
+     $MRMasterDB->CreatorID = Auth::user()->id;
      $MRMasterDB->save();
      if (isset($ApprovalReplacer[0]))
      {
@@ -268,8 +269,10 @@ class MRController extends Controller
         MRMaster::where('MRNo',$id)->update(['SignatureTurn'=>'3','Status'=>'0','UnreadNotification'=>'0','notification_date_time'=>Carbon::now()]);
         Signatureable::where('user_id', Auth::user()->id)->where('signatureable_id',$id)->where('signatureable_type', 'App\MRMaster')->where('SignatureType', 'ReceivedBy')->update(['Signature'=>'0']);
 
-        // global notify warehouseman
-        $job = (new GlobalNotifWarehouseJob)
+        // notify warehouseman the creator
+        $ReceiverID = array('id' =>$MRMaster[0]->CreatorID);
+        $ReceiverID = (object)$ReceiverID;
+        $job = (new GlobalNotifJob($ReceiverID))
         ->delay(Carbon::now()->addSeconds(5));
         dispatch($job);
       }
@@ -294,8 +297,11 @@ class MRController extends Controller
           }
         }
       }
-      // global notify warehouseman
-      $job = (new GlobalNotifWarehouseJob)
+      // notify warehouseman the creator
+      $MRMaster = MRMaster::where('MRNo',$id)->get(['CreatorID']);
+      $ReceiverID = array('id' =>$MRMaster[0]->CreatorID);
+      $ReceiverID = (object)$ReceiverID;
+      $job = (new GlobalNotifJob($ReceiverID))
       ->delay(Carbon::now()->addSeconds(5));
       dispatch($job);
     }

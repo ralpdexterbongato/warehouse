@@ -17,23 +17,6 @@
     </div>
     <div v-else-if="RVMaster.SignatureTurn!='2'" class="empty-left">
     </div>
-    <div v-if="((RVMaster.users[2].pivot.Signature==null)&&((RVMaster.users[1].pivot.Signature=='0')||(ManagerReplacerData!=null && ManagerReplacerData.pivot.Signature=='0')))" class="empty-left relative">
-      <button v-on:click="RemarksIsActive=true" class="pending-remarks" type="button" v-if="((RVMaster.users[2].id==user.id)&&(pendingRemarksShow==null))"><i class="material-icons">access_time</i> remarks</button>
-      <div v-if="(pendingRemarksShow!=null)&&(RVMaster.users[2].pivot.Signature==null)&&((user.id==RVMaster.users[0].id)||(user.id==RVMaster.users[2].id))" class="BudgetRemarkShow">
-        <div class="remarks-box">
-          <h1> budget officer: <i class="material-icons" v-on:click="RemovePendingRemarks()">close</i></h1>
-          <p>{{pendingRemarksShow}}</p>
-        </div>
-      </div>
-      <div class="pending-remarks-input" v-if="RemarksIsActive==true">
-        <h1>Input pending remarks</h1>
-        <textarea v-model="pendingremarks" name="name" maxlength="100" placeholder="max:(100characters)"></textarea>
-        <span class="pending-remarks-btn">
-          <button type="button" name="button" v-on:click="RemarksIsActive=false">cancel</button>
-          <button type="button" name="button" v-on:click="PendingRemarksSubmit()">save</button>
-        </span>
-      </div>
-    </div>
     <div class="manager-replacer-accept-cant Request-manager-replace" v-if="(ManagerReplacerData!=null && ManagerReplacerData.id==user.id && ManagerReplacerData.pivot.Signature==null)">
       <h6 class="approve-managerreplace-note"><i class="material-icons color-blue">info</i>
         <span class="color-blue">{{RVMaster.users[0].FullName}}</span> is asking for your signature b/c the {{RVMaster.users[1].Position}} is not available
@@ -110,7 +93,23 @@
   </div>
   <div class="bondpaper-RV-container">
     <div class="bondpaper-RV z-depth-1">
-
+      <div v-if="((RVMaster.users[2].pivot.Signature==null)&&((RVMaster.users[1].pivot.Signature=='0')||(ManagerReplacerData!=null && ManagerReplacerData.pivot.Signature=='0')))" class="empty-left relative">
+        <button v-on:click="RemarksIsActive=true" class="pending-remarks" type="button" v-if="((RVMaster.users[2].id==user.id)&&(pendingRemarksShow==null))"><i class="material-icons">access_time</i> remarks</button>
+        <div v-if="(pendingRemarksShow!=null)&&(RVMaster.users[2].pivot.Signature==null)&&((user.id==RVMaster.users[0].id)||(user.id==RVMaster.users[2].id))" class="BudgetRemarkShow">
+          <div class="remarks-box">
+            <h1> budget officer: <i class="material-icons" v-if="RVMaster.users[2].id==user.id" v-on:click="RemovePendingRemarks()">close</i></h1>
+            <p>{{pendingRemarksShow}}</p>
+          </div>
+        </div>
+        <div class="pending-remarks-input" v-if="RemarksIsActive==true">
+          <h1>Input pending remarks</h1>
+          <textarea v-model="pendingremarks" name="name" maxlength="100" placeholder="max:(100characters)"></textarea>
+          <span class="pending-remarks-btn">
+            <button type="button" name="button" v-on:click="RemarksIsActive=false">cancel</button>
+            <button type="button" name="button" v-on:click="PendingRemarksSubmit()">save</button>
+          </span>
+        </div>
+      </div>
           <div v-if="(RVMaster.Status=='0')" class="status-rv approved">
             <i class="material-icons">thumb_up</i>
             <h1>Approved</h1>

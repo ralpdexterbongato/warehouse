@@ -16,7 +16,7 @@ use App\MasterItem;
 use App\Jobs\NewCreatedMRTJob;
 use App\User;
 use App\Signatureable;
-use App\Jobs\GlobalNotifWarehouseJob;
+use App\Jobs\GlobalNotifJob;
 class MRTController extends Controller
 {
     public function __construct()
@@ -79,6 +79,7 @@ class MRTController extends Controller
         $mrtDB->AddressTo= $request->AddressTo;
         $mrtDB->Remarks = $request->Remarks;
         $mrtDB->notification_date_time = Carbon::now();
+        $mrtDB->CreatorID = Auth::user()->id;
         $mrtDB->save();
 
         $forMRTSignatureTbl = array(
@@ -193,7 +194,7 @@ class MRTController extends Controller
         }
       }elseif((Auth::user()->id==$ReturnerID[0]->user_id)&&($SignatureTurn=='1'))
       {
-        $datenow=MRTMaster::where('MRTNo',$id)->get(['ReturnDate']);
+        $MRTMaster=MRTMaster::where('MRTNo',$id)->get(['ReturnDate','CreatorID']);
         $FromConfirmation=MRTConfirmationDetail::where('MRTNo',$id)->get();
         $forMRTtbl = array();
         foreach ($FromConfirmation as $fromConfirm)
@@ -207,14 +208,16 @@ class MRTController extends Controller
           $currentAmnt= $currentQty * $newcurrentcost;
           MasterItem::where('ItemCode',$fromConfirm->ItemCode)->update(['CurrentQuantity'=>$currentQty]);
           $forMRTtbl[] = array('ItemCode' =>$fromConfirm->ItemCode,'MTType'=>'MRT','MTNo' =>$fromConfirm->MRTNo ,'AccountCode' =>$fromConfirm->AccountCode,'UnitCost' =>$fromConfirm->UnitCost ,'Quantity' =>$fromConfirm->Quantity
-          ,'Amount' =>$MRTammount ,'CurrentCost' =>$newcurrentcost ,'CurrentQuantity' =>$currentQty ,'CurrentAmount' =>$currentAmnt ,'MTDate' =>$datenow[0]->ReturnDate );
+          ,'Amount' =>$MRTammount ,'CurrentCost' =>$newcurrentcost ,'CurrentQuantity' =>$currentQty ,'CurrentAmount' =>$currentAmnt ,'MTDate' =>$MRTMaster[0]->ReturnDate );
         }
         MaterialsTicketDetail::insert($forMRTtbl);
         Signatureable::where('signatureable_id',$id)->where('signatureable_type', 'App\MRTMaster')->where('SignatureType', 'ReturnedBy')->where('user_id', Auth::user()->id)->update(['Signature'=>'0']);
         MRTMaster::where('MRTNo', $id)->update(['Status'=>'0','UnreadNotification'=>'0','notification_date_time'=>Carbon::now()]);
 
-        // global notify warehouseman
-        $job = (new GlobalNotifWarehouseJob)
+        // global notif trigger
+        $ReceiverID = array('id' =>$MRTMaster[0]->CreatorID);
+        $ReceiverID = (object)$ReceiverID;
+        $job = (new GlobalNotifJob($ReceiverID))
         ->delay(Carbon::now()->addSeconds(5));
         dispatch($job);
       }
@@ -223,8 +226,12 @@ class MRTController extends Controller
     {
       Signatureable::where('signatureable_id',$id)->where('signatureable_type','App\MRTMaster')->where('user_id', Auth::user()->id)->update(['Signature'=>'1']);
       MRTMaster::where('MRTNo', $id)->update(['Status'=>'1','UnreadNotification'=>'0','notification_date_time'=>Carbon::now()]);
-      // global notify warehouseman
-      $job = (new GlobalNotifWarehouseJob)
+
+      // notify warehouseman the creator
+      $MRTMaster=MRTMaster::where('MRTNo',$id)->get(['CreatorID']);
+      $ReceiverID = array('id' =>$MRTMaster[0]->CreatorID);
+      $ReceiverID = (object)$ReceiverID;
+      $job = (new GlobalNotifJob($ReceiverID))
       ->delay(Carbon::now()->addSeconds(5));
       dispatch($job);
     }
@@ -339,7 +346,10 @@ class MRTController extends Controller
          MasterItem::where('ItemCode',$data->ItemCode)->update(['CurrentQuantity' => $CurrentQuantityOfItem]);
        }
        // global notify warehouseman
-       $job = (new GlobalNotifWarehouseJob)
+       $MRTMaster=MRTMaster::where('MRTNo',$mrtNo)->get(['CreatorID']);
+       $ReceiverID = array('id' =>$MRTMaster[0]->CreatorID);
+       $ReceiverID = (object)$ReceiverID;
+       $job = (new GlobalNotifJob($ReceiverID))
        ->delay(Carbon::now()->addSeconds(5));
        dispatch($job);
     }
@@ -409,7 +419,10 @@ class MRTController extends Controller
          MasterItem::where('ItemCode',$data->ItemCode)->update(['CurrentQuantity' => $CurrentQuantityOfItem]);
       }
       // global notify warehouseman
-      $job = (new GlobalNotifWarehouseJob)
+      $MRTMaster=MRTMaster::where('MRTNo',$mrtNo)->get(['CreatorID']);
+      $ReceiverID = array('id' =>$MRTMaster[0]->CreatorID);
+      $ReceiverID = (object)$ReceiverID;
+      $job = (new GlobalNotifJob($ReceiverID))
       ->delay(Carbon::now()->addSeconds(5));
       dispatch($job);
     }
