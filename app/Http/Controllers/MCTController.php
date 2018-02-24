@@ -265,7 +265,11 @@ class MCTController extends Controller
       'NewAddressTo'=>'required',
       'NewQuantity.*'=>'required|numeric|min:1',
     ]);
-    $MCTMaster=MCTMaster::where('MCTNo',$id)->get(['MIRSNo']);
+    $MCTMaster=MCTMaster::where('MCTNo',$id)->get(['MIRSNo','Status']);
+    if ($MCTMaster[0]->Status!=null)
+    {
+      return ['error'=>'Refreshed'];
+    }
     MCTMaster::where('MCTNo',$id)->update(['AddressTo'=>$request->NewAddressTo]);
     $DetailsToBeUpdated=MCTConfirmationDetail::where('MCTNo',$id)->get(['ItemCode','Quantity','UnitCost']);
     //each item validaton

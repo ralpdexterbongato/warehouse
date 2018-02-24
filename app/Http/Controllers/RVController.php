@@ -132,7 +132,7 @@ class RVController extends Controller
       }
       $year=Carbon::now()->format('y');
       $date=Carbon::now();
-      $currentRVid=RVMaster::orderBy('id','DESC')->take(1)->value('RVNo');
+      $currentRVid=RVMaster::orderBy('RVNo','DESC')->take(1)->value('RVNo');
       $explodedRV = explode('-',$currentRVid);
       if ($currentRVid!=null && $year == $explodedRV[0])
       {

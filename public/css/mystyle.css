@@ -13217,6 +13217,10 @@ only screen and (max-width: 1050px),
 	min-height: 100vh;
 	width:100%;
 }
+.my-own-acct-settings-container
+{
+	width: 100%!important;
+}
 .my-account-page-left
 {
 	flex:1;

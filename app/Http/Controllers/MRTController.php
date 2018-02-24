@@ -58,7 +58,7 @@ class MRTController extends Controller
         }
         $year=Carbon::now()->format('y');
         $datenow=Carbon::now();
-        $MRTNum=MRTMaster::orderBy('id','DESC')->take(1)->value('MRTNo');
+        $MRTNum=MRTMaster::orderBy('MRTNo','DESC')->take(1)->value('MRTNo');
         $explodedMRTNum = explode('-',$MRTNum);
         if (count($MRTNum)>0 && $explodedMRTNum[0]==$year)
         {
@@ -238,7 +238,11 @@ class MRTController extends Controller
     public function updateQuantityMRT($id,Request $request)
     {
       $MRTConfirmdetail=MRTConfirmationDetail::where('MRTNo',$id)->get(['ItemCode','Quantity','UnitCost']);
-      $MRTMaster=MRTMaster::where('MRTNo',$id)->get(['MCTNo']);
+      $MRTMaster=MRTMaster::where('MRTNo',$id)->get(['MCTNo','Status']);
+      if ($MRTMaster[0]->Status != null)
+      {
+        return ['error'=> 'Refreshed'];
+      }
       foreach ($MRTConfirmdetail as $count=> $mrtconfirm)
       {
         $MCTitemQty=MCTConfirmationDetail::where('MCTNo',$MRTMaster[0]->MCTNo)->where('ItemCode',$mrtconfirm->ItemCode)->get(['Quantity']);
@@ -278,7 +282,7 @@ class MRTController extends Controller
     }
     public function MRTindexSearch(Request $request)
     {
-      return MRTMaster::with('users')->orderBy('id','DESC')->where('MRTNo','LIKE','%'.$request->MRTNo.'%')->paginate(10,['MRTNo','MCTNo','ReturnDate','Particulars','AddressTo','Status','IsRollBack']);
+      return MRTMaster::with('users')->orderBy('MRTNo','DESC')->where('MRTNo','LIKE','%'.$request->MRTNo.'%')->paginate(10,['MRTNo','MCTNo','ReturnDate','Particulars','AddressTo','Status','IsRollBack']);
     }
     public function RollBack($mrtNo)
     {
