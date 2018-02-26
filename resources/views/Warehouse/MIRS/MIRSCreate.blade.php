@@ -5,6 +5,7 @@
 
 @section('body')
   <div class="MIRS-CONTAINER">
+    <h3 class="create-mirs-title">CREATE MIRS</h3>
     <div id="mirs">
       <mirscreate :manager="{{$mymanager}}" :gm="{{$GenMan}}"></mirscreate>
     </div>

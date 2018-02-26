@@ -20,7 +20,7 @@
         <a>
           <li class="sidebar-title CurrentUser">
             <div class="flex">
-              <i class="material-icons">person</i> {{user.FullName}}
+              <p class="letter-avatar">{{FirstLetter}}</p> <p class="userfullname">{{user.FullName}}</p>
             </div>
           </li>
         </a>
@@ -393,7 +393,11 @@ Vue.use(Toast);
           this.refreshCountNewlyCreatedPO();
         }
       }
-     }
-
+    },
+    computed:{
+      FirstLetter:function(){
+        return this.user.FullName.charAt(0).toUpperCase();
+      },
+    }
   }
 </script>

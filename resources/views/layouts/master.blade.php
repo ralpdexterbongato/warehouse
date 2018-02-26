@@ -81,12 +81,10 @@
     </header>
         <div class="main-master-container" class="{{Auth::check()?'':'loggedout'}}">
           @if (Auth::check())
-          <div class="sidebar-static">
-              <span id="master">
-                <mynotification :user="{{Auth::user()}}">
-                </mynotification>
-              </span>
-          </div>
+          <span id="master">
+            <mynotification :user="{{Auth::user()}}">
+            </mynotification>
+          </span>
           @endif
           @section('body')
           @show
@@ -94,8 +92,8 @@
     <footer>
       @Auth
       <div class="footer-container">
-        <div class="simple-footer z-depth-3">
-          <h1> &copy; 2017 All rights reserved Boheco I</h1>
+        <div class="simple-footer">
+          <h1> &copy; Warehouse inventory control 2018 All rights reserved Boheco I</h1>
         </div>
       </div>
       @endAuth
@@ -251,6 +249,18 @@
               $('.drop-add .dropping').hide();
           });
 
+          $(function(){
+             var distance =34;
+             $(window).scroll(function(event){
+                 var st = $(this).scrollTop();
+                 if (st > distance){
+                    $('.sidebar-online ul').addClass('active');
+                 }else
+                 {
+                   $('.sidebar-online ul').removeClass('active');
+                 }
+             });
+           });
         });
       </script>
     @endif

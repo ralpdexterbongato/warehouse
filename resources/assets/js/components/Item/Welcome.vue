@@ -148,7 +148,7 @@
               <p v-if="DashGood>1">Items</p>
               <p v-else>Item</p>
             </span>
-            <h2><i class="material-icons">equalizer</i></h2>
+            <h2><img src="/DesignIMG/linesicon.png" alt="icon"></h2>
           </div>
         </div>
         <div class="dashbox dash-low ">
@@ -174,7 +174,7 @@
               <p v-if="DashWarn>1">Items</p>
               <p v-else>Item</p>
             </span>
-            <h2><i class="material-icons">equalizer</i></h2>
+            <h2><img src="/DesignIMG/linesicon.png" alt="icon"></h2>
           </div>
         </div>
         <div class="dashbox dash-empty ">
@@ -202,7 +202,7 @@
               <p v-if="DashEmpty>1">Items</p>
               <p v-else>Item</p>
             </span>
-            <h2><i class="material-icons">equalizer</i></h2>
+            <h2><img src="/DesignIMG/linesicon.png" alt="icon"></h2>
           </div>
         </div>
       </div>
@@ -212,6 +212,10 @@
         </div>
         <div class="graphbox-right">
           <canvas id="myLineChart"></canvas>
+        </div>
+      </div>
+      <div class="chart-bottom">
+        <div class="daily-chart">
           <canvas id="myDoughnutChart"></canvas>
         </div>
       </div>

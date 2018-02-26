@@ -2,13 +2,12 @@
   <span>
     <div class="title-RV">
       <h3>Create Requisition Voucher</h3>
-      <h3 class="empty-right"></h3>
     </div>
     <div class="RV-wrapper">
       <div class="added-items-table">
         <div class="add-item-RV">
           <button type="button" v-if="user.Role==3||user.Role==4" name="button" id="forstock-ItemRV" v-on:click="forstock=!forstock"><i class="material-icons" v-if="user.Role==3||user.Role==4">widgets</i> For stocks</button>
-          <button type="button" id="none-existing-itemRV" v-on:click="notforstock=!notforstock"><i class="material-icons">shopping_cart</i> Not in warehouse</button>
+          <button type="button" id="none-existing-itemRV" v-on:click="notforstock=!notforstock"><i class="material-icons">shopping_cart</i> Shopping</button>
         </div>
         <table>
           <tr>
