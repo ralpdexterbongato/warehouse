@@ -214,11 +214,6 @@
           <canvas id="myLineChart"></canvas>
         </div>
       </div>
-      <div class="chart-bottom">
-        <div class="daily-chart">
-          <canvas id="myDoughnutChart"></canvas>
-        </div>
-      </div>
     </div>
   </div>
   <div class="not-found-msg" v-if="NotFoundSearch!=''">
@@ -284,15 +279,6 @@ Vue.use(VueAnimateNumber);
 
                 }
             ]
-        },
-        DoughnutchartData: {
-        labels: ['MCT', 'MRT', 'RR'],
-        datasets: [
-          {
-              data: [0,0,0],
-              backgroundColor: ['#f44336', '#fdd835', '#3367D6'],
-          },
-        ]
         },
         barData : {
             labels: [],
@@ -361,7 +347,6 @@ Vue.use(VueAnimateNumber);
         this.DashData();
         this.fetchBarChart();
         this.fetchLineChart();
-        this.fetchDoughnut();
       }
     },
     methods: {
@@ -509,26 +494,6 @@ Vue.use(VueAnimateNumber);
         {
           console.log(error);
         });
-      },
-      fetchDoughnut()
-      {
-        var canvas = document.getElementById('myDoughnutChart');
-        var myDoughnutChart = Chart.Doughnut(canvas,{
-          data:this.DoughnutchartData,
-          options:this.chartOption
-        });
-        var vm=this;
-        axios.get(`/doughnut-chart-data`).then(function(response)
-        {
-          console.log(response);
-          vm.DoughnutchartData.datasets[0].data[0]=response.data.mct;
-          vm.DoughnutchartData.datasets[0].data[1]=response.data.mrt;
-          vm.DoughnutchartData.datasets[0].data[2]=response.data.rr;
-          myDoughnutChart.update();
-        }).then(function(error)
-        {
-          console.log(error);
-        })
       },
       formatPrice(value) {
             let val = (value/1).toFixed(2).replace('.', '.')

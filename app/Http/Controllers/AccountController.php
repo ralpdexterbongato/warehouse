@@ -223,6 +223,7 @@ class AccountController extends Controller
       $userDB->Position=$request->Position;
       $userDB->Password=bcrypt($request->Password);
       $userDB->Signature=$fileName;
+      $userDB->LastOnline=Carbon::now();
       $userDB->save();
     }
     public function SaveNewUser(Request $request)
@@ -264,6 +265,7 @@ class AccountController extends Controller
       $userDB->Username=$request->Username;
       $userDB->Mobile=$request->Mobile;
       $userDB->Role=$request->Role;
+      $userDB->LastOnline=Carbon::now();
       if($request->Role==1)
       {
         $userDB->Position='Admin';

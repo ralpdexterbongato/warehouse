@@ -4,6 +4,7 @@ Vue.component('history', require('./components/Account/MyHistory.vue'));
 Vue.component('loginpage', require('./components/Account/loginpage.vue'));
 Vue.component('managers', require('./components/Account/ManagerTakePlacer.vue'));
 Vue.component('myaccount', require('./components/Account/MyAccountSettings.vue'));
+Vue.component('statususers', require('./components/Account/UserStatus.vue'));
 new Vue({
     el:'#accounts',
 });

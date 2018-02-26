@@ -10,13 +10,14 @@ use App\RVMaster;
 use App\MIRSMaster;
 use App\MCTMaster;
 use App\MRTMaster;
+use App\User;
 use App\RRMaster;
 class dashBoardController extends Controller
 {
     public function __construct()
     {
       $this->middleware('auth');
-      $this->middleware('IsWarehouseAndAdmin');
+      $this->middleware('IsWarehouseAndAdmin',['except'=>['UsersStatusCheck']]);
     }
     public function show()
     {
@@ -188,34 +189,9 @@ class dashBoardController extends Controller
       $response = array('mct' => $MCTArray,'mrt'=>$MRTArray,'rr'=>$RRArray,'months'=>$MonthsArray);
       return response()->json($response);
     }
-    public function DoughnutData()
+    public function UsersStatusCheck(Request $request)
     {
-      $MonthNow=Carbon::now()->format('m');
-      $yearNow=Carbon::now()->format('Y');
-
-      $MCT = MCTMaster::whereYear('MCTDate', $yearNow)->whereMonth('MCTDate',$MonthNow)
-      ->where('Status','0')
-      ->whereNull('IsRollBack')
-      ->orWhere('IsRollBack','1')
-      ->where('Status','0')
-      ->count();
-
-      $MRT = MRTMaster::whereYear('ReturnDate', $yearNow)->whereMonth('ReturnDate',$MonthNow)
-      ->where('Status','0')
-      ->whereNull('IsRollBack')
-      ->orWhere('IsRollBack','1')
-      ->where('Status','0')
-      ->count();
-
-      $RR = RRMaster::whereYear('RRDate', $yearNow)->whereMonth('RRDate',$MonthNow)
-      ->where('Status','0')
-      ->whereNull('IsRollBack')
-      ->orWhere('IsRollBack','1')
-      ->where('Status','0')
-      ->count();
-
-      $response = array('mct' =>$MCT ,'mrt'=>$MRT,'rr'=>$RR);
-      return response()->json($response);
+      return User::orderBy('LastOnline','DESC')->where('FullName','LIKE','%'.$request->search.'%')->paginate(18,['FullName','id','LastOnline as last_activity']);
     }
 
 }

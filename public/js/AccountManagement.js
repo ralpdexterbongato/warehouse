@@ -29867,6 +29867,7 @@ Vue.component('history', __webpack_require__(219));
 Vue.component('loginpage', __webpack_require__(220));
 Vue.component('managers', __webpack_require__(217));
 Vue.component('myaccount', __webpack_require__(218));
+Vue.component('statususers', __webpack_require__(305));
 new Vue({
     el: '#accounts'
 });
@@ -34613,6 +34614,174 @@ module.exports = function listToStyles (parentId, list) {
 
 module.exports = __webpack_require__(165);
 
+
+/***/ }),
+/* 287 */,
+/* 288 */,
+/* 289 */,
+/* 290 */,
+/* 291 */,
+/* 292 */,
+/* 293 */,
+/* 294 */,
+/* 295 */,
+/* 296 */,
+/* 297 */,
+/* 298 */,
+/* 299 */,
+/* 300 */,
+/* 301 */,
+/* 302 */,
+/* 303 */,
+/* 304 */
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_0_axios__ = __webpack_require__(3);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_0_axios___default = __webpack_require__.n(__WEBPACK_IMPORTED_MODULE_0_axios__);
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+
+
+/* harmony default export */ __webpack_exports__["default"] = ({
+  data: function data() {
+    return {
+      NameSearch: '',
+      Employees: []
+    };
+  },
+
+  // props: [],
+  mounted: function mounted() {
+    this.fetchOrSearchEmployee();
+  },
+
+  methods: {
+    fetchOrSearchEmployee: function fetchOrSearchEmployee() {
+      var vm = this;
+      __WEBPACK_IMPORTED_MODULE_0_axios___default.a.get('/all-users-status?search=' + this.NameSearch).then(function (response) {
+        console.log(response);
+        vm.Employees = response.data.data;
+      }).catch(function (error) {
+        console.log(error);
+      });
+    }
+  }
+});
+
+/***/ }),
+/* 305 */
+/***/ (function(module, exports, __webpack_require__) {
+
+var Component = __webpack_require__(4)(
+  /* script */
+  __webpack_require__(304),
+  /* template */
+  __webpack_require__(306),
+  /* scopeId */
+  null,
+  /* cssModules */
+  null
+)
+Component.options.__file = "C:\\xampp\\htdocs\\warehouse\\resources\\assets\\js\\components\\Account\\UserStatus.vue"
+if (Component.esModule && Object.keys(Component.esModule).some(function (key) {return key !== "default" && key !== "__esModule"})) {console.error("named exports are not supported in *.vue files.")}
+if (Component.options.functional) {console.error("[vue-loader] UserStatus.vue: functional components are not supported with templates, they should use render functions.")}
+
+/* hot reload */
+if (false) {(function () {
+  var hotAPI = require("vue-hot-reload-api")
+  hotAPI.install(require("vue"), false)
+  if (!hotAPI.compatible) return
+  module.hot.accept()
+  if (!module.hot.data) {
+    hotAPI.createRecord("data-v-c046f5ec", Component.options)
+  } else {
+    hotAPI.reload("data-v-c046f5ec", Component.options)
+  }
+})()}
+
+module.exports = Component.exports
+
+
+/***/ }),
+/* 306 */
+/***/ (function(module, exports, __webpack_require__) {
+
+module.exports={render:function (){var _vm=this;var _h=_vm.$createElement;var _c=_vm._self._c||_h;
+  return _c('div', {
+    staticClass: "list-wrapper"
+  }, [_c('ul', [_vm._m(0), _vm._v(" "), _c('div', {
+    staticClass: "search-user-container"
+  }, [_c('i', {
+    staticClass: "material-icons"
+  }, [_vm._v("search")]), _vm._v(" "), _c('input', {
+    directives: [{
+      name: "model",
+      rawName: "v-model",
+      value: (_vm.NameSearch),
+      expression: "NameSearch"
+    }],
+    attrs: {
+      "type": "text",
+      "placeholder": "Search"
+    },
+    domProps: {
+      "value": (_vm.NameSearch)
+    },
+    on: {
+      "keyup": function($event) {
+        _vm.fetchOrSearchEmployee()
+      },
+      "input": function($event) {
+        if ($event.target.composing) { return; }
+        _vm.NameSearch = $event.target.value
+      }
+    }
+  }), _vm._v(" "), _c('div', {
+    staticClass: "divider"
+  })]), _vm._v(" "), _c('div', {
+    staticClass: "online-scroll-container"
+  }, _vm._l((_vm.Employees), function(employee) {
+    return _c('li', [_c('p', {
+      staticClass: "employee-list-name"
+    }, [_vm._v(_vm._s(employee.FullName))]), _vm._v(" "), (employee.last_activity == 0) ? _c('p', {
+      staticClass: "online-dot active"
+    }) : _c('p', {
+      staticClass: "last-online-time"
+    }, [_vm._v(_vm._s(employee.last_activity))])])
+  }))])])
+},staticRenderFns: [function (){var _vm=this;var _h=_vm.$createElement;var _c=_vm._self._c||_h;
+  return _c('div', {
+    staticClass: "online-list-header"
+  }, [_c('p', [_vm._v("CHECK EMPLOYEES")])])
+}]}
+module.exports.render._withStripped = true
+if (false) {
+  module.hot.accept()
+  if (module.hot.data) {
+     require("vue-hot-reload-api").rerender("data-v-c046f5ec", module.exports)
+  }
+}
 
 /***/ })
 /******/ ]);

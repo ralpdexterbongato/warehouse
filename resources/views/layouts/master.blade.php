@@ -248,20 +248,18 @@
               $('.drop-index .dropping').hide();
               $('.drop-add .dropping').hide();
           });
-
-          $(function(){
-             var distance =34;
-             $(window).scroll(function(event){
-                 var st = $(this).scrollTop();
-                 if (st > distance){
-                    $('.sidebar-online ul').addClass('active');
-                 }else
-                 {
-                   $('.sidebar-online ul').removeClass('active');
-                 }
-             });
-           });
+          $(window).scroll(function() {
+            var scrollBottom = $(document).height() - $(window).height() - $(window).scrollTop();
+            if (scrollBottom >= 36)
+            {
+              $('.sidebar-online ul').removeClass('active');
+            }else
+            {
+              $('.sidebar-online ul').addClass('active');
+            }
+          });
         });
+
       </script>
     @endif
   </body>

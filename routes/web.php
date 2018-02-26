@@ -218,7 +218,6 @@ Route::put('/undo-rollback-this-rr/{rrNo}','RRController@UndoRollBack');
 
 Route::get('/line-chart-data','dashBoardController@lineChart');
 Route::get('/bar-chart-data','dashBoardController@barChart');
-Route::get('/doughnut-chart-data','dashBoardController@DoughnutData');
 
 // notification global
 Route::get('/fetch-mirs-global-notifications','globalNotificationController@fetchMIRS');
@@ -233,3 +232,5 @@ Route::get('/notif-global-count','globalNotificationController@countInfoNotifica
 // damage item recording
 Route::post('/damage-item-store/{itemcode}','DamagedItemController@store');
 Route::delete('/damage-item-delete/{id}/{itemcode}','DamagedItemController@delete');
+
+Route::get('/all-users-status','dashBoardController@UsersStatusCheck');

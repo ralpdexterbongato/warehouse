@@ -5,6 +5,7 @@ namespace App;
 use Illuminate\Notifications\Notifiable;
 use Illuminate\Foundation\Auth\User as Authenticatable;
 use Auth;
+use Carbon\Carbon;
 class User extends Authenticatable
 {
     use Notifiable;
@@ -111,5 +112,26 @@ class User extends Authenticatable
     public function countRVGlobalNotif()
     {
       return $this->morphedByMany('App\RVMaster','Signatureable')->where('UnreadNotification','!=',NULL)->wherePivot('SignatureType', 'Requisitioner')->orWhere('PendingRemarks','!=',NULL)->where('UnreadNotification','!=',NULL)->whereNull('Status')->wherePivot('SignatureType', 'Requisitioner');
+    }
+    public function getLastActivityAttribute($time)
+    {
+      $minAgo = Carbon::now()->subSeconds(300);
+      if ($minAgo > $time)
+      {
+        $lastonline = Carbon::createFromFormat('Y-m-d H:i:s.u', $time)->diffForHumans();
+        $lastonline = str_replace([' seconds', ' second'], ' sec', $lastonline);
+        $lastonline = str_replace([' minutes', ' minute'], ' min', $lastonline);
+        $lastonline = str_replace([' hours', ' hour'], ' h', $lastonline);
+        $lastonline = str_replace([' months', ' month'], ' m', $lastonline);
+        $lastonline = str_replace(' ago', '', $lastonline);
+
+        if(preg_match('(years|year)', $lastonline)){
+            $lastonline = $this->last_activity->toFormattedDateString();
+        }
+        return $lastonline;
+      }else
+      {
+        return '0';
+      }
     }
 }

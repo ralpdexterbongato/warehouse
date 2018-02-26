@@ -12436,11 +12436,6 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
 //
 //
 //
-//
-//
-//
-//
-//
 
 
 
@@ -12479,13 +12474,6 @@ __WEBPACK_IMPORTED_MODULE_4_vue___default.a.use(__WEBPACK_IMPORTED_MODULE_3_vue_
           pointRadius: 5,
           pointHitRadius: 10
 
-        }]
-      },
-      DoughnutchartData: {
-        labels: ['MCT', 'MRT', 'RR'],
-        datasets: [{
-          data: [0, 0, 0],
-          backgroundColor: ['#f44336', '#fdd835', '#3367D6']
         }]
       },
       barData: {
@@ -12551,7 +12539,6 @@ __WEBPACK_IMPORTED_MODULE_4_vue___default.a.use(__WEBPACK_IMPORTED_MODULE_3_vue_
       this.DashData();
       this.fetchBarChart();
       this.fetchLineChart();
-      this.fetchDoughnut();
     }
   },
 
@@ -12669,23 +12656,6 @@ __WEBPACK_IMPORTED_MODULE_4_vue___default.a.use(__WEBPACK_IMPORTED_MODULE_3_vue_
         vm.barData.labels = response.data.months[0];
         myBarChart.update();
       }).catch(function (error) {
-        console.log(error);
-      });
-    },
-    fetchDoughnut: function fetchDoughnut() {
-      var canvas = document.getElementById('myDoughnutChart');
-      var myDoughnutChart = Chart.Doughnut(canvas, {
-        data: this.DoughnutchartData,
-        options: this.chartOption
-      });
-      var vm = this;
-      __WEBPACK_IMPORTED_MODULE_0_axios___default.a.get('/doughnut-chart-data').then(function (response) {
-        console.log(response);
-        vm.DoughnutchartData.datasets[0].data[0] = response.data.mct;
-        vm.DoughnutchartData.datasets[0].data[1] = response.data.mrt;
-        vm.DoughnutchartData.datasets[0].data[2] = response.data.rr;
-        myDoughnutChart.update();
-      }).then(function (error) {
         console.log(error);
       });
     },
@@ -13949,7 +13919,7 @@ module.exports={render:function (){var _vm=this;var _h=_vm.$createElement;var _c
       "duration": "2000",
       "easing": "easeOutQuad"
     }
-  }) : _c('span', [_vm._v("\r\n                  0\r\n                ")])], 1), _vm._v(" "), (_vm.DashEmpty > 1) ? _c('p', [_vm._v("Items")]) : _c('p', [_vm._v("Item")])]), _vm._v(" "), _vm._m(10)])])]), _vm._v(" "), _vm._m(11), _vm._v(" "), _vm._m(12)])]) : _vm._e(), _vm._v(" "), (_vm.NotFoundSearch != '') ? _c('div', {
+  }) : _c('span', [_vm._v("\r\n                  0\r\n                ")])], 1), _vm._v(" "), (_vm.DashEmpty > 1) ? _c('p', [_vm._v("Items")]) : _c('p', [_vm._v("Item")])]), _vm._v(" "), _vm._m(10)])])]), _vm._v(" "), _vm._m(11)])]) : _vm._e(), _vm._v(" "), (_vm.NotFoundSearch != '') ? _c('div', {
     staticClass: "not-found-msg"
   }, [_c('h2', [_c('i', {
     staticClass: "material-icons"
@@ -14127,16 +14097,6 @@ module.exports={render:function (){var _vm=this;var _h=_vm.$createElement;var _c
   }, [_c('canvas', {
     attrs: {
       "id": "myLineChart"
-    }
-  })])])
-},function (){var _vm=this;var _h=_vm.$createElement;var _c=_vm._self._c||_h;
-  return _c('div', {
-    staticClass: "chart-bottom"
-  }, [_c('div', {
-    staticClass: "daily-chart"
-  }, [_c('canvas', {
-    attrs: {
-      "id": "myDoughnutChart"
     }
   })])])
 }]}

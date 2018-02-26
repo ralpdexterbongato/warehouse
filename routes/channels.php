@@ -46,3 +46,6 @@ Broadcast::channel('GlobalNotif.{ReceiverID}', function ($ReceiverID) {
 Broadcast::channel('Global.Warehouse', function () {
     return Auth::check();
 });
+Broadcast::channel('chat', function ($user) {
+    return $user;
+});
