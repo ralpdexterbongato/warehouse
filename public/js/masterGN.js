@@ -63,7 +63,7 @@
 /******/ 	__webpack_require__.p = "";
 /******/
 /******/ 	// Load entry module and return exports
-/******/ 	return __webpack_require__(__webpack_require__.s = 290);
+/******/ 	return __webpack_require__(__webpack_require__.s = 293);
 /******/ })
 /************************************************************************/
 /******/ ({
@@ -42128,7 +42128,7 @@ module.exports = Echo;
 
 __webpack_require__(159);
 window.Vue = __webpack_require__(14);
-Vue.component('globalnotification', __webpack_require__(238));
+Vue.component('globalnotification', __webpack_require__(240));
 new Vue({
    el: '#masterGN'
 });
@@ -42504,7 +42504,7 @@ module.exports = function enhanceError(error, config, code, response) {
 
 /***/ }),
 
-/***/ 201:
+/***/ 202:
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
 "use strict";
@@ -43103,41 +43103,6 @@ module.exports = btoa;
 
 /***/ }),
 
-/***/ 238:
-/***/ (function(module, exports, __webpack_require__) {
-
-var Component = __webpack_require__(4)(
-  /* script */
-  __webpack_require__(201),
-  /* template */
-  __webpack_require__(252),
-  /* scopeId */
-  null,
-  /* cssModules */
-  null
-)
-Component.options.__file = "C:\\xampp\\htdocs\\warehouse\\resources\\assets\\js\\components\\Master\\GlobalNotif.vue"
-if (Component.esModule && Object.keys(Component.esModule).some(function (key) {return key !== "default" && key !== "__esModule"})) {console.error("named exports are not supported in *.vue files.")}
-if (Component.options.functional) {console.error("[vue-loader] GlobalNotif.vue: functional components are not supported with templates, they should use render functions.")}
-
-/* hot reload */
-if (false) {(function () {
-  var hotAPI = require("vue-hot-reload-api")
-  hotAPI.install(require("vue"), false)
-  if (!hotAPI.compatible) return
-  module.hot.accept()
-  if (!module.hot.data) {
-    hotAPI.createRecord("data-v-142beeaa", Component.options)
-  } else {
-    hotAPI.reload("data-v-142beeaa", Component.options)
-  }
-})()}
-
-module.exports = Component.exports
-
-
-/***/ }),
-
 /***/ 24:
 /***/ (function(module, exports, __webpack_require__) {
 
@@ -43214,6 +43179,41 @@ module.exports = function buildURL(url, params, paramsSerializer) {
 
 /***/ }),
 
+/***/ 240:
+/***/ (function(module, exports, __webpack_require__) {
+
+var Component = __webpack_require__(4)(
+  /* script */
+  __webpack_require__(202),
+  /* template */
+  __webpack_require__(254),
+  /* scopeId */
+  null,
+  /* cssModules */
+  null
+)
+Component.options.__file = "C:\\xampp\\htdocs\\warehouse\\resources\\assets\\js\\components\\Master\\GlobalNotif.vue"
+if (Component.esModule && Object.keys(Component.esModule).some(function (key) {return key !== "default" && key !== "__esModule"})) {console.error("named exports are not supported in *.vue files.")}
+if (Component.options.functional) {console.error("[vue-loader] GlobalNotif.vue: functional components are not supported with templates, they should use render functions.")}
+
+/* hot reload */
+if (false) {(function () {
+  var hotAPI = require("vue-hot-reload-api")
+  hotAPI.install(require("vue"), false)
+  if (!hotAPI.compatible) return
+  module.hot.accept()
+  if (!module.hot.data) {
+    hotAPI.createRecord("data-v-142beeaa", Component.options)
+  } else {
+    hotAPI.reload("data-v-142beeaa", Component.options)
+  }
+})()}
+
+module.exports = Component.exports
+
+
+/***/ }),
+
 /***/ 25:
 /***/ (function(module, exports, __webpack_require__) {
 
@@ -43234,7 +43234,7 @@ module.exports = function combineURLs(baseURL, relativeURL) {
 
 /***/ }),
 
-/***/ 252:
+/***/ 254:
 /***/ (function(module, exports, __webpack_require__) {
 
 module.exports={render:function (){var _vm=this;var _h=_vm.$createElement;var _c=_vm._self._c||_h;
@@ -43818,7 +43818,7 @@ module.exports = function normalizeHeaderName(headers, normalizedName) {
 
 /***/ }),
 
-/***/ 290:
+/***/ 293:
 /***/ (function(module, exports, __webpack_require__) {
 
 module.exports = __webpack_require__(169);

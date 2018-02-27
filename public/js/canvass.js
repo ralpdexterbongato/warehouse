@@ -63,7 +63,7 @@
 /******/ 	__webpack_require__.p = "";
 /******/
 /******/ 	// Load entry module and return exports
-/******/ 	return __webpack_require__(__webpack_require__.s = 287);
+/******/ 	return __webpack_require__(__webpack_require__.s = 290);
 /******/ })
 /************************************************************************/
 /******/ ({
@@ -11664,7 +11664,7 @@ module.exports = CancelToken;
 /***/ (function(module, exports, __webpack_require__) {
 
 window.Vue = __webpack_require__(14);
-Vue.component('canvasscreate', __webpack_require__(221));
+Vue.component('canvasscreate', __webpack_require__(223));
 new Vue({
     el: '#canvass'
 });
@@ -11824,7 +11824,7 @@ module.exports = InterceptorManager;
 
 /***/ }),
 
-/***/ 184:
+/***/ 185:
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
 "use strict";
@@ -12398,14 +12398,14 @@ module.exports = function transformData(data, headers, fns) {
 
 /***/ }),
 
-/***/ 221:
+/***/ 223:
 /***/ (function(module, exports, __webpack_require__) {
 
 var Component = __webpack_require__(4)(
   /* script */
-  __webpack_require__(184),
+  __webpack_require__(185),
   /* template */
-  __webpack_require__(261),
+  __webpack_require__(263),
   /* scopeId */
   null,
   /* cssModules */
@@ -12634,7 +12634,7 @@ module.exports = (
 
 /***/ }),
 
-/***/ 261:
+/***/ 263:
 /***/ (function(module, exports, __webpack_require__) {
 
 module.exports={render:function (){var _vm=this;var _h=_vm.$createElement;var _c=_vm._self._c||_h;
@@ -13171,14 +13171,6 @@ module.exports = (
 
 /***/ }),
 
-/***/ 287:
-/***/ (function(module, exports, __webpack_require__) {
-
-module.exports = __webpack_require__(166);
-
-
-/***/ }),
-
 /***/ 29:
 /***/ (function(module, exports, __webpack_require__) {
 
@@ -13195,6 +13187,14 @@ module.exports = function normalizeHeaderName(headers, normalizedName) {
     }
   });
 };
+
+
+/***/ }),
+
+/***/ 290:
+/***/ (function(module, exports, __webpack_require__) {
+
+module.exports = __webpack_require__(166);
 
 
 /***/ }),

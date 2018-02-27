@@ -4,7 +4,7 @@ warehouse | BOHECO 1
 @endsection
 @section('body')
   <div class="body-container">
-    <div class="sidebar-online" id="accounts">
+    <div class="status-user-blade" id="accounts">
       <statususers></statususers>
     </div>
     <div id="items">

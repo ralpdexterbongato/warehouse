@@ -121,7 +121,49 @@
       </div>
     </div><!--  end of v-if result is not empty -->
     <div class="background-pic" v-else-if="((user.Role!=1)&&(user.Role!=3)&&(user.Role!=4))">
-      <img src="/DesignIMG/truck.jpg" alt="img">
+      <div class="big-user-center-wrap">
+        <div class="big-user-box">
+
+        </div>
+      </div>
+      <div class="side-user-stats">
+        <div class="user-stat-box">
+          <div class="user-stat-box-top">
+            <h3>52</h3>
+            <p>Request transactions</p>
+          </div>
+          <div class="user-stat-box-bot">
+            <i class="material-icons">description</i>
+          </div>
+        </div>
+        <div class="user-stat-box">
+          <div class="user-stat-box-top">
+            <h3>22</h3>
+            <p>Pending transactions</p>
+          </div>
+          <div class="user-stat-box-bot">
+            <i class="material-icons">alarm</i>
+          </div>
+        </div>
+        <div class="user-stat-box">
+          <div class="user-stat-box-top">
+            <h3>12</h3>
+            <p>Approved transactions</p>
+          </div>
+          <div class="user-stat-box-bot">
+            <i class="material-icons">done_all</i>
+          </div>
+        </div>
+        <div class="user-stat-box">
+          <div class="user-stat-box-top">
+            <h3>22</h3>
+            <p>Declined transactions</p>
+          </div>
+          <div class="user-stat-box-bot">
+            <i class="material-icons">layers_clear</i>
+          </div>
+        </div>
+      </div>
     </div>
     <div v-else class="dash-container">
       <div class="dash-home">

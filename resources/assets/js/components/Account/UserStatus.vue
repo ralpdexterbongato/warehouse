@@ -1,21 +1,30 @@
 <template lang="html">
-  <div class="list-wrapper">
-    <ul>
-      <div class="online-list-header"><p>CHECK EMPLOYEES</p></div>
-      <div class="search-user-container">
-        <i class="material-icons">search</i>
-        <input type="text" v-model="NameSearch" v-on:keyup="fetchOrSearchEmployee()" placeholder="Search">
-        <div class="divider">
+  <div class="sidebar-online">
+    <button type="button" id="opener-icon"  v-on:click="IsActive=!IsActive" class="fixed-userstatus-opener" :class="[IsActive==true?'active':'']" name="button">
+      <p v-if="IsActive==false">
+        Online
+        <i class="material-icons">navigate_next</i>
+      </p>
+      <p v-else><i class="material-icons">navigate_before</i></p>
+    </button>
+    <div class="list-wrapper">
+      <ul :class="[IsActive==true?'open':'']">
+        <div class="online-list-header"><p>CHECK EMPLOYEES</p></div>
+        <div class="search-user-container">
+          <i class="material-icons">search</i>
+          <input type="text" v-model="NameSearch" v-on:keyup="fetchOrSearchEmployee()" placeholder="Search">
+          <div class="divider">
+          </div>
         </div>
-      </div>
-      <div class="online-scroll-container">
-        <li v-for="employee in Employees">
-          <p class="employee-list-name">{{employee.FullName}}</p>
-          <p v-if="employee.last_activity==0" class="online-dot active"></p>
-          <p v-else class="last-online-time">{{employee.last_activity}}</p>
-        </li>
-      </div>
-    </ul>
+        <div class="online-scroll-container">
+          <li v-for="employee in Employees">
+            <p class="employee-list-name">{{employee.FullName}}</p>
+            <p v-if="employee.last_activity==0" class="online-dot active"></p>
+            <p v-else class="last-online-time">{{employee.last_activity}}</p>
+          </li>
+        </div>
+      </ul>
+    </div>
   </div>
 </template>
 
@@ -24,7 +33,8 @@
   export default {
     data () { return {
         NameSearch:'',
-        Employees:[]
+        Employees:[],
+        IsActive:false,
       }
     },
     // props: [],

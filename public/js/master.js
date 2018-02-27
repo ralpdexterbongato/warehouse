@@ -63,7 +63,7 @@
 /******/ 	__webpack_require__.p = "";
 /******/
 /******/ 	// Load entry module and return exports
-/******/ 	return __webpack_require__(__webpack_require__.s = 289);
+/******/ 	return __webpack_require__(__webpack_require__.s = 292);
 /******/ })
 /************************************************************************/
 /******/ ({
@@ -42253,7 +42253,7 @@ module.exports = Echo;
 
 __webpack_require__(159);
 window.Vue = __webpack_require__(14);
-Vue.component('mynotification', __webpack_require__(239));
+Vue.component('mynotification', __webpack_require__(241));
 new Vue({
    el: '#master'
 });
@@ -42629,7 +42629,7 @@ module.exports = function enhanceError(error, config, code, response) {
 
 /***/ }),
 
-/***/ 202:
+/***/ 203:
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
 "use strict";
@@ -43120,41 +43120,6 @@ module.exports = btoa;
 
 /***/ }),
 
-/***/ 239:
-/***/ (function(module, exports, __webpack_require__) {
-
-var Component = __webpack_require__(4)(
-  /* script */
-  __webpack_require__(202),
-  /* template */
-  __webpack_require__(262),
-  /* scopeId */
-  null,
-  /* cssModules */
-  null
-)
-Component.options.__file = "C:\\xampp\\htdocs\\warehouse\\resources\\assets\\js\\components\\Master\\NotificationModal.vue"
-if (Component.esModule && Object.keys(Component.esModule).some(function (key) {return key !== "default" && key !== "__esModule"})) {console.error("named exports are not supported in *.vue files.")}
-if (Component.options.functional) {console.error("[vue-loader] NotificationModal.vue: functional components are not supported with templates, they should use render functions.")}
-
-/* hot reload */
-if (false) {(function () {
-  var hotAPI = require("vue-hot-reload-api")
-  hotAPI.install(require("vue"), false)
-  if (!hotAPI.compatible) return
-  module.hot.accept()
-  if (!module.hot.data) {
-    hotAPI.createRecord("data-v-3880e640", Component.options)
-  } else {
-    hotAPI.reload("data-v-3880e640", Component.options)
-  }
-})()}
-
-module.exports = Component.exports
-
-
-/***/ }),
-
 /***/ 24:
 /***/ (function(module, exports, __webpack_require__) {
 
@@ -43227,6 +43192,41 @@ module.exports = function buildURL(url, params, paramsSerializer) {
 
   return url;
 };
+
+
+/***/ }),
+
+/***/ 241:
+/***/ (function(module, exports, __webpack_require__) {
+
+var Component = __webpack_require__(4)(
+  /* script */
+  __webpack_require__(203),
+  /* template */
+  __webpack_require__(264),
+  /* scopeId */
+  null,
+  /* cssModules */
+  null
+)
+Component.options.__file = "C:\\xampp\\htdocs\\warehouse\\resources\\assets\\js\\components\\Master\\NotificationModal.vue"
+if (Component.esModule && Object.keys(Component.esModule).some(function (key) {return key !== "default" && key !== "__esModule"})) {console.error("named exports are not supported in *.vue files.")}
+if (Component.options.functional) {console.error("[vue-loader] NotificationModal.vue: functional components are not supported with templates, they should use render functions.")}
+
+/* hot reload */
+if (false) {(function () {
+  var hotAPI = require("vue-hot-reload-api")
+  hotAPI.install(require("vue"), false)
+  if (!hotAPI.compatible) return
+  module.hot.accept()
+  if (!module.hot.data) {
+    hotAPI.createRecord("data-v-3880e640", Component.options)
+  } else {
+    hotAPI.reload("data-v-3880e640", Component.options)
+  }
+})()}
+
+module.exports = Component.exports
 
 
 /***/ }),
@@ -43312,7 +43312,7 @@ module.exports = (
 
 /***/ }),
 
-/***/ 262:
+/***/ 264:
 /***/ (function(module, exports, __webpack_require__) {
 
 module.exports={render:function (){var _vm=this;var _h=_vm.$createElement;var _c=_vm._self._c||_h;
@@ -43679,14 +43679,6 @@ module.exports = (
 
 /***/ }),
 
-/***/ 289:
-/***/ (function(module, exports, __webpack_require__) {
-
-module.exports = __webpack_require__(168);
-
-
-/***/ }),
-
 /***/ 29:
 /***/ (function(module, exports, __webpack_require__) {
 
@@ -43703,6 +43695,14 @@ module.exports = function normalizeHeaderName(headers, normalizedName) {
     }
   });
 };
+
+
+/***/ }),
+
+/***/ 292:
+/***/ (function(module, exports, __webpack_require__) {
+
+module.exports = __webpack_require__(168);
 
 
 /***/ }),

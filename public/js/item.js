@@ -63,7 +63,7 @@
 /******/ 	__webpack_require__.p = "";
 /******/
 /******/ 	// Load entry module and return exports
-/******/ 	return __webpack_require__(__webpack_require__.s = 288);
+/******/ 	return __webpack_require__(__webpack_require__.s = 291);
 /******/ })
 /************************************************************************/
 /******/ ({
@@ -11664,8 +11664,8 @@ module.exports = CancelToken;
 /***/ (function(module, exports, __webpack_require__) {
 
 window.Vue = __webpack_require__(14);
-Vue.component('additemtolist', __webpack_require__(223));
-Vue.component('itemhistorytable', __webpack_require__(224));
+Vue.component('additemtolist', __webpack_require__(225));
+Vue.component('itemhistorytable', __webpack_require__(226));
 new Vue({
    el: '#items'
 });
@@ -11825,7 +11825,7 @@ module.exports = InterceptorManager;
 
 /***/ }),
 
-/***/ 186:
+/***/ 187:
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
 "use strict";
@@ -12181,7 +12181,7 @@ Vue.use(__WEBPACK_IMPORTED_MODULE_1_vue_numeric___default.a);
 
 /***/ }),
 
-/***/ 187:
+/***/ 188:
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
 "use strict";
@@ -12192,10 +12192,52 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_1_vue2_toast_lib_toast_css___default = __webpack_require__.n(__WEBPACK_IMPORTED_MODULE_1_vue2_toast_lib_toast_css__);
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_2_vue2_toast__ = __webpack_require__(13);
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_2_vue2_toast___default = __webpack_require__.n(__WEBPACK_IMPORTED_MODULE_2_vue2_toast__);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_3_vue_animate_number__ = __webpack_require__(214);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_3_vue_animate_number__ = __webpack_require__(215);
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_3_vue_animate_number___default = __webpack_require__.n(__WEBPACK_IMPORTED_MODULE_3_vue_animate_number__);
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_4_vue__ = __webpack_require__(14);
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_4_vue___default = __webpack_require__.n(__WEBPACK_IMPORTED_MODULE_4_vue__);
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
 //
 //
 //
@@ -12946,7 +12988,7 @@ module.exports = function settle(resolve, reject, response) {
 
 /***/ }),
 
-/***/ 214:
+/***/ 215:
 /***/ (function(module, exports, __webpack_require__) {
 
 /* WEBPACK VAR INJECTION */(function(global) {/**
@@ -12988,14 +13030,14 @@ module.exports = function transformData(data, headers, fns) {
 
 /***/ }),
 
-/***/ 223:
+/***/ 225:
 /***/ (function(module, exports, __webpack_require__) {
 
 var Component = __webpack_require__(4)(
   /* script */
-  __webpack_require__(186),
+  __webpack_require__(187),
   /* template */
-  __webpack_require__(255),
+  __webpack_require__(257),
   /* scopeId */
   null,
   /* cssModules */
@@ -13023,14 +13065,14 @@ module.exports = Component.exports
 
 /***/ }),
 
-/***/ 224:
+/***/ 226:
 /***/ (function(module, exports, __webpack_require__) {
 
 var Component = __webpack_require__(4)(
   /* script */
-  __webpack_require__(187),
+  __webpack_require__(188),
   /* template */
-  __webpack_require__(269),
+  __webpack_require__(271),
   /* scopeId */
   null,
   /* cssModules */
@@ -13198,7 +13240,7 @@ module.exports = function combineURLs(baseURL, relativeURL) {
 
 /***/ }),
 
-/***/ 255:
+/***/ 257:
 /***/ (function(module, exports, __webpack_require__) {
 
 module.exports={render:function (){var _vm=this;var _h=_vm.$createElement;var _c=_vm._self._c||_h;
@@ -13692,7 +13734,29 @@ module.exports = (
 
 /***/ }),
 
-/***/ 269:
+/***/ 27:
+/***/ (function(module, exports, __webpack_require__) {
+
+"use strict";
+
+
+/**
+ * Determines whether the specified URL is absolute
+ *
+ * @param {string} url The URL to test
+ * @returns {boolean} True if the specified URL is absolute, otherwise false
+ */
+module.exports = function isAbsoluteURL(url) {
+  // A URL is considered absolute if it begins with "<scheme>://" or "//" (protocol-relative URL).
+  // RFC 3986 defines scheme name as a sequence of characters beginning with a letter and followed
+  // by any combination of letters, digits, plus, period, or hyphen.
+  return /^([a-z][a-z\d\+\-\.]*:)?\/\//i.test(url);
+};
+
+
+/***/ }),
+
+/***/ 271:
 /***/ (function(module, exports, __webpack_require__) {
 
 module.exports={render:function (){var _vm=this;var _h=_vm.$createElement;var _c=_vm._self._c||_h;
@@ -13871,18 +13935,13 @@ module.exports={render:function (){var _vm=this;var _h=_vm.$createElement;var _c
     staticClass: "material-icons"
   }, [_vm._v("keyboard_arrow_right")])])]) : _vm._e()], 2)])])]) : (((_vm.user.Role != 1) && (_vm.user.Role != 3) && (_vm.user.Role != 4))) ? _c('div', {
     staticClass: "background-pic"
-  }, [_c('img', {
-    attrs: {
-      "src": "/DesignIMG/truck.jpg",
-      "alt": "img"
-    }
-  })]) : _c('div', {
+  }, [_vm._m(5), _vm._v(" "), _vm._m(6)]) : _c('div', {
     staticClass: "dash-container"
   }, [_c('div', {
     staticClass: "dash-home"
   }, [_c('div', {
     staticClass: "dashbox dash-high "
-  }, [_vm._m(5), _vm._v(" "), _c('div', {
+  }, [_vm._m(7), _vm._v(" "), _c('div', {
     staticClass: "right-dash"
   }, [_c('span', [_c('h1', {
     staticClass: "dash-totals"
@@ -13893,9 +13952,9 @@ module.exports={render:function (){var _vm=this;var _h=_vm.$createElement;var _c
       "duration": "1000",
       "easing": "easeOutQuad"
     }
-  }) : _c('span', [_vm._v("\r\n                  0\r\n                ")])], 1), _vm._v(" "), (_vm.DashGood > 1) ? _c('p', [_vm._v("Items")]) : _c('p', [_vm._v("Item")])]), _vm._v(" "), _vm._m(6)])]), _vm._v(" "), _c('div', {
+  }) : _c('span', [_vm._v("\r\n                  0\r\n                ")])], 1), _vm._v(" "), (_vm.DashGood > 1) ? _c('p', [_vm._v("Items")]) : _c('p', [_vm._v("Item")])]), _vm._v(" "), _vm._m(8)])]), _vm._v(" "), _c('div', {
     staticClass: "dashbox dash-low "
-  }, [_vm._m(7), _vm._v(" "), _c('div', {
+  }, [_vm._m(9), _vm._v(" "), _c('div', {
     staticClass: "right-dash"
   }, [_c('span', [_c('h1', {
     staticClass: "dash-totals"
@@ -13906,9 +13965,9 @@ module.exports={render:function (){var _vm=this;var _h=_vm.$createElement;var _c
       "duration": "1500",
       "easing": "easeOutQuad"
     }
-  }) : _c('span', [_vm._v("\r\n                  0\r\n                ")])], 1), _vm._v(" "), (_vm.DashWarn > 1) ? _c('p', [_vm._v("Items")]) : _c('p', [_vm._v("Item")])]), _vm._v(" "), _vm._m(8)])]), _vm._v(" "), _c('div', {
+  }) : _c('span', [_vm._v("\r\n                  0\r\n                ")])], 1), _vm._v(" "), (_vm.DashWarn > 1) ? _c('p', [_vm._v("Items")]) : _c('p', [_vm._v("Item")])]), _vm._v(" "), _vm._m(10)])]), _vm._v(" "), _c('div', {
     staticClass: "dashbox dash-empty "
-  }, [_vm._m(9), _vm._v(" "), _c('div', {
+  }, [_vm._m(11), _vm._v(" "), _c('div', {
     staticClass: "right-dash"
   }, [_c('span', [_c('h1', {
     staticClass: "dash-totals"
@@ -13919,7 +13978,7 @@ module.exports={render:function (){var _vm=this;var _h=_vm.$createElement;var _c
       "duration": "2000",
       "easing": "easeOutQuad"
     }
-  }) : _c('span', [_vm._v("\r\n                  0\r\n                ")])], 1), _vm._v(" "), (_vm.DashEmpty > 1) ? _c('p', [_vm._v("Items")]) : _c('p', [_vm._v("Item")])]), _vm._v(" "), _vm._m(10)])])]), _vm._v(" "), _vm._m(11)])]) : _vm._e(), _vm._v(" "), (_vm.NotFoundSearch != '') ? _c('div', {
+  }) : _c('span', [_vm._v("\r\n                  0\r\n                ")])], 1), _vm._v(" "), (_vm.DashEmpty > 1) ? _c('p', [_vm._v("Items")]) : _c('p', [_vm._v("Item")])]), _vm._v(" "), _vm._m(12)])])]), _vm._v(" "), _vm._m(13)])]) : _vm._e(), _vm._v(" "), (_vm.NotFoundSearch != '') ? _c('div', {
     staticClass: "not-found-msg"
   }, [_c('h2', [_c('i', {
     staticClass: "material-icons"
@@ -14034,6 +14093,48 @@ module.exports={render:function (){var _vm=this;var _h=_vm.$createElement;var _c
   return _c('tr', [_c('th', [_vm._v("MT type")]), _vm._v(" "), _c('th', [_vm._v("MT No.")]), _vm._v(" "), _c('th', [_vm._v("Unit cost")]), _vm._v(" "), _c('th', [_vm._v("Quantity")]), _vm._v(" "), _c('th', [_vm._v("Unit")]), _vm._v(" "), _c('th', [_vm._v("Amount")]), _vm._v(" "), _c('th', [_vm._v("Current cost")]), _vm._v(" "), _c('th', [_vm._v("Current quantity")]), _vm._v(" "), _c('th', [_vm._v("Current amount")]), _vm._v(" "), _c('th', [_vm._v("Date")])])
 },function (){var _vm=this;var _h=_vm.$createElement;var _c=_vm._self._c||_h;
   return _c('div', {
+    staticClass: "big-user-center-wrap"
+  }, [_c('div', {
+    staticClass: "big-user-box"
+  })])
+},function (){var _vm=this;var _h=_vm.$createElement;var _c=_vm._self._c||_h;
+  return _c('div', {
+    staticClass: "side-user-stats"
+  }, [_c('div', {
+    staticClass: "user-stat-box"
+  }, [_c('div', {
+    staticClass: "user-stat-box-top"
+  }, [_c('h3', [_vm._v("52")]), _vm._v(" "), _c('p', [_vm._v("Request transactions")])]), _vm._v(" "), _c('div', {
+    staticClass: "user-stat-box-bot"
+  }, [_c('i', {
+    staticClass: "material-icons"
+  }, [_vm._v("description")])])]), _vm._v(" "), _c('div', {
+    staticClass: "user-stat-box"
+  }, [_c('div', {
+    staticClass: "user-stat-box-top"
+  }, [_c('h3', [_vm._v("22")]), _vm._v(" "), _c('p', [_vm._v("Pending transactions")])]), _vm._v(" "), _c('div', {
+    staticClass: "user-stat-box-bot"
+  }, [_c('i', {
+    staticClass: "material-icons"
+  }, [_vm._v("alarm")])])]), _vm._v(" "), _c('div', {
+    staticClass: "user-stat-box"
+  }, [_c('div', {
+    staticClass: "user-stat-box-top"
+  }, [_c('h3', [_vm._v("12")]), _vm._v(" "), _c('p', [_vm._v("Approved transactions")])]), _vm._v(" "), _c('div', {
+    staticClass: "user-stat-box-bot"
+  }, [_c('i', {
+    staticClass: "material-icons"
+  }, [_vm._v("done_all")])])]), _vm._v(" "), _c('div', {
+    staticClass: "user-stat-box"
+  }, [_c('div', {
+    staticClass: "user-stat-box-top"
+  }, [_c('h3', [_vm._v("22")]), _vm._v(" "), _c('p', [_vm._v("Declined transactions")])]), _vm._v(" "), _c('div', {
+    staticClass: "user-stat-box-bot"
+  }, [_c('i', {
+    staticClass: "material-icons"
+  }, [_vm._v("layers_clear")])])])])
+},function (){var _vm=this;var _h=_vm.$createElement;var _c=_vm._self._c||_h;
+  return _c('div', {
     staticClass: "left-dash"
   }, [_c('h1', {
     staticClass: "circle-dash-icon"
@@ -14107,28 +14208,6 @@ if (false) {
      require("vue-hot-reload-api").rerender("data-v-512f599e", module.exports)
   }
 }
-
-/***/ }),
-
-/***/ 27:
-/***/ (function(module, exports, __webpack_require__) {
-
-"use strict";
-
-
-/**
- * Determines whether the specified URL is absolute
- *
- * @param {string} url The URL to test
- * @returns {boolean} True if the specified URL is absolute, otherwise false
- */
-module.exports = function isAbsoluteURL(url) {
-  // A URL is considered absolute if it begins with "<scheme>://" or "//" (protocol-relative URL).
-  // RFC 3986 defines scheme name as a sequence of characters beginning with a letter and followed
-  // by any combination of letters, digits, plus, period, or hyphen.
-  return /^([a-z][a-z\d\+\-\.]*:)?\/\//i.test(url);
-};
-
 
 /***/ }),
 
@@ -14208,14 +14287,6 @@ module.exports = (
 
 /***/ }),
 
-/***/ 288:
-/***/ (function(module, exports, __webpack_require__) {
-
-module.exports = __webpack_require__(167);
-
-
-/***/ }),
-
 /***/ 29:
 /***/ (function(module, exports, __webpack_require__) {
 
@@ -14232,6 +14303,14 @@ module.exports = function normalizeHeaderName(headers, normalizedName) {
     }
   });
 };
+
+
+/***/ }),
+
+/***/ 291:
+/***/ (function(module, exports, __webpack_require__) {
+
+module.exports = __webpack_require__(167);
 
 
 /***/ }),

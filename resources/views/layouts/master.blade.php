@@ -93,7 +93,7 @@
       @Auth
       <div class="footer-container">
         <div class="simple-footer">
-          <h1> &copy; Warehouse inventory control 2018 All rights reserved Boheco I</h1>
+          <h1> &copy; Warehouse inventory control</h1>
         </div>
       </div>
       @endAuth
@@ -199,6 +199,11 @@
             return false;
           });
 
+          $('#opener-icon').click(function(event)
+          {
+            $('body').toggleClass('noScroll');
+          });
+
           $('.btn-add-item-rrnopo button').click(function(event)
           {
             $('body').addClass('noScroll');
@@ -253,9 +258,10 @@
             if (scrollBottom >= 36)
             {
               $('.sidebar-online ul').removeClass('active');
+              $('.simple-footer').removeClass('fixed');
             }else
             {
-              $('.sidebar-online ul').addClass('active');
+              $('.simple-footer').addClass('fixed');
             }
           });
         });
