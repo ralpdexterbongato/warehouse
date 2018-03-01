@@ -14498,7 +14498,7 @@ module.exports={render:function (){var _vm=this;var _h=_vm.$createElement;var _c
     staticClass: "reversed-alert"
   }, [(_vm.RRMaster.IsRollBack == 0) ? _c('p', [_c('i', {
     staticClass: "material-icons"
-  }, [_vm._v("warning")]), _vm._v("Rolled back")]) : _vm._e()]), _vm._v(" "), _c('div', {
+  }, [_vm._v("warning")]), _vm._v("Invalid transaction")]) : _vm._e()]), _vm._v(" "), _c('div', {
     staticClass: "signature-btn"
   }, [_c('div', {
     staticClass: "empty-div-left file-edit-container"
@@ -14536,7 +14536,7 @@ module.exports={render:function (){var _vm=this;var _h=_vm.$createElement;var _c
         _vm.ShowEdit = false, _vm.updateData()
       }
     }
-  }, [_vm._v("Save")])])]) : _vm._e()]), _vm._v(" "), (_vm.UserCanSignature) ? _c('div', {
+  }, [_vm._v("Save")])])]) : _vm._e()]), _vm._v(" "), (_vm.UserCanSignature && _vm.RRMaster.Status == null) ? _c('div', {
     staticClass: "signature-wrap",
     class: {
       'hide': _vm.SignatureBtnHide

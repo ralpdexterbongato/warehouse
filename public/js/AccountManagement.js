@@ -33124,7 +33124,7 @@ module.exports={render:function (){var _vm=this;var _h=_vm.$createElement;var _c
 },staticRenderFns: [function (){var _vm=this;var _h=_vm.$createElement;var _c=_vm._self._c||_h;
   return _c('div', {
     staticClass: "online-list-header"
-  }, [_c('p', [_vm._v("CHECK EMPLOYEES")])])
+  }, [_c('p', [_vm._v("CHECK STATUS")])])
 }]}
 module.exports.render._withStripped = true
 if (false) {

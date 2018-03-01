@@ -264,6 +264,22 @@
               $('.simple-footer').addClass('fixed');
             }
           });
+
+          $(window).scroll(function() {
+            var spacetop =$(window).scrollTop();
+            if (spacetop >= 500)
+            {
+              console.log('active');
+              $('.side-user-stats').addClass('active');
+              $('.big-user-center-wrap').addClass('active');
+            }else
+            {
+              console.log('inactive');
+              $('.side-user-stats').removeClass('active');
+              $('.big-user-center-wrap').removeClass('active');
+
+            }
+          });
         });
 
       </script>

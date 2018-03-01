@@ -23,10 +23,6 @@ class User extends Authenticatable
         'password', 'remember_token',
     ];
 
-    public function MIRSHistory($date)
-    {
-      return $this->morphedByMany('App\MIRSMaster', 'Signatureable')->orderBy('MIRSNo','DESC')->withPivot(['SignatureType','Signature'])->wherePivot('SignatureType', 'PreparedBy')->where('MIRSDate','LIKE',$date.'%');
-    }
     public function MIRSSignatureTurn()
     {
         return $this->morphedByMany('App\MIRSMaster', 'Signatureable')->orderBy('MIRSNo','DESC')->withPivot(['SignatureType','Signature'])
@@ -42,19 +38,35 @@ class User extends Authenticatable
         ->wherePivot('Signature',null)->where('SignatureTurn','0')->wherePivot('SignatureType','IssuedBy')->wherePivot('user_id', Auth::user()->id)->whereNull('Status')
         ->orWhere('Signature',null)->where('SignatureTurn','1')->wherePivot('SignatureType','ReceivedBy')->wherePivot('user_id', Auth::user()->id)->whereNull('Status');
     }
+    public function MIRSHistory($date)
+    {
+      return $this->morphedByMany('App\MIRSMaster', 'Signatureable')->orderBy('MIRSNo','DESC')->withPivot(['SignatureType','Signature'])->wherePivot('SignatureType', 'PreparedBy')->where('MIRSDate','LIKE',$date.'%');
+    }
     public function MCTHistory($date)
     {
         return $this->morphedByMany('App\MCTMaster', 'Signatureable')->orderBy('MCTNo','DESC')->withPivot(['SignatureType','Signature'])->wherePivot('SignatureType', 'ReceivedBy')->where('MCTDate','LIKE',$date.'%');
+    }
+    public function MRTHistory($date)
+    {
+        return $this->morphedByMany('App\MRTMaster', 'Signatureable')->orderBy('MRTNo','DESC')->withPivot(['SignatureType','Signature'])->wherePivot('SignatureType', 'ReturnedBy')->where('ReturnDate','LIKE',$date.'%');
+    }
+    public function RVHistory($date)
+    {
+      return $this->morphedByMany('App\RVMaster', 'Signatureable')->orderBy('RVNo','DESC')->withPivot(['SignatureType','Signature'])->wherePivot('SignatureType', 'Requisitioner')->where('RVDate','LIKE',$date.'%');
+    }
+    public function RRHistory($date)
+    {
+      return $this->morphedByMany('App\RRMaster', 'Signatureable')->orderBy('RRNo','DESC')->withPivot(['SignatureType','Signature'])->wherePivot('SignatureType', 'ReceivedBy')->where('RRDate','LIKE',$date.'%');
+    }
+    public function MRHistory($date)
+    {
+      return $this->morphedByMany('App\MRMaster', 'Signatureable')->orderBy('MRNo','DESC')->withPivot(['SignatureType','Signature'])->wherePivot('SignatureType', 'ReceivedBy')->where('MRDate','LIKE',$date.'%');
     }
     public function MRTSignatureTurn()
     {
         return $this->morphedByMany('App\MRTMaster', 'Signatureable')->orderBy('MRTNo','DESC')->withPivot(['SignatureType','Signature'])
         ->wherePivot('Signature',null)->where('SignatureTurn','0')->wherePivot('SignatureType','ReceivedBy')->wherePivot('user_id', Auth::user()->id)
         ->orWhere('Signature',null)->where('SignatureTurn','1')->wherePivot('SignatureType','ReturnedBy')->where('user_id', Auth::user()->id);
-    }
-    public function MRTHistory($date)
-    {
-        return $this->morphedByMany('App\MRTMaster', 'Signatureable')->orderBy('MRTNo','DESC')->withPivot(['SignatureType','Signature'])->wherePivot('SignatureType', 'ReturnedBy')->where('ReturnDate','LIKE',$date.'%');
     }
     public function RVSignatureTurn()
     {
@@ -65,10 +77,6 @@ class User extends Authenticatable
         ->orWhere('Signature',null)->where('SignatureTurn','2')->wherePivot('SignatureType','BudgetOfficer')->wherePivot('user_id', Auth::user()->id)->where('signatureable_type', 'App\RVMaster')
         ->orWhere('Signature',null)->where('SignatureTurn','3')->wherePivot('SignatureType','ApprovedBy')->wherePivot('user_id', Auth::user()->id)->where('signatureable_type', 'App\RVMaster')
         ->orWhere('Signature',null)->where('SignatureTurn','3')->wherePivot('SignatureType','ApprovalReplacer')->wherePivot('user_id', Auth::user()->id)->where('signatureable_type', 'App\RVMaster');
-    }
-    public function RVHistory($date)
-    {
-      return $this->morphedByMany('App\RVMaster', 'Signatureable')->orderBy('RVNo','DESC')->withPivot(['SignatureType','Signature'])->wherePivot('SignatureType', 'Requisitioner')->where('RVDate','LIKE',$date.'%');
     }
     public function POSignatureTurn()
     {
@@ -81,10 +89,6 @@ class User extends Authenticatable
       return $this->morphedByMany('App\RRMaster','Signatureable')->orderBy('RRNo','DESC')->withPivot(['SignatureType','Signature'])
       ->whereNull('Status')->wherePivot('Signature',null)->wherePivot('user_id', Auth::user()->id);
     }
-    public function RRHistory($date)
-    {
-      return $this->morphedByMany('App\RRMaster', 'Signatureable')->orderBy('RRNo','DESC')->withPivot(['SignatureType','Signature'])->wherePivot('SignatureType', 'ReceivedBy')->where('RRDate','LIKE',$date.'%');
-    }
     public function MRSignatureTurn()
     {
       return $this->morphedByMany('App\MRMaster', 'Signatureable')->orderBy('MRNo','DESC')->withPivot(['SignatureType','Signature'])
@@ -92,10 +96,6 @@ class User extends Authenticatable
       ->orWhere('Signature',null)->where('SignatureTurn','1')->wherePivot('SignatureType','ApprovalReplacer')->where('user_id', Auth::user()->id)->where('signatureable_type', 'App\MRMaster')
       ->orWhere('Signature',null)->where('SignatureTurn','0')->wherePivot('SignatureType','RecommendedBy')->wherePivot('user_id', Auth::user()->id)->where('signatureable_type', 'App\MRMaster')
       ->orWhere('Signature',null)->where('SignatureTurn','2')->wherePivot('SignatureType','ReceivedBy')->where('user_id', Auth::user()->id)->where('signatureable_type', 'App\MRMaster');
-    }
-    public function MRHistory($date)
-    {
-      return $this->morphedByMany('App\MRMaster', 'Signatureable')->orderBy('MRNo','DESC')->withPivot(['SignatureType','Signature'])->wherePivot('SignatureType', 'ReceivedBy')->where('MRDate','LIKE',$date.'%');
     }
     public function MIRSGlobalNotif()
     {
@@ -133,5 +133,120 @@ class User extends Authenticatable
       {
         return '0';
       }
+    }
+    //recent files
+    public function mirsrecent()
+    {
+      return $this->morphedByMany('App\MIRSMaster', 'Signatureable')->orderBy('MIRSNo','DESC')->withPivot(['SignatureType'])->take(1);
+    }
+    public function mctrecent()
+    {
+        return $this->morphedByMany('App\MCTMaster', 'Signatureable')->orderBy('MCTNo','DESC')->withPivot(['SignatureType'])->take(1);
+    }
+    public function mrtrecent()
+    {
+        return $this->morphedByMany('App\MRTMaster', 'Signatureable')->orderBy('MRTNo','DESC')->withPivot(['SignatureType'])->take(1);
+    }
+    public function rvrecent()
+    {
+      return $this->morphedByMany('App\RVMaster', 'Signatureable')->orderBy('RVNo','DESC')->withPivot(['SignatureType'])->take(1);
+    }
+    public function rrrecent()
+    {
+      return $this->morphedByMany('App\RRMaster', 'Signatureable')->orderBy('RRNo','DESC')->withPivot(['SignatureType'])->take(1);
+    }
+    public function mrrecent()
+    {
+      return $this->morphedByMany('App\MRMaster', 'Signatureable')->orderBy('MRNo','DESC')->withPivot(['SignatureType'])->take(1);
+    }
+
+    // valid files
+    public function mirsvalid()
+    {
+      return $this->morphedByMany('App\MIRSMaster', 'Signatureable')->orderBy('MIRSNo','DESC')->withPivot(['SignatureType'])->where('Status','0');
+    }
+    public function mctvalid()
+    {
+        return $this->morphedByMany('App\MCTMaster', 'Signatureable')->orderBy('MCTNo','DESC')->withPivot(['SignatureType'])->where('Status','0')->whereNull('IsRollBack')->orWhere('IsRollBack','1')->where('Status','0')->wherePivot('user_id',Auth::user()->id)->wherePivot('signatureable_type','App\MCTMaster');
+    }
+    public function mrtvalid()
+    {
+        return $this->morphedByMany('App\MRTMaster', 'Signatureable')->orderBy('MRTNo','DESC')->withPivot(['SignatureType'])->where('Status','0')->whereNull('IsRollBack')->orWhere('IsRollBack','1')->where('Status','0')->wherePivot('user_id',Auth::user()->id)->wherePivot('signatureable_type','App\MRTMaster');
+    }
+    public function rvvalid()
+    {
+      return $this->morphedByMany('App\RVMaster', 'Signatureable')->orderBy('RVNo','DESC')->withPivot(['SignatureType'])->where('Status','0');
+    }
+    public function rrvalid()
+    {
+      return $this->morphedByMany('App\RRMaster', 'Signatureable')->orderBy('RRNo','DESC')->withPivot(['SignatureType'])->where('Status','0')->whereNull('IsRollBack')->orWhere('IsRollBack','1')->where('Status','0')->wherePivot('user_id',Auth::user()->id)->wherePivot('signatureable_type','App\RRMaster');
+    }
+    public function mrvalid()
+    {
+      return $this->morphedByMany('App\MRMaster', 'Signatureable')->orderBy('MRNo','DESC')->withPivot(['SignatureType'])->where('Status','0');
+    }
+    public function povalid()
+    {
+      return $this->morphedByMany('App\POMaster', 'Signatureable')->orderBy('PONo','DESC')->withPivot(['SignatureType'])->where('Status','0');
+    }
+
+    // invalid files
+    public function mirsinvalid()
+    {
+      return $this->morphedByMany('App\MIRSMaster', 'Signatureable')->orderBy('MIRSNo','DESC')->withPivot(['SignatureType'])->where('Status','1');
+    }
+    public function mctinvalid()
+    {
+        return $this->morphedByMany('App\MCTMaster', 'Signatureable')->orderBy('MCTNo','DESC')->withPivot(['SignatureType'])->where('Status','1')->orWhere('IsRollBack','0')->wherePivot('user_id',Auth::user()->id)->wherePivot('signatureable_type','App\MCTMaster');
+    }
+    public function mrtinvalid()
+    {
+        return $this->morphedByMany('App\MRTMaster', 'Signatureable')->orderBy('MRTNo','DESC')->withPivot(['SignatureType'])->where('Status','1')->orWhere('IsRollBack','0')->wherePivot('user_id',Auth::user()->id)->wherePivot('signatureable_type','App\MRTMaster');
+    }
+    public function rvinvalid()
+    {
+      return $this->morphedByMany('App\RVMaster', 'Signatureable')->orderBy('RVNo','DESC')->withPivot(['SignatureType'])->where('Status','1');
+    }
+    public function rrinvalid()
+    {
+      return $this->morphedByMany('App\RRMaster', 'Signatureable')->orderBy('RRNo','DESC')->withPivot(['SignatureType'])->where('Status','1')->orWhere('IsRollBack','0')->wherePivot('user_id',Auth::user()->id)->wherePivot('signatureable_type','App\RRMaster');
+    }
+    public function mrinvalid()
+    {
+      return $this->morphedByMany('App\MRMaster', 'Signatureable')->orderBy('MRNo','DESC')->withPivot(['SignatureType'])->where('Status','1');
+    }
+    public function poinvalid()
+    {
+      return $this->morphedByMany('App\POMaster', 'Signatureable')->orderBy('PONo','DESC')->withPivot(['SignatureType'])->where('Status','1');
+    }
+
+    // pending
+    public function mirspending()
+    {
+      return $this->morphedByMany('App\MIRSMaster', 'Signatureable')->orderBy('MIRSNo','DESC')->withPivot(['SignatureType'])->whereNull('Status');
+    }
+    public function mctpending()
+    {
+        return $this->morphedByMany('App\MCTMaster', 'Signatureable')->orderBy('MCTNo','DESC')->withPivot(['SignatureType'])->whereNull('Status');
+    }
+    public function mrtpending()
+    {
+        return $this->morphedByMany('App\MRTMaster', 'Signatureable')->orderBy('MRTNo','DESC')->withPivot(['SignatureType'])->whereNull('Status');
+    }
+    public function rvpending()
+    {
+      return $this->morphedByMany('App\RVMaster', 'Signatureable')->orderBy('RVNo','DESC')->withPivot(['SignatureType'])->whereNull('Status');
+    }
+    public function rrpending()
+    {
+      return $this->morphedByMany('App\RRMaster', 'Signatureable')->orderBy('RRNo','DESC')->withPivot(['SignatureType'])->whereNull('Status');
+    }
+    public function mrpending()
+    {
+      return $this->morphedByMany('App\MRMaster', 'Signatureable')->orderBy('MRNo','DESC')->withPivot(['SignatureType'])->whereNull('Status');
+    }
+    public function popending()
+    {
+      return $this->morphedByMany('App\POMaster', 'Signatureable')->orderBy('PONo','DESC')->withPivot(['SignatureType'])->whereNull('Status');
     }
 }

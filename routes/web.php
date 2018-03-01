@@ -234,3 +234,7 @@ Route::post('/damage-item-store/{itemcode}','DamagedItemController@store');
 Route::delete('/damage-item-delete/{id}/{itemcode}','DamagedItemController@delete');
 
 Route::get('/all-users-status','dashBoardController@UsersStatusCheck');
+
+//recent files
+Route::get('/recent-files-get','dashBoardController@getRecentTransactions');
+Route::get('/transactions-count','dashBoardController@countUserTransactions');

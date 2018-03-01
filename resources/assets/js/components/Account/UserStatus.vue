@@ -9,7 +9,7 @@
     </button>
     <div class="list-wrapper">
       <ul :class="[IsActive==true?'open':'']">
-        <div class="online-list-header"><p>CHECK EMPLOYEES</p></div>
+        <div class="online-list-header"><p>CHECK STATUS</p></div>
         <div class="search-user-container">
           <i class="material-icons">search</i>
           <input type="text" v-model="NameSearch" v-on:keyup="fetchOrSearchEmployee()" placeholder="Search">

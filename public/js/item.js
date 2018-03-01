@@ -12478,6 +12478,404 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
 //
 //
 //
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
 
 
 
@@ -12489,6 +12887,12 @@ __WEBPACK_IMPORTED_MODULE_4_vue___default.a.use(__WEBPACK_IMPORTED_MODULE_3_vue_
 /* harmony default export */ __webpack_exports__["default"] = ({
   data: function data() {
     return {
+      totalvalid: '',
+      totalinvalid: '',
+      totalpending: '',
+      alltotal: '',
+      UserRecentFiles: [],
+      Names: [],
       deleteDmgShow: false,
       QtyError: '',
       dmgQty: '',
@@ -12581,6 +12985,9 @@ __WEBPACK_IMPORTED_MODULE_4_vue___default.a.use(__WEBPACK_IMPORTED_MODULE_3_vue_
       this.DashData();
       this.fetchBarChart();
       this.fetchLineChart();
+    } else {
+      this.getRecentFiles();
+      this.countRelatedTransactions();
     }
   },
 
@@ -12708,6 +13115,28 @@ __WEBPACK_IMPORTED_MODULE_4_vue___default.a.use(__WEBPACK_IMPORTED_MODULE_3_vue_
     changepage: function changepage(next) {
       this.pagination.current_page = next;
       this.SearchItemHistory(next);
+    },
+    getRecentFiles: function getRecentFiles() {
+      var vm = this;
+      __WEBPACK_IMPORTED_MODULE_0_axios___default.a.get('/recent-files-get').then(function (response) {
+        console.log(response);
+        vm.UserRecentFiles = response.data.recent[0];
+        vm.Names = response.data;
+      }).catch(function (error) {
+        console.log(error);
+      });
+    },
+    countRelatedTransactions: function countRelatedTransactions() {
+      var vm = this;
+      __WEBPACK_IMPORTED_MODULE_0_axios___default.a.get('/transactions-count').then(function (response) {
+        console.log(response);
+        vm.totalvalid = response.data.validtotal;
+        vm.totalinvalid = response.data.invalidtotal;
+        vm.totalpending = response.data.pendingtotal;
+        vm.alltotal = response.data.overall;
+      }).catch(function (error) {
+        console.log(error);
+      });
     }
   },
   computed: {
@@ -13935,13 +14364,217 @@ module.exports={render:function (){var _vm=this;var _h=_vm.$createElement;var _c
     staticClass: "material-icons"
   }, [_vm._v("keyboard_arrow_right")])])]) : _vm._e()], 2)])])]) : (((_vm.user.Role != 1) && (_vm.user.Role != 3) && (_vm.user.Role != 4))) ? _c('div', {
     staticClass: "background-pic"
-  }, [_vm._m(5), _vm._v(" "), _vm._m(6)]) : _c('div', {
+  }, [_c('div', {
+    staticClass: "big-user-center-wrap"
+  }, [_c('div', {
+    staticClass: "big-user-box"
+  }, [_vm._m(5), _vm._v(" "), _c('div', {
+    staticClass: "big-user-box-content"
+  }, [_vm._l((_vm.UserRecentFiles.mctrecent), function(mctData) {
+    return _c('div', {
+      staticClass: "recent-files-box"
+    }, [_c('div', {
+      staticClass: "recent-file-box-top"
+    }, [_c('div', {
+      staticClass: "creator-profile"
+    }, [_vm._v("\n                    " + _vm._s(_vm.Names.MCT[0].user.FullName.charAt(0)) + "\n                  ")]), _vm._v(" "), (_vm.Names.MCT != null) ? _c('p', [_vm._v(_vm._s(_vm.Names.MCT[0].user.FullName))]) : _vm._e(), _vm._v(" "), _c('h6', [_vm._v("Received by")])]), _vm._v(" "), _c('div', {
+      staticClass: "recent-file-box-bottom"
+    }, [_c('div', {
+      staticClass: "transact-num-display"
+    }, [_c('p', [(mctData.Status == '1' || mctData.IsRollBack == '0') ? _c('i', {
+      staticClass: "material-icons"
+    }, [_vm._v("layers_clear")]) : (mctData.Status == '0') ? _c('i', {
+      staticClass: "material-icons"
+    }, [_vm._v("done_all")]) : (mctData.Status == null) ? _c('i', {
+      staticClass: "material-icons"
+    }, [_vm._v("access_alarm")]) : _vm._e()]), _vm._v(" "), _c('p', [_vm._v("\n                      " + _vm._s(mctData.MCTNo)), _c('br'), _vm._v(" "), _c('span', {
+      staticClass: "transact-label"
+    }, [_vm._v("Transaction No.")])])]), _vm._v(" "), _c('div', {
+      staticClass: "transact-opener-box"
+    }, [_vm._m(6, true), _vm._v(" "), _c('div', {
+      staticClass: "transact-opener-content"
+    }, [_c('a', {
+      attrs: {
+        "href": '/preview-mct-page-only/' + mctData.MCTNo
+      }
+    }, [_vm._m(7, true)])])])])])
+  }), _vm._v(" "), _vm._l((_vm.UserRecentFiles.mrtrecent), function(mrtData) {
+    return _c('div', {
+      staticClass: "recent-files-box"
+    }, [_c('div', {
+      staticClass: "recent-file-box-top"
+    }, [_c('div', {
+      staticClass: "creator-profile"
+    }, [_vm._v("\n                    " + _vm._s(_vm.Names.MRT[0].user.FullName.charAt(0)) + "\n                  ")]), _vm._v(" "), (_vm.Names.MRT != null) ? _c('p', [_vm._v(_vm._s(_vm.Names.MRT[0].user.FullName))]) : _vm._e(), _vm._v(" "), _c('h6', [_vm._v("Returned by")])]), _vm._v(" "), _c('div', {
+      staticClass: "recent-file-box-bottom"
+    }, [_c('div', {
+      staticClass: "transact-num-display"
+    }, [_c('p', [(mrtData.Status == '1' || mrtData.IsRollBack == '0') ? _c('i', {
+      staticClass: "material-icons"
+    }, [_vm._v("layers_clear")]) : (mrtData.Status == '0') ? _c('i', {
+      staticClass: "material-icons"
+    }, [_vm._v("done_all")]) : (mrtData.Status == null) ? _c('i', {
+      staticClass: "material-icons"
+    }, [_vm._v("access_alarm")]) : _vm._e()]), _vm._v(" "), _c('p', [_vm._v("\n                      " + _vm._s(mrtData.MRTNo)), _c('br'), _vm._v(" "), _c('span', {
+      staticClass: "transact-label"
+    }, [_vm._v("Transaction No.")])])]), _vm._v(" "), _c('div', {
+      staticClass: "transact-opener-box"
+    }, [_vm._m(8, true), _vm._v(" "), _c('div', {
+      staticClass: "transact-opener-content"
+    }, [_c('a', {
+      attrs: {
+        "href": '/mrt-preview-page/' + mrtData.MRTNo
+      }
+    }, [_vm._m(9, true)])])])])])
+  }), _vm._v(" "), _vm._l((_vm.UserRecentFiles.mirsrecent), function(mirsData) {
+    return _c('div', {
+      staticClass: "recent-files-box"
+    }, [_c('div', {
+      staticClass: "recent-file-box-top"
+    }, [_c('div', {
+      staticClass: "creator-profile"
+    }, [_vm._v("\n                    " + _vm._s(_vm.Names.MIRS[0].user.FullName.charAt(0)) + "\n                  ")]), _vm._v(" "), (_vm.Names.MIRS != null) ? _c('p', [_vm._v(_vm._s(_vm.Names.MIRS[0].user.FullName))]) : _vm._e(), _vm._v(" "), _c('h6', [_vm._v("Requested by")])]), _vm._v(" "), _c('div', {
+      staticClass: "recent-file-box-bottom"
+    }, [_c('div', {
+      staticClass: "transact-num-display"
+    }, [_c('p', [(mirsData.Status == '1') ? _c('i', {
+      staticClass: "material-icons"
+    }, [_vm._v("layers_clear")]) : (mirsData.Status == '0') ? _c('i', {
+      staticClass: "material-icons"
+    }, [_vm._v("done_all")]) : (mirsData.Status == null) ? _c('i', {
+      staticClass: "material-icons"
+    }, [_vm._v("access_alarm")]) : _vm._e()]), _vm._v(" "), _c('p', [_vm._v("\n                      " + _vm._s(mirsData.MIRSNo)), _c('br'), _vm._v(" "), _c('span', {
+      staticClass: "transact-label"
+    }, [_vm._v("Transaction No.")])])]), _vm._v(" "), _c('div', {
+      staticClass: "transact-opener-box"
+    }, [_vm._m(10, true), _vm._v(" "), _c('div', {
+      staticClass: "transact-opener-content"
+    }, [_c('a', {
+      attrs: {
+        "href": '/previewFullMIRS/' + mirsData.MIRSNo
+      }
+    }, [_vm._m(11, true)])])])])])
+  }), _vm._v(" "), _vm._l((_vm.UserRecentFiles.rvrecent), function(rvData) {
+    return _c('div', {
+      staticClass: "recent-files-box"
+    }, [_c('div', {
+      staticClass: "recent-file-box-top"
+    }, [_c('div', {
+      staticClass: "creator-profile"
+    }, [_vm._v("\n                    " + _vm._s(_vm.Names.RV[0].user.FullName.charAt(0)) + "\n                  ")]), _vm._v(" "), (_vm.Names.RV != null) ? _c('p', [_vm._v(_vm._s(_vm.Names.RV[0].user.FullName))]) : _vm._e(), _vm._v(" "), _c('h6', [_vm._v("Requested by")])]), _vm._v(" "), _c('div', {
+      staticClass: "recent-file-box-bottom"
+    }, [_c('div', {
+      staticClass: "transact-num-display"
+    }, [_c('p', [(rvData.Status == '1') ? _c('i', {
+      staticClass: "material-icons"
+    }, [_vm._v("layers_clear")]) : (rvData.Status == '0') ? _c('i', {
+      staticClass: "material-icons"
+    }, [_vm._v("done_all")]) : (rvData.Status == null) ? _c('i', {
+      staticClass: "material-icons"
+    }, [_vm._v("access_alarm")]) : _vm._e()]), _vm._v(" "), _c('p', [_vm._v("\n                      " + _vm._s(rvData.RVNo)), _c('br'), _vm._v(" "), _c('span', {
+      staticClass: "transact-label"
+    }, [_vm._v("Transaction No.")])])]), _vm._v(" "), _c('div', {
+      staticClass: "transact-opener-box"
+    }, [_vm._m(12, true), _vm._v(" "), _c('div', {
+      staticClass: "transact-opener-content"
+    }, [_c('a', {
+      attrs: {
+        "href": '/RVfullview/' + rvData.RVNo
+      }
+    }, [_vm._m(13, true)])])])])])
+  }), _vm._v(" "), _vm._l((_vm.UserRecentFiles.rrrecent), function(rrData) {
+    return _c('div', {
+      staticClass: "recent-files-box"
+    }, [_c('div', {
+      staticClass: "recent-file-box-top"
+    }, [_c('div', {
+      staticClass: "creator-profile"
+    }, [_vm._v("\n                    " + _vm._s(_vm.Names.RR[0].user.FullName.charAt(0)) + "\n                  ")]), _vm._v(" "), (_vm.Names.RR != null) ? _c('p', [_vm._v(_vm._s(_vm.Names.RR[0].user.FullName))]) : _vm._e(), _vm._v(" "), _c('h6', [_vm._v("Received by")])]), _vm._v(" "), _c('div', {
+      staticClass: "recent-file-box-bottom"
+    }, [_c('div', {
+      staticClass: "transact-num-display"
+    }, [_c('p', [(rrData.Status == '1' || rrData.IsRollBack == '0') ? _c('i', {
+      staticClass: "material-icons"
+    }, [_vm._v("layers_clear")]) : (rrData.Status == '0') ? _c('i', {
+      staticClass: "material-icons"
+    }, [_vm._v("done_all")]) : (rrData.Status == null) ? _c('i', {
+      staticClass: "material-icons"
+    }, [_vm._v("access_alarm")]) : _vm._e()]), _vm._v(" "), _c('p', [_vm._v("\n                      " + _vm._s(rrData.RRNo)), _c('br'), _vm._v(" "), _c('span', {
+      staticClass: "transact-label"
+    }, [_vm._v("Transaction No.")])])]), _vm._v(" "), _c('div', {
+      staticClass: "transact-opener-box"
+    }, [_vm._m(14, true), _vm._v(" "), _c('div', {
+      staticClass: "transact-opener-content"
+    }, [_c('a', {
+      attrs: {
+        "href": '/RR-fullpreview/' + rrData.RRNo
+      }
+    }, [_vm._m(15, true)])])])])])
+  }), _vm._v(" "), _vm._l((_vm.UserRecentFiles.mrrecent), function(mrdata) {
+    return _c('div', {
+      staticClass: "recent-files-box"
+    }, [_c('div', {
+      staticClass: "recent-file-box-top"
+    }, [(_vm.Names.MR[0] != null) ? _c('div', {
+      staticClass: "creator-profile"
+    }, [_vm._v("\n                    " + _vm._s(_vm.Names.MR[0].user.FullName.charAt(0)) + "\n                  ")]) : _vm._e(), _vm._v(" "), (_vm.Names.MR[0] != null) ? _c('p', [_vm._v(_vm._s(_vm.Names.MR[0].user.FullName))]) : _vm._e(), _vm._v(" "), _c('h6', [_vm._v("Received by")])]), _vm._v(" "), _c('div', {
+      staticClass: "recent-file-box-bottom"
+    }, [_c('div', {
+      staticClass: "transact-num-display"
+    }, [_c('p', [(mrdata.Status == '1') ? _c('i', {
+      staticClass: "material-icons"
+    }, [_vm._v("layers_clear")]) : (mrdata.Status == '0') ? _c('i', {
+      staticClass: "material-icons"
+    }, [_vm._v("done_all")]) : (mrdata.Status == null) ? _c('i', {
+      staticClass: "material-icons"
+    }, [_vm._v("access_alarm")]) : _vm._e()]), _vm._v(" "), _c('p', [_vm._v("\n                      " + _vm._s(mrdata.MRNo)), _c('br'), _vm._v(" "), _c('span', {
+      staticClass: "transact-label"
+    }, [_vm._v("Transaction No.")])])]), _vm._v(" "), _c('div', {
+      staticClass: "transact-opener-box"
+    }, [_vm._m(16, true), _vm._v(" "), _c('div', {
+      staticClass: "transact-opener-content"
+    }, [_c('a', {
+      attrs: {
+        "href": '/full-preview-MR/' + mrdata.MRNo
+      }
+    }, [_vm._m(17, true)])])])])])
+  }), _vm._v(" "), (_vm.UserRecentFiles.mrrecent == '') ? _c('div', {
+    staticClass: "recent-files-box"
+  }, [_vm._m(18), _vm._v(" "), _vm._m(19)]) : _vm._e(), _vm._v(" "), (_vm.UserRecentFiles.mirsrecent == '') ? _c('div', {
+    staticClass: "recent-files-box"
+  }, [_vm._m(20), _vm._v(" "), _vm._m(21)]) : _vm._e(), _vm._v(" "), (_vm.UserRecentFiles.mctrecent == '') ? _c('div', {
+    staticClass: "recent-files-box"
+  }, [_vm._m(22), _vm._v(" "), _vm._m(23)]) : _vm._e(), _vm._v(" "), (_vm.UserRecentFiles.mrtrecent == '') ? _c('div', {
+    staticClass: "recent-files-box"
+  }, [_vm._m(24), _vm._v(" "), _vm._m(25)]) : _vm._e(), _vm._v(" "), (_vm.UserRecentFiles.rrrecent == '') ? _c('div', {
+    staticClass: "recent-files-box"
+  }, [_vm._m(26), _vm._v(" "), _vm._m(27)]) : _vm._e(), _vm._v(" "), (_vm.UserRecentFiles.rvrecent == '') ? _c('div', {
+    staticClass: "recent-files-box"
+  }, [_vm._m(28), _vm._v(" "), _vm._m(29)]) : _vm._e()], 2)])]), _vm._v(" "), _c('div', {
+    staticClass: "side-user-stats"
+  }, [_c('div', {
+    staticClass: "user-stat-box"
+  }, [_c('div', {
+    staticClass: "user-stat-box-top"
+  }, [_c('h3', [_vm._v(_vm._s(_vm.totalpending))]), _vm._v(" "), _c('p', [_vm._v("Pending transactions")])]), _vm._v(" "), _vm._m(30)]), _vm._v(" "), _c('div', {
+    staticClass: "user-stat-box"
+  }, [_c('div', {
+    staticClass: "user-stat-box-top"
+  }, [_c('h3', [_vm._v(_vm._s(_vm.totalvalid))]), _vm._v(" "), _c('p', [_vm._v("Valid transactions")])]), _vm._v(" "), _vm._m(31)]), _vm._v(" "), _c('div', {
+    staticClass: "user-stat-box"
+  }, [_c('div', {
+    staticClass: "user-stat-box-top"
+  }, [_c('h3', [_vm._v(_vm._s(_vm.totalinvalid))]), _vm._v(" "), _c('p', [_vm._v("Invalid transactions")])]), _vm._v(" "), _vm._m(32)]), _vm._v(" "), _c('div', {
+    staticClass: "user-stat-box"
+  }, [_c('div', {
+    staticClass: "user-stat-box-top"
+  }, [_c('h3', [_vm._v(_vm._s(_vm.alltotal))]), _vm._v(" "), _c('p', [_vm._v("Total transactions")])]), _vm._v(" "), _vm._m(33)])])]) : _c('div', {
     staticClass: "dash-container"
   }, [_c('div', {
     staticClass: "dash-home"
   }, [_c('div', {
     staticClass: "dashbox dash-high "
-  }, [_vm._m(7), _vm._v(" "), _c('div', {
+  }, [_vm._m(34), _vm._v(" "), _c('div', {
     staticClass: "right-dash"
   }, [_c('span', [_c('h1', {
     staticClass: "dash-totals"
@@ -13952,9 +14585,9 @@ module.exports={render:function (){var _vm=this;var _h=_vm.$createElement;var _c
       "duration": "1000",
       "easing": "easeOutQuad"
     }
-  }) : _c('span', [_vm._v("\r\n                  0\r\n                ")])], 1), _vm._v(" "), (_vm.DashGood > 1) ? _c('p', [_vm._v("Items")]) : _c('p', [_vm._v("Item")])]), _vm._v(" "), _vm._m(8)])]), _vm._v(" "), _c('div', {
+  }) : _c('span', [_vm._v("\r\n                  0\r\n                ")])], 1), _vm._v(" "), (_vm.DashGood > 1) ? _c('p', [_vm._v("Items")]) : _c('p', [_vm._v("Item")])]), _vm._v(" "), _vm._m(35)])]), _vm._v(" "), _c('div', {
     staticClass: "dashbox dash-low "
-  }, [_vm._m(9), _vm._v(" "), _c('div', {
+  }, [_vm._m(36), _vm._v(" "), _c('div', {
     staticClass: "right-dash"
   }, [_c('span', [_c('h1', {
     staticClass: "dash-totals"
@@ -13965,9 +14598,9 @@ module.exports={render:function (){var _vm=this;var _h=_vm.$createElement;var _c
       "duration": "1500",
       "easing": "easeOutQuad"
     }
-  }) : _c('span', [_vm._v("\r\n                  0\r\n                ")])], 1), _vm._v(" "), (_vm.DashWarn > 1) ? _c('p', [_vm._v("Items")]) : _c('p', [_vm._v("Item")])]), _vm._v(" "), _vm._m(10)])]), _vm._v(" "), _c('div', {
+  }) : _c('span', [_vm._v("\r\n                  0\r\n                ")])], 1), _vm._v(" "), (_vm.DashWarn > 1) ? _c('p', [_vm._v("Items")]) : _c('p', [_vm._v("Item")])]), _vm._v(" "), _vm._m(37)])]), _vm._v(" "), _c('div', {
     staticClass: "dashbox dash-empty "
-  }, [_vm._m(11), _vm._v(" "), _c('div', {
+  }, [_vm._m(38), _vm._v(" "), _c('div', {
     staticClass: "right-dash"
   }, [_c('span', [_c('h1', {
     staticClass: "dash-totals"
@@ -13978,7 +14611,7 @@ module.exports={render:function (){var _vm=this;var _h=_vm.$createElement;var _c
       "duration": "2000",
       "easing": "easeOutQuad"
     }
-  }) : _c('span', [_vm._v("\r\n                  0\r\n                ")])], 1), _vm._v(" "), (_vm.DashEmpty > 1) ? _c('p', [_vm._v("Items")]) : _c('p', [_vm._v("Item")])]), _vm._v(" "), _vm._m(12)])])]), _vm._v(" "), _vm._m(13)])]) : _vm._e(), _vm._v(" "), (_vm.NotFoundSearch != '') ? _c('div', {
+  }) : _c('span', [_vm._v("\r\n                  0\r\n                ")])], 1), _vm._v(" "), (_vm.DashEmpty > 1) ? _c('p', [_vm._v("Items")]) : _c('p', [_vm._v("Item")])]), _vm._v(" "), _vm._m(39)])])]), _vm._v(" "), _vm._m(40)])]) : _vm._e(), _vm._v(" "), (_vm.NotFoundSearch != '') ? _c('div', {
     staticClass: "not-found-msg"
   }, [_c('h2', [_c('i', {
     staticClass: "material-icons"
@@ -14093,46 +14726,296 @@ module.exports={render:function (){var _vm=this;var _h=_vm.$createElement;var _c
   return _c('tr', [_c('th', [_vm._v("MT type")]), _vm._v(" "), _c('th', [_vm._v("MT No.")]), _vm._v(" "), _c('th', [_vm._v("Unit cost")]), _vm._v(" "), _c('th', [_vm._v("Quantity")]), _vm._v(" "), _c('th', [_vm._v("Unit")]), _vm._v(" "), _c('th', [_vm._v("Amount")]), _vm._v(" "), _c('th', [_vm._v("Current cost")]), _vm._v(" "), _c('th', [_vm._v("Current quantity")]), _vm._v(" "), _c('th', [_vm._v("Current amount")]), _vm._v(" "), _c('th', [_vm._v("Date")])])
 },function (){var _vm=this;var _h=_vm.$createElement;var _c=_vm._self._c||_h;
   return _c('div', {
-    staticClass: "big-user-center-wrap"
-  }, [_c('div', {
-    staticClass: "big-user-box"
-  })])
+    staticClass: "big-user-box-title"
+  }, [_c('h3', [_vm._v("Recent files")])])
 },function (){var _vm=this;var _h=_vm.$createElement;var _c=_vm._self._c||_h;
   return _c('div', {
-    staticClass: "side-user-stats"
+    staticClass: "transact-opener-content"
+  }, [_c('a', {
+    attrs: {
+      "href": "/mct-index-page"
+    }
+  }, [_c('p', [_c('i', {
+    staticClass: "material-icons"
+  }, [_vm._v("subject")]), _vm._v(" MCT")])])])
+},function (){var _vm=this;var _h=_vm.$createElement;var _c=_vm._self._c||_h;
+  return _c('p', [_c('i', {
+    staticClass: "material-icons"
+  }, [_vm._v("description")]), _vm._v(" OPEN")])
+},function (){var _vm=this;var _h=_vm.$createElement;var _c=_vm._self._c||_h;
+  return _c('div', {
+    staticClass: "transact-opener-content"
+  }, [_c('a', {
+    attrs: {
+      "href": "/mrt-index-page"
+    }
+  }, [_c('p', [_c('i', {
+    staticClass: "material-icons"
+  }, [_vm._v("subject")]), _vm._v(" MRT")])])])
+},function (){var _vm=this;var _h=_vm.$createElement;var _c=_vm._self._c||_h;
+  return _c('p', [_c('i', {
+    staticClass: "material-icons"
+  }, [_vm._v("description")]), _vm._v(" OPEN")])
+},function (){var _vm=this;var _h=_vm.$createElement;var _c=_vm._self._c||_h;
+  return _c('div', {
+    staticClass: "transact-opener-content"
+  }, [_c('a', {
+    attrs: {
+      "href": "/mirs-index-page"
+    }
+  }, [_c('p', [_c('i', {
+    staticClass: "material-icons"
+  }, [_vm._v("subject")]), _vm._v(" MIRS")])])])
+},function (){var _vm=this;var _h=_vm.$createElement;var _c=_vm._self._c||_h;
+  return _c('p', [_c('i', {
+    staticClass: "material-icons"
+  }, [_vm._v("description")]), _vm._v(" OPEN")])
+},function (){var _vm=this;var _h=_vm.$createElement;var _c=_vm._self._c||_h;
+  return _c('div', {
+    staticClass: "transact-opener-content"
+  }, [_c('a', {
+    attrs: {
+      "href": "/RVindex"
+    }
+  }, [_c('p', [_c('i', {
+    staticClass: "material-icons"
+  }, [_vm._v("subject")]), _vm._v(" RV")])])])
+},function (){var _vm=this;var _h=_vm.$createElement;var _c=_vm._self._c||_h;
+  return _c('p', [_c('i', {
+    staticClass: "material-icons"
+  }, [_vm._v("description")]), _vm._v(" OPEN")])
+},function (){var _vm=this;var _h=_vm.$createElement;var _c=_vm._self._c||_h;
+  return _c('div', {
+    staticClass: "transact-opener-content"
+  }, [_c('a', {
+    attrs: {
+      "href": "/RR-index"
+    }
+  }, [_c('p', [_c('i', {
+    staticClass: "material-icons"
+  }, [_vm._v("subject")]), _vm._v(" RR")])])])
+},function (){var _vm=this;var _h=_vm.$createElement;var _c=_vm._self._c||_h;
+  return _c('p', [_c('i', {
+    staticClass: "material-icons"
+  }, [_vm._v("description")]), _vm._v(" OPEN")])
+},function (){var _vm=this;var _h=_vm.$createElement;var _c=_vm._self._c||_h;
+  return _c('div', {
+    staticClass: "transact-opener-content"
+  }, [_c('a', {
+    attrs: {
+      "href": "/mr-index-page"
+    }
+  }, [_c('p', [_c('i', {
+    staticClass: "material-icons"
+  }, [_vm._v("subject")]), _vm._v(" MR")])])])
+},function (){var _vm=this;var _h=_vm.$createElement;var _c=_vm._self._c||_h;
+  return _c('p', [_c('i', {
+    staticClass: "material-icons"
+  }, [_vm._v("description")]), _vm._v(" OPEN")])
+},function (){var _vm=this;var _h=_vm.$createElement;var _c=_vm._self._c||_h;
+  return _c('div', {
+    staticClass: "recent-file-box-top"
   }, [_c('div', {
-    staticClass: "user-stat-box"
+    staticClass: "creator-profile"
+  }, [_vm._v("\n                    E\n                  ")]), _vm._v(" "), _c('p', [_vm._v("No MR record yet")]), _vm._v(" "), _c('h6', [_vm._v("Empty")])])
+},function (){var _vm=this;var _h=_vm.$createElement;var _c=_vm._self._c||_h;
+  return _c('div', {
+    staticClass: "recent-file-box-bottom"
   }, [_c('div', {
-    staticClass: "user-stat-box-top"
-  }, [_c('h3', [_vm._v("52")]), _vm._v(" "), _c('p', [_vm._v("Request transactions")])]), _vm._v(" "), _c('div', {
+    staticClass: "transact-num-display"
+  }, [_c('p', [_c('i', {
+    staticClass: "material-icons"
+  }, [_vm._v("block")])]), _vm._v(" "), _c('p', [_vm._v("\n                      00-0000"), _c('br'), _vm._v(" "), _c('span', {
+    staticClass: "transact-label"
+  }, [_vm._v("Transaction No.")])])]), _vm._v(" "), _c('div', {
+    staticClass: "transact-opener-box"
+  }, [_c('div', {
+    staticClass: "transact-opener-content"
+  }, [_c('a', {
+    attrs: {
+      "href": "/mr-index-page"
+    }
+  }, [_c('p', [_c('i', {
+    staticClass: "material-icons"
+  }, [_vm._v("subject")]), _vm._v(" MR")])])]), _vm._v(" "), _c('div', {
+    staticClass: "transact-opener-content"
+  }, [_c('p', [_c('i', {
+    staticClass: "material-icons"
+  }, [_vm._v("description")]), _vm._v(" ...")])])])])
+},function (){var _vm=this;var _h=_vm.$createElement;var _c=_vm._self._c||_h;
+  return _c('div', {
+    staticClass: "recent-file-box-top"
+  }, [_c('div', {
+    staticClass: "creator-profile"
+  }, [_vm._v("\n                    E\n                  ")]), _vm._v(" "), _c('p', [_vm._v("No MIRS record yet")]), _vm._v(" "), _c('h6', [_vm._v("Empty")])])
+},function (){var _vm=this;var _h=_vm.$createElement;var _c=_vm._self._c||_h;
+  return _c('div', {
+    staticClass: "recent-file-box-bottom"
+  }, [_c('div', {
+    staticClass: "transact-num-display"
+  }, [_c('p', [_c('i', {
+    staticClass: "material-icons"
+  }, [_vm._v("block")])]), _vm._v(" "), _c('p', [_vm._v("\n                      00-0000"), _c('br'), _vm._v(" "), _c('span', {
+    staticClass: "transact-label"
+  }, [_vm._v("Transaction No.")])])]), _vm._v(" "), _c('div', {
+    staticClass: "transact-opener-box"
+  }, [_c('div', {
+    staticClass: "transact-opener-content"
+  }, [_c('a', {
+    attrs: {
+      "href": "/mirs-index-page"
+    }
+  }, [_c('p', [_c('i', {
+    staticClass: "material-icons"
+  }, [_vm._v("subject")]), _vm._v(" MIRS")])])]), _vm._v(" "), _c('div', {
+    staticClass: "transact-opener-content"
+  }, [_c('p', [_c('i', {
+    staticClass: "material-icons"
+  }, [_vm._v("description")]), _vm._v(" ...")])])])])
+},function (){var _vm=this;var _h=_vm.$createElement;var _c=_vm._self._c||_h;
+  return _c('div', {
+    staticClass: "recent-file-box-top"
+  }, [_c('div', {
+    staticClass: "creator-profile"
+  }, [_vm._v("\n                    E\n                  ")]), _vm._v(" "), _c('p', [_vm._v("No MCT record yet")]), _vm._v(" "), _c('h6', [_vm._v("Empty")])])
+},function (){var _vm=this;var _h=_vm.$createElement;var _c=_vm._self._c||_h;
+  return _c('div', {
+    staticClass: "recent-file-box-bottom"
+  }, [_c('div', {
+    staticClass: "transact-num-display"
+  }, [_c('p', [_c('i', {
+    staticClass: "material-icons"
+  }, [_vm._v("block")])]), _vm._v(" "), _c('p', [_vm._v("\n                      00-0000"), _c('br'), _vm._v(" "), _c('span', {
+    staticClass: "transact-label"
+  }, [_vm._v("Transaction No.")])])]), _vm._v(" "), _c('div', {
+    staticClass: "transact-opener-box"
+  }, [_c('div', {
+    staticClass: "transact-opener-content"
+  }, [_c('a', {
+    attrs: {
+      "href": "/mct-index-page"
+    }
+  }, [_c('p', [_c('i', {
+    staticClass: "material-icons"
+  }, [_vm._v("subject")]), _vm._v(" MCT")])])]), _vm._v(" "), _c('div', {
+    staticClass: "transact-opener-content"
+  }, [_c('p', [_c('i', {
+    staticClass: "material-icons"
+  }, [_vm._v("description")]), _vm._v(" ...")])])])])
+},function (){var _vm=this;var _h=_vm.$createElement;var _c=_vm._self._c||_h;
+  return _c('div', {
+    staticClass: "recent-file-box-top"
+  }, [_c('div', {
+    staticClass: "creator-profile"
+  }, [_vm._v("\n                    E\n                  ")]), _vm._v(" "), _c('p', [_vm._v("No MRT record yet")]), _vm._v(" "), _c('h6', [_vm._v("Empty")])])
+},function (){var _vm=this;var _h=_vm.$createElement;var _c=_vm._self._c||_h;
+  return _c('div', {
+    staticClass: "recent-file-box-bottom"
+  }, [_c('div', {
+    staticClass: "transact-num-display"
+  }, [_c('p', [_c('i', {
+    staticClass: "material-icons"
+  }, [_vm._v("block")])]), _vm._v(" "), _c('p', [_vm._v("\n                      00-0000"), _c('br'), _vm._v(" "), _c('span', {
+    staticClass: "transact-label"
+  }, [_vm._v("Transaction No.")])])]), _vm._v(" "), _c('div', {
+    staticClass: "transact-opener-box"
+  }, [_c('div', {
+    staticClass: "transact-opener-content"
+  }, [_c('a', {
+    attrs: {
+      "href": "/mrt-index-page"
+    }
+  }, [_c('p', [_c('i', {
+    staticClass: "material-icons"
+  }, [_vm._v("subject")]), _vm._v(" MRT")])])]), _vm._v(" "), _c('div', {
+    staticClass: "transact-opener-content"
+  }, [_c('p', [_c('i', {
+    staticClass: "material-icons"
+  }, [_vm._v("description")]), _vm._v(" ...")])])])])
+},function (){var _vm=this;var _h=_vm.$createElement;var _c=_vm._self._c||_h;
+  return _c('div', {
+    staticClass: "recent-file-box-top"
+  }, [_c('div', {
+    staticClass: "creator-profile"
+  }, [_vm._v("\n                    E\n                  ")]), _vm._v(" "), _c('p', [_vm._v("No RR record yet")]), _vm._v(" "), _c('h6', [_vm._v("Empty")])])
+},function (){var _vm=this;var _h=_vm.$createElement;var _c=_vm._self._c||_h;
+  return _c('div', {
+    staticClass: "recent-file-box-bottom"
+  }, [_c('div', {
+    staticClass: "transact-num-display"
+  }, [_c('p', [_c('i', {
+    staticClass: "material-icons"
+  }, [_vm._v("block")])]), _vm._v(" "), _c('p', [_vm._v("\n                      00-0000"), _c('br'), _vm._v(" "), _c('span', {
+    staticClass: "transact-label"
+  }, [_vm._v("Transaction No.")])])]), _vm._v(" "), _c('div', {
+    staticClass: "transact-opener-box"
+  }, [_c('div', {
+    staticClass: "transact-opener-content"
+  }, [_c('a', {
+    attrs: {
+      "href": "/RR-index"
+    }
+  }, [_c('p', [_c('i', {
+    staticClass: "material-icons"
+  }, [_vm._v("subject")]), _vm._v(" RR")])])]), _vm._v(" "), _c('div', {
+    staticClass: "transact-opener-content"
+  }, [_c('p', [_c('i', {
+    staticClass: "material-icons"
+  }, [_vm._v("description")]), _vm._v(" ...")])])])])
+},function (){var _vm=this;var _h=_vm.$createElement;var _c=_vm._self._c||_h;
+  return _c('div', {
+    staticClass: "recent-file-box-top"
+  }, [_c('div', {
+    staticClass: "creator-profile"
+  }, [_vm._v("\n                    E\n                  ")]), _vm._v(" "), _c('p', [_vm._v("No RV record yet")]), _vm._v(" "), _c('h6', [_vm._v("Empty")])])
+},function (){var _vm=this;var _h=_vm.$createElement;var _c=_vm._self._c||_h;
+  return _c('div', {
+    staticClass: "recent-file-box-bottom"
+  }, [_c('div', {
+    staticClass: "transact-num-display"
+  }, [_c('p', [_c('i', {
+    staticClass: "material-icons"
+  }, [_vm._v("block")])]), _vm._v(" "), _c('p', [_vm._v("\n                      00-0000"), _c('br'), _vm._v(" "), _c('span', {
+    staticClass: "transact-label"
+  }, [_vm._v("Transaction No.")])])]), _vm._v(" "), _c('div', {
+    staticClass: "transact-opener-box"
+  }, [_c('div', {
+    staticClass: "transact-opener-content"
+  }, [_c('a', {
+    attrs: {
+      "href": "/RVindex"
+    }
+  }, [_c('p', [_c('i', {
+    staticClass: "material-icons"
+  }, [_vm._v("subject")]), _vm._v(" RV")])])]), _vm._v(" "), _c('div', {
+    staticClass: "transact-opener-content"
+  }, [_c('p', [_c('i', {
+    staticClass: "material-icons"
+  }, [_vm._v("description")]), _vm._v(" ...")])])])])
+},function (){var _vm=this;var _h=_vm.$createElement;var _c=_vm._self._c||_h;
+  return _c('div', {
     staticClass: "user-stat-box-bot"
   }, [_c('i', {
     staticClass: "material-icons"
-  }, [_vm._v("description")])])]), _vm._v(" "), _c('div', {
-    staticClass: "user-stat-box"
-  }, [_c('div', {
-    staticClass: "user-stat-box-top"
-  }, [_c('h3', [_vm._v("22")]), _vm._v(" "), _c('p', [_vm._v("Pending transactions")])]), _vm._v(" "), _c('div', {
+  }, [_vm._v("alarm")])])
+},function (){var _vm=this;var _h=_vm.$createElement;var _c=_vm._self._c||_h;
+  return _c('div', {
     staticClass: "user-stat-box-bot"
   }, [_c('i', {
     staticClass: "material-icons"
-  }, [_vm._v("alarm")])])]), _vm._v(" "), _c('div', {
-    staticClass: "user-stat-box"
-  }, [_c('div', {
-    staticClass: "user-stat-box-top"
-  }, [_c('h3', [_vm._v("12")]), _vm._v(" "), _c('p', [_vm._v("Approved transactions")])]), _vm._v(" "), _c('div', {
+  }, [_vm._v("done_all")])])
+},function (){var _vm=this;var _h=_vm.$createElement;var _c=_vm._self._c||_h;
+  return _c('div', {
     staticClass: "user-stat-box-bot"
   }, [_c('i', {
     staticClass: "material-icons"
-  }, [_vm._v("done_all")])])]), _vm._v(" "), _c('div', {
-    staticClass: "user-stat-box"
-  }, [_c('div', {
-    staticClass: "user-stat-box-top"
-  }, [_c('h3', [_vm._v("22")]), _vm._v(" "), _c('p', [_vm._v("Declined transactions")])]), _vm._v(" "), _c('div', {
+  }, [_vm._v("layers_clear")])])
+},function (){var _vm=this;var _h=_vm.$createElement;var _c=_vm._self._c||_h;
+  return _c('div', {
     staticClass: "user-stat-box-bot"
   }, [_c('i', {
     staticClass: "material-icons"
-  }, [_vm._v("layers_clear")])])])])
+  }, [_vm._v("description")])])
 },function (){var _vm=this;var _h=_vm.$createElement;var _c=_vm._self._c||_h;
   return _c('div', {
     staticClass: "left-dash"

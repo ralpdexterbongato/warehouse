@@ -13059,7 +13059,7 @@ module.exports={render:function (){var _vm=this;var _h=_vm.$createElement;var _c
     staticClass: "reversed-alert"
   }, [(_vm.MCTMaster.IsRollBack == 0) ? _c('p', [_c('i', {
     staticClass: "material-icons"
-  }, [_vm._v("warning")]), _vm._v("Rolled back")]) : _vm._e()]), _vm._v(" "), _c('div', {
+  }, [_vm._v("warning")]), _vm._v("Invalid transaction")]) : _vm._e()]), _vm._v(" "), _c('div', {
     staticClass: "MCT-title"
   }, [(_vm.AlreadySignatured) ? _c('span', [_c('form', {
     staticClass: "mct-print-form",

@@ -1,7 +1,7 @@
 <template lang="html">
 <div class="print-MCT-wrap" v-if="(this.MCTMaster.users!=null)">
   <div class="reversed-alert">
-    <p v-if="MCTMaster.IsRollBack==0"><i class="material-icons">warning</i>Rolled back</p>
+    <p v-if="MCTMaster.IsRollBack==0"><i class="material-icons">warning</i>Invalid transaction</p>
   </div>
   <div class="MCT-title">
     <span v-if="AlreadySignatured">

@@ -9,9 +9,11 @@ use DB;
 use App\RVMaster;
 use App\MIRSMaster;
 use App\MCTMaster;
+use Auth;
 use App\MRTMaster;
 use App\User;
 use App\RRMaster;
+use App\Signatureable;
 class dashBoardController extends Controller
 {
     public function __construct()
@@ -191,7 +193,105 @@ class dashBoardController extends Controller
     }
     public function UsersStatusCheck(Request $request)
     {
-      return User::orderBy('LastOnline','DESC')->where('FullName','LIKE','%'.$request->search.'%')->paginate(18,['FullName','id','LastOnline as last_activity']);
+      return User::orderBy('LastOnline','DESC')->where('IsActive','0')->where('FullName','LIKE','%'.$request->search.'%')->paginate(18,['FullName','id','LastOnline as last_activity']);
+    }
+
+    // get recent files
+    public function getRecentTransactions()
+    {
+      $recent = User::where('id', Auth::user()->id)->with(array('mirsrecent'=>function($query){
+      $query->select('MIRSNo','Status');
+              }))->with(array('mctrecent'=>function($query){
+      $query->select('MCTNo','Status','IsRollback');
+              }))->with(array('mrtrecent'=>function($query){
+              $query->select('MRTNo','Status','IsRollBack');
+                      }))->with(array('rvrecent'=>function($query){
+              $query->select('RVNo','Status');
+                      }))->with(array('mrrecent'=>function($query){
+                      $query->select('MRNo','Status');
+                              }))->with(array('rrrecent'=>function($query){
+                              $query->select('RRNo','Status','IsRollBack');
+                                      }))->get(['id']);
+      $RecentMIRS = [];
+      if (isset($recent) && isset($recent[0]->mirsrecent[0]))
+      {
+        $RecentMIRS=Signatureable::where('signatureable_type', 'App\MIRSMaster')->where('SignatureType', 'PreparedBy')->where('signatureable_id', $recent[0]->mirsrecent[0]->MIRSNo)->with(array('user'=>function($query){
+        $query->select('id','FullName');
+                }))->get(['user_id']);
+      }
+      $RecentMCT = [];
+      if (isset($recent) && isset($recent[0]->mctrecent[0]))
+      {
+        $RecentMCT=Signatureable::where('signatureable_type', 'App\MCTMaster')->where('SignatureType', 'ReceivedBy')->where('signatureable_id', $recent[0]->mctrecent[0]->MCTNo)->with(array('user'=>function($query){
+        $query->select('id','FullName');
+                }))->get(['user_id']);
+      }
+      $RecentMRT = [];
+      if (isset($recent) && isset($recent[0]->mrtrecent[0]))
+      {
+        $RecentMRT=Signatureable::where('signatureable_type', 'App\MRTMaster')->where('SignatureType', 'ReturnedBy')->where('signatureable_id', $recent[0]->mrtrecent[0]->MRTNo)->with(array('user'=>function($query){
+        $query->select('id','FullName');
+                }))->get(['user_id']);
+      }
+      $RecentRV = [];
+      if (isset($recent) && isset($recent[0]->rvrecent[0]))
+      {
+        $RecentRV=Signatureable::where('signatureable_type', 'App\RVMaster')->where('SignatureType', 'Requisitioner')->where('signatureable_id', $recent[0]->rvrecent[0]->RVNo)->with(array('user'=>function($query){
+        $query->select('id','FullName');
+                }))->get(['user_id','id']);
+      }
+      $RecentMR = [];
+      if (isset($recent) && isset($recent[0]->mrrecent[0]))
+      {
+        $RecentMR=Signatureable::where('signatureable_type', 'App\MRMaster')->where('SignatureType', 'ReceivedBy')->where('signatureable_id', $recent[0]->mrrecent[0]->MRNo)->with(array('user'=>function($query){
+        $query->select('id','FullName');
+                }))->get(['user_id','id']);
+      }
+      $RecentRR = [];
+      if (isset($recent) && isset($recent[0]->rrrecent[0]))
+      {
+        $RecentRR=Signatureable::where('signatureable_type', 'App\RRMaster')->where('SignatureType', 'ReceivedBy')->where('signatureable_id', $recent[0]->rrrecent[0]->RRNo)->with(array('user'=>function($query){
+        $query->select('id','FullName');
+                }))->get(['user_id','id']);
+      }
+      $response = array('recent' =>$recent ,'MCT'=>$RecentMCT,'MRT'=>$RecentMRT,'MIRS'=>$RecentMIRS,'RV'=>$RecentRV,'RR'=>$RecentRR,'MR'=>$RecentMR);
+      return response()->json($response);
+    }
+    public function countUserTransactions()
+    {
+       $user=User::find(Auth::user()->id);
+       $totalvalid=0;
+       $validMct=$user->mctvalid()->count();
+       $validMrt=$user->mrtvalid()->count();
+       $validMirs=$user->mirsvalid()->count();
+       $validRv=$user->rvvalid()->count();
+       $validRr=$user->rrvalid()->count();
+       $validMr=$user->mrvalid()->count();
+       $validPo=$user->povalid()->count();
+       $totalvalid = $validMct + $validMrt + $validMirs + $validRv + $validRr + $validMr + $validPo;
+      //  invalid
+       $totalinvalid=0;
+       $invalidMct=$user->mctinvalid()->count();
+       $invalidMrt=$user->mrtinvalid()->count();
+       $invalidMirs=$user->mirsinvalid()->count();
+       $invalidRv=$user->rvinvalid()->count();
+       $invalidRr=$user->rrinvalid()->count();
+       $invalidMr=$user->mrinvalid()->count();
+       $invalidPo=$user->poinvalid()->count();
+       $totalinvalid = $invalidMct + $invalidMrt + $invalidMirs + $invalidRv + $invalidRr + $invalidMr + $invalidPo;
+      //  pending
+       $totalpending=0;
+       $pendingMct=$user->mctpending()->count();
+       $pendingMrt=$user->mrtpending()->count();
+       $pendingMirs=$user->mirspending()->count();
+       $pendingRv=$user->rvpending()->count();
+       $pendingRr=$user->rrpending()->count();
+       $pendingMr=$user->mrpending()->count();
+       $pendingPo=$user->popending()->count();
+       $totalpending = $pendingMct + $pendingMrt + $pendingMirs + $pendingRv + $pendingRr + $pendingMr + $pendingPo;
+       $totaltransactions= $totalvalid + $totalinvalid + $totalpending;
+       $response = array('validtotal' =>$totalvalid,'invalidtotal'=>$totalinvalid, 'pendingtotal'=>$totalpending,'overall'=>$totaltransactions);
+       return response()->json($response);
     }
 
 }

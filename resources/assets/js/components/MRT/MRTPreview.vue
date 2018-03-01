@@ -1,7 +1,7 @@
 <template lang="html">
   <span v-if="MRTMaster.users!=null">
     <div class="reversed-alert-mrt">
-      <p v-if="MRTMaster.IsRollBack==0"><i class="material-icons">warning</i>Rolled back</p>
+      <p v-if="MRTMaster.IsRollBack==0"><i class="material-icons">warning</i>Invalid transaction</p>
     </div>
     <div class="top-MRT-buttons">
       <span class="edit-mrt-container" v-if="StillEditable">

@@ -1,7 +1,7 @@
 <template lang="html">
 <div class="rr-preview-vue" v-if="RRMaster.users!=null">
   <div class="reversed-alert">
-    <p v-if="RRMaster.IsRollBack==0"><i class="material-icons">warning</i>Rolled back</p>
+    <p v-if="RRMaster.IsRollBack==0"><i class="material-icons">warning</i>Invalid transaction</p>
   </div>
   <div class="signature-btn">
     <div class="empty-div-left file-edit-container">
@@ -14,7 +14,7 @@
         </span>
       </div>
     </div>
-    <div class="signature-wrap" :class="{'hide':SignatureBtnHide}" v-if="UserCanSignature">
+    <div class="signature-wrap" :class="{'hide':SignatureBtnHide}" v-if="UserCanSignature && RRMaster.Status==null">
       <longpress id="RRsignature" class="waves-effect waves-light" duration="3" :on-confirm="signature"  pressing-text="confirm in {$rcounter}" action-text="Loading . . .">
         <i class="material-icons">edit</i> Signature
       </longpress>
