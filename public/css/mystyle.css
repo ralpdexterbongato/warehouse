@@ -367,7 +367,7 @@ input[type='radio']:after {
 	margin:0 auto;
   padding: 0px 10px 0px 0px;
 }
-@media (max-width:750px)
+@media (max-width:783px)
 {
 	.new-search-container
 	{
@@ -991,10 +991,10 @@ input[type='radio']:after {
 	font-size: 18px;
 	font-weight:600;
 	padding-top: 20px;
-	color: #689BFE;
+	color: #43515e;
 	text-align: center;
 	border-radius: 50%;
-	background:#D8E6FF;
+	background:#f1f1f1;
 	/*box-shadow: 0 2px 4px -1px rgba(0,0,0,0.06), 0 4px 5px 0 rgba(0,0,0,0.06), 0 1px 10px 0 rgba(0,0,0,0.08);*/
 }
 .side-user-stats
