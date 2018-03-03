@@ -211,7 +211,9 @@ class dashBoardController extends Controller
                       $query->select('MRNo','Status');
                               }))->with(array('rrrecent'=>function($query){
                               $query->select('RRNo','Status','IsRollBack');
-                                      }))->get(['id']);
+                                      }))->with(array('porecent'=>function($query){
+                                      $query->select('PONo','Status');
+                                              }))->get(['id']);
       $RecentMIRS = [];
       if (isset($recent) && isset($recent[0]->mirsrecent[0]))
       {
@@ -254,7 +256,14 @@ class dashBoardController extends Controller
         $query->select('id','FullName');
                 }))->get(['user_id','id']);
       }
-      $response = array('recent' =>$recent ,'MCT'=>$RecentMCT,'MRT'=>$RecentMRT,'MIRS'=>$RecentMIRS,'RV'=>$RecentRV,'RR'=>$RecentRR,'MR'=>$RecentMR);
+      $RecentPO = [];
+      if (isset($recent) && isset($recent[0]->porecent[0]))
+      {
+        $RecentPO=Signatureable::where('signatureable_type', 'App\POMaster')->where('signatureable_id', $recent[0]->porecent[0]->PONo)->with(array('user'=>function($query){
+        $query->select('id','FullName');
+                }))->get(['user_id','id']);
+      }
+      $response = array('recent' =>$recent ,'MCT'=>$RecentMCT,'MRT'=>$RecentMRT,'MIRS'=>$RecentMIRS,'RV'=>$RecentRV,'RR'=>$RecentRR,'MR'=>$RecentMR,'PO'=>$RecentPO);
       return response()->json($response);
     }
     public function countUserTransactions()

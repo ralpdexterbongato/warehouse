@@ -159,6 +159,10 @@ class User extends Authenticatable
     {
       return $this->morphedByMany('App\MRMaster', 'Signatureable')->orderBy('MRNo','DESC')->withPivot(['SignatureType'])->take(1);
     }
+    public function porecent()
+    {
+      return $this->morphedByMany('App\POMaster', 'Signatureable')->orderBy('PONo','DESC')->withPivot(['SignatureType'])->take(1);
+    }
 
     // valid files
     public function mirsvalid()

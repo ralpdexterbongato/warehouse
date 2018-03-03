@@ -12876,6 +12876,41 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
 //
 //
 //
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
 
 
 
@@ -14510,6 +14545,34 @@ module.exports={render:function (){var _vm=this;var _h=_vm.$createElement;var _c
         "href": '/RR-fullpreview/' + rrData.RRNo
       }
     }, [_vm._m(15, true)])])])])])
+  }), _vm._v(" "), _vm._l((_vm.UserRecentFiles.porecent), function(poData) {
+    return _c('div', {
+      staticClass: "recent-files-box"
+    }, [_c('div', {
+      staticClass: "recent-file-box-top"
+    }, [_c('div', {
+      staticClass: "creator-profile"
+    }, [_vm._v("\n                    " + _vm._s(_vm.Names.PO[0].user.FullName.charAt(0)) + "\n                  ")]), _vm._v(" "), (_vm.Names.PO != null) ? _c('p', [_vm._v(_vm._s(_vm.Names.PO[0].user.FullName))]) : _vm._e(), _vm._v(" "), _c('h6', [_vm._v("Approved by")])]), _vm._v(" "), _c('div', {
+      staticClass: "recent-file-box-bottom"
+    }, [_c('div', {
+      staticClass: "transact-num-display"
+    }, [_c('p', [(poData.Status == '1') ? _c('i', {
+      staticClass: "material-icons"
+    }, [_vm._v("layers_clear")]) : (poData.Status == '0') ? _c('i', {
+      staticClass: "material-icons"
+    }, [_vm._v("done_all")]) : (poData.Status == null) ? _c('i', {
+      staticClass: "material-icons"
+    }, [_vm._v("access_alarm")]) : _vm._e()]), _vm._v(" "), _c('p', [_vm._v("\n                      " + _vm._s(poData.PONo)), _c('br'), _vm._v(" "), _c('span', {
+      staticClass: "transact-label"
+    }, [_vm._v("Transaction No.")])])]), _vm._v(" "), _c('div', {
+      staticClass: "transact-opener-box"
+    }, [_vm._m(16, true), _vm._v(" "), _c('div', {
+      staticClass: "transact-opener-content"
+    }, [_c('a', {
+      attrs: {
+        "href": '/po-full-preview/' + poData.PONo
+      }
+    }, [_vm._m(17, true)])])])])])
   }), _vm._v(" "), _vm._l((_vm.UserRecentFiles.mrrecent), function(mrdata) {
     return _c('div', {
       staticClass: "recent-files-box"
@@ -14531,50 +14594,50 @@ module.exports={render:function (){var _vm=this;var _h=_vm.$createElement;var _c
       staticClass: "transact-label"
     }, [_vm._v("Transaction No.")])])]), _vm._v(" "), _c('div', {
       staticClass: "transact-opener-box"
-    }, [_vm._m(16, true), _vm._v(" "), _c('div', {
+    }, [_vm._m(18, true), _vm._v(" "), _c('div', {
       staticClass: "transact-opener-content"
     }, [_c('a', {
       attrs: {
         "href": '/full-preview-MR/' + mrdata.MRNo
       }
-    }, [_vm._m(17, true)])])])])])
+    }, [_vm._m(19, true)])])])])])
   }), _vm._v(" "), (_vm.UserRecentFiles.mrrecent == '') ? _c('div', {
     staticClass: "recent-files-box"
-  }, [_vm._m(18), _vm._v(" "), _vm._m(19)]) : _vm._e(), _vm._v(" "), (_vm.UserRecentFiles.mirsrecent == '') ? _c('div', {
+  }, [_vm._m(20), _vm._v(" "), _vm._m(21)]) : _vm._e(), _vm._v(" "), (_vm.UserRecentFiles.mirsrecent == '') ? _c('div', {
     staticClass: "recent-files-box"
-  }, [_vm._m(20), _vm._v(" "), _vm._m(21)]) : _vm._e(), _vm._v(" "), (_vm.UserRecentFiles.mctrecent == '') ? _c('div', {
+  }, [_vm._m(22), _vm._v(" "), _vm._m(23)]) : _vm._e(), _vm._v(" "), (_vm.UserRecentFiles.mctrecent == '') ? _c('div', {
     staticClass: "recent-files-box"
-  }, [_vm._m(22), _vm._v(" "), _vm._m(23)]) : _vm._e(), _vm._v(" "), (_vm.UserRecentFiles.mrtrecent == '') ? _c('div', {
+  }, [_vm._m(24), _vm._v(" "), _vm._m(25)]) : _vm._e(), _vm._v(" "), (_vm.UserRecentFiles.mrtrecent == '') ? _c('div', {
     staticClass: "recent-files-box"
-  }, [_vm._m(24), _vm._v(" "), _vm._m(25)]) : _vm._e(), _vm._v(" "), (_vm.UserRecentFiles.rrrecent == '') ? _c('div', {
+  }, [_vm._m(26), _vm._v(" "), _vm._m(27)]) : _vm._e(), _vm._v(" "), (_vm.UserRecentFiles.rrrecent == '') ? _c('div', {
     staticClass: "recent-files-box"
-  }, [_vm._m(26), _vm._v(" "), _vm._m(27)]) : _vm._e(), _vm._v(" "), (_vm.UserRecentFiles.rvrecent == '') ? _c('div', {
+  }, [_vm._m(28), _vm._v(" "), _vm._m(29)]) : _vm._e(), _vm._v(" "), (_vm.UserRecentFiles.rvrecent == '') ? _c('div', {
     staticClass: "recent-files-box"
-  }, [_vm._m(28), _vm._v(" "), _vm._m(29)]) : _vm._e()], 2)])]), _vm._v(" "), _c('div', {
+  }, [_vm._m(30), _vm._v(" "), _vm._m(31)]) : _vm._e()], 2)])]), _vm._v(" "), _c('div', {
     staticClass: "side-user-stats"
   }, [_c('div', {
     staticClass: "user-stat-box"
   }, [_c('div', {
     staticClass: "user-stat-box-top"
-  }, [_c('h3', [_vm._v(_vm._s(_vm.totalpending))]), _vm._v(" "), _c('p', [_vm._v("Pending transactions")])]), _vm._v(" "), _vm._m(30)]), _vm._v(" "), _c('div', {
+  }, [_c('h3', [_vm._v(_vm._s(_vm.totalpending))]), _vm._v(" "), _c('p', [_vm._v("Pending transactions")])]), _vm._v(" "), _vm._m(32)]), _vm._v(" "), _c('div', {
     staticClass: "user-stat-box"
   }, [_c('div', {
     staticClass: "user-stat-box-top"
-  }, [_c('h3', [_vm._v(_vm._s(_vm.totalvalid))]), _vm._v(" "), _c('p', [_vm._v("Valid transactions")])]), _vm._v(" "), _vm._m(31)]), _vm._v(" "), _c('div', {
+  }, [_c('h3', [_vm._v(_vm._s(_vm.totalvalid))]), _vm._v(" "), _c('p', [_vm._v("Valid transactions")])]), _vm._v(" "), _vm._m(33)]), _vm._v(" "), _c('div', {
     staticClass: "user-stat-box"
   }, [_c('div', {
     staticClass: "user-stat-box-top"
-  }, [_c('h3', [_vm._v(_vm._s(_vm.totalinvalid))]), _vm._v(" "), _c('p', [_vm._v("Invalid transactions")])]), _vm._v(" "), _vm._m(32)]), _vm._v(" "), _c('div', {
+  }, [_c('h3', [_vm._v(_vm._s(_vm.totalinvalid))]), _vm._v(" "), _c('p', [_vm._v("Invalid transactions")])]), _vm._v(" "), _vm._m(34)]), _vm._v(" "), _c('div', {
     staticClass: "user-stat-box"
   }, [_c('div', {
     staticClass: "user-stat-box-top"
-  }, [_c('h3', [_vm._v(_vm._s(_vm.alltotal))]), _vm._v(" "), _c('p', [_vm._v("Total transactions")])]), _vm._v(" "), _vm._m(33)])])]) : _c('div', {
+  }, [_c('h3', [_vm._v(_vm._s(_vm.alltotal))]), _vm._v(" "), _c('p', [_vm._v("Total transactions")])]), _vm._v(" "), _vm._m(35)])])]) : _c('div', {
     staticClass: "dash-container"
   }, [_c('div', {
     staticClass: "dash-home"
   }, [_c('div', {
     staticClass: "dashbox dash-high "
-  }, [_vm._m(34), _vm._v(" "), _c('div', {
+  }, [_vm._m(36), _vm._v(" "), _c('div', {
     staticClass: "right-dash"
   }, [_c('span', [_c('h1', {
     staticClass: "dash-totals"
@@ -14585,9 +14648,9 @@ module.exports={render:function (){var _vm=this;var _h=_vm.$createElement;var _c
       "duration": "1000",
       "easing": "easeOutQuad"
     }
-  }) : _c('span', [_vm._v("\r\n                  0\r\n                ")])], 1), _vm._v(" "), (_vm.DashGood > 1) ? _c('p', [_vm._v("Items")]) : _c('p', [_vm._v("Item")])]), _vm._v(" "), _vm._m(35)])]), _vm._v(" "), _c('div', {
+  }) : _c('span', [_vm._v("\r\n                  0\r\n                ")])], 1), _vm._v(" "), (_vm.DashGood > 1) ? _c('p', [_vm._v("Items")]) : _c('p', [_vm._v("Item")])]), _vm._v(" "), _vm._m(37)])]), _vm._v(" "), _c('div', {
     staticClass: "dashbox dash-low "
-  }, [_vm._m(36), _vm._v(" "), _c('div', {
+  }, [_vm._m(38), _vm._v(" "), _c('div', {
     staticClass: "right-dash"
   }, [_c('span', [_c('h1', {
     staticClass: "dash-totals"
@@ -14598,9 +14661,9 @@ module.exports={render:function (){var _vm=this;var _h=_vm.$createElement;var _c
       "duration": "1500",
       "easing": "easeOutQuad"
     }
-  }) : _c('span', [_vm._v("\r\n                  0\r\n                ")])], 1), _vm._v(" "), (_vm.DashWarn > 1) ? _c('p', [_vm._v("Items")]) : _c('p', [_vm._v("Item")])]), _vm._v(" "), _vm._m(37)])]), _vm._v(" "), _c('div', {
+  }) : _c('span', [_vm._v("\r\n                  0\r\n                ")])], 1), _vm._v(" "), (_vm.DashWarn > 1) ? _c('p', [_vm._v("Items")]) : _c('p', [_vm._v("Item")])]), _vm._v(" "), _vm._m(39)])]), _vm._v(" "), _c('div', {
     staticClass: "dashbox dash-empty "
-  }, [_vm._m(38), _vm._v(" "), _c('div', {
+  }, [_vm._m(40), _vm._v(" "), _c('div', {
     staticClass: "right-dash"
   }, [_c('span', [_c('h1', {
     staticClass: "dash-totals"
@@ -14611,7 +14674,7 @@ module.exports={render:function (){var _vm=this;var _h=_vm.$createElement;var _c
       "duration": "2000",
       "easing": "easeOutQuad"
     }
-  }) : _c('span', [_vm._v("\r\n                  0\r\n                ")])], 1), _vm._v(" "), (_vm.DashEmpty > 1) ? _c('p', [_vm._v("Items")]) : _c('p', [_vm._v("Item")])]), _vm._v(" "), _vm._m(39)])])]), _vm._v(" "), _vm._m(40)])]) : _vm._e(), _vm._v(" "), (_vm.NotFoundSearch != '') ? _c('div', {
+  }) : _c('span', [_vm._v("\r\n                  0\r\n                ")])], 1), _vm._v(" "), (_vm.DashEmpty > 1) ? _c('p', [_vm._v("Items")]) : _c('p', [_vm._v("Item")])]), _vm._v(" "), _vm._m(41)])])]), _vm._v(" "), _vm._m(42)])]) : _vm._e(), _vm._v(" "), (_vm.NotFoundSearch != '') ? _c('div', {
     staticClass: "not-found-msg"
   }, [_c('h2', [_c('i', {
     staticClass: "material-icons"
@@ -14794,6 +14857,20 @@ module.exports={render:function (){var _vm=this;var _h=_vm.$createElement;var _c
   }, [_c('p', [_c('i', {
     staticClass: "material-icons"
   }, [_vm._v("subject")]), _vm._v(" RR")])])])
+},function (){var _vm=this;var _h=_vm.$createElement;var _c=_vm._self._c||_h;
+  return _c('p', [_c('i', {
+    staticClass: "material-icons"
+  }, [_vm._v("description")]), _vm._v(" OPEN")])
+},function (){var _vm=this;var _h=_vm.$createElement;var _c=_vm._self._c||_h;
+  return _c('div', {
+    staticClass: "transact-opener-content"
+  }, [_c('a', {
+    attrs: {
+      "href": "/po-index-page"
+    }
+  }, [_c('p', [_c('i', {
+    staticClass: "material-icons"
+  }, [_vm._v("subject")]), _vm._v(" PO")])])])
 },function (){var _vm=this;var _h=_vm.$createElement;var _c=_vm._self._c||_h;
   return _c('p', [_c('i', {
     staticClass: "material-icons"

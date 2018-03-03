@@ -301,6 +301,41 @@
                 </div>
               </div>
               <!-- break -->
+              <div class="recent-files-box"  v-for="poData in UserRecentFiles.porecent">
+                <div class="recent-file-box-top">
+                  <div class="creator-profile">
+                    {{Names.PO[0].user.FullName.charAt(0)}}
+                  </div>
+                  <p v-if="Names.PO!=null">{{Names.PO[0].user.FullName}}</p>
+                  <h6>Approved by</h6>
+                </div>
+                <div class="recent-file-box-bottom">
+                  <div class="transact-num-display">
+                    <p>
+                      <i class="material-icons" v-if="poData.Status=='1'">layers_clear</i>
+                      <i class="material-icons" v-else-if="poData.Status=='0'">done_all</i>
+                      <i class="material-icons" v-else-if="poData.Status==null">access_alarm</i>
+                    </p>
+                    <p>
+                      {{poData.PONo}}<br>
+                      <span class="transact-label">Transaction No.</span>
+                    </p>
+                  </div>
+                  <div class="transact-opener-box">
+                    <div class="transact-opener-content">
+                      <a href="/po-index-page">
+                        <p><i class="material-icons">subject</i> PO</p>
+                      </a>
+                    </div>
+                    <div class="transact-opener-content">
+                      <a :href="'/po-full-preview/'+poData.PONo">
+                        <p><i class="material-icons">description</i> OPEN</p>
+                      </a>
+                    </div>
+                  </div>
+                </div>
+              </div>
+              <!-- break -->
               <div class="recent-files-box" v-for="mrdata in UserRecentFiles.mrrecent">
                 <div class="recent-file-box-top">
                   <div class="creator-profile" v-if="Names.MR[0]!=null">
