@@ -750,7 +750,7 @@ input[type='radio']:after {
 }
 .search-box
 {
-	box-shadow: 0 2px 4px -1px rgba(0,0,0,0.06), 0 4px 5px 0 rgba(0,0,0,0.06), 0 1px 10px 0 rgba(0,0,0,0.08);
+	/*box-shadow: 0 2px 4px -1px rgba(0,0,0,0.06), 0 4px 5px 0 rgba(0,0,0,0.06), 0 1px 10px 0 rgba(0,0,0,0.08);*/
 	border: 1px solid rgba(0,0,0,0.1);
   padding:30px 30px;
   flex: 1;
@@ -881,6 +881,13 @@ input[type='radio']:after {
 {
 	flex:1;
 	padding:20px 10px 0px 0px;
+}
+@media (max-width:783px)
+{
+	.big-user-center-wrap
+	{
+		padding:20px 10px 0px 10px;
+	}
 }
 .big-user-box
 {
@@ -12525,7 +12532,6 @@ only screen and (max-width: 1310px),
 .add-warehouse-item
 {
   padding:10px 20px 50px 20px;
-  background: #fff;
 	flex:1;
 }
 @media (max-width:800px)
@@ -12704,7 +12710,6 @@ only screen and (max-width: 1050px),
 .managertakeplacer-pick-container
 {
   min-height: 100vh;
-  background: #fff;
   display: flex;
   padding:20px;
   justify-content: center;
@@ -14256,9 +14261,16 @@ background: #FDD835;
 .online-scroll-container
 {
 	overflow-x: hidden;
-	overflow-y: auto;
+	overflow-y: hidden;
 	background: #f9faff;
 	height:80vh;
+}
+@media (max-width:600px)
+{
+	.online-scroll-container
+	{
+		overflow-y: auto;
+	}
 }
 .sidebar-online ul
 {
@@ -14448,7 +14460,7 @@ background: #FDD835;
 {
 	padding:0px 10px 0px 0px;
 }
-@media (max-width:762px)
+@media (max-width:783px)
 {
 	.dash-container
 	{
