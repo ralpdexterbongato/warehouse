@@ -40,7 +40,10 @@ class User extends Authenticatable
     }
     public function MIRSHistory($date)
     {
-      return $this->morphedByMany('App\MIRSMaster', 'Signatureable')->orderBy('MIRSNo','DESC')->withPivot(['SignatureType','Signature'])->wherePivot('SignatureType', 'PreparedBy')->where('MIRSDate','LIKE',$date.'%');
+      return $this->morphedByMany('App\MIRSMaster', 'Signatureable')->orderBy('MIRSNo','DESC')
+      ->withPivot(['SignatureType','Signature'])
+      ->wherePivot('SignatureType', 'PreparedBy')
+      ->where('MIRSDate','LIKE',$date.'%');
     }
     public function MCTHistory($date)
     {

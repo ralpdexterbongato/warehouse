@@ -273,9 +273,7 @@
            var IDofuser=this.searchID;
          }
          var vm=this;
-         axios.get(`/search-my-mirs-history?PreparedById=`+IDofuser+`&YearMonth=`+this.MyMonth.time+`&page=`+page,{
-           YearMonth:this.MyMonth.time,
-         }).then(function(response)
+         axios.get(`/search-my-mirs-history?PreparedById=`+IDofuser+`&YearMonth=`+this.MyMonth.time+`&page=`+page).then(function(response)
          {
            console.log(response);
            Vue.set(vm.$data,'mirsResults',response.data.data);
@@ -314,8 +312,7 @@
            var returnerId=this.searchID;
          }
          var vm=this;
-         axios.get(`/search-my-mrt-history?ReturnedById=`+returnerId+`&YearMonth=`+this.MyMonth.time+`&page=`+page,{
-         }).then(function(response)
+         axios.get(`/search-my-mrt-history?ReturnedById=`+returnerId+`&YearMonth=`+this.MyMonth.time+`&page=`+page).then(function(response)
          {
            console.log(response);
            Vue.set(vm.$data,'mrtResults',response.data.data);

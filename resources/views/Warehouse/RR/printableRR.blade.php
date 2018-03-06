@@ -280,6 +280,10 @@
   top: -60px;
   left:100px;
 }
+.unittext
+{
+  text-transform: lowercase;
+}
   </style>
   <body>
     <div class="RRbondpaper-Container">
@@ -342,9 +346,9 @@
               <tr>
                 <td>{{$mtdetail->ItemCode}}</td>
                 <td>{{$mtdetail->Description}}</td>
-                <td>{{$mtdetail->Unit}}</td>
+                <td class="unittext">{{$mtdetail->Unit}}</td>
                 <td>{{$mtdetail->RRQuantityDelivered}}</td>
-                <td>{{$mtdetail->Quantity}}</td>
+                <td>{{$mtdetail->QuantityAccepted}}</td>
                 <td>{{number_format($mtdetail->UnitCost,'2','.',',')}}</td>
                 <td>{{number_format($mtdetail->Amount,'2','.',',')}}</td>
               </tr>

@@ -23,7 +23,7 @@
       </longpress>
     </div>
   </div>
-  <div class="print-RR-btn" v-if="(RRMaster.Status=='0')">
+  <div class="print-RR-btn" v-if="(RRMaster.Status=='0')&&(RRMaster.IsRollBack!=0)&&(user.Role==3||user.Role==4)">
     <span>
       <a :href="'/RR.pdf/'+RRMaster.RRNo"><button type="submit"  name="RRNo" value="RRNohere"><i class="material-icons">print</i></button></a>
       <span v-if="user.Role==1 && RRMaster.Status =='0'">
