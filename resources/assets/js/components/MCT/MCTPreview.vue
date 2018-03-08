@@ -4,7 +4,7 @@
     <p v-if="MCTMaster.IsRollBack==0"><i class="material-icons">warning</i>Invalid transaction</p>
   </div>
   <div class="MCT-title">
-    <span v-if="AlreadySignatured">
+    <span v-if="AlreadySignatured && MCTMaster.IsRollBack!=0 && MCTMaster.CreatorID==user.id">
       <form action="/MCT.pdf" method="get" class="mct-print-form">
         <button type="submit" :value="this.mctno.MCTNo" name="MCTNo"><i class="material-icons">print</i></button>
         <button v-if="(MCTMaster.IsRollBack==null || MCTMaster.IsRollBack==1)&&(user.Role==1 && MCTMaster.Status=='0')" v-on:click="rollbackMCT()" type="button" class="undo-btn" name="button"><i class="material-icons">replay</i> reverse</button>

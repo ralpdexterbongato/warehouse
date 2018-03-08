@@ -196,11 +196,15 @@
     text-align:center;
     margin-left: 15px;
   }
-  .left-budget .availableAmmount
+  .left-budget .availablebudget
   {
     border-bottom: 1px solid black;
     width: 80%;
     margin:0 auto;
+  }
+  .availablebudget
+  {
+    display: block;
   }
   .left-budget li
   {
@@ -219,6 +223,8 @@
     left:30px;
     top: -35px;
   }
+  .left-budget
+  {}
   </style>
   <body>
     <div class="rv-pdf-container">
@@ -297,7 +303,13 @@
         <div class="bottom-signatures-container bottom">
           <div class="left-budget">
             <label>BUDGET AVAILABLE ON THIS REQUEST</label>
-            <p class="availableAmmount">{{$RVMaster[0]->BudgetAvailable,'2','.',','}}</p>
+            <p class="availablebudget">
+              @if ($RVMaster[0]->BudgetAvailable)
+                {{$RVMaster[0]->BudgetAvailable}}
+              @else
+                `
+              @endif
+            </p>
             <li>
               @if ($RVMaster[0]->users[2]->pivot->Signature=='0')
                 <h1><img src="c:/xampp/htdocs/Warehouse/public/storage/signatures/{{$RVMaster[0]->users[2]->Signature}}" alt="signature"></h1>

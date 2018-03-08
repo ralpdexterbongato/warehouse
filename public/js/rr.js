@@ -14563,7 +14563,7 @@ module.exports={render:function (){var _vm=this;var _h=_vm.$createElement;var _c
     }
   }, [_c('i', {
     staticClass: "material-icons"
-  }, [_vm._v("close")]), _vm._v(" Decline\r\n      ")])], 1) : _vm._e()]), _vm._v(" "), ((_vm.RRMaster.Status == '0') && (_vm.RRMaster.IsRollBack != 0) && (_vm.user.Role == 3 || _vm.user.Role == 4)) ? _c('div', {
+  }, [_vm._v("close")]), _vm._v(" Decline\r\n      ")])], 1) : _vm._e()]), _vm._v(" "), ((_vm.RRMaster.Status == '0') && (_vm.RRMaster.IsRollBack != 0) && (_vm.RRMaster.CreatorID == _vm.user.id)) ? _c('div', {
     staticClass: "print-RR-btn"
   }, [_c('span', [_c('a', {
     attrs: {

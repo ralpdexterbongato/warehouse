@@ -12,7 +12,7 @@
       </div>
       <a :href="'/MR.pdf/'+this.mrno.MRNo" v-if="AlreadyApproved"><button type="submit" name="MRNo" value="mrnohere"><i class="material-icons">print</i></button></a>
       <h6 class="approve-managerreplace-note" v-if="replacerCanSignature"><i class="material-icons color-blue">info</i>
-        The <span class="color-blue">{{MRMaster.WarehouseMan}}</span> is asking for your signature b/c the General Manager is not available
+        The <span class="color-blue">{{MRMaster.warehouseman.FullName}}</span> is asking for your signature b/c the General Manager is not available
       </h6>
     </div>
     <div class="signature-MR-btns">
@@ -56,7 +56,7 @@
     </div>
     <div class="acknowledgeParagraph">
       <p>I HEREBY ACKNOWLEGE to have received from
-        <span class="bold">{{MRMaster.WarehouseMan}}</span> Warehouseman,
+        <span class="bold">{{MRMaster.warehouseman.FullName}}</span> Warehouseman,
         the following<br> property
         for which I am responsible, subject to the provision of the usual accounting and auditing rules and regulations
         and which will be used for General Services.

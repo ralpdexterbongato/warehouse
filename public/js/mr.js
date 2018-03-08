@@ -13445,7 +13445,7 @@ module.exports={render:function (){var _vm=this;var _h=_vm.$createElement;var _c
     staticClass: "material-icons color-blue"
   }, [_vm._v("info")]), _vm._v("\r\n        The "), _c('span', {
     staticClass: "color-blue"
-  }, [_vm._v(_vm._s(_vm.MRMaster.WarehouseMan))]), _vm._v(" is asking for your signature b/c the General Manager is not available\r\n      ")]) : _vm._e()]), _vm._v(" "), _c('div', {
+  }, [_vm._v(_vm._s(_vm.MRMaster.warehouseman.FullName))]), _vm._v(" is asking for your signature b/c the General Manager is not available\r\n      ")]) : _vm._e()]), _vm._v(" "), _c('div', {
     staticClass: "signature-MR-btns"
   }, [(_vm.replacerCanSignature) ? _c('span', {
     staticClass: "Approve-MR-inBehalf-btn",
@@ -13512,7 +13512,7 @@ module.exports={render:function (){var _vm=this;var _h=_vm.$createElement;var _c
     staticClass: "acknowledgeParagraph"
   }, [_c('p', [_vm._v("I HEREBY ACKNOWLEGE to have received from\r\n        "), _c('span', {
     staticClass: "bold"
-  }, [_vm._v(_vm._s(_vm.MRMaster.WarehouseMan))]), _vm._v(" Warehouseman,\r\n        the following"), _c('br'), _vm._v(" property\r\n        for which I am responsible, subject to the provision of the usual accounting and auditing rules and regulations\r\n        and which will be used for General Services.\r\n      ")])]), _vm._v(" "), _c('div', {
+  }, [_vm._v(_vm._s(_vm.MRMaster.warehouseman.FullName))]), _vm._v(" Warehouseman,\r\n        the following"), _c('br'), _vm._v(" property\r\n        for which I am responsible, subject to the provision of the usual accounting and auditing rules and regulations\r\n        and which will be used for General Services.\r\n      ")])]), _vm._v(" "), _c('div', {
     staticClass: "table-mr-list-container"
   }, [_c('table', [_vm._m(2), _vm._v(" "), _vm._l((_vm.MRDetail), function(mrdata, key) {
     return _c('tr', [_c('td', [(_vm.ShowEdit == false) ? _c('span', [_vm._v(_vm._s(mrdata.Quantity))]) : _c('span', [_c('input', {

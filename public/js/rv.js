@@ -20811,7 +20811,7 @@ module.exports={render:function (){var _vm=this;var _h=_vm.$createElement;var _c
         _vm.ShowEdit = false, _vm.updateRV()
       }
     }
-  }, [_vm._v("Save")])])]) : _vm._e()]) : _vm._e(), _vm._v(" "), (_vm.AlreadyApproved) ? _c('div', {
+  }, [_vm._v("Save")])])]) : _vm._e()]) : _vm._e(), _vm._v(" "), (_vm.AlreadyApproved && _vm.RVMaster.IsRollBack != 0 && _vm.RVMaster.users[0].id == _vm.user.id) ? _c('div', {
     staticClass: "print-and-unreceved"
   }, [_c('a', {
     attrs: {

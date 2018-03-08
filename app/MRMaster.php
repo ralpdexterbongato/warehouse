@@ -24,4 +24,8 @@ class MRMaster extends Model
   {
       return Carbon::createFromFormat('Y-m-d H:i:s.u', $date)->diffForHumans();
   }
+  public function warehouseman()
+  {
+    return $this->belongsTo('App\User','CreatorID','id');
+  }
 }

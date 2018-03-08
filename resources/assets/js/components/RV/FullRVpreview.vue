@@ -11,7 +11,7 @@
           </span>
       </div>
     </div>
-    <div class="print-and-unreceved" v-if="AlreadyApproved">
+    <div class="print-and-unreceved" v-if="AlreadyApproved && RVMaster.IsRollBack!=0 && RVMaster.users[0].id==user.id">
       <a :href="'/RV.pdf/'+rvno.RVNo"><button type="submit"  name="RVNo" value="RVNohere"><i class="material-icons">print</i></button></a>
       <li class="pending-delivery-number" v-if="((RVMaster.IfPurchased==null)&&(checkPO==null)&&(checkRR!=null))"><h1>pending item: <span class="color-blue">{{undeliveredTotal}}</span></h1></li>
     </div>

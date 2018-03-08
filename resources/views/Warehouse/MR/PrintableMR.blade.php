@@ -210,7 +210,7 @@
         </ul>
       </div>
       <div class="AknowlegeParag">
-        <p>I HEREBY ACKNOWLEDGE to have received from <span class="bold">{{$MRMaster[0]->WarehouseMan}}</span> Warehouseman the following<br>
+        <p>I HEREBY ACKNOWLEDGE to have received from <span class="bold">{{$MRMaster[0]->warehouseman->FullName}}</span> Warehouseman the following<br>
 property for which I am responsible, subject to the provision of the usual accounting and auditing rules and regulations<br> and which will be used for General Services.</p>
       </div>
       <div class="table-container">

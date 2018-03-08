@@ -106,7 +106,7 @@ class User extends Authenticatable
     }
     public function RVGlobalNotif()
     {
-      return $this->morphedByMany('App\RVMaster','Signatureable')->where('Status','!=',NULL)->orderBy('notification_date_time','DESC')->wherePivot('SignatureType', 'Requisitioner')->orWhere('PendingRemarks','!=',NULL)->whereNull('Status')->wherePivot('SignatureType', 'Requisitioner');
+      return $this->morphedByMany('App\RVMaster','Signatureable')->where('Status','!=',NULL)->orderBy('notification_date_time','DESC')->wherePivot('SignatureType', 'Requisitioner')->orWhere('PendingRemarks','!=',NULL)->whereNull('Status')->wherePivot('SignatureType', 'Requisitioner')->wherePivot('user_id', Auth::user()->id);
     }
     public function countMIRSGlobalNotif()
     {
@@ -114,7 +114,7 @@ class User extends Authenticatable
     }
     public function countRVGlobalNotif()
     {
-      return $this->morphedByMany('App\RVMaster','Signatureable')->where('UnreadNotification','!=',NULL)->wherePivot('SignatureType', 'Requisitioner')->orWhere('PendingRemarks','!=',NULL)->where('UnreadNotification','!=',NULL)->whereNull('Status')->wherePivot('SignatureType', 'Requisitioner');
+      return $this->morphedByMany('App\RVMaster','Signatureable')->where('UnreadNotification','!=',NULL)->wherePivot('SignatureType', 'Requisitioner')->orWhere('PendingRemarks','!=',NULL)->where('UnreadNotification','!=',NULL)->whereNull('Status')->wherePivot('SignatureType', 'Requisitioner')->wherePivot('user_id', Auth::user()->id);
     }
     public function getLastActivityAttribute($time)
     {

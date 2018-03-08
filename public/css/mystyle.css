@@ -389,6 +389,9 @@ input[type='radio']:after {
 }
 .pending-remarks
 {
+	position: absolute;
+	top: -40px;
+	left: -20px;
 	border-radius:3px;
 	margin-bottom: 20px;
   font-family:Roboto, 'Segoe UI', Tahoma, sans-serif;
@@ -521,8 +524,8 @@ input[type='radio']:after {
   padding:5px;
   border-radius: 3px;
   position: absolute;
-  top: 50px;
-  left:-5px;
+  top: 10px;
+  left:-25px;
   z-index: 10;
 	width: 300px;
 	-webkit-box-shadow: 0 2px 4px -1px rgba(0,0,0,0.06), 0 4px 5px 0 rgba(0,0,0,0.06), 0 1px 10px 0 rgba(0,0,0,0.08);
@@ -868,7 +871,7 @@ input[type='radio']:after {
 }
 .big-user-center-wrap.active
 {
-	margin-right:222px;
+	margin-right:210px;
 }
 @media (max-width:700px)
 {
@@ -7591,7 +7594,7 @@ text-align: center;
 .bondpaper-RV
 {
   box-sizing: border-box;
-  padding:70px 30px 30px 30px;
+  padding:50px 30px 30px 30px;
   margin:auto;
   min-height: 1057px;
   width: 816px;
@@ -7616,7 +7619,11 @@ text-align: center;
 {
 	.bondpaper-RV
 	{
-		padding:10px;
+		padding:50px 10px 10px 10px;
+	}
+	.pending-remarks
+	{
+		left: 0px;
 	}
 }
 .no-rv-request
@@ -14559,7 +14566,7 @@ background: #FDD835;
 	.notification-drop
 	{
 		right: 5px;
-		width:93vw;
+		width:90vw;
 	}
 	.notification-drop::after
 	{

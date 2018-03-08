@@ -135,7 +135,6 @@ class MRController extends Controller
      $MRMasterDB->Note=$request->Note;
      $MRMasterDB->Supplier=$RRMasterData[0]->Supplier;
      $MRMasterDB->InvoiceNo=$RRMasterData[0]->InvoiceNo;
-     $MRMasterDB->WarehouseMan=Auth::user()->FullName;
      $MRMasterDB->notification_date_time = Carbon::now();
      $MRMasterDB->CreatorID = Auth::user()->id;
      $MRMasterDB->save();
@@ -178,7 +177,9 @@ class MRController extends Controller
     }
     public function previewFullMRFetchData($id)
     {
-      $MRMaster=MRMaster::with('users')->where('MRNo',$id)->get();
+      $MRMaster=MRMaster::with('users')->with(array('warehouseman'=>function($query){
+      $query->select('id','FullName');
+      }))->where('MRNo',$id)->get();
       $MRDetail=MRDetail::where('MRNo',$id)->get();
       $response = array('MRMaster' =>$MRMaster,'MRDetail'=>$MRDetail);
       return response()->json($response);
