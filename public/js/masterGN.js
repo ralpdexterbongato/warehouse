@@ -42781,8 +42781,6 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
 //
 //
 //
-//
-//
 
 
 /* harmony default export */ __webpack_exports__["default"] = ({
@@ -43463,7 +43461,7 @@ module.exports={render:function (){var _vm=this;var _h=_vm.$createElement;var _c
       class: [mr.UnreadNotification == '0' ? 'active' : '']
     }, [_vm._m(9, true), _vm._v(" "), _c('div', {
       staticClass: "drop-line-detail"
-    }, [_c('h5', [_vm._v("MR : " + _vm._s(mr.RRNo))]), _vm._v(" "), _c('p', [_vm._v("\n              memorandum receipt has been\n              "), (mr.Status == 0) ? _c('span', [_vm._v("approved")]) : _vm._e(), _vm._v(" "), (mr.Status == 1) ? _c('span', [_vm._v("declined")]) : _vm._e()]), _c('br'), _vm._v(" "), _c('div', {
+    }, [_c('h5', [_vm._v("MR : " + _vm._s(mr.RRNo))]), _vm._v(" "), _c('p', [_vm._v("\n              memorandum receipt signatures are complete.\n            ")]), _c('br'), _vm._v(" "), _c('div', {
       staticClass: "time-notified"
     }, [(mr.Status == 0) ? _c('i', {
       staticClass: "material-icons color-blue"

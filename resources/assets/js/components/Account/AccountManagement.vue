@@ -10,18 +10,20 @@
         <input type="text" placeholder="Firstname Lastname" v-on:keyup="getSelectedAndSearch" v-model="FullNameSearch">
       </div>
       <ul>
-        <select class="SortByRole" v-model="SelectedRole" v-on:change="getSelectedAndSearch(1)">
-          <option value=''>All</option>
-          <option value="0">Managers</option>
-          <option value="1">Admins</option>
-          <option value="2">General managers</option>
-          <option value="3">Warehouse assistants</option>
-          <option value="4">Warehouse heads</option>
-          <option value="5">Auditors</option>
-          <option value="6">Clerks</option>
-          <option value="7">Budget officers</option>
-          <option value="8">Basic-roles</option>
-        </select>
+        <li>
+          <select class="SortByRole" v-model="SelectedRole" v-on:change="getSelectedAndSearch(1)">
+            <option value=''>All</option>
+            <option value="0">Managers</option>
+            <option value="1">Admins</option>
+            <option value="2">General managers</option>
+            <option value="3">Warehouse assistants</option>
+            <option value="4">Warehouse heads</option>
+            <option value="5">Auditors</option>
+            <option value="6">Clerks</option>
+            <option value="7">Budget officers</option>
+            <option value="8">Basic-roles</option>
+          </select>
+        </li>
         <li>
           <button type="button" class="waves-effect waves-light" :class="[createAccMenu == false?'pulse':'']" v-on:click="createAccMenu=!createAccMenu">
             <i class="material-icons" v-if="createAccMenu==false">person_add</i>

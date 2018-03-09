@@ -168,9 +168,7 @@
             <div class="drop-line-detail">
               <h5>MR : {{mr.RRNo}}</h5>
               <p>
-                memorandum receipt has been
-                <span v-if="mr.Status==0">approved</span>
-                <span v-if="mr.Status==1">declined</span>
+                memorandum receipt signatures are complete.
               </p><br>
               <div class="time-notified">
                 <i v-if="mr.Status==0" class="material-icons color-blue">check_circle</i>

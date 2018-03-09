@@ -5025,6 +5025,10 @@ only screen and (max-width: 1050px),
 {
  width: 100px;
 }
+.mrt-info h3
+{
+	max-width: 140px;
+}
 .mrt-info
 {
   display: flex;
@@ -10662,15 +10666,7 @@ only screen and (max-width: 1050px),
 .ManagerAccount-container
 {
   min-height: 100vh;
-  padding:10px 20px;
 	flex:1;
-}
-@media (max-width:700px)
-{
-	.ManagerAccount-container
-	{
-		padding:10px;
-	}
 }
 .title-account-manager
 {
@@ -10808,12 +10804,14 @@ only screen and (max-width: 1050px),
 }
 .SortByRole
 {
-	font-size:15px;
-	padding:5px 10px;
+	font-size:13px;
+	padding:5px;
 	border:none;
-	border-bottom: 1px solid gray;
+	border: 1px solid gray;
 	color: #3B3B3B;
 	font-weight: 700;
+	border-radius: 3px;
+	margin-top: 6px;
 }
 .top-right-menu-accounts
 {
@@ -10822,13 +10820,6 @@ only screen and (max-width: 1050px),
   display: flex;
   justify-content:space-between;
   flex-wrap: wrap;
-}
-@media (max-width:700px)
-{
-	.top-right-menu-accounts
-	{
-		flex-direction: column;
-	}
 }
 @media (max-width:500px)
 {
@@ -10839,11 +10830,6 @@ only screen and (max-width: 1050px),
 	.top-right-menu-accounts ul
 	{
 		flex-direction: column;
-	}
-	.search-name-box input
-	{
-		margin:auto;
-		width: 100%;
 	}
 	.create-acc-minimenu:after
 	{
@@ -10889,6 +10875,7 @@ only screen and (max-width: 1050px),
 	padding:5px 10px;
 	border-radius: 2px;
 	border:1px solid gray;
+	margin-top: 6px;
 }
 .create-acc-minimenu
 {
@@ -10968,6 +10955,23 @@ only screen and (max-width: 1050px),
 .top-right-menu-accounts button:hover
 {
   background: #3367D6;
+}
+@media (max-width:524px)
+{
+	.top-right-menu-accounts,.top-right-menu-accounts ul
+	{
+		flex-direction: column;
+	}
+	.search-name-box
+	{
+		display: flex;
+		flex-direction: column;
+	}
+	.top-right-menu-accounts ul li
+	{
+		display: flex;
+		flex-direction: column;
+	}
 }
 .ActiveList
 {

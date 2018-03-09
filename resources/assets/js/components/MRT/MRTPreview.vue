@@ -42,6 +42,7 @@
           <span class="mrt-info"><label>MCT No:</label><h3>{{MRTMaster.MCTNo}}</h3></span>
           <span class="mrt-info"><label>MRT No:</label><h3>{{MRTMaster.MRTNo}}</h3></span>
           <span class="mrt-info"><label>Returned Date:</label><h3>{{MRTMaster.ReturnDate}}</h3></span>
+          <span class="mrt-info"><label>Remarks:</label><h3>{{MRTMaster.Remarks}}</h3></span>
         </div>
       </div>
       <div class="mrt-table-viewer">

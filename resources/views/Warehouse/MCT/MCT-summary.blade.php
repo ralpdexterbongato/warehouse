@@ -13,13 +13,15 @@
       </form>
     </div>
     @if (isset($ForDisplay[0]))
-    <div class="print-mct-summary">
-      <form class="print-summary-mct-btn" action="{{route('mct-summary-print')}}" method="post">
-        {{ csrf_field() }}
-        <input type="text" name="DateSearched" value="{{$datesearch}}" style="display:none">
-        <button type="submit">PDF</button>
-      </form>
-    </div>
+      @if (Auth::user()->Role==4)
+        <div class="print-mct-summary">
+          <form class="print-summary-mct-btn" action="{{route('mct-summary-print')}}" method="post">
+            {{ csrf_field() }}
+            <input type="text" name="DateSearched" value="{{$datesearch}}" style="display:none">
+            <button type="submit">PDF</button>
+          </form>
+        </div>
+      @endif
     <div class="bondpapercontainer-mct">
       <div class="landscape-bondpaper-mct">
         <div class="top-titles-mctSum">

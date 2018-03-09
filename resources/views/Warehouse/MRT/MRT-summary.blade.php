@@ -13,11 +13,13 @@
     </div>
     <div class="results-summary-mrt">
       @if (!empty($MaterialDate))
-      <div class="print-summary-mrt-container">
-        <form class="print-mrt-summary" action="{{route('mrt-summary-print')}}" method="get">
-          <button type="submit" name="monthInput" value="{{$MaterialDate->format('Y-m')}}">PDF</button>
-        </form>
-      </div>
+        @if (Auth::user()->Role==4)
+          <div class="print-summary-mrt-container">
+            <form class="print-mrt-summary" action="{{route('mrt-summary-print')}}" method="get">
+              <button type="submit" name="monthInput" value="{{$MaterialDate->format('Y-m')}}">PDF</button>
+            </form>
+          </div>
+        @endif
       <div class="bondpaper-sample-mrt">
         <div class="header-summary">
           <div class="header-summary-content">

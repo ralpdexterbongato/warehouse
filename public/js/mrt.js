@@ -12019,6 +12019,7 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
 //
 //
 //
+//
 
 
 
@@ -13721,7 +13722,9 @@ module.exports={render:function (){var _vm=this;var _h=_vm.$createElement;var _c
     staticClass: "mrt-info"
   }, [_c('label', [_vm._v("MRT No:")]), _c('h3', [_vm._v(_vm._s(_vm.MRTMaster.MRTNo))])]), _vm._v(" "), _c('span', {
     staticClass: "mrt-info"
-  }, [_c('label', [_vm._v("Returned Date:")]), _c('h3', [_vm._v(_vm._s(_vm.MRTMaster.ReturnDate))])])])]), _vm._v(" "), _c('div', {
+  }, [_c('label', [_vm._v("Returned Date:")]), _c('h3', [_vm._v(_vm._s(_vm.MRTMaster.ReturnDate))])]), _vm._v(" "), _c('span', {
+    staticClass: "mrt-info"
+  }, [_c('label', [_vm._v("Remarks:")]), _c('h3', [_vm._v(_vm._s(_vm.MRTMaster.Remarks))])])])]), _vm._v(" "), _c('div', {
     staticClass: "mrt-table-viewer"
   }, [_c('table', [_vm._m(1), _vm._v(" "), _vm._l((_vm.forMRTConfirmation), function(mrtconfirm, count) {
     return _c('tr', [_c('td', [_vm._v(_vm._s(mrtconfirm.AccountCode))]), _vm._v(" "), _c('td', [_vm._v(_vm._s(mrtconfirm.ItemCode))]), _vm._v(" "), _c('td', [_vm._v(_vm._s(mrtconfirm.Description))]), _vm._v(" "), _c('td', [_vm._v(_vm._s(_vm.formatPrice(mrtconfirm.UnitCost)))]), _vm._v(" "), _c('td', [_vm._v(_vm._s(_vm.formatPrice(mrtconfirm.Amount)))]), _vm._v(" "), _c('td', [_vm._v(_vm._s(mrtconfirm.Unit))]), _vm._v(" "), _c('td', {
