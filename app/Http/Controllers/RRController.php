@@ -53,7 +53,7 @@ class RRController extends Controller
           }
         }else
         {
-          $RVCurrentDetail=PODetail::where('PONo', $MasterCurrent[0]->PONo)->where('Particulars',$tobe->Description)->get(['QtyValidator','id']);
+          $RVCurrentDetail=PODetail::where('PONo', $MasterCurrent[0]->PONo)->where('Description',$tobe->Description)->get(['QtyValidator','id']);
           if ($tobe->QuantityAccepted < $request->newQty[$key])
           {
             $QtyToSub =$request->newQty[$key] - $tobe->QuantityAccepted;
@@ -116,7 +116,7 @@ class RRController extends Controller
           }
         }else
         {
-          $RVCurrentDetail=PODetail::where('PONo', $MasterCurrent[0]->PONo)->where('Particulars',$tobe->Description)->get(['QtyValidator','id']);
+          $RVCurrentDetail=PODetail::where('PONo', $MasterCurrent[0]->PONo)->where('Description',$tobe->Description)->get(['QtyValidator','id']);
           if ($tobe->QuantityAccepted > $request->newQty[$key])
           {
             $QtyToReturn = $tobe->QuantityAccepted - $request->newQty[$key];
