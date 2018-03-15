@@ -107,4 +107,9 @@ class PDFController extends Controller
     $pdf->setPaper('A4','landscape');
     return $pdf->stream('MCTsummary.pdf');
   }
+  public function MRTPrinting()
+  {
+    $pdf = PDF::loadView('Warehouse.MRT.MRTPrintable');
+    return $pdf->stream('MRT.pdf');
+  }
 }
