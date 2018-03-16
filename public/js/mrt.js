@@ -12020,6 +12020,11 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
 //
 //
 //
+//
+//
+//
+//
+//
 
 
 
@@ -13611,7 +13616,18 @@ module.exports={render:function (){var _vm=this;var _h=_vm.$createElement;var _c
     staticClass: "material-icons"
   }, [_vm._v("warning")]), _vm._v("Invalid transaction")]) : _vm._e()]), _vm._v(" "), _c('div', {
     staticClass: "top-MRT-buttons"
-  }, [(_vm.StillEditable) ? _c('span', {
+  }, [(_vm.MRTMaster.Status == 0) ? _c('div', {
+    staticClass: "mrt-print"
+  }, [_c('a', {
+    attrs: {
+      "href": '/print-mrt.pdf/' + _vm.MRTMaster.MRTNo
+    }
+  }, [_c('button', {
+    attrs: {
+      "type": "button",
+      "name": "button"
+    }
+  }, [_vm._v("PDF")])])]) : _vm._e(), _vm._v(" "), (_vm.StillEditable) ? _c('span', {
     staticClass: "edit-mrt-container"
   }, [_c('button', {
     class: {

@@ -99,6 +99,10 @@
   {
     height:90px;
   }
+  .table-container
+  {
+    page-break-inside:avoid;
+  }
   .table-container table td
   {
     padding-top: 4px;
@@ -151,6 +155,7 @@
     float: right;
     display: inline-block;
     padding-top:100px;
+    page-break-inside:avoid;
   }
   .right-total-amt p
   {
@@ -170,7 +175,60 @@
     padding:5px 10px;
     width: 140px;
   }
-
+  .signatures-container
+  {
+    padding-top: 200px;
+    width: 100%;
+    page-break-inside:avoid;
+  }
+  .signatures-boxes
+  {
+    width: 100%;
+  }
+  .signatures-left-box
+  {
+    display: inline-block;
+    float:left;
+    width: 40%;
+  }
+  .signatures-right-box
+  {
+    display: inline-block;
+    float:right;
+    width: 40%;
+  }
+  .signature-label
+  {
+    font-family: sans-serif;
+    font-size: 14px;
+    font-weight: 200;
+    position: relative;
+  }
+  .signaturer-name
+  {
+    text-align: center;
+    font-size: 14px;
+    font-weight: 400;
+    font-family: sans-serif;
+    margin-top: 40px;
+    position: relative;
+  }
+  .signature-image
+  {
+    width: 150px;
+    height: 50px;
+    position: absolute;
+    top:-70px;
+    left:90px;
+  }
+  .signature-image img
+  {
+    width: 100%;
+  }
+  .account-code-group-container
+  {
+    page-break-inside:avoid;
+  }
 </style>
 
 
@@ -183,14 +241,14 @@
   <div class="head-second-data-container">
     <div class="second-data-wrap">
       <div class="head-left-container">
-        <li><label>Particulars:</label> <h3>head-left-container</h3></li>
-        <li><label>Address:</label> <h3>my address</h3> </li>
+        <li><label>Particulars:</label> <h3>{{$mrtMaster[0]->Particulars}}</h3></li>
+        <li><label>Address:</label> <h3>{{$mrtMaster[0]->AddressTo}}</h3> </li>
       </div>
       <div class="head-right-container">
-        <li><label>MCTNo:</label> <h3>head-left-container</h3></li>
-        <li><label>MRTNo:</label> <h3>my address</h3> </li>
-        <li><label>Returned Date:</label> <h3>head-left-container</h3></li>
-        <li><label>Remarks:</label> <h3>my address</h3> </li>
+        <li><label>MCTNo:</label> <h3>{{$mrtMaster[0]->MCTNo}}</h3></li>
+        <li><label>MRTNo:</label> <h3>{{$mrtMaster[0]->MRTNo}}</h3> </li>
+        <li><label>Returned Date:</label> <h3>{{$mrtMaster[0]->ReturnDate->Format('M d, Y')}}</h3></li>
+        <li><label>Remarks:</label> <h3>{{$mrtMaster[0]->Remarks}}</h3> </li>
       </div>
     </div>
   </div>
@@ -206,94 +264,64 @@
           <th>Unit</th>
           <th>Returned</th>
         </tr>
+        @foreach ($MRTConfirmationItems as $key => $item)
         <tr>
-          <td>samlple</td>
-          <td>samlple</td>
-          <td>samlple</td>
-          <td>samlple</td>
-          <td>samlple</td>
-          <td>samlple</td>
-          <td style="text-align:right">samlple</td>
+          <td>{{$item->AccountCode}}</td>
+          <td>{{$item->ItemCode}}</td>
+          <td>{{$item->Description}}</td>
+          <td>{{$item->UnitCost}}</td>
+          <td>{{$item->Amount}}</td>
+          <td>{{$item->Unit}}</td>
+          <td style="text-align:right">{{$item->Quantity}}</td>
         </tr>
-        <tr>
-          <td>samlple</td>
-          <td>samlple</td>
-          <td>samlple</td>
-          <td>samlple</td>
-          <td>samlple</td>
-          <td>samlple</td>
-          <td style="text-align:right">samlple</td>
-        </tr>
-        <tr>
-          <td>samlple</td>
-          <td>samlple</td>
-          <td>samlple</td>
-          <td>samlple</td>
-          <td>samlple</td>
-          <td>samlple</td>
-          <td style="text-align:right">samlple</td>
-        </tr>
-        <tr>
-          <td>samlple</td>
-          <td>samlple</td>
-          <td>samlple</td>
-          <td>samlple</td>
-          <td>samlple</td>
-          <td>samlple</td>
-          <td style="text-align:right">samlple</td>
-        </tr>
-        <tr>
-          <td>samlple</td>
-          <td>samlple</td>
-          <td>samlple</td>
-          <td>samlple</td>
-          <td>samlple</td>
-          <td>samlple</td>
-          <td style="text-align:right">samlple</td>
-        </tr>
-        <tr>
-          <td>samlple</td>
-          <td>samlple</td>
-          <td>samlple</td>
-          <td>samlple</td>
-          <td>samlple</td>
-          <td>samlple</td>
-          <td style="text-align:right">samlple</td>
-        </tr>
-        <tr>
-          <td>samlple</td>
-          <td>samlple</td>
-          <td>samlple</td>
-          <td>samlple</td>
-          <td>samlple</td>
-          <td>samlple</td>
-          <td style="text-align:right">samlple</td>
-        </tr>
-        <tr>
-          <td>samlple</td>
-          <td>samlple</td>
-          <td>samlple</td>
-          <td>samlple</td>
-          <td>samlple</td>
-          <td>samlple</td>
-          <td style="text-align:right">samlple</td>
-        </tr>
+        @endforeach
       </table>
     </div>
   </div>
   <div class="account-code-group-container">
     <div class="left-account-code-group-box">
-      <li>
-        <label for="">200-100-200</label><p>5,000</p>
-      </li>
-      <li>
-        <label for="">200-100-200</label><p>5,000</p>
-      </li>
+      @foreach ($MRTbyAcntCode as $key => $groupitem)
+        <li>
+          <label>{{$groupitem->AccountCode}}</label><p>{{number_format($groupitem->totalAMT,'2','.',',')}}</p>
+        </li>
+      @endforeach
     </div>
   </div>
   <div class="right-total-amt">
     <div class="right-total-box">
-      <p class="total-label">Total ammount Returned</p><p class="totalnum">5,000</p>
+      <p class="total-label">Total ammount Returned</p><p class="totalnum">{{number_format($totalsum,'2','.',',')}}</p>
+    </div>
+  </div>
+  <div class="signatures-container">
+    <div class="signatures-boxes">
+      <div class="signatures-left-box">
+        <div class="signature-label">
+          Returned by:
+        </div>
+        <div class="signaturer-name">
+          <div class="signature-image">
+            @if ($mrtMaster[0]->users[1]->pivot->Signature=='0')
+              <img src="c:/xampp/htdocs/warehouse/public/storage/signatures/{{$mrtMaster[0]->users[1]->Signature}}" alt="signature">
+            @endif
+          </div>
+          {{$mrtMaster[0]->users[1]->FullName}}
+          <p>{{$mrtMaster[0]->users[1]->Position}}</p>
+        </div>
+      </div>
+      <div class="signatures-right-box">
+        <div class="signature-label">
+          Received by:
+        </div>
+        <div class="signaturer-name">
+          <div class="signature-image">
+            @if ($mrtMaster[0]->users[0]->pivot->Signature=='0')
+              <img src="c:/xampp/htdocs/warehouse/public/storage/signatures/{{$mrtMaster[0]->users[0]->Signature}}" alt="signature">
+            @endif
+          </div>
+          {{$mrtMaster[0]->users[0]->FullName}}
+          <p>{{$mrtMaster[0]->users[0]->Position}}</p>
+        </div>
+      </div>
     </div>
   </div>
 </div>

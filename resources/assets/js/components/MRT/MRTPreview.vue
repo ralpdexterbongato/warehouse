@@ -4,6 +4,11 @@
       <p v-if="MRTMaster.IsRollBack==0"><i class="material-icons">warning</i>Invalid transaction</p>
     </div>
     <div class="top-MRT-buttons">
+      <div class="mrt-print" v-if="MRTMaster.Status==0">
+        <a :href="'/print-mrt.pdf/'+MRTMaster.MRTNo">
+          <button type="button" name="button">PDF</button>
+        </a>
+      </div>
       <span class="edit-mrt-container" v-if="StillEditable">
         <button v-on:click="Editbtn=true" :class="{'hide':Editbtn}"><i class="material-icons">edit</i> Edit</button>
         <span class="edit-mrt-btns" :class="{'active':Editbtn}">

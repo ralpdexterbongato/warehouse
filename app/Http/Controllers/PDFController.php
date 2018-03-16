@@ -19,6 +19,7 @@ use App\PODetail;
 use App\MRMaster;
 use App\User;
 use App\MCTConfirmationDetail;
+use App\MRTConfirmationDetail;
 class PDFController extends Controller
 {
   public function mirspdf($id)
@@ -107,9 +108,17 @@ class PDFController extends Controller
     $pdf->setPaper('A4','landscape');
     return $pdf->stream('MCTsummary.pdf');
   }
-  public function MRTPrinting()
+  public function MRTPrinting($id)
   {
-    $pdf = PDF::loadView('Warehouse.MRT.MRTPrintable');
+    $mrtMaster=MRTMaster::with('users')->where('MRTNo',$id)->get();
+    $MRTConfirmationItems=MRTConfirmationDetail::where('MRTNo',$id)->get();
+    $MRTbyAcntCode=MRTConfirmationDetail::orderBy('AccountCode')->where('MRTNo',$id)->groupBy('AccountCode')->selectRaw('sum(Amount) as totalAMT,AccountCode as AccountCode')->get();
+    $totalsum=0;
+    foreach ($MRTbyAcntCode as $AcntCode)
+    {
+      $totalsum= $totalsum + $AcntCode->totalAMT;
+    }
+    $pdf = PDF::loadView('Warehouse.MRT.MRTPrintable',compact('mrtMaster','MRTConfirmationItems','MRTbyAcntCode','totalsum'));
     return $pdf->stream('MRT.pdf');
   }
 }

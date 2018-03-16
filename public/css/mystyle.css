@@ -3505,6 +3505,22 @@ only screen and (max-width: 1050px),
 {
   position: relative;
 }
+.mrt-print button:focus
+{
+	-webkit-box-shadow:none;
+    box-shadow: none;
+		border:1px solid #e0e0e0;
+}
+.mrt-print button
+{
+	padding: 5px 10px;
+  border-radius: 3px;
+  background: #fff;
+  border-style: none;
+  font-family:Roboto, 'Segoe UI', Tahoma, sans-serif;
+	-webkit-box-shadow: 0 2px 4px -1px rgba(0,0,0,0.06), 0 4px 5px 0 rgba(0,0,0,0.06), 0 1px 10px 0 rgba(0,0,0,0.08);
+	    box-shadow: 0 2px 4px -1px rgba(0,0,0,0.06), 0 4px 5px 0 rgba(0,0,0,0.06), 0 1px 10px 0 rgba(0,0,0,0.08);
+}
 .eyesicon
 {
   color: #0066CC!important;
