@@ -101,23 +101,76 @@
   }
   .table-container table td
   {
-    text-align: center;
     padding-top: 4px;
     font-family: sans-serif;
     font-size: 13px;
+    text-align: left;
   }
   .table-container table th
   {
     font-size: 14px;
     font-family:helvetica;
     border: 1px solid black;
+    font-weight:600;
     text-align: center;
-    font-weight: 400;
+  }
+  .right
+  {
+    text-align: right;
   }
   .table-container table
   {
     width: 100%;
   }
+  .account-code-summarized-container
+  {
+    margin-top: 50px;
+  }
+  .left-account-code-group-box
+  {
+    display: inline-block;
+    float:left;
+    padding-top: 40px;
+  }
+  .left-account-code-group-box li
+  {
+    list-style: none;
+    font-size: 13px;
+  }
+  .left-account-code-group-box li label
+  {
+    display: inline-block;
+    width: 100px;
+  }
+  .left-account-code-group-box li p
+  {
+    display: inline-block;
+  }
+  .right-total-amt
+  {
+    float: right;
+    display: inline-block;
+    padding-top:100px;
+  }
+  .right-total-amt p
+  {
+    display: inline-block;
+    font-size: 14px;
+    border:1px solid black;
+  }
+  .total-label
+  {
+    text-align: center;
+    padding:5px 15px;
+    width: 166px;
+  }
+  .totalnum
+  {
+    text-align: right;
+    padding:5px 10px;
+    width: 140px;
+  }
+
 </style>
 
 
@@ -160,7 +213,7 @@
           <td>samlple</td>
           <td>samlple</td>
           <td>samlple</td>
-          <td>samlple</td>
+          <td style="text-align:right">samlple</td>
         </tr>
         <tr>
           <td>samlple</td>
@@ -169,7 +222,7 @@
           <td>samlple</td>
           <td>samlple</td>
           <td>samlple</td>
-          <td>samlple</td>
+          <td style="text-align:right">samlple</td>
         </tr>
         <tr>
           <td>samlple</td>
@@ -178,7 +231,7 @@
           <td>samlple</td>
           <td>samlple</td>
           <td>samlple</td>
-          <td>samlple</td>
+          <td style="text-align:right">samlple</td>
         </tr>
         <tr>
           <td>samlple</td>
@@ -187,7 +240,7 @@
           <td>samlple</td>
           <td>samlple</td>
           <td>samlple</td>
-          <td>samlple</td>
+          <td style="text-align:right">samlple</td>
         </tr>
         <tr>
           <td>samlple</td>
@@ -196,7 +249,7 @@
           <td>samlple</td>
           <td>samlple</td>
           <td>samlple</td>
-          <td>samlple</td>
+          <td style="text-align:right">samlple</td>
         </tr>
         <tr>
           <td>samlple</td>
@@ -205,9 +258,42 @@
           <td>samlple</td>
           <td>samlple</td>
           <td>samlple</td>
+          <td style="text-align:right">samlple</td>
+        </tr>
+        <tr>
           <td>samlple</td>
+          <td>samlple</td>
+          <td>samlple</td>
+          <td>samlple</td>
+          <td>samlple</td>
+          <td>samlple</td>
+          <td style="text-align:right">samlple</td>
+        </tr>
+        <tr>
+          <td>samlple</td>
+          <td>samlple</td>
+          <td>samlple</td>
+          <td>samlple</td>
+          <td>samlple</td>
+          <td>samlple</td>
+          <td style="text-align:right">samlple</td>
         </tr>
       </table>
+    </div>
+  </div>
+  <div class="account-code-group-container">
+    <div class="left-account-code-group-box">
+      <li>
+        <label for="">200-100-200</label><p>5,000</p>
+      </li>
+      <li>
+        <label for="">200-100-200</label><p>5,000</p>
+      </li>
+    </div>
+  </div>
+  <div class="right-total-amt">
+    <div class="right-total-box">
+      <p class="total-label">Total ammount Returned</p><p class="totalnum">5,000</p>
     </div>
   </div>
 </div>
