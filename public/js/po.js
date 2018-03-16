@@ -12695,7 +12695,7 @@ module.exports={render:function (){var _vm=this;var _h=_vm.$createElement;var _c
 },staticRenderFns: [function (){var _vm=this;var _h=_vm.$createElement;var _c=_vm._self._c||_h;
   return _c('h1', [_c('i', {
     staticClass: "material-icons"
-  }, [_vm._v("show_chart")]), _vm._v(" Purchase Order index")])
+  }, [_vm._v("content_paste")]), _vm._v(" Purchase Order index")])
 },function (){var _vm=this;var _h=_vm.$createElement;var _c=_vm._self._c||_h;
   return _c('tr', [_c('th', [_vm._v("PO #")]), _vm._v(" "), _c('th', [_vm._v("PO Date")]), _vm._v(" "), _c('th', [_vm._v("RV #")]), _vm._v(" "), _c('th', [_vm._v("RV Date")]), _vm._v(" "), _c('th', [_vm._v("Supplier")]), _vm._v(" "), _c('th', [_vm._v("Purpose")]), _vm._v(" "), _c('th', [_vm._v("General Manager")]), _vm._v(" "), _c('th', [_vm._v("Status")]), _vm._v(" "), _c('th', [_vm._v("Show")])])
 }]}

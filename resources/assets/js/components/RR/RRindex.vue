@@ -1,7 +1,7 @@
 <template lang="html">
 <div class="index-rr-vue">
   <div class="index-RRtitle-container">
-    <h1><i class="material-icons">show_chart</i> Receiving Report index</h1>
+    <h1><i class="material-icons">content_paste</i> Receiving Report index</h1>
     <div class="box-search-rr">
       <div class="searchbox-RR">
         <input type="text" autocomplete="off" v-on:keyup="SearchAndFetch()" v-model="SearchRRNo" name="RRNo" placeholder="Enter RR #">

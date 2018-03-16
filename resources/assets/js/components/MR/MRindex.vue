@@ -1,7 +1,7 @@
 <template lang="html">
   <div class="mr-index-vue">
     <div class="mr-index-search-and-fetch">
-      <h1><i class="material-icons">show_chart</i> Memorandum Receipt index</h1>
+      <h1><i class="material-icons">content_paste</i> Memorandum Receipt index</h1>
       <input type="text" placeholder="Enter MR #" v-model="MRNoSearch" v-on:keyup="fetchAndSearch(1)">
     </div>
     <div class="mr-index-table">

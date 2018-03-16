@@ -3,7 +3,7 @@
 <div class="table-rv-container">
   <div class="top-RV-index">
     <div class="rv-index-title">
-      <h1><i class="material-icons">show_chart</i> Requisition Voucher index</h1>
+      <h1><i class="material-icons">content_paste</i> Requisition Voucher index</h1>
     </div>
     <div class="searchbox-RV">
       <input @keyup="fetchdataRV()" type="text" name="search" v-model="search" placeholder="Enter RV #">

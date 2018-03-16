@@ -1,7 +1,7 @@
 <template lang="html">
   <div class="mrt-index-vue">
     <div class="title-mrt-index-and-search">
-      <h1><i class="material-icons">show_chart</i> Materials Returned Ticket index</h1>
+      <h1><i class="material-icons">content_paste</i> Materials Returned Ticket index</h1>
       <input type="text" placeholder="MRT #" v-model="MRTSearch" v-on:keyup="fetchandSearch()">
     </div>
     <div class="mrt-index-table-container">

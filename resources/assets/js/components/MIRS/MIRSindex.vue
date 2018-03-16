@@ -2,7 +2,7 @@
 <div class="mirs-index-vue">
   <div class="top-wrap-index-mirs">
     <div class="Title-MIRS-Index">
-    <i class="material-icons">show_chart</i> Materials Issuance Requisition Slip index
+    <i class="material-icons">content_paste</i> Materials Issuance Requisition Slip index
     </div>
     <div class="search-mirs-container">
       <input type="text" autocomplete="off" v-on:keyup="SearchAndFetch()" v-model="SearchInput"  placeholder="Enter MIRS #">

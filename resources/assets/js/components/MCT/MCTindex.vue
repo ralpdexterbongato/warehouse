@@ -1,7 +1,7 @@
 <template lang="html">
 <div class="mct-index-vue-container">
   <div class="index-mct-title-and-search">
-    <h1><i class="material-icons">show_chart</i> Materials Charge Ticket index</h1>
+    <h1><i class="material-icons">content_paste</i> Materials Charge Ticket index</h1>
     <div class="search-mct-index">
       <input type="text" placeholder="MCT #" v-on:keyup="fetchdatatable()" v-model="searchMCTNo">
     </div>

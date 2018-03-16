@@ -57,7 +57,7 @@
       <div class="mct-create-mct-list" v-if="approved">
         <a :href="'/create-mct/'+mirsno.MIRSNo" v-if="((user.Role==4)||(user.Role==3))"><button type="button" id="mct-modal-btn" name="button"><i class="material-icons">add</i> Record MCT</button></a>
         <h1 v-if="((user.Role!=3)&&(user.Role!=4)&&(MCTNumber==null))">Empty MCT</h1>
-        <a :href="'/MCTofMIRS/'+mirsno.MIRSNo" v-else-if="MCTNumber!=null"><button type="button" name="button"><i class="material-icons">show_chart</i> M.C.T. list</button></a>
+        <a :href="'/MCTofMIRS/'+mirsno.MIRSNo" v-else-if="MCTNumber!=null"><button type="button" name="button"><i class="material-icons">content_paste</i> M.C.T. list</button></a>
       </div>
     </div>
   </div>

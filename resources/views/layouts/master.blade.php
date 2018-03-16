@@ -53,13 +53,13 @@
             </h1>
             <ul class="dropping">
               <div class="dropping-scroller">
-                <a href="{{route('MIRSgridview')}}"><li class="{{current_page('mirs-index-page')?'active':''}}"><i class="material-icons">show_chart</i> MIRS</li></a>
-                <a href="{{route('indexMCT')}}"><li class="{{current_page('mct-index-page')?'active':''}}"><i class="material-icons">show_chart</i> MCT</li></a>
-                <a href="{{route('MRTindexPageonly')}}"><li class="{{current_page('mrt-index-page')?'active':''}}"><i class="material-icons">show_chart</i> MRT</li></a>
-                <a href="{{route('RVindexView')}}"><li class="{{current_page('RVindex')?'active':''}}"><i class="material-icons">show_chart</i> RV</li></a>
-                <a href="{{route('RRindexview')}}"><li class="{{current_page('RR-index')?'active':''}}"><i class="material-icons">show_chart</i> RR</li></a>
-                <a href="{{route('POIndexPage')}}"><li class="{{current_page('po-index-page')?'active':''}}"><i class="material-icons">show_chart</i> PO</li></a>
-                <a href="{{route('MRIndexPage')}}"><li class="{{current_page('mr-index-page')?'active':''}}"><i class="material-icons">show_chart</i> MR</li></a>
+                <a href="{{route('MIRSgridview')}}"><li class="{{current_page('mirs-index-page')?'active':''}}"><i class="material-icons">content_paste</i> MIRS</li></a>
+                <a href="{{route('indexMCT')}}"><li class="{{current_page('mct-index-page')?'active':''}}"><i class="material-icons">content_paste</i> MCT</li></a>
+                <a href="{{route('MRTindexPageonly')}}"><li class="{{current_page('mrt-index-page')?'active':''}}"><i class="material-icons">content_paste</i> MRT</li></a>
+                <a href="{{route('RVindexView')}}"><li class="{{current_page('RVindex')?'active':''}}"><i class="material-icons">content_paste</i> RV</li></a>
+                <a href="{{route('RRindexview')}}"><li class="{{current_page('RR-index')?'active':''}}"><i class="material-icons">content_paste</i> RR</li></a>
+                <a href="{{route('POIndexPage')}}"><li class="{{current_page('po-index-page')?'active':''}}"><i class="material-icons">content_paste</i> PO</li></a>
+                <a href="{{route('MRIndexPage')}}"><li class="{{current_page('mr-index-page')?'active':''}}"><i class="material-icons">content_paste</i> MR</li></a>
               </div>
             </ul>
           </li>

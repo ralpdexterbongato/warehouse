@@ -77,7 +77,7 @@ Route::get('/mrt-index-page','MRTController@MRTindexPage')->name('MRTindexPageon
 Route::get('/mrt-index-fetch-search','MRTController@MRTindexSearch');
 Route::get('/my-mrt-signature-request','MRTController@myMRTSignatureRequest')->name('MyMRTSignatureRequest');
 Route::get('/my-mrt-signature-request-fetchdata','MRTController@myMRTSignatureFetchData');
-Route::get('/print-mrt/{id}','PDFController@MRTPrinting');
+Route::get('/print-mrt.pdf/{id}','PDFController@MRTPrinting');
 Route::get('mct-summary','MCTController@summaryMCT')->name('mct-summary')->middleware('IsWarehouseAndAdmin');
 Route::put('/MIRS-Signature/{id}','MIRSController@MIRSSignature')->name('MIRSSign');
 Route::get('/item-search','ItemsController@ItemMasterSearch')->name('ItemsearchDescription');
