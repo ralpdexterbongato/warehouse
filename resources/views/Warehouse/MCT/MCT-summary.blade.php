@@ -15,11 +15,12 @@
     @if (isset($ForDisplay[0]))
       @if (Auth::user()->Role==4)
         <div class="print-mct-summary">
-          <form class="print-summary-mct-btn" action="{{route('mct-summary-print')}}" method="post">
-            {{ csrf_field() }}
-            <input type="text" name="DateSearched" value="{{$datesearch}}" style="display:none">
-            <button type="submit">PDF</button>
-          </form>
+          <a class="print-summary-mct-btn" href="/MCTSUMMARY.pdf?DateSearched={{$datesearch}}">
+            <button type="button" name="button">PDF</button>
+          </a>
+          <a class="print-summary-mct-btn" href="/export-excel-mct-summary?DateSearched={{$datesearch}}">
+            <button type="button" name="button"><i class="material-icons">file_download</i> Excel</button>
+          </a>
         </div>
       @endif
     <div class="bondpapercontainer-mct">

@@ -97,6 +97,10 @@ class PDFController extends Controller
     $datesearch=$request->DateSearched;
     $MCTsummaryItems=MaterialsTicketDetail::where('MTType','MCT')->whereNull('IsRollBack')->whereDate('MTDate','LIKE',date($datesearch).'%')->groupBy('ItemCode')->selectRaw('sum(Quantity) as totalissued, ItemCode as ItemCode')->get();
     $ForDisplay = array();
+    if (empty($MCTsummaryItems[0]))
+    {
+      return redirect('/mct-summary');
+    }
     foreach ($MCTsummaryItems as $key=> $items)
     {
     $ForDisplay[$key]=MaterialsTicketDetail::orderBy('id','DESC')->whereNull('IsRollBack')->where('ItemCode',$items->ItemCode)->whereDate('MTDate','LIKE',date($datesearch).'%')->take(1)->get(['AccountCode','ItemCode','CurrentQuantity','MTDate']);

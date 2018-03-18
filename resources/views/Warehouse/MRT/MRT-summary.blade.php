@@ -15,9 +15,12 @@
       @if (!empty($MaterialDate))
         @if (Auth::user()->Role==4)
           <div class="print-summary-mrt-container">
-            <form class="print-mrt-summary" action="{{route('mrt-summary-print')}}" method="get">
-              <button type="submit" name="monthInput" value="{{$MaterialDate->format('Y-m')}}">PDF</button>
-            </form>
+            <a class="print-mrt-summary" href="/MRTSUMMARY.pdf?monthInput={{$MaterialDate->format('Y-m')}}">
+              <button type="submit">PDF</button>
+            </a>
+            <a class="print-mrt-summary" href="export-excel-mrt-summary?monthInput={{$MaterialDate->format('Y-m')}}">
+              <button type="button" name="button"><i class="material-icons">file_download</i> Excel</button>
+            </a>
           </div>
         @endif
       <div class="bondpaper-sample-mrt">

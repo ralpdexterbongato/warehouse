@@ -167,6 +167,7 @@ return [
         Nexmo\Laravel\NexmoServiceProvider::class,
         RenatoMarinho\LaravelPageSpeed\ServiceProvider::class,
         Collective\Remote\RemoteServiceProvider::class,
+        Maatwebsite\Excel\ExcelServiceProvider::class,
 
         /*
          * Package Service Providers...
@@ -234,6 +235,8 @@ return [
         'Image' => Intervention\Image\Facades\Image::class,
         'Nexmo' => Nexmo\Laravel\Facade\Nexmo::class,
         'SSH' => Collective\Remote\RemoteFacade::class,
+        'Excel' => Maatwebsite\Excel\Facades\Excel::class,
+
     ],
 
 ];

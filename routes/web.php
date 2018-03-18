@@ -38,7 +38,7 @@ Route::post('/sessionMIRSitem','MIRSController@addingSessionItem')->name('select
 Route::delete('/removeSessions/{id}','MIRSController@deletePartSession')->name('delete.session');
 Route::post('/mirs-storedata','MIRSController@StoringMIRS')->name('mirs.store');
 Route::get('/MIRS.pdf/{id}','PDFController@mirspdf')->name('mirs-download');
-Route::post('/MCTSUMMARY.pdf','PDFController@MCTsummaryprint')->name('mct-summary-print')->middleware('IsWarehouseAndAdmin');
+Route::get('/MCTSUMMARY.pdf','PDFController@MCTsummaryprint')->name('mct-summary-print')->middleware('IsWarehouseAndAdmin');
 Route::get('/previewFullMIRS/{id}','MIRSController@fullMIRSview')->name('full-mirs');
 Route::get('/fetchpreview-full-mirs-/{id}','MIRSController@fetchFullMIRSData');
 Route::put('/deniedmirs/{id}','MIRSController@DeniedMIRS')->name('DeniedMIRS');
@@ -239,3 +239,7 @@ Route::get('/all-users-status','dashBoardController@UsersStatusCheck');
 //recent files
 Route::get('/recent-files-get','dashBoardController@getRecentTransactions');
 Route::get('/transactions-count','dashBoardController@countUserTransactions');
+
+// excel
+Route::get('/export-excel-mct-summary','excelController@exportExelMCT');
+Route::get('/export-excel-mrt-summary','excelController@exportExelMRT');

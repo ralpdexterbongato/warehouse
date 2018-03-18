@@ -2234,6 +2234,10 @@ input[type=number]::-webkit-inner-spin-button {
 {
   display: flex;
 }
+.mct-create-mct-list a
+{
+	margin:5px 2px;
+}
 .mct-create-mct-list button
 {
   margin-left: 5px;
@@ -3640,6 +3644,7 @@ only screen and (max-width: 1050px),
 	.mrt-done a button
 	{
 		flex:1;
+		margin:4px;
 	}
 	.Create-MRT-btn a
 	{
@@ -4654,8 +4659,13 @@ only screen and (max-width: 1050px),
 		text-align: center;
 	}
 }
+.print-mrt-summary i
+{
+	font-size: 14px;
+}
 .print-mrt-summary button
 {
+	margin-right: 5px;
   font-family:Roboto, 'Segoe UI', Tahoma, sans-serif;
   border-radius: 3px;
   background: #fff;
@@ -5492,6 +5502,10 @@ only screen and (max-width: 1050px),
   overflow-x: hidden;
 	overflow-y: auto;
 }
+.print-summary-mct-btn button i
+{
+	font-size: 15px;
+}
 .print-summary-mct-btn button
 {
   font-family:Roboto, 'Segoe UI', Tahoma, sans-serif;
@@ -5499,6 +5513,7 @@ only screen and (max-width: 1050px),
   border-style: none;
   border-radius: 3px;
   background: #fff;
+	margin-right: 5px;
 	-webkit-box-shadow: 0 2px 4px -1px rgba(0,0,0,0.06), 0 4px 5px 0 rgba(0,0,0,0.06), 0 1px 10px 0 rgba(0,0,0,0.08);
     box-shadow: 0 2px 4px -1px rgba(0,0,0,0.06), 0 4px 5px 0 rgba(0,0,0,0.06), 0 1px 10px 0 rgba(0,0,0,0.08);
 }
