@@ -12006,7 +12006,7 @@ only screen and (max-width: 1050px),
   position: fixed;
   top: 0;
   left: 0;
-  z-index: 16;
+  z-index: 18;
   display: none;
 	margin-right:40px!important;
 }
