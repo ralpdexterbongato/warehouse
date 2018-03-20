@@ -221,14 +221,10 @@ Route::get('/line-chart-data','dashBoardController@lineChart');
 Route::get('/bar-chart-data','dashBoardController@barChart');
 
 // notification global
-Route::get('/fetch-mirs-global-notifications','globalNotificationController@fetchMIRS');
-Route::get('/fetch-rv-global-notifications','globalNotificationController@fetchRV');
-Route::get('/fetch-po-global-notifications','globalNotificationController@fetchPO');
-Route::get('/fetch-rr-global-notifications','globalNotificationController@fetchRR');
-Route::get('/fetch-mr-global-notifications','globalNotificationController@fetchMR');
-Route::get('/fetch-mct-global-notifications','globalNotificationController@fetchMCT');
-Route::get('/fetch-mrt-global-notifications','globalNotificationController@fetchMRT');
+Route::get('/fetch-global-notifications','globalNotificationController@fetchNotifications');
 Route::get('/notif-global-count','globalNotificationController@countInfoNotification');
+Route::get('/mark-seen/{id}','globalNotificationController@markSeen');
+Route::get('/mark-all-seen','globalNotificationController@markAllSeen');
 
 // damage item recording
 Route::post('/damage-item-store/{itemcode}','DamagedItemController@store');

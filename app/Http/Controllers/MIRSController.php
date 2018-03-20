@@ -19,6 +19,7 @@ use App\Signatureable;
 use App\Jobs\SMSDeclinedMIRS;
 use App\Jobs\GlobalNotifJob;
 use App\MasterItem;
+use App\Notification;
 class MIRSController extends Controller
 {
   public function __construct()
@@ -110,7 +111,6 @@ class MIRSController extends Controller
       $master->MIRSNo = $incremented;
       $master->Purpose =$request->Purpose;
       $master->MIRSDate = $date;
-      $master->notification_date_time=$date;
       $master->save();
 
       $ApproveReplacer=User::whereNotNull('IfApproveReplacer')->take(1)->get(['id']);
@@ -187,7 +187,7 @@ class MIRSController extends Controller
   public function DeniedMIRS($id)
   {
     Signatureable::where('signatureable_id', $id)->where('signatureable_type', 'App\MIRSMaster')->where('user_id', Auth::user()->id)->update(['Signature'=>'1']);
-    MIRSMaster::where('MIRSNo', $id)->update(['Status'=>'1','UnreadNotification'=>'0','notification_date_time'=>Carbon::now()]);
+    MIRSMaster::where('MIRSNo', $id)->update(['Status'=>'1']);
     if (Auth::user()->Role==2)
     {
       Signatureable::where('signatureable_id',$id)->where('signatureable_type', 'App\MIRSMaster')->where('SignatureType', 'ApprovalReplacer')->delete();
@@ -202,6 +202,15 @@ class MIRSController extends Controller
       ->delay(Carbon::now()->addSeconds(5));
       dispatch($job);
     }
+
+    $NotificationTbl = new Notification;
+    $NotificationTbl->user_id = $requisitioner[0]->user_id;
+    $NotificationTbl->NotificationType = 'Declined';
+    $NotificationTbl->FileType = 'MIRS';
+    $NotificationTbl->FileNo = $id;
+    $NotificationTbl->TimeNotified = Carbon::now();
+    $NotificationTbl->save();
+
     // global notif trigger
     $ReceiverID = array('id' =>$requisitioner[0]->user_id);
     $ReceiverID = (object)$ReceiverID;
@@ -221,6 +230,22 @@ class MIRSController extends Controller
     {
       Signatureable::where('signatureable_id', $id)->where('signatureable_type', 'App\MIRSMaster')->where('SignatureType', 'PreparedBy')->update(['Signature'=>'0']);
       MIRSMaster::where('MIRSNo', $id)->update(['SignatureTurn'=>'1']);
+
+      $NotificationTbl = new Notification;
+      $NotificationTbl->user_id = Auth::user()->Manager;
+      $NotificationTbl->NotificationType = 'Request';
+      $NotificationTbl->FileType = 'MIRS';
+      $NotificationTbl->FileNo = $id;
+      $NotificationTbl->TimeNotified = Carbon::now();
+      $NotificationTbl->save();
+
+      // global notif trigger
+      $ReceiverID = array('id' =>Auth::user()->Manager);
+      $ReceiverID = (object)$ReceiverID;
+      $job = (new GlobalNotifJob($ReceiverID))
+      ->delay(Carbon::now()->addSeconds(5));
+      dispatch($job);
+
       $newmirs = array('tobeNotify'=>Auth::user()->Manager);
       $newmirs=(object)$newmirs;
       $job = (new SendMIRSNotification($newmirs))
@@ -233,6 +258,15 @@ class MIRSController extends Controller
       Signatureable::where('signatureable_id', $id)->where('signatureable_type', 'App\MIRSMaster')->where('SignatureType', 'ManagerReplacer')->delete();
       Signatureable::where('signatureable_id', $id)->where('signatureable_type', 'App\MIRSMaster')->where('SignatureType', 'RecommendedBy')->update(['Signature'=>'0']);
       MIRSMaster::where('MIRSNo', $id)->update(['SignatureTurn'=>'2']);
+
+      $NotificationTbl = new Notification;
+      $NotificationTbl->user_id = $GMId[0]->user_id;
+      $NotificationTbl->NotificationType = 'Request';
+      $NotificationTbl->FileType = 'MIRS';
+      $NotificationTbl->FileNo = $id;
+      $NotificationTbl->TimeNotified = Carbon::now();
+      $NotificationTbl->save();
+
       $tobeNotifycontainer= array('tobeNotify' =>$GMId[0]->user_id);
       $tobeNotifycontainer=(object)$tobeNotifycontainer;
       $job = (new SendMIRSNotification($tobeNotifycontainer))
@@ -241,6 +275,14 @@ class MIRSController extends Controller
 
       if (!empty($ApprovalReplacerId[0]))
       {
+        $NotificationTbl = new Notification;
+        $NotificationTbl->user_id = $ApprovalReplacerId[0]->user_id;
+        $NotificationTbl->NotificationType = 'Request';
+        $NotificationTbl->FileType = 'MIRS';
+        $NotificationTbl->FileNo = $id;
+        $NotificationTbl->TimeNotified = Carbon::now();
+        $NotificationTbl->save();
+
         $tobeNotifycontainer  = array('tobeNotify' =>$ApprovalReplacerId[0]->user_id);
         $tobeNotifycontainer=(object)$tobeNotifycontainer;
         $job = (new SendMIRSNotification($tobeNotifycontainer))
@@ -252,13 +294,20 @@ class MIRSController extends Controller
     {
       Signatureable::where('signatureable_id', $id)->where('signatureable_type', 'App\MIRSMaster')->where('SignatureType', 'ApprovalReplacer')->delete();
       Signatureable::where('signatureable_id', $id)->where('signatureable_type', 'App\MIRSMaster')->where('SignatureType', 'ApprovedBy')->update(['Signature'=>'0']);
-      MIRSMaster::where('MIRSNo', $id)->update(['Status'=>'0','SignatureTurn'=>'3','UnreadNotification'=>'0','notification_date_time'=>Carbon::now()]);
+      MIRSMaster::where('MIRSNo', $id)->update(['Status'=>'0','SignatureTurn'=>'3']);
       $RequisitionerMobile=User::where('id',$PreparedId[0]->user_id)->get(['Mobile']);
       $NotifData = array('RequisitionerMobile' =>$RequisitionerMobile[0]->Mobile ,'MIRSNo'=>$id);
       $NotifData=(object)$NotifData;
       $job=(new NewApprovedMIRSJob($NotifData))->delay(Carbon::now()->addSeconds(5));
       dispatch($job);
 
+      $NotificationTbl = new Notification;
+      $NotificationTbl->user_id = $PreparedId[0]->user_id;
+      $NotificationTbl->NotificationType = 'Approved';
+      $NotificationTbl->FileType = 'MIRS';
+      $NotificationTbl->FileNo = $id;
+      $NotificationTbl->TimeNotified = Carbon::now();
+      $NotificationTbl->save();
       // global notif trigger
       $ReceiverID = array('id' =>$PreparedId[0]->user_id);
       $ReceiverID = (object)$ReceiverID;
@@ -276,6 +325,23 @@ class MIRSController extends Controller
   public function CancelApproveMIRSinBehalf($id)
   {
     Signatureable::where('signatureable_id',$id)->where('signatureable_type', 'App\MIRSMaster')->where('SignatureType', 'ApprovalReplacer')->delete();
+    $preparedby=Signatureable::where('signatureable_id',$id)->where('signatureable_type', 'App\MIRSMaster')->where('SignatureType', 'PreparedBy')->value('user_id');
+
+    $NotificationTbl = new Notification;
+    $NotificationTbl->user_id = $preparedby;
+    $NotificationTbl->NotificationType = 'Refused';
+    $NotificationTbl->FileType = 'MIRS';
+    $NotificationTbl->FileNo = $id;
+    $NotificationTbl->TimeNotified = Carbon::now();
+    $NotificationTbl->save();
+
+    // global notif trigger
+    $ReceiverID = array('id' =>$preparedby);
+    $ReceiverID = (object)$ReceiverID;
+    $job = (new GlobalNotifJob($ReceiverID))
+    ->delay(Carbon::now()->addSeconds(5));
+    dispatch($job);
+
   }
   public function AcceptApprovalRequest($id)
   {
@@ -285,7 +351,7 @@ class MIRSController extends Controller
       return ['success'=>'success'];
     }
     Signatureable::where('signatureable_id',$id)->where('signatureable_type', 'App\MIRSMaster')->where('SignatureType', 'ApprovalReplacer')->update(['Signature'=>'0']);
-    MIRSMaster::where('MIRSNo', $id)->update(['Status'=>'0','SignatureTurn'=>'3','UnreadNotification'=>'0','notification_date_time'=>Carbon::now()]);
+    MIRSMaster::where('MIRSNo', $id)->update(['Status'=>'0','SignatureTurn'=>'3']);
     $PreparedId=Signatureable::where('signatureable_id', $id)->where('signatureable_type', 'App\MIRSMaster')->where('SignatureType', 'PreparedBy')->get(['user_id']);
     $GMId=Signatureable::where('signatureable_id', $id)->where('signatureable_type', 'App\MIRSMaster')->where('SignatureType', 'ApprovedBy')->get(['user_id']);
 
@@ -295,6 +361,14 @@ class MIRSController extends Controller
     $NotifData=(object)$NotifData;
     $job=(new MIRSApprovalReplacer($NotifData))->delay(Carbon::now()->addSeconds(5));
     dispatch($job);
+
+    $NotificationTbl = new Notification;
+    $NotificationTbl->user_id = $PreparedId[0]->user_id;
+    $NotificationTbl->NotificationType = 'Approved';
+    $NotificationTbl->FileType = 'MIRS';
+    $NotificationTbl->FileNo = $id;
+    $NotificationTbl->TimeNotified = Carbon::now();
+    $NotificationTbl->save();
 
     //global notif trigger
     $ReceiverID = array('id' =>$PreparedId[0]->user_id);
@@ -325,11 +399,61 @@ class MIRSController extends Controller
     $notify=(object)$notify;
     $job = (new SendMIRSNotification($notify))->delay(Carbon::now()->addSeconds(5));
     dispatch($job);
+
+    $NotificationTbl = new Notification;
+    $NotificationTbl->user_id = $request->ManagerReplacerID;
+    $NotificationTbl->NotificationType = 'Request';
+    $NotificationTbl->FileType = 'MIRS';
+    $NotificationTbl->FileNo = $id;
+    $NotificationTbl->TimeNotified = Carbon::now();
+    $NotificationTbl->save();
+
+    // global notif trigger
+    $ReceiverID = array('id' =>$request->ManagerReplacerID);
+    $ReceiverID = (object)$ReceiverID;
+    $job = (new GlobalNotifJob($ReceiverID))
+    ->delay(Carbon::now()->addSeconds(5));
+    dispatch($job);
   }
   public function CancelRequestManagerReplacer($id)
   {
     MIRSMaster::where('MIRSNo',$id)->update(['SignatureTurn'=>'1']);
+    $replacer=Signatureable::where('signatureable_id', $id)->where('signatureable_type', 'App\MIRSMaster')->where('SignatureType', 'ManagerReplacer')->value('user_id');
     Signatureable::where('signatureable_id', $id)->where('signatureable_type', 'App\MIRSMaster')->where('SignatureType', 'ManagerReplacer')->delete();
+    $preparedby=Signatureable::where('signatureable_id', $id)->where('signatureable_type', 'App\MIRSMaster')->where('SignatureType', 'PreparedBy')->value('user_id');
+    if ($preparedby != Auth::user()->id)
+    {
+      $NotificationTbl = new Notification;
+      $NotificationTbl->user_id = $preparedby;
+      $NotificationTbl->NotificationType = 'Refused';
+      $NotificationTbl->FileType = 'MIRS';
+      $NotificationTbl->FileNo = $id;
+      $NotificationTbl->TimeNotified = Carbon::now();
+      $NotificationTbl->save();
+
+      // global notif trigger
+      $ReceiverID = array('id' =>$preparedby);
+      $ReceiverID = (object)$ReceiverID;
+      $job = (new GlobalNotifJob($ReceiverID))
+      ->delay(Carbon::now()->addSeconds(5));
+      dispatch($job);
+    }else
+    {
+      $NotificationTbl = new Notification;
+      $NotificationTbl->user_id = $replacer;
+      $NotificationTbl->NotificationType = 'Canceled';
+      $NotificationTbl->FileType = 'MIRS';
+      $NotificationTbl->FileNo = $id;
+      $NotificationTbl->TimeNotified = Carbon::now();
+      $NotificationTbl->save();
+
+      // global notif trigger
+      $ReceiverID = array('id' =>$replacer);
+      $ReceiverID = (object)$ReceiverID;
+      $job = (new GlobalNotifJob($ReceiverID))
+      ->delay(Carbon::now()->addSeconds(5));
+      dispatch($job);
+    }
   }
   public function SignatureManagerReplacer($id)
   {
@@ -343,8 +467,38 @@ class MIRSController extends Controller
       $notifyname=(object)$notifyname;
       $job = (new SendMIRSNotification($notifyname))->delay(Carbon::now()->addSeconds(5));
       dispatch($job);
+
+      $NotificationTbl = new Notification;
+      $NotificationTbl->user_id = $ApprovalReplacerId[0]->user_id;
+      $NotificationTbl->NotificationType = 'Request';
+      $NotificationTbl->FileType = 'MIRS';
+      $NotificationTbl->FileNo = $id;
+      $NotificationTbl->TimeNotified = Carbon::now();
+      $NotificationTbl->save();
+
+      // global notif trigger
+      $ReceiverID = array('id' =>$ApprovalReplacerId[0]->user_id);
+      $ReceiverID = (object)$ReceiverID;
+      $job = (new GlobalNotifJob($ReceiverID))
+      ->delay(Carbon::now()->addSeconds(5));
+      dispatch($job);
     }
-    $GMid = array('tobeNotify' =>$GMId[0]->user_id);
+    $NotificationTbl = new Notification;
+    $NotificationTbl->user_id = $GMId[0]->user_id;
+    $NotificationTbl->NotificationType = 'Request';
+    $NotificationTbl->FileType = 'MIRS';
+    $NotificationTbl->FileNo = $id;
+    $NotificationTbl->TimeNotified = Carbon::now();
+    $NotificationTbl->save();
+
+    // global notif trigger
+    $ReceiverID = array('id' =>$GMId[0]->user_id);
+    $ReceiverID = (object)$ReceiverID;
+    $job = (new GlobalNotifJob($ReceiverID))
+    ->delay(Carbon::now()->addSeconds(5));
+    dispatch($job);
+
+    $GMid = array('tobeNotify' => $GMId[0]->user_id);
     $GMid=(object)$GMid;
     $job = (new SendMIRSNotification($GMid))->delay(Carbon::now()->addSeconds(5));
     dispatch($job);
@@ -424,5 +578,25 @@ class MIRSController extends Controller
     {
       MIRSDetail::where('id', $dataToUpdate->id)->update(['Quantity'=>$request->Qty[$key],'QuantityValidator'=>$request->Qty[$key],'Remarks'=>$request->remarks[$key]]);
     }
+    $toAlertId=Signatureable::where('signatureable_type','App\MIRSMaster')->where('signatureable_id',$mirsNo)->where('SignatureType','!=', 'PreparedBy')->get(['user_id']);
+
+    foreach ($toAlertId as $key => $user)
+    {
+      $NotificationTbl = new Notification;
+      $NotificationTbl->user_id = $user->user_id;
+      $NotificationTbl->NotificationType = 'Updated';
+      $NotificationTbl->FileType = 'MIRS';
+      $NotificationTbl->FileNo = $mirsNo;
+      $NotificationTbl->TimeNotified = Carbon::now();
+      $NotificationTbl->save();
+
+      // global notif trigger
+      $ReceiverID = array('id' =>$user->user_id);
+      $ReceiverID = (object)$ReceiverID;
+      $job = (new GlobalNotifJob($ReceiverID))
+      ->delay(Carbon::now()->addSeconds(5));
+      dispatch($job);
+    }
+
   }
 }

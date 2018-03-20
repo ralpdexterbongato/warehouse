@@ -291,7 +291,10 @@ input[type='radio']:after {
 {
   color: orange;
 }
-
+.pointer
+{
+	cursor: pointer;
+}
 .align-left
 {
   text-align: left!important;
@@ -11845,6 +11848,10 @@ only screen and (max-width: 1050px),
   display: flex;
   flex-wrap: wrap;
 }
+.cov-date-body[data-v-f0f9b5a8]
+{
+	background: #3F51B5!important;
+}
 .monthsearch-history
 {
   display: flex;
@@ -11871,6 +11878,7 @@ only screen and (max-width: 1050px),
 	border-style: none;
 	border:1px solid #e0e0e0;
 	border-radius: 3px;
+	margin-bottom: 7px;
 }
 .table-history-container
 {
@@ -11987,8 +11995,9 @@ only screen and (max-width: 1050px),
   min-width: 200px;
   padding:5px;
   font-size: 14px;
-  border-style: none;
   font-family:Roboto, 'Segoe UI', Tahoma, sans-serif;
+	border:1px solid #e0e0e0;
+	border-radius: 2px;
 }
 @media (max-width:800px)
 {
@@ -14731,37 +14740,10 @@ background: #FDD835;
 .notification-footer
 {
 	font-weight: 600;
-	padding:10px;
+	padding:7px;
 	text-align: center;
 	border-top: 1px solid #e0e0e0;
 	font-size: 12px;
-}
-.notification-navs
-{
-	display: flex;
-}
-.notification-navs h2:hover
-{
-	background-color: #f2f2f2;
-	cursor: pointer;
-}
-.notification-navs h2.active
-{
-	background: #f2f2f2;
-}
-.notification-navs h2 p
-{
-	display: inline-block;
-}
-.notification-navs h2
-{
-	flex:1;
-	text-align: center;
-	border-bottom: 1px solid #e0e0e0;
-	padding:5px;
-	font-size: 13px;
-	font-family: 'Comfortaa',sans-serif;
-	border-left: 1px solid #e0e0e0;
 }
 .time-notified
 {

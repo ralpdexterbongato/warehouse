@@ -100,22 +100,7 @@ class User extends Authenticatable
       ->orWhere('Signature',null)->where('SignatureTurn','0')->wherePivot('SignatureType','RecommendedBy')->wherePivot('user_id', Auth::user()->id)->where('signatureable_type', 'App\MRMaster')
       ->orWhere('Signature',null)->where('SignatureTurn','2')->wherePivot('SignatureType','ReceivedBy')->where('user_id', Auth::user()->id)->where('signatureable_type', 'App\MRMaster');
     }
-    public function MIRSGlobalNotif()
-    {
-      return $this->morphedByMany('App\MIRSMaster','Signatureable')->where('Status','!=',NULL)->orderBy('notification_date_time','DESC')->wherePivot('SignatureType', 'PreparedBy');
-    }
-    public function RVGlobalNotif()
-    {
-      return $this->morphedByMany('App\RVMaster','Signatureable')->where('Status','!=',NULL)->orderBy('notification_date_time','DESC')->wherePivot('SignatureType', 'Requisitioner')->orWhere('PendingRemarks','!=',NULL)->whereNull('Status')->wherePivot('SignatureType', 'Requisitioner')->wherePivot('user_id', Auth::user()->id);
-    }
-    public function countMIRSGlobalNotif()
-    {
-      return $this->morphedByMany('App\MIRSMaster','Signatureable')->where('UnreadNotification','!=',NULL)->wherePivot('SignatureType', 'PreparedBy');
-    }
-    public function countRVGlobalNotif()
-    {
-      return $this->morphedByMany('App\RVMaster','Signatureable')->where('UnreadNotification','!=',NULL)->wherePivot('SignatureType', 'Requisitioner')->orWhere('PendingRemarks','!=',NULL)->where('UnreadNotification','!=',NULL)->whereNull('Status')->wherePivot('SignatureType', 'Requisitioner')->wherePivot('user_id', Auth::user()->id);
-    }
+  
     public function getLastActivityAttribute($time)
     {
       $minAgo = Carbon::now()->subSeconds(300);

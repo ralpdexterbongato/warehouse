@@ -59,7 +59,7 @@ class POController extends Controller
         $toDBMaster[]=array('PONo'=>$incremented,'RVNo' => $CanvasMaster[0]->RVNo,
         'Supplier' =>$CanvasMaster[0]->Supplier ,'Address'=>$CanvasMaster[0]->Address,
         'Telephone'=>$CanvasMaster[0]->Telephone,'Purpose'=>$RVMasterDB[0]->Purpose,
-        'RVDate'=>$RVMasterDB[0]->RVDate,'PODate'=>$date,'notification_date_time'=>$date,'CreatorID'=>Auth::user()->id);
+        'RVDate'=>$RVMasterDB[0]->RVDate,'PODate'=>$date,'CreatorID'=>Auth::user()->id);
         $toDBSignatures[] = array('user_id' =>$GM[0]->id,'signatureable_id'=>$incremented,'signatureable_type' =>'App\POMaster','SignatureType'=>'ApprovedBy');
         $toDBSignatures[] = array('user_id' =>$ApprovalReplacer[0]->id,'signatureable_id'=>$incremented,'signatureable_type' =>'App\POMaster','SignatureType'=>'ApprovalReplacer');
       }else
@@ -67,7 +67,7 @@ class POController extends Controller
         $toDBMaster[]=array('PONo'=>$incremented,'RVNo' => $CanvasMaster[0]->RVNo,
         'Supplier' =>$CanvasMaster[0]->Supplier ,'Address'=>$CanvasMaster[0]->Address,
         'Telephone'=>$CanvasMaster[0]->Telephone,'Purpose'=>$RVMasterDB[0]->Purpose,
-        'RVDate'=>$RVMasterDB[0]->RVDate,'PODate'=>$date,'notification_date_time'=>$date,'CreatorID'=>Auth::user()->id);
+        'RVDate'=>$RVMasterDB[0]->RVDate,'PODate'=>$date,'CreatorID'=>Auth::user()->id);
         $toDBSignatures[] = array('user_id' =>$GM[0]->id,'signatureable_id'=>$incremented,'signatureable_type' =>'App\POMaster','SignatureType'=>'ApprovedBy');
       }
 
@@ -140,7 +140,7 @@ class POController extends Controller
   }
   public function GMSignaturePO($id)
   {
-    POMaster::where('PONo',$id)->update(['Status'=>'0','UnreadNotification'=>'0','notification_date_time'=>Carbon::now()]);
+    POMaster::where('PONo',$id)->update(['Status'=>'0']);
     Signatureable::where('user_id', Auth::user()->id)->where('signatureable_id', $id)->where('signatureable_type','App\POMaster')->where('SignatureType','ApprovedBy')->update(['Signature'=>'0']);
     Signatureable::where('signatureable_id', $id)->where('signatureable_type','App\POMaster')->where('SignatureType','ApprovalReplacer')->delete();
     // notify warehouseman the creator
@@ -153,7 +153,7 @@ class POController extends Controller
   }
   public function GMDeclined($id)
   {
-    POMaster::where('PONo',$id)->update(['Status'=>'1','UnreadNotification'=>'0','notification_date_time'=>Carbon::now()]);
+    POMaster::where('PONo',$id)->update(['Status'=>'1']);
     Signatureable::where('user_id', Auth::user()->id)->where('signatureable_id', $id)->where('signatureable_type','App\POMaster')->where('SignatureType','ApprovedBy')->update(['Signature'=>'1']);
     Signatureable::where('signatureable_id', $id)->where('signatureable_type','App\POMaster')->where('SignatureType','ApprovalReplacer')->delete();
     $PODetails=PODetail::where('PONo',$id)->get(['Qty','Description']);
@@ -188,7 +188,7 @@ class POController extends Controller
   }
   public function AuthorizeInBehalfconfirmed($id)
   {
-    POMaster::where('PONo',$id)->update(['Status'=>'0','UnreadNotification'=>'0','notification_date_time'=>Carbon::now()]);
+    POMaster::where('PONo',$id)->update(['Status'=>'0']);
     Signatureable::where('user_id', Auth::user()->id)->where('signatureable_id', $id)->where('signatureable_type', 'App\POMaster')->where('SignatureType', 'ApprovalReplacer')->update(['Signature'=>'0']);
 
     //smsAlert

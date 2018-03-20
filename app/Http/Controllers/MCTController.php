@@ -53,7 +53,6 @@ class MCTController extends Controller
     $MCTMasterDB->MCTDate = $date;
     $MCTMasterDB->Particulars = $request->Particulars;
     $MCTMasterDB->AddressTo = $request->AddressTo;
-    $MCTMasterDB->notification_date_time = Carbon::now();
     $MCTMasterDB->CreatorID = Auth::user()->id;
     $MCTMasterDB->save();
 
@@ -157,7 +156,7 @@ class MCTController extends Controller
       }
       MaterialsTicketDetail::insert($forMTDetailstable);
       Signatureable::where('signatureable_id',$id)->where('signatureable_type', 'App\MCTMaster')->where('SignatureType', 'ReceivedBy')->update(['Signature'=>'0']);
-      MCTMaster::where('MCTNo',$id)->update(['Status'=>0,'UnreadNotification'=>'0','notification_date_time'=>Carbon::now()]);
+      MCTMaster::where('MCTNo',$id)->update(['Status'=>0]);
 
       // global notif trigger
       $ReceiverID = array('id' =>$MCTMaster[0]->CreatorID);
@@ -316,7 +315,7 @@ class MCTController extends Controller
       MIRSDetail::where('MIRSNo',$MCTMaster[0]->MIRSNo)->where('ItemCode', $confirmation->ItemCode)->update(['QuantityValidator'=>$newMCTValidatorQty]);
     }
     Signatureable::where('signatureable_id',$id)->where('signatureable_type', 'App\MCTMaster')->where('user_id', Auth::user()->id)->update(['Signature'=>'1']);
-    MCTMaster::where('MCTNo',$id)->update(['Status'=>1,'UnreadNotification'=>'0','notification_date_time'=>Carbon::now()]);
+    MCTMaster::where('MCTNo',$id)->update(['Status'=>1]);
 
     $ReceiverID = array('id' =>$MCTMaster[0]->CreatorID);
     $ReceiverID = (object)$ReceiverID;
@@ -342,7 +341,7 @@ class MCTController extends Controller
   public function RollBack($mctNo,$mirsNo)
   {
     $dataToRollBack=MaterialsTicketDetail::where('MTType', 'MCT')->where('MTNo', $mctNo)->whereNull('IsRollBack')->get();
-    MCTMaster::where('MCTNo',$mctNo)->update(['IsRollBack'=>'0','notification_date_time'=>Carbon::now(),'UnreadNotification'=>'0']);
+    MCTMaster::where('MCTNo',$mctNo)->update(['IsRollBack'=>'0']);
     foreach ($dataToRollBack as $data)
     {
       $idOfMCTHistory = MaterialsTicketDetail::where('MTType', 'MCT')->where('MTNo', $mctNo)->where('ItemCode',$data->ItemCode)->value('id');
@@ -423,7 +422,7 @@ class MCTController extends Controller
   public function UndoRollBack($mctNo,$mirsNo)
   {
     $dataToUndoRollBack=MaterialsTicketDetail::where('MTType', 'MCT')->where('MTNo', $mctNo)->get();
-    MCTMaster::where('MCTNo',$mctNo)->update(['IsRollBack'=>'1','notification_date_time'=>Carbon::now(),'UnreadNotification'=>'0']);
+    MCTMaster::where('MCTNo',$mctNo)->update(['IsRollBack'=>'1']);
     foreach ($dataToUndoRollBack as $data)
     {
       MaterialsTicketDetail::where('MTType', 'MCT')->where('MTNo', $mctNo)->where('ItemCode',$data->ItemCode)->update(['IsRollBack'=>NULL]);

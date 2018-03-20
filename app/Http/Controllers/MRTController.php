@@ -78,7 +78,6 @@ class MRTController extends Controller
         $mrtDB->Particulars =$request->Particulars;
         $mrtDB->AddressTo= $request->AddressTo;
         $mrtDB->Remarks = $request->Remarks;
-        $mrtDB->notification_date_time = Carbon::now();
         $mrtDB->CreatorID = Auth::user()->id;
         $mrtDB->save();
 
@@ -212,7 +211,7 @@ class MRTController extends Controller
         }
         MaterialsTicketDetail::insert($forMRTtbl);
         Signatureable::where('signatureable_id',$id)->where('signatureable_type', 'App\MRTMaster')->where('SignatureType', 'ReturnedBy')->where('user_id', Auth::user()->id)->update(['Signature'=>'0']);
-        MRTMaster::where('MRTNo', $id)->update(['Status'=>'0','UnreadNotification'=>'0','notification_date_time'=>Carbon::now()]);
+        MRTMaster::where('MRTNo', $id)->update(['Status'=>'0']);
 
         // global notif trigger
         $ReceiverID = array('id' =>$MRTMaster[0]->CreatorID);
@@ -225,7 +224,7 @@ class MRTController extends Controller
     public function DeclineMRT($id)
     {
       Signatureable::where('signatureable_id',$id)->where('signatureable_type','App\MRTMaster')->where('user_id', Auth::user()->id)->update(['Signature'=>'1']);
-      MRTMaster::where('MRTNo', $id)->update(['Status'=>'1','UnreadNotification'=>'0','notification_date_time'=>Carbon::now()]);
+      MRTMaster::where('MRTNo', $id)->update(['Status'=>'1']);
 
       // notify warehouseman the creator
       $MRTMaster=MRTMaster::where('MRTNo',$id)->get(['CreatorID']);
@@ -287,7 +286,7 @@ class MRTController extends Controller
     public function RollBack($mrtNo)
     {
       $dataToRollBack=MaterialsTicketDetail::where('MTType', 'MRT')->where('MTNo', $mrtNo)->whereNull('IsRollBack')->get();
-      MRTMaster::where('MRTNo',$mrtNo)->update(['IsRollBack'=>'0','notification_date_time'=>Carbon::now(),'UnreadNotification'=>'0']);
+      MRTMaster::where('MRTNo',$mrtNo)->update(['IsRollBack'=>'0']);
       foreach ($dataToRollBack as $data)
       {
         $idOfMRTHistory = MaterialsTicketDetail::where('MTType', 'MRT')->where('MTNo', $mrtNo)->where('ItemCode',$data->ItemCode)->value('id');
@@ -360,7 +359,7 @@ class MRTController extends Controller
     public function UndoRollBack($mrtNo)
     {
       $dataToUndoRollBack=MaterialsTicketDetail::where('MTType', 'MRT')->where('MTNo', $mrtNo)->get();
-      MRTMaster::where('MRTNo',$mrtNo)->update(['IsRollBack'=>'1','notification_date_time'=>Carbon::now(),'UnreadNotification'=>'0']);
+      MRTMaster::where('MRTNo',$mrtNo)->update(['IsRollBack'=>'1']);
       foreach ($dataToUndoRollBack as $data)
       {
         MaterialsTicketDetail::where('MTType', 'MRT')->where('MTNo', $mrtNo)->where('ItemCode',$data->ItemCode)->update(['IsRollBack'=>NULL]);

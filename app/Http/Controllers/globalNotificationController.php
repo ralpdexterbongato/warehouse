@@ -11,72 +11,25 @@ use App\RVMaster;
 use App\MRMaster;
 use App\MCTMaster;
 use App\MRTMaster;
+use App\Notification;
 class globalNotificationController extends Controller
 {
-    public function fetchMIRS()
-    {
-      $currentUser=User::find(Auth::user()->id);
-      $notifications=$currentUser->MIRSGlobalNotif()->paginate(8);
-      $currentUser->MIRSGlobalNotif()->update(['UnreadNotification'=>NULL]);
-      return $notifications;
-    }
-    public function countInfoNotification()
-    {
-      $currentUser=User::find(Auth::user()->id);
-      $mirsCount = $currentUser->countMIRSGlobalNotif()->count();
-      $rvCount = $currentUser->countRVGlobalNotif()->count();
-
-     if ((Auth::user()->Role=='4')||(Auth::user()->Role=='3'))
-     {
-       $poCount=POMaster::where('UnreadNotification','!=',NULL)->where('CreatorID',Auth::user()->id)->count();
-       $rrCount=RRMaster::where('UnreadNotification','!=',NULL)->where('CreatorID',Auth::user()->id)->count();
-       $mrCount=MRMaster::where('UnreadNotification','!=',NULL)->where('CreatorID',Auth::user()->id)->count();
-       $mctCount=MCTMaster::where('UnreadNotification','!=',NULL)->where('CreatorID',Auth::user()->id)->count();
-       $mrtCount=MRTMaster::where('UnreadNotification','!=',NULL)->where('CreatorID',Auth::user()->id)->count();
-       $response = array('unreadPO' =>$poCount,'unreadRR'=>$rrCount,'unreadMIRS'=>$mirsCount,'unreadRV'=>$rvCount,'unreadMR'=>$mrCount,'unreadMCT'=>$mctCount,'unreadMRT'=>$mrtCount);
-     }else
-     {
-       $response = array('unreadMIRS'=>$mirsCount,'unreadRV'=>$rvCount);
-     }
-     return response()->json($response);
-    }
-    public function fetchRV()
-    {
-      $currentUser=User::find(Auth::user()->id);
-
-      $rv = $currentUser->RVGlobalNotif()->paginate(8);
-      $currentUser->RVGlobalNotif()->update(['UnreadNotification'=>NULL]);
-      return $rv;
-    }
-    public function fetchPO()
-    {
-      $po = POMaster::where('Status','!=',NULL)->where('CreatorID',Auth::user()->id)->orderBy('notification_date_time','DESC')->paginate(8);
-      POMaster::where('Status','!=',NULL)->where('CreatorID',Auth::user()->id)->update(['UnreadNotification'=>NULL]);
-      return $po;
-    }
-    public function fetchRR()
-    {
-      $rr = RRMaster::where('Status','!=',NULL)->where('CreatorID',Auth::user()->id)->orderBy('notification_date_time','DESC')->paginate(8);
-      RRMaster::where('Status','!=',NULL)->where('CreatorID',Auth::user()->id)->update(['UnreadNotification'=>NULL]);
-      return $rr;
-    }
-    public function fetchMR()
-    {
-      $mr = MRMaster::where('Status','!=',NULL)->where('CreatorID',Auth::user()->id)->orderBy('notification_date_time','DESC')->paginate(8);
-      MRMaster::where('Status','!=',NULL)->where('CreatorID',Auth::user()->id)->update(['UnreadNotification'=>NULL]);
-      return $mr;
-    }
-    public function fetchMCT()
-    {
-      $mct = MCTMaster::where('Status','!=',NULL)->where('CreatorID',Auth::user()->id)->orderBy('notification_date_time','DESC')->paginate(8);
-      MCTMaster::where('Status','!=',NULL)->where('CreatorID',Auth::user()->id)->update(['UnreadNotification'=>NULL]);
-      return $mct;
-    }
-    public function fetchMRT()
-    {
-      $mrt = MRTMaster::where('Status','!=',NULL)->where('CreatorID',Auth::user()->id)->orderBy('notification_date_time','DESC')->paginate(8);
-      MRTMaster::where('Status','!=',NULL)->where('CreatorID',Auth::user()->id)->update(['UnreadNotification'=>NULL]);
-      return $mrt;
-    }
-
+  public function fetchNotifications()
+  {
+    return Notification::orderBy('TimeNotified','DESC')->where('user_id', Auth::user()->id)->select('TimeNotified as time_notified','id','user_id','NotificationType','FileType','FileNo','Seen')->paginate(10);
+  }
+  public function countInfoNotification()
+  {
+    return Notification::where('user_id', Auth::user()->id)->whereNull('Seen')->count();
+  }
+  public function markSeen($id)
+  {
+    Notification::where('id',$id)->update(['Seen'=>'0']);
+    return ['success'=>'success'];
+  }
+  public function markAllSeen()
+  {
+    Notification::where('user_id',Auth::user()->id)->update(['Seen'=>'0']);
+    return ['success'=>'success'];
+  }
 }

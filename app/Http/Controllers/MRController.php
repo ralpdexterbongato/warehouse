@@ -135,7 +135,6 @@ class MRController extends Controller
      $MRMasterDB->Note=$request->Note;
      $MRMasterDB->Supplier=$RRMasterData[0]->Supplier;
      $MRMasterDB->InvoiceNo=$RRMasterData[0]->InvoiceNo;
-     $MRMasterDB->notification_date_time = Carbon::now();
      $MRMasterDB->CreatorID = Auth::user()->id;
      $MRMasterDB->save();
      if (isset($ApprovalReplacer[0]))
@@ -267,7 +266,7 @@ class MRController extends Controller
         dispatch($job);
       }elseif((Auth::user()->id==$MRMaster[0]->users[2]->id)&&($MRMaster[0]->users[2]->pivot->Signature==null))
       {
-        MRMaster::where('MRNo',$id)->update(['SignatureTurn'=>'3','Status'=>'0','UnreadNotification'=>'0','notification_date_time'=>Carbon::now()]);
+        MRMaster::where('MRNo',$id)->update(['SignatureTurn'=>'3','Status'=>'0']);
         Signatureable::where('user_id', Auth::user()->id)->where('signatureable_id',$id)->where('signatureable_type', 'App\MRMaster')->where('SignatureType', 'ReceivedBy')->update(['Signature'=>'0']);
 
         // notify warehouseman the creator
@@ -281,7 +280,7 @@ class MRController extends Controller
     }
     public function DeclineMR($id)
     {
-      MRMaster::where('MRNo',$id)->update(['Status'=>'1','UnreadNotification'=>'0','notification_date_time'=>Carbon::now()]);
+      MRMaster::where('MRNo',$id)->update(['Status'=>'1']);
       Signatureable::where('signatureable_id',$id)->where('signatureable_type', 'App\MRMaster')->where('SignatureType', 'ApprovalReplacer')->delete();
       Signatureable::where('user_id', Auth::user()->id)->where('signatureable_id',$id)->where('signatureable_type', 'App\MRMaster')->update(['Signature'=>'1']);
       $RRNumber=MRMaster::where('MRNo',$id)->get(['RRNo']);
