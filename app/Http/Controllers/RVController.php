@@ -20,6 +20,7 @@ use App\Jobs\RVManagerReplacer;
 use App\Jobs\SMSDeclinedRV;
 use App\Signatureable;
 use App\Jobs\GlobalNotifJob;
+use App\Notification;
 class RVController extends Controller
 {
     public function __construct()
@@ -73,6 +74,29 @@ class RVController extends Controller
       {
         RVDetail::where('id', $detail->id)->update(['Quantity'=>$request->Qty[$key],'Remarks'=>$request->remarks[$key]]);
       }
+      $peopleToSignature=Signatureable::where('signatureable_type', 'App\RVMaster')->where('signatureable_id',$RVNo)->get(['user_id']);
+
+      foreach ($peopleToSignature as $key => $person)
+      {
+        if ($person->user_id!=Auth::user()->id)
+        {
+          $NotificationTbl = new Notification;
+          $NotificationTbl->user_id = $person->user_id;
+          $NotificationTbl->NotificationType = 'Updated';
+          $NotificationTbl->FileType = 'RV';
+          $NotificationTbl->FileNo = $RVNo;
+          $NotificationTbl->TimeNotified = Carbon::now();
+          $NotificationTbl->save();
+
+          // global notif trigger
+          $ReceiverID = array('id' =>$person->user_id);
+          $ReceiverID = (object)$ReceiverID;
+          $job = (new GlobalNotifJob($ReceiverID))
+          ->delay(Carbon::now()->addSeconds(5));
+          dispatch($job);
+        }
+      }
+
     }
     public function RVcreate()
     {
@@ -220,6 +244,21 @@ class RVController extends Controller
         $NotifyThisPerson=(object)$NotifyThisPerson;
         $job = (new NewRVCreatedJob($NotifyThisPerson))->delay(Carbon::now()->addSeconds(5));
         dispatch($job);
+
+        $NotificationTbl = new Notification;
+        $NotificationTbl->user_id = $RecommendedByID[0]->user_id;
+        $NotificationTbl->NotificationType = 'Request';
+        $NotificationTbl->FileType = 'RV';
+        $NotificationTbl->FileNo = $id;
+        $NotificationTbl->TimeNotified = Carbon::now();
+        $NotificationTbl->save();
+
+        // global notif trigger
+        $ReceiverID = array('id' =>$RecommendedByID[0]->user_id);
+        $ReceiverID = (object)$ReceiverID;
+        $job = (new GlobalNotifJob($ReceiverID))
+        ->delay(Carbon::now()->addSeconds(5));
+        dispatch($job);
       }
 
       if ($BudgetOfficerID[0]->user_id == Auth::user()->id && $RVMasterTurn==2)
@@ -233,11 +272,42 @@ class RVController extends Controller
         $NotifyThisPerson=(object)$NotifyThisPerson;
         $job = (new NewRVCreatedJob($NotifyThisPerson))->delay(Carbon::now()->addSeconds(5));
         dispatch($job);
+
+        $NotificationTbl = new Notification;
+        $NotificationTbl->user_id = $GMID[0]->user_id;
+        $NotificationTbl->NotificationType = 'Request';
+        $NotificationTbl->FileType = 'RV';
+        $NotificationTbl->FileNo = $id;
+        $NotificationTbl->TimeNotified = Carbon::now();
+        $NotificationTbl->save();
+
+        // global notif trigger
+        $ReceiverID = array('id' =>$GMID[0]->user_id);
+        $ReceiverID = (object)$ReceiverID;
+        $job = (new GlobalNotifJob($ReceiverID))
+        ->delay(Carbon::now()->addSeconds(5));
+        dispatch($job);
+
         if (!empty($ApprovalReplacerID[0]))
         {
           $NotifyThisPerson = array('NotificReceiver' => $ApprovalReplacerID[0]->user_id);
           $NotifyThisPerson=(object)$NotifyThisPerson;
           $job = (new NewRVCreatedJob($NotifyThisPerson))->delay(Carbon::now()->addSeconds(5));
+          dispatch($job);
+
+          $NotificationTbl = new Notification;
+          $NotificationTbl->user_id = $ApprovalReplacerID[0]->user_id;
+          $NotificationTbl->NotificationType = 'Request';
+          $NotificationTbl->FileType = 'RV';
+          $NotificationTbl->FileNo = $id;
+          $NotificationTbl->TimeNotified = Carbon::now();
+          $NotificationTbl->save();
+
+          // global notif trigger
+          $ReceiverID = array('id' =>$ApprovalReplacerID[0]->user_id);
+          $ReceiverID = (object)$ReceiverID;
+          $job = (new GlobalNotifJob($ReceiverID))
+          ->delay(Carbon::now()->addSeconds(5));
           dispatch($job);
         }
       }
@@ -250,6 +320,22 @@ class RVController extends Controller
         $NotifyThisPerson=(object)$NotifyThisPerson;
         $job = (new NewRVCreatedJob($NotifyThisPerson))->delay(Carbon::now()->addSeconds(5));
         dispatch($job);
+
+        $NotificationTbl = new Notification;
+        $NotificationTbl->user_id = $BudgetOfficerID[0]->user_id;
+        $NotificationTbl->NotificationType = 'Request';
+        $NotificationTbl->FileType = 'RV';
+        $NotificationTbl->FileNo = $id;
+        $NotificationTbl->TimeNotified = Carbon::now();
+        $NotificationTbl->save();
+
+        // global notif trigger
+        $ReceiverID = array('id' =>$BudgetOfficerID[0]->user_id);
+        $ReceiverID = (object)$ReceiverID;
+        $job = (new GlobalNotifJob($ReceiverID))
+        ->delay(Carbon::now()->addSeconds(5));
+        dispatch($job);
+
       }
       if ($GMID[0]->user_id == Auth::user()->id)
       {
@@ -262,6 +348,14 @@ class RVController extends Controller
         $notifyData=(object)$notifyData;
         $job = (new NewRVApprovedJob($notifyData))->delay(Carbon::now()->addSeconds(5));
         dispatch($job);
+
+        $NotificationTbl = new Notification;
+        $NotificationTbl->user_id = $RequisitionerID[0]->user_id;
+        $NotificationTbl->NotificationType = 'Approved';
+        $NotificationTbl->FileType = 'RV';
+        $NotificationTbl->FileNo = $id;
+        $NotificationTbl->TimeNotified = Carbon::now();
+        $NotificationTbl->save();
 
         // global notif trigger
         $ReceiverID = array('id' =>$RequisitionerID[0]->user_id);
@@ -295,6 +389,14 @@ class RVController extends Controller
         ->delay(Carbon::now()->addSeconds(5));
         dispatch($job);
       }
+      $NotificationTbl = new Notification;
+      $NotificationTbl->user_id = $requisitionerID[0]->user_id;
+      $NotificationTbl->NotificationType = 'Declined';
+      $NotificationTbl->FileType = 'RV';
+      $NotificationTbl->FileNo = $id;
+      $NotificationTbl->TimeNotified = Carbon::now();
+      $NotificationTbl->save();
+
       // global notif trigger
       $ReceiverID = array('id' =>$requisitioner[0]->user_id);
       $ReceiverID = (object)$ReceiverID;
@@ -357,6 +459,22 @@ class RVController extends Controller
     public function cancelSignatureApproveInBehalf($id)
     {
       Signatureable::where('signatureable_id', $id)->where('signatureable_type', 'App\RVMaster')->where('SignatureType','ApprovalReplacer')->where('user_id', Auth::user()->id)->delete();
+      $requisitionerID=Signatureable::where('signatureable_id', $id)->where('signatureable_type', 'App\RVMaster')->where('SignatureType','Requisitioner')->value('user_id');
+
+      $NotificationTbl = new Notification;
+      $NotificationTbl->user_id = $requisitionerID;
+      $NotificationTbl->NotificationType = 'Refused';
+      $NotificationTbl->FileType = 'RV';
+      $NotificationTbl->FileNo = $id;
+      $NotificationTbl->TimeNotified = Carbon::now();
+      $NotificationTbl->save();
+
+      // global notif trigger
+      $ReceiverID = array('id' =>$requisitionerID);
+      $ReceiverID = (object)$ReceiverID;
+      $job = (new GlobalNotifJob($ReceiverID))
+      ->delay(Carbon::now()->addSeconds(5));
+      dispatch($job);
     }
     public function AcceptSignatureBehalf($id)
     {
@@ -377,6 +495,14 @@ class RVController extends Controller
       $job = (new RVApprovalReplacer($NotifData))->delay(Carbon::now()->addSeconds(5));
       dispatch($job);
 
+      $NotificationTbl = new Notification;
+      $NotificationTbl->user_id = $RequisitionerId[0]->user_id;
+      $NotificationTbl->NotificationType = 'Approved';
+      $NotificationTbl->FileType = 'RV';
+      $NotificationTbl->FileNo = $id;
+      $NotificationTbl->TimeNotified = Carbon::now();
+      $NotificationTbl->save();
+
       // global notif trigger
       $ReceiverID = array('id' =>$RequisitionerId[0]->user_id);
       $ReceiverID = (object)$ReceiverID;
@@ -388,10 +514,6 @@ class RVController extends Controller
     public function fetchSessionRV()
     {
       return $items=Session::get('ItemSessionList');
-      // if (isset($items))
-      // {
-      //   return array_reverse($items);
-      // }
     }
     public function getBelowminimumItems()
     {
@@ -418,11 +540,65 @@ class RVController extends Controller
       $NotifyThisPerson=(object)$NotifyThisPerson;
       $job = (new NewRVCreatedJob($NotifyThisPerson))->delay(Carbon::now()->addSeconds(5));
       dispatch($job);
+
+      $NotificationTbl = new Notification;
+      $NotificationTbl->user_id = $request->ManagerID;
+      $NotificationTbl->NotificationType = 'Request';
+      $NotificationTbl->FileType = 'RV';
+      $NotificationTbl->FileNo = $id;
+      $NotificationTbl->TimeNotified = Carbon::now();
+      $NotificationTbl->save();
+
+      // global notif trigger
+      $ReceiverID = array('id' =>$request->ManagerID);
+      $ReceiverID = (object)$ReceiverID;
+      $job = (new GlobalNotifJob($ReceiverID))
+      ->delay(Carbon::now()->addSeconds(5));
+      dispatch($job);
     }
     public function cancelrequestsentReplacer($id)
     {
       RVMaster::where('RVNo', $id)->update(['SignatureTurn'=>'1']);
+      $replacerId=Signatureable::where('signatureable_id', $id)->where('signatureable_type', 'App\RVMaster')->where('SignatureType','ManagerReplacer')->value('user_id');
+      $requisitionerId=Signatureable::where('signatureable_id', $id)->where('signatureable_type', 'App\RVMaster')->where('SignatureType','Requisitioner')->value('user_id');
       Signatureable::where('signatureable_id', $id)->where('signatureable_type', 'App\RVMaster')->where('SignatureType','ManagerReplacer')->delete();
+
+      if ($replacerId==Auth::user()->id)
+      {
+        $NotificationTbl = new Notification;
+        $NotificationTbl->user_id = $requisitionerId;
+        $NotificationTbl->NotificationType = 'Refused';
+        $NotificationTbl->FileType = 'RV';
+        $NotificationTbl->FileNo = $id;
+        $NotificationTbl->TimeNotified = Carbon::now();
+        $NotificationTbl->save();
+
+        // global notif trigger
+        $ReceiverID = array('id' =>$requisitionerId);
+        $ReceiverID = (object)$ReceiverID;
+        $job = (new GlobalNotifJob($ReceiverID))
+        ->delay(Carbon::now()->addSeconds(5));
+        dispatch($job);
+        return ['success'=>'success'];
+      }else
+      {
+        $NotificationTbl = new Notification;
+        $NotificationTbl->user_id = $replacerId;
+        $NotificationTbl->NotificationType = 'Canceled';
+        $NotificationTbl->FileType = 'RV';
+        $NotificationTbl->FileNo = $id;
+        $NotificationTbl->TimeNotified = Carbon::now();
+        $NotificationTbl->save();
+
+        // global notif trigger
+        $ReceiverID = array('id' =>$replacerId);
+        $ReceiverID = (object)$ReceiverID;
+        $job = (new GlobalNotifJob($ReceiverID))
+        ->delay(Carbon::now()->addSeconds(5));
+        dispatch($job);
+        return ['success'=>'success'];
+      }
+
     }
     public function AcceptManagerReplacer($id)
     {
@@ -440,8 +616,38 @@ class RVController extends Controller
       $data=(object)$data;
       $job = (new RVManagerReplacer($data))->delay(Carbon::now()->addSeconds(5));
       dispatch($job);
+      //notify the real signaturer
+      $NotificationTbl = new Notification;
+      $NotificationTbl->user_id = $RealSignaturerId;
+      $NotificationTbl->NotificationType = 'Replaced';
+      $NotificationTbl->FileType = 'RV';
+      $NotificationTbl->FileNo = $id;
+      $NotificationTbl->TimeNotified = Carbon::now();
+      $NotificationTbl->save();
 
-      return null;
+      // global notif trigger
+      $ReceiverID = array('id' =>$RealSignaturerId);
+      $ReceiverID = (object)$ReceiverID;
+      $job = (new GlobalNotifJob($ReceiverID))
+      ->delay(Carbon::now()->addSeconds(5));
+      dispatch($job);
+
+      //notify next to signature
+      $NotificationTbl = new Notification;
+      $NotificationTbl->user_id =$BudgetOfficerID[0]->user_id;
+      $NotificationTbl->NotificationType = 'Request';
+      $NotificationTbl->FileType = 'RV';
+      $NotificationTbl->FileNo = $id;
+      $NotificationTbl->TimeNotified = Carbon::now();
+      $NotificationTbl->save();
+
+      // global notif trigger
+      $ReceiverID = array('id' =>$BudgetOfficerID[0]->user_id);
+      $ReceiverID = (object)$ReceiverID;
+      $job = (new GlobalNotifJob($ReceiverID))
+      ->delay(Carbon::now()->addSeconds(5));
+      dispatch($job);
+      return ['success'=>'success'];
     }
     public function savePendingRemark($id,Request $request)
     {
@@ -449,8 +655,17 @@ class RVController extends Controller
           'PendingRemarks'=>'required',
       ]);
       RVMaster::where('RVNo',$id)->update(['PendingRemarks'=>$request->PendingRemarks]);
-      // global notif trigger
       $requisitioner=Signatureable::where('signatureable_id', $id)->where('signatureable_type', 'App\RVMaster')->where('SignatureType', 'Requisitioner')->get(['user_id']);
+      //notify creator
+      $NotificationTbl = new Notification;
+      $NotificationTbl->user_id = $requisitioner[0]->user_id;
+      $NotificationTbl->NotificationType = 'Pending';
+      $NotificationTbl->FileType = 'RV';
+      $NotificationTbl->FileNo = $id;
+      $NotificationTbl->TimeNotified = Carbon::now();
+      $NotificationTbl->save();
+      // global notif trigger
+
       $ReceiverID = array('id' =>$requisitioner[0]->user_id);
       $ReceiverID = (object)$ReceiverID;
       $job = (new GlobalNotifJob($ReceiverID))

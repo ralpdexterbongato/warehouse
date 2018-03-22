@@ -12,7 +12,7 @@
         <h2> Notifications</h2>
       </div>
       <div class="notification-line-container">
-        <a v-on:click="markSeen(notification.id)" :href="[notification.FileType=='MIRS'?'/previewFullMIRS/'+ notification.FileNo:notification.FileType=='MCT'?'/preview-mct-page-only/'+notification.FileNo:notification.FileType=='MRT'?'/mrt-preview-page/'+notification.FileNo:'']" v-for="notification in NotifList">
+        <a v-on:click="markSeen(notification.id)" :href="[notification.FileType=='MIRS'?'/previewFullMIRS/'+ notification.FileNo:notification.FileType=='MCT'?'/preview-mct-page-only/'+notification.FileNo:notification.FileType=='MRT'?'/mrt-preview-page/'+notification.FileNo:notification.FileType=='RV'?'/RVfullview/'+notification.FileNo:'']" v-for="notification in NotifList">
           <div class="notification-drop-line" :class="[notification.Seen==null ?'active':'']">
             <div>
               <h2><i class="material-icons">insert_drive_file</i></h2>
@@ -27,6 +27,9 @@
               </p>
               <p v-if="notification.NotificationType=='Canceled'">
                  The signature substitution request that you received has been canceled by the sender.
+              </p>
+              <p v-if="notification.NotificationType=='Pending'">
+                 The budget officer posted a pending remarks.
               </p>
               <p v-if="notification.NotificationType=='Approved'">
                   Signatures are now complete.
@@ -43,6 +46,7 @@
               <br>
               <div class="time-notified">
                 <i v-if="notification.NotificationType=='Approved'" class="material-icons color-blue">check_circle</i>
+                <i v-if="notification.NotificationType=='Pending'" class="material-icons color-blue">access_time</i>
                 <i v-if="notification.NotificationType=='Replaced'" class="material-icons color-blue">loop</i>
                 <i v-if="notification.NotificationType=='Updated'" class="material-icons color-blue">border_color</i>
                 <i v-if="notification.NotificationType=='Request'" class="material-icons color-blue">note_add</i>

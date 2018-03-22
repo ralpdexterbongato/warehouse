@@ -41694,6 +41694,10 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
 //
 //
 //
+//
+//
+//
+//
 
 
 
@@ -42244,7 +42248,7 @@ module.exports={render:function (){var _vm=this;var _h=_vm.$createElement;var _c
   }, [_vm._l((_vm.NotifList), function(notification) {
     return _c('a', {
       attrs: {
-        "href": [notification.FileType == 'MIRS' ? '/previewFullMIRS/' + notification.FileNo : notification.FileType == 'MCT' ? '/preview-mct-page-only/' + notification.FileNo : notification.FileType == 'MRT' ? '/mrt-preview-page/' + notification.FileNo : '']
+        "href": [notification.FileType == 'MIRS' ? '/previewFullMIRS/' + notification.FileNo : notification.FileType == 'MCT' ? '/preview-mct-page-only/' + notification.FileNo : notification.FileType == 'MRT' ? '/mrt-preview-page/' + notification.FileNo : notification.FileType == 'RV' ? '/RVfullview/' + notification.FileNo : '']
       },
       on: {
         "click": function($event) {
@@ -42256,11 +42260,13 @@ module.exports={render:function (){var _vm=this;var _h=_vm.$createElement;var _c
       class: [notification.Seen == null ? 'active' : '']
     }, [_vm._m(1, true), _vm._v(" "), _c('div', {
       staticClass: "drop-line-detail"
-    }, [_c('h5', [_vm._v(_vm._s(notification.FileType) + " : " + _vm._s(notification.FileNo))]), _vm._v(" "), (notification.NotificationType == 'Request') ? _c('p', [_vm._v("\n               New file has been added to your " + _vm._s(notification.FileType) + " signature request pocket.\n            ")]) : _vm._e(), _vm._v(" "), (notification.NotificationType == 'Refused') ? _c('p', [_vm._v("\n               The signature-substitution request sent has been refused.\n            ")]) : _vm._e(), _vm._v(" "), (notification.NotificationType == 'Canceled') ? _c('p', [_vm._v("\n               The signature substitution request that you received has been canceled by the sender.\n            ")]) : _vm._e(), _vm._v(" "), (notification.NotificationType == 'Approved') ? _c('p', [_vm._v("\n                Signatures are now complete.\n            ")]) : _vm._e(), _vm._v(" "), (notification.NotificationType == 'Declined') ? _c('p', [_vm._v("\n               File has been declined.\n            ")]) : _vm._e(), _vm._v(" "), (notification.NotificationType == 'Updated') ? _c('p', [_vm._v("\n               The file has been updated & the signatures restarted.\n            ")]) : _vm._e(), _vm._v(" "), (notification.NotificationType == 'Replaced') ? _c('p', [_vm._v("\n               A manager signatured a file in behalf of you.\n            ")]) : _vm._e(), _vm._v(" "), _c('br'), _vm._v(" "), _c('div', {
+    }, [_c('h5', [_vm._v(_vm._s(notification.FileType) + " : " + _vm._s(notification.FileNo))]), _vm._v(" "), (notification.NotificationType == 'Request') ? _c('p', [_vm._v("\n               New file has been added to your " + _vm._s(notification.FileType) + " signature request pocket.\n            ")]) : _vm._e(), _vm._v(" "), (notification.NotificationType == 'Refused') ? _c('p', [_vm._v("\n               The signature-substitution request sent has been refused.\n            ")]) : _vm._e(), _vm._v(" "), (notification.NotificationType == 'Canceled') ? _c('p', [_vm._v("\n               The signature substitution request that you received has been canceled by the sender.\n            ")]) : _vm._e(), _vm._v(" "), (notification.NotificationType == 'Pending') ? _c('p', [_vm._v("\n               The budget officer posted a pending remarks.\n            ")]) : _vm._e(), _vm._v(" "), (notification.NotificationType == 'Approved') ? _c('p', [_vm._v("\n                Signatures are now complete.\n            ")]) : _vm._e(), _vm._v(" "), (notification.NotificationType == 'Declined') ? _c('p', [_vm._v("\n               File has been declined.\n            ")]) : _vm._e(), _vm._v(" "), (notification.NotificationType == 'Updated') ? _c('p', [_vm._v("\n               The file has been updated & the signatures restarted.\n            ")]) : _vm._e(), _vm._v(" "), (notification.NotificationType == 'Replaced') ? _c('p', [_vm._v("\n               A manager signatured a file in behalf of you.\n            ")]) : _vm._e(), _vm._v(" "), _c('br'), _vm._v(" "), _c('div', {
       staticClass: "time-notified"
     }, [(notification.NotificationType == 'Approved') ? _c('i', {
       staticClass: "material-icons color-blue"
-    }, [_vm._v("check_circle")]) : _vm._e(), _vm._v(" "), (notification.NotificationType == 'Replaced') ? _c('i', {
+    }, [_vm._v("check_circle")]) : _vm._e(), _vm._v(" "), (notification.NotificationType == 'Pending') ? _c('i', {
+      staticClass: "material-icons color-blue"
+    }, [_vm._v("access_time")]) : _vm._e(), _vm._v(" "), (notification.NotificationType == 'Replaced') ? _c('i', {
       staticClass: "material-icons color-blue"
     }, [_vm._v("loop")]) : _vm._e(), _vm._v(" "), (notification.NotificationType == 'Updated') ? _c('i', {
       staticClass: "material-icons color-blue"
