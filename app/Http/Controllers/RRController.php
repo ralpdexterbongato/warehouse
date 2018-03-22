@@ -20,6 +20,7 @@ use App\PODetail;
 use App\Signatureable;
 use App\Jobs\RRNewAlertReceiver;
 use App\Jobs\GlobalNotifJob;
+use App\Notification;
 class RRController extends Controller
 {
   public function __construct()
@@ -180,6 +181,26 @@ class RRController extends Controller
     }
 
     Signatureable::where('signatureable_type','App\RRMaster')->where('signatureable_id',$RRno)->update(['Signature'=>NULL]);
+    $peopleToSign=Signatureable::where('signatureable_type','App\RRMaster')->where('signatureable_id',$RRno)->get(['user_id']);
+    foreach ($peopleToSign as $key => $person)
+    {
+      // notify all for the update
+      $NotificationTbl = new Notification;
+      $NotificationTbl->user_id = $person->user_id;
+      $NotificationTbl->NotificationType = 'Updated';
+      $NotificationTbl->FileType = 'RR';
+      $NotificationTbl->FileNo =$RRno;
+      $NotificationTbl->TimeNotified = Carbon::now();
+      $NotificationTbl->save();
+
+      // notify warehouseman the creator
+      $ReceiverID = array('id' => $person->user_id);
+      $ReceiverID = (object)$ReceiverID;
+      $job = (new GlobalNotifJob($ReceiverID))
+      ->delay(Carbon::now()->addSeconds(5));
+      dispatch($job);
+    }
+
   }
   public function storeRRSessionValidatorNoPO($request)
   {
@@ -378,8 +399,70 @@ class RRController extends Controller
     $AlertForReceiver=(object)$AlertForReceiver;
     $job = (new RRNewAlertReceiver($AlertForReceiver))->delay(Carbon::now()->addSeconds(5));
     dispatch($job);
+
+    // global notification for receiver
+    $NotificationTbl = new Notification;
+    $NotificationTbl->user_id = $request->Receivedby;
+    $NotificationTbl->NotificationType = 'Request';
+    $NotificationTbl->FileType = 'RR';
+    $NotificationTbl->FileNo =$incremented;
+    $NotificationTbl->TimeNotified = Carbon::now();
+    $NotificationTbl->save();
+    // global notif trigger
+    $ReceiverID = array('id' =>$request->Receivedby);
+    $ReceiverID = (object)$ReceiverID;
+    $job = (new GlobalNotifJob($ReceiverID))
+    ->delay(Carbon::now()->addSeconds(5));
+    dispatch($job);
+
+    // global notification for verified
+    $NotificationTbl = new Notification;
+    $NotificationTbl->user_id = $request->Verifiedby;
+    $NotificationTbl->NotificationType = 'Request';
+    $NotificationTbl->FileType = 'RR';
+    $NotificationTbl->FileNo =$incremented;
+    $NotificationTbl->TimeNotified = Carbon::now();
+    $NotificationTbl->save();
+    // global notif trigger
+    $ReceiverID = array('id' =>$request->Verifiedby);
+    $ReceiverID = (object)$ReceiverID;
+    $job = (new GlobalNotifJob($ReceiverID))
+    ->delay(Carbon::now()->addSeconds(5));
+    dispatch($job);
+
+    // global notification for received original by
+    $NotificationTbl = new Notification;
+    $NotificationTbl->user_id = $request->ReceivedOriginalby;
+    $NotificationTbl->NotificationType = 'Request';
+    $NotificationTbl->FileType = 'RR';
+    $NotificationTbl->FileNo =$incremented;
+    $NotificationTbl->TimeNotified = Carbon::now();
+    $NotificationTbl->save();
+    // global notif trigger
+    $ReceiverID = array('id' =>$request->ReceivedOriginalby);
+    $ReceiverID = (object)$ReceiverID;
+    $job = (new GlobalNotifJob($ReceiverID))
+    ->delay(Carbon::now()->addSeconds(5));
+    dispatch($job);
+
+    // global notification for posted to BIN by
+    $NotificationTbl = new Notification;
+    $NotificationTbl->user_id = $request->PostedtoBINby;
+    $NotificationTbl->NotificationType = 'Request';
+    $NotificationTbl->FileType = 'RR';
+    $NotificationTbl->FileNo =$incremented;
+    $NotificationTbl->TimeNotified = Carbon::now();
+    $NotificationTbl->save();
+    // global notif trigger
+    $ReceiverID = array('id' =>$request->PostedtoBINby);
+    $ReceiverID = (object)$ReceiverID;
+    $job = (new GlobalNotifJob($ReceiverID))
+    ->delay(Carbon::now()->addSeconds(5));
+    dispatch($job);
+
     return ['redirect'=>route('RRfullpreview',[$incremented])];
   }
+
   public function StoreRRtoTableWithPO(Request $request)
   {
     $this->StoringRRTableWithPOValidator($request);
@@ -450,6 +533,66 @@ class RRController extends Controller
     $AlertForReceiver = array('RRNo'=>$incremented,'Mobile'=>$MobileOfReceiver,'RVNo'=>$request->RVNo);
     $AlertForReceiver=(object)$AlertForReceiver;
     $job = (new RRNewAlertReceiver($AlertForReceiver))->delay(Carbon::now()->addSeconds(5));
+    dispatch($job);
+
+    // global notification for receiver
+    $NotificationTbl = new Notification;
+    $NotificationTbl->user_id = $request->Receivedby;
+    $NotificationTbl->NotificationType = 'Request';
+    $NotificationTbl->FileType = 'RR';
+    $NotificationTbl->FileNo =$incremented;
+    $NotificationTbl->TimeNotified = Carbon::now();
+    $NotificationTbl->save();
+    // global notif trigger
+    $ReceiverID = array('id' =>$request->Receivedby);
+    $ReceiverID = (object)$ReceiverID;
+    $job = (new GlobalNotifJob($ReceiverID))
+    ->delay(Carbon::now()->addSeconds(5));
+    dispatch($job);
+
+    // global notification for verified
+    $NotificationTbl = new Notification;
+    $NotificationTbl->user_id = $request->Verifiedby;
+    $NotificationTbl->NotificationType = 'Request';
+    $NotificationTbl->FileType = 'RR';
+    $NotificationTbl->FileNo =$incremented;
+    $NotificationTbl->TimeNotified = Carbon::now();
+    $NotificationTbl->save();
+    // global notif trigger
+    $ReceiverID = array('id' =>$request->Verifiedby);
+    $ReceiverID = (object)$ReceiverID;
+    $job = (new GlobalNotifJob($ReceiverID))
+    ->delay(Carbon::now()->addSeconds(5));
+    dispatch($job);
+
+    // global notification for received original by
+    $NotificationTbl = new Notification;
+    $NotificationTbl->user_id = $request->ReceivedOriginalby;
+    $NotificationTbl->NotificationType = 'Request';
+    $NotificationTbl->FileType = 'RR';
+    $NotificationTbl->FileNo =$incremented;
+    $NotificationTbl->TimeNotified = Carbon::now();
+    $NotificationTbl->save();
+    // global notif trigger
+    $ReceiverID = array('id' =>$request->ReceivedOriginalby);
+    $ReceiverID = (object)$ReceiverID;
+    $job = (new GlobalNotifJob($ReceiverID))
+    ->delay(Carbon::now()->addSeconds(5));
+    dispatch($job);
+
+    // global notification for posted to BIN by
+    $NotificationTbl = new Notification;
+    $NotificationTbl->user_id = $request->PostedtoBINby;
+    $NotificationTbl->NotificationType = 'Request';
+    $NotificationTbl->FileType = 'RR';
+    $NotificationTbl->FileNo =$incremented;
+    $NotificationTbl->TimeNotified = Carbon::now();
+    $NotificationTbl->save();
+    // global notif trigger
+    $ReceiverID = array('id' =>$request->PostedtoBINby);
+    $ReceiverID = (object)$ReceiverID;
+    $job = (new GlobalNotifJob($ReceiverID))
+    ->delay(Carbon::now()->addSeconds(5));
     dispatch($job);
     return ['redirect'=>route('RRfullpreview',[$incremented])];
   }
@@ -557,6 +700,15 @@ class RRController extends Controller
           RVMaster::where('RVNo',$RRMaster[0]->RVNo)->update(['IfPurchased'=>'0']);
         }
       }
+
+      $NotificationTbl = new Notification;
+      $NotificationTbl->user_id = $RRMaster[0]->CreatorID;
+      $NotificationTbl->NotificationType = 'Approved';
+      $NotificationTbl->FileType = 'RR';
+      $NotificationTbl->FileNo =$id;
+      $NotificationTbl->TimeNotified = Carbon::now();
+      $NotificationTbl->save();
+
       // notify warehouseman the creator
       $ReceiverID = array('id' =>$RRMaster[0]->CreatorID);
       $ReceiverID = (object)$ReceiverID;
@@ -606,6 +758,13 @@ class RRController extends Controller
         }
       }
     }
+    $NotificationTbl = new Notification;
+    $NotificationTbl->user_id = $RRMaster[0]->CreatorID;
+    $NotificationTbl->NotificationType = 'Declined';
+    $NotificationTbl->FileType = 'RR';
+    $NotificationTbl->FileNo = $id;
+    $NotificationTbl->TimeNotified = Carbon::now();
+    $NotificationTbl->save();
     // notify warehouseman the creator
     $ReceiverID = array('id' =>$RRMaster[0]->CreatorID);
     $ReceiverID = (object)$ReceiverID;

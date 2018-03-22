@@ -42248,7 +42248,7 @@ module.exports={render:function (){var _vm=this;var _h=_vm.$createElement;var _c
   }, [_vm._l((_vm.NotifList), function(notification) {
     return _c('a', {
       attrs: {
-        "href": [notification.FileType == 'MIRS' ? '/previewFullMIRS/' + notification.FileNo : notification.FileType == 'MCT' ? '/preview-mct-page-only/' + notification.FileNo : notification.FileType == 'MRT' ? '/mrt-preview-page/' + notification.FileNo : notification.FileType == 'RV' ? '/RVfullview/' + notification.FileNo : '']
+        "href": [notification.FileType == 'MIRS' ? '/previewFullMIRS/' + notification.FileNo : notification.FileType == 'MCT' ? '/preview-mct-page-only/' + notification.FileNo : notification.FileType == 'MRT' ? '/mrt-preview-page/' + notification.FileNo : notification.FileType == 'RV' ? '/RVfullview/' + notification.FileNo : notification.FileType == 'RR' ? '/RR-fullpreview/' + notification.FileNo : '']
       },
       on: {
         "click": function($event) {
