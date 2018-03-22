@@ -18,6 +18,7 @@ use App\MasterItem;
 use App\Jobs\NewCreatedMCTJob;
 use App\Jobs\GlobalNotifJob;
 use App\Signatureable;
+use App\Notification;
 class MCTController extends Controller
 {
   public function StoreMCT(Request $request)
@@ -130,6 +131,21 @@ class MCTController extends Controller
       $ReceiverID=(object)$ReceiverID;
       $jobs=(new NewCreatedMCTJob($ReceiverID))->delay(Carbon::now()->addSeconds(5));
       dispatch($jobs);
+
+      $NotificationTbl = new Notification;
+      $NotificationTbl->user_id = $ReceiversId[0]->user_id;
+      $NotificationTbl->NotificationType = 'Request';
+      $NotificationTbl->FileType = 'MCT';
+      $NotificationTbl->FileNo = $id;
+      $NotificationTbl->TimeNotified = Carbon::now();
+      $NotificationTbl->save();
+
+      // global notif trigger
+      $ReceiverID = array('id' =>$ReceiversId[0]->user_id);
+      $ReceiverID = (object)$ReceiverID;
+      $job = (new GlobalNotifJob($ReceiverID))
+      ->delay(Carbon::now()->addSeconds(5));
+      dispatch($job);
     }else
     {
       $MCTMaster=MCTMaster::where('MCTNo',$id)->get(['MCTDate','CreatorID']);
@@ -157,6 +173,14 @@ class MCTController extends Controller
       MaterialsTicketDetail::insert($forMTDetailstable);
       Signatureable::where('signatureable_id',$id)->where('signatureable_type', 'App\MCTMaster')->where('SignatureType', 'ReceivedBy')->update(['Signature'=>'0']);
       MCTMaster::where('MCTNo',$id)->update(['Status'=>0]);
+
+      $NotificationTbl = new Notification;
+      $NotificationTbl->user_id = $MCTMaster[0]->CreatorID;
+      $NotificationTbl->NotificationType = 'Approved';
+      $NotificationTbl->FileType = 'MCT';
+      $NotificationTbl->FileNo = $id;
+      $NotificationTbl->TimeNotified = Carbon::now();
+      $NotificationTbl->save();
 
       // global notif trigger
       $ReceiverID = array('id' =>$MCTMaster[0]->CreatorID);
@@ -303,6 +327,21 @@ class MCTController extends Controller
       $newAMT=$confirmationMCT->UnitCost*$request->NewQuantity[$key];
       MCTConfirmationDetail::where('MCTNo',$id)->where('ItemCode',$confirmationMCT->ItemCode)->update(['Quantity'=>$request->NewQuantity[$key],'Amount'=>$newAMT]);
     }
+    $receiverId=Signatureable::where('signatureable_id', $id)->where('signatureable_type', 'App\MCTMaster')->where('SignatureType','ReceivedBy')->value('user_id');
+    $NotificationTbl = new Notification;
+    $NotificationTbl->user_id = $receiverId;
+    $NotificationTbl->NotificationType = 'Updated';
+    $NotificationTbl->FileType = 'MCT';
+    $NotificationTbl->FileNo = $id;
+    $NotificationTbl->TimeNotified = Carbon::now();
+    $NotificationTbl->save();
+
+    // global notif trigger
+    $ReceiverID = array('id' =>$receiverId);
+    $ReceiverID = (object)$ReceiverID;
+    $job = (new GlobalNotifJob($ReceiverID))
+    ->delay(Carbon::now()->addSeconds(5));
+    dispatch($job);
   }
   public function declineMCT($id)
   {
@@ -317,6 +356,21 @@ class MCTController extends Controller
     Signatureable::where('signatureable_id',$id)->where('signatureable_type', 'App\MCTMaster')->where('user_id', Auth::user()->id)->update(['Signature'=>'1']);
     MCTMaster::where('MCTNo',$id)->update(['Status'=>1]);
 
+    $ReceiverID = array('id' =>$MCTMaster[0]->CreatorID);
+    $ReceiverID = (object)$ReceiverID;
+    $job = (new GlobalNotifJob($ReceiverID))
+    ->delay(Carbon::now()->addSeconds(5));
+    dispatch($job);
+
+    $NotificationTbl = new Notification;
+    $NotificationTbl->user_id = $MCTMaster[0]->CreatorID;
+    $NotificationTbl->NotificationType = 'Declined';
+    $NotificationTbl->FileType = 'MCT';
+    $NotificationTbl->FileNo = $id;
+    $NotificationTbl->TimeNotified = Carbon::now();
+    $NotificationTbl->save();
+
+    // global notif trigger
     $ReceiverID = array('id' =>$MCTMaster[0]->CreatorID);
     $ReceiverID = (object)$ReceiverID;
     $job = (new GlobalNotifJob($ReceiverID))

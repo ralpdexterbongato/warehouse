@@ -11947,13 +11947,13 @@ var Component = __webpack_require__(4)(
   /* script */
   __webpack_require__(193),
   /* template */
-  __webpack_require__(262),
+  __webpack_require__(259),
   /* scopeId */
   null,
   /* cssModules */
   null
 )
-Component.options.__file = "C:\\xampp\\htdocs\\warehouse2\\resources\\assets\\js\\components\\MR\\CreateMRViews.vue"
+Component.options.__file = "C:\\xampp\\htdocs\\warehouse\\resources\\assets\\js\\components\\MR\\CreateMRViews.vue"
 if (Component.esModule && Object.keys(Component.esModule).some(function (key) {return key !== "default" && key !== "__esModule"})) {console.error("named exports are not supported in *.vue files.")}
 if (Component.options.functional) {console.error("[vue-loader] CreateMRViews.vue: functional components are not supported with templates, they should use render functions.")}
 
@@ -11964,9 +11964,9 @@ if (false) {(function () {
   if (!hotAPI.compatible) return
   module.hot.accept()
   if (!module.hot.data) {
-    hotAPI.createRecord("data-v-5d779c74", Component.options)
+    hotAPI.createRecord("data-v-39ecb30e", Component.options)
   } else {
-    hotAPI.reload("data-v-5d779c74", Component.options)
+    hotAPI.reload("data-v-39ecb30e", Component.options)
   }
 })()}
 
@@ -11982,13 +11982,13 @@ var Component = __webpack_require__(4)(
   /* script */
   __webpack_require__(194),
   /* template */
-  __webpack_require__(260),
+  __webpack_require__(271),
   /* scopeId */
   null,
   /* cssModules */
   null
 )
-Component.options.__file = "C:\\xampp\\htdocs\\warehouse2\\resources\\assets\\js\\components\\MR\\MRPreview.vue"
+Component.options.__file = "C:\\xampp\\htdocs\\warehouse\\resources\\assets\\js\\components\\MR\\MRPreview.vue"
 if (Component.esModule && Object.keys(Component.esModule).some(function (key) {return key !== "default" && key !== "__esModule"})) {console.error("named exports are not supported in *.vue files.")}
 if (Component.options.functional) {console.error("[vue-loader] MRPreview.vue: functional components are not supported with templates, they should use render functions.")}
 
@@ -11999,9 +11999,9 @@ if (false) {(function () {
   if (!hotAPI.compatible) return
   module.hot.accept()
   if (!module.hot.data) {
-    hotAPI.createRecord("data-v-4e82327c", Component.options)
+    hotAPI.createRecord("data-v-8c22d078", Component.options)
   } else {
-    hotAPI.reload("data-v-4e82327c", Component.options)
+    hotAPI.reload("data-v-8c22d078", Component.options)
   }
 })()}
 
@@ -12017,13 +12017,13 @@ var Component = __webpack_require__(4)(
   /* script */
   __webpack_require__(195),
   /* template */
-  __webpack_require__(251),
+  __webpack_require__(264),
   /* scopeId */
   null,
   /* cssModules */
   null
 )
-Component.options.__file = "C:\\xampp\\htdocs\\warehouse2\\resources\\assets\\js\\components\\MR\\MRindex.vue"
+Component.options.__file = "C:\\xampp\\htdocs\\warehouse\\resources\\assets\\js\\components\\MR\\MRindex.vue"
 if (Component.esModule && Object.keys(Component.esModule).some(function (key) {return key !== "default" && key !== "__esModule"})) {console.error("named exports are not supported in *.vue files.")}
 if (Component.options.functional) {console.error("[vue-loader] MRindex.vue: functional components are not supported with templates, they should use render functions.")}
 
@@ -12034,9 +12034,9 @@ if (false) {(function () {
   if (!hotAPI.compatible) return
   module.hot.accept()
   if (!module.hot.data) {
-    hotAPI.createRecord("data-v-244e19a6", Component.options)
+    hotAPI.createRecord("data-v-50a330ee", Component.options)
   } else {
-    hotAPI.reload("data-v-244e19a6", Component.options)
+    hotAPI.reload("data-v-50a330ee", Component.options)
   }
 })()}
 
@@ -12126,7 +12126,250 @@ module.exports = (
 
 /***/ }),
 
-/***/ 251:
+/***/ 259:
+/***/ (function(module, exports, __webpack_require__) {
+
+module.exports={render:function (){var _vm=this;var _h=_vm.$createElement;var _c=_vm._self._c||_h;
+  return _c('span', [_c('div', {
+    staticClass: "create-mr-bigcontainer"
+  }, [_vm._m(0), _vm._v(" "), _c('div', {
+    staticClass: "create-mr-container"
+  }, [_c('div', {
+    staticClass: "selected-mr-session"
+  }, [_c('div', {
+    staticClass: "addfromrr-btn"
+  }, [_c('button', {
+    staticClass: "z-depth-1",
+    attrs: {
+      "type": "button"
+    },
+    on: {
+      "click": function($event) {
+        _vm.isActive = !_vm.isActive
+      }
+    }
+  }, [_c('i', {
+    staticClass: "material-icons"
+  }, [_vm._v("add")]), _vm._v(" item")])]), _vm._v(" "), _c('table', [_vm._m(1), _vm._v(" "), _vm._l((_vm.sessions), function(session, count) {
+    return _c('tr', [_c('td', [_vm._v(_vm._s(session.Quantity))]), _vm._v(" "), _c('td', [_vm._v(_vm._s(session.Unit))]), _vm._v(" "), _c('td', [_vm._v(_vm._s(session.Description))]), _vm._v(" "), (session.ItemCode != null) ? _c('td', [_vm._v(_vm._s(session.ItemCode))]) : _c('td', [_vm._v("N/A")]), _vm._v(" "), _c('td', [_vm._v(_vm._s(_vm.formatPrice(session.UnitCost)))]), _vm._v(" "), _c('td', [_vm._v(_vm._s(_vm.formatPrice(session.Amount)))]), _vm._v(" "), (session.Remarks != null) ? _c('td', [_vm._v(_vm._s(session.Remarks))]) : _c('td', [_vm._v("N/A")]), _vm._v(" "), _c('td', [_c('a', {
+      on: {
+        "click": function($event) {
+          $event.preventDefault();
+          _vm.deleteSession(count)
+        }
+      }
+    }, [_c('i', {
+      staticClass: "material-icons"
+    }, [_vm._v("close")])])])])
+  })], 2)]), _vm._v(" "), _c('div', {
+    staticClass: "form-left-mr"
+  }, [_c('div', {
+    staticClass: "form-left-box-mr"
+  }, [_c('select', {
+    directives: [{
+      name: "model",
+      rawName: "v-model",
+      value: (_vm.Receivedby),
+      expression: "Receivedby"
+    }],
+    on: {
+      "change": function($event) {
+        var $$selectedVal = Array.prototype.filter.call($event.target.options, function(o) {
+          return o.selected
+        }).map(function(o) {
+          var val = "_value" in o ? o._value : o.value;
+          return val
+        });
+        _vm.Receivedby = $event.target.multiple ? $$selectedVal : $$selectedVal[0]
+      }
+    }
+  }, [_c('option', {
+    attrs: {
+      "value": "null"
+    }
+  }, [_vm._v("Received by")]), _vm._v(" "), _vm._l((_vm.allactive), function(activeuser) {
+    return _c('option', {
+      domProps: {
+        "value": activeuser.id
+      }
+    }, [_vm._v(_vm._s(activeuser.FullName))])
+  })], 2), _vm._v(" "), _c('select', {
+    directives: [{
+      name: "model",
+      rawName: "v-model",
+      value: (_vm.ManagerID),
+      expression: "ManagerID"
+    }],
+    attrs: {
+      "name": "ManagerID",
+      "autocomplete": "off"
+    },
+    on: {
+      "change": function($event) {
+        var $$selectedVal = Array.prototype.filter.call($event.target.options, function(o) {
+          return o.selected
+        }).map(function(o) {
+          var val = "_value" in o ? o._value : o.value;
+          return val
+        });
+        _vm.ManagerID = $event.target.multiple ? $$selectedVal : $$selectedVal[0]
+      }
+    }
+  }, [_c('option', {
+    domProps: {
+      "value": null
+    }
+  }, [_vm._v("Recommended by")]), _vm._v(" "), _vm._l((_vm.allmanager), function(manager) {
+    return _c('option', {
+      domProps: {
+        "value": manager.id
+      }
+    }, [_vm._v(_vm._s(manager.FullName))])
+  })], 2), _vm._v(" "), _c('textarea', {
+    directives: [{
+      name: "model",
+      rawName: "v-model",
+      value: (_vm.Note),
+      expression: "Note"
+    }],
+    attrs: {
+      "name": "Note",
+      "placeholder": "Note",
+      "autocomplete": "none"
+    },
+    domProps: {
+      "value": (_vm.Note)
+    },
+    on: {
+      "input": function($event) {
+        if ($event.target.composing) { return; }
+        _vm.Note = $event.target.value
+      }
+    }
+  }), _vm._v(" "), _c('longpress', {
+    class: {
+      'hide': _vm.HideSubmitBtn
+    },
+    attrs: {
+      "id": "submitMRbtn",
+      "duration": "3",
+      "on-confirm": _vm.submitMR,
+      "pressing-text": "Submitting in {$rcounter}",
+      "action-text": "Loading . . ."
+    }
+  }, [_vm._v("\n            Submit\n          ")])], 1)])])]), _vm._v(" "), _c('div', {
+    staticClass: "items-table-from-RR",
+    class: {
+      'active': _vm.isActive
+    },
+    on: {
+      "click": function($event) {
+        _vm.isActive = !_vm.isActive
+      }
+    }
+  }, [_c('div', {
+    staticClass: "center-white-fromrr"
+  }, [_c('h1', [_vm._v("Select Items from RR")]), _vm._v(" "), _c('div', {
+    staticClass: "table-container-mr-form"
+  }, [_c('table', [_vm._m(2), _vm._v(" "), _vm._l((_vm.rritems), function(rritem) {
+    return _c('tr', [_c('td', [_c('input', {
+      directives: [{
+        name: "model",
+        rawName: "v-model",
+        value: (_vm.Quantity[rritem.ItemCode]),
+        expression: "Quantity[rritem.ItemCode]"
+      }],
+      attrs: {
+        "type": "number",
+        "name": "Quantity",
+        "min": "1",
+        "autocomplete": "off",
+        "required": ""
+      },
+      domProps: {
+        "value": (_vm.Quantity[rritem.ItemCode])
+      },
+      on: {
+        "input": function($event) {
+          if ($event.target.composing) { return; }
+          _vm.$set(_vm.Quantity, rritem.ItemCode, $event.target.value)
+        }
+      }
+    })]), _vm._v(" "), _c('td', [_vm._v(_vm._s(rritem.Unit))]), _vm._v(" "), _c('td', [_vm._v(_vm._s(rritem.Description))]), _vm._v(" "), (rritem.ItemCode != null) ? _c('td', [_vm._v(_vm._s(rritem.ItemCode))]) : _c('td', [_vm._v("N/A")]), _vm._v(" "), _c('td', [_vm._v(_vm._s(_vm.formatPrice(rritem.UnitCost)))]), _vm._v(" "), _c('td', [_c('input', {
+      directives: [{
+        name: "model",
+        rawName: "v-model",
+        value: (_vm.Remarks[rritem.ItemCode]),
+        expression: "Remarks[rritem.ItemCode]"
+      }],
+      attrs: {
+        "type": "text",
+        "name": "Remarks",
+        "placeholder": "remarks",
+        "autocomplete": "off"
+      },
+      domProps: {
+        "value": (_vm.Remarks[rritem.ItemCode])
+      },
+      on: {
+        "input": function($event) {
+          if ($event.target.composing) { return; }
+          _vm.$set(_vm.Remarks, rritem.ItemCode, $event.target.value)
+        }
+      }
+    })]), _vm._v(" "), _c('td', [_c('button', {
+      on: {
+        "click": function($event) {
+          $event.preventDefault();
+          _vm.addtoSession(rritem)
+        }
+      }
+    }, [_c('i', {
+      staticClass: "material-icons"
+    }, [_vm._v("add")])])])])
+  })], 2)])])])])
+},staticRenderFns: [function (){var _vm=this;var _h=_vm.$createElement;var _c=_vm._self._c||_h;
+  return _c('div', {
+    staticClass: "title-mr"
+  }, [_c('h3', [_vm._v("Create Memorandum Receipt")])])
+},function (){var _vm=this;var _h=_vm.$createElement;var _c=_vm._self._c||_h;
+  return _c('tr', [_c('th', [_vm._v("Quantity")]), _vm._v(" "), _c('th', [_vm._v("Unit")]), _vm._v(" "), _c('th', [_vm._v("Name & Description")]), _vm._v(" "), _c('th', [_vm._v("Property No.")]), _vm._v(" "), _c('th', [_vm._v("Unit Value")]), _vm._v(" "), _c('th', [_vm._v("Total Value")]), _vm._v(" "), _c('th', [_vm._v("Remarks")]), _vm._v(" "), _c('th', [_vm._v("Delete")])])
+},function (){var _vm=this;var _h=_vm.$createElement;var _c=_vm._self._c||_h;
+  return _c('tr', [_c('th', [_vm._v("Quantity")]), _vm._v(" "), _c('th', [_vm._v("Unit")]), _vm._v(" "), _c('th', [_vm._v("Name & Description")]), _vm._v(" "), _c('th', [_vm._v("Property No.")]), _vm._v(" "), _c('th', [_vm._v("Unit Value")]), _vm._v(" "), _c('th', [_vm._v("Remarks")]), _vm._v(" "), _c('th', [_vm._v("Add")])])
+}]}
+module.exports.render._withStripped = true
+if (false) {
+  module.hot.accept()
+  if (module.hot.data) {
+     require("vue-hot-reload-api").rerender("data-v-39ecb30e", module.exports)
+  }
+}
+
+/***/ }),
+
+/***/ 26:
+/***/ (function(module, exports, __webpack_require__) {
+
+"use strict";
+
+
+/**
+ * Determines whether the specified URL is absolute
+ *
+ * @param {string} url The URL to test
+ * @returns {boolean} True if the specified URL is absolute, otherwise false
+ */
+module.exports = function isAbsoluteURL(url) {
+  // A URL is considered absolute if it begins with "<scheme>://" or "//" (protocol-relative URL).
+  // RFC 3986 defines scheme name as a sequence of characters beginning with a letter and followed
+  // by any combination of letters, digits, plus, period, or hyphen.
+  return /^([a-z][a-z\d\+\-\.]*:)?\/\//i.test(url);
+};
+
+
+/***/ }),
+
+/***/ 264:
 /***/ (function(module, exports, __webpack_require__) {
 
 module.exports={render:function (){var _vm=this;var _h=_vm.$createElement;var _c=_vm._self._c||_h;
@@ -12239,35 +12482,89 @@ module.exports.render._withStripped = true
 if (false) {
   module.hot.accept()
   if (module.hot.data) {
-     require("vue-hot-reload-api").rerender("data-v-244e19a6", module.exports)
+     require("vue-hot-reload-api").rerender("data-v-50a330ee", module.exports)
   }
 }
 
 /***/ }),
 
-/***/ 26:
+/***/ 27:
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
 
 
-/**
- * Determines whether the specified URL is absolute
- *
- * @param {string} url The URL to test
- * @returns {boolean} True if the specified URL is absolute, otherwise false
- */
-module.exports = function isAbsoluteURL(url) {
-  // A URL is considered absolute if it begins with "<scheme>://" or "//" (protocol-relative URL).
-  // RFC 3986 defines scheme name as a sequence of characters beginning with a letter and followed
-  // by any combination of letters, digits, plus, period, or hyphen.
-  return /^([a-z][a-z\d\+\-\.]*:)?\/\//i.test(url);
-};
+var utils = __webpack_require__(1);
+
+module.exports = (
+  utils.isStandardBrowserEnv() ?
+
+  // Standard browser envs have full support of the APIs needed to test
+  // whether the request URL is of the same origin as current location.
+  (function standardBrowserEnv() {
+    var msie = /(msie|trident)/i.test(navigator.userAgent);
+    var urlParsingNode = document.createElement('a');
+    var originURL;
+
+    /**
+    * Parse a URL to discover it's components
+    *
+    * @param {String} url The URL to be parsed
+    * @returns {Object}
+    */
+    function resolveURL(url) {
+      var href = url;
+
+      if (msie) {
+        // IE needs attribute set twice to normalize properties
+        urlParsingNode.setAttribute('href', href);
+        href = urlParsingNode.href;
+      }
+
+      urlParsingNode.setAttribute('href', href);
+
+      // urlParsingNode provides the UrlUtils interface - http://url.spec.whatwg.org/#urlutils
+      return {
+        href: urlParsingNode.href,
+        protocol: urlParsingNode.protocol ? urlParsingNode.protocol.replace(/:$/, '') : '',
+        host: urlParsingNode.host,
+        search: urlParsingNode.search ? urlParsingNode.search.replace(/^\?/, '') : '',
+        hash: urlParsingNode.hash ? urlParsingNode.hash.replace(/^#/, '') : '',
+        hostname: urlParsingNode.hostname,
+        port: urlParsingNode.port,
+        pathname: (urlParsingNode.pathname.charAt(0) === '/') ?
+                  urlParsingNode.pathname :
+                  '/' + urlParsingNode.pathname
+      };
+    }
+
+    originURL = resolveURL(window.location.href);
+
+    /**
+    * Determine if a URL shares the same origin as the current location
+    *
+    * @param {String} requestURL The URL to test
+    * @returns {boolean} True if URL shares the same origin, otherwise false
+    */
+    return function isURLSameOrigin(requestURL) {
+      var parsed = (utils.isString(requestURL)) ? resolveURL(requestURL) : requestURL;
+      return (parsed.protocol === originURL.protocol &&
+            parsed.host === originURL.host);
+    };
+  })() :
+
+  // Non standard browser envs (web workers, react-native) lack needed support.
+  (function nonStandardBrowserEnv() {
+    return function isURLSameOrigin() {
+      return true;
+    };
+  })()
+);
 
 
 /***/ }),
 
-/***/ 260:
+/***/ 271:
 /***/ (function(module, exports, __webpack_require__) {
 
 module.exports={render:function (){var _vm=this;var _h=_vm.$createElement;var _c=_vm._self._c||_h;
@@ -12498,306 +12795,9 @@ module.exports.render._withStripped = true
 if (false) {
   module.hot.accept()
   if (module.hot.data) {
-     require("vue-hot-reload-api").rerender("data-v-4e82327c", module.exports)
+     require("vue-hot-reload-api").rerender("data-v-8c22d078", module.exports)
   }
 }
-
-/***/ }),
-
-/***/ 262:
-/***/ (function(module, exports, __webpack_require__) {
-
-module.exports={render:function (){var _vm=this;var _h=_vm.$createElement;var _c=_vm._self._c||_h;
-  return _c('span', [_c('div', {
-    staticClass: "create-mr-bigcontainer"
-  }, [_vm._m(0), _vm._v(" "), _c('div', {
-    staticClass: "create-mr-container"
-  }, [_c('div', {
-    staticClass: "selected-mr-session"
-  }, [_c('div', {
-    staticClass: "addfromrr-btn"
-  }, [_c('button', {
-    staticClass: "z-depth-1",
-    attrs: {
-      "type": "button"
-    },
-    on: {
-      "click": function($event) {
-        _vm.isActive = !_vm.isActive
-      }
-    }
-  }, [_c('i', {
-    staticClass: "material-icons"
-  }, [_vm._v("add")]), _vm._v(" item")])]), _vm._v(" "), _c('table', [_vm._m(1), _vm._v(" "), _vm._l((_vm.sessions), function(session, count) {
-    return _c('tr', [_c('td', [_vm._v(_vm._s(session.Quantity))]), _vm._v(" "), _c('td', [_vm._v(_vm._s(session.Unit))]), _vm._v(" "), _c('td', [_vm._v(_vm._s(session.Description))]), _vm._v(" "), (session.ItemCode != null) ? _c('td', [_vm._v(_vm._s(session.ItemCode))]) : _c('td', [_vm._v("N/A")]), _vm._v(" "), _c('td', [_vm._v(_vm._s(_vm.formatPrice(session.UnitCost)))]), _vm._v(" "), _c('td', [_vm._v(_vm._s(_vm.formatPrice(session.Amount)))]), _vm._v(" "), (session.Remarks != null) ? _c('td', [_vm._v(_vm._s(session.Remarks))]) : _c('td', [_vm._v("N/A")]), _vm._v(" "), _c('td', [_c('a', {
-      on: {
-        "click": function($event) {
-          $event.preventDefault();
-          _vm.deleteSession(count)
-        }
-      }
-    }, [_c('i', {
-      staticClass: "material-icons"
-    }, [_vm._v("close")])])])])
-  })], 2)]), _vm._v(" "), _c('div', {
-    staticClass: "form-left-mr"
-  }, [_c('div', {
-    staticClass: "form-left-box-mr"
-  }, [_c('select', {
-    directives: [{
-      name: "model",
-      rawName: "v-model",
-      value: (_vm.Receivedby),
-      expression: "Receivedby"
-    }],
-    on: {
-      "change": function($event) {
-        var $$selectedVal = Array.prototype.filter.call($event.target.options, function(o) {
-          return o.selected
-        }).map(function(o) {
-          var val = "_value" in o ? o._value : o.value;
-          return val
-        });
-        _vm.Receivedby = $event.target.multiple ? $$selectedVal : $$selectedVal[0]
-      }
-    }
-  }, [_c('option', {
-    attrs: {
-      "value": "null"
-    }
-  }, [_vm._v("Received by")]), _vm._v(" "), _vm._l((_vm.allactive), function(activeuser) {
-    return _c('option', {
-      domProps: {
-        "value": activeuser.id
-      }
-    }, [_vm._v(_vm._s(activeuser.FullName))])
-  })], 2), _vm._v(" "), _c('select', {
-    directives: [{
-      name: "model",
-      rawName: "v-model",
-      value: (_vm.ManagerID),
-      expression: "ManagerID"
-    }],
-    attrs: {
-      "name": "ManagerID",
-      "autocomplete": "off"
-    },
-    on: {
-      "change": function($event) {
-        var $$selectedVal = Array.prototype.filter.call($event.target.options, function(o) {
-          return o.selected
-        }).map(function(o) {
-          var val = "_value" in o ? o._value : o.value;
-          return val
-        });
-        _vm.ManagerID = $event.target.multiple ? $$selectedVal : $$selectedVal[0]
-      }
-    }
-  }, [_c('option', {
-    domProps: {
-      "value": null
-    }
-  }, [_vm._v("Recommended by")]), _vm._v(" "), _vm._l((_vm.allmanager), function(manager) {
-    return _c('option', {
-      domProps: {
-        "value": manager.id
-      }
-    }, [_vm._v(_vm._s(manager.FullName))])
-  })], 2), _vm._v(" "), _c('textarea', {
-    directives: [{
-      name: "model",
-      rawName: "v-model",
-      value: (_vm.Note),
-      expression: "Note"
-    }],
-    attrs: {
-      "name": "Note",
-      "placeholder": "Note",
-      "autocomplete": "none"
-    },
-    domProps: {
-      "value": (_vm.Note)
-    },
-    on: {
-      "input": function($event) {
-        if ($event.target.composing) { return; }
-        _vm.Note = $event.target.value
-      }
-    }
-  }), _vm._v(" "), _c('longpress', {
-    class: {
-      'hide': _vm.HideSubmitBtn
-    },
-    attrs: {
-      "id": "submitMRbtn",
-      "duration": "3",
-      "on-confirm": _vm.submitMR,
-      "pressing-text": "Submitting in {$rcounter}",
-      "action-text": "Loading . . ."
-    }
-  }, [_vm._v("\n            Submit\n          ")])], 1)])])]), _vm._v(" "), _c('div', {
-    staticClass: "items-table-from-RR",
-    class: {
-      'active': _vm.isActive
-    },
-    on: {
-      "click": function($event) {
-        _vm.isActive = !_vm.isActive
-      }
-    }
-  }, [_c('div', {
-    staticClass: "center-white-fromrr"
-  }, [_c('h1', [_vm._v("Select Items from RR")]), _vm._v(" "), _c('div', {
-    staticClass: "table-container-mr-form"
-  }, [_c('table', [_vm._m(2), _vm._v(" "), _vm._l((_vm.rritems), function(rritem) {
-    return _c('tr', [_c('td', [_c('input', {
-      directives: [{
-        name: "model",
-        rawName: "v-model",
-        value: (_vm.Quantity[rritem.ItemCode]),
-        expression: "Quantity[rritem.ItemCode]"
-      }],
-      attrs: {
-        "type": "number",
-        "name": "Quantity",
-        "min": "1",
-        "autocomplete": "off",
-        "required": ""
-      },
-      domProps: {
-        "value": (_vm.Quantity[rritem.ItemCode])
-      },
-      on: {
-        "input": function($event) {
-          if ($event.target.composing) { return; }
-          _vm.$set(_vm.Quantity, rritem.ItemCode, $event.target.value)
-        }
-      }
-    })]), _vm._v(" "), _c('td', [_vm._v(_vm._s(rritem.Unit))]), _vm._v(" "), _c('td', [_vm._v(_vm._s(rritem.Description))]), _vm._v(" "), (rritem.ItemCode != null) ? _c('td', [_vm._v(_vm._s(rritem.ItemCode))]) : _c('td', [_vm._v("N/A")]), _vm._v(" "), _c('td', [_vm._v(_vm._s(_vm.formatPrice(rritem.UnitCost)))]), _vm._v(" "), _c('td', [_c('input', {
-      directives: [{
-        name: "model",
-        rawName: "v-model",
-        value: (_vm.Remarks[rritem.ItemCode]),
-        expression: "Remarks[rritem.ItemCode]"
-      }],
-      attrs: {
-        "type": "text",
-        "name": "Remarks",
-        "placeholder": "remarks",
-        "autocomplete": "off"
-      },
-      domProps: {
-        "value": (_vm.Remarks[rritem.ItemCode])
-      },
-      on: {
-        "input": function($event) {
-          if ($event.target.composing) { return; }
-          _vm.$set(_vm.Remarks, rritem.ItemCode, $event.target.value)
-        }
-      }
-    })]), _vm._v(" "), _c('td', [_c('button', {
-      on: {
-        "click": function($event) {
-          $event.preventDefault();
-          _vm.addtoSession(rritem)
-        }
-      }
-    }, [_c('i', {
-      staticClass: "material-icons"
-    }, [_vm._v("add")])])])])
-  })], 2)])])])])
-},staticRenderFns: [function (){var _vm=this;var _h=_vm.$createElement;var _c=_vm._self._c||_h;
-  return _c('div', {
-    staticClass: "title-mr"
-  }, [_c('h3', [_vm._v("Create Memorandum Receipt")])])
-},function (){var _vm=this;var _h=_vm.$createElement;var _c=_vm._self._c||_h;
-  return _c('tr', [_c('th', [_vm._v("Quantity")]), _vm._v(" "), _c('th', [_vm._v("Unit")]), _vm._v(" "), _c('th', [_vm._v("Name & Description")]), _vm._v(" "), _c('th', [_vm._v("Property No.")]), _vm._v(" "), _c('th', [_vm._v("Unit Value")]), _vm._v(" "), _c('th', [_vm._v("Total Value")]), _vm._v(" "), _c('th', [_vm._v("Remarks")]), _vm._v(" "), _c('th', [_vm._v("Delete")])])
-},function (){var _vm=this;var _h=_vm.$createElement;var _c=_vm._self._c||_h;
-  return _c('tr', [_c('th', [_vm._v("Quantity")]), _vm._v(" "), _c('th', [_vm._v("Unit")]), _vm._v(" "), _c('th', [_vm._v("Name & Description")]), _vm._v(" "), _c('th', [_vm._v("Property No.")]), _vm._v(" "), _c('th', [_vm._v("Unit Value")]), _vm._v(" "), _c('th', [_vm._v("Remarks")]), _vm._v(" "), _c('th', [_vm._v("Add")])])
-}]}
-module.exports.render._withStripped = true
-if (false) {
-  module.hot.accept()
-  if (module.hot.data) {
-     require("vue-hot-reload-api").rerender("data-v-5d779c74", module.exports)
-  }
-}
-
-/***/ }),
-
-/***/ 27:
-/***/ (function(module, exports, __webpack_require__) {
-
-"use strict";
-
-
-var utils = __webpack_require__(1);
-
-module.exports = (
-  utils.isStandardBrowserEnv() ?
-
-  // Standard browser envs have full support of the APIs needed to test
-  // whether the request URL is of the same origin as current location.
-  (function standardBrowserEnv() {
-    var msie = /(msie|trident)/i.test(navigator.userAgent);
-    var urlParsingNode = document.createElement('a');
-    var originURL;
-
-    /**
-    * Parse a URL to discover it's components
-    *
-    * @param {String} url The URL to be parsed
-    * @returns {Object}
-    */
-    function resolveURL(url) {
-      var href = url;
-
-      if (msie) {
-        // IE needs attribute set twice to normalize properties
-        urlParsingNode.setAttribute('href', href);
-        href = urlParsingNode.href;
-      }
-
-      urlParsingNode.setAttribute('href', href);
-
-      // urlParsingNode provides the UrlUtils interface - http://url.spec.whatwg.org/#urlutils
-      return {
-        href: urlParsingNode.href,
-        protocol: urlParsingNode.protocol ? urlParsingNode.protocol.replace(/:$/, '') : '',
-        host: urlParsingNode.host,
-        search: urlParsingNode.search ? urlParsingNode.search.replace(/^\?/, '') : '',
-        hash: urlParsingNode.hash ? urlParsingNode.hash.replace(/^#/, '') : '',
-        hostname: urlParsingNode.hostname,
-        port: urlParsingNode.port,
-        pathname: (urlParsingNode.pathname.charAt(0) === '/') ?
-                  urlParsingNode.pathname :
-                  '/' + urlParsingNode.pathname
-      };
-    }
-
-    originURL = resolveURL(window.location.href);
-
-    /**
-    * Determine if a URL shares the same origin as the current location
-    *
-    * @param {String} requestURL The URL to test
-    * @returns {boolean} True if URL shares the same origin, otherwise false
-    */
-    return function isURLSameOrigin(requestURL) {
-      var parsed = (utils.isString(requestURL)) ? resolveURL(requestURL) : requestURL;
-      return (parsed.protocol === originURL.protocol &&
-            parsed.host === originURL.host);
-    };
-  })() :
-
-  // Non standard browser envs (web workers, react-native) lack needed support.
-  (function nonStandardBrowserEnv() {
-    return function isURLSameOrigin() {
-      return true;
-    };
-  })()
-);
-
 
 /***/ }),
 

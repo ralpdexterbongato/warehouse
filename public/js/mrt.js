@@ -11940,13 +11940,13 @@ var Component = __webpack_require__(4)(
   /* script */
   __webpack_require__(189),
   /* template */
-  __webpack_require__(261),
+  __webpack_require__(275),
   /* scopeId */
   null,
   /* cssModules */
   null
 )
-Component.options.__file = "C:\\xampp\\htdocs\\warehouse2\\resources\\assets\\js\\components\\MRT\\MRTPreview.vue"
+Component.options.__file = "C:\\xampp\\htdocs\\warehouse\\resources\\assets\\js\\components\\MRT\\MRTPreview.vue"
 if (Component.esModule && Object.keys(Component.esModule).some(function (key) {return key !== "default" && key !== "__esModule"})) {console.error("named exports are not supported in *.vue files.")}
 if (Component.options.functional) {console.error("[vue-loader] MRTPreview.vue: functional components are not supported with templates, they should use render functions.")}
 
@@ -11957,9 +11957,9 @@ if (false) {(function () {
   if (!hotAPI.compatible) return
   module.hot.accept()
   if (!module.hot.data) {
-    hotAPI.createRecord("data-v-5c29197c", Component.options)
+    hotAPI.createRecord("data-v-c3dd6678", Component.options)
   } else {
-    hotAPI.reload("data-v-5c29197c", Component.options)
+    hotAPI.reload("data-v-c3dd6678", Component.options)
   }
 })()}
 
@@ -11975,13 +11975,13 @@ var Component = __webpack_require__(4)(
   /* script */
   __webpack_require__(190),
   /* template */
-  __webpack_require__(259),
+  __webpack_require__(262),
   /* scopeId */
   null,
   /* cssModules */
   null
 )
-Component.options.__file = "C:\\xampp\\htdocs\\warehouse2\\resources\\assets\\js\\components\\MRT\\MRTcreate.vue"
+Component.options.__file = "C:\\xampp\\htdocs\\warehouse\\resources\\assets\\js\\components\\MRT\\MRTcreate.vue"
 if (Component.esModule && Object.keys(Component.esModule).some(function (key) {return key !== "default" && key !== "__esModule"})) {console.error("named exports are not supported in *.vue files.")}
 if (Component.options.functional) {console.error("[vue-loader] MRTcreate.vue: functional components are not supported with templates, they should use render functions.")}
 
@@ -11992,9 +11992,9 @@ if (false) {(function () {
   if (!hotAPI.compatible) return
   module.hot.accept()
   if (!module.hot.data) {
-    hotAPI.createRecord("data-v-4b899ed8", Component.options)
+    hotAPI.createRecord("data-v-4da9e290", Component.options)
   } else {
-    hotAPI.reload("data-v-4b899ed8", Component.options)
+    hotAPI.reload("data-v-4da9e290", Component.options)
   }
 })()}
 
@@ -12010,13 +12010,13 @@ var Component = __webpack_require__(4)(
   /* script */
   __webpack_require__(191),
   /* template */
-  __webpack_require__(266),
+  __webpack_require__(263),
   /* scopeId */
   null,
   /* cssModules */
   null
 )
-Component.options.__file = "C:\\xampp\\htdocs\\warehouse2\\resources\\assets\\js\\components\\MRT\\MRTindex.vue"
+Component.options.__file = "C:\\xampp\\htdocs\\warehouse\\resources\\assets\\js\\components\\MRT\\MRTindex.vue"
 if (Component.esModule && Object.keys(Component.esModule).some(function (key) {return key !== "default" && key !== "__esModule"})) {console.error("named exports are not supported in *.vue files.")}
 if (Component.options.functional) {console.error("[vue-loader] MRTindex.vue: functional components are not supported with templates, they should use render functions.")}
 
@@ -12027,9 +12027,9 @@ if (false) {(function () {
   if (!hotAPI.compatible) return
   module.hot.accept()
   if (!module.hot.data) {
-    hotAPI.createRecord("data-v-6c82c0a6", Component.options)
+    hotAPI.createRecord("data-v-5021b424", Component.options)
   } else {
-    hotAPI.reload("data-v-6c82c0a6", Component.options)
+    hotAPI.reload("data-v-5021b424", Component.options)
   }
 })()}
 
@@ -12121,13 +12121,13 @@ var Component = __webpack_require__(4)(
   /* script */
   __webpack_require__(192),
   /* template */
-  __webpack_require__(255),
+  __webpack_require__(269),
   /* scopeId */
   null,
   /* cssModules */
   null
 )
-Component.options.__file = "C:\\xampp\\htdocs\\warehouse2\\resources\\assets\\js\\components\\MRT\\myMRTSignatureRequest.vue"
+Component.options.__file = "C:\\xampp\\htdocs\\warehouse\\resources\\assets\\js\\components\\MRT\\myMRTSignatureRequest.vue"
 if (Component.esModule && Object.keys(Component.esModule).some(function (key) {return key !== "default" && key !== "__esModule"})) {console.error("named exports are not supported in *.vue files.")}
 if (Component.options.functional) {console.error("[vue-loader] myMRTSignatureRequest.vue: functional components are not supported with templates, they should use render functions.")}
 
@@ -12138,9 +12138,9 @@ if (false) {(function () {
   if (!hotAPI.compatible) return
   module.hot.accept()
   if (!module.hot.data) {
-    hotAPI.createRecord("data-v-35965c72", Component.options)
+    hotAPI.createRecord("data-v-7035417f", Component.options)
   } else {
-    hotAPI.reload("data-v-35965c72", Component.options)
+    hotAPI.reload("data-v-7035417f", Component.options)
   }
 })()}
 
@@ -12230,79 +12230,29 @@ module.exports = (
 
 /***/ }),
 
-/***/ 255:
+/***/ 26:
 /***/ (function(module, exports, __webpack_require__) {
 
-module.exports={render:function (){var _vm=this;var _h=_vm.$createElement;var _c=_vm._self._c||_h;
-  return _c('div', {
-    staticClass: "table-container-mrt-request"
-  }, [(_vm.MRTrequests[0] != null) ? _c('table', [_vm._m(0), _vm._v(" "), _vm._l((_vm.MRTrequests), function(mrt) {
-    return _c('tr', [_c('td', [_vm._v(_vm._s(mrt.MRTNo))]), _vm._v(" "), _c('td', [_vm._v(_vm._s(mrt.ReturnDate))]), _vm._v(" "), _c('td', [_vm._v(_vm._s(mrt.Particulars))]), _vm._v(" "), _c('td', [_vm._v(_vm._s(mrt.AddressTo))]), _vm._v(" "), _c('td', [_vm._v(_vm._s(mrt.Remarks))]), _vm._v(" "), _c('td', [_c('a', {
-      attrs: {
-        "href": '/mrt-preview-page/' + mrt.MRTNo
-      }
-    }, [_c('i', {
-      staticClass: "material-icons"
-    }, [_vm._v("remove_red_eye")])])])])
-  })], 2) : _c('h1', {
-    staticClass: "No-MRT"
-  }, [_vm._v(" No MRT signature request")]), _vm._v(" "), _c('div', {
-    staticClass: "paginate-container"
-  }, [_c('ul', {
-    staticClass: "pagination"
-  }, [(_vm.pagination.current_page > 1) ? _c('li', [_c('a', {
-    attrs: {
-      "href": "#"
-    },
-    on: {
-      "click": function($event) {
-        $event.preventDefault();
-        _vm.changepage(_vm.pagination.current_page - 1)
-      }
-    }
-  }, [_c('i', {
-    staticClass: "material-icons"
-  }, [_vm._v("keyboard_arrow_left")])])]) : _vm._e(), _vm._v(" "), _vm._l((_vm.pagesNumber), function(page) {
-    return _c('li', {
-      class: [page == _vm.isActive ? 'active' : '']
-    }, [_c('a', {
-      attrs: {
-        "href": "#"
-      },
-      on: {
-        "click": function($event) {
-          $event.preventDefault();
-          _vm.changepage(page)
-        }
-      }
-    }, [_vm._v(_vm._s(page))])])
-  }), _vm._v(" "), (_vm.pagination.current_page < _vm.pagination.last_page) ? _c('li', [_c('a', {
-    attrs: {
-      "href": "#"
-    },
-    on: {
-      "click": function($event) {
-        $event.preventDefault();
-        _vm.changepage(_vm.pagination.current_page + 1)
-      }
-    }
-  }, [_c('i', {
-    staticClass: "material-icons"
-  }, [_vm._v("keyboard_arrow_right")])])]) : _vm._e()], 2)])])
-},staticRenderFns: [function (){var _vm=this;var _h=_vm.$createElement;var _c=_vm._self._c||_h;
-  return _c('tr', [_c('th', [_vm._v("MRTNo")]), _vm._v(" "), _c('th', [_vm._v("Return date")]), _vm._v(" "), _c('th', [_vm._v("Particulars")]), _vm._v(" "), _c('th', [_vm._v("Address To")]), _vm._v(" "), _c('th', [_vm._v("Remarks")]), _vm._v(" "), _c('th', [_vm._v("View")])])
-}]}
-module.exports.render._withStripped = true
-if (false) {
-  module.hot.accept()
-  if (module.hot.data) {
-     require("vue-hot-reload-api").rerender("data-v-35965c72", module.exports)
-  }
-}
+"use strict";
+
+
+/**
+ * Determines whether the specified URL is absolute
+ *
+ * @param {string} url The URL to test
+ * @returns {boolean} True if the specified URL is absolute, otherwise false
+ */
+module.exports = function isAbsoluteURL(url) {
+  // A URL is considered absolute if it begins with "<scheme>://" or "//" (protocol-relative URL).
+  // RFC 3986 defines scheme name as a sequence of characters beginning with a letter and followed
+  // by any combination of letters, digits, plus, period, or hyphen.
+  return /^([a-z][a-z\d\+\-\.]*:)?\/\//i.test(url);
+};
+
 
 /***/ }),
 
-/***/ 259:
+/***/ 262:
 /***/ (function(module, exports, __webpack_require__) {
 
 module.exports={render:function (){var _vm=this;var _h=_vm.$createElement;var _c=_vm._self._c||_h;
@@ -12480,35 +12430,278 @@ module.exports.render._withStripped = true
 if (false) {
   module.hot.accept()
   if (module.hot.data) {
-     require("vue-hot-reload-api").rerender("data-v-4b899ed8", module.exports)
+     require("vue-hot-reload-api").rerender("data-v-4da9e290", module.exports)
   }
 }
 
 /***/ }),
 
-/***/ 26:
+/***/ 263:
+/***/ (function(module, exports, __webpack_require__) {
+
+module.exports={render:function (){var _vm=this;var _h=_vm.$createElement;var _c=_vm._self._c||_h;
+  return _c('div', {
+    staticClass: "mrt-index-vue"
+  }, [_c('div', {
+    staticClass: "title-mrt-index-and-search"
+  }, [_vm._m(0), _vm._v(" "), _c('input', {
+    directives: [{
+      name: "model",
+      rawName: "v-model",
+      value: (_vm.MRTSearch),
+      expression: "MRTSearch"
+    }],
+    attrs: {
+      "type": "text",
+      "placeholder": "MRT #"
+    },
+    domProps: {
+      "value": (_vm.MRTSearch)
+    },
+    on: {
+      "keyup": function($event) {
+        _vm.fetchandSearch()
+      },
+      "input": function($event) {
+        if ($event.target.composing) { return; }
+        _vm.MRTSearch = $event.target.value
+      }
+    }
+  })]), _vm._v(" "), _c('div', {
+    staticClass: "mrt-index-table-container"
+  }, [_c('table', [_vm._m(1), _vm._v(" "), _vm._l((_vm.MRTindexData), function(data) {
+    return (data.users[0] != null) ? _c('tr', [_c('td', {
+      staticClass: "rollback-sign"
+    }, [(data.IsRollBack == 0) ? _c('h2') : _vm._e(), _vm._v(_vm._s(data.MRTNo))]), _vm._v(" "), _c('td', [_vm._v(_vm._s(data.ReturnDate))]), _vm._v(" "), _c('td', [_vm._v(_vm._s(data.MCTNo))]), _vm._v(" "), _c('td', [_vm._v(_vm._s(data.Particulars))]), _vm._v(" "), _c('td', [_vm._v(_vm._s(data.AddressTo))]), _vm._v(" "), _c('td', [_vm._v("\n          " + _vm._s(data.users[0].FullName)), _c('br'), _vm._v(" "), (data.users[0].pivot.Signature == '0') ? _c('i', {
+      staticClass: "material-icons"
+    }, [_vm._v("check")]) : _vm._e(), _vm._v(" "), (data.users[0].pivot.Signature == '1') ? _c('i', {
+      staticClass: "material-icons decliner"
+    }, [_vm._v("close")]) : _vm._e()]), _vm._v(" "), _c('td', [_vm._v("\n          " + _vm._s(data.users[1].FullName)), _c('br'), _vm._v(" "), (data.users[1].pivot.Signature == '0') ? _c('i', {
+      staticClass: "material-icons"
+    }, [_vm._v("check")]) : _vm._e(), _vm._v(" "), (data.users[1].pivot.Signature == '1') ? _c('i', {
+      staticClass: "material-icons decliner"
+    }, [_vm._v("close")]) : _vm._e()]), _vm._v(" "), _c('td', [(data.Status == '0') ? _c('i', {
+      staticClass: "material-icons"
+    }, [_vm._v("thumb_up")]) : (data.Status == '1') ? _c('i', {
+      staticClass: "material-icons decliner"
+    }, [_vm._v("close")]) : _c('i', {
+      staticClass: "material-icons darker-blue"
+    }, [_vm._v("access_time")])]), _vm._v(" "), _c('td', [_c('a', {
+      attrs: {
+        "href": '/mrt-preview-page/' + data.MRTNo
+      }
+    }, [_c('i', {
+      staticClass: "material-icons"
+    }, [_vm._v("remove_red_eye")])])])]) : _vm._e()
+  })], 2), _vm._v(" "), _c('div', {
+    staticClass: "paginate-container"
+  }, [_c('ul', {
+    staticClass: "pagination"
+  }, [(_vm.pagination.current_page > 1) ? _c('li', [_c('a', {
+    attrs: {
+      "href": "#"
+    },
+    on: {
+      "click": function($event) {
+        $event.preventDefault();
+        _vm.changepage(_vm.pagination.current_page - 1)
+      }
+    }
+  }, [_c('i', {
+    staticClass: "material-icons"
+  }, [_vm._v("keyboard_arrow_left")])])]) : _vm._e(), _vm._v(" "), _vm._l((_vm.pagesNumber), function(page) {
+    return _c('li', {
+      class: [page == _vm.isActive ? 'active' : '']
+    }, [_c('a', {
+      attrs: {
+        "href": "#"
+      },
+      on: {
+        "click": function($event) {
+          $event.preventDefault();
+          _vm.changepage(page)
+        }
+      }
+    }, [_vm._v(_vm._s(page))])])
+  }), _vm._v(" "), (_vm.pagination.current_page < _vm.pagination.last_page) ? _c('li', [_c('a', {
+    attrs: {
+      "href": "#"
+    },
+    on: {
+      "click": function($event) {
+        $event.preventDefault();
+        _vm.changepage(_vm.pagination.current_page + 1)
+      }
+    }
+  }, [_c('i', {
+    staticClass: "material-icons"
+  }, [_vm._v("keyboard_arrow_right")])])]) : _vm._e()], 2)])])])
+},staticRenderFns: [function (){var _vm=this;var _h=_vm.$createElement;var _c=_vm._self._c||_h;
+  return _c('h1', [_c('i', {
+    staticClass: "material-icons"
+  }, [_vm._v("content_paste")]), _vm._v(" Materials Returned Ticket index")])
+},function (){var _vm=this;var _h=_vm.$createElement;var _c=_vm._self._c||_h;
+  return _c('tr', [_c('th', [_vm._v("MRTNo")]), _vm._v(" "), _c('th', [_vm._v("Date returned")]), _vm._v(" "), _c('th', [_vm._v("MCTNo")]), _vm._v(" "), _c('th', [_vm._v("Particulars")]), _vm._v(" "), _c('th', [_vm._v("Addressed to")]), _vm._v(" "), _c('th', [_vm._v("Received by")]), _vm._v(" "), _c('th', [_vm._v("Returned by")]), _vm._v(" "), _c('th', [_vm._v("Status")]), _vm._v(" "), _c('th', [_vm._v("Show")])])
+}]}
+module.exports.render._withStripped = true
+if (false) {
+  module.hot.accept()
+  if (module.hot.data) {
+     require("vue-hot-reload-api").rerender("data-v-5021b424", module.exports)
+  }
+}
+
+/***/ }),
+
+/***/ 269:
+/***/ (function(module, exports, __webpack_require__) {
+
+module.exports={render:function (){var _vm=this;var _h=_vm.$createElement;var _c=_vm._self._c||_h;
+  return _c('div', {
+    staticClass: "table-container-mrt-request"
+  }, [(_vm.MRTrequests[0] != null) ? _c('table', [_vm._m(0), _vm._v(" "), _vm._l((_vm.MRTrequests), function(mrt) {
+    return _c('tr', [_c('td', [_vm._v(_vm._s(mrt.MRTNo))]), _vm._v(" "), _c('td', [_vm._v(_vm._s(mrt.ReturnDate))]), _vm._v(" "), _c('td', [_vm._v(_vm._s(mrt.Particulars))]), _vm._v(" "), _c('td', [_vm._v(_vm._s(mrt.AddressTo))]), _vm._v(" "), _c('td', [_vm._v(_vm._s(mrt.Remarks))]), _vm._v(" "), _c('td', [_c('a', {
+      attrs: {
+        "href": '/mrt-preview-page/' + mrt.MRTNo
+      }
+    }, [_c('i', {
+      staticClass: "material-icons"
+    }, [_vm._v("remove_red_eye")])])])])
+  })], 2) : _c('h1', {
+    staticClass: "No-MRT"
+  }, [_vm._v(" No MRT signature request")]), _vm._v(" "), _c('div', {
+    staticClass: "paginate-container"
+  }, [_c('ul', {
+    staticClass: "pagination"
+  }, [(_vm.pagination.current_page > 1) ? _c('li', [_c('a', {
+    attrs: {
+      "href": "#"
+    },
+    on: {
+      "click": function($event) {
+        $event.preventDefault();
+        _vm.changepage(_vm.pagination.current_page - 1)
+      }
+    }
+  }, [_c('i', {
+    staticClass: "material-icons"
+  }, [_vm._v("keyboard_arrow_left")])])]) : _vm._e(), _vm._v(" "), _vm._l((_vm.pagesNumber), function(page) {
+    return _c('li', {
+      class: [page == _vm.isActive ? 'active' : '']
+    }, [_c('a', {
+      attrs: {
+        "href": "#"
+      },
+      on: {
+        "click": function($event) {
+          $event.preventDefault();
+          _vm.changepage(page)
+        }
+      }
+    }, [_vm._v(_vm._s(page))])])
+  }), _vm._v(" "), (_vm.pagination.current_page < _vm.pagination.last_page) ? _c('li', [_c('a', {
+    attrs: {
+      "href": "#"
+    },
+    on: {
+      "click": function($event) {
+        $event.preventDefault();
+        _vm.changepage(_vm.pagination.current_page + 1)
+      }
+    }
+  }, [_c('i', {
+    staticClass: "material-icons"
+  }, [_vm._v("keyboard_arrow_right")])])]) : _vm._e()], 2)])])
+},staticRenderFns: [function (){var _vm=this;var _h=_vm.$createElement;var _c=_vm._self._c||_h;
+  return _c('tr', [_c('th', [_vm._v("MRTNo")]), _vm._v(" "), _c('th', [_vm._v("Return date")]), _vm._v(" "), _c('th', [_vm._v("Particulars")]), _vm._v(" "), _c('th', [_vm._v("Address To")]), _vm._v(" "), _c('th', [_vm._v("Remarks")]), _vm._v(" "), _c('th', [_vm._v("View")])])
+}]}
+module.exports.render._withStripped = true
+if (false) {
+  module.hot.accept()
+  if (module.hot.data) {
+     require("vue-hot-reload-api").rerender("data-v-7035417f", module.exports)
+  }
+}
+
+/***/ }),
+
+/***/ 27:
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
 
 
-/**
- * Determines whether the specified URL is absolute
- *
- * @param {string} url The URL to test
- * @returns {boolean} True if the specified URL is absolute, otherwise false
- */
-module.exports = function isAbsoluteURL(url) {
-  // A URL is considered absolute if it begins with "<scheme>://" or "//" (protocol-relative URL).
-  // RFC 3986 defines scheme name as a sequence of characters beginning with a letter and followed
-  // by any combination of letters, digits, plus, period, or hyphen.
-  return /^([a-z][a-z\d\+\-\.]*:)?\/\//i.test(url);
-};
+var utils = __webpack_require__(1);
+
+module.exports = (
+  utils.isStandardBrowserEnv() ?
+
+  // Standard browser envs have full support of the APIs needed to test
+  // whether the request URL is of the same origin as current location.
+  (function standardBrowserEnv() {
+    var msie = /(msie|trident)/i.test(navigator.userAgent);
+    var urlParsingNode = document.createElement('a');
+    var originURL;
+
+    /**
+    * Parse a URL to discover it's components
+    *
+    * @param {String} url The URL to be parsed
+    * @returns {Object}
+    */
+    function resolveURL(url) {
+      var href = url;
+
+      if (msie) {
+        // IE needs attribute set twice to normalize properties
+        urlParsingNode.setAttribute('href', href);
+        href = urlParsingNode.href;
+      }
+
+      urlParsingNode.setAttribute('href', href);
+
+      // urlParsingNode provides the UrlUtils interface - http://url.spec.whatwg.org/#urlutils
+      return {
+        href: urlParsingNode.href,
+        protocol: urlParsingNode.protocol ? urlParsingNode.protocol.replace(/:$/, '') : '',
+        host: urlParsingNode.host,
+        search: urlParsingNode.search ? urlParsingNode.search.replace(/^\?/, '') : '',
+        hash: urlParsingNode.hash ? urlParsingNode.hash.replace(/^#/, '') : '',
+        hostname: urlParsingNode.hostname,
+        port: urlParsingNode.port,
+        pathname: (urlParsingNode.pathname.charAt(0) === '/') ?
+                  urlParsingNode.pathname :
+                  '/' + urlParsingNode.pathname
+      };
+    }
+
+    originURL = resolveURL(window.location.href);
+
+    /**
+    * Determine if a URL shares the same origin as the current location
+    *
+    * @param {String} requestURL The URL to test
+    * @returns {boolean} True if URL shares the same origin, otherwise false
+    */
+    return function isURLSameOrigin(requestURL) {
+      var parsed = (utils.isString(requestURL)) ? resolveURL(requestURL) : requestURL;
+      return (parsed.protocol === originURL.protocol &&
+            parsed.host === originURL.host);
+    };
+  })() :
+
+  // Non standard browser envs (web workers, react-native) lack needed support.
+  (function nonStandardBrowserEnv() {
+    return function isURLSameOrigin() {
+      return true;
+    };
+  })()
+);
 
 
 /***/ }),
 
-/***/ 261:
+/***/ 275:
 /***/ (function(module, exports, __webpack_require__) {
 
 module.exports={render:function (){var _vm=this;var _h=_vm.$createElement;var _c=_vm._self._c||_h;
@@ -12719,202 +12912,9 @@ module.exports.render._withStripped = true
 if (false) {
   module.hot.accept()
   if (module.hot.data) {
-     require("vue-hot-reload-api").rerender("data-v-5c29197c", module.exports)
+     require("vue-hot-reload-api").rerender("data-v-c3dd6678", module.exports)
   }
 }
-
-/***/ }),
-
-/***/ 266:
-/***/ (function(module, exports, __webpack_require__) {
-
-module.exports={render:function (){var _vm=this;var _h=_vm.$createElement;var _c=_vm._self._c||_h;
-  return _c('div', {
-    staticClass: "mrt-index-vue"
-  }, [_c('div', {
-    staticClass: "title-mrt-index-and-search"
-  }, [_vm._m(0), _vm._v(" "), _c('input', {
-    directives: [{
-      name: "model",
-      rawName: "v-model",
-      value: (_vm.MRTSearch),
-      expression: "MRTSearch"
-    }],
-    attrs: {
-      "type": "text",
-      "placeholder": "MRT #"
-    },
-    domProps: {
-      "value": (_vm.MRTSearch)
-    },
-    on: {
-      "keyup": function($event) {
-        _vm.fetchandSearch()
-      },
-      "input": function($event) {
-        if ($event.target.composing) { return; }
-        _vm.MRTSearch = $event.target.value
-      }
-    }
-  })]), _vm._v(" "), _c('div', {
-    staticClass: "mrt-index-table-container"
-  }, [_c('table', [_vm._m(1), _vm._v(" "), _vm._l((_vm.MRTindexData), function(data) {
-    return (data.users[0] != null) ? _c('tr', [_c('td', {
-      staticClass: "rollback-sign"
-    }, [(data.IsRollBack == 0) ? _c('h2') : _vm._e(), _vm._v(_vm._s(data.MRTNo))]), _vm._v(" "), _c('td', [_vm._v(_vm._s(data.ReturnDate))]), _vm._v(" "), _c('td', [_vm._v(_vm._s(data.MCTNo))]), _vm._v(" "), _c('td', [_vm._v(_vm._s(data.Particulars))]), _vm._v(" "), _c('td', [_vm._v(_vm._s(data.AddressTo))]), _vm._v(" "), _c('td', [_vm._v("\n          " + _vm._s(data.users[0].FullName)), _c('br'), _vm._v(" "), (data.users[0].pivot.Signature == '0') ? _c('i', {
-      staticClass: "material-icons"
-    }, [_vm._v("check")]) : _vm._e(), _vm._v(" "), (data.users[0].pivot.Signature == '1') ? _c('i', {
-      staticClass: "material-icons decliner"
-    }, [_vm._v("close")]) : _vm._e()]), _vm._v(" "), _c('td', [_vm._v("\n          " + _vm._s(data.users[1].FullName)), _c('br'), _vm._v(" "), (data.users[1].pivot.Signature == '0') ? _c('i', {
-      staticClass: "material-icons"
-    }, [_vm._v("check")]) : _vm._e(), _vm._v(" "), (data.users[1].pivot.Signature == '1') ? _c('i', {
-      staticClass: "material-icons decliner"
-    }, [_vm._v("close")]) : _vm._e()]), _vm._v(" "), _c('td', [(data.Status == '0') ? _c('i', {
-      staticClass: "material-icons"
-    }, [_vm._v("thumb_up")]) : (data.Status == '1') ? _c('i', {
-      staticClass: "material-icons decliner"
-    }, [_vm._v("close")]) : _c('i', {
-      staticClass: "material-icons darker-blue"
-    }, [_vm._v("access_time")])]), _vm._v(" "), _c('td', [_c('a', {
-      attrs: {
-        "href": '/mrt-preview-page/' + data.MRTNo
-      }
-    }, [_c('i', {
-      staticClass: "material-icons"
-    }, [_vm._v("remove_red_eye")])])])]) : _vm._e()
-  })], 2), _vm._v(" "), _c('div', {
-    staticClass: "paginate-container"
-  }, [_c('ul', {
-    staticClass: "pagination"
-  }, [(_vm.pagination.current_page > 1) ? _c('li', [_c('a', {
-    attrs: {
-      "href": "#"
-    },
-    on: {
-      "click": function($event) {
-        $event.preventDefault();
-        _vm.changepage(_vm.pagination.current_page - 1)
-      }
-    }
-  }, [_c('i', {
-    staticClass: "material-icons"
-  }, [_vm._v("keyboard_arrow_left")])])]) : _vm._e(), _vm._v(" "), _vm._l((_vm.pagesNumber), function(page) {
-    return _c('li', {
-      class: [page == _vm.isActive ? 'active' : '']
-    }, [_c('a', {
-      attrs: {
-        "href": "#"
-      },
-      on: {
-        "click": function($event) {
-          $event.preventDefault();
-          _vm.changepage(page)
-        }
-      }
-    }, [_vm._v(_vm._s(page))])])
-  }), _vm._v(" "), (_vm.pagination.current_page < _vm.pagination.last_page) ? _c('li', [_c('a', {
-    attrs: {
-      "href": "#"
-    },
-    on: {
-      "click": function($event) {
-        $event.preventDefault();
-        _vm.changepage(_vm.pagination.current_page + 1)
-      }
-    }
-  }, [_c('i', {
-    staticClass: "material-icons"
-  }, [_vm._v("keyboard_arrow_right")])])]) : _vm._e()], 2)])])])
-},staticRenderFns: [function (){var _vm=this;var _h=_vm.$createElement;var _c=_vm._self._c||_h;
-  return _c('h1', [_c('i', {
-    staticClass: "material-icons"
-  }, [_vm._v("content_paste")]), _vm._v(" Materials Returned Ticket index")])
-},function (){var _vm=this;var _h=_vm.$createElement;var _c=_vm._self._c||_h;
-  return _c('tr', [_c('th', [_vm._v("MRTNo")]), _vm._v(" "), _c('th', [_vm._v("Date returned")]), _vm._v(" "), _c('th', [_vm._v("MCTNo")]), _vm._v(" "), _c('th', [_vm._v("Particulars")]), _vm._v(" "), _c('th', [_vm._v("Addressed to")]), _vm._v(" "), _c('th', [_vm._v("Received by")]), _vm._v(" "), _c('th', [_vm._v("Returned by")]), _vm._v(" "), _c('th', [_vm._v("Status")]), _vm._v(" "), _c('th', [_vm._v("Show")])])
-}]}
-module.exports.render._withStripped = true
-if (false) {
-  module.hot.accept()
-  if (module.hot.data) {
-     require("vue-hot-reload-api").rerender("data-v-6c82c0a6", module.exports)
-  }
-}
-
-/***/ }),
-
-/***/ 27:
-/***/ (function(module, exports, __webpack_require__) {
-
-"use strict";
-
-
-var utils = __webpack_require__(1);
-
-module.exports = (
-  utils.isStandardBrowserEnv() ?
-
-  // Standard browser envs have full support of the APIs needed to test
-  // whether the request URL is of the same origin as current location.
-  (function standardBrowserEnv() {
-    var msie = /(msie|trident)/i.test(navigator.userAgent);
-    var urlParsingNode = document.createElement('a');
-    var originURL;
-
-    /**
-    * Parse a URL to discover it's components
-    *
-    * @param {String} url The URL to be parsed
-    * @returns {Object}
-    */
-    function resolveURL(url) {
-      var href = url;
-
-      if (msie) {
-        // IE needs attribute set twice to normalize properties
-        urlParsingNode.setAttribute('href', href);
-        href = urlParsingNode.href;
-      }
-
-      urlParsingNode.setAttribute('href', href);
-
-      // urlParsingNode provides the UrlUtils interface - http://url.spec.whatwg.org/#urlutils
-      return {
-        href: urlParsingNode.href,
-        protocol: urlParsingNode.protocol ? urlParsingNode.protocol.replace(/:$/, '') : '',
-        host: urlParsingNode.host,
-        search: urlParsingNode.search ? urlParsingNode.search.replace(/^\?/, '') : '',
-        hash: urlParsingNode.hash ? urlParsingNode.hash.replace(/^#/, '') : '',
-        hostname: urlParsingNode.hostname,
-        port: urlParsingNode.port,
-        pathname: (urlParsingNode.pathname.charAt(0) === '/') ?
-                  urlParsingNode.pathname :
-                  '/' + urlParsingNode.pathname
-      };
-    }
-
-    originURL = resolveURL(window.location.href);
-
-    /**
-    * Determine if a URL shares the same origin as the current location
-    *
-    * @param {String} requestURL The URL to test
-    * @returns {boolean} True if URL shares the same origin, otherwise false
-    */
-    return function isURLSameOrigin(requestURL) {
-      var parsed = (utils.isString(requestURL)) ? resolveURL(requestURL) : requestURL;
-      return (parsed.protocol === originURL.protocol &&
-            parsed.host === originURL.host);
-    };
-  })() :
-
-  // Non standard browser envs (web workers, react-native) lack needed support.
-  (function nonStandardBrowserEnv() {
-    return function isURLSameOrigin() {
-      return true;
-    };
-  })()
-);
-
 
 /***/ }),
 

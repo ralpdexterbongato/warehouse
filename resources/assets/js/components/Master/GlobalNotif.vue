@@ -12,7 +12,7 @@
         <h2> Notifications</h2>
       </div>
       <div class="notification-line-container">
-        <a v-on:click="markSeen(notification.id)" :href="[notification.FileType=='MIRS'?'/previewFullMIRS/'+ notification.FileNo:'']" v-for="notification in NotifList">
+        <a v-on:click="markSeen(notification.id)" :href="[notification.FileType=='MIRS'?'/previewFullMIRS/'+ notification.FileNo:notification.FileType=='MCT'?'/preview-mct-page-only/'+notification.FileNo:'']" v-for="notification in NotifList">
           <div class="notification-drop-line" :class="[notification.Seen==null ?'active':'']">
             <div>
               <h2><i class="material-icons">insert_drive_file</i></h2>

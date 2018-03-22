@@ -12322,13 +12322,13 @@ var Component = __webpack_require__(4)(
   /* script */
   __webpack_require__(200),
   /* template */
-  __webpack_require__(264),
+  __webpack_require__(267),
   /* scopeId */
   null,
   /* cssModules */
   null
 )
-Component.options.__file = "C:\\xampp\\htdocs\\warehouse2\\resources\\assets\\js\\components\\RR\\CreateRRNoPO.vue"
+Component.options.__file = "C:\\xampp\\htdocs\\warehouse\\resources\\assets\\js\\components\\RR\\CreateRRNoPO.vue"
 if (Component.esModule && Object.keys(Component.esModule).some(function (key) {return key !== "default" && key !== "__esModule"})) {console.error("named exports are not supported in *.vue files.")}
 if (Component.options.functional) {console.error("[vue-loader] CreateRRNoPO.vue: functional components are not supported with templates, they should use render functions.")}
 
@@ -12339,9 +12339,9 @@ if (false) {(function () {
   if (!hotAPI.compatible) return
   module.hot.accept()
   if (!module.hot.data) {
-    hotAPI.createRecord("data-v-66a6f8b8", Component.options)
+    hotAPI.createRecord("data-v-61c52e70", Component.options)
   } else {
-    hotAPI.reload("data-v-66a6f8b8", Component.options)
+    hotAPI.reload("data-v-61c52e70", Component.options)
   }
 })()}
 
@@ -12357,13 +12357,13 @@ var Component = __webpack_require__(4)(
   /* script */
   __webpack_require__(201),
   /* template */
-  __webpack_require__(269),
+  __webpack_require__(250),
   /* scopeId */
   null,
   /* cssModules */
   null
 )
-Component.options.__file = "C:\\xampp\\htdocs\\warehouse2\\resources\\assets\\js\\components\\RR\\CreateRRWithPO.vue"
+Component.options.__file = "C:\\xampp\\htdocs\\warehouse\\resources\\assets\\js\\components\\RR\\CreateRRWithPO.vue"
 if (Component.esModule && Object.keys(Component.esModule).some(function (key) {return key !== "default" && key !== "__esModule"})) {console.error("named exports are not supported in *.vue files.")}
 if (Component.options.functional) {console.error("[vue-loader] CreateRRWithPO.vue: functional components are not supported with templates, they should use render functions.")}
 
@@ -12374,9 +12374,9 @@ if (false) {(function () {
   if (!hotAPI.compatible) return
   module.hot.accept()
   if (!module.hot.data) {
-    hotAPI.createRecord("data-v-73ab5bfd", Component.options)
+    hotAPI.createRecord("data-v-201303b5", Component.options)
   } else {
-    hotAPI.reload("data-v-73ab5bfd", Component.options)
+    hotAPI.reload("data-v-201303b5", Component.options)
   }
 })()}
 
@@ -12412,13 +12412,13 @@ var Component = __webpack_require__(4)(
   /* script */
   __webpack_require__(202),
   /* template */
-  __webpack_require__(253),
+  __webpack_require__(276),
   /* scopeId */
   null,
   /* cssModules */
   null
 )
-Component.options.__file = "C:\\xampp\\htdocs\\warehouse2\\resources\\assets\\js\\components\\RR\\RRfullpreview.vue"
+Component.options.__file = "C:\\xampp\\htdocs\\warehouse\\resources\\assets\\js\\components\\RR\\RRfullpreview.vue"
 if (Component.esModule && Object.keys(Component.esModule).some(function (key) {return key !== "default" && key !== "__esModule"})) {console.error("named exports are not supported in *.vue files.")}
 if (Component.options.functional) {console.error("[vue-loader] RRfullpreview.vue: functional components are not supported with templates, they should use render functions.")}
 
@@ -12429,9 +12429,9 @@ if (false) {(function () {
   if (!hotAPI.compatible) return
   module.hot.accept()
   if (!module.hot.data) {
-    hotAPI.createRecord("data-v-3016908d", Component.options)
+    hotAPI.createRecord("data-v-ce81dc56", Component.options)
   } else {
-    hotAPI.reload("data-v-3016908d", Component.options)
+    hotAPI.reload("data-v-ce81dc56", Component.options)
   }
 })()}
 
@@ -12447,13 +12447,13 @@ var Component = __webpack_require__(4)(
   /* script */
   __webpack_require__(203),
   /* template */
-  __webpack_require__(271),
+  __webpack_require__(273),
   /* scopeId */
   null,
   /* cssModules */
   null
 )
-Component.options.__file = "C:\\xampp\\htdocs\\warehouse2\\resources\\assets\\js\\components\\RR\\RRindex.vue"
+Component.options.__file = "C:\\xampp\\htdocs\\warehouse\\resources\\assets\\js\\components\\RR\\RRindex.vue"
 if (Component.esModule && Object.keys(Component.esModule).some(function (key) {return key !== "default" && key !== "__esModule"})) {console.error("named exports are not supported in *.vue files.")}
 if (Component.options.functional) {console.error("[vue-loader] RRindex.vue: functional components are not supported with templates, they should use render functions.")}
 
@@ -12464,9 +12464,9 @@ if (false) {(function () {
   if (!hotAPI.compatible) return
   module.hot.accept()
   if (!module.hot.data) {
-    hotAPI.createRecord("data-v-761a8786", Component.options)
+    hotAPI.createRecord("data-v-bb20c264", Component.options)
   } else {
-    hotAPI.reload("data-v-761a8786", Component.options)
+    hotAPI.reload("data-v-bb20c264", Component.options)
   }
 })()}
 
@@ -12536,400 +12536,352 @@ module.exports = (
 
 /***/ }),
 
-/***/ 253:
+/***/ 250:
 /***/ (function(module, exports, __webpack_require__) {
 
 module.exports={render:function (){var _vm=this;var _h=_vm.$createElement;var _c=_vm._self._c||_h;
-  return (_vm.RRMaster.users != null) ? _c('div', {
-    staticClass: "rr-preview-vue"
+  return _c('div', {
+    staticClass: "vue-rr-create-withpo"
   }, [_c('div', {
-    staticClass: "reversed-alert"
-  }, [(_vm.RRMaster.IsRollBack == 0) ? _c('p', [_c('i', {
-    staticClass: "material-icons"
-  }, [_vm._v("warning")]), _vm._v("Invalid transaction")]) : _vm._e()]), _vm._v(" "), _c('div', {
-    staticClass: "signature-btn"
+    staticClass: "selected-session-rr-w-po"
   }, [_c('div', {
-    staticClass: "empty-div-left file-edit-container"
-  }, [((_vm.RRMaster.Status == null && ((_vm.user.Role == 3) || (_vm.user.Role == 4)))) ? _c('div', [_c('span', {
-    staticClass: "edit-file",
-    class: _vm.ShowEdit == true ? 'hide' : 'show',
-    on: {
-      "click": function($event) {
-        _vm.ShowEdit = true
-      }
-    }
-  }, [_c('i', {
-    staticClass: "material-icons"
-  }, [_vm._v("edit")]), _vm._v("Edit")]), _vm._v(" "), _c('span', {
-    staticClass: "edit-file",
-    class: _vm.ShowEdit == false ? 'hide' : 'show'
-  }, [_c('span', {
-    staticClass: "color-blue"
-  }, [_vm._v("Save?")]), _vm._v(" "), _c('button', {
+    staticClass: "add-item-rr-w-pobtn"
+  }, [_c('button', {
     attrs: {
       "type": "button"
     },
     on: {
       "click": function($event) {
-        _vm.ShowEdit = false
-      }
-    }
-  }, [_vm._v("cancel")]), _vm._v(" "), _c('button', {
-    attrs: {
-      "type": "button",
-      "name": "button"
-    },
-    on: {
-      "click": function($event) {
-        _vm.ShowEdit = false, _vm.updateData()
-      }
-    }
-  }, [_vm._v("Save")])])]) : _vm._e()]), _vm._v(" "), (_vm.UserCanSignature && _vm.RRMaster.Status == null) ? _c('div', {
-    staticClass: "signature-wrap",
-    class: {
-      'hide': _vm.SignatureBtnHide
-    }
-  }, [_c('longpress', {
-    staticClass: "waves-effect waves-light",
-    attrs: {
-      "id": "RRsignature",
-      "duration": "3",
-      "on-confirm": _vm.signature,
-      "pressing-text": "confirm in {$rcounter}",
-      "action-text": "Loading . . ."
-    }
-  }, [_c('i', {
-    staticClass: "material-icons"
-  }, [_vm._v("edit")]), _vm._v(" Signature\r\n      ")]), _vm._v(" "), _c('longpress', {
-    staticClass: "waves-effect waves-light",
-    attrs: {
-      "id": "RRdecline",
-      "duration": "3",
-      "on-confirm": _vm.declinesignature,
-      "pressing-text": "confirm in {$rcounter}",
-      "action-text": "Loading . . ."
-    }
-  }, [_c('i', {
-    staticClass: "material-icons"
-  }, [_vm._v("close")]), _vm._v(" Decline\r\n      ")])], 1) : _vm._e()]), _vm._v(" "), ((_vm.RRMaster.Status == '0') && (_vm.RRMaster.IsRollBack != 0) && (_vm.RRMaster.CreatorID == _vm.user.id)) ? _c('div', {
-    staticClass: "print-RR-btn"
-  }, [_c('span', [_c('a', {
-    attrs: {
-      "href": '/RR.pdf/' + _vm.RRMaster.RRNo
-    }
-  }, [_vm._m(0)]), _vm._v(" "), (_vm.user.Role == 1 && _vm.RRMaster.Status == '0') ? _c('span', [(_vm.RRMaster.IsRollBack == null || _vm.RRMaster.IsRollBack == 1) ? _c('button', {
-    staticClass: "undo-btn",
-    attrs: {
-      "type": "button",
-      "name": "button"
-    },
-    on: {
-      "click": function($event) {
-        _vm.RollbackRR()
+        _vm.IsModalActive = !_vm.IsModalActive
       }
     }
   }, [_c('i', {
     staticClass: "material-icons"
-  }, [_vm._v("replay")]), _vm._v(" reverse")]) : _vm._e(), _vm._v(" "), (_vm.RRMaster.IsRollBack == 0) ? _c('button', {
-    staticClass: "undo-btn",
-    attrs: {
-      "type": "button",
-      "name": "button"
-    },
-    on: {
-      "click": function($event) {
-        _vm.UndoRollbackRR()
-      }
-    }
-  }, [_c('i', {
-    staticClass: "material-icons"
-  }, [_vm._v("refresh")]), _vm._v(" undo reverse")]) : _vm._e()]) : _vm._e()]), _vm._v(" "), _c('div', [(_vm.checkMR != 0) ? _c('a', {
-    attrs: {
-      "href": '/view-list-MR-of-RR/' + _vm.RRMaster.RRNo
-    }
-  }, [_vm._m(1)]) : _vm._e(), _vm._v(" "), ((((_vm.user.Role == 4) || (_vm.user.Role == 3)) && (_vm.RRMaster.Status == '0'))) ? _c('a', {
-    attrs: {
-      "href": '/create-mr/' + _vm.RRMaster.RRNo
-    }
-  }, [_vm._m(2)]) : _vm._e()])]) : _vm._e(), _vm._v(" "), _c('div', {
-    staticClass: "bondpaper-RR"
-  }, [_vm._m(3), _vm._v(" "), _c('div', {
-    staticClass: "rr-titlebox"
-  }, [_vm._v("\r\n        RECEIVING REPORT\r\n      ")]), _vm._v(" "), _c('div', {
-    staticClass: "right-date-rr"
-  }, [_c('div', {
-    staticClass: "empty-left-rr"
-  }), _vm._v(" "), _c('div', {
-    staticClass: "content-right-rr"
-  }, [_c('li', [_c('label', [_vm._v("RR No.:")]), _c('h5', [_vm._v(_vm._s(_vm.RRMaster.RRNo))])]), _vm._v(" "), _c('li', [_c('label', [_vm._v("Date:")]), _c('h5', [_vm._v(_vm._s(_vm.RRMaster.RRDate))])])])]), _vm._v(" "), _c('div', {
-    staticClass: "RRmasters-details"
-  }, [_c('div', {
-    staticClass: "RRmaster-left"
-  }, [_c('ul', [_c('li', [_c('label', [_vm._v("Supplier:")]), _vm._v(" "), (_vm.ShowEdit == false || _vm.RRMaster.PONo != null) ? _c('h4', [_vm._v(_vm._s(_vm.RRMaster.Supplier))]) : (_vm.RRMaster.PONo == null && _vm.ShowEdit == true) ? _c('h4', [_c('input', {
-    directives: [{
-      name: "model",
-      rawName: "v-model",
-      value: (_vm.updateSupplier = _vm.RRMaster.Supplier),
-      expression: "updateSupplier = RRMaster.Supplier"
-    }],
-    attrs: {
-      "type": "text"
-    },
-    domProps: {
-      "value": (_vm.updateSupplier = _vm.RRMaster.Supplier)
-    },
-    on: {
-      "input": function($event) {
-        if ($event.target.composing) { return; }
-        _vm.updateSupplier = _vm.RRMaster.Supplier = $event.target.value
-      }
-    }
-  })]) : _vm._e()]), _vm._v(" "), _c('li', [_c('label', [_vm._v("Address:")]), _vm._v(" "), (_vm.ShowEdit == false || _vm.RRMaster.PONo != null) ? _c('h4', [_vm._v(_vm._s(_vm.RRMaster.Address))]) : (_vm.RRMaster.PONo == null && _vm.ShowEdit == true) ? _c('h4', [_c('input', {
-    directives: [{
-      name: "model",
-      rawName: "v-model",
-      value: (_vm.updateAddress = _vm.RRMaster.Address),
-      expression: "updateAddress = RRMaster.Address"
-    }],
-    attrs: {
-      "type": "text"
-    },
-    domProps: {
-      "value": (_vm.updateAddress = _vm.RRMaster.Address)
-    },
-    on: {
-      "input": function($event) {
-        if ($event.target.composing) { return; }
-        _vm.updateAddress = _vm.RRMaster.Address = $event.target.value
-      }
-    }
-  })]) : _vm._e()]), _vm._v(" "), _c('li', [_c('label', [_vm._v("Invoice No.:")]), _vm._v(" "), (_vm.ShowEdit == false) ? _c('h4', [_vm._v(_vm._s(_vm.RRMaster.InvoiceNo))]) : _c('h4', [_c('input', {
-    directives: [{
-      name: "model",
-      rawName: "v-model",
-      value: (_vm.updateInvoiceNum = _vm.RRMaster.InvoiceNo),
-      expression: "updateInvoiceNum = RRMaster.InvoiceNo"
-    }],
-    attrs: {
-      "type": "text"
-    },
-    domProps: {
-      "value": (_vm.updateInvoiceNum = _vm.RRMaster.InvoiceNo)
-    },
-    on: {
-      "input": function($event) {
-        if ($event.target.composing) { return; }
-        _vm.updateInvoiceNum = _vm.RRMaster.InvoiceNo = $event.target.value
-      }
-    }
-  })])]), _vm._v(" "), _c('li', [_c('label', [_vm._v("R.V. No.:")]), _c('h4', [_vm._v(_vm._s(_vm.RRMaster.RVNo))])])])]), _vm._v(" "), _c('div', {
-    staticClass: "RRmaster-right"
-  }, [_c('ul', [_c('li', [_c('label', [_vm._v("Carrier:")]), _vm._v(" "), (_vm.ShowEdit == false) ? _c('h4', [_vm._v(_vm._s(_vm.RRMaster.Carrier))]) : _c('h4', [_c('input', {
-    directives: [{
-      name: "model",
-      rawName: "v-model",
-      value: (_vm.updateCarrier = _vm.RRMaster.Carrier),
-      expression: "updateCarrier = RRMaster.Carrier"
-    }],
-    attrs: {
-      "type": "text"
-    },
-    domProps: {
-      "value": (_vm.updateCarrier = _vm.RRMaster.Carrier)
-    },
-    on: {
-      "input": function($event) {
-        if ($event.target.composing) { return; }
-        _vm.updateCarrier = _vm.RRMaster.Carrier = $event.target.value
-      }
-    }
-  })])]), _vm._v(" "), _c('li', [_c('label', [_vm._v("Delivery Receipt No:")]), _vm._v(" "), (_vm.ShowEdit == false) ? _c('h4', [_vm._v(_vm._s(_vm.RRMaster.DeliveryReceiptNo))]) : _c('h4', [_c('input', {
-    directives: [{
-      name: "model",
-      rawName: "v-model",
-      value: (_vm.updateDeliveryReceipt = _vm.RRMaster.DeliveryReceiptNo),
-      expression: "updateDeliveryReceipt = RRMaster.DeliveryReceiptNo"
-    }],
-    attrs: {
-      "type": "text"
-    },
-    domProps: {
-      "value": (_vm.updateDeliveryReceipt = _vm.RRMaster.DeliveryReceiptNo)
-    },
-    on: {
-      "input": function($event) {
-        if ($event.target.composing) { return; }
-        _vm.updateDeliveryReceipt = _vm.RRMaster.DeliveryReceiptNo = $event.target.value
-      }
-    }
-  })])]), _vm._v(" "), _c('li', [_c('label', [_vm._v("P.O. No:")]), _vm._v(" "), (_vm.RRMaster.PONo != null) ? _c('h4', [_vm._v(_vm._s(_vm.RRMaster.PONo))]) : _vm._e()])])])]), _vm._v(" "), _c('div', {
-    staticClass: "RR-table-container"
-  }, [_c('table', [_vm._m(4), _vm._v(" "), _vm._l((_vm.RRconfirmationDetails), function(data, key) {
-    return _c('tr', [_c('td', [_vm._v(_vm._s(data.ItemCode))]), _vm._v(" "), _c('td', [_vm._v(_vm._s(data.Description))]), _vm._v(" "), _c('td', [_vm._v(_vm._s(data.Unit))]), _vm._v(" "), _c('td', [(_vm.ShowEdit == false) ? _c('span', [_vm._v(_vm._s(data.RRQuantityDelivered))]) : _c('span', [_c('input', {
-      directives: [{
-        name: "model",
-        rawName: "v-model",
-        value: (_vm.updateQtyDelivered[key] = data.RRQuantityDelivered),
-        expression: "updateQtyDelivered[key] = data.RRQuantityDelivered"
-      }],
-      staticClass: "update-qty-input",
-      attrs: {
-        "type": "text"
-      },
-      domProps: {
-        "value": (_vm.updateQtyDelivered[key] = data.RRQuantityDelivered)
-      },
+  }, [_vm._v("add")]), _vm._v(" items")])]), _vm._v(" "), _c('div', {
+    staticClass: "table-rr-w-po"
+  }, [_c('table', [_vm._m(0), _vm._v(" "), _vm._l((_vm.SessionItems), function(sessionitem, count) {
+    return _c('tr', [(sessionitem.ItemCode != null) ? _c('td', [_vm._v(_vm._s(sessionitem.ItemCode))]) : _c('td', [_c('i', {
+      staticClass: "material-icons decliner"
+    }, [_vm._v("do_not_disturb")])]), _vm._v(" "), (sessionitem.AccountCode != null) ? _c('td', [_vm._v(_vm._s(sessionitem.AccountCode))]) : _c('td', [_c('i', {
+      staticClass: "material-icons decliner"
+    }, [_vm._v("do_not_disturb")])]), _vm._v(" "), _c('td', [_vm._v(_vm._s(sessionitem.Description))]), _vm._v(" "), _c('td', [_vm._v("₱" + _vm._s(_vm.formatPrice(sessionitem.UnitCost)))]), _vm._v(" "), _c('td', [_vm._v(_vm._s(sessionitem.QuantityDelivered))]), _vm._v(" "), _c('td', [_vm._v(_vm._s(sessionitem.QuantityAccepted))]), _vm._v(" "), _c('td', [_vm._v(_vm._s(sessionitem.Unit))]), _vm._v(" "), _c('td', [_vm._v("₱" + _vm._s(_vm.formatPrice(sessionitem.Amount)))]), _vm._v(" "), _c('td', [_c('i', {
+      staticClass: "material-icons",
       on: {
-        "input": function($event) {
-          if ($event.target.composing) { return; }
-          _vm.updateQtyDelivered[key] = data.RRQuantityDelivered = $event.target.value
+        "click": function($event) {
+          _vm.deleteSession(count)
         }
       }
-    })])]), _vm._v(" "), _c('td', [(_vm.ShowEdit == false) ? _c('span', [_vm._v(_vm._s(data.QuantityAccepted))]) : _c('span', [_c('input', {
-      directives: [{
-        name: "model",
-        rawName: "v-model",
-        value: (_vm.updateQtyAccepted[key] = data.QuantityAccepted),
-        expression: "updateQtyAccepted[key] = data.QuantityAccepted"
-      }],
-      staticClass: "update-qty-input",
-      attrs: {
-        "type": "text"
-      },
-      domProps: {
-        "value": (_vm.updateQtyAccepted[key] = data.QuantityAccepted)
-      },
-      on: {
-        "input": function($event) {
-          if ($event.target.composing) { return; }
-          _vm.updateQtyAccepted[key] = data.QuantityAccepted = $event.target.value
-        }
-      }
-    })])]), _vm._v(" "), _c('td', [_vm._v(_vm._s(_vm.formatPrice(data.UnitCost)))]), _vm._v(" "), _c('td', [_vm._v(_vm._s(_vm.formatPrice(data.Amount)))])])
-  })], 2)]), _vm._v(" "), _c('div', {
-    staticClass: "RRNetsales-Total"
-  }, [_c('div', {
-    staticClass: "netsales-total-content"
-  }, [_c('li', [_c('label', [_vm._v("Net Sales")]), _c('h4', [_vm._v(_vm._s(_vm.formatPrice(_vm.Netsales)))])]), _vm._v(" "), _c('li', {
-    staticClass: "RRadded-VAT"
-  }, [_c('h5', [_vm._v("Add:Vat")]), _vm._v(" "), _c('h5', [_vm._v("12%")]), _c('h5', [_vm._v(_vm._s(_vm.formatPrice(_vm.VAT)))])]), _vm._v(" "), _c('li', [_c('label', [_vm._v("TOTAL AMOUNT")]), _c('h4', [_vm._v(_vm._s(_vm.formatPrice(_vm.TOTALamt)))])])])]), _vm._v(" "), _c('h1', {
-    staticClass: "noteRR"
-  }, [_c('label', [_vm._v("Note:")]), _vm._v(" "), (_vm.ShowEdit == false) ? _c('p', [_vm._v(_vm._s(_vm.RRMaster.Note))]) : _c('p', [_c('input', {
+    }, [_vm._v("close")])])])
+  })], 2)])]), _vm._v(" "), _c('div', {
+    staticClass: "right-form-rr-with-po"
+  }, [_c('input', {
     directives: [{
       name: "model",
       rawName: "v-model",
-      value: (_vm.updateNote = _vm.RRMaster.Note),
-      expression: "updateNote = RRMaster.Note"
+      value: (_vm.InvoiceNo),
+      expression: "InvoiceNo"
     }],
     attrs: {
       "type": "text",
-      "name": "",
-      "value": ""
+      "autocomplete": "off",
+      "name": "InvoiceNo",
+      "placeholder": "Invoice number"
     },
     domProps: {
-      "value": (_vm.updateNote = _vm.RRMaster.Note)
+      "value": (_vm.InvoiceNo)
     },
     on: {
       "input": function($event) {
         if ($event.target.composing) { return; }
-        _vm.updateNote = _vm.RRMaster.Note = $event.target.value
+        _vm.InvoiceNo = $event.target.value
       }
     }
-  })])]), _vm._v(" "), _c('div', {
-    staticClass: "RRSignatures-container"
+  }), _vm._v(" "), _c('input', {
+    directives: [{
+      name: "model",
+      rawName: "v-model",
+      value: (_vm.Carrier),
+      expression: "Carrier"
+    }],
+    attrs: {
+      "type": "text",
+      "autocomplete": "off",
+      "name": "Carrier",
+      "placeholder": "Carrier"
+    },
+    domProps: {
+      "value": (_vm.Carrier)
+    },
+    on: {
+      "input": function($event) {
+        if ($event.target.composing) { return; }
+        _vm.Carrier = $event.target.value
+      }
+    }
+  }), _vm._v(" "), _c('input', {
+    directives: [{
+      name: "model",
+      rawName: "v-model",
+      value: (_vm.DeliveryReceiptNo),
+      expression: "DeliveryReceiptNo"
+    }],
+    attrs: {
+      "type": "text",
+      "autocomplete": "off",
+      "name": "DeliveryReceiptNo",
+      "placeholder": "Delivery Receipt Number"
+    },
+    domProps: {
+      "value": (_vm.DeliveryReceiptNo)
+    },
+    on: {
+      "input": function($event) {
+        if ($event.target.composing) { return; }
+        _vm.DeliveryReceiptNo = $event.target.value
+      }
+    }
+  }), _vm._v(" "), _c('input', {
+    directives: [{
+      name: "model",
+      rawName: "v-model",
+      value: (_vm.Note),
+      expression: "Note"
+    }],
+    attrs: {
+      "type": "text",
+      "autocomplete": "off",
+      "name": "Note",
+      "placeholder": "Note"
+    },
+    domProps: {
+      "value": (_vm.Note)
+    },
+    on: {
+      "input": function($event) {
+        if ($event.target.composing) { return; }
+        _vm.Note = $event.target.value
+      }
+    }
+  }), _vm._v(" "), _c('select', {
+    directives: [{
+      name: "model",
+      rawName: "v-model",
+      value: (_vm.ReceivedBy),
+      expression: "ReceivedBy"
+    }],
+    class: [_vm.ReceivedBy != '' ? 'black' : ''],
+    on: {
+      "change": function($event) {
+        var $$selectedVal = Array.prototype.filter.call($event.target.options, function(o) {
+          return o.selected
+        }).map(function(o) {
+          var val = "_value" in o ? o._value : o.value;
+          return val
+        });
+        _vm.ReceivedBy = $event.target.multiple ? $$selectedVal : $$selectedVal[0]
+      }
+    }
+  }, [_c('option', {
+    staticClass: "gray",
+    attrs: {
+      "value": ""
+    }
+  }, [_vm._v("Received by")]), _vm._v(" "), _vm._l((_vm.allusers), function(user) {
+    return _c('option', {
+      staticClass: "black",
+      domProps: {
+        "value": user.id
+      }
+    }, [_vm._v(_vm._s(user.FullName))])
+  })], 2), _vm._v(" "), _c('select', {
+    directives: [{
+      name: "model",
+      rawName: "v-model",
+      value: (_vm.Verifiedby),
+      expression: "Verifiedby"
+    }],
+    class: [_vm.Verifiedby != '' ? 'black' : ''],
+    attrs: {
+      "name": "Verifiedby"
+    },
+    on: {
+      "change": function($event) {
+        var $$selectedVal = Array.prototype.filter.call($event.target.options, function(o) {
+          return o.selected
+        }).map(function(o) {
+          var val = "_value" in o ? o._value : o.value;
+          return val
+        });
+        _vm.Verifiedby = $event.target.multiple ? $$selectedVal : $$selectedVal[0]
+      }
+    }
+  }, [_c('option', {
+    staticClass: "gray",
+    attrs: {
+      "value": ""
+    }
+  }, [_vm._v("Verified by")]), _vm._v(" "), _vm._l((_vm.managers), function(manager) {
+    return _c('option', {
+      staticClass: "black",
+      domProps: {
+        "value": manager.id
+      }
+    }, [_vm._v(_vm._s(manager.FullName))])
+  })], 2), _vm._v(" "), _c('select', {
+    directives: [{
+      name: "model",
+      rawName: "v-model",
+      value: (_vm.ReceivedOriginalby),
+      expression: "ReceivedOriginalby"
+    }],
+    class: [_vm.ReceivedOriginalby != '' ? 'black' : ''],
+    attrs: {
+      "name": "ReceivedOriginalby"
+    },
+    on: {
+      "change": function($event) {
+        var $$selectedVal = Array.prototype.filter.call($event.target.options, function(o) {
+          return o.selected
+        }).map(function(o) {
+          var val = "_value" in o ? o._value : o.value;
+          return val
+        });
+        _vm.ReceivedOriginalby = $event.target.multiple ? $$selectedVal : $$selectedVal[0]
+      }
+    }
+  }, [_c('option', {
+    staticClass: "gray",
+    attrs: {
+      "value": ""
+    }
+  }, [_vm._v("Received Originaly by")]), _vm._v(" "), _vm._l((_vm.auditors), function(auditor) {
+    return _c('option', {
+      staticClass: "black",
+      domProps: {
+        "value": auditor.id
+      }
+    }, [_vm._v(_vm._s(auditor.FullName))])
+  })], 2), _vm._v(" "), _c('select', {
+    directives: [{
+      name: "model",
+      rawName: "v-model",
+      value: (_vm.PostedtoBINby),
+      expression: "PostedtoBINby"
+    }],
+    class: [_vm.PostedtoBINby != '' ? 'black' : ''],
+    attrs: {
+      "name": "PostedtoBINby"
+    },
+    on: {
+      "change": function($event) {
+        var $$selectedVal = Array.prototype.filter.call($event.target.options, function(o) {
+          return o.selected
+        }).map(function(o) {
+          var val = "_value" in o ? o._value : o.value;
+          return val
+        });
+        _vm.PostedtoBINby = $event.target.multiple ? $$selectedVal : $$selectedVal[0]
+      }
+    }
+  }, [_c('option', {
+    staticClass: "gray",
+    attrs: {
+      "value": ""
+    }
+  }, [_vm._v("Posted to BIN by")]), _vm._v(" "), _vm._l((_vm.clerks), function(clerk) {
+    return _c('option', {
+      staticClass: "black",
+      domProps: {
+        "value": clerk.id
+      }
+    }, [_vm._v(_vm._s(clerk.FullName))])
+  })], 2), _vm._v(" "), _c('longpress', {
+    class: {
+      'hide': _vm.HideSubmitBtn
+    },
+    attrs: {
+      "id": "withposubmit",
+      "duration": "3",
+      "on-confirm": _vm.SubmitRRwithPO,
+      "pressing-text": "Submitting in {$rcounter}",
+      "action-text": "Loading . . ."
+    }
+  }, [_vm._v("\r\n      Submit\r\n    ")])], 1), _vm._v(" "), _c('div', {
+    staticClass: "rr-with-po-modal",
+    class: {
+      'active': _vm.IsModalActive
+    },
+    on: {
+      "click": function($event) {
+        _vm.IsModalActive = !_vm.IsModalActive
+      }
+    }
   }, [_c('div', {
-    staticClass: "bottom-signatures-rr"
-  }, [_c('div', {
-    staticClass: "signature-rr-left"
-  }, [_c('label', [_vm._v("RECEIVED BY:")]), _vm._v(" "), _c('div', {
-    staticClass: "signatureRR-content"
-  }, [(_vm.RRMaster.users[0].pivot.Signature == '0') ? _c('h2', [_c('img', {
-    attrs: {
-      "src": '/storage/signatures/' + _vm.RRMaster.users[0].Signature,
-      "alt": "signature"
-    }
-  })]) : _vm._e(), _vm._v(" "), _c('h4', [_vm._v(_vm._s(_vm.RRMaster.users[0].FullName) + "\r\n                "), (_vm.RRMaster.users[0].pivot.Signature == '1') ? _c('i', {
-    staticClass: "material-icons"
-  }, [_vm._v("close")]) : _vm._e()]), _vm._v(" "), _c('p', [_vm._v(_vm._s(_vm.RRMaster.users[0].Position))])])]), _vm._v(" "), _c('div', {
-    staticClass: "signature-rr-right"
-  }, [(_vm.RRMaster.users[2].pivot.Signature == '0') ? _c('h2', [_c('img', {
-    attrs: {
-      "src": '/storage/signatures/' + _vm.RRMaster.users[2].Signature,
-      "alt": "signature"
-    }
-  })]) : _vm._e(), _vm._v(" "), _c('label', [_vm._v("RECEIVED ORIGINAL BY:")]), _vm._v(" "), _c('div', {
-    staticClass: "signatureRR-content"
-  }, [_c('h4', [_vm._v(_vm._s(_vm.RRMaster.users[2].FullName) + "\r\n                "), (_vm.RRMaster.users[2].pivot.Signature == '1') ? _c('i', {
-    staticClass: "material-icons"
-  }, [_vm._v("close")]) : _vm._e()]), _vm._v(" "), _c('p', [_vm._v(_vm._s(_vm.RRMaster.users[2].Position))])])])]), _vm._v(" "), _c('div', {
-    staticClass: "bottom-signatures-rr"
-  }, [_c('div', {
-    staticClass: "signature-rr-left"
-  }, [_c('label', [_vm._v("VERIFIED BY:")]), _vm._v(" "), _c('div', {
-    staticClass: "signatureRR-content"
-  }, [(_vm.RRMaster.users[1].pivot.Signature == '0') ? _c('h2', [_c('img', {
-    attrs: {
-      "src": '/storage/signatures/' + _vm.RRMaster.users[1].Signature,
-      "alt": "signature"
-    }
-  })]) : _vm._e(), _vm._v(" "), _c('h4', [_vm._v("\r\n                " + _vm._s(_vm.RRMaster.users[1].FullName) + "\r\n                "), (_vm.RRMaster.users[1].pivot.Signature == '1') ? _c('i', {
-    staticClass: "material-icons"
-  }, [_vm._v("close")]) : _vm._e()]), _vm._v(" "), _c('p', [_vm._v(_vm._s(_vm.RRMaster.users[1].Position))])])]), _vm._v(" "), _c('div', {
-    staticClass: "signature-rr-right"
-  }, [(_vm.RRMaster.users[3].pivot.Signature == '0') ? _c('h2', [_c('img', {
-    attrs: {
-      "src": '/storage/signatures/' + _vm.RRMaster.users[3].Signature,
-      "alt": "signature"
-    }
-  })]) : _vm._e(), _vm._v(" "), _c('label', [_vm._v("POSTED TO BIN CARD BY:")]), _vm._v(" "), _c('div', {
-    staticClass: "signatureRR-content"
-  }, [_c('h4', [_vm._v("\r\n                " + _vm._s(_vm.RRMaster.users[3].FullName) + "\r\n                "), (_vm.RRMaster.users[3].pivot.Signature == '1') ? _c('i', {
-    staticClass: "material-icons"
-  }, [_vm._v("close")]) : _vm._e()]), _vm._v(" "), _c('p', [_vm._v(_vm._s(_vm.RRMaster.users[3].Position))])])])])])])]) : _vm._e()
+    staticClass: "middle-rr-withpo"
+  }, [_c('table', [_vm._m(1), _vm._v(" "), _vm._l((_vm.rrvalidatorwpo), function(rrvalidator, count) {
+    return _c('tr', [(rrvalidator.ItemCode != null) ? _c('td', [_vm._v(_vm._s(rrvalidator.ItemCode))]) : _c('td', [_c('i', {
+      staticClass: "material-icons decliner"
+    }, [_vm._v("do_not_disturb")])]), _vm._v(" "), _c('td', [_vm._v("₱" + _vm._s(_vm.formatPrice(rrvalidator.Price)))]), _vm._v(" "), _c('td', [_vm._v(_vm._s(rrvalidator.Unit))]), _vm._v(" "), _c('td', [_vm._v(_vm._s(rrvalidator.Description))]), _vm._v(" "), _c('td', [_c('input', {
+      directives: [{
+        name: "model",
+        rawName: "v-model",
+        value: (_vm.QuantityDelivered[count]),
+        expression: "QuantityDelivered[count]"
+      }],
+      attrs: {
+        "type": "text"
+      },
+      domProps: {
+        "value": (_vm.QuantityDelivered[count])
+      },
+      on: {
+        "input": function($event) {
+          if ($event.target.composing) { return; }
+          _vm.$set(_vm.QuantityDelivered, count, $event.target.value)
+        }
+      }
+    })]), _vm._v(" "), _c('td', [_c('input', {
+      directives: [{
+        name: "model",
+        rawName: "v-model",
+        value: (_vm.QuantityAccepted[count]),
+        expression: "QuantityAccepted[count]"
+      }],
+      attrs: {
+        "type": "text"
+      },
+      domProps: {
+        "value": (_vm.QuantityAccepted[count])
+      },
+      on: {
+        "input": function($event) {
+          if ($event.target.composing) { return; }
+          _vm.$set(_vm.QuantityAccepted, count, $event.target.value)
+        }
+      }
+    })]), _vm._v(" "), _c('td', [_c('button', {
+      attrs: {
+        "type": "button"
+      },
+      on: {
+        "click": function($event) {
+          _vm.addtosession(rrvalidator, count)
+        }
+      }
+    }, [_c('i', {
+      staticClass: "material-icons"
+    }, [_vm._v("add")])])])])
+  })], 2)])])])
 },staticRenderFns: [function (){var _vm=this;var _h=_vm.$createElement;var _c=_vm._self._c||_h;
-  return _c('button', {
-    attrs: {
-      "type": "submit",
-      "name": "RRNo",
-      "value": "RRNohere"
-    }
-  }, [_c('i', {
-    staticClass: "material-icons"
-  }, [_vm._v("print")])])
+  return _c('tr', [_c('th', [_vm._v("ItemCode")]), _vm._v(" "), _c('th', [_vm._v("AccountCode")]), _vm._v(" "), _c('th', [_vm._v("Description")]), _vm._v(" "), _c('th', [_vm._v("UnitCost")]), _vm._v(" "), _c('th', [_vm._v("QuantityDelivered")]), _vm._v(" "), _c('th', [_vm._v("QuantityAccepted")]), _vm._v(" "), _c('th', [_vm._v("Unit")]), _vm._v(" "), _c('th', [_vm._v("Amount")]), _vm._v(" "), _c('th', [_vm._v("Remove")])])
 },function (){var _vm=this;var _h=_vm.$createElement;var _c=_vm._self._c||_h;
-  return _c('button', {
-    attrs: {
-      "type": "button",
-      "id": "full-mr-preview-btn"
-    }
-  }, [_c('i', {
-    staticClass: "material-icons"
-  }, [_vm._v("history")]), _vm._v(" MR")])
-},function (){var _vm=this;var _h=_vm.$createElement;var _c=_vm._self._c||_h;
-  return _c('button', {
-    staticClass: "make-mr",
-    attrs: {
-      "type": "button"
-    }
-  }, [_c('i', {
-    staticClass: "material-icons"
-  }, [_vm._v("add")]), _vm._v("M.R.")])
-},function (){var _vm=this;var _h=_vm.$createElement;var _c=_vm._self._c||_h;
-  return _c('div', {
-    staticClass: "top-title-rr"
-  }, [_c('h5', [_vm._v("BOHOL I ELECTRIC COOPERATIVE,INC.")]), _vm._v(" "), _c('h6', [_vm._v("Cabulijan, Tubigon, Bohol")])])
-},function (){var _vm=this;var _h=_vm.$createElement;var _c=_vm._self._c||_h;
-  return _c('tr', [_c('th', {
-    staticClass: "left-side-th"
-  }, [_vm._v("Code No.")]), _vm._v(" "), _c('th', [_vm._v("Article")]), _vm._v(" "), _c('th', [_vm._v("Unit")]), _vm._v(" "), _c('th', [_vm._v("Quantity Delivered")]), _vm._v(" "), _c('th', [_vm._v("Quantity Accepted")]), _vm._v(" "), _c('th', [_vm._v("U-Cost")]), _vm._v(" "), _c('th', {
-    staticClass: "right-side-th"
-  }, [_vm._v("Amount")])])
+  return _c('tr', [_c('th', [_vm._v("ItemCode")]), _vm._v(" "), _c('th', [_vm._v("Price")]), _vm._v(" "), _c('th', [_vm._v("Unit")]), _vm._v(" "), _c('th', [_vm._v("Description")]), _vm._v(" "), _c('th', [_vm._v("Qty delivered")]), _vm._v(" "), _c('th', [_vm._v("Qty accepted")]), _vm._v(" "), _c('th', [_vm._v("Add")])])
 }]}
 module.exports.render._withStripped = true
 if (false) {
   module.hot.accept()
   if (module.hot.data) {
-     require("vue-hot-reload-api").rerender("data-v-3016908d", module.exports)
+     require("vue-hot-reload-api").rerender("data-v-201303b5", module.exports)
   }
 }
 
@@ -12957,7 +12909,7 @@ module.exports = function isAbsoluteURL(url) {
 
 /***/ }),
 
-/***/ 264:
+/***/ 267:
 /***/ (function(module, exports, __webpack_require__) {
 
 module.exports={render:function (){var _vm=this;var _h=_vm.$createElement;var _c=_vm._self._c||_h;
@@ -13418,358 +13370,7 @@ module.exports.render._withStripped = true
 if (false) {
   module.hot.accept()
   if (module.hot.data) {
-     require("vue-hot-reload-api").rerender("data-v-66a6f8b8", module.exports)
-  }
-}
-
-/***/ }),
-
-/***/ 269:
-/***/ (function(module, exports, __webpack_require__) {
-
-module.exports={render:function (){var _vm=this;var _h=_vm.$createElement;var _c=_vm._self._c||_h;
-  return _c('div', {
-    staticClass: "vue-rr-create-withpo"
-  }, [_c('div', {
-    staticClass: "selected-session-rr-w-po"
-  }, [_c('div', {
-    staticClass: "add-item-rr-w-pobtn"
-  }, [_c('button', {
-    attrs: {
-      "type": "button"
-    },
-    on: {
-      "click": function($event) {
-        _vm.IsModalActive = !_vm.IsModalActive
-      }
-    }
-  }, [_c('i', {
-    staticClass: "material-icons"
-  }, [_vm._v("add")]), _vm._v(" items")])]), _vm._v(" "), _c('div', {
-    staticClass: "table-rr-w-po"
-  }, [_c('table', [_vm._m(0), _vm._v(" "), _vm._l((_vm.SessionItems), function(sessionitem, count) {
-    return _c('tr', [(sessionitem.ItemCode != null) ? _c('td', [_vm._v(_vm._s(sessionitem.ItemCode))]) : _c('td', [_c('i', {
-      staticClass: "material-icons decliner"
-    }, [_vm._v("do_not_disturb")])]), _vm._v(" "), (sessionitem.AccountCode != null) ? _c('td', [_vm._v(_vm._s(sessionitem.AccountCode))]) : _c('td', [_c('i', {
-      staticClass: "material-icons decliner"
-    }, [_vm._v("do_not_disturb")])]), _vm._v(" "), _c('td', [_vm._v(_vm._s(sessionitem.Description))]), _vm._v(" "), _c('td', [_vm._v("₱" + _vm._s(_vm.formatPrice(sessionitem.UnitCost)))]), _vm._v(" "), _c('td', [_vm._v(_vm._s(sessionitem.QuantityDelivered))]), _vm._v(" "), _c('td', [_vm._v(_vm._s(sessionitem.QuantityAccepted))]), _vm._v(" "), _c('td', [_vm._v(_vm._s(sessionitem.Unit))]), _vm._v(" "), _c('td', [_vm._v("₱" + _vm._s(_vm.formatPrice(sessionitem.Amount)))]), _vm._v(" "), _c('td', [_c('i', {
-      staticClass: "material-icons",
-      on: {
-        "click": function($event) {
-          _vm.deleteSession(count)
-        }
-      }
-    }, [_vm._v("close")])])])
-  })], 2)])]), _vm._v(" "), _c('div', {
-    staticClass: "right-form-rr-with-po"
-  }, [_c('input', {
-    directives: [{
-      name: "model",
-      rawName: "v-model",
-      value: (_vm.InvoiceNo),
-      expression: "InvoiceNo"
-    }],
-    attrs: {
-      "type": "text",
-      "autocomplete": "off",
-      "name": "InvoiceNo",
-      "placeholder": "Invoice number"
-    },
-    domProps: {
-      "value": (_vm.InvoiceNo)
-    },
-    on: {
-      "input": function($event) {
-        if ($event.target.composing) { return; }
-        _vm.InvoiceNo = $event.target.value
-      }
-    }
-  }), _vm._v(" "), _c('input', {
-    directives: [{
-      name: "model",
-      rawName: "v-model",
-      value: (_vm.Carrier),
-      expression: "Carrier"
-    }],
-    attrs: {
-      "type": "text",
-      "autocomplete": "off",
-      "name": "Carrier",
-      "placeholder": "Carrier"
-    },
-    domProps: {
-      "value": (_vm.Carrier)
-    },
-    on: {
-      "input": function($event) {
-        if ($event.target.composing) { return; }
-        _vm.Carrier = $event.target.value
-      }
-    }
-  }), _vm._v(" "), _c('input', {
-    directives: [{
-      name: "model",
-      rawName: "v-model",
-      value: (_vm.DeliveryReceiptNo),
-      expression: "DeliveryReceiptNo"
-    }],
-    attrs: {
-      "type": "text",
-      "autocomplete": "off",
-      "name": "DeliveryReceiptNo",
-      "placeholder": "Delivery Receipt Number"
-    },
-    domProps: {
-      "value": (_vm.DeliveryReceiptNo)
-    },
-    on: {
-      "input": function($event) {
-        if ($event.target.composing) { return; }
-        _vm.DeliveryReceiptNo = $event.target.value
-      }
-    }
-  }), _vm._v(" "), _c('input', {
-    directives: [{
-      name: "model",
-      rawName: "v-model",
-      value: (_vm.Note),
-      expression: "Note"
-    }],
-    attrs: {
-      "type": "text",
-      "autocomplete": "off",
-      "name": "Note",
-      "placeholder": "Note"
-    },
-    domProps: {
-      "value": (_vm.Note)
-    },
-    on: {
-      "input": function($event) {
-        if ($event.target.composing) { return; }
-        _vm.Note = $event.target.value
-      }
-    }
-  }), _vm._v(" "), _c('select', {
-    directives: [{
-      name: "model",
-      rawName: "v-model",
-      value: (_vm.ReceivedBy),
-      expression: "ReceivedBy"
-    }],
-    class: [_vm.ReceivedBy != '' ? 'black' : ''],
-    on: {
-      "change": function($event) {
-        var $$selectedVal = Array.prototype.filter.call($event.target.options, function(o) {
-          return o.selected
-        }).map(function(o) {
-          var val = "_value" in o ? o._value : o.value;
-          return val
-        });
-        _vm.ReceivedBy = $event.target.multiple ? $$selectedVal : $$selectedVal[0]
-      }
-    }
-  }, [_c('option', {
-    staticClass: "gray",
-    attrs: {
-      "value": ""
-    }
-  }, [_vm._v("Received by")]), _vm._v(" "), _vm._l((_vm.allusers), function(user) {
-    return _c('option', {
-      staticClass: "black",
-      domProps: {
-        "value": user.id
-      }
-    }, [_vm._v(_vm._s(user.FullName))])
-  })], 2), _vm._v(" "), _c('select', {
-    directives: [{
-      name: "model",
-      rawName: "v-model",
-      value: (_vm.Verifiedby),
-      expression: "Verifiedby"
-    }],
-    class: [_vm.Verifiedby != '' ? 'black' : ''],
-    attrs: {
-      "name": "Verifiedby"
-    },
-    on: {
-      "change": function($event) {
-        var $$selectedVal = Array.prototype.filter.call($event.target.options, function(o) {
-          return o.selected
-        }).map(function(o) {
-          var val = "_value" in o ? o._value : o.value;
-          return val
-        });
-        _vm.Verifiedby = $event.target.multiple ? $$selectedVal : $$selectedVal[0]
-      }
-    }
-  }, [_c('option', {
-    staticClass: "gray",
-    attrs: {
-      "value": ""
-    }
-  }, [_vm._v("Verified by")]), _vm._v(" "), _vm._l((_vm.managers), function(manager) {
-    return _c('option', {
-      staticClass: "black",
-      domProps: {
-        "value": manager.id
-      }
-    }, [_vm._v(_vm._s(manager.FullName))])
-  })], 2), _vm._v(" "), _c('select', {
-    directives: [{
-      name: "model",
-      rawName: "v-model",
-      value: (_vm.ReceivedOriginalby),
-      expression: "ReceivedOriginalby"
-    }],
-    class: [_vm.ReceivedOriginalby != '' ? 'black' : ''],
-    attrs: {
-      "name": "ReceivedOriginalby"
-    },
-    on: {
-      "change": function($event) {
-        var $$selectedVal = Array.prototype.filter.call($event.target.options, function(o) {
-          return o.selected
-        }).map(function(o) {
-          var val = "_value" in o ? o._value : o.value;
-          return val
-        });
-        _vm.ReceivedOriginalby = $event.target.multiple ? $$selectedVal : $$selectedVal[0]
-      }
-    }
-  }, [_c('option', {
-    staticClass: "gray",
-    attrs: {
-      "value": ""
-    }
-  }, [_vm._v("Received Originaly by")]), _vm._v(" "), _vm._l((_vm.auditors), function(auditor) {
-    return _c('option', {
-      staticClass: "black",
-      domProps: {
-        "value": auditor.id
-      }
-    }, [_vm._v(_vm._s(auditor.FullName))])
-  })], 2), _vm._v(" "), _c('select', {
-    directives: [{
-      name: "model",
-      rawName: "v-model",
-      value: (_vm.PostedtoBINby),
-      expression: "PostedtoBINby"
-    }],
-    class: [_vm.PostedtoBINby != '' ? 'black' : ''],
-    attrs: {
-      "name": "PostedtoBINby"
-    },
-    on: {
-      "change": function($event) {
-        var $$selectedVal = Array.prototype.filter.call($event.target.options, function(o) {
-          return o.selected
-        }).map(function(o) {
-          var val = "_value" in o ? o._value : o.value;
-          return val
-        });
-        _vm.PostedtoBINby = $event.target.multiple ? $$selectedVal : $$selectedVal[0]
-      }
-    }
-  }, [_c('option', {
-    staticClass: "gray",
-    attrs: {
-      "value": ""
-    }
-  }, [_vm._v("Posted to BIN by")]), _vm._v(" "), _vm._l((_vm.clerks), function(clerk) {
-    return _c('option', {
-      staticClass: "black",
-      domProps: {
-        "value": clerk.id
-      }
-    }, [_vm._v(_vm._s(clerk.FullName))])
-  })], 2), _vm._v(" "), _c('longpress', {
-    class: {
-      'hide': _vm.HideSubmitBtn
-    },
-    attrs: {
-      "id": "withposubmit",
-      "duration": "3",
-      "on-confirm": _vm.SubmitRRwithPO,
-      "pressing-text": "Submitting in {$rcounter}",
-      "action-text": "Loading . . ."
-    }
-  }, [_vm._v("\r\n      Submit\r\n    ")])], 1), _vm._v(" "), _c('div', {
-    staticClass: "rr-with-po-modal",
-    class: {
-      'active': _vm.IsModalActive
-    },
-    on: {
-      "click": function($event) {
-        _vm.IsModalActive = !_vm.IsModalActive
-      }
-    }
-  }, [_c('div', {
-    staticClass: "middle-rr-withpo"
-  }, [_c('table', [_vm._m(1), _vm._v(" "), _vm._l((_vm.rrvalidatorwpo), function(rrvalidator, count) {
-    return _c('tr', [(rrvalidator.ItemCode != null) ? _c('td', [_vm._v(_vm._s(rrvalidator.ItemCode))]) : _c('td', [_c('i', {
-      staticClass: "material-icons decliner"
-    }, [_vm._v("do_not_disturb")])]), _vm._v(" "), _c('td', [_vm._v("₱" + _vm._s(_vm.formatPrice(rrvalidator.Price)))]), _vm._v(" "), _c('td', [_vm._v(_vm._s(rrvalidator.Unit))]), _vm._v(" "), _c('td', [_vm._v(_vm._s(rrvalidator.Description))]), _vm._v(" "), _c('td', [_c('input', {
-      directives: [{
-        name: "model",
-        rawName: "v-model",
-        value: (_vm.QuantityDelivered[count]),
-        expression: "QuantityDelivered[count]"
-      }],
-      attrs: {
-        "type": "text"
-      },
-      domProps: {
-        "value": (_vm.QuantityDelivered[count])
-      },
-      on: {
-        "input": function($event) {
-          if ($event.target.composing) { return; }
-          _vm.$set(_vm.QuantityDelivered, count, $event.target.value)
-        }
-      }
-    })]), _vm._v(" "), _c('td', [_c('input', {
-      directives: [{
-        name: "model",
-        rawName: "v-model",
-        value: (_vm.QuantityAccepted[count]),
-        expression: "QuantityAccepted[count]"
-      }],
-      attrs: {
-        "type": "text"
-      },
-      domProps: {
-        "value": (_vm.QuantityAccepted[count])
-      },
-      on: {
-        "input": function($event) {
-          if ($event.target.composing) { return; }
-          _vm.$set(_vm.QuantityAccepted, count, $event.target.value)
-        }
-      }
-    })]), _vm._v(" "), _c('td', [_c('button', {
-      attrs: {
-        "type": "button"
-      },
-      on: {
-        "click": function($event) {
-          _vm.addtosession(rrvalidator, count)
-        }
-      }
-    }, [_c('i', {
-      staticClass: "material-icons"
-    }, [_vm._v("add")])])])])
-  })], 2)])])])
-},staticRenderFns: [function (){var _vm=this;var _h=_vm.$createElement;var _c=_vm._self._c||_h;
-  return _c('tr', [_c('th', [_vm._v("ItemCode")]), _vm._v(" "), _c('th', [_vm._v("AccountCode")]), _vm._v(" "), _c('th', [_vm._v("Description")]), _vm._v(" "), _c('th', [_vm._v("UnitCost")]), _vm._v(" "), _c('th', [_vm._v("QuantityDelivered")]), _vm._v(" "), _c('th', [_vm._v("QuantityAccepted")]), _vm._v(" "), _c('th', [_vm._v("Unit")]), _vm._v(" "), _c('th', [_vm._v("Amount")]), _vm._v(" "), _c('th', [_vm._v("Remove")])])
-},function (){var _vm=this;var _h=_vm.$createElement;var _c=_vm._self._c||_h;
-  return _c('tr', [_c('th', [_vm._v("ItemCode")]), _vm._v(" "), _c('th', [_vm._v("Price")]), _vm._v(" "), _c('th', [_vm._v("Unit")]), _vm._v(" "), _c('th', [_vm._v("Description")]), _vm._v(" "), _c('th', [_vm._v("Qty delivered")]), _vm._v(" "), _c('th', [_vm._v("Qty accepted")]), _vm._v(" "), _c('th', [_vm._v("Add")])])
-}]}
-module.exports.render._withStripped = true
-if (false) {
-  module.hot.accept()
-  if (module.hot.data) {
-     require("vue-hot-reload-api").rerender("data-v-73ab5bfd", module.exports)
+     require("vue-hot-reload-api").rerender("data-v-61c52e70", module.exports)
   }
 }
 
@@ -13851,7 +13452,7 @@ module.exports = (
 
 /***/ }),
 
-/***/ 271:
+/***/ 273:
 /***/ (function(module, exports, __webpack_require__) {
 
 module.exports={render:function (){var _vm=this;var _h=_vm.$createElement;var _c=_vm._self._c||_h;
@@ -13976,7 +13577,406 @@ module.exports.render._withStripped = true
 if (false) {
   module.hot.accept()
   if (module.hot.data) {
-     require("vue-hot-reload-api").rerender("data-v-761a8786", module.exports)
+     require("vue-hot-reload-api").rerender("data-v-bb20c264", module.exports)
+  }
+}
+
+/***/ }),
+
+/***/ 276:
+/***/ (function(module, exports, __webpack_require__) {
+
+module.exports={render:function (){var _vm=this;var _h=_vm.$createElement;var _c=_vm._self._c||_h;
+  return (_vm.RRMaster.users != null) ? _c('div', {
+    staticClass: "rr-preview-vue"
+  }, [_c('div', {
+    staticClass: "reversed-alert"
+  }, [(_vm.RRMaster.IsRollBack == 0) ? _c('p', [_c('i', {
+    staticClass: "material-icons"
+  }, [_vm._v("warning")]), _vm._v("Invalid transaction")]) : _vm._e()]), _vm._v(" "), _c('div', {
+    staticClass: "signature-btn"
+  }, [_c('div', {
+    staticClass: "empty-div-left file-edit-container"
+  }, [((_vm.RRMaster.Status == null && ((_vm.user.Role == 3) || (_vm.user.Role == 4)))) ? _c('div', [_c('span', {
+    staticClass: "edit-file",
+    class: _vm.ShowEdit == true ? 'hide' : 'show',
+    on: {
+      "click": function($event) {
+        _vm.ShowEdit = true
+      }
+    }
+  }, [_c('i', {
+    staticClass: "material-icons"
+  }, [_vm._v("edit")]), _vm._v("Edit")]), _vm._v(" "), _c('span', {
+    staticClass: "edit-file",
+    class: _vm.ShowEdit == false ? 'hide' : 'show'
+  }, [_c('span', {
+    staticClass: "color-blue"
+  }, [_vm._v("Save?")]), _vm._v(" "), _c('button', {
+    attrs: {
+      "type": "button"
+    },
+    on: {
+      "click": function($event) {
+        _vm.ShowEdit = false
+      }
+    }
+  }, [_vm._v("cancel")]), _vm._v(" "), _c('button', {
+    attrs: {
+      "type": "button",
+      "name": "button"
+    },
+    on: {
+      "click": function($event) {
+        _vm.ShowEdit = false, _vm.updateData()
+      }
+    }
+  }, [_vm._v("Save")])])]) : _vm._e()]), _vm._v(" "), (_vm.UserCanSignature && _vm.RRMaster.Status == null) ? _c('div', {
+    staticClass: "signature-wrap",
+    class: {
+      'hide': _vm.SignatureBtnHide
+    }
+  }, [_c('longpress', {
+    staticClass: "waves-effect waves-light",
+    attrs: {
+      "id": "RRsignature",
+      "duration": "3",
+      "on-confirm": _vm.signature,
+      "pressing-text": "confirm in {$rcounter}",
+      "action-text": "Loading . . ."
+    }
+  }, [_c('i', {
+    staticClass: "material-icons"
+  }, [_vm._v("edit")]), _vm._v(" Signature\r\n      ")]), _vm._v(" "), _c('longpress', {
+    staticClass: "waves-effect waves-light",
+    attrs: {
+      "id": "RRdecline",
+      "duration": "3",
+      "on-confirm": _vm.declinesignature,
+      "pressing-text": "confirm in {$rcounter}",
+      "action-text": "Loading . . ."
+    }
+  }, [_c('i', {
+    staticClass: "material-icons"
+  }, [_vm._v("close")]), _vm._v(" Decline\r\n      ")])], 1) : _vm._e()]), _vm._v(" "), ((_vm.RRMaster.Status == '0') && (_vm.RRMaster.IsRollBack != 0) && (_vm.RRMaster.CreatorID == _vm.user.id)) ? _c('div', {
+    staticClass: "print-RR-btn"
+  }, [_c('span', [_c('a', {
+    attrs: {
+      "href": '/RR.pdf/' + _vm.RRMaster.RRNo
+    }
+  }, [_vm._m(0)]), _vm._v(" "), (_vm.user.Role == 1 && _vm.RRMaster.Status == '0') ? _c('span', [(_vm.RRMaster.IsRollBack == null || _vm.RRMaster.IsRollBack == 1) ? _c('button', {
+    staticClass: "undo-btn",
+    attrs: {
+      "type": "button",
+      "name": "button"
+    },
+    on: {
+      "click": function($event) {
+        _vm.RollbackRR()
+      }
+    }
+  }, [_c('i', {
+    staticClass: "material-icons"
+  }, [_vm._v("replay")]), _vm._v(" reverse")]) : _vm._e(), _vm._v(" "), (_vm.RRMaster.IsRollBack == 0) ? _c('button', {
+    staticClass: "undo-btn",
+    attrs: {
+      "type": "button",
+      "name": "button"
+    },
+    on: {
+      "click": function($event) {
+        _vm.UndoRollbackRR()
+      }
+    }
+  }, [_c('i', {
+    staticClass: "material-icons"
+  }, [_vm._v("refresh")]), _vm._v(" undo reverse")]) : _vm._e()]) : _vm._e()]), _vm._v(" "), _c('div', [(_vm.checkMR != 0) ? _c('a', {
+    attrs: {
+      "href": '/view-list-MR-of-RR/' + _vm.RRMaster.RRNo
+    }
+  }, [_vm._m(1)]) : _vm._e(), _vm._v(" "), ((((_vm.user.Role == 4) || (_vm.user.Role == 3)) && (_vm.RRMaster.Status == '0'))) ? _c('a', {
+    attrs: {
+      "href": '/create-mr/' + _vm.RRMaster.RRNo
+    }
+  }, [_vm._m(2)]) : _vm._e()])]) : _vm._e(), _vm._v(" "), _c('div', {
+    staticClass: "bondpaper-RR"
+  }, [_vm._m(3), _vm._v(" "), _c('div', {
+    staticClass: "rr-titlebox"
+  }, [_vm._v("\r\n        RECEIVING REPORT\r\n      ")]), _vm._v(" "), _c('div', {
+    staticClass: "right-date-rr"
+  }, [_c('div', {
+    staticClass: "empty-left-rr"
+  }), _vm._v(" "), _c('div', {
+    staticClass: "content-right-rr"
+  }, [_c('li', [_c('label', [_vm._v("RR No.:")]), _c('h5', [_vm._v(_vm._s(_vm.RRMaster.RRNo))])]), _vm._v(" "), _c('li', [_c('label', [_vm._v("Date:")]), _c('h5', [_vm._v(_vm._s(_vm.RRMaster.RRDate))])])])]), _vm._v(" "), _c('div', {
+    staticClass: "RRmasters-details"
+  }, [_c('div', {
+    staticClass: "RRmaster-left"
+  }, [_c('ul', [_c('li', [_c('label', [_vm._v("Supplier:")]), _vm._v(" "), (_vm.ShowEdit == false || _vm.RRMaster.PONo != null) ? _c('h4', [_vm._v(_vm._s(_vm.RRMaster.Supplier))]) : (_vm.RRMaster.PONo == null && _vm.ShowEdit == true) ? _c('h4', [_c('input', {
+    directives: [{
+      name: "model",
+      rawName: "v-model",
+      value: (_vm.updateSupplier = _vm.RRMaster.Supplier),
+      expression: "updateSupplier = RRMaster.Supplier"
+    }],
+    attrs: {
+      "type": "text"
+    },
+    domProps: {
+      "value": (_vm.updateSupplier = _vm.RRMaster.Supplier)
+    },
+    on: {
+      "input": function($event) {
+        if ($event.target.composing) { return; }
+        _vm.updateSupplier = _vm.RRMaster.Supplier = $event.target.value
+      }
+    }
+  })]) : _vm._e()]), _vm._v(" "), _c('li', [_c('label', [_vm._v("Address:")]), _vm._v(" "), (_vm.ShowEdit == false || _vm.RRMaster.PONo != null) ? _c('h4', [_vm._v(_vm._s(_vm.RRMaster.Address))]) : (_vm.RRMaster.PONo == null && _vm.ShowEdit == true) ? _c('h4', [_c('input', {
+    directives: [{
+      name: "model",
+      rawName: "v-model",
+      value: (_vm.updateAddress = _vm.RRMaster.Address),
+      expression: "updateAddress = RRMaster.Address"
+    }],
+    attrs: {
+      "type": "text"
+    },
+    domProps: {
+      "value": (_vm.updateAddress = _vm.RRMaster.Address)
+    },
+    on: {
+      "input": function($event) {
+        if ($event.target.composing) { return; }
+        _vm.updateAddress = _vm.RRMaster.Address = $event.target.value
+      }
+    }
+  })]) : _vm._e()]), _vm._v(" "), _c('li', [_c('label', [_vm._v("Invoice No.:")]), _vm._v(" "), (_vm.ShowEdit == false) ? _c('h4', [_vm._v(_vm._s(_vm.RRMaster.InvoiceNo))]) : _c('h4', [_c('input', {
+    directives: [{
+      name: "model",
+      rawName: "v-model",
+      value: (_vm.updateInvoiceNum = _vm.RRMaster.InvoiceNo),
+      expression: "updateInvoiceNum = RRMaster.InvoiceNo"
+    }],
+    attrs: {
+      "type": "text"
+    },
+    domProps: {
+      "value": (_vm.updateInvoiceNum = _vm.RRMaster.InvoiceNo)
+    },
+    on: {
+      "input": function($event) {
+        if ($event.target.composing) { return; }
+        _vm.updateInvoiceNum = _vm.RRMaster.InvoiceNo = $event.target.value
+      }
+    }
+  })])]), _vm._v(" "), _c('li', [_c('label', [_vm._v("R.V. No.:")]), _c('h4', [_vm._v(_vm._s(_vm.RRMaster.RVNo))])])])]), _vm._v(" "), _c('div', {
+    staticClass: "RRmaster-right"
+  }, [_c('ul', [_c('li', [_c('label', [_vm._v("Carrier:")]), _vm._v(" "), (_vm.ShowEdit == false) ? _c('h4', [_vm._v(_vm._s(_vm.RRMaster.Carrier))]) : _c('h4', [_c('input', {
+    directives: [{
+      name: "model",
+      rawName: "v-model",
+      value: (_vm.updateCarrier = _vm.RRMaster.Carrier),
+      expression: "updateCarrier = RRMaster.Carrier"
+    }],
+    attrs: {
+      "type": "text"
+    },
+    domProps: {
+      "value": (_vm.updateCarrier = _vm.RRMaster.Carrier)
+    },
+    on: {
+      "input": function($event) {
+        if ($event.target.composing) { return; }
+        _vm.updateCarrier = _vm.RRMaster.Carrier = $event.target.value
+      }
+    }
+  })])]), _vm._v(" "), _c('li', [_c('label', [_vm._v("Delivery Receipt No:")]), _vm._v(" "), (_vm.ShowEdit == false) ? _c('h4', [_vm._v(_vm._s(_vm.RRMaster.DeliveryReceiptNo))]) : _c('h4', [_c('input', {
+    directives: [{
+      name: "model",
+      rawName: "v-model",
+      value: (_vm.updateDeliveryReceipt = _vm.RRMaster.DeliveryReceiptNo),
+      expression: "updateDeliveryReceipt = RRMaster.DeliveryReceiptNo"
+    }],
+    attrs: {
+      "type": "text"
+    },
+    domProps: {
+      "value": (_vm.updateDeliveryReceipt = _vm.RRMaster.DeliveryReceiptNo)
+    },
+    on: {
+      "input": function($event) {
+        if ($event.target.composing) { return; }
+        _vm.updateDeliveryReceipt = _vm.RRMaster.DeliveryReceiptNo = $event.target.value
+      }
+    }
+  })])]), _vm._v(" "), _c('li', [_c('label', [_vm._v("P.O. No:")]), _vm._v(" "), (_vm.RRMaster.PONo != null) ? _c('h4', [_vm._v(_vm._s(_vm.RRMaster.PONo))]) : _vm._e()])])])]), _vm._v(" "), _c('div', {
+    staticClass: "RR-table-container"
+  }, [_c('table', [_vm._m(4), _vm._v(" "), _vm._l((_vm.RRconfirmationDetails), function(data, key) {
+    return _c('tr', [_c('td', [_vm._v(_vm._s(data.ItemCode))]), _vm._v(" "), _c('td', [_vm._v(_vm._s(data.Description))]), _vm._v(" "), _c('td', [_vm._v(_vm._s(data.Unit))]), _vm._v(" "), _c('td', [(_vm.ShowEdit == false) ? _c('span', [_vm._v(_vm._s(data.RRQuantityDelivered))]) : _c('span', [_c('input', {
+      directives: [{
+        name: "model",
+        rawName: "v-model",
+        value: (_vm.updateQtyDelivered[key] = data.RRQuantityDelivered),
+        expression: "updateQtyDelivered[key] = data.RRQuantityDelivered"
+      }],
+      staticClass: "update-qty-input",
+      attrs: {
+        "type": "text"
+      },
+      domProps: {
+        "value": (_vm.updateQtyDelivered[key] = data.RRQuantityDelivered)
+      },
+      on: {
+        "input": function($event) {
+          if ($event.target.composing) { return; }
+          _vm.updateQtyDelivered[key] = data.RRQuantityDelivered = $event.target.value
+        }
+      }
+    })])]), _vm._v(" "), _c('td', [(_vm.ShowEdit == false) ? _c('span', [_vm._v(_vm._s(data.QuantityAccepted))]) : _c('span', [_c('input', {
+      directives: [{
+        name: "model",
+        rawName: "v-model",
+        value: (_vm.updateQtyAccepted[key] = data.QuantityAccepted),
+        expression: "updateQtyAccepted[key] = data.QuantityAccepted"
+      }],
+      staticClass: "update-qty-input",
+      attrs: {
+        "type": "text"
+      },
+      domProps: {
+        "value": (_vm.updateQtyAccepted[key] = data.QuantityAccepted)
+      },
+      on: {
+        "input": function($event) {
+          if ($event.target.composing) { return; }
+          _vm.updateQtyAccepted[key] = data.QuantityAccepted = $event.target.value
+        }
+      }
+    })])]), _vm._v(" "), _c('td', [_vm._v(_vm._s(_vm.formatPrice(data.UnitCost)))]), _vm._v(" "), _c('td', [_vm._v(_vm._s(_vm.formatPrice(data.Amount)))])])
+  })], 2)]), _vm._v(" "), _c('div', {
+    staticClass: "RRNetsales-Total"
+  }, [_c('div', {
+    staticClass: "netsales-total-content"
+  }, [_c('li', [_c('label', [_vm._v("Net Sales")]), _c('h4', [_vm._v(_vm._s(_vm.formatPrice(_vm.Netsales)))])]), _vm._v(" "), _c('li', {
+    staticClass: "RRadded-VAT"
+  }, [_c('h5', [_vm._v("Add:Vat")]), _vm._v(" "), _c('h5', [_vm._v("12%")]), _c('h5', [_vm._v(_vm._s(_vm.formatPrice(_vm.VAT)))])]), _vm._v(" "), _c('li', [_c('label', [_vm._v("TOTAL AMOUNT")]), _c('h4', [_vm._v(_vm._s(_vm.formatPrice(_vm.TOTALamt)))])])])]), _vm._v(" "), _c('h1', {
+    staticClass: "noteRR"
+  }, [_c('label', [_vm._v("Note:")]), _vm._v(" "), (_vm.ShowEdit == false) ? _c('p', [_vm._v(_vm._s(_vm.RRMaster.Note))]) : _c('p', [_c('input', {
+    directives: [{
+      name: "model",
+      rawName: "v-model",
+      value: (_vm.updateNote = _vm.RRMaster.Note),
+      expression: "updateNote = RRMaster.Note"
+    }],
+    attrs: {
+      "type": "text",
+      "name": "",
+      "value": ""
+    },
+    domProps: {
+      "value": (_vm.updateNote = _vm.RRMaster.Note)
+    },
+    on: {
+      "input": function($event) {
+        if ($event.target.composing) { return; }
+        _vm.updateNote = _vm.RRMaster.Note = $event.target.value
+      }
+    }
+  })])]), _vm._v(" "), _c('div', {
+    staticClass: "RRSignatures-container"
+  }, [_c('div', {
+    staticClass: "bottom-signatures-rr"
+  }, [_c('div', {
+    staticClass: "signature-rr-left"
+  }, [_c('label', [_vm._v("RECEIVED BY:")]), _vm._v(" "), _c('div', {
+    staticClass: "signatureRR-content"
+  }, [(_vm.RRMaster.users[0].pivot.Signature == '0') ? _c('h2', [_c('img', {
+    attrs: {
+      "src": '/storage/signatures/' + _vm.RRMaster.users[0].Signature,
+      "alt": "signature"
+    }
+  })]) : _vm._e(), _vm._v(" "), _c('h4', [_vm._v(_vm._s(_vm.RRMaster.users[0].FullName) + "\r\n                "), (_vm.RRMaster.users[0].pivot.Signature == '1') ? _c('i', {
+    staticClass: "material-icons"
+  }, [_vm._v("close")]) : _vm._e()]), _vm._v(" "), _c('p', [_vm._v(_vm._s(_vm.RRMaster.users[0].Position))])])]), _vm._v(" "), _c('div', {
+    staticClass: "signature-rr-right"
+  }, [(_vm.RRMaster.users[2].pivot.Signature == '0') ? _c('h2', [_c('img', {
+    attrs: {
+      "src": '/storage/signatures/' + _vm.RRMaster.users[2].Signature,
+      "alt": "signature"
+    }
+  })]) : _vm._e(), _vm._v(" "), _c('label', [_vm._v("RECEIVED ORIGINAL BY:")]), _vm._v(" "), _c('div', {
+    staticClass: "signatureRR-content"
+  }, [_c('h4', [_vm._v(_vm._s(_vm.RRMaster.users[2].FullName) + "\r\n                "), (_vm.RRMaster.users[2].pivot.Signature == '1') ? _c('i', {
+    staticClass: "material-icons"
+  }, [_vm._v("close")]) : _vm._e()]), _vm._v(" "), _c('p', [_vm._v(_vm._s(_vm.RRMaster.users[2].Position))])])])]), _vm._v(" "), _c('div', {
+    staticClass: "bottom-signatures-rr"
+  }, [_c('div', {
+    staticClass: "signature-rr-left"
+  }, [_c('label', [_vm._v("VERIFIED BY:")]), _vm._v(" "), _c('div', {
+    staticClass: "signatureRR-content"
+  }, [(_vm.RRMaster.users[1].pivot.Signature == '0') ? _c('h2', [_c('img', {
+    attrs: {
+      "src": '/storage/signatures/' + _vm.RRMaster.users[1].Signature,
+      "alt": "signature"
+    }
+  })]) : _vm._e(), _vm._v(" "), _c('h4', [_vm._v("\r\n                " + _vm._s(_vm.RRMaster.users[1].FullName) + "\r\n                "), (_vm.RRMaster.users[1].pivot.Signature == '1') ? _c('i', {
+    staticClass: "material-icons"
+  }, [_vm._v("close")]) : _vm._e()]), _vm._v(" "), _c('p', [_vm._v(_vm._s(_vm.RRMaster.users[1].Position))])])]), _vm._v(" "), _c('div', {
+    staticClass: "signature-rr-right"
+  }, [(_vm.RRMaster.users[3].pivot.Signature == '0') ? _c('h2', [_c('img', {
+    attrs: {
+      "src": '/storage/signatures/' + _vm.RRMaster.users[3].Signature,
+      "alt": "signature"
+    }
+  })]) : _vm._e(), _vm._v(" "), _c('label', [_vm._v("POSTED TO BIN CARD BY:")]), _vm._v(" "), _c('div', {
+    staticClass: "signatureRR-content"
+  }, [_c('h4', [_vm._v("\r\n                " + _vm._s(_vm.RRMaster.users[3].FullName) + "\r\n                "), (_vm.RRMaster.users[3].pivot.Signature == '1') ? _c('i', {
+    staticClass: "material-icons"
+  }, [_vm._v("close")]) : _vm._e()]), _vm._v(" "), _c('p', [_vm._v(_vm._s(_vm.RRMaster.users[3].Position))])])])])])])]) : _vm._e()
+},staticRenderFns: [function (){var _vm=this;var _h=_vm.$createElement;var _c=_vm._self._c||_h;
+  return _c('button', {
+    attrs: {
+      "type": "submit",
+      "name": "RRNo",
+      "value": "RRNohere"
+    }
+  }, [_c('i', {
+    staticClass: "material-icons"
+  }, [_vm._v("print")])])
+},function (){var _vm=this;var _h=_vm.$createElement;var _c=_vm._self._c||_h;
+  return _c('button', {
+    attrs: {
+      "type": "button",
+      "id": "full-mr-preview-btn"
+    }
+  }, [_c('i', {
+    staticClass: "material-icons"
+  }, [_vm._v("history")]), _vm._v(" MR")])
+},function (){var _vm=this;var _h=_vm.$createElement;var _c=_vm._self._c||_h;
+  return _c('button', {
+    staticClass: "make-mr",
+    attrs: {
+      "type": "button"
+    }
+  }, [_c('i', {
+    staticClass: "material-icons"
+  }, [_vm._v("add")]), _vm._v("M.R.")])
+},function (){var _vm=this;var _h=_vm.$createElement;var _c=_vm._self._c||_h;
+  return _c('div', {
+    staticClass: "top-title-rr"
+  }, [_c('h5', [_vm._v("BOHOL I ELECTRIC COOPERATIVE,INC.")]), _vm._v(" "), _c('h6', [_vm._v("Cabulijan, Tubigon, Bohol")])])
+},function (){var _vm=this;var _h=_vm.$createElement;var _c=_vm._self._c||_h;
+  return _c('tr', [_c('th', {
+    staticClass: "left-side-th"
+  }, [_vm._v("Code No.")]), _vm._v(" "), _c('th', [_vm._v("Article")]), _vm._v(" "), _c('th', [_vm._v("Unit")]), _vm._v(" "), _c('th', [_vm._v("Quantity Delivered")]), _vm._v(" "), _c('th', [_vm._v("Quantity Accepted")]), _vm._v(" "), _c('th', [_vm._v("U-Cost")]), _vm._v(" "), _c('th', {
+    staticClass: "right-side-th"
+  }, [_vm._v("Amount")])])
+}]}
+module.exports.render._withStripped = true
+if (false) {
+  module.hot.accept()
+  if (module.hot.data) {
+     require("vue-hot-reload-api").rerender("data-v-ce81dc56", module.exports)
   }
 }
 

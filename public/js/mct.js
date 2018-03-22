@@ -11889,13 +11889,13 @@ var Component = __webpack_require__(4)(
   /* script */
   __webpack_require__(183),
   /* template */
-  __webpack_require__(263),
+  __webpack_require__(268),
   /* scopeId */
   null,
   /* cssModules */
   null
 )
-Component.options.__file = "C:\\xampp\\htdocs\\warehouse2\\resources\\assets\\js\\components\\MCT\\CreateMCT.vue"
+Component.options.__file = "C:\\xampp\\htdocs\\warehouse\\resources\\assets\\js\\components\\MCT\\CreateMCT.vue"
 if (Component.esModule && Object.keys(Component.esModule).some(function (key) {return key !== "default" && key !== "__esModule"})) {console.error("named exports are not supported in *.vue files.")}
 if (Component.options.functional) {console.error("[vue-loader] CreateMCT.vue: functional components are not supported with templates, they should use render functions.")}
 
@@ -11906,9 +11906,9 @@ if (false) {(function () {
   if (!hotAPI.compatible) return
   module.hot.accept()
   if (!module.hot.data) {
-    hotAPI.createRecord("data-v-65b03d1e", Component.options)
+    hotAPI.createRecord("data-v-67d080d6", Component.options)
   } else {
-    hotAPI.reload("data-v-65b03d1e", Component.options)
+    hotAPI.reload("data-v-67d080d6", Component.options)
   }
 })()}
 
@@ -11924,13 +11924,13 @@ var Component = __webpack_require__(4)(
   /* script */
   __webpack_require__(184),
   /* template */
-  __webpack_require__(275),
+  __webpack_require__(254),
   /* scopeId */
   null,
   /* cssModules */
   null
 )
-Component.options.__file = "C:\\xampp\\htdocs\\warehouse2\\resources\\assets\\js\\components\\MCT\\MCTPreview.vue"
+Component.options.__file = "C:\\xampp\\htdocs\\warehouse\\resources\\assets\\js\\components\\MCT\\MCTPreview.vue"
 if (Component.esModule && Object.keys(Component.esModule).some(function (key) {return key !== "default" && key !== "__esModule"})) {console.error("named exports are not supported in *.vue files.")}
 if (Component.options.functional) {console.error("[vue-loader] MCTPreview.vue: functional components are not supported with templates, they should use render functions.")}
 
@@ -11941,9 +11941,9 @@ if (false) {(function () {
   if (!hotAPI.compatible) return
   module.hot.accept()
   if (!module.hot.data) {
-    hotAPI.createRecord("data-v-aef09444", Component.options)
+    hotAPI.createRecord("data-v-2b202db4", Component.options)
   } else {
-    hotAPI.reload("data-v-aef09444", Component.options)
+    hotAPI.reload("data-v-2b202db4", Component.options)
   }
 })()}
 
@@ -11959,13 +11959,13 @@ var Component = __webpack_require__(4)(
   /* script */
   __webpack_require__(185),
   /* template */
-  __webpack_require__(267),
+  __webpack_require__(261),
   /* scopeId */
   null,
   /* cssModules */
   null
 )
-Component.options.__file = "C:\\xampp\\htdocs\\warehouse2\\resources\\assets\\js\\components\\MCT\\MCTindex.vue"
+Component.options.__file = "C:\\xampp\\htdocs\\warehouse\\resources\\assets\\js\\components\\MCT\\MCTindex.vue"
 if (Component.esModule && Object.keys(Component.esModule).some(function (key) {return key !== "default" && key !== "__esModule"})) {console.error("named exports are not supported in *.vue files.")}
 if (Component.options.functional) {console.error("[vue-loader] MCTindex.vue: functional components are not supported with templates, they should use render functions.")}
 
@@ -11976,9 +11976,9 @@ if (false) {(function () {
   if (!hotAPI.compatible) return
   module.hot.accept()
   if (!module.hot.data) {
-    hotAPI.createRecord("data-v-6f410d88", Component.options)
+    hotAPI.createRecord("data-v-4aa51a60", Component.options)
   } else {
-    hotAPI.reload("data-v-6f410d88", Component.options)
+    hotAPI.reload("data-v-4aa51a60", Component.options)
   }
 })()}
 
@@ -12144,408 +12144,7 @@ module.exports = (
 
 /***/ }),
 
-/***/ 26:
-/***/ (function(module, exports, __webpack_require__) {
-
-"use strict";
-
-
-/**
- * Determines whether the specified URL is absolute
- *
- * @param {string} url The URL to test
- * @returns {boolean} True if the specified URL is absolute, otherwise false
- */
-module.exports = function isAbsoluteURL(url) {
-  // A URL is considered absolute if it begins with "<scheme>://" or "//" (protocol-relative URL).
-  // RFC 3986 defines scheme name as a sequence of characters beginning with a letter and followed
-  // by any combination of letters, digits, plus, period, or hyphen.
-  return /^([a-z][a-z\d\+\-\.]*:)?\/\//i.test(url);
-};
-
-
-/***/ }),
-
-/***/ 263:
-/***/ (function(module, exports, __webpack_require__) {
-
-module.exports={render:function (){var _vm=this;var _h=_vm.$createElement;var _c=_vm._self._c||_h;
-  return _c('div', {
-    staticClass: "create-mct-vue"
-  }, [_c('div', {
-    staticClass: "RecordingMCT-Container"
-  }, [_c('h1', {
-    staticClass: "title-create-mct"
-  }, [_vm._v("Materials charge ticket recording")]), _vm._v(" "), _c('h2', {
-    staticClass: "mirs-num"
-  }, [_vm._v("Materials from MIRS No. "), _c('span', {
-    staticClass: "color-blue"
-  }, [_vm._v(_vm._s(_vm.mirsno.MIRSNo))])]), _vm._v(" "), _c('div', {
-    staticClass: "button-find-item-container"
-  }, [_c('button', {
-    staticClass: "waves-effect waves-light",
-    attrs: {
-      "type": "button"
-    },
-    on: {
-      "click": function($event) {
-        _vm.ModalActive = !_vm.ModalActive
-      }
-    }
-  }, [_c('i', {
-    staticClass: "material-icons"
-  }, [_vm._v("add")]), _vm._v(" items")])]), _vm._v(" "), _c('div', {
-    staticClass: "session-and-formContainer"
-  }, [_c('div', {
-    staticClass: "selected-items-session-mct"
-  }, [_c('table', [_vm._m(0), _vm._v(" "), _vm._l((_vm.SessionList), function(list) {
-    return _c('tr', [_c('td', [_vm._v(_vm._s(list.ItemCode))]), _vm._v(" "), _c('td', [_vm._v(_vm._s(list.Particulars))]), _vm._v(" "), _c('td', [_vm._v(_vm._s(list.Unit))]), _vm._v(" "), _c('td', [_vm._v(_vm._s(list.Quantity))]), _vm._v(" "), (list.Remarks != null) ? _c('td', [_vm._v(_vm._s(list.Remarks))]) : _c('td', [_vm._v("No remarks")]), _vm._v(" "), _c('td', [_c('button', {
-      staticClass: "deleteMCT-session-button",
-      on: {
-        "click": function($event) {
-          _vm.deleteSession(list.ItemCode)
-        }
-      }
-    }, [_c('i', {
-      staticClass: "material-icons"
-    }, [_vm._v("close")])])])])
-  })], 2)]), _vm._v(" "), _c('div', {
-    staticClass: "smallform-mct-container"
-  }, [_c('div', {
-    staticClass: "address-where-form"
-  }, [_c('input', {
-    directives: [{
-      name: "model",
-      rawName: "v-model",
-      value: (_vm.AddressTo),
-      expression: "AddressTo"
-    }],
-    attrs: {
-      "type": "text",
-      "placeholder": "Address to where?",
-      "autocomplete": "off",
-      "required": ""
-    },
-    domProps: {
-      "value": (_vm.AddressTo)
-    },
-    on: {
-      "input": function($event) {
-        if ($event.target.composing) { return; }
-        _vm.AddressTo = $event.target.value
-      }
-    }
-  }), _vm._v(" "), _c('longpress', {
-    staticClass: "SubmitMCTButton",
-    class: {
-      'hide': _vm.HideBtn
-    },
-    attrs: {
-      "duration": "3",
-      "on-confirm": _vm.SavingMCT,
-      "pressing-text": "Submitting in {$rcounter} seconds",
-      "action-text": "Please wait"
-    }
-  }, [_vm._v("\r\n            Submit\r\n          ")])], 1)])])]), _vm._v(" "), _c('div', {
-    staticClass: "mct-modal-ofItems",
-    class: {
-      'active': _vm.ModalActive
-    },
-    on: {
-      "click": function($event) {
-        _vm.ModalActive = !_vm.ModalActive
-      }
-    }
-  }, [_c('div', {
-    staticClass: "mct-modal-center"
-  }, [_c('h1', [_vm._v("Pick Items from MIRS No. " + _vm._s(_vm.mirsno.MIRSNo))]), _vm._v(" "), _c('div', {
-    staticClass: "table-mct-itemchoices"
-  }, [_c('table', [_vm._m(1), _vm._v(" "), _vm._l((_vm.FromMIRSDetail), function(validator, count) {
-    return _c('tr', [_c('td', [_vm._v(_vm._s(validator.ItemCode))]), _vm._v(" "), _c('td', [_vm._v(_vm._s(validator.Particulars))]), _vm._v(" "), _c('td', [_vm._v(_vm._s(validator.Unit))]), _vm._v(" "), _c('td', [_c('input', {
-      directives: [{
-        name: "model",
-        rawName: "v-model",
-        value: (_vm.InputQty[count]),
-        expression: "InputQty[count]"
-      }],
-      attrs: {
-        "type": "number",
-        "name": "Quantity",
-        "min": "1",
-        "autocomplete": "off"
-      },
-      domProps: {
-        "value": (_vm.InputQty[count])
-      },
-      on: {
-        "input": function($event) {
-          if ($event.target.composing) { return; }
-          _vm.$set(_vm.InputQty, count, $event.target.value)
-        }
-      }
-    })]), _vm._v(" "), _c('td', [_vm._v(_vm._s(validator.QuantityValidator))]), _vm._v(" "), _c('td', [_vm._v(_vm._s(validator.Remarks))]), _vm._v(" "), _c('td', [_c('button', {
-      on: {
-        "click": function($event) {
-          _vm.SaveToSession(validator, count)
-        }
-      }
-    }, [_c('i', {
-      staticClass: "material-icons"
-    }, [_vm._v("add")])])])])
-  })], 2), _vm._v(" "), _c('div', {
-    staticClass: "paginate-container"
-  }, [_c('ul', {
-    staticClass: "pagination"
-  }, [(_vm.pagination.current_page > 1) ? _c('li', [_c('a', {
-    attrs: {
-      "href": "#"
-    },
-    on: {
-      "click": function($event) {
-        $event.preventDefault();
-        _vm.changepage(_vm.pagination.current_page - 1)
-      }
-    }
-  }, [_c('i', {
-    staticClass: "material-icons"
-  }, [_vm._v("keyboard_arrow_left")])])]) : _vm._e(), _vm._v(" "), _vm._l((_vm.pagesNumber), function(page) {
-    return _c('li', {
-      class: [page == _vm.isActive ? 'active' : '']
-    }, [_c('a', {
-      attrs: {
-        "href": "#"
-      },
-      on: {
-        "click": function($event) {
-          $event.preventDefault();
-          _vm.changepage(page)
-        }
-      }
-    }, [_vm._v(_vm._s(page))])])
-  }), _vm._v(" "), (_vm.pagination.current_page < _vm.pagination.last_page) ? _c('li', [_c('a', {
-    attrs: {
-      "href": "#"
-    },
-    on: {
-      "click": function($event) {
-        $event.preventDefault();
-        _vm.changepage(_vm.pagination.current_page + 1)
-      }
-    }
-  }, [_c('i', {
-    staticClass: "material-icons"
-  }, [_vm._v("keyboard_arrow_right")])])]) : _vm._e()], 2)])])])])])
-},staticRenderFns: [function (){var _vm=this;var _h=_vm.$createElement;var _c=_vm._self._c||_h;
-  return _c('tr', [_c('th', [_vm._v("Item Code")]), _vm._v(" "), _c('th', [_vm._v("Particulars")]), _vm._v(" "), _c('th', [_vm._v("Unit")]), _vm._v(" "), _c('th', [_vm._v("Quantity")]), _vm._v(" "), _c('th', [_vm._v("Remarks")]), _vm._v(" "), _c('th', [_vm._v("Remove")])])
-},function (){var _vm=this;var _h=_vm.$createElement;var _c=_vm._self._c||_h;
-  return _c('tr', [_c('th', [_vm._v("Item Code")]), _vm._v(" "), _c('th', [_vm._v("Particulars")]), _vm._v(" "), _c('th', [_vm._v("Unit")]), _vm._v(" "), _c('th', [_vm._v("Qty")]), _vm._v(" "), _c('th', [_vm._v("Not claimed")]), _vm._v(" "), _c('th', [_vm._v("Remarks")]), _vm._v(" "), _c('th', [_vm._v("Select")])])
-}]}
-module.exports.render._withStripped = true
-if (false) {
-  module.hot.accept()
-  if (module.hot.data) {
-     require("vue-hot-reload-api").rerender("data-v-65b03d1e", module.exports)
-  }
-}
-
-/***/ }),
-
-/***/ 267:
-/***/ (function(module, exports, __webpack_require__) {
-
-module.exports={render:function (){var _vm=this;var _h=_vm.$createElement;var _c=_vm._self._c||_h;
-  return _c('div', {
-    staticClass: "mct-index-vue-container"
-  }, [_c('div', {
-    staticClass: "index-mct-title-and-search"
-  }, [_vm._m(0), _vm._v(" "), _c('div', {
-    staticClass: "search-mct-index"
-  }, [_c('input', {
-    directives: [{
-      name: "model",
-      rawName: "v-model",
-      value: (_vm.searchMCTNo),
-      expression: "searchMCTNo"
-    }],
-    attrs: {
-      "type": "text",
-      "placeholder": "MCT #"
-    },
-    domProps: {
-      "value": (_vm.searchMCTNo)
-    },
-    on: {
-      "keyup": function($event) {
-        _vm.fetchdatatable()
-      },
-      "input": function($event) {
-        if ($event.target.composing) { return; }
-        _vm.searchMCTNo = $event.target.value
-      }
-    }
-  })])]), _vm._v(" "), _c('div', {
-    staticClass: "mct-index-table"
-  }, [_c('table', [_vm._m(1), _vm._v(" "), _vm._l((_vm.indexData), function(data) {
-    return (data.users[0] != null) ? _c('tr', [_c('td', {
-      staticClass: "rollback-sign"
-    }, [(data.IsRollBack == 0) ? _c('h2') : _vm._e(), _vm._v(_vm._s(data.MCTNo))]), _vm._v(" "), _c('td', [_vm._v(_vm._s(data.MCTDate))]), _vm._v(" "), _c('td', [_vm._v(_vm._s(data.Particulars))]), _vm._v(" "), _c('td', [_vm._v("\r\n          " + _vm._s(data.users[0].FullName)), _c('br'), _vm._v(" "), (data.users[0].pivot.Signature == '0') ? _c('i', {
-      staticClass: "material-icons"
-    }, [_vm._v("check")]) : (data.users[0].pivot.Signature == '1') ? _c('i', {
-      staticClass: "material-icons decliner"
-    }, [_vm._v("close")]) : _vm._e()]), _vm._v(" "), _c('td', [_vm._v("\r\n          " + _vm._s(data.users[1].FullName)), _c('br'), _vm._v(" "), (data.users[1].pivot.Signature == '0') ? _c('i', {
-      staticClass: "material-icons"
-    }, [_vm._v("check")]) : (data.users[1].pivot.Signature == '1') ? _c('i', {
-      staticClass: "material-icons decliner"
-    }, [_vm._v("close")]) : _vm._e()]), _vm._v(" "), _c('td', [_vm._v(_vm._s(data.AddressTo))]), _vm._v(" "), _c('td', [(data.Status == '0') ? _c('i', {
-      staticClass: "material-icons"
-    }, [_vm._v("thumb_up")]) : (data.Status == '1') ? _c('i', {
-      staticClass: "material-icons decliner"
-    }, [_vm._v("close")]) : _c('i', {
-      staticClass: "material-icons"
-    }, [_vm._v("access_time")])]), _vm._v(" "), _c('td', [_c('a', {
-      attrs: {
-        "href": '/preview-mct-page-only/' + data.MCTNo
-      }
-    }, [_c('i', {
-      staticClass: "material-icons"
-    }, [_vm._v("visibility")])])])]) : _vm._e()
-  })], 2)]), _vm._v(" "), _c('div', {
-    staticClass: "paginate-container"
-  }, [_c('ul', {
-    staticClass: "pagination"
-  }, [(_vm.pagination.current_page > 1) ? _c('li', [_c('a', {
-    attrs: {
-      "href": "#"
-    },
-    on: {
-      "click": function($event) {
-        $event.preventDefault();
-        _vm.changepage(_vm.pagination.current_page - 1)
-      }
-    }
-  }, [_c('i', {
-    staticClass: "material-icons"
-  }, [_vm._v("keyboard_arrow_left")])])]) : _vm._e(), _vm._v(" "), _vm._l((_vm.pagesNumber), function(page) {
-    return _c('li', {
-      class: [page == _vm.isActive ? 'active' : '']
-    }, [_c('a', {
-      attrs: {
-        "href": "#"
-      },
-      on: {
-        "click": function($event) {
-          $event.preventDefault();
-          _vm.changepage(page)
-        }
-      }
-    }, [_vm._v(_vm._s(page))])])
-  }), _vm._v(" "), (_vm.pagination.current_page < _vm.pagination.last_page) ? _c('li', [_c('a', {
-    attrs: {
-      "href": "#"
-    },
-    on: {
-      "click": function($event) {
-        $event.preventDefault();
-        _vm.changepage(_vm.pagination.current_page + 1)
-      }
-    }
-  }, [_c('i', {
-    staticClass: "material-icons"
-  }, [_vm._v("keyboard_arrow_right")])])]) : _vm._e()], 2)])])
-},staticRenderFns: [function (){var _vm=this;var _h=_vm.$createElement;var _c=_vm._self._c||_h;
-  return _c('h1', [_c('i', {
-    staticClass: "material-icons"
-  }, [_vm._v("content_paste")]), _vm._v(" Materials Charge Ticket index")])
-},function (){var _vm=this;var _h=_vm.$createElement;var _c=_vm._self._c||_h;
-  return _c('tr', [_c('th', [_vm._v("MCTNo")]), _vm._v(" "), _c('th', [_vm._v("Date")]), _vm._v(" "), _c('th', [_vm._v("Particulars")]), _vm._v(" "), _c('th', [_vm._v("Issued by")]), _vm._v(" "), _c('th', [_vm._v("Received by")]), _vm._v(" "), _c('th', [_vm._v("Addressed to")]), _vm._v(" "), _c('th', [_vm._v("Status")]), _vm._v(" "), _c('th', [_vm._v("View")])])
-}]}
-module.exports.render._withStripped = true
-if (false) {
-  module.hot.accept()
-  if (module.hot.data) {
-     require("vue-hot-reload-api").rerender("data-v-6f410d88", module.exports)
-  }
-}
-
-/***/ }),
-
-/***/ 27:
-/***/ (function(module, exports, __webpack_require__) {
-
-"use strict";
-
-
-var utils = __webpack_require__(1);
-
-module.exports = (
-  utils.isStandardBrowserEnv() ?
-
-  // Standard browser envs have full support of the APIs needed to test
-  // whether the request URL is of the same origin as current location.
-  (function standardBrowserEnv() {
-    var msie = /(msie|trident)/i.test(navigator.userAgent);
-    var urlParsingNode = document.createElement('a');
-    var originURL;
-
-    /**
-    * Parse a URL to discover it's components
-    *
-    * @param {String} url The URL to be parsed
-    * @returns {Object}
-    */
-    function resolveURL(url) {
-      var href = url;
-
-      if (msie) {
-        // IE needs attribute set twice to normalize properties
-        urlParsingNode.setAttribute('href', href);
-        href = urlParsingNode.href;
-      }
-
-      urlParsingNode.setAttribute('href', href);
-
-      // urlParsingNode provides the UrlUtils interface - http://url.spec.whatwg.org/#urlutils
-      return {
-        href: urlParsingNode.href,
-        protocol: urlParsingNode.protocol ? urlParsingNode.protocol.replace(/:$/, '') : '',
-        host: urlParsingNode.host,
-        search: urlParsingNode.search ? urlParsingNode.search.replace(/^\?/, '') : '',
-        hash: urlParsingNode.hash ? urlParsingNode.hash.replace(/^#/, '') : '',
-        hostname: urlParsingNode.hostname,
-        port: urlParsingNode.port,
-        pathname: (urlParsingNode.pathname.charAt(0) === '/') ?
-                  urlParsingNode.pathname :
-                  '/' + urlParsingNode.pathname
-      };
-    }
-
-    originURL = resolveURL(window.location.href);
-
-    /**
-    * Determine if a URL shares the same origin as the current location
-    *
-    * @param {String} requestURL The URL to test
-    * @returns {boolean} True if URL shares the same origin, otherwise false
-    */
-    return function isURLSameOrigin(requestURL) {
-      var parsed = (utils.isString(requestURL)) ? resolveURL(requestURL) : requestURL;
-      return (parsed.protocol === originURL.protocol &&
-            parsed.host === originURL.host);
-    };
-  })() :
-
-  // Non standard browser envs (web workers, react-native) lack needed support.
-  (function nonStandardBrowserEnv() {
-    return function isURLSameOrigin() {
-      return true;
-    };
-  })()
-);
-
-
-/***/ }),
-
-/***/ 275:
+/***/ 254:
 /***/ (function(module, exports, __webpack_require__) {
 
 module.exports={render:function (){var _vm=this;var _h=_vm.$createElement;var _c=_vm._self._c||_h;
@@ -12802,9 +12401,410 @@ module.exports.render._withStripped = true
 if (false) {
   module.hot.accept()
   if (module.hot.data) {
-     require("vue-hot-reload-api").rerender("data-v-aef09444", module.exports)
+     require("vue-hot-reload-api").rerender("data-v-2b202db4", module.exports)
   }
 }
+
+/***/ }),
+
+/***/ 26:
+/***/ (function(module, exports, __webpack_require__) {
+
+"use strict";
+
+
+/**
+ * Determines whether the specified URL is absolute
+ *
+ * @param {string} url The URL to test
+ * @returns {boolean} True if the specified URL is absolute, otherwise false
+ */
+module.exports = function isAbsoluteURL(url) {
+  // A URL is considered absolute if it begins with "<scheme>://" or "//" (protocol-relative URL).
+  // RFC 3986 defines scheme name as a sequence of characters beginning with a letter and followed
+  // by any combination of letters, digits, plus, period, or hyphen.
+  return /^([a-z][a-z\d\+\-\.]*:)?\/\//i.test(url);
+};
+
+
+/***/ }),
+
+/***/ 261:
+/***/ (function(module, exports, __webpack_require__) {
+
+module.exports={render:function (){var _vm=this;var _h=_vm.$createElement;var _c=_vm._self._c||_h;
+  return _c('div', {
+    staticClass: "mct-index-vue-container"
+  }, [_c('div', {
+    staticClass: "index-mct-title-and-search"
+  }, [_vm._m(0), _vm._v(" "), _c('div', {
+    staticClass: "search-mct-index"
+  }, [_c('input', {
+    directives: [{
+      name: "model",
+      rawName: "v-model",
+      value: (_vm.searchMCTNo),
+      expression: "searchMCTNo"
+    }],
+    attrs: {
+      "type": "text",
+      "placeholder": "MCT #"
+    },
+    domProps: {
+      "value": (_vm.searchMCTNo)
+    },
+    on: {
+      "keyup": function($event) {
+        _vm.fetchdatatable()
+      },
+      "input": function($event) {
+        if ($event.target.composing) { return; }
+        _vm.searchMCTNo = $event.target.value
+      }
+    }
+  })])]), _vm._v(" "), _c('div', {
+    staticClass: "mct-index-table"
+  }, [_c('table', [_vm._m(1), _vm._v(" "), _vm._l((_vm.indexData), function(data) {
+    return (data.users[0] != null) ? _c('tr', [_c('td', {
+      staticClass: "rollback-sign"
+    }, [(data.IsRollBack == 0) ? _c('h2') : _vm._e(), _vm._v(_vm._s(data.MCTNo))]), _vm._v(" "), _c('td', [_vm._v(_vm._s(data.MCTDate))]), _vm._v(" "), _c('td', [_vm._v(_vm._s(data.Particulars))]), _vm._v(" "), _c('td', [_vm._v("\r\n          " + _vm._s(data.users[0].FullName)), _c('br'), _vm._v(" "), (data.users[0].pivot.Signature == '0') ? _c('i', {
+      staticClass: "material-icons"
+    }, [_vm._v("check")]) : (data.users[0].pivot.Signature == '1') ? _c('i', {
+      staticClass: "material-icons decliner"
+    }, [_vm._v("close")]) : _vm._e()]), _vm._v(" "), _c('td', [_vm._v("\r\n          " + _vm._s(data.users[1].FullName)), _c('br'), _vm._v(" "), (data.users[1].pivot.Signature == '0') ? _c('i', {
+      staticClass: "material-icons"
+    }, [_vm._v("check")]) : (data.users[1].pivot.Signature == '1') ? _c('i', {
+      staticClass: "material-icons decliner"
+    }, [_vm._v("close")]) : _vm._e()]), _vm._v(" "), _c('td', [_vm._v(_vm._s(data.AddressTo))]), _vm._v(" "), _c('td', [(data.Status == '0') ? _c('i', {
+      staticClass: "material-icons"
+    }, [_vm._v("thumb_up")]) : (data.Status == '1') ? _c('i', {
+      staticClass: "material-icons decliner"
+    }, [_vm._v("close")]) : _c('i', {
+      staticClass: "material-icons"
+    }, [_vm._v("access_time")])]), _vm._v(" "), _c('td', [_c('a', {
+      attrs: {
+        "href": '/preview-mct-page-only/' + data.MCTNo
+      }
+    }, [_c('i', {
+      staticClass: "material-icons"
+    }, [_vm._v("visibility")])])])]) : _vm._e()
+  })], 2)]), _vm._v(" "), _c('div', {
+    staticClass: "paginate-container"
+  }, [_c('ul', {
+    staticClass: "pagination"
+  }, [(_vm.pagination.current_page > 1) ? _c('li', [_c('a', {
+    attrs: {
+      "href": "#"
+    },
+    on: {
+      "click": function($event) {
+        $event.preventDefault();
+        _vm.changepage(_vm.pagination.current_page - 1)
+      }
+    }
+  }, [_c('i', {
+    staticClass: "material-icons"
+  }, [_vm._v("keyboard_arrow_left")])])]) : _vm._e(), _vm._v(" "), _vm._l((_vm.pagesNumber), function(page) {
+    return _c('li', {
+      class: [page == _vm.isActive ? 'active' : '']
+    }, [_c('a', {
+      attrs: {
+        "href": "#"
+      },
+      on: {
+        "click": function($event) {
+          $event.preventDefault();
+          _vm.changepage(page)
+        }
+      }
+    }, [_vm._v(_vm._s(page))])])
+  }), _vm._v(" "), (_vm.pagination.current_page < _vm.pagination.last_page) ? _c('li', [_c('a', {
+    attrs: {
+      "href": "#"
+    },
+    on: {
+      "click": function($event) {
+        $event.preventDefault();
+        _vm.changepage(_vm.pagination.current_page + 1)
+      }
+    }
+  }, [_c('i', {
+    staticClass: "material-icons"
+  }, [_vm._v("keyboard_arrow_right")])])]) : _vm._e()], 2)])])
+},staticRenderFns: [function (){var _vm=this;var _h=_vm.$createElement;var _c=_vm._self._c||_h;
+  return _c('h1', [_c('i', {
+    staticClass: "material-icons"
+  }, [_vm._v("content_paste")]), _vm._v(" Materials Charge Ticket index")])
+},function (){var _vm=this;var _h=_vm.$createElement;var _c=_vm._self._c||_h;
+  return _c('tr', [_c('th', [_vm._v("MCTNo")]), _vm._v(" "), _c('th', [_vm._v("Date")]), _vm._v(" "), _c('th', [_vm._v("Particulars")]), _vm._v(" "), _c('th', [_vm._v("Issued by")]), _vm._v(" "), _c('th', [_vm._v("Received by")]), _vm._v(" "), _c('th', [_vm._v("Addressed to")]), _vm._v(" "), _c('th', [_vm._v("Status")]), _vm._v(" "), _c('th', [_vm._v("View")])])
+}]}
+module.exports.render._withStripped = true
+if (false) {
+  module.hot.accept()
+  if (module.hot.data) {
+     require("vue-hot-reload-api").rerender("data-v-4aa51a60", module.exports)
+  }
+}
+
+/***/ }),
+
+/***/ 268:
+/***/ (function(module, exports, __webpack_require__) {
+
+module.exports={render:function (){var _vm=this;var _h=_vm.$createElement;var _c=_vm._self._c||_h;
+  return _c('div', {
+    staticClass: "create-mct-vue"
+  }, [_c('div', {
+    staticClass: "RecordingMCT-Container"
+  }, [_c('h1', {
+    staticClass: "title-create-mct"
+  }, [_vm._v("Materials charge ticket recording")]), _vm._v(" "), _c('h2', {
+    staticClass: "mirs-num"
+  }, [_vm._v("Materials from MIRS No. "), _c('span', {
+    staticClass: "color-blue"
+  }, [_vm._v(_vm._s(_vm.mirsno.MIRSNo))])]), _vm._v(" "), _c('div', {
+    staticClass: "button-find-item-container"
+  }, [_c('button', {
+    staticClass: "waves-effect waves-light",
+    attrs: {
+      "type": "button"
+    },
+    on: {
+      "click": function($event) {
+        _vm.ModalActive = !_vm.ModalActive
+      }
+    }
+  }, [_c('i', {
+    staticClass: "material-icons"
+  }, [_vm._v("add")]), _vm._v(" items")])]), _vm._v(" "), _c('div', {
+    staticClass: "session-and-formContainer"
+  }, [_c('div', {
+    staticClass: "selected-items-session-mct"
+  }, [_c('table', [_vm._m(0), _vm._v(" "), _vm._l((_vm.SessionList), function(list) {
+    return _c('tr', [_c('td', [_vm._v(_vm._s(list.ItemCode))]), _vm._v(" "), _c('td', [_vm._v(_vm._s(list.Particulars))]), _vm._v(" "), _c('td', [_vm._v(_vm._s(list.Unit))]), _vm._v(" "), _c('td', [_vm._v(_vm._s(list.Quantity))]), _vm._v(" "), (list.Remarks != null) ? _c('td', [_vm._v(_vm._s(list.Remarks))]) : _c('td', [_vm._v("No remarks")]), _vm._v(" "), _c('td', [_c('button', {
+      staticClass: "deleteMCT-session-button",
+      on: {
+        "click": function($event) {
+          _vm.deleteSession(list.ItemCode)
+        }
+      }
+    }, [_c('i', {
+      staticClass: "material-icons"
+    }, [_vm._v("close")])])])])
+  })], 2)]), _vm._v(" "), _c('div', {
+    staticClass: "smallform-mct-container"
+  }, [_c('div', {
+    staticClass: "address-where-form"
+  }, [_c('input', {
+    directives: [{
+      name: "model",
+      rawName: "v-model",
+      value: (_vm.AddressTo),
+      expression: "AddressTo"
+    }],
+    attrs: {
+      "type": "text",
+      "placeholder": "Address to where?",
+      "autocomplete": "off",
+      "required": ""
+    },
+    domProps: {
+      "value": (_vm.AddressTo)
+    },
+    on: {
+      "input": function($event) {
+        if ($event.target.composing) { return; }
+        _vm.AddressTo = $event.target.value
+      }
+    }
+  }), _vm._v(" "), _c('longpress', {
+    staticClass: "SubmitMCTButton",
+    class: {
+      'hide': _vm.HideBtn
+    },
+    attrs: {
+      "duration": "3",
+      "on-confirm": _vm.SavingMCT,
+      "pressing-text": "Submitting in {$rcounter} seconds",
+      "action-text": "Please wait"
+    }
+  }, [_vm._v("\r\n            Submit\r\n          ")])], 1)])])]), _vm._v(" "), _c('div', {
+    staticClass: "mct-modal-ofItems",
+    class: {
+      'active': _vm.ModalActive
+    },
+    on: {
+      "click": function($event) {
+        _vm.ModalActive = !_vm.ModalActive
+      }
+    }
+  }, [_c('div', {
+    staticClass: "mct-modal-center"
+  }, [_c('h1', [_vm._v("Pick Items from MIRS No. " + _vm._s(_vm.mirsno.MIRSNo))]), _vm._v(" "), _c('div', {
+    staticClass: "table-mct-itemchoices"
+  }, [_c('table', [_vm._m(1), _vm._v(" "), _vm._l((_vm.FromMIRSDetail), function(validator, count) {
+    return _c('tr', [_c('td', [_vm._v(_vm._s(validator.ItemCode))]), _vm._v(" "), _c('td', [_vm._v(_vm._s(validator.Particulars))]), _vm._v(" "), _c('td', [_vm._v(_vm._s(validator.Unit))]), _vm._v(" "), _c('td', [_c('input', {
+      directives: [{
+        name: "model",
+        rawName: "v-model",
+        value: (_vm.InputQty[count]),
+        expression: "InputQty[count]"
+      }],
+      attrs: {
+        "type": "number",
+        "name": "Quantity",
+        "min": "1",
+        "autocomplete": "off"
+      },
+      domProps: {
+        "value": (_vm.InputQty[count])
+      },
+      on: {
+        "input": function($event) {
+          if ($event.target.composing) { return; }
+          _vm.$set(_vm.InputQty, count, $event.target.value)
+        }
+      }
+    })]), _vm._v(" "), _c('td', [_vm._v(_vm._s(validator.QuantityValidator))]), _vm._v(" "), _c('td', [_vm._v(_vm._s(validator.Remarks))]), _vm._v(" "), _c('td', [_c('button', {
+      on: {
+        "click": function($event) {
+          _vm.SaveToSession(validator, count)
+        }
+      }
+    }, [_c('i', {
+      staticClass: "material-icons"
+    }, [_vm._v("add")])])])])
+  })], 2), _vm._v(" "), _c('div', {
+    staticClass: "paginate-container"
+  }, [_c('ul', {
+    staticClass: "pagination"
+  }, [(_vm.pagination.current_page > 1) ? _c('li', [_c('a', {
+    attrs: {
+      "href": "#"
+    },
+    on: {
+      "click": function($event) {
+        $event.preventDefault();
+        _vm.changepage(_vm.pagination.current_page - 1)
+      }
+    }
+  }, [_c('i', {
+    staticClass: "material-icons"
+  }, [_vm._v("keyboard_arrow_left")])])]) : _vm._e(), _vm._v(" "), _vm._l((_vm.pagesNumber), function(page) {
+    return _c('li', {
+      class: [page == _vm.isActive ? 'active' : '']
+    }, [_c('a', {
+      attrs: {
+        "href": "#"
+      },
+      on: {
+        "click": function($event) {
+          $event.preventDefault();
+          _vm.changepage(page)
+        }
+      }
+    }, [_vm._v(_vm._s(page))])])
+  }), _vm._v(" "), (_vm.pagination.current_page < _vm.pagination.last_page) ? _c('li', [_c('a', {
+    attrs: {
+      "href": "#"
+    },
+    on: {
+      "click": function($event) {
+        $event.preventDefault();
+        _vm.changepage(_vm.pagination.current_page + 1)
+      }
+    }
+  }, [_c('i', {
+    staticClass: "material-icons"
+  }, [_vm._v("keyboard_arrow_right")])])]) : _vm._e()], 2)])])])])])
+},staticRenderFns: [function (){var _vm=this;var _h=_vm.$createElement;var _c=_vm._self._c||_h;
+  return _c('tr', [_c('th', [_vm._v("Item Code")]), _vm._v(" "), _c('th', [_vm._v("Particulars")]), _vm._v(" "), _c('th', [_vm._v("Unit")]), _vm._v(" "), _c('th', [_vm._v("Quantity")]), _vm._v(" "), _c('th', [_vm._v("Remarks")]), _vm._v(" "), _c('th', [_vm._v("Remove")])])
+},function (){var _vm=this;var _h=_vm.$createElement;var _c=_vm._self._c||_h;
+  return _c('tr', [_c('th', [_vm._v("Item Code")]), _vm._v(" "), _c('th', [_vm._v("Particulars")]), _vm._v(" "), _c('th', [_vm._v("Unit")]), _vm._v(" "), _c('th', [_vm._v("Qty")]), _vm._v(" "), _c('th', [_vm._v("Not claimed")]), _vm._v(" "), _c('th', [_vm._v("Remarks")]), _vm._v(" "), _c('th', [_vm._v("Select")])])
+}]}
+module.exports.render._withStripped = true
+if (false) {
+  module.hot.accept()
+  if (module.hot.data) {
+     require("vue-hot-reload-api").rerender("data-v-67d080d6", module.exports)
+  }
+}
+
+/***/ }),
+
+/***/ 27:
+/***/ (function(module, exports, __webpack_require__) {
+
+"use strict";
+
+
+var utils = __webpack_require__(1);
+
+module.exports = (
+  utils.isStandardBrowserEnv() ?
+
+  // Standard browser envs have full support of the APIs needed to test
+  // whether the request URL is of the same origin as current location.
+  (function standardBrowserEnv() {
+    var msie = /(msie|trident)/i.test(navigator.userAgent);
+    var urlParsingNode = document.createElement('a');
+    var originURL;
+
+    /**
+    * Parse a URL to discover it's components
+    *
+    * @param {String} url The URL to be parsed
+    * @returns {Object}
+    */
+    function resolveURL(url) {
+      var href = url;
+
+      if (msie) {
+        // IE needs attribute set twice to normalize properties
+        urlParsingNode.setAttribute('href', href);
+        href = urlParsingNode.href;
+      }
+
+      urlParsingNode.setAttribute('href', href);
+
+      // urlParsingNode provides the UrlUtils interface - http://url.spec.whatwg.org/#urlutils
+      return {
+        href: urlParsingNode.href,
+        protocol: urlParsingNode.protocol ? urlParsingNode.protocol.replace(/:$/, '') : '',
+        host: urlParsingNode.host,
+        search: urlParsingNode.search ? urlParsingNode.search.replace(/^\?/, '') : '',
+        hash: urlParsingNode.hash ? urlParsingNode.hash.replace(/^#/, '') : '',
+        hostname: urlParsingNode.hostname,
+        port: urlParsingNode.port,
+        pathname: (urlParsingNode.pathname.charAt(0) === '/') ?
+                  urlParsingNode.pathname :
+                  '/' + urlParsingNode.pathname
+      };
+    }
+
+    originURL = resolveURL(window.location.href);
+
+    /**
+    * Determine if a URL shares the same origin as the current location
+    *
+    * @param {String} requestURL The URL to test
+    * @returns {boolean} True if URL shares the same origin, otherwise false
+    */
+    return function isURLSameOrigin(requestURL) {
+      var parsed = (utils.isString(requestURL)) ? resolveURL(requestURL) : requestURL;
+      return (parsed.protocol === originURL.protocol &&
+            parsed.host === originURL.host);
+    };
+  })() :
+
+  // Non standard browser envs (web workers, react-native) lack needed support.
+  (function nonStandardBrowserEnv() {
+    return function isURLSameOrigin() {
+      return true;
+    };
+  })()
+);
+
 
 /***/ }),
 

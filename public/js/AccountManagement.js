@@ -30545,7 +30545,7 @@ Vue.use(__WEBPACK_IMPORTED_MODULE_2_vue2_toast___default.a);
 /***/ (function(module, exports, __webpack_require__) {
 
 exports = module.exports = __webpack_require__(32)();
-exports.push([module.i, "\n.datepicker-overlay[data-v-f0f9b5a8] {\n  position: fixed;\n  width: 100%;\n  height: 100%;\n  z-index: 998;\n  top: 0;\n  left: 0;\n  overflow: hidden;\n  -webkit-animation: fadein 0.5s;\n  /* Safari, Chrome and Opera > 12.1 */\n  /* Firefox < 16 */\n  /* Internet Explorer */\n  /* Opera < 12.1 */\n  animation: fadein 0.5s;\n}\n@keyframes fadein {\nfrom {\n    opacity: 0;\n}\nto {\n    opacity: 1;\n}\n}\n/* Firefox < 16 */\n/* Safari, Chrome and Opera > 12.1 */\n@-webkit-keyframes fadein {\nfrom {\n    opacity: 0;\n}\nto {\n    opacity: 1;\n}\n}\n/* Internet Explorer */\n/* Opera < 12.1 */\n.cov-date-body[data-v-f0f9b5a8] {\n  display: inline-block;\n  background: #3F51B5;\n  overflow: hidden;\n  position: relative;\n  font-size: 16px;\n  font-family: 'Roboto';\n  font-weight: 400;\n  position: fixed;\n  display: block;\n  width: 400px;\n  max-width: 100%;\n  z-index: 999;\n  top: 50%;\n  left: 50%;\n  -webkit-transform: translate(-50%, -50%);\n  transform: translate(-50%, -50%);\n  box-shadow: 0 1px 3px 0 rgba(0, 0, 0, 0.2);\n}\n.cov-picker-box[data-v-f0f9b5a8] {\n  background: #fff;\n  width: 100%;\n  display: inline-block;\n  padding: 25px;\n  box-sizing: border-box !important;\n  -moz-box-sizing: border-box !important;\n  -webkit-box-sizing: border-box !important;\n  -ms-box-sizing: border-box !important;\n  width: 400px;\n  max-width: 100%;\n  height: 280px;\n  text-align: start!important;\n}\n.cov-picker-box td[data-v-f0f9b5a8] {\n  height: 34px;\n  width: 34px;\n  padding: 0;\n  line-height: 34px;\n  color: #000;\n  background: #fff;\n  text-align: center;\n  cursor: pointer;\n}\n.cov-picker-box td[data-v-f0f9b5a8]:hover {\n  background: #E6E6E6;\n}\ntable[data-v-f0f9b5a8] {\n  border-collapse: collapse;\n  border-spacing: 0;\n  width: 100%;\n}\n.day[data-v-f0f9b5a8] {\n  width: 14.2857143%;\n  display: inline-block;\n  text-align: center;\n  cursor: pointer;\n  height: 34px;\n  padding: 0;\n  line-height: 34px;\n  color: #000;\n  background: #fff;\n  vertical-align: middle;\n}\n.week ul[data-v-f0f9b5a8] {\n  margin: 0 0 8px;\n  padding: 0;\n  list-style: none;\n}\n.week ul li[data-v-f0f9b5a8] {\n  width: 14.2%;\n  display: inline-block;\n  text-align: center;\n  background: transparent;\n  color: #000;\n  font-weight: bold;\n}\n.passive-day[data-v-f0f9b5a8] {\n  color: #bbb;\n}\n.checked[data-v-f0f9b5a8] {\n  background: #F50057;\n  color: #FFF !important;\n  border-radius: 3px;\n}\n.unavailable[data-v-f0f9b5a8] {\n  color: #ccc;\n  cursor: not-allowed;\n}\n.cov-date-monthly[data-v-f0f9b5a8] {\n  height: 150px;\n}\n.cov-date-monthly > div[data-v-f0f9b5a8] {\n  display: inline-block;\n  padding: 0;\n  margin: 0;\n  vertical-align: middle;\n  color: #fff;\n  height: 150px;\n  float: left;\n  text-align: center;\n  cursor: pointer;\n}\n.cov-date-previous[data-v-f0f9b5a8],\n.cov-date-next[data-v-f0f9b5a8] {\n  position: relative;\n  width: 20% !important;\n  text-indent: -300px;\n  overflow: hidden;\n  color: #fff;\n}\n.cov-date-caption[data-v-f0f9b5a8] {\n  width: 60%;\n  padding: 50px 0!important;\n  box-sizing: border-box;\n  font-size: 24px;\n}\n.cov-date-caption span[data-v-f0f9b5a8]:hover {\n  color: rgba(255, 255, 255, 0.7);\n}\n.cov-date-previous[data-v-f0f9b5a8]:hover,\n.cov-date-next[data-v-f0f9b5a8]:hover {\n  background: rgba(255, 255, 255, 0.1);\n}\n.day[data-v-f0f9b5a8]:hover {\n  background: #EAEAEA;\n}\n.unavailable[data-v-f0f9b5a8]:hover {\n  background: none;\n}\n.checked[data-v-f0f9b5a8]:hover {\n  background: #FF4F8E;\n}\n.cov-date-next[data-v-f0f9b5a8]::before,\n.cov-date-previous[data-v-f0f9b5a8]::before {\n  width: 20px;\n  height: 2px;\n  text-align: center;\n  position: absolute;\n  background: #fff;\n  top: 50%;\n  margin-top: -7px;\n  margin-left: -7px;\n  left: 50%;\n  line-height: 0;\n  content: '';\n  -webkit-transform: rotate(45deg);\n  transform: rotate(45deg);\n}\n.cov-date-next[data-v-f0f9b5a8]::after,\n.cov-date-previous[data-v-f0f9b5a8]::after {\n  width: 20px;\n  height: 2px;\n  text-align: center;\n  position: absolute;\n  background: #fff;\n  margin-top: 6px;\n  margin-left: -7px;\n  top: 50%;\n  left: 50%;\n  line-height: 0;\n  content: '';\n  -webkit-transform: rotate(-45deg);\n  transform: rotate(-45deg);\n}\n.cov-date-previous[data-v-f0f9b5a8]::after {\n  -webkit-transform: rotate(45deg);\n  transform: rotate(45deg);\n}\n.cov-date-previous[data-v-f0f9b5a8]::before {\n  -webkit-transform: rotate(-45deg);\n  transform: rotate(-45deg);\n}\n.date-item[data-v-f0f9b5a8] {\n  text-align: center;\n  font-size: 20px;\n  padding: 10px 0;\n  cursor: pointer;\n}\n.date-item[data-v-f0f9b5a8]:hover {\n  background: #e0e0e0;\n}\n.date-list[data-v-f0f9b5a8] {\n  overflow: auto;\n  vertical-align: top;\n  padding: 0;\n}\n.cov-vue-date[data-v-f0f9b5a8] {\n  display: inline-block;\n  color: #5D5D5D;\n}\n.button-box[data-v-f0f9b5a8] {\n  background: #fff;\n  vertical-align: top;\n  height: 50px;\n  line-height: 50px;\n  text-align: right;\n  padding-right: 20px;\n}\n.button-box span[data-v-f0f9b5a8] {\n  cursor: pointer;\n  padding: 10px 20px;\n}\n.watch-box[data-v-f0f9b5a8] {\n  height: 100%;\n  overflow: hidden;\n}\n.hour-box[data-v-f0f9b5a8],\n.min-box[data-v-f0f9b5a8] {\n  display: inline-block;\n  width: 50%;\n  text-align: center;\n  height: 100%;\n  overflow: auto;\n  float: left;\n}\n.hour-box ul[data-v-f0f9b5a8],\n.min-box ul[data-v-f0f9b5a8] {\n  list-style: none;\n  margin: 0;\n  padding: 0;\n}\n.hour-item[data-v-f0f9b5a8],\n.min-item[data-v-f0f9b5a8] {\n  padding: 10px;\n  font-size: 36px;\n  cursor: pointer;\n}\n.hour-item[data-v-f0f9b5a8]:hover,\n.min-item[data-v-f0f9b5a8]:hover {\n  background: #E3E3E3;\n}\n.hour-box .active[data-v-f0f9b5a8],\n.min-box .active[data-v-f0f9b5a8] {\n  background: #F50057;\n  color: #FFF !important;\n}\n[data-v-f0f9b5a8]::-webkit-scrollbar {\n  width: 2px;\n}\n[data-v-f0f9b5a8]::-webkit-scrollbar-track {\n  background: #E3E3E3;\n}\n[data-v-f0f9b5a8]::-webkit-scrollbar-thumb {\n  background: #C1C1C1;\n  border-radius: 2px;\n}\n", ""]);
+exports.push([module.i, "\n.datepicker-overlay[data-v-345e1238] {\n  position: fixed;\n  width: 100%;\n  height: 100%;\n  z-index: 998;\n  top: 0;\n  left: 0;\n  overflow: hidden;\n  -webkit-animation: fadein 0.5s;\n  /* Safari, Chrome and Opera > 12.1 */\n  /* Firefox < 16 */\n  /* Internet Explorer */\n  /* Opera < 12.1 */\n  animation: fadein 0.5s;\n}\n@keyframes fadein {\nfrom {\n    opacity: 0;\n}\nto {\n    opacity: 1;\n}\n}\n/* Firefox < 16 */\n/* Safari, Chrome and Opera > 12.1 */\n@-webkit-keyframes fadein {\nfrom {\n    opacity: 0;\n}\nto {\n    opacity: 1;\n}\n}\n/* Internet Explorer */\n/* Opera < 12.1 */\n.cov-date-body[data-v-345e1238] {\n  display: inline-block;\n  background: #3F51B5;\n  overflow: hidden;\n  position: relative;\n  font-size: 16px;\n  font-family: 'Roboto';\n  font-weight: 400;\n  position: fixed;\n  display: block;\n  width: 400px;\n  max-width: 100%;\n  z-index: 999;\n  top: 50%;\n  left: 50%;\n  -webkit-transform: translate(-50%, -50%);\n  transform: translate(-50%, -50%);\n  box-shadow: 0 1px 3px 0 rgba(0, 0, 0, 0.2);\n}\n.cov-picker-box[data-v-345e1238] {\n  background: #fff;\n  width: 100%;\n  display: inline-block;\n  padding: 25px;\n  box-sizing: border-box !important;\n  -moz-box-sizing: border-box !important;\n  -webkit-box-sizing: border-box !important;\n  -ms-box-sizing: border-box !important;\n  width: 400px;\n  max-width: 100%;\n  height: 280px;\n  text-align: start!important;\n}\n.cov-picker-box td[data-v-345e1238] {\n  height: 34px;\n  width: 34px;\n  padding: 0;\n  line-height: 34px;\n  color: #000;\n  background: #fff;\n  text-align: center;\n  cursor: pointer;\n}\n.cov-picker-box td[data-v-345e1238]:hover {\n  background: #E6E6E6;\n}\ntable[data-v-345e1238] {\n  border-collapse: collapse;\n  border-spacing: 0;\n  width: 100%;\n}\n.day[data-v-345e1238] {\n  width: 14.2857143%;\n  display: inline-block;\n  text-align: center;\n  cursor: pointer;\n  height: 34px;\n  padding: 0;\n  line-height: 34px;\n  color: #000;\n  background: #fff;\n  vertical-align: middle;\n}\n.week ul[data-v-345e1238] {\n  margin: 0 0 8px;\n  padding: 0;\n  list-style: none;\n}\n.week ul li[data-v-345e1238] {\n  width: 14.2%;\n  display: inline-block;\n  text-align: center;\n  background: transparent;\n  color: #000;\n  font-weight: bold;\n}\n.passive-day[data-v-345e1238] {\n  color: #bbb;\n}\n.checked[data-v-345e1238] {\n  background: #F50057;\n  color: #FFF !important;\n  border-radius: 3px;\n}\n.unavailable[data-v-345e1238] {\n  color: #ccc;\n  cursor: not-allowed;\n}\n.cov-date-monthly[data-v-345e1238] {\n  height: 150px;\n}\n.cov-date-monthly > div[data-v-345e1238] {\n  display: inline-block;\n  padding: 0;\n  margin: 0;\n  vertical-align: middle;\n  color: #fff;\n  height: 150px;\n  float: left;\n  text-align: center;\n  cursor: pointer;\n}\n.cov-date-previous[data-v-345e1238],\n.cov-date-next[data-v-345e1238] {\n  position: relative;\n  width: 20% !important;\n  text-indent: -300px;\n  overflow: hidden;\n  color: #fff;\n}\n.cov-date-caption[data-v-345e1238] {\n  width: 60%;\n  padding: 50px 0!important;\n  box-sizing: border-box;\n  font-size: 24px;\n}\n.cov-date-caption span[data-v-345e1238]:hover {\n  color: rgba(255, 255, 255, 0.7);\n}\n.cov-date-previous[data-v-345e1238]:hover,\n.cov-date-next[data-v-345e1238]:hover {\n  background: rgba(255, 255, 255, 0.1);\n}\n.day[data-v-345e1238]:hover {\n  background: #EAEAEA;\n}\n.unavailable[data-v-345e1238]:hover {\n  background: none;\n}\n.checked[data-v-345e1238]:hover {\n  background: #FF4F8E;\n}\n.cov-date-next[data-v-345e1238]::before,\n.cov-date-previous[data-v-345e1238]::before {\n  width: 20px;\n  height: 2px;\n  text-align: center;\n  position: absolute;\n  background: #fff;\n  top: 50%;\n  margin-top: -7px;\n  margin-left: -7px;\n  left: 50%;\n  line-height: 0;\n  content: '';\n  -webkit-transform: rotate(45deg);\n  transform: rotate(45deg);\n}\n.cov-date-next[data-v-345e1238]::after,\n.cov-date-previous[data-v-345e1238]::after {\n  width: 20px;\n  height: 2px;\n  text-align: center;\n  position: absolute;\n  background: #fff;\n  margin-top: 6px;\n  margin-left: -7px;\n  top: 50%;\n  left: 50%;\n  line-height: 0;\n  content: '';\n  -webkit-transform: rotate(-45deg);\n  transform: rotate(-45deg);\n}\n.cov-date-previous[data-v-345e1238]::after {\n  -webkit-transform: rotate(45deg);\n  transform: rotate(45deg);\n}\n.cov-date-previous[data-v-345e1238]::before {\n  -webkit-transform: rotate(-45deg);\n  transform: rotate(-45deg);\n}\n.date-item[data-v-345e1238] {\n  text-align: center;\n  font-size: 20px;\n  padding: 10px 0;\n  cursor: pointer;\n}\n.date-item[data-v-345e1238]:hover {\n  background: #e0e0e0;\n}\n.date-list[data-v-345e1238] {\n  overflow: auto;\n  vertical-align: top;\n  padding: 0;\n}\n.cov-vue-date[data-v-345e1238] {\n  display: inline-block;\n  color: #5D5D5D;\n}\n.button-box[data-v-345e1238] {\n  background: #fff;\n  vertical-align: top;\n  height: 50px;\n  line-height: 50px;\n  text-align: right;\n  padding-right: 20px;\n}\n.button-box span[data-v-345e1238] {\n  cursor: pointer;\n  padding: 10px 20px;\n}\n.watch-box[data-v-345e1238] {\n  height: 100%;\n  overflow: hidden;\n}\n.hour-box[data-v-345e1238],\n.min-box[data-v-345e1238] {\n  display: inline-block;\n  width: 50%;\n  text-align: center;\n  height: 100%;\n  overflow: auto;\n  float: left;\n}\n.hour-box ul[data-v-345e1238],\n.min-box ul[data-v-345e1238] {\n  list-style: none;\n  margin: 0;\n  padding: 0;\n}\n.hour-item[data-v-345e1238],\n.min-item[data-v-345e1238] {\n  padding: 10px;\n  font-size: 36px;\n  cursor: pointer;\n}\n.hour-item[data-v-345e1238]:hover,\n.min-item[data-v-345e1238]:hover {\n  background: #E3E3E3;\n}\n.hour-box .active[data-v-345e1238],\n.min-box .active[data-v-345e1238] {\n  background: #F50057;\n  color: #FFF !important;\n}\n[data-v-345e1238]::-webkit-scrollbar {\n  width: 2px;\n}\n[data-v-345e1238]::-webkit-scrollbar-track {\n  background: #E3E3E3;\n}\n[data-v-345e1238]::-webkit-scrollbar-thumb {\n  background: #C1C1C1;\n  border-radius: 2px;\n}\n", ""]);
 
 /***/ }),
 /* 208 */,
@@ -30561,13 +30561,13 @@ var Component = __webpack_require__(4)(
   /* script */
   __webpack_require__(172),
   /* template */
-  __webpack_require__(279),
+  __webpack_require__(256),
   /* scopeId */
-  "data-v-f0f9b5a8",
+  "data-v-345e1238",
   /* cssModules */
   null
 )
-Component.options.__file = "C:\\xampp\\htdocs\\warehouse2\\node_modules\\vue-datepicker\\vue-datepicker.vue"
+Component.options.__file = "C:\\xampp\\htdocs\\warehouse\\node_modules\\vue-datepicker\\vue-datepicker.vue"
 if (Component.esModule && Object.keys(Component.esModule).some(function (key) {return key !== "default" && key !== "__esModule"})) {console.error("named exports are not supported in *.vue files.")}
 if (Component.options.functional) {console.error("[vue-loader] vue-datepicker.vue: functional components are not supported with templates, they should use render functions.")}
 
@@ -30578,9 +30578,9 @@ if (false) {(function () {
   if (!hotAPI.compatible) return
   module.hot.accept()
   if (!module.hot.data) {
-    hotAPI.createRecord("data-v-f0f9b5a8", Component.options)
+    hotAPI.createRecord("data-v-345e1238", Component.options)
   } else {
-    hotAPI.reload("data-v-f0f9b5a8", Component.options)
+    hotAPI.reload("data-v-345e1238", Component.options)
   }
 })()}
 
@@ -30595,13 +30595,13 @@ var Component = __webpack_require__(4)(
   /* script */
   __webpack_require__(173),
   /* template */
-  __webpack_require__(247),
+  __webpack_require__(278),
   /* scopeId */
   null,
   /* cssModules */
   null
 )
-Component.options.__file = "C:\\xampp\\htdocs\\warehouse2\\resources\\assets\\js\\components\\Account\\AccountManagement.vue"
+Component.options.__file = "C:\\xampp\\htdocs\\warehouse\\resources\\assets\\js\\components\\Account\\AccountManagement.vue"
 if (Component.esModule && Object.keys(Component.esModule).some(function (key) {return key !== "default" && key !== "__esModule"})) {console.error("named exports are not supported in *.vue files.")}
 if (Component.options.functional) {console.error("[vue-loader] AccountManagement.vue: functional components are not supported with templates, they should use render functions.")}
 
@@ -30612,9 +30612,9 @@ if (false) {(function () {
   if (!hotAPI.compatible) return
   module.hot.accept()
   if (!module.hot.data) {
-    hotAPI.createRecord("data-v-0d9b263b", Component.options)
+    hotAPI.createRecord("data-v-cec8d41a", Component.options)
   } else {
-    hotAPI.reload("data-v-0d9b263b", Component.options)
+    hotAPI.reload("data-v-cec8d41a", Component.options)
   }
 })()}
 
@@ -30629,13 +30629,13 @@ var Component = __webpack_require__(4)(
   /* script */
   __webpack_require__(174),
   /* template */
-  __webpack_require__(248),
+  __webpack_require__(277),
   /* scopeId */
   null,
   /* cssModules */
   null
 )
-Component.options.__file = "C:\\xampp\\htdocs\\warehouse2\\resources\\assets\\js\\components\\Account\\ManagerTakePlacer.vue"
+Component.options.__file = "C:\\xampp\\htdocs\\warehouse\\resources\\assets\\js\\components\\Account\\ManagerTakePlacer.vue"
 if (Component.esModule && Object.keys(Component.esModule).some(function (key) {return key !== "default" && key !== "__esModule"})) {console.error("named exports are not supported in *.vue files.")}
 if (Component.options.functional) {console.error("[vue-loader] ManagerTakePlacer.vue: functional components are not supported with templates, they should use render functions.")}
 
@@ -30646,9 +30646,9 @@ if (false) {(function () {
   if (!hotAPI.compatible) return
   module.hot.accept()
   if (!module.hot.data) {
-    hotAPI.createRecord("data-v-0dbaebaa", Component.options)
+    hotAPI.createRecord("data-v-ce89493c", Component.options)
   } else {
-    hotAPI.reload("data-v-0dbaebaa", Component.options)
+    hotAPI.reload("data-v-ce89493c", Component.options)
   }
 })()}
 
@@ -30663,13 +30663,13 @@ var Component = __webpack_require__(4)(
   /* script */
   __webpack_require__(175),
   /* template */
-  __webpack_require__(254),
+  __webpack_require__(270),
   /* scopeId */
   null,
   /* cssModules */
   null
 )
-Component.options.__file = "C:\\xampp\\htdocs\\warehouse2\\resources\\assets\\js\\components\\Account\\MyAccountSettings.vue"
+Component.options.__file = "C:\\xampp\\htdocs\\warehouse\\resources\\assets\\js\\components\\Account\\MyAccountSettings.vue"
 if (Component.esModule && Object.keys(Component.esModule).some(function (key) {return key !== "default" && key !== "__esModule"})) {console.error("named exports are not supported in *.vue files.")}
 if (Component.options.functional) {console.error("[vue-loader] MyAccountSettings.vue: functional components are not supported with templates, they should use render functions.")}
 
@@ -30680,9 +30680,9 @@ if (false) {(function () {
   if (!hotAPI.compatible) return
   module.hot.accept()
   if (!module.hot.data) {
-    hotAPI.createRecord("data-v-322a9c0f", Component.options)
+    hotAPI.createRecord("data-v-85a9e872", Component.options)
   } else {
-    hotAPI.reload("data-v-322a9c0f", Component.options)
+    hotAPI.reload("data-v-85a9e872", Component.options)
   }
 })()}
 
@@ -30697,13 +30697,13 @@ var Component = __webpack_require__(4)(
   /* script */
   __webpack_require__(176),
   /* template */
-  __webpack_require__(258),
+  __webpack_require__(279),
   /* scopeId */
   null,
   /* cssModules */
   null
 )
-Component.options.__file = "C:\\xampp\\htdocs\\warehouse2\\resources\\assets\\js\\components\\Account\\MyHistory.vue"
+Component.options.__file = "C:\\xampp\\htdocs\\warehouse\\resources\\assets\\js\\components\\Account\\MyHistory.vue"
 if (Component.esModule && Object.keys(Component.esModule).some(function (key) {return key !== "default" && key !== "__esModule"})) {console.error("named exports are not supported in *.vue files.")}
 if (Component.options.functional) {console.error("[vue-loader] MyHistory.vue: functional components are not supported with templates, they should use render functions.")}
 
@@ -30714,9 +30714,9 @@ if (false) {(function () {
   if (!hotAPI.compatible) return
   module.hot.accept()
   if (!module.hot.data) {
-    hotAPI.createRecord("data-v-423fcf9a", Component.options)
+    hotAPI.createRecord("data-v-e970802a", Component.options)
   } else {
-    hotAPI.reload("data-v-423fcf9a", Component.options)
+    hotAPI.reload("data-v-e970802a", Component.options)
   }
 })()}
 
@@ -30731,13 +30731,13 @@ var Component = __webpack_require__(4)(
   /* script */
   __webpack_require__(177),
   /* template */
-  __webpack_require__(273),
+  __webpack_require__(274),
   /* scopeId */
   null,
   /* cssModules */
   null
 )
-Component.options.__file = "C:\\xampp\\htdocs\\warehouse2\\resources\\assets\\js\\components\\Account\\UserStatus.vue"
+Component.options.__file = "C:\\xampp\\htdocs\\warehouse\\resources\\assets\\js\\components\\Account\\UserStatus.vue"
 if (Component.esModule && Object.keys(Component.esModule).some(function (key) {return key !== "default" && key !== "__esModule"})) {console.error("named exports are not supported in *.vue files.")}
 if (Component.options.functional) {console.error("[vue-loader] UserStatus.vue: functional components are not supported with templates, they should use render functions.")}
 
@@ -30748,9 +30748,9 @@ if (false) {(function () {
   if (!hotAPI.compatible) return
   module.hot.accept()
   if (!module.hot.data) {
-    hotAPI.createRecord("data-v-8161947c", Component.options)
+    hotAPI.createRecord("data-v-c046f5ec", Component.options)
   } else {
-    hotAPI.reload("data-v-8161947c", Component.options)
+    hotAPI.reload("data-v-c046f5ec", Component.options)
   }
 })()}
 
@@ -30765,13 +30765,13 @@ var Component = __webpack_require__(4)(
   /* script */
   __webpack_require__(178),
   /* template */
-  __webpack_require__(246),
+  __webpack_require__(272),
   /* scopeId */
   null,
   /* cssModules */
   null
 )
-Component.options.__file = "C:\\xampp\\htdocs\\warehouse2\\resources\\assets\\js\\components\\Account\\loginpage.vue"
+Component.options.__file = "C:\\xampp\\htdocs\\warehouse\\resources\\assets\\js\\components\\Account\\loginpage.vue"
 if (Component.esModule && Object.keys(Component.esModule).some(function (key) {return key !== "default" && key !== "__esModule"})) {console.error("named exports are not supported in *.vue files.")}
 if (Component.options.functional) {console.error("[vue-loader] loginpage.vue: functional components are not supported with templates, they should use render functions.")}
 
@@ -30782,9 +30782,9 @@ if (false) {(function () {
   if (!hotAPI.compatible) return
   module.hot.accept()
   if (!module.hot.data) {
-    hotAPI.createRecord("data-v-03a45efa", Component.options)
+    hotAPI.createRecord("data-v-aad50f8a", Component.options)
   } else {
-    hotAPI.reload("data-v-03a45efa", Component.options)
+    hotAPI.reload("data-v-aad50f8a", Component.options)
   }
 })()}
 
@@ -30821,7 +30821,469 @@ module.exports = Component.exports
 /* 243 */,
 /* 244 */,
 /* 245 */,
-/* 246 */
+/* 246 */,
+/* 247 */,
+/* 248 */,
+/* 249 */,
+/* 250 */,
+/* 251 */,
+/* 252 */,
+/* 253 */,
+/* 254 */,
+/* 255 */,
+/* 256 */
+/***/ (function(module, exports, __webpack_require__) {
+
+module.exports={render:function (){var _vm=this;var _h=_vm.$createElement;var _c=_vm._self._c||_h;
+  return _c('div', {
+    staticClass: "cov-vue-date"
+  }, [_c('div', {
+    staticClass: "datepickbox"
+  }, [_c('input', {
+    directives: [{
+      name: "model",
+      rawName: "v-model",
+      value: (_vm.date.time),
+      expression: "date.time"
+    }],
+    staticClass: "cov-datepicker",
+    style: (_vm.option.inputStyle ? _vm.option.inputStyle : {}),
+    attrs: {
+      "type": "text",
+      "title": "input date",
+      "readonly": "readonly",
+      "placeholder": _vm.option.placeholder,
+      "required": _vm.required
+    },
+    domProps: {
+      "value": (_vm.date.time)
+    },
+    on: {
+      "click": _vm.showCheck,
+      "foucus": _vm.showCheck,
+      "input": function($event) {
+        if ($event.target.composing) { return; }
+        _vm.date.time = $event.target.value
+      }
+    }
+  })]), _vm._v(" "), (_vm.showInfo.check) ? _c('div', {
+    staticClass: "datepicker-overlay",
+    style: ({
+      'background': _vm.option.overlayOpacity ? 'rgba(0,0,0,' + _vm.option.overlayOpacity + ')' : 'rgba(0,0,0,0.5)'
+    }),
+    on: {
+      "click": function($event) {
+        _vm.dismiss($event)
+      }
+    }
+  }, [_c('div', {
+    staticClass: "cov-date-body",
+    style: ({
+      'background-color': _vm.option.color ? _vm.option.color.header : '#3f51b5'
+    })
+  }, [_c('div', {
+    staticClass: "cov-date-monthly"
+  }, [_c('div', {
+    staticClass: "cov-date-previous",
+    on: {
+      "click": function($event) {
+        _vm.nextMonth('pre')
+      }
+    }
+  }, [_vm._v("«")]), _vm._v(" "), _c('div', {
+    staticClass: "cov-date-caption",
+    style: ({
+      'color': _vm.option.color ? _vm.option.color.headerText : '#fff'
+    })
+  }, [_c('span', {
+    on: {
+      "click": _vm.showYear
+    }
+  }, [_c('small', [_vm._v(_vm._s(_vm.checked.year))])]), _vm._v(" "), _c('br'), _vm._v(" "), _c('span', {
+    on: {
+      "click": _vm.showMonth
+    }
+  }, [_vm._v(_vm._s(_vm.displayInfo.month))])]), _vm._v(" "), _c('div', {
+    staticClass: "cov-date-next",
+    on: {
+      "click": function($event) {
+        _vm.nextMonth('next')
+      }
+    }
+  }, [_vm._v("»")])]), _vm._v(" "), (_vm.showInfo.day) ? _c('div', {
+    staticClass: "cov-date-box"
+  }, [_c('div', {
+    staticClass: "cov-picker-box"
+  }, [_c('div', {
+    staticClass: "week"
+  }, [_c('ul', _vm._l((_vm.library.week), function(weekie) {
+    return _c('li', [_vm._v(_vm._s(weekie))])
+  }))]), _vm._v(" "), _vm._l((_vm.dayList), function(day) {
+    return _c('div', {
+      staticClass: "day",
+      class: {
+        'checked': day.checked, 'unavailable': day.unavailable, 'passive-day': !(day.inMonth)
+      },
+      style: (day.checked ? (_vm.option.color && _vm.option.color.checkedDay ? {
+        background: _vm.option.color.checkedDay
+      } : {
+        background: '#F50057'
+      }) : {}),
+      attrs: {
+        "track-by": "$index"
+      },
+      on: {
+        "click": function($event) {
+          _vm.checkDay(day)
+        }
+      }
+    }, [_vm._v(_vm._s(day.value))])
+  })], 2)]) : _vm._e(), _vm._v(" "), (_vm.showInfo.year) ? _c('div', {
+    staticClass: "cov-date-box list-box"
+  }, [_c('div', {
+    staticClass: "cov-picker-box date-list",
+    attrs: {
+      "id": "yearList"
+    }
+  }, _vm._l((_vm.library.year), function(yearItem) {
+    return _c('div', {
+      staticClass: "date-item",
+      attrs: {
+        "track-by": "$index"
+      },
+      on: {
+        "click": function($event) {
+          _vm.setYear(yearItem)
+        }
+      }
+    }, [_vm._v(_vm._s(yearItem))])
+  }))]) : _vm._e(), _vm._v(" "), (_vm.showInfo.month) ? _c('div', {
+    staticClass: "cov-date-box list-box"
+  }, [_c('div', {
+    staticClass: "cov-picker-box date-list"
+  }, _vm._l((_vm.library.month), function(monthItem) {
+    return _c('div', {
+      staticClass: "date-item",
+      attrs: {
+        "track-by": "$index"
+      },
+      on: {
+        "click": function($event) {
+          _vm.setMonth(monthItem)
+        }
+      }
+    }, [_vm._v(_vm._s(monthItem))])
+  }))]) : _vm._e(), _vm._v(" "), (_vm.showInfo.hour) ? _c('div', {
+    staticClass: "cov-date-box list-box"
+  }, [_c('div', {
+    staticClass: "cov-picker-box date-list"
+  }, [_c('div', {
+    staticClass: "watch-box"
+  }, [_c('div', {
+    staticClass: "hour-box"
+  }, [_c('div', {
+    staticClass: "mui-pciker-rule mui-pciker-rule-ft"
+  }), _vm._v(" "), _c('ul', _vm._l((_vm.hours), function(hitem) {
+    return _c('li', {
+      staticClass: "hour-item",
+      class: {
+        'active': hitem.checked
+      },
+      on: {
+        "click": function($event) {
+          _vm.setTime('hour', hitem, _vm.hours)
+        }
+      }
+    }, [_vm._v(_vm._s(hitem.value))])
+  }))]), _vm._v(" "), _c('div', {
+    staticClass: "min-box"
+  }, [_c('div', {
+    staticClass: "mui-pciker-rule mui-pciker-rule-ft"
+  }), _vm._v(" "), _vm._l((_vm.mins), function(mitem) {
+    return _c('div', {
+      staticClass: "min-item",
+      class: {
+        'active': mitem.checked
+      },
+      on: {
+        "click": function($event) {
+          _vm.setTime('min', mitem, _vm.mins)
+        }
+      }
+    }, [_vm._v(_vm._s(mitem.value))])
+  })], 2)])])]) : _vm._e(), _vm._v(" "), _c('div', {
+    staticClass: "button-box"
+  }, [_c('span', {
+    on: {
+      "click": function($event) {
+        _vm.showInfo.check = false
+      }
+    }
+  }, [_vm._v(_vm._s(_vm.option.buttons ? _vm.option.buttons.cancel : 'Cancel'))]), _vm._v(" "), _c('span', {
+    on: {
+      "click": _vm.picked
+    }
+  }, [_vm._v(_vm._s(_vm.option.buttons ? _vm.option.buttons.ok : 'Ok'))])])])]) : _vm._e()])
+},staticRenderFns: []}
+module.exports.render._withStripped = true
+if (false) {
+  module.hot.accept()
+  if (module.hot.data) {
+     require("vue-hot-reload-api").rerender("data-v-345e1238", module.exports)
+  }
+}
+
+/***/ }),
+/* 257 */,
+/* 258 */,
+/* 259 */,
+/* 260 */,
+/* 261 */,
+/* 262 */,
+/* 263 */,
+/* 264 */,
+/* 265 */,
+/* 266 */,
+/* 267 */,
+/* 268 */,
+/* 269 */,
+/* 270 */
+/***/ (function(module, exports, __webpack_require__) {
+
+module.exports={render:function (){var _vm=this;var _h=_vm.$createElement;var _c=_vm._self._c||_h;
+  return _c('div', {
+    staticClass: "my-account-settings-vue"
+  }, [_c('div', {
+    staticClass: "my-account-page-left"
+  }), _vm._v(" "), _c('div', {
+    staticClass: "my-account-page-middle"
+  }, [_vm._m(0), _vm._v(" "), _c('div', {
+    staticClass: "myaccount-settings-table-container"
+  }, [_c('table', [_c('tr', [_c('th', [_vm._v("Fullname")]), _c('td', [_vm._v(_vm._s(_vm.MyData.FullName))]), _vm._m(1)]), _vm._v(" "), _c('tr', [_c('th', [_vm._v("Position")]), _c('td', [_vm._v(_vm._s(_vm.MyData.Position))]), _vm._m(2)]), _vm._v(" "), _c('tr', [_c('th', [_vm._v("Signature")]), _c('td', [(_vm.MyData.Signature != null) ? _c('img', {
+    attrs: {
+      "src": 'storage/signatures/' + _vm.MyData.Signature
+    }
+  }) : _vm._e()]), _vm._m(3)]), _vm._v(" "), _c('tr', [_c('th', [_vm._v("Contact")]), _vm._v(" "), (_vm.contactEdit == false) ? _c('td', [_vm._v(_vm._s(_vm.MyData.Mobile))]) : _c('td', [_c('input', {
+    directives: [{
+      name: "model",
+      rawName: "v-model",
+      value: (_vm.NewContact = _vm.MyData.Mobile),
+      expression: "NewContact = MyData.Mobile"
+    }],
+    attrs: {
+      "type": "text",
+      "autofocus": ""
+    },
+    domProps: {
+      "value": (_vm.NewContact = _vm.MyData.Mobile)
+    },
+    on: {
+      "input": function($event) {
+        if ($event.target.composing) { return; }
+        _vm.NewContact = _vm.MyData.Mobile = $event.target.value
+      }
+    }
+  })]), _vm._v(" "), _c('td', {
+    staticClass: "align-right"
+  }, [(_vm.contactEdit == false) ? _c('button', {
+    on: {
+      "click": function($event) {
+        _vm.contactEdit = true
+      }
+    }
+  }, [_vm._v("Edit")]) : _c('div', {
+    staticClass: "acc-small-modal-setting"
+  }, [_c('button', {
+    attrs: {
+      "type": "button"
+    },
+    on: {
+      "click": function($event) {
+        _vm.contactEdit = false, _vm.updateNewMobile()
+      }
+    }
+  }, [_c('i', {
+    staticClass: "material-icons"
+  }, [_vm._v("check")])]), _vm._v(" "), _c('button', {
+    attrs: {
+      "type": "button"
+    },
+    on: {
+      "click": function($event) {
+        _vm.contactEdit = false, _vm.getMyAccountData()
+      }
+    }
+  }, [_c('i', {
+    staticClass: "material-icons"
+  }, [_vm._v("close")])])])])]), _vm._v(" "), _c('tr', [_c('th', [_vm._v("Username")]), _vm._v(" "), (_vm.usernameEdit == false) ? _c('td', [_vm._v(_vm._s(_vm.MyData.Username))]) : _c('td', [_c('input', {
+    directives: [{
+      name: "model",
+      rawName: "v-model",
+      value: (_vm.NewUsername = _vm.MyData.Username),
+      expression: "NewUsername = MyData.Username"
+    }],
+    attrs: {
+      "type": "text",
+      "autofocus": ""
+    },
+    domProps: {
+      "value": (_vm.NewUsername = _vm.MyData.Username)
+    },
+    on: {
+      "input": function($event) {
+        if ($event.target.composing) { return; }
+        _vm.NewUsername = _vm.MyData.Username = $event.target.value
+      }
+    }
+  })]), _vm._v(" "), _c('td', {
+    staticClass: "align-right"
+  }, [(_vm.usernameEdit == false) ? _c('button', {
+    on: {
+      "click": function($event) {
+        _vm.usernameEdit = true
+      }
+    }
+  }, [_vm._v("Edit")]) : _c('div', {
+    staticClass: "acc-small-modal-setting"
+  }, [_c('button', {
+    attrs: {
+      "type": "button"
+    },
+    on: {
+      "click": function($event) {
+        _vm.usernameEdit = false, _vm.updateNewUserName()
+      }
+    }
+  }, [_c('i', {
+    staticClass: "material-icons"
+  }, [_vm._v("check")])]), _vm._v(" "), _c('button', {
+    attrs: {
+      "type": "button"
+    },
+    on: {
+      "click": function($event) {
+        _vm.usernameEdit = false, _vm.getMyAccountData()
+      }
+    }
+  }, [_c('i', {
+    staticClass: "material-icons"
+  }, [_vm._v("close")])])])])]), _vm._v(" "), _c('tr', {
+    staticClass: "password-settings"
+  }, [_c('th', [_vm._v("Change-password")]), _vm._v(" "), _c('td', [_c('div', {
+    staticClass: "change-pass-form"
+  }, [_c('input', {
+    directives: [{
+      name: "model",
+      rawName: "v-model",
+      value: (_vm.currentPass),
+      expression: "currentPass"
+    }],
+    attrs: {
+      "type": "password",
+      "placeholder": "Current password",
+      "autofocus": ""
+    },
+    domProps: {
+      "value": (_vm.currentPass)
+    },
+    on: {
+      "input": function($event) {
+        if ($event.target.composing) { return; }
+        _vm.currentPass = $event.target.value
+      }
+    }
+  }), _vm._v(" "), _c('input', {
+    directives: [{
+      name: "model",
+      rawName: "v-model",
+      value: (_vm.newPass),
+      expression: "newPass"
+    }],
+    attrs: {
+      "type": "password",
+      "placeholder": "New password"
+    },
+    domProps: {
+      "value": (_vm.newPass)
+    },
+    on: {
+      "input": function($event) {
+        if ($event.target.composing) { return; }
+        _vm.newPass = $event.target.value
+      }
+    }
+  }), _vm._v(" "), _c('input', {
+    directives: [{
+      name: "model",
+      rawName: "v-model",
+      value: (_vm.newPassConfirm),
+      expression: "newPassConfirm"
+    }],
+    attrs: {
+      "type": "password",
+      "placeholder": "Confirm-password"
+    },
+    domProps: {
+      "value": (_vm.newPassConfirm)
+    },
+    on: {
+      "input": function($event) {
+        if ($event.target.composing) { return; }
+        _vm.newPassConfirm = $event.target.value
+      }
+    }
+  }), _vm._v(" "), (_vm.passwordValidation == true) ? _c('div', {
+    staticClass: "save-new-pass-btn",
+    on: {
+      "click": function($event) {
+        _vm.changeMyPass()
+      }
+    }
+  }, [_vm._v("Save")]) : _c('p', [_vm._v("* " + _vm._s(_vm.passwordValidation))])])]), _vm._v(" "), _vm._m(4)])])])]), _vm._v(" "), _c('div', {
+    staticClass: "my-account-page-right"
+  })])
+},staticRenderFns: [function (){var _vm=this;var _h=_vm.$createElement;var _c=_vm._self._c||_h;
+  return _c('h1', {
+    staticClass: "myacctitle"
+  }, [_c('i', {
+    staticClass: "material-icons"
+  }, [_vm._v("settings")]), _vm._v(" Account Settings")])
+},function (){var _vm=this;var _h=_vm.$createElement;var _c=_vm._self._c||_h;
+  return _c('td', {
+    staticClass: "align-right"
+  }, [_c('i', {
+    staticClass: "material-icons"
+  }, [_vm._v("security")])])
+},function (){var _vm=this;var _h=_vm.$createElement;var _c=_vm._self._c||_h;
+  return _c('td', {
+    staticClass: "align-right"
+  }, [_c('i', {
+    staticClass: "material-icons"
+  }, [_vm._v("security")])])
+},function (){var _vm=this;var _h=_vm.$createElement;var _c=_vm._self._c||_h;
+  return _c('td', {
+    staticClass: "align-right"
+  }, [_c('i', {
+    staticClass: "material-icons"
+  }, [_vm._v("security")])])
+},function (){var _vm=this;var _h=_vm.$createElement;var _c=_vm._self._c||_h;
+  return _c('td', {
+    staticClass: "align-right"
+  }, [_c('button', [_c('i', {
+    staticClass: "material-icons"
+  }, [_vm._v("verified_user")])])])
+}]}
+module.exports.render._withStripped = true
+if (false) {
+  module.hot.accept()
+  if (module.hot.data) {
+     require("vue-hot-reload-api").rerender("data-v-85a9e872", module.exports)
+  }
+}
+
+/***/ }),
+/* 271 */,
+/* 272 */
 /***/ (function(module, exports, __webpack_require__) {
 
 module.exports={render:function (){var _vm=this;var _h=_vm.$createElement;var _c=_vm._self._c||_h;
@@ -30950,12 +31412,183 @@ module.exports.render._withStripped = true
 if (false) {
   module.hot.accept()
   if (module.hot.data) {
-     require("vue-hot-reload-api").rerender("data-v-03a45efa", module.exports)
+     require("vue-hot-reload-api").rerender("data-v-aad50f8a", module.exports)
   }
 }
 
 /***/ }),
-/* 247 */
+/* 273 */,
+/* 274 */
+/***/ (function(module, exports, __webpack_require__) {
+
+module.exports={render:function (){var _vm=this;var _h=_vm.$createElement;var _c=_vm._self._c||_h;
+  return _c('div', {
+    staticClass: "sidebar-online"
+  }, [_c('button', {
+    staticClass: "fixed-userstatus-opener",
+    class: [_vm.IsActive == true ? 'active' : ''],
+    attrs: {
+      "type": "button",
+      "id": "opener-icon",
+      "name": "button"
+    },
+    on: {
+      "click": function($event) {
+        _vm.IsActive = !_vm.IsActive
+      }
+    }
+  }, [(_vm.IsActive == false) ? _c('p', [_vm._v("\n      Online\n      "), _c('i', {
+    staticClass: "material-icons"
+  }, [_vm._v("navigate_next")])]) : _c('p', [_c('i', {
+    staticClass: "material-icons"
+  }, [_vm._v("navigate_before")])])]), _vm._v(" "), _c('div', {
+    staticClass: "list-wrapper"
+  }, [_c('ul', {
+    class: [_vm.IsActive == true ? 'open' : '']
+  }, [_vm._m(0), _vm._v(" "), _c('div', {
+    staticClass: "search-user-container"
+  }, [_c('i', {
+    staticClass: "material-icons"
+  }, [_vm._v("search")]), _vm._v(" "), _c('input', {
+    directives: [{
+      name: "model",
+      rawName: "v-model",
+      value: (_vm.NameSearch),
+      expression: "NameSearch"
+    }],
+    attrs: {
+      "type": "text",
+      "placeholder": "Search"
+    },
+    domProps: {
+      "value": (_vm.NameSearch)
+    },
+    on: {
+      "keyup": function($event) {
+        _vm.fetchOrSearchEmployee()
+      },
+      "input": function($event) {
+        if ($event.target.composing) { return; }
+        _vm.NameSearch = $event.target.value
+      }
+    }
+  }), _vm._v(" "), _c('div', {
+    staticClass: "divider"
+  })]), _vm._v(" "), _c('div', {
+    staticClass: "online-scroll-container"
+  }, _vm._l((_vm.Employees), function(employee) {
+    return _c('li', [_c('p', {
+      staticClass: "employee-list-name"
+    }, [_vm._v(_vm._s(employee.FullName))]), _vm._v(" "), (employee.last_activity == 0) ? _c('p', {
+      staticClass: "online-dot active"
+    }) : _c('p', {
+      staticClass: "last-online-time"
+    }, [_vm._v(_vm._s(employee.last_activity))])])
+  }))])])])
+},staticRenderFns: [function (){var _vm=this;var _h=_vm.$createElement;var _c=_vm._self._c||_h;
+  return _c('div', {
+    staticClass: "online-list-header"
+  }, [_c('p', [_vm._v("CHECK STATUS")])])
+}]}
+module.exports.render._withStripped = true
+if (false) {
+  module.hot.accept()
+  if (module.hot.data) {
+     require("vue-hot-reload-api").rerender("data-v-c046f5ec", module.exports)
+  }
+}
+
+/***/ }),
+/* 275 */,
+/* 276 */,
+/* 277 */
+/***/ (function(module, exports, __webpack_require__) {
+
+module.exports={render:function (){var _vm=this;var _h=_vm.$createElement;var _c=_vm._self._c||_h;
+  return _c('div', {
+    staticClass: "managerbox-container"
+  }, [_c('div', {
+    staticClass: "manager-box"
+  }, [_vm._m(0), _vm._v(" "), _c('div', {
+    staticClass: "manager-assigned-name"
+  }, [(_vm.currentAssigned != null) ? _c('h1', [_vm._v(_vm._s(_vm.currentAssigned.FullName))]) : _c('h1', [_vm._v("No one was assigned")])]), _vm._v(" "), _c('div', {
+    staticClass: "Manager-List"
+  }, [_c('p', [_vm._v("Allow\r\n      "), (_vm.editActive == true) ? _c('select', {
+    directives: [{
+      name: "model",
+      rawName: "v-model",
+      value: (_vm.AssignedManagerID),
+      expression: "AssignedManagerID"
+    }],
+    on: {
+      "change": function($event) {
+        var $$selectedVal = Array.prototype.filter.call($event.target.options, function(o) {
+          return o.selected
+        }).map(function(o) {
+          var val = "_value" in o ? o._value : o.value;
+          return val
+        });
+        _vm.AssignedManagerID = $event.target.multiple ? $$selectedVal : $$selectedVal[0]
+      }
+    }
+  }, [_c('option', {
+    domProps: {
+      "value": null
+    }
+  }, [_vm._v("No one")]), _vm._v(" "), _vm._l((_vm.Managers), function(manager) {
+    return _c('option', {
+      domProps: {
+        "value": manager.id
+      }
+    }, [_vm._v(_vm._s(manager.FullName))])
+  })], 2) : _vm._e(), _vm._v(" "), (_vm.editActive == false && _vm.currentAssigned != null) ? _c('span', {
+    staticClass: "underline"
+  }, [_vm._v(_vm._s(_vm.currentAssigned.FullName))]) : (_vm.editActive == false && _vm.currentAssigned == null) ? _c('span', {
+    staticClass: "underline"
+  }, [_vm._v("no one")]) : _vm._e(), _vm._v("\r\n       to take place whenever im not available")]), _vm._v(" "), (_vm.editActive == false) ? _c('i', {
+    staticClass: "material-icons darker-blue",
+    on: {
+      "click": function($event) {
+        _vm.editActive = true
+      }
+    }
+  }, [_vm._v("border_color")]) : _vm._e(), _vm._v(" "), (_vm.editActive == true) ? _c('span', {
+    staticClass: "update-manager-btns"
+  }, [_c('i', {
+    staticClass: "material-icons color-blue",
+    attrs: {
+      "disable": [_vm.AssignedManagerID == null ? 'true' : 'false']
+    },
+    on: {
+      "click": function($event) {
+        _vm.UpdateManagerToTakePlace()
+      }
+    }
+  }, [_vm._v("check")]), _vm._v(" "), _c('i', {
+    staticClass: "material-icons decliner",
+    on: {
+      "click": function($event) {
+        _vm.editActive = false
+      }
+    }
+  }, [_vm._v("close")])]) : _vm._e()])])])
+},staticRenderFns: [function (){var _vm=this;var _h=_vm.$createElement;var _c=_vm._self._c||_h;
+  return _c('h1', {
+    staticClass: "flex"
+  }, [_c('i', {
+    staticClass: "material-icons color-blue"
+  }, [_vm._v("info")]), _c('p', [_vm._v("This manager will be able to signature any request created that needs your approval, whenever you are not available")])])
+}]}
+module.exports.render._withStripped = true
+if (false) {
+  module.hot.accept()
+  if (module.hot.data) {
+     require("vue-hot-reload-api").rerender("data-v-ce89493c", module.exports)
+  }
+}
+
+/***/ }),
+/* 278 */
 /***/ (function(module, exports, __webpack_require__) {
 
 module.exports={render:function (){var _vm=this;var _h=_vm.$createElement;var _c=_vm._self._c||_h;
@@ -31916,342 +32549,12 @@ module.exports.render._withStripped = true
 if (false) {
   module.hot.accept()
   if (module.hot.data) {
-     require("vue-hot-reload-api").rerender("data-v-0d9b263b", module.exports)
+     require("vue-hot-reload-api").rerender("data-v-cec8d41a", module.exports)
   }
 }
 
 /***/ }),
-/* 248 */
-/***/ (function(module, exports, __webpack_require__) {
-
-module.exports={render:function (){var _vm=this;var _h=_vm.$createElement;var _c=_vm._self._c||_h;
-  return _c('div', {
-    staticClass: "managerbox-container"
-  }, [_c('div', {
-    staticClass: "manager-box"
-  }, [_vm._m(0), _vm._v(" "), _c('div', {
-    staticClass: "manager-assigned-name"
-  }, [(_vm.currentAssigned != null) ? _c('h1', [_vm._v(_vm._s(_vm.currentAssigned.FullName))]) : _c('h1', [_vm._v("No one was assigned")])]), _vm._v(" "), _c('div', {
-    staticClass: "Manager-List"
-  }, [_c('p', [_vm._v("Allow\r\n      "), (_vm.editActive == true) ? _c('select', {
-    directives: [{
-      name: "model",
-      rawName: "v-model",
-      value: (_vm.AssignedManagerID),
-      expression: "AssignedManagerID"
-    }],
-    on: {
-      "change": function($event) {
-        var $$selectedVal = Array.prototype.filter.call($event.target.options, function(o) {
-          return o.selected
-        }).map(function(o) {
-          var val = "_value" in o ? o._value : o.value;
-          return val
-        });
-        _vm.AssignedManagerID = $event.target.multiple ? $$selectedVal : $$selectedVal[0]
-      }
-    }
-  }, [_c('option', {
-    domProps: {
-      "value": null
-    }
-  }, [_vm._v("No one")]), _vm._v(" "), _vm._l((_vm.Managers), function(manager) {
-    return _c('option', {
-      domProps: {
-        "value": manager.id
-      }
-    }, [_vm._v(_vm._s(manager.FullName))])
-  })], 2) : _vm._e(), _vm._v(" "), (_vm.editActive == false && _vm.currentAssigned != null) ? _c('span', {
-    staticClass: "underline"
-  }, [_vm._v(_vm._s(_vm.currentAssigned.FullName))]) : (_vm.editActive == false && _vm.currentAssigned == null) ? _c('span', {
-    staticClass: "underline"
-  }, [_vm._v("no one")]) : _vm._e(), _vm._v("\r\n       to take place whenever im not available")]), _vm._v(" "), (_vm.editActive == false) ? _c('i', {
-    staticClass: "material-icons darker-blue",
-    on: {
-      "click": function($event) {
-        _vm.editActive = true
-      }
-    }
-  }, [_vm._v("border_color")]) : _vm._e(), _vm._v(" "), (_vm.editActive == true) ? _c('span', {
-    staticClass: "update-manager-btns"
-  }, [_c('i', {
-    staticClass: "material-icons color-blue",
-    attrs: {
-      "disable": [_vm.AssignedManagerID == null ? 'true' : 'false']
-    },
-    on: {
-      "click": function($event) {
-        _vm.UpdateManagerToTakePlace()
-      }
-    }
-  }, [_vm._v("check")]), _vm._v(" "), _c('i', {
-    staticClass: "material-icons decliner",
-    on: {
-      "click": function($event) {
-        _vm.editActive = false
-      }
-    }
-  }, [_vm._v("close")])]) : _vm._e()])])])
-},staticRenderFns: [function (){var _vm=this;var _h=_vm.$createElement;var _c=_vm._self._c||_h;
-  return _c('h1', {
-    staticClass: "flex"
-  }, [_c('i', {
-    staticClass: "material-icons color-blue"
-  }, [_vm._v("info")]), _c('p', [_vm._v("This manager will be able to signature any request created that needs your approval, whenever you are not available")])])
-}]}
-module.exports.render._withStripped = true
-if (false) {
-  module.hot.accept()
-  if (module.hot.data) {
-     require("vue-hot-reload-api").rerender("data-v-0dbaebaa", module.exports)
-  }
-}
-
-/***/ }),
-/* 249 */,
-/* 250 */,
-/* 251 */,
-/* 252 */,
-/* 253 */,
-/* 254 */
-/***/ (function(module, exports, __webpack_require__) {
-
-module.exports={render:function (){var _vm=this;var _h=_vm.$createElement;var _c=_vm._self._c||_h;
-  return _c('div', {
-    staticClass: "my-account-settings-vue"
-  }, [_c('div', {
-    staticClass: "my-account-page-left"
-  }), _vm._v(" "), _c('div', {
-    staticClass: "my-account-page-middle"
-  }, [_vm._m(0), _vm._v(" "), _c('div', {
-    staticClass: "myaccount-settings-table-container"
-  }, [_c('table', [_c('tr', [_c('th', [_vm._v("Fullname")]), _c('td', [_vm._v(_vm._s(_vm.MyData.FullName))]), _vm._m(1)]), _vm._v(" "), _c('tr', [_c('th', [_vm._v("Position")]), _c('td', [_vm._v(_vm._s(_vm.MyData.Position))]), _vm._m(2)]), _vm._v(" "), _c('tr', [_c('th', [_vm._v("Signature")]), _c('td', [(_vm.MyData.Signature != null) ? _c('img', {
-    attrs: {
-      "src": 'storage/signatures/' + _vm.MyData.Signature
-    }
-  }) : _vm._e()]), _vm._m(3)]), _vm._v(" "), _c('tr', [_c('th', [_vm._v("Contact")]), _vm._v(" "), (_vm.contactEdit == false) ? _c('td', [_vm._v(_vm._s(_vm.MyData.Mobile))]) : _c('td', [_c('input', {
-    directives: [{
-      name: "model",
-      rawName: "v-model",
-      value: (_vm.NewContact = _vm.MyData.Mobile),
-      expression: "NewContact = MyData.Mobile"
-    }],
-    attrs: {
-      "type": "text",
-      "autofocus": ""
-    },
-    domProps: {
-      "value": (_vm.NewContact = _vm.MyData.Mobile)
-    },
-    on: {
-      "input": function($event) {
-        if ($event.target.composing) { return; }
-        _vm.NewContact = _vm.MyData.Mobile = $event.target.value
-      }
-    }
-  })]), _vm._v(" "), _c('td', {
-    staticClass: "align-right"
-  }, [(_vm.contactEdit == false) ? _c('button', {
-    on: {
-      "click": function($event) {
-        _vm.contactEdit = true
-      }
-    }
-  }, [_vm._v("Edit")]) : _c('div', {
-    staticClass: "acc-small-modal-setting"
-  }, [_c('button', {
-    attrs: {
-      "type": "button"
-    },
-    on: {
-      "click": function($event) {
-        _vm.contactEdit = false, _vm.updateNewMobile()
-      }
-    }
-  }, [_c('i', {
-    staticClass: "material-icons"
-  }, [_vm._v("check")])]), _vm._v(" "), _c('button', {
-    attrs: {
-      "type": "button"
-    },
-    on: {
-      "click": function($event) {
-        _vm.contactEdit = false, _vm.getMyAccountData()
-      }
-    }
-  }, [_c('i', {
-    staticClass: "material-icons"
-  }, [_vm._v("close")])])])])]), _vm._v(" "), _c('tr', [_c('th', [_vm._v("Username")]), _vm._v(" "), (_vm.usernameEdit == false) ? _c('td', [_vm._v(_vm._s(_vm.MyData.Username))]) : _c('td', [_c('input', {
-    directives: [{
-      name: "model",
-      rawName: "v-model",
-      value: (_vm.NewUsername = _vm.MyData.Username),
-      expression: "NewUsername = MyData.Username"
-    }],
-    attrs: {
-      "type": "text",
-      "autofocus": ""
-    },
-    domProps: {
-      "value": (_vm.NewUsername = _vm.MyData.Username)
-    },
-    on: {
-      "input": function($event) {
-        if ($event.target.composing) { return; }
-        _vm.NewUsername = _vm.MyData.Username = $event.target.value
-      }
-    }
-  })]), _vm._v(" "), _c('td', {
-    staticClass: "align-right"
-  }, [(_vm.usernameEdit == false) ? _c('button', {
-    on: {
-      "click": function($event) {
-        _vm.usernameEdit = true
-      }
-    }
-  }, [_vm._v("Edit")]) : _c('div', {
-    staticClass: "acc-small-modal-setting"
-  }, [_c('button', {
-    attrs: {
-      "type": "button"
-    },
-    on: {
-      "click": function($event) {
-        _vm.usernameEdit = false, _vm.updateNewUserName()
-      }
-    }
-  }, [_c('i', {
-    staticClass: "material-icons"
-  }, [_vm._v("check")])]), _vm._v(" "), _c('button', {
-    attrs: {
-      "type": "button"
-    },
-    on: {
-      "click": function($event) {
-        _vm.usernameEdit = false, _vm.getMyAccountData()
-      }
-    }
-  }, [_c('i', {
-    staticClass: "material-icons"
-  }, [_vm._v("close")])])])])]), _vm._v(" "), _c('tr', {
-    staticClass: "password-settings"
-  }, [_c('th', [_vm._v("Change-password")]), _vm._v(" "), _c('td', [_c('div', {
-    staticClass: "change-pass-form"
-  }, [_c('input', {
-    directives: [{
-      name: "model",
-      rawName: "v-model",
-      value: (_vm.currentPass),
-      expression: "currentPass"
-    }],
-    attrs: {
-      "type": "password",
-      "placeholder": "Current password",
-      "autofocus": ""
-    },
-    domProps: {
-      "value": (_vm.currentPass)
-    },
-    on: {
-      "input": function($event) {
-        if ($event.target.composing) { return; }
-        _vm.currentPass = $event.target.value
-      }
-    }
-  }), _vm._v(" "), _c('input', {
-    directives: [{
-      name: "model",
-      rawName: "v-model",
-      value: (_vm.newPass),
-      expression: "newPass"
-    }],
-    attrs: {
-      "type": "password",
-      "placeholder": "New password"
-    },
-    domProps: {
-      "value": (_vm.newPass)
-    },
-    on: {
-      "input": function($event) {
-        if ($event.target.composing) { return; }
-        _vm.newPass = $event.target.value
-      }
-    }
-  }), _vm._v(" "), _c('input', {
-    directives: [{
-      name: "model",
-      rawName: "v-model",
-      value: (_vm.newPassConfirm),
-      expression: "newPassConfirm"
-    }],
-    attrs: {
-      "type": "password",
-      "placeholder": "Confirm-password"
-    },
-    domProps: {
-      "value": (_vm.newPassConfirm)
-    },
-    on: {
-      "input": function($event) {
-        if ($event.target.composing) { return; }
-        _vm.newPassConfirm = $event.target.value
-      }
-    }
-  }), _vm._v(" "), (_vm.passwordValidation == true) ? _c('div', {
-    staticClass: "save-new-pass-btn",
-    on: {
-      "click": function($event) {
-        _vm.changeMyPass()
-      }
-    }
-  }, [_vm._v("Save")]) : _c('p', [_vm._v("* " + _vm._s(_vm.passwordValidation))])])]), _vm._v(" "), _vm._m(4)])])])]), _vm._v(" "), _c('div', {
-    staticClass: "my-account-page-right"
-  })])
-},staticRenderFns: [function (){var _vm=this;var _h=_vm.$createElement;var _c=_vm._self._c||_h;
-  return _c('h1', {
-    staticClass: "myacctitle"
-  }, [_c('i', {
-    staticClass: "material-icons"
-  }, [_vm._v("settings")]), _vm._v(" Account Settings")])
-},function (){var _vm=this;var _h=_vm.$createElement;var _c=_vm._self._c||_h;
-  return _c('td', {
-    staticClass: "align-right"
-  }, [_c('i', {
-    staticClass: "material-icons"
-  }, [_vm._v("security")])])
-},function (){var _vm=this;var _h=_vm.$createElement;var _c=_vm._self._c||_h;
-  return _c('td', {
-    staticClass: "align-right"
-  }, [_c('i', {
-    staticClass: "material-icons"
-  }, [_vm._v("security")])])
-},function (){var _vm=this;var _h=_vm.$createElement;var _c=_vm._self._c||_h;
-  return _c('td', {
-    staticClass: "align-right"
-  }, [_c('i', {
-    staticClass: "material-icons"
-  }, [_vm._v("security")])])
-},function (){var _vm=this;var _h=_vm.$createElement;var _c=_vm._self._c||_h;
-  return _c('td', {
-    staticClass: "align-right"
-  }, [_c('button', [_c('i', {
-    staticClass: "material-icons"
-  }, [_vm._v("verified_user")])])])
-}]}
-module.exports.render._withStripped = true
-if (false) {
-  module.hot.accept()
-  if (module.hot.data) {
-     require("vue-hot-reload-api").rerender("data-v-322a9c0f", module.exports)
-  }
-}
-
-/***/ }),
-/* 255 */,
-/* 256 */,
-/* 257 */,
-/* 258 */
+/* 279 */
 /***/ (function(module, exports, __webpack_require__) {
 
 module.exports={render:function (){var _vm=this;var _h=_vm.$createElement;var _c=_vm._self._c||_h;
@@ -32567,310 +32870,7 @@ module.exports.render._withStripped = true
 if (false) {
   module.hot.accept()
   if (module.hot.data) {
-     require("vue-hot-reload-api").rerender("data-v-423fcf9a", module.exports)
-  }
-}
-
-/***/ }),
-/* 259 */,
-/* 260 */,
-/* 261 */,
-/* 262 */,
-/* 263 */,
-/* 264 */,
-/* 265 */,
-/* 266 */,
-/* 267 */,
-/* 268 */,
-/* 269 */,
-/* 270 */,
-/* 271 */,
-/* 272 */,
-/* 273 */
-/***/ (function(module, exports, __webpack_require__) {
-
-module.exports={render:function (){var _vm=this;var _h=_vm.$createElement;var _c=_vm._self._c||_h;
-  return _c('div', {
-    staticClass: "sidebar-online"
-  }, [_c('button', {
-    staticClass: "fixed-userstatus-opener",
-    class: [_vm.IsActive == true ? 'active' : ''],
-    attrs: {
-      "type": "button",
-      "id": "opener-icon",
-      "name": "button"
-    },
-    on: {
-      "click": function($event) {
-        _vm.IsActive = !_vm.IsActive
-      }
-    }
-  }, [(_vm.IsActive == false) ? _c('p', [_vm._v("\n      Online\n      "), _c('i', {
-    staticClass: "material-icons"
-  }, [_vm._v("navigate_next")])]) : _c('p', [_c('i', {
-    staticClass: "material-icons"
-  }, [_vm._v("navigate_before")])])]), _vm._v(" "), _c('div', {
-    staticClass: "list-wrapper"
-  }, [_c('ul', {
-    class: [_vm.IsActive == true ? 'open' : '']
-  }, [_vm._m(0), _vm._v(" "), _c('div', {
-    staticClass: "search-user-container"
-  }, [_c('i', {
-    staticClass: "material-icons"
-  }, [_vm._v("search")]), _vm._v(" "), _c('input', {
-    directives: [{
-      name: "model",
-      rawName: "v-model",
-      value: (_vm.NameSearch),
-      expression: "NameSearch"
-    }],
-    attrs: {
-      "type": "text",
-      "placeholder": "Search"
-    },
-    domProps: {
-      "value": (_vm.NameSearch)
-    },
-    on: {
-      "keyup": function($event) {
-        _vm.fetchOrSearchEmployee()
-      },
-      "input": function($event) {
-        if ($event.target.composing) { return; }
-        _vm.NameSearch = $event.target.value
-      }
-    }
-  }), _vm._v(" "), _c('div', {
-    staticClass: "divider"
-  })]), _vm._v(" "), _c('div', {
-    staticClass: "online-scroll-container"
-  }, _vm._l((_vm.Employees), function(employee) {
-    return _c('li', [_c('p', {
-      staticClass: "employee-list-name"
-    }, [_vm._v(_vm._s(employee.FullName))]), _vm._v(" "), (employee.last_activity == 0) ? _c('p', {
-      staticClass: "online-dot active"
-    }) : _c('p', {
-      staticClass: "last-online-time"
-    }, [_vm._v(_vm._s(employee.last_activity))])])
-  }))])])])
-},staticRenderFns: [function (){var _vm=this;var _h=_vm.$createElement;var _c=_vm._self._c||_h;
-  return _c('div', {
-    staticClass: "online-list-header"
-  }, [_c('p', [_vm._v("CHECK STATUS")])])
-}]}
-module.exports.render._withStripped = true
-if (false) {
-  module.hot.accept()
-  if (module.hot.data) {
-     require("vue-hot-reload-api").rerender("data-v-8161947c", module.exports)
-  }
-}
-
-/***/ }),
-/* 274 */,
-/* 275 */,
-/* 276 */,
-/* 277 */,
-/* 278 */,
-/* 279 */
-/***/ (function(module, exports, __webpack_require__) {
-
-module.exports={render:function (){var _vm=this;var _h=_vm.$createElement;var _c=_vm._self._c||_h;
-  return _c('div', {
-    staticClass: "cov-vue-date"
-  }, [_c('div', {
-    staticClass: "datepickbox"
-  }, [_c('input', {
-    directives: [{
-      name: "model",
-      rawName: "v-model",
-      value: (_vm.date.time),
-      expression: "date.time"
-    }],
-    staticClass: "cov-datepicker",
-    style: (_vm.option.inputStyle ? _vm.option.inputStyle : {}),
-    attrs: {
-      "type": "text",
-      "title": "input date",
-      "readonly": "readonly",
-      "placeholder": _vm.option.placeholder,
-      "required": _vm.required
-    },
-    domProps: {
-      "value": (_vm.date.time)
-    },
-    on: {
-      "click": _vm.showCheck,
-      "foucus": _vm.showCheck,
-      "input": function($event) {
-        if ($event.target.composing) { return; }
-        _vm.date.time = $event.target.value
-      }
-    }
-  })]), _vm._v(" "), (_vm.showInfo.check) ? _c('div', {
-    staticClass: "datepicker-overlay",
-    style: ({
-      'background': _vm.option.overlayOpacity ? 'rgba(0,0,0,' + _vm.option.overlayOpacity + ')' : 'rgba(0,0,0,0.5)'
-    }),
-    on: {
-      "click": function($event) {
-        _vm.dismiss($event)
-      }
-    }
-  }, [_c('div', {
-    staticClass: "cov-date-body",
-    style: ({
-      'background-color': _vm.option.color ? _vm.option.color.header : '#3f51b5'
-    })
-  }, [_c('div', {
-    staticClass: "cov-date-monthly"
-  }, [_c('div', {
-    staticClass: "cov-date-previous",
-    on: {
-      "click": function($event) {
-        _vm.nextMonth('pre')
-      }
-    }
-  }, [_vm._v("«")]), _vm._v(" "), _c('div', {
-    staticClass: "cov-date-caption",
-    style: ({
-      'color': _vm.option.color ? _vm.option.color.headerText : '#fff'
-    })
-  }, [_c('span', {
-    on: {
-      "click": _vm.showYear
-    }
-  }, [_c('small', [_vm._v(_vm._s(_vm.checked.year))])]), _vm._v(" "), _c('br'), _vm._v(" "), _c('span', {
-    on: {
-      "click": _vm.showMonth
-    }
-  }, [_vm._v(_vm._s(_vm.displayInfo.month))])]), _vm._v(" "), _c('div', {
-    staticClass: "cov-date-next",
-    on: {
-      "click": function($event) {
-        _vm.nextMonth('next')
-      }
-    }
-  }, [_vm._v("»")])]), _vm._v(" "), (_vm.showInfo.day) ? _c('div', {
-    staticClass: "cov-date-box"
-  }, [_c('div', {
-    staticClass: "cov-picker-box"
-  }, [_c('div', {
-    staticClass: "week"
-  }, [_c('ul', _vm._l((_vm.library.week), function(weekie) {
-    return _c('li', [_vm._v(_vm._s(weekie))])
-  }))]), _vm._v(" "), _vm._l((_vm.dayList), function(day) {
-    return _c('div', {
-      staticClass: "day",
-      class: {
-        'checked': day.checked, 'unavailable': day.unavailable, 'passive-day': !(day.inMonth)
-      },
-      style: (day.checked ? (_vm.option.color && _vm.option.color.checkedDay ? {
-        background: _vm.option.color.checkedDay
-      } : {
-        background: '#F50057'
-      }) : {}),
-      attrs: {
-        "track-by": "$index"
-      },
-      on: {
-        "click": function($event) {
-          _vm.checkDay(day)
-        }
-      }
-    }, [_vm._v(_vm._s(day.value))])
-  })], 2)]) : _vm._e(), _vm._v(" "), (_vm.showInfo.year) ? _c('div', {
-    staticClass: "cov-date-box list-box"
-  }, [_c('div', {
-    staticClass: "cov-picker-box date-list",
-    attrs: {
-      "id": "yearList"
-    }
-  }, _vm._l((_vm.library.year), function(yearItem) {
-    return _c('div', {
-      staticClass: "date-item",
-      attrs: {
-        "track-by": "$index"
-      },
-      on: {
-        "click": function($event) {
-          _vm.setYear(yearItem)
-        }
-      }
-    }, [_vm._v(_vm._s(yearItem))])
-  }))]) : _vm._e(), _vm._v(" "), (_vm.showInfo.month) ? _c('div', {
-    staticClass: "cov-date-box list-box"
-  }, [_c('div', {
-    staticClass: "cov-picker-box date-list"
-  }, _vm._l((_vm.library.month), function(monthItem) {
-    return _c('div', {
-      staticClass: "date-item",
-      attrs: {
-        "track-by": "$index"
-      },
-      on: {
-        "click": function($event) {
-          _vm.setMonth(monthItem)
-        }
-      }
-    }, [_vm._v(_vm._s(monthItem))])
-  }))]) : _vm._e(), _vm._v(" "), (_vm.showInfo.hour) ? _c('div', {
-    staticClass: "cov-date-box list-box"
-  }, [_c('div', {
-    staticClass: "cov-picker-box date-list"
-  }, [_c('div', {
-    staticClass: "watch-box"
-  }, [_c('div', {
-    staticClass: "hour-box"
-  }, [_c('div', {
-    staticClass: "mui-pciker-rule mui-pciker-rule-ft"
-  }), _vm._v(" "), _c('ul', _vm._l((_vm.hours), function(hitem) {
-    return _c('li', {
-      staticClass: "hour-item",
-      class: {
-        'active': hitem.checked
-      },
-      on: {
-        "click": function($event) {
-          _vm.setTime('hour', hitem, _vm.hours)
-        }
-      }
-    }, [_vm._v(_vm._s(hitem.value))])
-  }))]), _vm._v(" "), _c('div', {
-    staticClass: "min-box"
-  }, [_c('div', {
-    staticClass: "mui-pciker-rule mui-pciker-rule-ft"
-  }), _vm._v(" "), _vm._l((_vm.mins), function(mitem) {
-    return _c('div', {
-      staticClass: "min-item",
-      class: {
-        'active': mitem.checked
-      },
-      on: {
-        "click": function($event) {
-          _vm.setTime('min', mitem, _vm.mins)
-        }
-      }
-    }, [_vm._v(_vm._s(mitem.value))])
-  })], 2)])])]) : _vm._e(), _vm._v(" "), _c('div', {
-    staticClass: "button-box"
-  }, [_c('span', {
-    on: {
-      "click": function($event) {
-        _vm.showInfo.check = false
-      }
-    }
-  }, [_vm._v(_vm._s(_vm.option.buttons ? _vm.option.buttons.cancel : 'Cancel'))]), _vm._v(" "), _c('span', {
-    on: {
-      "click": _vm.picked
-    }
-  }, [_vm._v(_vm._s(_vm.option.buttons ? _vm.option.buttons.ok : 'Ok'))])])])]) : _vm._e()])
-},staticRenderFns: []}
-module.exports.render._withStripped = true
-if (false) {
-  module.hot.accept()
-  if (module.hot.data) {
-     require("vue-hot-reload-api").rerender("data-v-f0f9b5a8", module.exports)
+     require("vue-hot-reload-api").rerender("data-v-e970802a", module.exports)
   }
 }
 
@@ -32885,13 +32885,13 @@ var content = __webpack_require__(207);
 if(typeof content === 'string') content = [[module.i, content, '']];
 if(content.locals) module.exports = content.locals;
 // add the styles to the DOM
-var update = __webpack_require__(281)("788feef5", content, false);
+var update = __webpack_require__(281)("03a0bf76", content, false);
 // Hot Module Replacement
 if(false) {
  // When the styles change, update the <style> tags
  if(!content.locals) {
-   module.hot.accept("!!../css-loader/index.js!../vue-loader/lib/style-compiler/index.js?{\"id\":\"data-v-f0f9b5a8\",\"scoped\":true,\"hasInlineConfig\":true}!../vue-loader/lib/selector.js?type=styles&index=0!./vue-datepicker.vue", function() {
-     var newContent = require("!!../css-loader/index.js!../vue-loader/lib/style-compiler/index.js?{\"id\":\"data-v-f0f9b5a8\",\"scoped\":true,\"hasInlineConfig\":true}!../vue-loader/lib/selector.js?type=styles&index=0!./vue-datepicker.vue");
+   module.hot.accept("!!../css-loader/index.js!../vue-loader/lib/style-compiler/index.js?{\"id\":\"data-v-345e1238\",\"scoped\":true,\"hasInlineConfig\":true}!../vue-loader/lib/selector.js?type=styles&index=0!./vue-datepicker.vue", function() {
+     var newContent = require("!!../css-loader/index.js!../vue-loader/lib/style-compiler/index.js?{\"id\":\"data-v-345e1238\",\"scoped\":true,\"hasInlineConfig\":true}!../vue-loader/lib/selector.js?type=styles&index=0!./vue-datepicker.vue");
      if(typeof newContent === 'string') newContent = [[module.id, newContent, '']];
      update(newContent);
    });
