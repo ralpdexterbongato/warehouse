@@ -15,6 +15,7 @@ use App\Jobs\POApprovalReplacer;
 use App\RVDetail;
 use App\Signatureable;
 use App\Jobs\GlobalNotifJob;
+use App\Notification;
 class POController extends Controller
 {
     public function GeneratePOfromCanvass(Request $request)
@@ -112,6 +113,42 @@ class POController extends Controller
       $NotifyId=(object)$NotifyId;
       $job=(new NewCreatedPOJob($NotifyId))->delay(Carbon::now()->addSeconds(5));
       dispatch($job);
+      foreach ($toDBMaster as $key => $PORow)
+      {
+        $PORow = (object)$PORow;
+        // global notification for GM replacer
+        $NotificationTbl = new Notification;
+        $NotificationTbl->user_id = $ApprovalReplacer[0]->id;
+        $NotificationTbl->NotificationType = 'Request';
+        $NotificationTbl->FileType = 'PO';
+        $NotificationTbl->FileNo =$PORow->PONo;
+        $NotificationTbl->TimeNotified = Carbon::now();
+        $NotificationTbl->save();
+        // global notif trigger
+        $ReceiverID = array('id' =>$GM[0]->id);
+        $ReceiverID = (object)$ReceiverID;
+        $job = (new GlobalNotifJob($ReceiverID))
+        ->delay(Carbon::now()->addSeconds(5));
+        dispatch($job);
+      }
+    }
+    foreach ($toDBMaster as $key => $PORow)
+    {
+      $PORow = (object)$PORow;
+      // global notification for GM
+      $NotificationTbl = new Notification;
+      $NotificationTbl->user_id = $GM[0]->id;
+      $NotificationTbl->NotificationType = 'Request';
+      $NotificationTbl->FileType = 'PO';
+      $NotificationTbl->FileNo =$PORow->PONo;
+      $NotificationTbl->TimeNotified = Carbon::now();
+      $NotificationTbl->save();
+      // global notif trigger
+      $ReceiverID = array('id' =>$GM[0]->id);
+      $ReceiverID = (object)$ReceiverID;
+      $job = (new GlobalNotifJob($ReceiverID))
+      ->delay(Carbon::now()->addSeconds(5));
+      dispatch($job);
     }
   }
     return ['redirect'=>route('POListView',[$request->RVNo])];
@@ -143,13 +180,23 @@ class POController extends Controller
     POMaster::where('PONo',$id)->update(['Status'=>'0']);
     Signatureable::where('user_id', Auth::user()->id)->where('signatureable_id', $id)->where('signatureable_type','App\POMaster')->where('SignatureType','ApprovedBy')->update(['Signature'=>'0']);
     Signatureable::where('signatureable_id', $id)->where('signatureable_type','App\POMaster')->where('SignatureType','ApprovalReplacer')->delete();
-    // notify warehouseman the creator
+    //notify creator
     $POMaster=POMaster::where('PONo',$id)->get(['CreatorID']);
+    $NotificationTbl = new Notification;
+    $NotificationTbl->user_id = $POMaster[0]->CreatorID;
+    $NotificationTbl->NotificationType = 'Approved';
+    $NotificationTbl->FileType = 'PO';
+    $NotificationTbl->FileNo =$id;
+    $NotificationTbl->TimeNotified = Carbon::now();
+    $NotificationTbl->save();
+
+    // global notification trigger
     $ReceiverID = array('id' =>$POMaster[0]->CreatorID);
     $ReceiverID = (object)$ReceiverID;
     $job = (new GlobalNotifJob($ReceiverID))
     ->delay(Carbon::now()->addSeconds(5));
     dispatch($job);
+
   }
   public function GMDeclined($id)
   {
@@ -169,8 +216,17 @@ class POController extends Controller
         }
       }
     }
-    // notify warehouseman the creator
+    // notify the creator
     $POMaster=POMaster::where('PONo',$id)->get(['CreatorID']);
+    $NotificationTbl = new Notification;
+    $NotificationTbl->user_id = $POMaster[0]->CreatorID;
+    $NotificationTbl->NotificationType = 'Declined';
+    $NotificationTbl->FileType = 'PO';
+    $NotificationTbl->FileNo =$id;
+    $NotificationTbl->TimeNotified = Carbon::now();
+    $NotificationTbl->save();
+
+    //global notification trigger
     $ReceiverID = array('id' =>$POMaster[0]->CreatorID);
     $ReceiverID = (object)$ReceiverID;
     $job = (new GlobalNotifJob($ReceiverID))
@@ -185,6 +241,21 @@ class POController extends Controller
   public function RefuseAuthorizeInBehalf($id)
   {
     Signatureable::where('user_id', Auth::user()->id)->where('signatureable_id', $id)->where('signatureable_type', 'App\POMaster')->where('SignatureType', 'ApprovalReplacer')->delete();
+    $POMaster=POMaster::where('PONo',$id)->get(['CreatorID']);
+    $NotificationTbl = new Notification;
+    $NotificationTbl->user_id = $POMaster[0]->CreatorID;
+    $NotificationTbl->NotificationType = 'Refused';
+    $NotificationTbl->FileType = 'PO';
+    $NotificationTbl->FileNo =$id;
+    $NotificationTbl->TimeNotified = Carbon::now();
+    $NotificationTbl->save();
+
+    // notify warehouseman the creator
+    $ReceiverID = array('id' =>$POMaster[0]->CreatorID);
+    $ReceiverID = (object)$ReceiverID;
+    $job = (new GlobalNotifJob($ReceiverID))
+    ->delay(Carbon::now()->addSeconds(5));
+    dispatch($job);
   }
   public function AuthorizeInBehalfconfirmed($id)
   {
@@ -197,6 +268,38 @@ class POController extends Controller
     $data = array('Mobile' =>$GMMobile, 'PONo'=>$id,'Replacer'=>Auth::user()->FullName);
     $data=(object)$data;
     $job = (new POApprovalReplacer($data))->delay(Carbon::now()->addSeconds(5));
+    dispatch($job);
+
+    // for GM alert
+    $NotificationTbl = new Notification;
+    $NotificationTbl->user_id = $GMId;
+    $NotificationTbl->NotificationType = 'Replaced';
+    $NotificationTbl->FileType = 'PO';
+    $NotificationTbl->FileNo =$id;
+    $NotificationTbl->TimeNotified = Carbon::now();
+    $NotificationTbl->save();
+
+    // global notification trigger
+    $ReceiverID = array('id' =>$GMId);
+    $ReceiverID = (object)$ReceiverID;
+    $job = (new GlobalNotifJob($ReceiverID))
+    ->delay(Carbon::now()->addSeconds(5));
+    dispatch($job);
+
+    $POMaster=POMaster::where('PONo',$id)->get(['CreatorID']);
+    $NotificationTbl = new Notification;
+    $NotificationTbl->user_id = $POMaster[0]->CreatorID;
+    $NotificationTbl->NotificationType = 'Approved';
+    $NotificationTbl->FileType = 'PO';
+    $NotificationTbl->FileNo =$id;
+    $NotificationTbl->TimeNotified = Carbon::now();
+    $NotificationTbl->save();
+
+    // global notification trigger
+    $ReceiverID = array('id' =>$POMaster[0]->CreatorID);
+    $ReceiverID = (object)$ReceiverID;
+    $job = (new GlobalNotifJob($ReceiverID))
+    ->delay(Carbon::now()->addSeconds(5));
     dispatch($job);
   }
   public function MyPORequestCount()
