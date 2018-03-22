@@ -267,12 +267,18 @@ class MIRSController extends Controller
       $NotificationTbl->TimeNotified = Carbon::now();
       $NotificationTbl->save();
 
-      $tobeNotifycontainer= array('tobeNotify' =>$GMId[0]->user_id);
-      $tobeNotifycontainer=(object)$tobeNotifycontainer;
-      $job = (new SendMIRSNotification($tobeNotifycontainer))
-                    ->delay(Carbon::now()->addSeconds(5));
+      // global notif trigger
+      $ReceiverID = array('id' =>$GMId[0]->user_id);
+      $ReceiverID = (object)$ReceiverID;
+      $job = (new GlobalNotifJob($ReceiverID))
+      ->delay(Carbon::now()->addSeconds(5));
       dispatch($job);
 
+      $tobeNotifycontainer  = array('tobeNotify' =>$GMId[0]->user_id);
+      $tobeNotifycontainer=(object)$tobeNotifycontainer;
+      $job = (new SendMIRSNotification($tobeNotifycontainer))
+                  ->delay(Carbon::now()->addSeconds(5));
+      dispatch($job);
       if (!empty($ApprovalReplacerId[0]))
       {
         $NotificationTbl = new Notification;
@@ -283,11 +289,19 @@ class MIRSController extends Controller
         $NotificationTbl->TimeNotified = Carbon::now();
         $NotificationTbl->save();
 
+        // global notif trigger
+        $ReceiverID = array('id' =>$ApprovalReplacerId[0]->user_id);
+        $ReceiverID = (object)$ReceiverID;
+        $job = (new GlobalNotifJob($ReceiverID))
+        ->delay(Carbon::now()->addSeconds(5));
+        dispatch($job);
+
         $tobeNotifycontainer  = array('tobeNotify' =>$ApprovalReplacerId[0]->user_id);
         $tobeNotifycontainer=(object)$tobeNotifycontainer;
         $job = (new SendMIRSNotification($tobeNotifycontainer))
                     ->delay(Carbon::now()->addSeconds(5));
         dispatch($job);
+
       }
     }
     if ($GMId[0]->user_id==Auth::user()->id)
@@ -377,6 +391,20 @@ class MIRSController extends Controller
     ->delay(Carbon::now()->addSeconds(5));
     dispatch($job);
 
+    $NotificationTbl = new Notification;
+    $NotificationTbl->user_id = $GMId[0]->user_id;
+    $NotificationTbl->NotificationType = 'Replaced';
+    $NotificationTbl->FileType = 'MIRS';
+    $NotificationTbl->FileNo = $id;
+    $NotificationTbl->TimeNotified = Carbon::now();
+    $NotificationTbl->save();
+
+    // global notif trigger
+    $ReceiverID = array('id' =>$GMId[0]->user_id);
+    $ReceiverID = (object)$ReceiverID;
+    $job = (new GlobalNotifJob($ReceiverID))
+    ->delay(Carbon::now()->addSeconds(5));
+    dispatch($job);
     return ['success'=>'success'];
   }
   public function fetchAllManager()
@@ -509,6 +537,21 @@ class MIRSController extends Controller
     $data = array('Mobile' =>$RealSignaturerMobile, 'MIRSNo'=>$id,'Replacer'=>Auth::user()->FullName);
     $data=(object)$data;
     $job = (new MIRSManagerReplacer($data))->delay(Carbon::now()->addSeconds(5));
+    dispatch($job);
+
+    $NotificationTbl = new Notification;
+    $NotificationTbl->user_id = $RealSignaturerId;
+    $NotificationTbl->NotificationType = 'Replaced';
+    $NotificationTbl->FileType = 'MIRS';
+    $NotificationTbl->FileNo = $id;
+    $NotificationTbl->TimeNotified = Carbon::now();
+    $NotificationTbl->save();
+
+    // global notif trigger
+    $ReceiverID = array('id' =>$RealSignaturerId);
+    $ReceiverID = (object)$ReceiverID;
+    $job = (new GlobalNotifJob($ReceiverID))
+    ->delay(Carbon::now()->addSeconds(5));
     dispatch($job);
 
   }

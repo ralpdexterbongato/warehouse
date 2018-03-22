@@ -37,9 +37,13 @@
               <p v-if="notification.NotificationType=='Updated'">
                  The file has been updated & the signatures restarted.
               </p>
+              <p v-if="notification.NotificationType=='Replaced'">
+                 A manager signatured a file in behalf of you.
+              </p>
               <br>
               <div class="time-notified">
                 <i v-if="notification.NotificationType=='Approved'" class="material-icons color-blue">check_circle</i>
+                <i v-if="notification.NotificationType=='Replaced'" class="material-icons color-blue">loop</i>
                 <i v-if="notification.NotificationType=='Updated'" class="material-icons color-blue">border_color</i>
                 <i v-if="notification.NotificationType=='Request'" class="material-icons color-blue">note_add</i>
                 <i v-if="notification.NotificationType=='Declined'||notification.NotificationType=='Canceled'||notification.NotificationType=='Refused'" class="material-icons color-red">close</i>
