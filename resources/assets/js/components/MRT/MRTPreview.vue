@@ -4,7 +4,7 @@
       <p v-if="MRTMaster.IsRollBack==0"><i class="material-icons">warning</i>Invalid transaction</p>
     </div>
     <div class="top-MRT-buttons">
-      <div class="mrt-print" v-if="MRTMaster.Status==0">
+      <div class="mrt-print" v-if="MRTMaster.Status==0 && MRTMaster.CreatorID==user.id">
         <a :href="'/print-mrt.pdf/'+MRTMaster.MRTNo">
           <button type="button" name="button">PDF</button>
         </a>

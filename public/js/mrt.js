@@ -12711,7 +12711,7 @@ module.exports={render:function (){var _vm=this;var _h=_vm.$createElement;var _c
     staticClass: "material-icons"
   }, [_vm._v("warning")]), _vm._v("Invalid transaction")]) : _vm._e()]), _vm._v(" "), _c('div', {
     staticClass: "top-MRT-buttons"
-  }, [(_vm.MRTMaster.Status == 0) ? _c('div', {
+  }, [(_vm.MRTMaster.Status == 0 && _vm.MRTMaster.CreatorID == _vm.user.id) ? _c('div', {
     staticClass: "mrt-print"
   }, [_c('a', {
     attrs: {

@@ -16,6 +16,7 @@ use App\MasterItem;
 use App\Jobs\NewCreatedMRTJob;
 use App\User;
 use App\Signatureable;
+use App\Notification;
 use App\Jobs\GlobalNotifJob;
 class MRTController extends Controller
 {
@@ -190,6 +191,21 @@ class MRTController extends Controller
           $notifythis=(object)$notifythis;
           $job = (new NewCreatedMRTJob($notifythis))->delay(Carbon::now()->addSeconds(5));
           dispatch($job);
+
+          $NotificationTbl = new Notification;
+          $NotificationTbl->user_id = $ReturnerID[0]->user_id;
+          $NotificationTbl->NotificationType = 'Request';
+          $NotificationTbl->FileType = 'MRT';
+          $NotificationTbl->FileNo = $id;
+          $NotificationTbl->TimeNotified = Carbon::now();
+          $NotificationTbl->save();
+
+          // global notif trigger
+          $ReceiverID = array('id' =>$ReturnerID[0]->user_id);
+          $ReceiverID = (object)$ReceiverID;
+          $job = (new GlobalNotifJob($ReceiverID))
+          ->delay(Carbon::now()->addSeconds(5));
+          dispatch($job);
         }
       }elseif((Auth::user()->id==$ReturnerID[0]->user_id)&&($SignatureTurn=='1'))
       {
@@ -213,6 +229,14 @@ class MRTController extends Controller
         Signatureable::where('signatureable_id',$id)->where('signatureable_type', 'App\MRTMaster')->where('SignatureType', 'ReturnedBy')->where('user_id', Auth::user()->id)->update(['Signature'=>'0']);
         MRTMaster::where('MRTNo', $id)->update(['Status'=>'0']);
 
+        $NotificationTbl = new Notification;
+        $NotificationTbl->user_id = $MRTMaster[0]->CreatorID;
+        $NotificationTbl->NotificationType = 'Approved';
+        $NotificationTbl->FileType = 'MRT';
+        $NotificationTbl->FileNo = $id;
+        $NotificationTbl->TimeNotified = Carbon::now();
+        $NotificationTbl->save();
+
         // global notif trigger
         $ReceiverID = array('id' =>$MRTMaster[0]->CreatorID);
         $ReceiverID = (object)$ReceiverID;
@@ -226,8 +250,17 @@ class MRTController extends Controller
       Signatureable::where('signatureable_id',$id)->where('signatureable_type','App\MRTMaster')->where('user_id', Auth::user()->id)->update(['Signature'=>'1']);
       MRTMaster::where('MRTNo', $id)->update(['Status'=>'1']);
 
-      // notify warehouseman the creator
       $MRTMaster=MRTMaster::where('MRTNo',$id)->get(['CreatorID']);
+
+      $NotificationTbl = new Notification;
+      $NotificationTbl->user_id = $MRTMaster[0]->CreatorID;
+      $NotificationTbl->NotificationType = 'Declined';
+      $NotificationTbl->FileType = 'MRT';
+      $NotificationTbl->FileNo = $id;
+      $NotificationTbl->TimeNotified = Carbon::now();
+      $NotificationTbl->save();
+
+      // global notif trigger
       $ReceiverID = array('id' =>$MRTMaster[0]->CreatorID);
       $ReceiverID = (object)$ReceiverID;
       $job = (new GlobalNotifJob($ReceiverID))
@@ -258,6 +291,22 @@ class MRTController extends Controller
         $newAMT=$mrtconfirm->UnitCost*$request->UpdatedQty[$key];
         MRTConfirmationDetail::where('MRTNo',$id)->where('ItemCode',$mrtconfirm->ItemCode)->update(['Quantity'=>$request->UpdatedQty[$key],'Amount'=>$newAMT]);
       }
+      
+      $returnerID=Signatureable::where('signatureable_id',$id)->where('signatureable_type', 'App\MRTMaster')->where('SignatureType','ReturnedBy')->value('user_id');
+      $NotificationTbl = new Notification;
+      $NotificationTbl->user_id = $returnerID;
+      $NotificationTbl->NotificationType = 'Updated';
+      $NotificationTbl->FileType = 'MRT';
+      $NotificationTbl->FileNo = $id;
+      $NotificationTbl->TimeNotified = Carbon::now();
+      $NotificationTbl->save();
+
+      // global notif trigger
+      $ReceiverID = array('id' =>$returnerID);
+      $ReceiverID = (object)$ReceiverID;
+      $job = (new GlobalNotifJob($ReceiverID))
+      ->delay(Carbon::now()->addSeconds(5));
+      dispatch($job);
     }
     public function myMRTSignatureRequest()
     {
