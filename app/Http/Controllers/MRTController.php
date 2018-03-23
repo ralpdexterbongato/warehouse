@@ -291,7 +291,7 @@ class MRTController extends Controller
         $newAMT=$mrtconfirm->UnitCost*$request->UpdatedQty[$key];
         MRTConfirmationDetail::where('MRTNo',$id)->where('ItemCode',$mrtconfirm->ItemCode)->update(['Quantity'=>$request->UpdatedQty[$key],'Amount'=>$newAMT]);
       }
-      
+
       $returnerID=Signatureable::where('signatureable_id',$id)->where('signatureable_type', 'App\MRTMaster')->where('SignatureType','ReturnedBy')->value('user_id');
       $NotificationTbl = new Notification;
       $NotificationTbl->user_id = $returnerID;
@@ -397,8 +397,16 @@ class MRTController extends Controller
          $CurrentQuantityOfItem=MaterialsTicketDetail::orderBy('id','DESC')->whereNull('IsRollBack')->where('ItemCode', $data->ItemCode)->take(1)->value('CurrentQuantity');
          MasterItem::where('ItemCode',$data->ItemCode)->update(['CurrentQuantity' => $CurrentQuantityOfItem]);
        }
-       // global notify warehouseman
        $MRTMaster=MRTMaster::where('MRTNo',$mrtNo)->get(['CreatorID']);
+       $NotificationTbl = new Notification;
+       $NotificationTbl->user_id = $MRTMaster[0]->CreatorID;
+       $NotificationTbl->NotificationType = 'Invalid';
+       $NotificationTbl->FileType = 'MRT';
+       $NotificationTbl->FileNo =$mrtNo;
+       $NotificationTbl->TimeNotified = Carbon::now();
+       $NotificationTbl->save();
+
+       // global notif trigger
        $ReceiverID = array('id' =>$MRTMaster[0]->CreatorID);
        $ReceiverID = (object)$ReceiverID;
        $job = (new GlobalNotifJob($ReceiverID))
@@ -470,8 +478,16 @@ class MRTController extends Controller
          $CurrentQuantityOfItem=MaterialsTicketDetail::orderBy('id','DESC')->whereNull('IsRollBack')->where('ItemCode', $data->ItemCode)->take(1)->value('CurrentQuantity');
          MasterItem::where('ItemCode',$data->ItemCode)->update(['CurrentQuantity' => $CurrentQuantityOfItem]);
       }
-      // global notify warehouseman
       $MRTMaster=MRTMaster::where('MRTNo',$mrtNo)->get(['CreatorID']);
+      $NotificationTbl = new Notification;
+      $NotificationTbl->user_id = $MRTMaster[0]->CreatorID;
+      $NotificationTbl->NotificationType = 'UndoInvalid';
+      $NotificationTbl->FileType = 'MRT';
+      $NotificationTbl->FileNo =$mrtNo;
+      $NotificationTbl->TimeNotified = Carbon::now();
+      $NotificationTbl->save();
+
+      // global notif trigger
       $ReceiverID = array('id' =>$MRTMaster[0]->CreatorID);
       $ReceiverID = (object)$ReceiverID;
       $job = (new GlobalNotifJob($ReceiverID))

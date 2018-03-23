@@ -22,6 +22,12 @@
               <p v-if="notification.NotificationType=='Request'">
                  New file has been added to your {{notification.FileType}} signature request pocket.
               </p>
+              <p v-if="notification.NotificationType=='Invalid'">
+                 The administrator marked this {{notification.FileType}} as invalid.
+              </p>
+              <p v-if="notification.NotificationType=='UndoInvalid'">
+                 The administrator undid the marking of this {{notification.FileType}} as invalid, this file is now valid.
+              </p>
               <p v-if="notification.NotificationType=='Refused'">
                  The signature-substitution request sent has been refused.
               </p>
@@ -46,6 +52,8 @@
               <br>
               <div class="time-notified">
                 <i v-if="notification.NotificationType=='Approved'" class="material-icons color-blue">check_circle</i>
+                <i v-if="notification.NotificationType=='Invalid'" class="material-icons color-orange">layers_clear</i>
+                <i v-if="notification.NotificationType=='UndoInvalid'" class="material-icons color-blue">done_all</i>
                 <i v-if="notification.NotificationType=='Pending'" class="material-icons color-blue">access_time</i>
                 <i v-if="notification.NotificationType=='Replaced'" class="material-icons color-blue">loop</i>
                 <i v-if="notification.NotificationType=='Updated'" class="material-icons color-blue">border_color</i>

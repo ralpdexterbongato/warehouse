@@ -12156,13 +12156,13 @@ module.exports={render:function (){var _vm=this;var _h=_vm.$createElement;var _c
     staticClass: "material-icons"
   }, [_vm._v("warning")]), _vm._v("Invalid transaction")]) : _vm._e()]), _vm._v(" "), _c('div', {
     staticClass: "MCT-title"
-  }, [(_vm.AlreadySignatured && _vm.MCTMaster.IsRollBack != 0 && _vm.MCTMaster.CreatorID == _vm.user.id) ? _c('span', [_c('form', {
+  }, [(_vm.AlreadySignatured) ? _c('span', [_c('form', {
     staticClass: "mct-print-form",
     attrs: {
       "action": "/MCT.pdf",
       "method": "get"
     }
-  }, [_c('button', {
+  }, [(_vm.MCTMaster.CreatorID == _vm.user.id && _vm.MCTMaster.IsRollBack != 0) ? _c('button', {
     attrs: {
       "type": "submit",
       "value": this.mctno.MCTNo,
@@ -12170,7 +12170,7 @@ module.exports={render:function (){var _vm=this;var _h=_vm.$createElement;var _c
     }
   }, [_c('i', {
     staticClass: "material-icons"
-  }, [_vm._v("print")])]), _vm._v(" "), ((_vm.MCTMaster.IsRollBack == null || _vm.MCTMaster.IsRollBack == 1) && (_vm.user.Role == 1 && _vm.MCTMaster.Status == '0')) ? _c('button', {
+  }, [_vm._v("print")])]) : _vm._e(), _vm._v(" "), ((_vm.MCTMaster.IsRollBack == null || _vm.MCTMaster.IsRollBack == 1) && (_vm.user.Role == 1 && _vm.MCTMaster.Status == '0')) ? _c('button', {
     staticClass: "undo-btn",
     attrs: {
       "type": "button",
@@ -12183,7 +12183,7 @@ module.exports={render:function (){var _vm=this;var _h=_vm.$createElement;var _c
     }
   }, [_c('i', {
     staticClass: "material-icons"
-  }, [_vm._v("replay")]), _vm._v(" reverse")]) : _vm._e(), _vm._v(" "), ((_vm.MCTMaster.IsRollBack == 0) && (_vm.user.Role == 1 && _vm.MCTMaster.Status == '0')) ? _c('button', {
+  }, [_vm._v("replay")]), _vm._v(" reverse")]) : _vm._e(), _vm._v(" "), ((_vm.MCTMaster.IsRollBack == 0 && _vm.user.Role == 1 && _vm.MCTMaster.Status == '0')) ? _c('button', {
     staticClass: "undo-btn",
     attrs: {
       "type": "button",

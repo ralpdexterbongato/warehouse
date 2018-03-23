@@ -466,6 +466,14 @@ class MCTController extends Controller
       MIRSDetail::where('MIRSNo',$mirsNo)->where('ItemCode', $confirmation->ItemCode)->update(['QuantityValidator'=>$newMCTValidatorQty]);
     }
     $creatorID = MCTMaster::where('MCTNo',$mctNo)->value('CreatorID');
+    $NotificationTbl = new Notification;
+    $NotificationTbl->user_id = $creatorID;
+    $NotificationTbl->NotificationType = 'Invalid';
+    $NotificationTbl->FileType = 'MCT';
+    $NotificationTbl->FileNo =$mctNo;
+    $NotificationTbl->TimeNotified = Carbon::now();
+    $NotificationTbl->save();
+
     // global notif trigger
     $ReceiverID = array('id' =>$creatorID);
     $ReceiverID = (object)$ReceiverID;
@@ -547,9 +555,16 @@ class MCTController extends Controller
       MIRSDetail::where('MIRSNo',$mirsNo)->where('ItemCode', $confirmation->ItemCode)->update(['QuantityValidator'=>$newMCTValidatorQty]);
     }
 
-    // global notif trigger
-    $creatorID = MCTMaster::where('MCTNo',$mctNo)->value('creatorID');
+    $creatorID = MCTMaster::where('MCTNo',$mctNo)->value('CreatorID');
+    $NotificationTbl = new Notification;
+    $NotificationTbl->user_id = $creatorID;
+    $NotificationTbl->NotificationType = 'UndoInvalid';
+    $NotificationTbl->FileType = 'MCT';
+    $NotificationTbl->FileNo =$mctNo;
+    $NotificationTbl->TimeNotified = Carbon::now();
+    $NotificationTbl->save();
 
+    // global notif trigger
     $ReceiverID = array('id' =>$creatorID);
     $ReceiverID = (object)$ReceiverID;
     $job = (new GlobalNotifJob($ReceiverID))
