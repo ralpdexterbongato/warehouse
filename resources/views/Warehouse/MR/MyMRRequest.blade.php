@@ -28,7 +28,7 @@
             @else
               <td>N/A</td>
             @endif
-            <td>{{$mrRequest->WarehouseMan}}</td>
+            <td>{{$mrRequest->warehouseman->FullName}}</td>
             <td><a href="{{route('fullMR',[$mrRequest->MRNo])}}"><i class="material-icons">remove_red_eye</i></a></td>
           </tr>
         @endforeach

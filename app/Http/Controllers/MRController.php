@@ -16,6 +16,7 @@ use App\Jobs\NewMRCreatedJob;
 use App\Signatureable;
 use App\Jobs\MRApprovedAlert;
 use App\Jobs\GlobalNotifJob;
+use App\Notification;
 class MRController extends Controller
 {
     public function __construct()
@@ -78,6 +79,24 @@ class MRController extends Controller
       }
       MRMaster::where('MRNo',$MRNo)->update(['Note'=>$request->NewNote,'SignatureTurn'=>'0']);
       Signatureable::where('signatureable_type', 'App\MRMaster')->where('signatureable_id',$MRNo)->update(['Signature'=>NULL]);
+      $peopleToSign=Signatureable::where('signatureable_type', 'App\MRMaster')->where('signatureable_id',$MRNo)->get(['user_id']);
+      foreach ($peopleToSign as $key => $person)
+      {
+        $NotificationTbl = new Notification;
+        $NotificationTbl->user_id = $person->user_id;
+        $NotificationTbl->NotificationType = 'Updated';
+        $NotificationTbl->FileType = 'MR';
+        $NotificationTbl->FileNo =$MRNo;
+        $NotificationTbl->TimeNotified = Carbon::now();
+        $NotificationTbl->save();
+
+        // global notif trigger
+        $ReceiverID = array('id' => $person->user_id);
+        $ReceiverID = (object)$ReceiverID;
+        $job = (new GlobalNotifJob($ReceiverID))
+        ->delay(Carbon::now()->addSeconds(5));
+        dispatch($job);
+      }
     }
     public function SaveMR(Request $request)
     {
@@ -164,6 +183,22 @@ class MRController extends Controller
      Signatureable::insert($forSignatures);
      MRDetail::insert($ForMRDetailDB);
      Session::forget('MRSession');
+
+     $NotificationTbl = new Notification;
+     $NotificationTbl->user_id = $Recommended[0]->id;
+     $NotificationTbl->NotificationType = 'Request';
+     $NotificationTbl->FileType = 'MR';
+     $NotificationTbl->FileNo =$incremented;
+     $NotificationTbl->TimeNotified = Carbon::now();
+     $NotificationTbl->save();
+
+     // global notif trigger
+     $ReceiverID = array('id' =>$Recommended[0]->id);
+     $ReceiverID = (object)$ReceiverID;
+     $job = (new GlobalNotifJob($ReceiverID))
+     ->delay(Carbon::now()->addSeconds(5));
+     dispatch($job);
+
      $job=(new NewMRCreatedJob($Recommended[0]->id))->delay(Carbon::now()->addSeconds(5));
      dispatch($job);
      return ['redirect'=>route('fullMR',[$incremented])];
@@ -247,11 +282,45 @@ class MRController extends Controller
         Signatureable::where('user_id', Auth::user()->id)->where('signatureable_id',$id)->where('signatureable_type', 'App\MRMaster')->where('SignatureType', 'RecommendedBy')->update(['Signature'=>'0']);
         $job=(new NewMRCreatedJob($MRMaster[0]->users[1]->id))->delay(Carbon::now()->addSeconds(5));
         dispatch($job);
+
+        //notify gm next
+        $NotificationTbl = new Notification;
+        $NotificationTbl->user_id = $MRMaster[0]->users[1]->id;
+        $NotificationTbl->NotificationType = 'Request';
+        $NotificationTbl->FileType = 'MR';
+        $NotificationTbl->FileNo =$id;
+        $NotificationTbl->TimeNotified = Carbon::now();
+        $NotificationTbl->save();
+
+        // global notif trigger
+        $ReceiverID = array('id' =>$MRMaster[0]->users[1]->id);
+        $ReceiverID = (object)$ReceiverID;
+        $job = (new GlobalNotifJob($ReceiverID))
+        ->delay(Carbon::now()->addSeconds(5));
+        dispatch($job);
+
         if (isset($MRMaster[0]->users[3]))
         {
           $job2=(new NewMRCreatedJob($MRMaster[0]->users[3]->id))->delay(Carbon::now()->addSeconds(5));
           dispatch($job2);
+
+          // notify gm replacer if exist
+          $NotificationTbl = new Notification;
+          $NotificationTbl->user_id = $MRMaster[0]->users[3]->id;
+          $NotificationTbl->NotificationType = 'Request';
+          $NotificationTbl->FileType = 'MR';
+          $NotificationTbl->FileNo =$id;
+          $NotificationTbl->TimeNotified = Carbon::now();
+          $NotificationTbl->save();
+
+          // global notif trigger
+          $ReceiverID = array('id' =>$MRMaster[0]->users[3]->id);
+          $ReceiverID = (object)$ReceiverID;
+          $job = (new GlobalNotifJob($ReceiverID))
+          ->delay(Carbon::now()->addSeconds(5));
+          dispatch($job);
         }
+
       }elseif ((Auth::user()->id==$MRMaster[0]->users[1]->id)&&($MRMaster[0]->users[1]->pivot->Signature==null))
       {
         MRMaster::where('MRNo',$id)->update(['SignatureTurn'=>'2']);
@@ -260,16 +329,43 @@ class MRController extends Controller
         $job=(new NewMRCreatedJob($MRMaster[0]->users[2]->id))->delay(Carbon::now()->addSeconds(5));
         dispatch($job);
 
+        // notification for receiver
+        $NotificationTbl = new Notification;
+        $NotificationTbl->user_id = $MRMaster[0]->users[2]->id;
+        $NotificationTbl->NotificationType = 'Request';
+        $NotificationTbl->FileType = 'MR';
+        $NotificationTbl->FileNo =$id;
+        $NotificationTbl->TimeNotified = Carbon::now();
+        $NotificationTbl->save();
+
+        // global notif trigger
+        $ReceiverID = array('id' => $MRMaster[0]->users[2]->id);
+        $ReceiverID = (object)$ReceiverID;
+        $job = (new GlobalNotifJob($ReceiverID))
+        ->delay(Carbon::now()->addSeconds(5));
+        dispatch($job);
+
+        //alert receiver of the item through sms to login and signature.
         $data = array('MRNo' =>$id,'ReceiverMobile'=>$MRMaster[0]->users[2]->Mobile);
         $data=(object)$data;
         $job=(new MRApprovedAlert($data))->delay(Carbon::now()->addSeconds(5));
         dispatch($job);
+
       }elseif((Auth::user()->id==$MRMaster[0]->users[2]->id)&&($MRMaster[0]->users[2]->pivot->Signature==null))
       {
         MRMaster::where('MRNo',$id)->update(['SignatureTurn'=>'3','Status'=>'0']);
         Signatureable::where('user_id', Auth::user()->id)->where('signatureable_id',$id)->where('signatureable_type', 'App\MRMaster')->where('SignatureType', 'ReceivedBy')->update(['Signature'=>'0']);
 
-        // notify warehouseman the creator
+        // notification for creator
+        $NotificationTbl = new Notification;
+        $NotificationTbl->user_id = $MRMaster[0]->CreatorID;
+        $NotificationTbl->NotificationType = 'Approved';
+        $NotificationTbl->FileType = 'MR';
+        $NotificationTbl->FileNo =$id;
+        $NotificationTbl->TimeNotified = Carbon::now();
+        $NotificationTbl->save();
+
+        // notification trigger real time
         $ReceiverID = array('id' =>$MRMaster[0]->CreatorID);
         $ReceiverID = (object)$ReceiverID;
         $job = (new GlobalNotifJob($ReceiverID))
@@ -297,9 +393,18 @@ class MRController extends Controller
           }
         }
       }
-      // notify warehouseman the creator
       $MRMaster = MRMaster::where('MRNo',$id)->get(['CreatorID']);
-      $ReceiverID = array('id' =>$MRMaster[0]->CreatorID);
+      // notification for creator
+      $NotificationTbl = new Notification;
+      $NotificationTbl->user_id = $MRMaster[0]->CreatorID;
+      $NotificationTbl->NotificationType = 'Declined';
+      $NotificationTbl->FileType = 'MR';
+      $NotificationTbl->FileNo =$id;
+      $NotificationTbl->TimeNotified = Carbon::now();
+      $NotificationTbl->save();
+
+      // notification trigger
+      $ReceiverID = array('id' => $MRMaster[0]->CreatorID);
       $ReceiverID = (object)$ReceiverID;
       $job = (new GlobalNotifJob($ReceiverID))
       ->delay(Carbon::now()->addSeconds(5));
@@ -307,12 +412,27 @@ class MRController extends Controller
     }
     public function myMRrequest()
     {
-      $MRRequest=Auth::user()->MRSignatureTurn()->paginate(10,['MRNo','MRDate','Supplier','InvoiceNo','WarehouseMan']);
+      $MRRequest=Auth::user()->MRSignatureTurn()->paginate(10,['MRNo','MRDate','Supplier','InvoiceNo','CreatorID']);
       return view('Warehouse.MR.MyMRRequest',compact('MRRequest'));
     }
     public function refuseMRApproveInBehalf($id)
     {
       Signatureable::where('user_id', Auth::user()->id)->where('signatureable_id',$id)->where('signatureable_type', 'App\MRMaster')->where('SignatureType', 'ApprovalReplacer')->delete();
+      $creatorID=MRMaster::where('MRNo',$id)->value('CreatorID');
+      $NotificationTbl = new Notification;
+      $NotificationTbl->user_id = $creatorID;
+      $NotificationTbl->NotificationType = 'Refused';
+      $NotificationTbl->FileType = 'MR';
+      $NotificationTbl->FileNo =$id;
+      $NotificationTbl->TimeNotified = Carbon::now();
+      $NotificationTbl->save();
+
+      // global notif trigger
+      $ReceiverID = array('id' => $creatorID);
+      $ReceiverID = (object)$ReceiverID;
+      $job = (new GlobalNotifJob($ReceiverID))
+      ->delay(Carbon::now()->addSeconds(5));
+      dispatch($job);
     }
     public function confirmApproveinBehalf($id)
     {
@@ -323,6 +443,38 @@ class MRController extends Controller
       }
       if (isset($MRMaster[0]->users[3])&&($MRMaster[0]->users[3]->id==Auth::user()->id))
       {
+        // notification for gm
+        $NotificationTbl = new Notification;
+        $NotificationTbl->user_id = $MRMaster[0]->users[1]->id;
+        $NotificationTbl->NotificationType = 'Replaced';
+        $NotificationTbl->FileType = 'MR';
+        $NotificationTbl->FileNo =$id;
+        $NotificationTbl->TimeNotified = Carbon::now();
+        $NotificationTbl->save();
+
+        // global notif trigger
+        $ReceiverID = array('id' => $MRMaster[0]->users[1]->id);
+        $ReceiverID = (object)$ReceiverID;
+        $job = (new GlobalNotifJob($ReceiverID))
+        ->delay(Carbon::now()->addSeconds(5));
+        dispatch($job);
+
+        // notification for receiver
+        $NotificationTbl = new Notification;
+        $NotificationTbl->user_id = $MRMaster[0]->users[2]->id;
+        $NotificationTbl->NotificationType = 'Request';
+        $NotificationTbl->FileType = 'MR';
+        $NotificationTbl->FileNo =$id;
+        $NotificationTbl->TimeNotified = Carbon::now();
+        $NotificationTbl->save();
+
+        // global notif trigger
+        $ReceiverID = array('id' => $MRMaster[0]->users[2]->id);
+        $ReceiverID = (object)$ReceiverID;
+        $job = (new GlobalNotifJob($ReceiverID))
+        ->delay(Carbon::now()->addSeconds(5));
+        dispatch($job);
+
         MRMaster::where('MRNo',$id)->update(['SignatureTurn'=>'2']);
         Signatureable::where('user_id', Auth::user()->id)->where('signatureable_id',$id)->where('signatureable_type', 'App\MRMaster')->where('SignatureType', 'ApprovalReplacer')->update(['Signature'=>'0']);
         $job=(new NewMRCreatedJob($MRMaster[0]->users[2]->id))->delay(Carbon::now()->addSeconds(5));
