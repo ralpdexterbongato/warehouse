@@ -922,6 +922,14 @@ class RRController extends Controller
         }
       }
     }
+    $NotificationTbl = new Notification;
+    $NotificationTbl->user_id = $RRMaster[0]->CreatorID;
+    $NotificationTbl->NotificationType = 'Invalid';
+    $NotificationTbl->FileType = 'RR';
+    $NotificationTbl->FileNo =$rrNo;
+    $NotificationTbl->TimeNotified = Carbon::now();
+    $NotificationTbl->save();
+
     // notify warehouseman the creator
     $ReceiverID = array('id' =>$RRMaster[0]->CreatorID);
     $ReceiverID = (object)$ReceiverID;
@@ -1028,6 +1036,14 @@ class RRController extends Controller
         }
       }
     }
+    $NotificationTbl = new Notification;
+    $NotificationTbl->user_id = $RRMaster[0]->CreatorID;
+    $NotificationTbl->NotificationType = 'UndoInvalid';
+    $NotificationTbl->FileType = 'RR';
+    $NotificationTbl->FileNo =$rrNo;
+    $NotificationTbl->TimeNotified = Carbon::now();
+    $NotificationTbl->save();
+
     // notify warehouseman the creator
     $ReceiverID = array('id' =>$RRMaster[0]->CreatorID);
     $ReceiverID = (object)$ReceiverID;

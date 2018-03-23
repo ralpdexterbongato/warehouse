@@ -13658,13 +13658,13 @@ module.exports={render:function (){var _vm=this;var _h=_vm.$createElement;var _c
     }
   }, [_c('i', {
     staticClass: "material-icons"
-  }, [_vm._v("close")]), _vm._v(" Decline\r\n      ")])], 1) : _vm._e()]), _vm._v(" "), ((_vm.RRMaster.Status == '0') && (_vm.RRMaster.IsRollBack != 0) && (_vm.RRMaster.CreatorID == _vm.user.id)) ? _c('div', {
+  }, [_vm._v("close")]), _vm._v(" Decline\r\n      ")])], 1) : _vm._e()]), _vm._v(" "), ((_vm.RRMaster.Status == '0')) ? _c('div', {
     staticClass: "print-RR-btn"
-  }, [_c('span', [_c('a', {
+  }, [_c('span', [((_vm.RRMaster.IsRollBack != 0) && (_vm.RRMaster.CreatorID == _vm.user.id)) ? _c('a', {
     attrs: {
       "href": '/RR.pdf/' + _vm.RRMaster.RRNo
     }
-  }, [_vm._m(0)]), _vm._v(" "), (_vm.user.Role == 1 && _vm.RRMaster.Status == '0') ? _c('span', [(_vm.RRMaster.IsRollBack == null || _vm.RRMaster.IsRollBack == 1) ? _c('button', {
+  }, [_vm._m(0)]) : _vm._e(), _vm._v(" "), (_vm.user.Role == 1) ? _c('span', [(_vm.RRMaster.IsRollBack == null || _vm.RRMaster.IsRollBack == 1) ? _c('button', {
     staticClass: "undo-btn",
     attrs: {
       "type": "button",

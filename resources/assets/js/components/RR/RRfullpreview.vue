@@ -23,10 +23,10 @@
       </longpress>
     </div>
   </div>
-  <div class="print-RR-btn" v-if="(RRMaster.Status=='0')&&(RRMaster.IsRollBack!=0)&&(RRMaster.CreatorID==user.id)">
+  <div class="print-RR-btn" v-if="(RRMaster.Status=='0')">
     <span>
-      <a :href="'/RR.pdf/'+RRMaster.RRNo"><button type="submit"  name="RRNo" value="RRNohere"><i class="material-icons">print</i></button></a>
-      <span v-if="user.Role==1 && RRMaster.Status =='0'">
+      <a :href="'/RR.pdf/'+RRMaster.RRNo" v-if="(RRMaster.IsRollBack!=0)&&(RRMaster.CreatorID==user.id)"><button type="submit"  name="RRNo" value="RRNohere"><i class="material-icons">print</i></button></a>
+      <span v-if="user.Role==1">
         <button type="button" class="undo-btn" name="button" v-if="RRMaster.IsRollBack==null || RRMaster.IsRollBack==1" v-on:click="RollbackRR()"><i class="material-icons">replay</i> reverse</button>
         <button type="button" class="undo-btn" name="button" v-if="RRMaster.IsRollBack==0" v-on:click="UndoRollbackRR()"><i class="material-icons">refresh</i> undo reverse</button>
       </span>
