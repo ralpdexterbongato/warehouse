@@ -28906,24 +28906,26 @@ Vue.use(__WEBPACK_IMPORTED_MODULE_3_vue2_toast___default.a);
   methods: {
     QuickUpdate: function QuickUpdate() {
       var vm = this;
-      __WEBPACK_IMPORTED_MODULE_0_axios___default.a.put('/mirs-update/' + this.mirsno.MIRSNo, {
-        purpose: this.updatePurpose,
-        Qty: this.updateQty,
-        remarks: this.updateRemarks
-      }).then(function (response) {
-        vm.fetchMIRSData();
-        console.log(response);
-        if (response.data.error != null) {
-          vm.$toast.top(response.data.error);
-        } else {
-          vm.$toast.top('Updated successfully');
-          vm.SignatureBtnHide = false;
-        }
-      }).catch(function (error) {
-        vm.fetchMIRSData();
-        console.log(error);
-        vm.$toast.top(error.response.data.purpose[0]);
-      });
+      if (confirm("Signatures will restart, continue?")) {
+        __WEBPACK_IMPORTED_MODULE_0_axios___default.a.put('/mirs-update/' + this.mirsno.MIRSNo, {
+          purpose: this.updatePurpose,
+          Qty: this.updateQty,
+          remarks: this.updateRemarks
+        }).then(function (response) {
+          vm.fetchMIRSData();
+          console.log(response);
+          if (response.data.error != null) {
+            vm.$toast.top(response.data.error);
+          } else {
+            vm.$toast.top('Updated successfully');
+            vm.SignatureBtnHide = false;
+          }
+        }).catch(function (error) {
+          vm.fetchMIRSData();
+          console.log(error);
+          vm.$toast.top(error.response.data.purpose[0]);
+        });
+      }
     },
     fetchMIRSData: function fetchMIRSData() {
       var vm = this;
@@ -29439,7 +29441,7 @@ module.exports={render:function (){var _vm=this;var _h=_vm.$createElement;var _c
     }
   }, [_vm._m(0)]) : _vm._e(), _vm._v(" "), _c('div', {
     staticClass: "not-claimed-qty"
-  }, [_vm._v("\r\n          Not-claimed:"), _c('span', {
+  }, [_vm._v("\r\n          Claimable:"), _c('span', {
     staticClass: "color-blue"
   }, [_vm._v(_vm._s(_vm.unclaimed))])])]) : _c('div', {
     staticClass: "empty-left"

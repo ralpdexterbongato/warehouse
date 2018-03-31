@@ -5,7 +5,7 @@
       <div class="download-form" v-if="approved">
         <a :href="'/MIRS.pdf/'+mirsno.MIRSNo" v-if="user.id==MIRSMaster.users[0].id"><button type="submit"><i class="material-icons">print</i> Print</button></a>
         <div class="not-claimed-qty">
-          Not-claimed:<span class="color-blue">{{unclaimed}}</span>
+          Claimable:<span class="color-blue">{{unclaimed}}</span>
         </div>
       </div>
       <div class="empty-left" v-else>
@@ -243,29 +243,32 @@ Vue.use(Toast);
        QuickUpdate()
        {
          var vm=this;
-         axios.put(`/mirs-update/`+this.mirsno.MIRSNo,{
-           purpose:this.updatePurpose,
-           Qty:this.updateQty,
-           remarks:this.updateRemarks
-         }).then(function(response)
-        {
-          vm.fetchMIRSData();
-          console.log(response);
-          if (response.data.error!=null)
+         if (confirm("Signatures will restart, continue?"))
+         {
+           axios.put(`/mirs-update/`+this.mirsno.MIRSNo,{
+             purpose:this.updatePurpose,
+             Qty:this.updateQty,
+             remarks:this.updateRemarks
+           }).then(function(response)
           {
-            vm.$toast.top(response.data.error);
-          }else
+            vm.fetchMIRSData();
+            console.log(response);
+            if (response.data.error!=null)
+            {
+              vm.$toast.top(response.data.error);
+            }else
+            {
+              vm.$toast.top('Updated successfully');
+              vm.SignatureBtnHide = false;
+            }
+          }).catch(function(error)
           {
-            vm.$toast.top('Updated successfully');
-            vm.SignatureBtnHide = false;
-          }
-        }).catch(function(error)
-        {
-          vm.fetchMIRSData();
-          console.log(error);
-          vm.$toast.top(error.response.data.purpose[0]);
+            vm.fetchMIRSData();
+            console.log(error);
+            vm.$toast.top(error.response.data.purpose[0]);
 
-        })
+          })
+         }
        },
        fetchMIRSData()
        {
