@@ -2264,6 +2264,7 @@ input[type=number]::-webkit-inner-spin-button {
 .printable-paper
 {
   margin:auto;
+	padding:10px;
 }
 .creator-display i
 {
@@ -2912,7 +2913,7 @@ only screen and (max-width: 1050px),
 .print-btn-container
 {
   width: 816px;
-	padding:15px;
+	padding:10px;
   margin:0 auto;
   display: flex;
   justify-content:space-between;
@@ -2949,7 +2950,7 @@ only screen and (max-width: 1050px),
   border-style: none;
   font-family:Roboto, 'Segoe UI', Tahoma, sans-serif;
 	-webkit-box-shadow: 0 2px 4px -1px rgba(0,0,0,0.06), 0 4px 5px 0 rgba(0,0,0,0.06), 0 1px 10px 0 rgba(0,0,0,0.08);
-	    box-shadow: 0 2px 4px -1px rgba(0,0,0,0.06), 0 4px 5px 0 rgba(0,0,0,0.06), 0 1px 10px 0 rgba(0,0,0,0.08);
+	 box-shadow: 0 2px 4px -1px rgba(0,0,0,0.06), 0 4px 5px 0 rgba(0,0,0,0.06), 0 1px 10px 0 rgba(0,0,0,0.08);
 }
 @media(max-width:500px)
 {
@@ -2960,7 +2961,7 @@ only screen and (max-width: 1050px),
 	.print-btn-container button
 	{
 		margin:0px auto;
-		width: 80%;
+		width: 100%;
 	}
 }
 .print-btn-container button:focus
@@ -2968,6 +2969,10 @@ only screen and (max-width: 1050px),
 	box-shadow: none;
 	-webkit-box-shadow:none;
 	border:1px solid #ccc;
+}
+.download-form a
+{
+	margin: auto 0;
 }
 .download-form
 {
@@ -2992,7 +2997,7 @@ only screen and (max-width: 1050px),
 	}
 	.download-form button
 	{
-		width:80%;
+		width:100%;
 		margin:10px auto;
 	}
 	.not-claimed-qty
@@ -3004,7 +3009,6 @@ only screen and (max-width: 1050px),
 }
 .print-btn-container .download-form button i
 {
-  font-size: 20px;
   color:#004488;
 }
 .searchMIRSNo
@@ -3650,7 +3654,6 @@ only screen and (max-width: 1050px),
 	.mct-print-form button
 	{
 		flex:1;
-		margin:4px;
 	}
 	.mrt-done a
 	{
@@ -3725,7 +3728,7 @@ only screen and (max-width: 1050px),
 		.MCT-title
 		{
 			width: auto;
-			padding:5px;
+			padding:10px;
 		}
 }
 @media (max-width:600px)
@@ -7601,6 +7604,7 @@ text-align: center;
 }
 .RV-signature-print-container
 {
+	padding:10px;
   width: 816px;
   margin:0 auto;
   display: flex;
@@ -7641,7 +7645,7 @@ text-align: center;
 	{
 		padding:10px;
 		margin:10px auto;
-		width: 80%;
+		width: 100%;
 		text-align:center;
 	}
 	.show-rr-of-rv
@@ -7970,6 +7974,7 @@ only screen and (max-width: 1050px),
 	{
 		position:relative;
 		margin:0 auto;
+		top:0px;
 	}
 }
 .requestRV-content h6 img
