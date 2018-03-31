@@ -179,6 +179,7 @@
           </div>
         </div>
       </div>
+      <p class="creator-display"><i class="material-icons">content_paste</i>created by: <span class="bold">{{RRMaster.creator.FullName}}</span></p>
     </div>
 </div>
 </template>

@@ -99,6 +99,7 @@
           </div>
         </div>
       </div>
+      <p class="creator-display"><i class="material-icons">content_paste</i>created by: <span class="bold">{{MRTMaster.users[0].FullName}}</span></p>
     </div>
   </span>
 </template>
@@ -141,7 +142,7 @@ Vue.use(Toast);
       },
       signatureMRT()
       {
-        this.$loading('Signaturing...');
+        this.$loading('Signing...');
         this.SignatureBtnHide=true;
         var vm=this;
         axios.put(`/signatureMRT/`+this.mrtno.MRTNo).then(function(response)

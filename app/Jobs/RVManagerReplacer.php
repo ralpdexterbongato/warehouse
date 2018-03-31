@@ -30,6 +30,6 @@ class RVManagerReplacer implements ShouldQueue
     public function handle()
     {
       chdir('c:/xampp/htdocs/gnokii');
-      shell_exec('echo The RV '.$this->data->RVNo.' is SIGNATURED by '.$this->data->Replacer.' in behalf of you | gnokii --sendsms '.$this->data->Mobile);
+      shell_exec('echo The RV '.$this->data->RVNo.' was signed by '.$this->data->Replacer.' in behalf of you | gnokii --sendsms '.$this->data->Mobile);
     }
 }

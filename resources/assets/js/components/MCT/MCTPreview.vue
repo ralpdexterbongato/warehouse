@@ -133,6 +133,7 @@
         </div>
       </div>
     </div>
+    <p class="creator-display"><i class="material-icons">content_paste</i>created by: <span class="bold">{{MCTMaster.users[0].FullName}}</span></p>
   </div>
 </div>
 </template>
@@ -177,7 +178,7 @@ export default {
       },
       signatureMCT()
       {
-        this.$loading('Signaturing...');
+        this.$loading('Signing...');
         this.SignatureMCTBtnHide=true;
         var vm=this;
         axios.put(`/Signature-for-mct/`+this.mctno.MCTNo).then(function(response)

@@ -10,7 +10,7 @@
           <button v-on:click="ShowEdit=false,updateSave()" type="button" name="button">Save</button>
           </span>
       </div>
-      <a :href="'/MR.pdf/'+this.mrno.MRNo" v-if="AlreadyApproved"><button type="submit" name="MRNo" value="mrnohere"><i class="material-icons">print</i></button></a>
+      <a :href="'/MR.pdf/'+this.mrno.MRNo" v-if="AlreadyApproved && MRMaster.CreatorID == user.id"><button type="submit" name="MRNo" value="mrnohere"><i class="material-icons">print</i></button></a>
       <h6 class="approve-managerreplace-note" v-if="replacerCanSignature"><i class="material-icons color-blue">info</i>
         The <span class="color-blue">{{MRMaster.warehouseman.FullName}}</span> is asking for your signature b/c the General Manager is not available
       </h6>
@@ -143,6 +143,7 @@
         </div>
       </div>
     </div>
+    <p class="creator-display"><i class="material-icons">content_paste</i>created by: <span class="bold">{{MRMaster.warehouseman.FullName}}</span></p>
   </div>
 </div>
 </template>

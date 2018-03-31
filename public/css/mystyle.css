@@ -2229,7 +2229,6 @@ input[type=number]::-webkit-inner-spin-button {
 .printable-view-container
 {
   display: flex;
-  overflow-x: auto;
 	width: 100%;
   flex-direction: column;
 }
@@ -2266,22 +2265,36 @@ input[type=number]::-webkit-inner-spin-button {
 {
   margin:auto;
 }
+.creator-display i
+{
+	color:#0F1E3F;
+}
+.creator-display
+{
+	position: absolute;
+	bottom: -30px;
+	left: 0;
+	font-size: 13px!important;
+	color:#0F1E3F;
+}
 .bondpaper-size
 {
+	position: relative;
   width: 816px;
   min-height: 1056px;
   margin:0 auto;
   background: #fff;
-  margin-bottom: 30px;
+  margin-bottom: 60px;
 	-webkit-box-shadow: 0 2px 4px -1px rgba(0,0,0,0.06), 0 4px 5px 0 rgba(0,0,0,0.06), 0 1px 10px 0 rgba(0,0,0,0.08);
 	    box-shadow: 0 2px 4px -1px rgba(0,0,0,0.06), 0 4px 5px 0 rgba(0,0,0,0.06), 0 1px 10px 0 rgba(0,0,0,0.08);
 }
-@media(max-width:825px)
+@media(max-width:865px)
 {
 	.bondpaper-size
 	{
 		width: auto;
 		margin:10px;
+		margin-bottom: 40px;
 	}
 }
 .status-mirs
@@ -2904,7 +2917,7 @@ only screen and (max-width: 1050px),
   display: flex;
   justify-content:space-between;
 }
-@media(max-width:825px)
+@media(max-width:855px)
 {
 	.print-btn-container
 	{
@@ -3535,7 +3548,6 @@ only screen and (max-width: 1050px),
 /*MCT PREVIEW css*/
 .Preview-MCT-container
 {
-  padding-bottom:20px;
   overflow-x: auto;
 	min-height: 100vh;
 	flex:1;
@@ -3543,6 +3555,7 @@ only screen and (max-width: 1050px),
 
 .bondpaper-preview
 {
+	position: relative;
   min-height: 1056px;
   width: 816px;
   margin:0 auto;
@@ -5030,10 +5043,12 @@ only screen and (max-width: 1050px),
 }
 .Bondpaper-mrt-preview
 {
+	position: relative;
   padding: 60px 25px 10px 25px;
   margin:0 auto;
   min-height: 1056px;
   width: 816px;
+	margin-bottom: 40px;
   background: #fff;
 	font-family: sans-serif;
 	-webkit-box-shadow: 0 2px 4px -1px rgba(0,0,0,0.06), 0 4px 5px 0 rgba(0,0,0,0.06), 0 1px 10px 0 rgba(0,0,0,0.08);
@@ -6373,11 +6388,13 @@ only screen and (max-width: 1050px),
 }
 .bondpaper-RR
 {
+	position: relative;
   box-sizing: border-box;
   background: #fff;
   min-height: 1056px;
   width:816px;
   margin:auto;
+	margin-bottom: 30px;
 	font-family: sans-serif;
   padding: 60px 30px 20px 30px;
 	-webkit-box-shadow: 0 2px 4px -1px rgba(0,0,0,0.06), 0 4px 5px 0 rgba(0,0,0,0.06), 0 1px 10px 0 rgba(0,0,0,0.08);
@@ -7456,9 +7473,11 @@ text-align: center;
 }
 .bondpaper-RV-container
 {
+	position: relative;
   padding-bottom: 30px;
   display: flex;
 	font-family: sans-serif;
+	margin-bottom: 20px;
 }
 .declineOrSignatureBtn > span
 {
@@ -7640,6 +7659,7 @@ text-align: center;
   font-size: 16px;
   margin-right: 10px;
 }
+
 .status-po-wrapper
 {
   display: flex;
@@ -7980,7 +8000,6 @@ only screen and (max-width: 1050px),
   margin-bottom: 5px;
   word-wrap:none;
   flex-wrap:nowrap;
-	min-width: 180px;
 }
 .bottom-RV-signatures
 {
@@ -9012,9 +9031,11 @@ only screen and (max-width: 1050px),
 /*PO full view CSS*/
 .PO-bondpaper
 {
+	position: relative;
   min-height:1057px;
   width: 816px;
   margin:auto;
+	margin-bottom: 30px;
   background: #fff;
   padding:70px 30px 30px 30px;
 	font-family: sans-serif;
@@ -9103,7 +9124,7 @@ only screen and (max-width: 1050px),
 	}
 	.left-detail-po
 	{
-		justify-content: center;
+		justify-content: space-between;
 	}
 }
 .print-po-btn
@@ -9911,9 +9932,11 @@ only screen and (max-width: 1050px),
 }
 .mr-full-bondpaper
 {
+	position: relative;
   box-sizing: border-box;
   background: #fff;
   margin:0 auto;
+	margin-bottom: 30px;
   width: 816px;
   min-height: 1056px;
   padding:60px 30px 20px 30px;
@@ -12644,7 +12667,7 @@ only screen and (max-width: 1310px),
   font-family:Roboto, 'Segoe UI', Tahoma, sans-serif;
 }
 
-/*MRTSignature request css*/
+/*MRT sign request css*/
 .myMRTSignatureRequest
 {
   height:100vh;

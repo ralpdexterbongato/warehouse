@@ -20,7 +20,7 @@
             <div class="drop-line-detail">
               <h5>{{notification.FileType}} : {{notification.FileNo}}</h5>
               <p v-if="notification.NotificationType=='Request'">
-                 New file has been added to your {{notification.FileType}} signature request pocket.
+                 New file has been added to your {{notification.FileType}} sign request pocket.
               </p>
               <p v-if="notification.NotificationType=='Invalid'">
                  The administrator marked this {{notification.FileType}} as invalid.
@@ -47,7 +47,7 @@
                  The file has been updated & the signatures restarted.
               </p>
               <p v-if="notification.NotificationType=='Replaced'">
-                 A manager signatured a file in behalf of you.
+                 A manager signed a file in behalf of you.
               </p>
               <br>
               <div class="time-notified">

@@ -5,7 +5,7 @@
 @section('body')
   <div class="my-mr-request-container">
     <div class="mr-request-title">
-      <h1><i class="material-icons">mode_edit</i> Signature request MR</h1>
+      <h1><i class="material-icons">mode_edit</i>MR Sign request</h1>
     </div>
     @if (!empty($MRRequest[0]))
     <div class="mr-table-container">
@@ -38,7 +38,7 @@
       {{$MRRequest->links()}}
     </div>
     @else
-      <h1 class="no-mr">Empty M.R. request</h1>
+      <h1 class="no-mr">No sign request received</h1>
     @endif
   </div>
 @endsection

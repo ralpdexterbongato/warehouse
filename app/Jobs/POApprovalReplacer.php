@@ -30,6 +30,6 @@ class POApprovalReplacer implements ShouldQueue
     public function handle()
     {
       chdir('c:/xampp/htdocs/gnokii');
-      shell_exec('echo The PO '.$this->data->PONo.' is SIGNATURED by '.$this->data->Replacer.' in behalf of you | gnokii --sendsms '.$this->data->Mobile);
+      shell_exec('echo The PO '.$this->data->PONo.' was signed by '.$this->data->Replacer.' in behalf of you | gnokii --sendsms '.$this->data->Mobile);
     }
 }

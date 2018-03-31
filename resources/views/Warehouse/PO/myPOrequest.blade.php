@@ -1,11 +1,11 @@
 @extends('layouts.master')
 @section('title')
- PO | Signature request
+ PO | Sign request
 @endsection
 @section('body')
 <div class="myPOrequest-container">
   <div class="title-po-list-request">
-    <h1><i class="material-icons">mode_edit</i> Signature request PO</h1>
+    <h1><i class="material-icons">mode_edit</i>PO Sign request</h1>
   </div>
   <div class="po-request-table">
     @if (!empty($myPOlist[0]))
@@ -37,7 +37,7 @@
         {{$myPOlist->links()}}
       </div>
     @else
-      <h1 class="empty-po">P.O. Request is empty</h1>
+      <h1 class="empty-po">No sign request received</h1>
     @endif
   </div>
 </div>

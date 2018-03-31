@@ -11120,6 +11120,7 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
 //
 //
 //
+//
 
 
 
@@ -11157,7 +11158,7 @@ Vue.use(__WEBPACK_IMPORTED_MODULE_3_vue2_toast___default.a);
       });
     },
     signatureMRT: function signatureMRT() {
-      this.$loading('Signaturing...');
+      this.$loading('Signing...');
       this.SignatureBtnHide = true;
       var vm = this;
       __WEBPACK_IMPORTED_MODULE_0_axios___default.a.put('/signatureMRT/' + this.mrtno.MRTNo).then(function (response) {
@@ -12569,7 +12570,7 @@ module.exports={render:function (){var _vm=this;var _h=_vm.$createElement;var _c
     }, [_vm._v("remove_red_eye")])])])])
   })], 2) : _c('h1', {
     staticClass: "No-MRT"
-  }, [_vm._v(" No MRT signature request")]), _vm._v(" "), _c('div', {
+  }, [_vm._v(" No sign request received")]), _vm._v(" "), _c('div', {
     staticClass: "paginate-container"
   }, [_c('ul', {
     staticClass: "pagination"
@@ -12898,7 +12899,13 @@ module.exports={render:function (){var _vm=this;var _h=_vm.$createElement;var _c
     }
   })]) : _vm._e(), _vm._v(" "), _c('p', [_vm._v(_vm._s(_vm.MRTMaster.users[0].FullName)), (_vm.MRTMaster.users[0].pivot.Signature == '1') ? _c('i', {
     staticClass: "material-icons decliner"
-  }, [_vm._v("close")]) : _vm._e()]), _vm._v(" "), _c('p', [_vm._v(_vm._s(_vm.MRTMaster.users[0].Position))])])])])])]) : _vm._e()
+  }, [_vm._v("close")]) : _vm._e()]), _vm._v(" "), _c('p', [_vm._v(_vm._s(_vm.MRTMaster.users[0].Position))])])])]), _vm._v(" "), _c('p', {
+    staticClass: "creator-display"
+  }, [_c('i', {
+    staticClass: "material-icons"
+  }, [_vm._v("content_paste")]), _vm._v("created by: "), _c('span', {
+    staticClass: "bold"
+  }, [_vm._v(_vm._s(_vm.MRTMaster.users[0].FullName))])])])]) : _vm._e()
 },staticRenderFns: [function (){var _vm=this;var _h=_vm.$createElement;var _c=_vm._self._c||_h;
   return _c('div', {
     staticClass: "header-mrt-center"

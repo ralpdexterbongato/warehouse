@@ -18,7 +18,7 @@
         <td><a :href="'/mrt-preview-page/'+mrt.MRTNo"><i class="material-icons">remove_red_eye</i></a></td>
       </tr>
     </table>
-    <h1 v-else class="No-MRT"> No MRT signature request</h1>
+    <h1 v-else class="No-MRT"> No sign request received</h1>
     <div class="paginate-container">
       <ul class="pagination">
         <li v-if="pagination.current_page > 1">

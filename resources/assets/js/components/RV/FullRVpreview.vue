@@ -72,7 +72,7 @@
           <h1 class="no-PO">Status : <span class="underline">Waiting for RR</span></h1>
         </div>
         <div class="status-po-wrapper" v-if="((RVMaster.IfPurchased)&&(checkPO==null))">
-          <h1 class="done-but-no-po">Status : <span class="underline">Already purchased <i class="material-icons">check</i> without P.O.</span></h1>
+          <h1 class="done-but-no-po">Status : <span class="underline">Already purchased <i class="material-icons">check</i></span></h1>
         </div>
           <div class="CreateRRwoPO" v-else-if="((RVMaster.IfPurchased==null)&&(checkPO==null)&&((user.Role==4)||(user.Role==3)))">
             <a :href="'/create-rr-wo-po/'+rvno.RVNo"><button type="button" > <i class="material-icons">add</i> RR</button></a>
@@ -263,6 +263,7 @@
           </div>
         </div>
       </div>
+      <p class="creator-display"><i class="material-icons">content_paste</i>created by: <span class="bold">{{RVMaster.users[0].FullName}}</span></p>
     </div>
   </div>
 </div>
@@ -347,7 +348,7 @@ Vue.use(VueNumeric);
       },
       Signature()
       {
-        this.$loading('Signaturing...');
+        this.$loading('Signing...');
         this.SignatureRVBtnHide=true;
         var vm=this;
         axios.put(`/RVsignature/`+this.rvno.RVNo,{
@@ -434,7 +435,7 @@ Vue.use(VueNumeric);
       },
       signatureRequestManagerReplacer()
       {
-        this.$loading('Signaturing...');
+        this.$loading('Signing...');
         this.SignatureManagerReplacerHide=true;
         var vm=this;
         axios.put(`/AcceptManagerReplacer/`+this.rvno.RVNo).then(function(response)
@@ -489,7 +490,7 @@ Vue.use(VueNumeric);
       },
       acceptApproveRequest()
       {
-        this.$loading('Signaturing...');
+        this.$loading('Signing...');
         this.SignatureApprovalReplacerHide=true;
         var vm=this;
         axios.put(`/rv-approve-behalf-accept/`+this.rvno.RVNo).then(function(response)

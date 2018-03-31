@@ -11478,6 +11478,7 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
 //
 //
 //
+//
 
 
 
@@ -11551,7 +11552,7 @@ Vue.use(__WEBPACK_IMPORTED_MODULE_1_vue_numeric___default.a);
       });
     },
     Signature: function Signature() {
-      this.$loading('Signaturing...');
+      this.$loading('Signing...');
       this.SignatureRVBtnHide = true;
       var vm = this;
       __WEBPACK_IMPORTED_MODULE_0_axios___default.a.put('/RVsignature/' + this.rvno.RVNo, {
@@ -11624,7 +11625,7 @@ Vue.use(__WEBPACK_IMPORTED_MODULE_1_vue_numeric___default.a);
       });
     },
     signatureRequestManagerReplacer: function signatureRequestManagerReplacer() {
-      this.$loading('Signaturing...');
+      this.$loading('Signing...');
       this.SignatureManagerReplacerHide = true;
       var vm = this;
       __WEBPACK_IMPORTED_MODULE_0_axios___default.a.put('/AcceptManagerReplacer/' + this.rvno.RVNo).then(function (response) {
@@ -11669,7 +11670,7 @@ Vue.use(__WEBPACK_IMPORTED_MODULE_1_vue_numeric___default.a);
       });
     },
     acceptApproveRequest: function acceptApproveRequest() {
-      this.$loading('Signaturing...');
+      this.$loading('Signing...');
       this.SignatureApprovalReplacerHide = true;
       var vm = this;
       __WEBPACK_IMPORTED_MODULE_0_axios___default.a.put('/rv-approve-behalf-accept/' + this.rvno.RVNo).then(function (response) {
@@ -17167,7 +17168,13 @@ module.exports={render:function (){var _vm=this;var _h=_vm.$createElement;var _c
     }
   })]) : _vm._e(), _vm._v(" "), _c('p', [_vm._v("\r\n                  " + _vm._s(_vm.RVMaster.users[3].FullName) + "\r\n                  "), (_vm.RVMaster.users[3].pivot.Signature == '1') ? _c('i', {
     staticClass: "material-icons decliner"
-  }, [_vm._v("close")]) : _vm._e()]), _vm._v(" "), _c('label', [_vm._v(_vm._s(_vm.RVMaster.users[3].Position))])])])])])])])])]) : _vm._e()
+  }, [_vm._v("close")]) : _vm._e()]), _vm._v(" "), _c('label', [_vm._v(_vm._s(_vm.RVMaster.users[3].Position))])])])])])]), _vm._v(" "), _c('p', {
+    staticClass: "creator-display"
+  }, [_c('i', {
+    staticClass: "material-icons"
+  }, [_vm._v("content_paste")]), _vm._v("created by: "), _c('span', {
+    staticClass: "bold"
+  }, [_vm._v(_vm._s(_vm.RVMaster.users[0].FullName))])])])])]) : _vm._e()
 },staticRenderFns: [function (){var _vm=this;var _h=_vm.$createElement;var _c=_vm._self._c||_h;
   return _c('button', {
     attrs: {
@@ -17209,7 +17216,7 @@ module.exports={render:function (){var _vm=this;var _h=_vm.$createElement;var _c
     staticClass: "underline"
   }, [_vm._v("Already purchased "), _c('i', {
     staticClass: "material-icons"
-  }, [_vm._v("check")]), _vm._v(" without P.O.")])])
+  }, [_vm._v("check")])])])
 },function (){var _vm=this;var _h=_vm.$createElement;var _c=_vm._self._c||_h;
   return _c('button', {
     attrs: {

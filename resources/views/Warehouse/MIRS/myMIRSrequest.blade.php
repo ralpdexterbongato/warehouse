@@ -1,10 +1,10 @@
 @extends('layouts.master')
 @section('title')
-MIRS signature request list
+MIRS Sign request list
 @endsection
 @section('body')
   <div class="MIRS-request-container">
-    <h1><i class="material-icons">mode_edit</i> Signature request MIRS</h1>
+    <h1><i class="material-icons">mode_edit</i>MIRS Sign request</h1>
       @if (!empty($myrequestMIRS[0]))
     <div class="mirs-request-table-list">
       <table>
@@ -28,7 +28,7 @@ MIRS signature request list
       </div>
     </div>
   @else
-  <h3 class="MIRS-request-empty">MIRS request is empty</h3>
+  <h3 class="MIRS-request-empty">No sign request received</h3>
   @endif
   </div>
 @endsection

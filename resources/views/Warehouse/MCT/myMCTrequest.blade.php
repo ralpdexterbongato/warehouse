@@ -1,10 +1,10 @@
 @extends('layouts.master')
 @section('title')
-  MCT signature request list
+  MCT Sign request list
 @endsection
 @section('body')
   <div class="mct-request-list-Container">
-    <h1><i class="material-icons">mode_edit</i> Signature request MCT</h1>
+    <h1><i class="material-icons">mode_edit</i>MCT Sign request</h1>
     <div class="mct-request-table">
       @if (!empty($myrequestMCT[0]))
       <table>
@@ -29,7 +29,7 @@
       </table>
       {{$myrequestMCT->links()}}
       @else
-        <h3 class="mct-empty">MCT Request is empty</h3>
+        <h3 class="mct-empty">No sign request received</h3>
       @endif
     </div>
   </div>

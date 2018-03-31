@@ -30,6 +30,6 @@ class MIRSManagerReplacer implements ShouldQueue
     public function handle()
     {
       chdir('c:/xampp/htdocs/gnokii');
-      shell_exec('echo The MIRS '.$this->data->MIRSNo.' is SIGNATURED by '.$this->data->Replacer.' in behalf of you | gnokii --sendsms '.$this->data->Mobile);
+      shell_exec('echo The MIRS '.$this->data->MIRSNo.' was signed by '.$this->data->Replacer.' in behalf of you | gnokii --sendsms '.$this->data->Mobile);
     }
 }

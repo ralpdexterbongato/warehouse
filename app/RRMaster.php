@@ -22,4 +22,8 @@ class RRMaster extends Model
   {
       return Carbon::createFromFormat('Y-m-d H:i:s.u', $date)->diffForHumans();
   }
+  public function creator()
+  {
+    return $this->belongsTo('App\User','CreatorID','id');
+  }
 }

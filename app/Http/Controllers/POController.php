@@ -169,7 +169,7 @@ class POController extends Controller
   {
     $FromPODetail=PODetail::where('PONo',$id)->get(['QtyValidator']);
     $remainingUnreceived=$FromPODetail->sum('QtyValidator');
-    $OrderMaster=POMaster::with('users')->where('PONo', $id)->get();
+    $OrderMaster=POMaster::with('users')->with('creator')->where('PONo', $id)->get();
     $OrderMaster->load('PODetails');
     $totalAmt=PODetail::where('PONo', $id)->get(['Amount'])->sum('Amount');
     $response = array('OrderMaster' =>$OrderMaster ,'remainingUnreceived'=>$remainingUnreceived,'totalAmt'=>$totalAmt);

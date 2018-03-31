@@ -1,10 +1,10 @@
 @extends('layouts.Master')
 @section('title')
-  MRT | Signature request
+  MRT | Sign request
 @endsection
 @section('body')
   <div class="myMRTSignatureRequest">
-      <h1><i class="material-icons">mode_edit</i> Signature request MRT</h1>
+      <h1><i class="material-icons">mode_edit</i>MRT Sign request</h1>
       <div id="mrt">
         <mrtrequesttable></mrtrequesttable>
       </div>

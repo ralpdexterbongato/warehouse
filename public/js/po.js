@@ -11072,6 +11072,7 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
 //
 //
 //
+//
 
 
 
@@ -11955,11 +11956,11 @@ module.exports={render:function (){var _vm=this;var _h=_vm.$createElement;var _c
     staticClass: "make-rr-and-print"
   }, [_c('div', {
     staticClass: "left-detail-po"
-  }, [_c('a', {
+  }, [(_vm.OrderMaster.CreatorID == _vm.user.id) ? _c('a', {
     attrs: {
       "href": '/PO.pdf/' + _vm.pono.PONo
     }
-  }, [_vm._m(1)]), _vm._v(" "), _c('li', {
+  }, [_vm._m(1)]) : _vm._e(), _vm._v(" "), _c('li', {
     staticClass: "pending-delivery-number"
   }, [_c('h1', [_vm._v("waiting for: "), _c('span', {
     staticClass: "color-blue"
@@ -12036,7 +12037,13 @@ module.exports={render:function (){var _vm=this;var _h=_vm.$createElement;var _c
     }
   })]) : _vm._e(), _vm._v(" "), _c('h3', [_vm._v("\n          " + _vm._s(_vm.OrderMaster.users[0].FullName) + "\n          "), (_vm.OrderMaster.users[0].pivot.Signature == '1') ? _c('i', {
     staticClass: "material-icons decliner"
-  }, [_vm._v("close")]) : _vm._e()]), _vm._v(" "), _c('label', [_vm._v(_vm._s(_vm.OrderMaster.users[0].Position))])])])])])]) : _vm._e()
+  }, [_vm._v("close")]) : _vm._e()]), _vm._v(" "), _c('label', [_vm._v(_vm._s(_vm.OrderMaster.users[0].Position))])])])]), _vm._v(" "), _c('p', {
+    staticClass: "creator-display"
+  }, [_c('i', {
+    staticClass: "material-icons"
+  }, [_vm._v("content_paste")]), _vm._v("created by: "), _c('span', {
+    staticClass: "bold"
+  }, [_vm._v(_vm._s(_vm.OrderMaster.creator.FullName))])])])]) : _vm._e()
 },staticRenderFns: [function (){var _vm=this;var _h=_vm.$createElement;var _c=_vm._self._c||_h;
   return _c('h6', {
     staticClass: "approve-managerreplace-note"

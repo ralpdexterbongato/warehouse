@@ -1,11 +1,11 @@
 @extends('layouts.master')
 @section('title')
-  My RR Signature request
+ RR Sign request
 @endsection
 @section('body')
   <div class="RRrequest-container">
     <div class="title-rr-request">
-      <h1><i class="material-icons">mode_edit</i> Signature request RR</h1>
+      <h1><i class="material-icons">mode_edit</i>RR Sign request</h1>
     </div>
     <div class="requestRR-table">
       @if (!empty($requestRR[0]))
@@ -30,7 +30,7 @@
         @endforeach
       </table>
       @else
-        <h1 class="no-RR">RR request is empty</h1>
+        <h1 class="no-RR">No sign request received</h1>
       @endif
       @if (!empty($requestRR[0]))
       <div class="paginate-container">

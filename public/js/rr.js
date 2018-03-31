@@ -11862,6 +11862,7 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
 //
 //
 //
+//
 
 
 
@@ -13932,7 +13933,13 @@ module.exports={render:function (){var _vm=this;var _h=_vm.$createElement;var _c
     staticClass: "signatureRR-content"
   }, [_c('h4', [_vm._v("\r\n                " + _vm._s(_vm.RRMaster.users[3].FullName) + "\r\n                "), (_vm.RRMaster.users[3].pivot.Signature == '1') ? _c('i', {
     staticClass: "material-icons"
-  }, [_vm._v("close")]) : _vm._e()]), _vm._v(" "), _c('p', [_vm._v(_vm._s(_vm.RRMaster.users[3].Position))])])])])])])]) : _vm._e()
+  }, [_vm._v("close")]) : _vm._e()]), _vm._v(" "), _c('p', [_vm._v(_vm._s(_vm.RRMaster.users[3].Position))])])])])]), _vm._v(" "), _c('p', {
+    staticClass: "creator-display"
+  }, [_c('i', {
+    staticClass: "material-icons"
+  }, [_vm._v("content_paste")]), _vm._v("created by: "), _c('span', {
+    staticClass: "bold"
+  }, [_vm._v(_vm._s(_vm.RRMaster.creator.FullName))])])])]) : _vm._e()
 },staticRenderFns: [function (){var _vm=this;var _h=_vm.$createElement;var _c=_vm._self._c||_h;
   return _c('button', {
     attrs: {

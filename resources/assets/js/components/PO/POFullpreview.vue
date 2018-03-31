@@ -16,7 +16,7 @@
       </div>
       <span class="make-rr-and-print" v-if="AlreadyApproved">
         <div class="left-detail-po">
-          <a :href="'/PO.pdf/'+pono.PONo"><button type="submit" name="PONo" value="ponohere"><i class="material-icons">print</i></button></a>
+          <a :href="'/PO.pdf/'+pono.PONo" v-if="OrderMaster.CreatorID == user.id"><button type="submit" name="PONo" value="ponohere"><i class="material-icons">print</i></button></a>
           <li class="pending-delivery-number"><h1>waiting for: <span class="color-blue">{{remaining}}</span> items</h1></li>
         </div>
         <div class="right-detail-po">
@@ -117,6 +117,7 @@
         </li>
       </div>
     </div>
+    <p class="creator-display"><i class="material-icons">content_paste</i>created by: <span class="bold">{{OrderMaster.creator.FullName}}</span></p>
   </div>
   </div>
 </template>

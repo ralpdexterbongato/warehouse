@@ -203,7 +203,8 @@
             </h2>
           </div>
         </div>
-        </div>
+      </div>
+      <p class="creator-display"><i class="material-icons">content_paste</i>created by: <span class="bold">{{MIRSMaster.users[0].FullName}}</span></p>
       </div>
     </div>
   </div>
@@ -281,7 +282,7 @@ Vue.use(Toast);
        SignatureMIRS()
        {
          this.SignatureBtnHide=true;
-         this.$loading('Signaturing');
+         this.$loading('Signing...');
          var vm=this;
          axios.put(`/MIRS-Signature/`+this.mirsno.MIRSNo).then(function(response)
         {
@@ -363,7 +364,7 @@ Vue.use(Toast);
       },
       AcceptrequestReplacer()
       {
-        this.$loading('Signaturing...');
+        this.$loading('Signing...');
         this.SignatureManagerRelacerBtnHide=true;
         var vm=this;
         axios.put(`/signature-replacer-accepted/`+this.mirsno.MIRSNo).then(function(response)
@@ -387,7 +388,7 @@ Vue.use(Toast);
       },
       AcceptApprovalReplacerequest()
       {
-        this.$loading('Signaturing...');
+        this.$loading('Signing...');
         this.SignatureApproveBtnHide=true;
         var vm=this;
         axios.put(`/confirm-manager-toreplace-gm-signature/`+this.mirsno.MIRSNo).then(function(response)

@@ -1,11 +1,11 @@
 @extends('layouts.master')
 @section('title')
- RV|request
+ RV| Sign request
 @endsection
 @section('body')
   <div class="my-rv-container">
     <div class="RV-request-title">
-      <h1><i class="material-icons">mode_edit</i> Signature request RV</h1>
+      <h1><i class="material-icons">mode_edit</i>RV Sign request</h1>
     </div>
     <div class="rv-request-table">
       @if (isset($myRVPendingrequest[0]))
@@ -26,7 +26,7 @@
           @endforeach
       </table>
       @else
-        <h1 class="no-rv-request">RV request is empty</h1>
+        <h1 class="no-rv-request">No sign request received</h1>
       @endif
 
       @if (!empty($myRVPendingrequest[0]))

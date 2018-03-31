@@ -645,7 +645,7 @@ class RRController extends Controller
     $Netsales=$RRconfirmationDetails->sum('Amount');
     $VAT=$Netsales*.12;
     $TOTALamt=$Netsales+$VAT;
-    $RRMaster=RRMaster::with('users')->where('RRNo',$id)->get();
+    $RRMaster=RRMaster::with('users')->where('RRNo',$id)->with('creator')->get();
     $checkMR=MRMaster::orderBy('RRNo','DESC')->where('RRNo',$id)->take(1)->get(['MRNo']);
     $response = array('RRconfirmationDetails' =>$RRconfirmationDetails ,'Netsales'=>$Netsales,'VAT'=>$VAT,'TOTALamt'=>$TOTALamt,'RRMaster'=>$RRMaster,'checkMR'=>$checkMR);
     return response()->json($response);
