@@ -275,7 +275,7 @@
          var vm=this;
          axios.get(`/search-my-mirs-history?PreparedById=`+IDofuser+`&YearMonth=`+this.MyMonth.time+`&page=`+page).then(function(response)
          {
-           console.log(response);
+           
            Vue.set(vm.$data,'mirsResults',response.data.data);
            Vue.set(vm.$data,'pagination',response.data);
            vm.$loading.close();
@@ -295,7 +295,7 @@
          axios.get(`/search-my-mct-history?ReceivedById=`+receiverId+`&YearMonth=`+this.MyMonth.time+`&page=`+page,{
          }).then(function(response)
          {
-           console.log(response);
+           
            Vue.set(vm.$data,'mctResults',response.data.data);
            Vue.set(vm.$data,'pagination',response.data);
            vm.$loading.close();
@@ -314,7 +314,7 @@
          var vm=this;
          axios.get(`/search-my-mrt-history?ReturnedById=`+returnerId+`&YearMonth=`+this.MyMonth.time+`&page=`+page).then(function(response)
          {
-           console.log(response);
+           
            Vue.set(vm.$data,'mrtResults',response.data.data);
            Vue.set(vm.$data,'pagination',response.data);
            vm.$loading.close();
@@ -334,7 +334,7 @@
          axios.get(`/search-my-mr-history?ReceivedById=`+UserId+`&YearMonth=`+this.MyMonth.time+`&page=`+page,{
          }).then(function(response)
          {
-           console.log(response);
+           
            Vue.set(vm.$data,'mrResults',response.data.data);
            Vue.set(vm.$data,'pagination',response.data);
            vm.$loading.close();
@@ -354,7 +354,7 @@
          axios.get(`/search-my-rv-history?Requisitioner=`+RequisitionerId+`&YearMonth=`+this.MyMonth.time+`&page=`+page,{
          }).then(function(response)
          {
-           console.log(response);
+           
            Vue.set(vm.$data,'rvResults',response.data.data);
            Vue.set(vm.$data,'pagination',response.data);
            vm.$loading.close();
@@ -374,7 +374,7 @@
          axios.get(`/search-my-rr-history?ReceivedById=`+ReceiverId+`&YearMonth=`+this.MyMonth.time+`&page=`+page,{
          }).then(function(response)
          {
-           console.log(response);
+           
            Vue.set(vm.$data,'rrResults',response.data.data);
            Vue.set(vm.$data,'pagination',response.data);
            vm.$loading.close();

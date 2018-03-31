@@ -11527,7 +11527,7 @@ Vue.use(__WEBPACK_IMPORTED_MODULE_1_vue_numeric___default.a);
         Qty: this.updateQty,
         remarks: this.updateRemarks
       }).then(function (response) {
-        console.log(response);
+
         if (response.data.error != null) {
           vm.$toast.top(response.data.error);
         } else {
@@ -11536,14 +11536,13 @@ Vue.use(__WEBPACK_IMPORTED_MODULE_1_vue_numeric___default.a);
         }
         vm.fetchData();
       }).catch(function (error) {
-        console.log(error);
         vm.fetchData();
       });
     },
     fetchData: function fetchData() {
       var vm = this;
       __WEBPACK_IMPORTED_MODULE_0_axios___default.a.get('/rv-full-preview-fetch/' + this.rvno.RVNo).then(function (response) {
-        console.log(response);
+
         Vue.set(vm.$data, 'RVMaster', response.data.RVMaster[0]);
         Vue.set(vm.$data, 'RVDetails', response.data.RVDetails);
         Vue.set(vm.$data, 'checkPO', response.data.checkPO);
@@ -11558,7 +11557,7 @@ Vue.use(__WEBPACK_IMPORTED_MODULE_1_vue_numeric___default.a);
       __WEBPACK_IMPORTED_MODULE_0_axios___default.a.put('/RVsignature/' + this.rvno.RVNo, {
         BudgetAvailable: this.BudgetAvail
       }).then(function (response) {
-        console.log(response);
+
         vm.fetchData();
         vm.$loading.close();
       });
@@ -11568,7 +11567,7 @@ Vue.use(__WEBPACK_IMPORTED_MODULE_1_vue_numeric___default.a);
       this.SignatureRVBtnHide = true;
       var vm = this;
       __WEBPACK_IMPORTED_MODULE_0_axios___default.a.put('/declineRV/' + this.rvno.RVNo).then(function (response) {
-        console.log(response);
+
         vm.fetchData();
         vm.$loading.close();
       });
@@ -11583,7 +11582,7 @@ Vue.use(__WEBPACK_IMPORTED_MODULE_1_vue_numeric___default.a);
       __WEBPACK_IMPORTED_MODULE_0_axios___default.a.put('/update-budget/' + this.rvno.RVNo, {
         BudgetUpdate: this.BudgetUpdate
       }).then(function (response) {
-        console.log(response);
+
         vm.fetchData();
         vm.$loading.close();
         vm.$toast.top('Budget updated');
@@ -11592,7 +11591,7 @@ Vue.use(__WEBPACK_IMPORTED_MODULE_1_vue_numeric___default.a);
     fetchAllManager: function fetchAllManager() {
       var vm = this;
       __WEBPACK_IMPORTED_MODULE_0_axios___default.a.get('/fetchAllManagerRV').then(function (response) {
-        console.log(response);
+
         Vue.set(vm.$data, 'activemanager', response.data);
         vm.fetchData();
       });
@@ -11603,7 +11602,7 @@ Vue.use(__WEBPACK_IMPORTED_MODULE_1_vue_numeric___default.a);
       __WEBPACK_IMPORTED_MODULE_0_axios___default.a.put('/send-request-to-manager-replacer/' + this.rvno.RVNo, {
         ManagerID: this.ManagerID
       }).then(function (response) {
-        console.log(response);
+
         if (response.data.error != null) {
           Vue.set(vm.$data, 'error', response.data.error);
           vm.$loading.close();
@@ -11619,7 +11618,6 @@ Vue.use(__WEBPACK_IMPORTED_MODULE_1_vue_numeric___default.a);
       this.SignatureManagerReplacerHide = true;
       var vm = this;
       __WEBPACK_IMPORTED_MODULE_0_axios___default.a.put('/cancelrequestsentReplacer/' + this.rvno.RVNo).then(function (response) {
-        console.log(response);
         vm.fetchAllManager();
         vm.$loading.close();
       });
@@ -11637,7 +11635,6 @@ Vue.use(__WEBPACK_IMPORTED_MODULE_1_vue_numeric___default.a);
       this.$loading('Saving remarks...');
       var vm = this;
       __WEBPACK_IMPORTED_MODULE_0_axios___default.a.put('/save-budget-officer-pending-remarks/' + this.rvno.RVNo, { PendingRemarks: this.pendingremarks }).then(function (response) {
-        console.log(response);
         vm.displayRemarks();
         Vue.set(vm.$data, 'RemarksIsActive', false);
         vm.$loading.close();
@@ -11647,7 +11644,6 @@ Vue.use(__WEBPACK_IMPORTED_MODULE_1_vue_numeric___default.a);
       this.$loading('Removing remarks...');
       var vm = this;
       __WEBPACK_IMPORTED_MODULE_0_axios___default.a.put('/budget-officer-pending-remarks/' + this.rvno.RVNo).then(function (response) {
-        console.log(response);
         vm.displayRemarks();
         vm.$loading.close();
       });
@@ -11655,7 +11651,6 @@ Vue.use(__WEBPACK_IMPORTED_MODULE_1_vue_numeric___default.a);
     displayRemarks: function displayRemarks() {
       var vm = this;
       __WEBPACK_IMPORTED_MODULE_0_axios___default.a.get('/show-budget-officer-pending-remarks/' + this.rvno.RVNo).then(function (response) {
-        console.log(response);
         Vue.set(vm.$data, 'pendingRemarksShow', response.data[0].PendingRemarks);
       });
     },
@@ -11664,7 +11659,6 @@ Vue.use(__WEBPACK_IMPORTED_MODULE_1_vue_numeric___default.a);
       this.SignatureApprovalReplacerHide = true;
       var vm = this;
       __WEBPACK_IMPORTED_MODULE_0_axios___default.a.put('/rv-signature-in-behalf-cancel/' + this.rvno.RVNo).then(function (response) {
-        console.log(response);
         vm.fetchData();
         vm.$loading.close();
       });
@@ -11674,7 +11668,6 @@ Vue.use(__WEBPACK_IMPORTED_MODULE_1_vue_numeric___default.a);
       this.SignatureApprovalReplacerHide = true;
       var vm = this;
       __WEBPACK_IMPORTED_MODULE_0_axios___default.a.put('/rv-approve-behalf-accept/' + this.rvno.RVNo).then(function (response) {
-        console.log(response);
         vm.fetchData();
         vm.$loading.close();
       });
@@ -11917,7 +11910,7 @@ Vue.use(__WEBPACK_IMPORTED_MODULE_3_vue2_toast___default.a);
       this.$loading('Please Wait...');
       var vm = this;
       __WEBPACK_IMPORTED_MODULE_0_axios___default.a.get('/search-rv-forstock?Search=' + this.findDescription + '&page=' + page).then(function (response) {
-        console.log(response);
+
         vm.QuantityForWHouse = [];
         vm.RemarksForWHouse = [];
         Vue.set(vm.$data, 'findResults', response.data.MasterResults.data);
@@ -11944,7 +11937,7 @@ Vue.use(__WEBPACK_IMPORTED_MODULE_3_vue2_toast___default.a);
         Quantity: this.Quantity,
         Remarks: this.Remarks
       }).then(function (response) {
-        console.log(response);
+
         if (response.data.error == null) {
           vm.FetchSessionStored();
           vm.$toast.top('Added successfully');
@@ -11964,7 +11957,6 @@ Vue.use(__WEBPACK_IMPORTED_MODULE_3_vue2_toast___default.a);
         } else if (error.response.data.Quantity != null) {
           vm.$toast.top(error.response.data.Quantity[0]);
         }
-        console.log(error);
         vm.$loading.close();
       });
     },
@@ -11979,7 +11971,7 @@ Vue.use(__WEBPACK_IMPORTED_MODULE_3_vue2_toast___default.a);
         Quantity: this.QuantityForWHouse[count],
         Remarks: this.RemarksForWHouse[count]
       }).then(function (response) {
-        console.log(response);
+
         vm.FetchSessionStored();
         if (response.data.error != null) {
           vm.$toast.top(response.data.error);
@@ -11996,7 +11988,7 @@ Vue.use(__WEBPACK_IMPORTED_MODULE_3_vue2_toast___default.a);
     FetchSessionStored: function FetchSessionStored() {
       var vm = this;
       __WEBPACK_IMPORTED_MODULE_0_axios___default.a.get('/fetch-rv-session').then(function (response) {
-        console.log(response);
+
         Vue.set(vm.$data, 'SessionStored', response.data);
       });
     },
@@ -12004,7 +11996,7 @@ Vue.use(__WEBPACK_IMPORTED_MODULE_3_vue2_toast___default.a);
       this.$loading('Please wait..');
       var vm = this;
       __WEBPACK_IMPORTED_MODULE_0_axios___default.a.get('/get-low-qty-items?page=' + page).then(function (response) {
-        console.log(response);
+
         Vue.set(vm.$data, 'findResults', response.data.data);
         Vue.set(vm.$data, 'pagination', response.data);
         vm.$loading.close();
@@ -12014,7 +12006,7 @@ Vue.use(__WEBPACK_IMPORTED_MODULE_3_vue2_toast___default.a);
       this.$loading('removing...');
       var vm = this;
       __WEBPACK_IMPORTED_MODULE_0_axios___default.a.delete('DeleteSession/' + key).then(function (response) {
-        console.log(response);
+
         vm.FetchSessionStored();
         vm.$toast.top('Removed successfully');
         vm.$loading.close();
@@ -12023,7 +12015,6 @@ Vue.use(__WEBPACK_IMPORTED_MODULE_3_vue2_toast___default.a);
     fetchallUnit: function fetchallUnit() {
       var vm = this;
       __WEBPACK_IMPORTED_MODULE_0_axios___default.a.get('/get-all-units').then(function (response) {
-        console.log(response);
         Vue.set(vm.$data, 'UnitsFromDB', response.data);
       });
     },
@@ -12034,7 +12025,6 @@ Vue.use(__WEBPACK_IMPORTED_MODULE_3_vue2_toast___default.a);
       __WEBPACK_IMPORTED_MODULE_0_axios___default.a.post('/SavetoDBRV', {
         Purpose: this.purpose
       }).then(function (response) {
-        console.log(response);
         if (response.data.error != null) {
           vm.$toast.top(response.data.error);
           Vue.set(vm.$data, 'HideBtn', false);
@@ -12209,7 +12199,6 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
     fetchdataRV: function fetchdataRV(page) {
       var vm = this;
       __WEBPACK_IMPORTED_MODULE_0_axios___default.a.get(this.url + '?search=' + this.search + '&page=' + page).then(function (response) {
-        console.log(response);
         Vue.set(vm.$data, 'RVs', response.data.data);
         Vue.set(vm.$data, 'pagination', response.data);
       });

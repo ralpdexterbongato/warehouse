@@ -317,7 +317,7 @@ Vue.use(VueNumeric);
            remarks:this.updateRemarks
          }).then(function(response)
         {
-          console.log(response);
+
           if (response.data.error!=null)
           {
             vm.$toast.top(response.data.error);
@@ -329,7 +329,6 @@ Vue.use(VueNumeric);
           vm.fetchData();
         }).catch(function(error)
         {
-          console.log(error);
           vm.fetchData();
         })
        },
@@ -338,7 +337,7 @@ Vue.use(VueNumeric);
          var vm=this;
          axios.get(`/rv-full-preview-fetch/`+this.rvno.RVNo).then(function(response)
         {
-          console.log(response);
+
           Vue.set(vm.$data,'RVMaster',response.data.RVMaster[0])
           Vue.set(vm.$data,'RVDetails',response.data.RVDetails)
           Vue.set(vm.$data,'checkPO',response.data.checkPO)
@@ -355,7 +354,7 @@ Vue.use(VueNumeric);
           BudgetAvailable:this.BudgetAvail,
         }).then(function(response)
         {
-          console.log(response);
+
           vm.fetchData();
           vm.$loading.close();
         });
@@ -367,7 +366,7 @@ Vue.use(VueNumeric);
         var vm=this;
         axios.put(`/declineRV/`+this.rvno.RVNo).then(function(response)
         {
-          console.log(response);
+
           vm.fetchData();
           vm.$loading.close();
         });
@@ -384,7 +383,7 @@ Vue.use(VueNumeric);
           BudgetUpdate:this.BudgetUpdate,
         }).then(function(response)
         {
-          console.log(response);
+
           vm.fetchData();
           vm.$loading.close();
           vm.$toast.top('Budget updated');
@@ -395,7 +394,7 @@ Vue.use(VueNumeric);
         var vm=this;
         axios.get(`/fetchAllManagerRV`).then(function(response)
         {
-          console.log(response);
+
           Vue.set(vm.$data,'activemanager',response.data);
           vm.fetchData();
         });
@@ -408,7 +407,7 @@ Vue.use(VueNumeric);
           ManagerID:this.ManagerID,
         }).then(function(response)
         {
-          console.log(response);
+
           if (response.data.error!=null)
           {
             Vue.set(vm.$data,'error',response.data.error);
@@ -428,7 +427,6 @@ Vue.use(VueNumeric);
         var vm=this;
         axios.put(`/cancelrequestsentReplacer/`+this.rvno.RVNo).then(function(response)
         {
-          console.log(response);
           vm.fetchAllManager();
           vm.$loading.close();
         })
@@ -450,7 +448,6 @@ Vue.use(VueNumeric);
         var vm=this;
         axios.put(`/save-budget-officer-pending-remarks/`+this.rvno.RVNo,{PendingRemarks:this.pendingremarks}).then(function(response)
         {
-          console.log(response);
           vm.displayRemarks();
           Vue.set(vm.$data,'RemarksIsActive',false);
           vm.$loading.close();
@@ -462,7 +459,6 @@ Vue.use(VueNumeric);
         var vm=this;
         axios.put(`/budget-officer-pending-remarks/`+this.rvno.RVNo).then(function(response)
         {
-          console.log(response);
           vm.displayRemarks();
           vm.$loading.close();
         });
@@ -472,7 +468,6 @@ Vue.use(VueNumeric);
         var vm=this;
         axios.get(`/show-budget-officer-pending-remarks/`+this.rvno.RVNo).then(function(response)
         {
-          console.log(response);
           Vue.set(vm.$data,'pendingRemarksShow',response.data[0].PendingRemarks)
         })
       },
@@ -483,7 +478,6 @@ Vue.use(VueNumeric);
         var vm=this;
         axios.put(`/rv-signature-in-behalf-cancel/`+this.rvno.RVNo).then(function(response)
         {
-          console.log(response);
           vm.fetchData();
           vm.$loading.close();
         })
@@ -495,7 +489,6 @@ Vue.use(VueNumeric);
         var vm=this;
         axios.put(`/rv-approve-behalf-accept/`+this.rvno.RVNo).then(function(response)
         {
-          console.log(response);
           vm.fetchData();
           vm.$loading.close();
         });

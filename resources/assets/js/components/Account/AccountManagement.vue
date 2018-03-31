@@ -255,13 +255,13 @@ import axios from 'axios';
           var vm=this;
           axios.get(`/sort-by-role-and-search?Role=`+this.SelectedRole+`&FullName=`+this.FullNameSearch+`&page=`+page).then(function(response)
           {
-            console.log(response);
+
             Vue.set(vm.$data,'AccountResults',response.data.data);
             Vue.set(vm.$data,'pagination',response.data);
             vm.$loading.close();
           },function(error)
           {
-            console.log(error)
+            
           });
         },
         changepage(next)
@@ -274,7 +274,7 @@ import axios from 'axios';
           var vm=this;
           axios.get(`/fetchDataofSelectedUser/`+id).then(function(response)
           {
-            console.log(response);
+
             Vue.set(vm.$data,'userFetched',response.data[0]);
             Vue.set(vm.$data,'Password','');
             Vue.set(vm.$data,'Password_confirmation','');
@@ -349,7 +349,7 @@ import axios from 'axios';
               IsActive:this.activeUser
             }).then(function(response)
             {
-              console.log(response);
+
               if (response.data.error!=null)
               {
                 vm.$toast.top(response.data.error);
@@ -385,7 +385,7 @@ import axios from 'axios';
             this.$loading('Deleting');
             axios.delete(`/deleteAccount/`+id).then(function(response)
             {
-              console.log(response);
+
               vm.getSelectedAndSearch(vm.Activepage);
               vm.$loading.close();
               vm.$toast.top('Account deleted');
@@ -408,7 +408,7 @@ import axios from 'axios';
               Signature:this.image2,
             }).then(function(response)
             {
-              console.log(response);
+
               vm.getSelectedAndSearch(vm.Activepage);
               vm.ManagerRegisterFullName='';
               vm.ManagerRegisterUsername='';
@@ -458,7 +458,7 @@ import axios from 'axios';
               Signature:this.image3,
             }).then(function(response)
             {
-              console.log(response);
+
               if (response.data.error!=null)
               {
                 vm.$toast.top(response.data.error);
@@ -509,7 +509,7 @@ import axios from 'axios';
           var vm=this;
           axios.get(`/get-all-managers`).then(function(response)
           {
-            console.log(response);
+
             Vue.set(vm.$data,'ManagerChoices',response.data);
           });
         },

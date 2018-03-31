@@ -248,33 +248,31 @@ import Toast from 'vue2-toast'
             return false;
           }
         }
-          var vm = this;
-          axios.put(`/update-rr-file/`+this.rrno.RRNo,{
-            newQtyDelivered:this.updateQtyDelivered,
-            newQty:this.updateQtyAccepted,
-            newSupplier:this.updateSupplier,
-            newAddress:this.updateAddress,
-            newInvoice:this.updateInvoiceNum,
-            newCarrier:this.updateCarrier,
-            newDeliveryReceipt:this.updateDeliveryReceipt,
-            newNote:this.updateNote,
-          }).then(function(response)
+        var vm = this;
+        axios.put(`/update-rr-file/`+this.rrno.RRNo,{
+          newQtyDelivered:this.updateQtyDelivered,
+          newQty:this.updateQtyAccepted,
+          newSupplier:this.updateSupplier,
+          newAddress:this.updateAddress,
+          newInvoice:this.updateInvoiceNum,
+          newCarrier:this.updateCarrier,
+          newDeliveryReceipt:this.updateDeliveryReceipt,
+          newNote:this.updateNote,
+        }).then(function(response)
+        {
+          if (response.data.error!=null)
           {
-            console.log(response);
-            if (response.data.error!=null)
-            {
-              vm.$toast.top(response.data.error);
-            }else
-            {
-              vm.$toast.top('updated sucessfully');
-            }
-            vm.FetchData();
-            vm.$loading.close();
-          }).catch(function(error)
+            vm.$toast.top(response.data.error);
+          }else
           {
-            console.log(error);
-            vm.$loading.close();
-          });
+            vm.$toast.top('updated sucessfully');
+          }
+          vm.FetchData();
+          vm.$loading.close();
+        }).catch(function(error)
+        {
+          vm.$loading.close();
+        });
       }
       },
       FetchData()
@@ -282,7 +280,7 @@ import Toast from 'vue2-toast'
         var vm=this;
         axios.get(`/RR-fullpreview-fetch-data/`+this.rrno.RRNo).then(function(response)
         {
-          console.log(response);
+
           Vue.set(vm.$data,'RRMaster',response.data.RRMaster[0]);
           Vue.set(vm.$data,'RRconfirmationDetails',response.data.RRconfirmationDetails);
           Vue.set(vm.$data,'checkMR',response.data.checkMR);
@@ -297,7 +295,7 @@ import Toast from 'vue2-toast'
         var vm=this;
         axios.put(`/RR-signature/`+this.rrno.RRNo).then(function(response)
         {
-          console.log(response);
+
           vm.FetchData();
         });
       },
@@ -307,7 +305,7 @@ import Toast from 'vue2-toast'
         var vm=this;
         axios.put(`/decline-this-RR/`+this.rrno.RRNo).then(function(response)
         {
-          console.log(response);
+
           vm.FetchData();
         });
       },
@@ -319,13 +317,13 @@ import Toast from 'vue2-toast'
           var vm=this;
           axios.put(`/rollback-this-rr/`+this.rrno.RRNo).then(function(response)
           {
-            console.log(response);
+
             vm.FetchData();
             vm.$toast.top('rolled back sucessfully');
             vm.$loading.close();
           }).catch(function(error)
           {
-            console.log(error);
+
             vm.$loading.close();
           });
         }
@@ -338,13 +336,13 @@ import Toast from 'vue2-toast'
           var vm=this;
           axios.put(`/undo-rollback-this-rr/`+this.rrno.RRNo).then(function(response)
           {
-            console.log(response);
+
             vm.FetchData();
             vm.$toast.top('rollback undid sucessfully');
             vm.$loading.close();
           }).catch(function(error)
           {
-            console.log(error);
+
             vm.$loading.close();
           });
         }

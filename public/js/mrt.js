@@ -11150,7 +11150,7 @@ Vue.use(__WEBPACK_IMPORTED_MODULE_3_vue2_toast___default.a);
     fetchdata: function fetchdata() {
       var vm = this;
       __WEBPACK_IMPORTED_MODULE_0_axios___default.a.get('/mrt-viewer/' + this.mrtno.MRTNo).then(function (response) {
-        console.log(response);
+
         Vue.set(vm.$data, 'MRTMaster', response.data.MRTMaster[0]);
         Vue.set(vm.$data, 'MRTbyAcntCode', response.data.MRTbyAcntCode);
         Vue.set(vm.$data, 'totalsum', response.data.totalsum);
@@ -11162,7 +11162,7 @@ Vue.use(__WEBPACK_IMPORTED_MODULE_3_vue2_toast___default.a);
       this.SignatureBtnHide = true;
       var vm = this;
       __WEBPACK_IMPORTED_MODULE_0_axios___default.a.put('/signatureMRT/' + this.mrtno.MRTNo).then(function (response) {
-        console.log(response);
+
         vm.fetchdata();
         vm.SignatureBtnHide = false;
         vm.$loading.close();
@@ -11173,7 +11173,7 @@ Vue.use(__WEBPACK_IMPORTED_MODULE_3_vue2_toast___default.a);
       this.SignatureBtnHide = true;
       var vm = this;
       __WEBPACK_IMPORTED_MODULE_0_axios___default.a.put('/declineMRT/' + this.mrtno.MRTNo).then(function (response) {
-        console.log(response);
+
         vm.fetchdata();
         vm.$loading.close();
       });
@@ -11182,7 +11182,7 @@ Vue.use(__WEBPACK_IMPORTED_MODULE_3_vue2_toast___default.a);
       this.$loading('Updating');
       var vm = this;
       __WEBPACK_IMPORTED_MODULE_0_axios___default.a.put('/updateMRTQty/' + this.mrtno.MRTNo, { UpdatedQty: this.EditedQty }).then(function (response) {
-        console.log(response);
+
         vm.fetchdata();
         if (response.data.error != null) {
           vm.$toast.top(response.data.error);
@@ -11197,12 +11197,11 @@ Vue.use(__WEBPACK_IMPORTED_MODULE_3_vue2_toast___default.a);
         this.$loading('Rolling back');
         var vm = this;
         __WEBPACK_IMPORTED_MODULE_0_axios___default.a.put('/rollback-mrt-history/' + this.mrtno.MRTNo).then(function (response) {
-          console.log(response);
+
           vm.fetchdata();
           vm.$toast.top('Rolled back successfully');
           vm.$loading.close();
         }).catch(function (error) {
-          console.log(error);
           vm.$loading.close();
         });
       }
@@ -11212,12 +11211,10 @@ Vue.use(__WEBPACK_IMPORTED_MODULE_3_vue2_toast___default.a);
         this.$loading('Undoing rollback');
         var vm = this;
         __WEBPACK_IMPORTED_MODULE_0_axios___default.a.put('/undo-rollback-mrt-history/' + this.mrtno.MRTNo).then(function (response) {
-          console.log(response);
           vm.fetchdata();
           vm.$toast.top('rollback undid successfully');
           vm.$loading.close();
         }).catch(function (error) {
-          console.log(error);
           vm.$loading.close();
         });
       }
@@ -11393,7 +11390,7 @@ Vue.use(__WEBPACK_IMPORTED_MODULE_3_vue2_toast___default.a);
     FetchMCTOfMRTData: function FetchMCTOfMRTData(page) {
       var vm = this;
       __WEBPACK_IMPORTED_MODULE_0_axios___default.a.get('/MRT-create-fetch-mct-of-mrt/' + this.mctno.MCTNo + '?page=' + page).then(function (response) {
-        console.log(response);
+
         vm.MTDetails = response.data.MTDetails.data;
         vm.pagination = response.data.MTDetails;
       });
@@ -11408,7 +11405,7 @@ Vue.use(__WEBPACK_IMPORTED_MODULE_3_vue2_toast___default.a);
         Summary: this.Summary[count],
         Limit: data.Quantity
       }).then(function (response) {
-        console.log(response);
+
         if (response.data.error == null) {
           vm.fetchSelectedSession();
           vm.$toast.top('Added successfully');
@@ -11426,7 +11423,7 @@ Vue.use(__WEBPACK_IMPORTED_MODULE_3_vue2_toast___default.a);
       this.$loading('Removing');
       var vm = this;
       __WEBPACK_IMPORTED_MODULE_0_axios___default.a.delete('/MRT-delete/' + ItemCode).then(function (response) {
-        console.log(response);
+
         vm.fetchSelectedSession();
         vm.$toast.top('Removed successfully.');
         vm.$loading.close();
@@ -11439,7 +11436,6 @@ Vue.use(__WEBPACK_IMPORTED_MODULE_3_vue2_toast___default.a);
     fetchSelectedSession: function fetchSelectedSession() {
       var vm = this;
       __WEBPACK_IMPORTED_MODULE_0_axios___default.a.get('/display-session-mrt').then(function (response) {
-        console.log(response);
         Vue.set(vm.$data, 'SessionSelected', response.data.SelectedSession);
       });
     },
@@ -11452,7 +11448,6 @@ Vue.use(__WEBPACK_IMPORTED_MODULE_3_vue2_toast___default.a);
         AddressTo: this.mctdata[0].AddressTo,
         Remarks: this.remarks
       }).then(function (response) {
-        console.log(response);
         if (response.data.error != null) {
           vm.$loading.close();
           vm.$toast.top(response.data.error);
@@ -11583,7 +11578,6 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
     fetchandSearch: function fetchandSearch(page) {
       var vm = this;
       __WEBPACK_IMPORTED_MODULE_0_axios___default.a.get('/mrt-index-fetch-search?MRTNo=' + this.MRTSearch + '&page=' + page).then(function (response) {
-        console.log(response);
         Vue.set(vm.$data, 'MRTindexData', response.data.data);
         Vue.set(vm.$data, 'pagination', response.data);
       });
@@ -11685,7 +11679,6 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
     fetchData: function fetchData(page) {
       var vm = this;
       __WEBPACK_IMPORTED_MODULE_0_axios___default.a.get('/my-mrt-signature-request-fetchdata?page=' + page).then(function (response) {
-        console.log(response);
         Vue.set(vm.$data, 'MRTrequests', response.data.data);
         Vue.set(vm.$data, 'pagination', response.data);
       });

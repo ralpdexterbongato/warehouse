@@ -143,7 +143,7 @@ Vue.use(Toast);
            RVNo:this.fromrvdetail[0].RVNo,
          }).then(function(response)
          {
-           console.log(response);
+
            if (response.data.error!=null)
            {
              vm.$toast.top(response.data.error);
@@ -156,7 +156,6 @@ Vue.use(Toast);
            }
          },function(error)
          {
-           console.log(error.response.data);
            if (error.response.data.UnitCost!=null)
            {
              vm.$toast.top(error.response.data.UnitCost[0]);
@@ -175,7 +174,6 @@ Vue.use(Toast);
          var vm=this;
          axios.get(`/show-rr-session-data-no-po`).then(function(response)
          {
-           console.log(response);
             vm.ItemsInSession=response.data;
          });
        },
@@ -185,7 +183,6 @@ Vue.use(Toast);
          var vm=this;
          axios.delete(`/delete-session-no-po/`+count).then(function(response)
          {
-           console.log(response);
            vm.fetchDataofSession();
            vm.$toast.top('Removed');
            vm.$loading.close();
@@ -214,7 +211,6 @@ Vue.use(Toast);
            Note:this.Note,
          }).then(function(response)
          {
-           console.log(response);
            if (response.data.error==null)
            {
              window.location=response.data.redirect;

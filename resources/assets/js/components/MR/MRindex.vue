@@ -84,7 +84,6 @@ import axios from 'axios';
         var vm=this;
         axios.get(`/mr-index-fetch-and-search?MRNo=`+this.MRNoSearch+`&page=`+page).then(function(response)
         {
-          console.log(response);
           vm.MRindexData=response.data.data;
           vm.pagination=response.data;
         })

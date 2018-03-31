@@ -11178,7 +11178,6 @@ Vue.use(__WEBPACK_IMPORTED_MODULE_1_vue_numeric___default.a);
         Description: this.Description,
         AlertIfBelow: this.AlertBelow
       }).then(function (response) {
-        console.log(response);
         if (response.data.error == null) {
           vm.RecentAddedAndSearch();
           Vue.set(vm.$data, 'AccountCode', '');
@@ -11216,7 +11215,7 @@ Vue.use(__WEBPACK_IMPORTED_MODULE_1_vue_numeric___default.a);
     RecentAddedAndSearch: function RecentAddedAndSearch(page) {
       var vm = this;
       __WEBPACK_IMPORTED_MODULE_0_axios___default.a.get('/search-by-description-and-recently-inits?Search=' + this.ItemCodeSearch + '&page=' + page).then(function (response) {
-        console.log(response);
+
         Vue.set(vm.$data, 'RecentDataResults', response.data.pagination.data);
         Vue.set(vm.$data, 'pagination', response.data.pagination);
       });
@@ -11224,7 +11223,7 @@ Vue.use(__WEBPACK_IMPORTED_MODULE_1_vue_numeric___default.a);
     fetchDataToBeEdit: function fetchDataToBeEdit(id) {
       var vm = this;
       __WEBPACK_IMPORTED_MODULE_0_axios___default.a.get('/fetchData-of-item-to-be-edited/' + id).then(function (response) {
-        console.log(response);
+
         Vue.set(vm.$data, 'AccountCode', response.data.response[0].AccountCode);
         Vue.set(vm.$data, 'ItemCode', response.data.response[0].ItemCode);
         Vue.set(vm.$data, 'CurrentQuantity', response.data.response[0].CurrentQuantity);
@@ -11264,7 +11263,7 @@ Vue.use(__WEBPACK_IMPORTED_MODULE_1_vue_numeric___default.a);
         AlertIfBelow: this.AlertBelow
       }).then(function (response) {
         if (response.data.error == null) {
-          console.log(response);
+
           vm.RecentAddedAndSearch(vm.pagination.current_page);
           Vue.set(vm.$data, 'AccountCode', '');
           Vue.set(vm.$data, 'ItemCode', '');
@@ -11302,13 +11301,11 @@ Vue.use(__WEBPACK_IMPORTED_MODULE_1_vue_numeric___default.a);
       __WEBPACK_IMPORTED_MODULE_0_axios___default.a.post('/add-new-unit-to-dropdown', {
         NewUnit: this.UnitNew
       }).then(function (response) {
-        console.log(response);
         vm.getUnitlist();
         Vue.set(vm.$data, 'UnitIsActive', false);
         vm.$toast.top('Successfully added');
         vm.$loading.close();
       }, function (error) {
-        console.log(error);
         vm.$toast.top(error.response.data.NewUnit[0]);
         vm.$loading.close();
       });
@@ -11316,7 +11313,6 @@ Vue.use(__WEBPACK_IMPORTED_MODULE_1_vue_numeric___default.a);
     getUnitlist: function getUnitlist() {
       var vm = this;
       __WEBPACK_IMPORTED_MODULE_0_axios___default.a.get('/get-all-units').then(function (response) {
-        console.log(response);
         Vue.set(vm.$data, 'UnitList', response.data);
       });
     },
@@ -12222,14 +12218,14 @@ __WEBPACK_IMPORTED_MODULE_4_vue___default.a.use(__WEBPACK_IMPORTED_MODULE_3_vue_
       __WEBPACK_IMPORTED_MODULE_0_axios___default.a.post('/damage-item-store/' + vm.latestFound.ItemCode, {
         'quantity': this.dmgQtyConfirm
       }).then(function (response) {
-        console.log(response);
+
         vm.dmgQty = '';
         vm.dmgQtyConfirm = '';
         vm.dmgModalActive = false;
         vm.$toast.top('Recorded successfully');
         vm.SearchItemHistory(1);
       }).catch(function (error) {
-        console.log(error);
+
         vm.QtyError = error.response.data.quantity[0];
       });
     },
@@ -12237,23 +12233,19 @@ __WEBPACK_IMPORTED_MODULE_4_vue___default.a.use(__WEBPACK_IMPORTED_MODULE_3_vue_
       if (confirm('Are you sure? you wont be able to revert this!')) {
         var vm = this;
         __WEBPACK_IMPORTED_MODULE_0_axios___default.a.delete('/damage-item-delete/' + id + '/' + itemcode).then(function (response) {
-          console.log(response);
+
           vm.$toast.top('removed successfully');
           vm.SearchItemHistory(1);
-        }).catch(function (error) {
-          console.log(error);
-        });
+        }).catch(function (error) {});
       }
     },
     SearchForSuggestions: function SearchForSuggestions() {
       if (this.ItemSearchInput.length > 3) {
         var vm = this;
         __WEBPACK_IMPORTED_MODULE_0_axios___default.a.get('/search-item-autocomplete?typed=' + vm.ItemSearchInput).then(function (response) {
-          console.log(response);
+
           vm.autocomplete = response.data;
-        }).catch(function (error) {
-          console.log(error);
-        });
+        }).catch(function (error) {});
       } else {
         this.autocomplete = [];
       }
@@ -12266,7 +12258,7 @@ __WEBPACK_IMPORTED_MODULE_4_vue___default.a.use(__WEBPACK_IMPORTED_MODULE_3_vue_
     DashData: function DashData() {
       var vm = this;
       __WEBPACK_IMPORTED_MODULE_0_axios___default.a.get('/show-data').then(function (response) {
-        console.log(response);
+
         vm.DashGood = response.data.good;
         vm.DashWarn = response.data.warn;
         vm.DashEmpty = response.data.empty;
@@ -12276,7 +12268,7 @@ __WEBPACK_IMPORTED_MODULE_4_vue___default.a.use(__WEBPACK_IMPORTED_MODULE_3_vue_
       this.$loading('Please wait');
       var vm = this;
       __WEBPACK_IMPORTED_MODULE_0_axios___default.a.get('/search-item-data?SearchInput=' + this.ItemSearchInput + '&page=' + page).then(function (response) {
-        console.log(response);
+
         if (response.data.latestFound[0] == null) {
           vm.$loading.close();
           __WEBPACK_IMPORTED_MODULE_4_vue___default.a.set(vm.$data, 'NotFoundSearch', 'No results found.');
@@ -12297,15 +12289,13 @@ __WEBPACK_IMPORTED_MODULE_4_vue___default.a.use(__WEBPACK_IMPORTED_MODULE_3_vue_
       });
       var vm = this;
       __WEBPACK_IMPORTED_MODULE_0_axios___default.a.get('/line-chart-data').then(function (response) {
-        console.log(response);
+
         for (var i = 0; i < response.data.length; i++) {
           vm.LinechartData.datasets[0].data.push(response.data[i].total);
           vm.LinechartData.labels.push(response.data[i].month);
           myLineChart.update();
         }
-      }).catch(function (error) {
-        console.log(error);
-      });
+      }).catch(function (error) {});
     },
     fetchBarChart: function fetchBarChart() {
       var canvas = document.getElementById('myBarChart');
@@ -12315,15 +12305,12 @@ __WEBPACK_IMPORTED_MODULE_4_vue___default.a.use(__WEBPACK_IMPORTED_MODULE_3_vue_
       });
       var vm = this;
       __WEBPACK_IMPORTED_MODULE_0_axios___default.a.get('/bar-chart-data').then(function (response) {
-        console.log(response.data);
         vm.barData.datasets[0].data = response.data.mct;
         vm.barData.datasets[1].data = response.data.mrt;
         vm.barData.datasets[2].data = response.data.rr;
         vm.barData.labels = response.data.months[0];
         myBarChart.update();
-      }).catch(function (error) {
-        console.log(error);
-      });
+      }).catch(function (error) {});
     },
     formatPrice: function formatPrice(value) {
       var val = (value / 1).toFixed(2).replace('.', '.');
@@ -12336,24 +12323,20 @@ __WEBPACK_IMPORTED_MODULE_4_vue___default.a.use(__WEBPACK_IMPORTED_MODULE_3_vue_
     getRecentFiles: function getRecentFiles() {
       var vm = this;
       __WEBPACK_IMPORTED_MODULE_0_axios___default.a.get('/recent-files-get').then(function (response) {
-        console.log(response);
+
         vm.UserRecentFiles = response.data.recent[0];
         vm.Names = response.data;
-      }).catch(function (error) {
-        console.log(error);
-      });
+      }).catch(function (error) {});
     },
     countRelatedTransactions: function countRelatedTransactions() {
       var vm = this;
       __WEBPACK_IMPORTED_MODULE_0_axios___default.a.get('/transactions-count').then(function (response) {
-        console.log(response);
+
         vm.totalvalid = response.data.validtotal;
         vm.totalinvalid = response.data.invalidtotal;
         vm.totalpending = response.data.pendingtotal;
         vm.alltotal = response.data.overall;
-      }).catch(function (error) {
-        console.log(error);
-      });
+      }).catch(function (error) {});
     }
   },
   computed: {

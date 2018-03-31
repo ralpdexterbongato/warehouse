@@ -853,7 +853,7 @@ Vue.use(VueAnimateNumber);
           'quantity':this.dmgQtyConfirm
         }).then(function(response)
         {
-          console.log(response);
+
           vm.dmgQty ='';
           vm.dmgQtyConfirm = '';
           vm.dmgModalActive=false;
@@ -861,7 +861,7 @@ Vue.use(VueAnimateNumber);
           vm.SearchItemHistory(1);
         }).catch(function(error)
         {
-          console.log(error);
+
           vm.QtyError = error.response.data.quantity[0];
         })
       },
@@ -872,12 +872,12 @@ Vue.use(VueAnimateNumber);
           var vm=this;
           axios.delete(`/damage-item-delete/`+id+`/`+itemcode).then(function(response)
           {
-            console.log(response);
+
             vm.$toast.top('removed successfully');
             vm.SearchItemHistory(1);
           }).catch(function(error)
           {
-            console.log(error);
+
           });
         }
       },
@@ -888,11 +888,11 @@ Vue.use(VueAnimateNumber);
           var vm=this;
           axios.get(`/search-item-autocomplete?typed=`+vm.ItemSearchInput).then(function(response)
           {
-            console.log(response);
+
             vm.autocomplete = response.data;
           }).catch(function(error)
           {
-            console.log(error);
+
           });
         }else
         {
@@ -910,7 +910,7 @@ Vue.use(VueAnimateNumber);
         var vm=this;
         axios.get(`/show-data`).then(function(response)
         {
-          console.log(response);
+
           vm.DashGood=response.data.good;
           vm.DashWarn=response.data.warn;
           vm.DashEmpty=response.data.empty;
@@ -922,7 +922,7 @@ Vue.use(VueAnimateNumber);
         var vm=this;
         axios.get(`/search-item-data?SearchInput=`+this.ItemSearchInput+`&page=`+page).then(function(response)
         {
-          console.log(response);
+
           if (response.data.latestFound[0]==null) {
             vm.$loading.close();
             Vue.set(vm.$data,'NotFoundSearch','No results found.');
@@ -947,7 +947,7 @@ Vue.use(VueAnimateNumber);
         var vm=this;
         axios.get(`/line-chart-data`).then(function(response)
         {
-          console.log(response);
+
           for (var i = 0; i < response.data.length ; i++)
           {
             vm.LinechartData.datasets[0].data.push(response.data[i].total);
@@ -956,7 +956,7 @@ Vue.use(VueAnimateNumber);
           }
         }).catch(function(error)
         {
-          console.log(error);
+
         })
       },
       fetchBarChart()
@@ -969,7 +969,6 @@ Vue.use(VueAnimateNumber);
         var vm=this;
         axios.get(`/bar-chart-data`).then(function(response)
         {
-          console.log(response.data);
           vm.barData.datasets[0].data=response.data.mct;
           vm.barData.datasets[1].data=response.data.mrt;
           vm.barData.datasets[2].data=response.data.rr;
@@ -977,7 +976,7 @@ Vue.use(VueAnimateNumber);
           myBarChart.update();
         }).catch(function(error)
         {
-          console.log(error);
+
         });
       },
       formatPrice(value) {
@@ -993,12 +992,12 @@ Vue.use(VueAnimateNumber);
         var vm=this;
         axios.get(`/recent-files-get`).then(function(response)
         {
-          console.log(response);
+
           vm.UserRecentFiles = response.data.recent[0];
           vm.Names = response.data;
         }).catch(function(error)
         {
-          console.log(error);
+
         })
       },
       countRelatedTransactions()
@@ -1006,14 +1005,14 @@ Vue.use(VueAnimateNumber);
         var vm=this;
         axios.get(`/transactions-count`).then(function(response)
         {
-          console.log(response);
+
           vm.totalvalid = response.data.validtotal;
           vm.totalinvalid = response.data.invalidtotal;
           vm.totalpending = response.data.pendingtotal;
           vm.alltotal = response.data.overall;
         }).catch(function(error)
         {
-          console.log(error);
+
         });
       }
     },

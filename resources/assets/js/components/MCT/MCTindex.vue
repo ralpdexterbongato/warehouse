@@ -76,7 +76,6 @@ import axios from 'axios';
          var vm=this;
          axios.get(`/mct-index-fetchdata?MCTNo=`+this.searchMCTNo+`&page=`+page).then(function(response)
         {
-          console.log(response);
           Vue.set(vm.$data,'indexData',response.data.data);
           Vue.set(vm.$data,'pagination',response.data);
         })

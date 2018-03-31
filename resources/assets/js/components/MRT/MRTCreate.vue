@@ -102,7 +102,7 @@ Vue.use(Toast);
         var vm=this;
         axios.get(`/MRT-create-fetch-mct-of-mrt/`+this.mctno.MCTNo+`?page=`+page).then(function(response)
         {
-          console.log(response);
+
           vm.MTDetails=response.data.MTDetails.data
           vm.pagination=response.data.MTDetails;
         });
@@ -119,7 +119,7 @@ Vue.use(Toast);
           Limit:data.Quantity,
         }).then(function(response)
         {
-          console.log(response);
+
           if (response.data.error==null)
           {
             vm.fetchSelectedSession();
@@ -143,7 +143,7 @@ Vue.use(Toast);
           var vm=this;
           axios.delete(`/MRT-delete/`+ItemCode).then(function(response)
           {
-            console.log(response);
+
             vm.fetchSelectedSession();
             vm.$toast.top('Removed successfully.');
             vm.$loading.close();
@@ -158,7 +158,6 @@ Vue.use(Toast);
         var vm=this;
         axios.get(`/display-session-mrt`).then(function(response)
         {
-          console.log(response);
           Vue.set(vm.$data,'SessionSelected',response.data.SelectedSession);
         });
       },
@@ -173,7 +172,6 @@ Vue.use(Toast);
           Remarks:this.remarks,
         }).then(function(response)
         {
-          console.log(response);
           if (response.data.error!=null)
           {
             vm.$loading.close();

@@ -11095,7 +11095,7 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
     fetchPOPreview: function fetchPOPreview() {
       var vm = this;
       __WEBPACK_IMPORTED_MODULE_0_axios___default.a.get('/po-full-preview-fetch/' + this.pono.PONo).then(function (response) {
-        console.log(response);
+
         Vue.set(vm.$data, 'OrderMaster', response.data.OrderMaster[0]);
         Vue.set(vm.$data, 'totalAmt', response.data.totalAmt);
         Vue.set(vm.$data, 'remaining', response.data.remainingUnreceived);
@@ -11105,7 +11105,6 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
       this.SignatureBtnHide = true;
       var vm = this;
       __WEBPACK_IMPORTED_MODULE_0_axios___default.a.put('/gm-signature-po/' + this.pono.PONo).then(function (response) {
-        console.log(response);
         vm.fetchPOPreview();
       });
     },
@@ -11113,7 +11112,6 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
       this.SignatureBtnHide = true;
       var vm = this;
       __WEBPACK_IMPORTED_MODULE_0_axios___default.a.put('/gm-decline-po/' + this.pono.PONo).then(function (response) {
-        console.log(response);
         vm.fetchPOPreview();
       });
     },
@@ -11125,7 +11123,6 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
       this.SignatureApproveReplacerHide = true;
       var vm = this;
       __WEBPACK_IMPORTED_MODULE_0_axios___default.a.put('/declined-Authorize-inbehalf/' + this.pono.PONo).then(function (response) {
-        console.log(response);
         vm.fetchPOPreview();
       });
     },
@@ -11133,7 +11130,6 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
       this.SignatureApproveReplacerHide = true;
       var vm = this;
       __WEBPACK_IMPORTED_MODULE_0_axios___default.a.put('/authorize-in-behalf-confirmed/' + this.pono.PONo).then(function (response) {
-        console.log(response);
         vm.fetchPOPreview();
       });
     }
@@ -11249,7 +11245,6 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
     FetchAndSearch: function FetchAndSearch(page) {
       var vm = this;
       __WEBPACK_IMPORTED_MODULE_0_axios___default.a.get('/po-index-fetch-and-search?PONo=' + this.ponumsearch + '&page=' + page).then(function (response) {
-        console.log(response);
         Vue.set(vm.$data, 'POindexData', response.data.data);
         Vue.set(vm.$data, 'pagination', response.data);
       });

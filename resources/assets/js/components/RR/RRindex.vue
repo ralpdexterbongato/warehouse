@@ -88,7 +88,6 @@ import axios from 'axios';
          var vm=this;
          axios.get(`/RR-index-fetch-and-search?RRNo=`+this.SearchRRNo+`&page=`+page).then(function(response)
          {
-          console.log(response);
           Vue.set(vm.$data,'RRDataResults',response.data.data);
           Vue.set(vm.$data,'pagination',response.data);
          });

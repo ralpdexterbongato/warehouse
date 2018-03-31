@@ -11164,7 +11164,7 @@ Vue.use(__WEBPACK_IMPORTED_MODULE_3_vue2_toast___default.a);
         Remarks: this.Remarks[datas.ItemCode],
         RRNo: this.rritems[0].RRNo
       }).then(function (response) {
-        console.log(response);
+
         if (response.data.error) {
           vm.$toast.top(response.data.error);
         } else {
@@ -11208,7 +11208,6 @@ Vue.use(__WEBPACK_IMPORTED_MODULE_3_vue2_toast___default.a);
         ReceivedBy: this.Receivedby,
         RRNo: this.rritems[0].RRNo
       }).then(function (response) {
-        console.log(response);
         if (response.data.error != null) {
           vm.$toast.top(response.data.error);
           Vue.set(vm.$data, 'HideSubmitBtn', false);
@@ -11429,7 +11428,7 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
           NewQty: this.updateQty,
           NewNote: this.updateNote
         }).then(function (response) {
-          console.log(response);
+
           if (response.data.error != null) {
             vm.$toast.top(response.data.error);
           } else {
@@ -11438,7 +11437,6 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
           vm.fetchData();
           vm.$loading.close();
         }).catch(function (error) {
-          console.log(error);
           vm.fetchData();
           vm.$loading.close();
         });
@@ -11447,7 +11445,7 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
     fetchData: function fetchData() {
       var vm = this;
       __WEBPACK_IMPORTED_MODULE_0_axios___default.a.get('/full-preview-MR-Fetch/' + this.mrno.MRNo).then(function (response) {
-        console.log(response);
+
         Vue.set(vm.$data, 'MRMaster', response.data.MRMaster[0]);
         Vue.set(vm.$data, 'MRDetail', response.data.MRDetail);
         vm.updateNote = response.data.MRMaster[0].Note;
@@ -11461,7 +11459,7 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
       this.SignatureBtnHide = true;
       var vm = this;
       __WEBPACK_IMPORTED_MODULE_0_axios___default.a.put('/signature-MR/' + this.mrno.MRNo).then(function (response) {
-        console.log(response);
+
         vm.fetchData();
         vm.SignatureBtnHide = false;
       });
@@ -11470,14 +11468,12 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
       this.SignatureBtnHide = true;
       var vm = this;
       __WEBPACK_IMPORTED_MODULE_0_axios___default.a.put('/Decline-MR/' + this.mrno.MRNo).then(function (response) {
-        console.log(response);
         vm.fetchData();
       });
     },
     refuseApproveInBehalf: function refuseApproveInBehalf() {
       var vm = this;
       __WEBPACK_IMPORTED_MODULE_0_axios___default.a.put('/mr-approve-inbehalf-refused/' + this.mrno.MRNo).then(function (response) {
-        console.log(response);
         vm.fetchData();
       });
     },
@@ -11485,7 +11481,6 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
       this.SignatureApproveReplacer = true;
       var vm = this;
       __WEBPACK_IMPORTED_MODULE_0_axios___default.a.put('/confirmApproveinBehalf/' + this.mrno.MRNo).then(function (response) {
-        console.log(response);
         vm.fetchData();
       });
     }
@@ -11616,7 +11611,6 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
     fetchAndSearch: function fetchAndSearch(page) {
       var vm = this;
       __WEBPACK_IMPORTED_MODULE_0_axios___default.a.get('/mr-index-fetch-and-search?MRNo=' + this.MRNoSearch + '&page=' + page).then(function (response) {
-        console.log(response);
         vm.MRindexData = response.data.data;
         vm.pagination = response.data;
       });

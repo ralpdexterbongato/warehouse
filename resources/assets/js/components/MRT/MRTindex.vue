@@ -76,7 +76,6 @@ import axios from 'axios';
          var vm=this;
          axios.get(`/mrt-index-fetch-search?MRTNo=`+this.MRTSearch+`&page=`+page).then(function(response)
         {
-          console.log(response);
           Vue.set(vm.$data,'MRTindexData',response.data.data);
           Vue.set(vm.$data,'pagination',response.data);
         })

@@ -124,7 +124,7 @@ Vue.use(Toast);
         var vm=this;
         axios.get(`/item-search?search=`+this.ItemSearch+`&page=`+page).then(function(response)
         {
-          console.log(response);
+
           Vue.set(vm.$data,'SearchResults',response.data.data);
           Vue.set(vm.$data,'Pagination',response.data);
           vm.Quantity=[];
@@ -144,7 +144,7 @@ Vue.use(Toast);
         Quantity:this.Quantity[count],
         }).then(function(response)
       {
-          console.log(response);
+
           if (response.data.error==null)
           {
             vm.fetchAddedSession();
@@ -173,13 +173,12 @@ Vue.use(Toast);
         var vm=this;
         axios.delete(`/removeSessions/`+code,{}).then(function(response)
         {
-          console.log(response);
+
           vm.fetchAddedSession();
           vm.$toast.top('Successfully removed');
           vm.$loading.close();
         },function(error)
         {
-          console.log(error);
           vm.$loading.close();
         });
       },
@@ -188,7 +187,6 @@ Vue.use(Toast);
           var vm=this;
           axios.get(`/fetchSessionMIRS`).then(function(response)
           {
-            console.log(response)
             Vue.set(vm.$data,'SessionItems',response.data);
           });
         },
@@ -205,7 +203,6 @@ Vue.use(Toast);
             if (response.data.error==null)
             {
               window.location=response.data.redirect;
-              console.log(response);
             }else
             {
               vm.$toast.top(response.data.error);

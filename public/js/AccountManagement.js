@@ -29348,13 +29348,11 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
       this.$loading('Loading');
       var vm = this;
       __WEBPACK_IMPORTED_MODULE_0_axios___default.a.get('/sort-by-role-and-search?Role=' + this.SelectedRole + '&FullName=' + this.FullNameSearch + '&page=' + page).then(function (response) {
-        console.log(response);
+
         Vue.set(vm.$data, 'AccountResults', response.data.data);
         Vue.set(vm.$data, 'pagination', response.data);
         vm.$loading.close();
-      }, function (error) {
-        console.log(error);
-      });
+      }, function (error) {});
     },
     changepage: function changepage(next) {
       this.pagination.current_page = next;
@@ -29363,7 +29361,7 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
     fetchselecteduser: function fetchselecteduser(id) {
       var vm = this;
       __WEBPACK_IMPORTED_MODULE_0_axios___default.a.get('/fetchDataofSelectedUser/' + id).then(function (response) {
-        console.log(response);
+
         Vue.set(vm.$data, 'userFetched', response.data[0]);
         Vue.set(vm.$data, 'Password', '');
         Vue.set(vm.$data, 'Password_confirmation', '');
@@ -29431,7 +29429,7 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
           Signature: this.image,
           IsActive: this.activeUser
         }).then(function (response) {
-          console.log(response);
+
           if (response.data.error != null) {
             vm.$toast.top(response.data.error);
           } else {
@@ -29458,7 +29456,7 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
       if (confirm("Are you sure to delete this account?") == true) {
         this.$loading('Deleting');
         __WEBPACK_IMPORTED_MODULE_0_axios___default.a.delete('/deleteAccount/' + id).then(function (response) {
-          console.log(response);
+
           vm.getSelectedAndSearch(vm.Activepage);
           vm.$loading.close();
           vm.$toast.top('Account deleted');
@@ -29478,7 +29476,7 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
           Password_confirmation: this.ManagerPwordConfirm,
           Signature: this.image2
         }).then(function (response) {
-          console.log(response);
+
           vm.getSelectedAndSearch(vm.Activepage);
           vm.ManagerRegisterFullName = '';
           vm.ManagerRegisterUsername = '';
@@ -29519,7 +29517,7 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
           Password_confirmation: this.RegisterPwordConfirm,
           Signature: this.image3
         }).then(function (response) {
-          console.log(response);
+
           if (response.data.error != null) {
             vm.$toast.top(response.data.error);
           } else {
@@ -29558,7 +29556,7 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
     fetchManagerChoices: function fetchManagerChoices() {
       var vm = this;
       __WEBPACK_IMPORTED_MODULE_0_axios___default.a.get('/get-all-managers').then(function (response) {
-        console.log(response);
+
         Vue.set(vm.$data, 'ManagerChoices', response.data);
       });
     }
@@ -29650,14 +29648,14 @@ Vue.use(__WEBPACK_IMPORTED_MODULE_2_vue2_toast___default.a);
     getCurrentAssigned: function getCurrentAssigned() {
       var vm = this;
       __WEBPACK_IMPORTED_MODULE_0_axios___default.a.get('/get-current-assigned-bygm').then(function (response) {
-        console.log(response);
+
         Vue.set(vm.$data, 'currentAssigned', response.data[0]);
       });
     },
     fetchAllManager: function fetchAllManager() {
       var vm = this;
       __WEBPACK_IMPORTED_MODULE_0_axios___default.a.get('/get-all-active-manager').then(function (response) {
-        console.log(response);
+
         Vue.set(vm.$data, 'Managers', response.data);
       });
     },
@@ -29665,7 +29663,7 @@ Vue.use(__WEBPACK_IMPORTED_MODULE_2_vue2_toast___default.a);
       this.$loading('Updating');
       var vm = this;
       __WEBPACK_IMPORTED_MODULE_0_axios___default.a.put('/update-manager-to-take-place', { ManagerID: this.AssignedManagerID }).then(function (response) {
-        console.log(response);
+
         vm.getCurrentAssigned();
         vm.editActive = false;
         vm.$toast.top('Updated successfully');
@@ -29791,7 +29789,6 @@ Vue.use(__WEBPACK_IMPORTED_MODULE_2_vue2_toast___default.a);
     getMyAccountData: function getMyAccountData() {
       var vm = this;
       __WEBPACK_IMPORTED_MODULE_0_axios___default.a.get('/my-own-account-fetch-data').then(function (response) {
-        console.log(response.data);
         vm.MyData = response.data;
       });
     },
@@ -29807,7 +29804,7 @@ Vue.use(__WEBPACK_IMPORTED_MODULE_2_vue2_toast___default.a);
         __WEBPACK_IMPORTED_MODULE_0_axios___default.a.put('/update-account-contact', {
           NewMobile: this.NewContact
         }).then(function (response) {
-          console.log(response);
+
           vm.$toast.top('Contact updated');
         });
       }
@@ -29824,7 +29821,7 @@ Vue.use(__WEBPACK_IMPORTED_MODULE_2_vue2_toast___default.a);
         __WEBPACK_IMPORTED_MODULE_0_axios___default.a.put('/update-account-username', {
           NewUserName: this.NewUsername
         }).then(function (response) {
-          console.log(response);
+
           if (response.data.error == null) {
             vm.$toast.top('Username updated');
             vm.getMyAccountData();
@@ -29842,7 +29839,7 @@ Vue.use(__WEBPACK_IMPORTED_MODULE_2_vue2_toast___default.a);
         Password: this.newPass,
         Password_confirmation: this.newPassConfirm
       }).then(function (response) {
-        console.log(response);
+
         if (response.data.error != null) {
           vm.$toast.top(response.data.error);
         } else {
@@ -30165,7 +30162,7 @@ Vue.use(__WEBPACK_IMPORTED_MODULE_2_vue2_toast___default.a);
       }
       var vm = this;
       __WEBPACK_IMPORTED_MODULE_0_axios___default.a.get('/search-my-mirs-history?PreparedById=' + IDofuser + '&YearMonth=' + this.MyMonth.time + '&page=' + page).then(function (response) {
-        console.log(response);
+
         Vue.set(vm.$data, 'mirsResults', response.data.data);
         Vue.set(vm.$data, 'pagination', response.data);
         vm.$loading.close();
@@ -30180,7 +30177,7 @@ Vue.use(__WEBPACK_IMPORTED_MODULE_2_vue2_toast___default.a);
       }
       var vm = this;
       __WEBPACK_IMPORTED_MODULE_0_axios___default.a.get('/search-my-mct-history?ReceivedById=' + receiverId + '&YearMonth=' + this.MyMonth.time + '&page=' + page, {}).then(function (response) {
-        console.log(response);
+
         Vue.set(vm.$data, 'mctResults', response.data.data);
         Vue.set(vm.$data, 'pagination', response.data);
         vm.$loading.close();
@@ -30195,7 +30192,7 @@ Vue.use(__WEBPACK_IMPORTED_MODULE_2_vue2_toast___default.a);
       }
       var vm = this;
       __WEBPACK_IMPORTED_MODULE_0_axios___default.a.get('/search-my-mrt-history?ReturnedById=' + returnerId + '&YearMonth=' + this.MyMonth.time + '&page=' + page).then(function (response) {
-        console.log(response);
+
         Vue.set(vm.$data, 'mrtResults', response.data.data);
         Vue.set(vm.$data, 'pagination', response.data);
         vm.$loading.close();
@@ -30210,7 +30207,7 @@ Vue.use(__WEBPACK_IMPORTED_MODULE_2_vue2_toast___default.a);
       }
       var vm = this;
       __WEBPACK_IMPORTED_MODULE_0_axios___default.a.get('/search-my-mr-history?ReceivedById=' + UserId + '&YearMonth=' + this.MyMonth.time + '&page=' + page, {}).then(function (response) {
-        console.log(response);
+
         Vue.set(vm.$data, 'mrResults', response.data.data);
         Vue.set(vm.$data, 'pagination', response.data);
         vm.$loading.close();
@@ -30225,7 +30222,7 @@ Vue.use(__WEBPACK_IMPORTED_MODULE_2_vue2_toast___default.a);
       }
       var vm = this;
       __WEBPACK_IMPORTED_MODULE_0_axios___default.a.get('/search-my-rv-history?Requisitioner=' + RequisitionerId + '&YearMonth=' + this.MyMonth.time + '&page=' + page, {}).then(function (response) {
-        console.log(response);
+
         Vue.set(vm.$data, 'rvResults', response.data.data);
         Vue.set(vm.$data, 'pagination', response.data);
         vm.$loading.close();
@@ -30240,7 +30237,7 @@ Vue.use(__WEBPACK_IMPORTED_MODULE_2_vue2_toast___default.a);
       }
       var vm = this;
       __WEBPACK_IMPORTED_MODULE_0_axios___default.a.get('/search-my-rr-history?ReceivedById=' + ReceiverId + '&YearMonth=' + this.MyMonth.time + '&page=' + page, {}).then(function (response) {
-        console.log(response);
+
         Vue.set(vm.$data, 'rrResults', response.data.data);
         Vue.set(vm.$data, 'pagination', response.data);
         vm.$loading.close();
@@ -30418,11 +30415,8 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
     fetchOrSearchEmployee: function fetchOrSearchEmployee() {
       var vm = this;
       __WEBPACK_IMPORTED_MODULE_0_axios___default.a.get('/all-users-status?search=' + this.NameSearch).then(function (response) {
-        console.log(response);
         vm.Employees = response.data.data;
-      }).catch(function (error) {
-        console.log(error);
-      });
+      }).catch(function (error) {});
     }
   }
 });

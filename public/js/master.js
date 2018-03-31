@@ -41844,7 +41844,7 @@ Vue.use(__WEBPACK_IMPORTED_MODULE_2_vue2_toast___default.a);
     var _this = this;
 
     Echo.private('MIRSChannel.' + this.user.id).listen('NewMIRSEvent', function (e) {
-      console.log(e);
+
       _this.refreshNotifationMIRS();
       _this.modalOpen = true;
       _this.MIRSNew = true;
@@ -41852,7 +41852,7 @@ Vue.use(__WEBPACK_IMPORTED_MODULE_2_vue2_toast___default.a);
     });
     if (this.user.Role == 3 || this.user.Role == 4) {
       Echo.private('NewRVApprovedchannel').listen('NewRVApprovedEvent', function (e) {
-        console.log(e);
+
         _this.refreshCountRVWaitingForRR();
         _this.modalOpen = true;
         _this.RVwaitingRRNew = true;
@@ -41860,21 +41860,21 @@ Vue.use(__WEBPACK_IMPORTED_MODULE_2_vue2_toast___default.a);
       });
     }
     Echo.private('MCTchannel.' + this.user.id).listen('NewMCTEvent', function (e) {
-      console.log(e);
+
       _this.refreshnewlyCreatedMCT();
       _this.modalOpen = true;
       _this.MCTNew = true;
       _this.playsound();
     });
     Echo.private('MRTchannel.' + this.user.id).listen('NewMRTEvent', function (e) {
-      console.log(e);
+
       _this.refreshNewlyCreatedMRT();
       _this.modalOpen = true;
       _this.MRTNew = true;
       _this.playsound();
     });
     Echo.private('RVchannel.' + this.user.id).listen('NewRVEvent', function (e) {
-      console.log(e);
+
       _this.refreshNewlyCreatedRV();
       _this.modalOpen = true;
       _this.RVNew = true;
@@ -41882,7 +41882,7 @@ Vue.use(__WEBPACK_IMPORTED_MODULE_2_vue2_toast___default.a);
     });
     if (this.user.Role == 2 || this.user.Role == 0) {
       Echo.private('POchannel.' + this.user.id).listen('NewPOEvent', function (e) {
-        console.log(e);
+
         _this.refreshCountNewlyCreatedPO();
         _this.modalOpen = true;
         _this.PONew = true;
@@ -41890,14 +41890,14 @@ Vue.use(__WEBPACK_IMPORTED_MODULE_2_vue2_toast___default.a);
       });
     }
     Echo.private('RRchannel.' + this.user.id).listen('NewRREvent', function (e) {
-      console.log(e);
+
       _this.refresCountRRnewCreated();
       _this.modalOpen = true;
       _this.RRNew = true;
       _this.playsound();
     });
     Echo.private('MRchannel.' + this.user.id).listen('NewMREvent', function (e) {
-      console.log(e);
+
       _this.refreshCountMRNewlyCreated();
       _this.modalOpen = true;
       _this.MRNew = true;
@@ -41910,7 +41910,7 @@ Vue.use(__WEBPACK_IMPORTED_MODULE_2_vue2_toast___default.a);
     refreshNotifationMIRS: function refreshNotifationMIRS() {
       var vm = this;
       __WEBPACK_IMPORTED_MODULE_0_axios___default.a.get('/mirs-notify').then(function (response) {
-        console.log(response);
+
         Vue.set(vm.$data, 'MIRSNotif', response.data.MIRSrequest);
       });
     },
@@ -41926,49 +41926,49 @@ Vue.use(__WEBPACK_IMPORTED_MODULE_2_vue2_toast___default.a);
     refreshnewlyCreatedMCT: function refreshnewlyCreatedMCT() {
       var vm = this;
       __WEBPACK_IMPORTED_MODULE_0_axios___default.a.get('/mct-new-created-notify').then(function (response) {
-        console.log(response);
+
         Vue.set(vm.$data, 'NewlyCreatedMCT', response.data.MCTRequestCount);
       });
     },
     refreshNewlyCreatedMRT: function refreshNewlyCreatedMRT() {
       var vm = this;
       __WEBPACK_IMPORTED_MODULE_0_axios___default.a.get('/mrt-new-created-notify').then(function (response) {
-        console.log(response);
+
         Vue.set(vm.$data, 'NewlyCreatedMRT', response.data.MRTRequestCount);
       });
     },
     refreshNewlyCreatedRV: function refreshNewlyCreatedRV() {
       var vm = this;
       __WEBPACK_IMPORTED_MODULE_0_axios___default.a.get('/rv-new-created-notify').then(function (response) {
-        console.log(response);
+
         Vue.set(vm.$data, 'NewlyCreatedRV', response.data.RVRequestCount);
       });
     },
     refreshCountRVWaitingForRR: function refreshCountRVWaitingForRR() {
       var vm = this;
       __WEBPACK_IMPORTED_MODULE_0_axios___default.a.get('/rv-waiting-for-all-items-receiving-report').then(function (response) {
-        console.log(response);
+
         Vue.set(vm.$data, 'RVWaitingRRCount', response.data.RVwaitingRR);
       });
     },
     refresCountRRnewCreated: function refresCountRRnewCreated() {
       var vm = this;
       __WEBPACK_IMPORTED_MODULE_0_axios___default.a.get('/rv-new-created-rr-notify').then(function (response) {
-        console.log(response);
+
         Vue.set(vm.$data, 'RRRequestCount', response.data.RRrequestCount);
       });
     },
     refreshCountMRNewlyCreated: function refreshCountMRNewlyCreated() {
       var vm = this;
       __WEBPACK_IMPORTED_MODULE_0_axios___default.a.get('/rv-new-created-mr-notify').then(function (response) {
-        console.log(response);
+
         Vue.set(vm.$data, 'CountMRRequest', response.data.CountMRRequest);
       });
     },
     refreshCountNewlyCreatedPO: function refreshCountNewlyCreatedPO() {
       var vm = this;
       __WEBPACK_IMPORTED_MODULE_0_axios___default.a.get('/po-count-notification').then(function (response) {
-        console.log(response);
+
         Vue.set(vm.$data, 'CountPOrequest', response.data.PONotifCount);
       });
     },

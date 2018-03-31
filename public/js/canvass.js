@@ -11072,15 +11072,12 @@ Vue.use(__WEBPACK_IMPORTED_MODULE_2_vue_numeric___default.a);
     getSuppliers: function getSuppliers() {
       var vm = this;
       __WEBPACK_IMPORTED_MODULE_0_axios___default.a.get('/canvass-suppliers/' + this.rvno.RVNo).then(function (response) {
-        console.log(response);
         Vue.set(vm.$data, 'Suppliers', response.data.supplierdata);
         Vue.set(vm.$data, 'RVdata', response.data.rvdata);
         for (var i = 0; i < vm.RVdata.length; i++) {
           vm.PriceNew[i] = 0;
         }
-      }, function (error) {
-        console.log(error);
-      });
+      }, function (error) {});
     },
     formatPrice: function formatPrice(value) {
       var val = (value / 1).toFixed(2).replace('.', '.');
@@ -11102,7 +11099,7 @@ Vue.use(__WEBPACK_IMPORTED_MODULE_2_vue_numeric___default.a);
           Qty: this.Qty,
           Unit: this.Unit
         }).then(function (response) {
-          console.log(response);
+
           Vue.set(vm.$data, 'formSupplier', '');
           Vue.set(vm.$data, 'formAddress', '');
           Vue.set(vm.$data, 'formTelephone', '');
@@ -11113,7 +11110,6 @@ Vue.use(__WEBPACK_IMPORTED_MODULE_2_vue_numeric___default.a);
           vm.$toast.top('Supplier saved');
           vm.$loading.close();
         }, function (error) {
-          console.log(error);
           if (error.response.data.Supplier != null) {
             vm.$toast.top(error.response.data.Supplier[0]);
           } else if (error.response.data.Address) {
@@ -11134,7 +11130,7 @@ Vue.use(__WEBPACK_IMPORTED_MODULE_2_vue_numeric___default.a);
         RVNo: this.RVdata[0].RVNo,
         SupplierChoice: this.SupplierChoice
       }).then(function (response) {
-        console.log(response);
+
         if (response.data.error == null) {
           window.location = response.data.redirect;
         } else {
@@ -11156,7 +11152,7 @@ Vue.use(__WEBPACK_IMPORTED_MODULE_2_vue_numeric___default.a);
           canvassID: id
         }
       }).then(function (response) {
-        console.log(response);
+
         Vue.set(vm.$data, 'fetchUpdatedata', response.data[0]);
         Vue.set(vm.$data, 'UpdateformSupplier', response.data[0].Supplier);
         Vue.set(vm.$data, 'UpdateformAddress', response.data[0].Address);
@@ -11177,12 +11173,11 @@ Vue.use(__WEBPACK_IMPORTED_MODULE_2_vue_numeric___default.a);
           Address: this.UpdateformAddress,
           Telephone: this.UpdateformTelephone
         }).then(function (response) {
-          console.log(response);
+
           vm.getSuppliers();
           vm.$toast.top('Successfully updated');
           vm.$loading.close();
         }, function (error) {
-          console.log(error);
           if (error.response.data.Supplier != null) {
             vm.$toast.top(error.response.data.Supplier[0]);
           } else if (error.response.data.Address) {
@@ -11200,7 +11195,7 @@ Vue.use(__WEBPACK_IMPORTED_MODULE_2_vue_numeric___default.a);
       if (confirm("Are you sure to delete this permanently?") == true) {
         this.$loading('Deleting');
         __WEBPACK_IMPORTED_MODULE_0_axios___default.a.delete('/deleteCanvassRecord/' + id, {}).then(function (response) {
-          console.log(response);
+
           vm.getSuppliers();
           vm.$loading.close();
           vm.$toast.top('Deleted successfully');

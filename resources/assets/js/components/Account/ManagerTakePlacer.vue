@@ -45,7 +45,7 @@ Vue.use(Toast);
          var vm=this;
          axios.get(`/get-current-assigned-bygm`).then(function(response)
         {
-            console.log(response);
+            
             Vue.set(vm.$data,'currentAssigned',response.data[0]);
         })
        },
@@ -54,7 +54,7 @@ Vue.use(Toast);
          var vm=this;
          axios.get(`/get-all-active-manager`).then(function(response)
         {
-          console.log(response);
+          
           Vue.set(vm.$data,'Managers',response.data);
         })
       },
@@ -64,7 +64,7 @@ Vue.use(Toast);
         var vm=this;
         axios.put(`/update-manager-to-take-place`,{ManagerID:this.AssignedManagerID}).then(function(response)
         {
-          console.log(response);
+          
           vm.getCurrentAssigned();
           vm.editActive=false;
           vm.$toast.top('Updated successfully');

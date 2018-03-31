@@ -28526,7 +28526,7 @@ Vue.use(__WEBPACK_IMPORTED_MODULE_4_vue2_toast___default.a);
       this.$loading('Loading');
       var vm = this;
       __WEBPACK_IMPORTED_MODULE_1_axios___default.a.get('/item-search?search=' + this.ItemSearch + '&page=' + page).then(function (response) {
-        console.log(response);
+
         Vue.set(vm.$data, 'SearchResults', response.data.data);
         Vue.set(vm.$data, 'Pagination', response.data);
         vm.Quantity = [];
@@ -28544,7 +28544,7 @@ Vue.use(__WEBPACK_IMPORTED_MODULE_4_vue2_toast___default.a);
         Remarks: this.Remarks[count],
         Quantity: this.Quantity[count]
       }).then(function (response) {
-        console.log(response);
+
         if (response.data.error == null) {
           vm.fetchAddedSession();
           vm.$toast.top('Added successfully');
@@ -28568,19 +28568,17 @@ Vue.use(__WEBPACK_IMPORTED_MODULE_4_vue2_toast___default.a);
       this.$loading('removing...');
       var vm = this;
       __WEBPACK_IMPORTED_MODULE_1_axios___default.a.delete('/removeSessions/' + code, {}).then(function (response) {
-        console.log(response);
+
         vm.fetchAddedSession();
         vm.$toast.top('Successfully removed');
         vm.$loading.close();
       }, function (error) {
-        console.log(error);
         vm.$loading.close();
       });
     },
     fetchAddedSession: function fetchAddedSession() {
       var vm = this;
       __WEBPACK_IMPORTED_MODULE_1_axios___default.a.get('/fetchSessionMIRS').then(function (response) {
-        console.log(response);
         Vue.set(vm.$data, 'SessionItems', response.data);
       });
     },
@@ -28594,7 +28592,6 @@ Vue.use(__WEBPACK_IMPORTED_MODULE_4_vue2_toast___default.a);
       }).then(function (response) {
         if (response.data.error == null) {
           window.location = response.data.redirect;
-          console.log(response);
         } else {
           vm.$toast.top(response.data.error);
           vm.HideButton = false;
@@ -28913,7 +28910,7 @@ Vue.use(__WEBPACK_IMPORTED_MODULE_3_vue2_toast___default.a);
           remarks: this.updateRemarks
         }).then(function (response) {
           vm.fetchMIRSData();
-          console.log(response);
+
           if (response.data.error != null) {
             vm.$toast.top(response.data.error);
           } else {
@@ -28922,7 +28919,6 @@ Vue.use(__WEBPACK_IMPORTED_MODULE_3_vue2_toast___default.a);
           }
         }).catch(function (error) {
           vm.fetchMIRSData();
-          console.log(error);
           vm.$toast.top(error.response.data.purpose[0]);
         });
       }
@@ -28930,7 +28926,6 @@ Vue.use(__WEBPACK_IMPORTED_MODULE_3_vue2_toast___default.a);
     fetchMIRSData: function fetchMIRSData() {
       var vm = this;
       __WEBPACK_IMPORTED_MODULE_0_axios___default.a.get('/fetchpreview-full-mirs-/' + this.mirsno.MIRSNo).then(function (response) {
-        console.log(response);
         Vue.set(vm.$data, 'MIRSMaster', response.data.MIRSMaster[0]);
         Vue.set(vm.$data, 'MIRSDetail', response.data.MIRSDetail);
         Vue.set(vm.$data, 'MCTNumber', response.data.MCTNumber);
@@ -28942,7 +28937,7 @@ Vue.use(__WEBPACK_IMPORTED_MODULE_3_vue2_toast___default.a);
       this.$loading('Signing...');
       var vm = this;
       __WEBPACK_IMPORTED_MODULE_0_axios___default.a.put('/MIRS-Signature/' + this.mirsno.MIRSNo).then(function (response) {
-        console.log(response);
+
         vm.fetchMIRSData();
         vm.$loading.close();
       });
@@ -28952,7 +28947,7 @@ Vue.use(__WEBPACK_IMPORTED_MODULE_3_vue2_toast___default.a);
       this.$loading('Declining');
       var vm = this;
       __WEBPACK_IMPORTED_MODULE_0_axios___default.a.put('/deniedmirs/' + this.mirsno.MIRSNo).then(function (response) {
-        console.log(response);
+
         vm.fetchMIRSData();
         vm.$loading.close();
       });
@@ -28960,21 +28955,21 @@ Vue.use(__WEBPACK_IMPORTED_MODULE_3_vue2_toast___default.a);
     ApproveinBehalf: function ApproveinBehalf() {
       var vm = this;
       __WEBPACK_IMPORTED_MODULE_0_axios___default.a.put('/mirs-signature-if-gm-isabsent/' + this.mirsno.MIRSNo).then(function (response) {
-        console.log(response);
+
         vm.fetchMIRSData();
       });
     },
     CancelApproveinBehalf: function CancelApproveinBehalf() {
       var vm = this;
       __WEBPACK_IMPORTED_MODULE_0_axios___default.a.put('/cancel-request-toadmin/' + this.mirsno.MIRSNo).then(function (response) {
-        console.log(response);
+
         vm.fetchMIRSData();
       });
     },
     fetchAllManager: function fetchAllManager() {
       var vm = this;
       __WEBPACK_IMPORTED_MODULE_0_axios___default.a.get('/fetch-all-managers').then(function (response) {
-        console.log(response);
+
         Vue.set(vm.$data, 'allManager', response.data);
       });
     },
@@ -28999,7 +28994,7 @@ Vue.use(__WEBPACK_IMPORTED_MODULE_3_vue2_toast___default.a);
       var vm = this;
       __WEBPACK_IMPORTED_MODULE_0_axios___default.a.delete('/cancel-request-manager-replacer/' + this.mirsno.MIRSNo).then(function (response) {
         Vue.set(vm.$data, 'ManagerBehalfActive', false);
-        console.log(response);
+
         vm.fetchMIRSData();
         vm.$loading.close();
       });
@@ -29009,7 +29004,7 @@ Vue.use(__WEBPACK_IMPORTED_MODULE_3_vue2_toast___default.a);
       this.SignatureManagerRelacerBtnHide = true;
       var vm = this;
       __WEBPACK_IMPORTED_MODULE_0_axios___default.a.put('/signature-replacer-accepted/' + this.mirsno.MIRSNo).then(function (response) {
-        console.log(response);
+
         vm.fetchMIRSData();
         vm.$loading.close();
       });
@@ -29019,7 +29014,7 @@ Vue.use(__WEBPACK_IMPORTED_MODULE_3_vue2_toast___default.a);
       this.SignatureApproveBtnHide = true;
       var vm = this;
       __WEBPACK_IMPORTED_MODULE_0_axios___default.a.put('/cancel-request-approval/' + this.mirsno.MIRSNo).then(function (response) {
-        console.log(response);
+
         vm.fetchMIRSData();
         vm.$loading.close();
       });
@@ -29029,7 +29024,7 @@ Vue.use(__WEBPACK_IMPORTED_MODULE_3_vue2_toast___default.a);
       this.SignatureApproveBtnHide = true;
       var vm = this;
       __WEBPACK_IMPORTED_MODULE_0_axios___default.a.put('/confirm-manager-toreplace-gm-signature/' + this.mirsno.MIRSNo).then(function (response) {
-        console.log(response);
+
         vm.fetchMIRSData();
         vm.$loading.close();
       });
@@ -29229,7 +29224,6 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
     SearchAndFetch: function SearchAndFetch(page) {
       var vm = this;
       __WEBPACK_IMPORTED_MODULE_0_axios___default.a.get('/findmirs-and-fetch?MIRSNo=' + this.SearchInput + '&page=' + page).then(function (response) {
-        console.log(response);
         Vue.set(vm.$data, 'SearchResult', response.data.data);
         Vue.set(vm.$data, 'pagination', response.data);
       });

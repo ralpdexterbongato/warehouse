@@ -221,7 +221,7 @@ Vue.use(Toast);
      {
        Echo.private('MIRSChannel.'+this.user.id)
        .listen('NewMIRSEvent', (e) => {
-           console.log(e);
+
            this.refreshNotifationMIRS();
            this.modalOpen=true;
            this.MIRSNew=true;
@@ -231,7 +231,7 @@ Vue.use(Toast);
        {
          Echo.private('NewRVApprovedchannel')
          .listen('NewRVApprovedEvent', (e) => {
-             console.log(e);
+
              this.refreshCountRVWaitingForRR();
              this.modalOpen=true;
              this.RVwaitingRRNew=true;
@@ -240,7 +240,7 @@ Vue.use(Toast);
        }
        Echo.private('MCTchannel.'+this.user.id)
        .listen('NewMCTEvent', (e) => {
-           console.log(e);
+
            this.refreshnewlyCreatedMCT();
            this.modalOpen=true;
            this.MCTNew=true;
@@ -248,7 +248,7 @@ Vue.use(Toast);
        });
        Echo.private('MRTchannel.'+this.user.id)
        .listen('NewMRTEvent', (e) => {
-           console.log(e);
+
            this.refreshNewlyCreatedMRT();
            this.modalOpen=true;
            this.MRTNew=true;
@@ -256,7 +256,7 @@ Vue.use(Toast);
        });
        Echo.private('RVchannel.'+this.user.id)
        .listen('NewRVEvent', (e) => {
-           console.log(e);
+
            this.refreshNewlyCreatedRV();
            this.modalOpen=true;
            this.RVNew=true;
@@ -266,7 +266,7 @@ Vue.use(Toast);
        {
          Echo.private('POchannel.'+this.user.id)
          .listen('NewPOEvent', (e) => {
-             console.log(e);
+
              this.refreshCountNewlyCreatedPO();
              this.modalOpen=true;
              this.PONew=true;
@@ -275,7 +275,7 @@ Vue.use(Toast);
        }
        Echo.private('RRchannel.'+this.user.id)
        .listen('NewRREvent', (e) => {
-           console.log(e);
+
            this.refresCountRRnewCreated();
            this.modalOpen=true;
            this.RRNew=true;
@@ -283,7 +283,7 @@ Vue.use(Toast);
        });
        Echo.private('MRchannel.'+this.user.id)
        .listen('NewMREvent', (e) => {
-           console.log(e);
+
            this.refreshCountMRNewlyCreated();
            this.modalOpen=true;
            this.MRNew=true;
@@ -297,7 +297,7 @@ Vue.use(Toast);
          var vm=this;
          axios.get(`/mirs-notify`).then(function(response)
         {
-          console.log(response);
+          
           Vue.set(vm.$data,'MIRSNotif',response.data.MIRSrequest)
         })
       },
@@ -318,7 +318,7 @@ Vue.use(Toast);
         var vm=this;
         axios.get(`/mct-new-created-notify`).then(function(response)
         {
-          console.log(response);
+          
           Vue.set(vm.$data,'NewlyCreatedMCT',response.data.MCTRequestCount);
         })
       },
@@ -327,7 +327,7 @@ Vue.use(Toast);
         var vm=this;
         axios.get(`/mrt-new-created-notify`).then(function(response)
         {
-          console.log(response);
+          
           Vue.set(vm.$data,'NewlyCreatedMRT',response.data.MRTRequestCount);
         })
       },
@@ -336,7 +336,7 @@ Vue.use(Toast);
         var vm=this;
         axios.get(`/rv-new-created-notify`).then(function(response)
         {
-          console.log(response);
+          
           Vue.set(vm.$data,'NewlyCreatedRV',response.data.RVRequestCount);
         })
       },
@@ -345,7 +345,7 @@ Vue.use(Toast);
         var vm=this;
         axios.get(`/rv-waiting-for-all-items-receiving-report`).then(function(response)
         {
-          console.log(response);
+          
           Vue.set(vm.$data,'RVWaitingRRCount',response.data.RVwaitingRR);
         })
       },
@@ -354,7 +354,7 @@ Vue.use(Toast);
         var vm=this;
         axios.get(`/rv-new-created-rr-notify`).then(function(response)
         {
-          console.log(response);
+          
           Vue.set(vm.$data,'RRRequestCount',response.data.RRrequestCount);
         })
       },
@@ -363,7 +363,7 @@ Vue.use(Toast);
         var vm=this;
         axios.get(`/rv-new-created-mr-notify`).then(function(response)
         {
-          console.log(response);
+          
           Vue.set(vm.$data,'CountMRRequest',response.data.CountMRRequest);
         });
       },
@@ -372,7 +372,7 @@ Vue.use(Toast);
         var vm=this;
         axios.get(`/po-count-notification`).then(function(response)
         {
-          console.log(response);
+          
           Vue.set(vm.$data,'CountPOrequest',response.data.PONotifCount);
         });
       },

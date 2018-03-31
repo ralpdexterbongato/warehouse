@@ -252,7 +252,7 @@ Vue.use(Toast);
            }).then(function(response)
           {
             vm.fetchMIRSData();
-            console.log(response);
+
             if (response.data.error!=null)
             {
               vm.$toast.top(response.data.error);
@@ -264,9 +264,7 @@ Vue.use(Toast);
           }).catch(function(error)
           {
             vm.fetchMIRSData();
-            console.log(error);
             vm.$toast.top(error.response.data.purpose[0]);
-
           })
          }
        },
@@ -275,7 +273,6 @@ Vue.use(Toast);
          var vm=this;
          axios.get(`/fetchpreview-full-mirs-/`+this.mirsno.MIRSNo).then(function(response)
          {
-           console.log(response);
            Vue.set(vm.$data,'MIRSMaster',response.data.MIRSMaster[0])
            Vue.set(vm.$data,'MIRSDetail',response.data.MIRSDetail)
            Vue.set(vm.$data,'MCTNumber',response.data.MCTNumber)
@@ -289,7 +286,7 @@ Vue.use(Toast);
          var vm=this;
          axios.put(`/MIRS-Signature/`+this.mirsno.MIRSNo).then(function(response)
         {
-          console.log(response);
+
           vm.fetchMIRSData();
           vm.$loading.close();
         });
@@ -301,7 +298,7 @@ Vue.use(Toast);
         var vm=this;
         axios.put(`/deniedmirs/`+this.mirsno.MIRSNo).then(function(response)
         {
-          console.log(response);
+
           vm.fetchMIRSData();
           vm.$loading.close();
         })
@@ -311,7 +308,7 @@ Vue.use(Toast);
         var vm=this;
         axios.put(`/mirs-signature-if-gm-isabsent/`+this.mirsno.MIRSNo).then(function(response)
         {
-          console.log(response);
+
           vm.fetchMIRSData();
         });
       },
@@ -320,7 +317,7 @@ Vue.use(Toast);
         var vm=this;
         axios.put(`/cancel-request-toadmin/`+this.mirsno.MIRSNo).then(function(response)
         {
-          console.log(response);
+
           vm.fetchMIRSData();
         });
       },
@@ -329,7 +326,7 @@ Vue.use(Toast);
         var vm=this;
         axios.get(`/fetch-all-managers`).then(function(response)
         {
-          console.log(response);
+
           Vue.set(vm.$data,'allManager',response.data);
         })
       },
@@ -360,7 +357,7 @@ Vue.use(Toast);
         axios.delete(`/cancel-request-manager-replacer/` + this.mirsno.MIRSNo).then(function(response)
         {
           Vue.set(vm.$data,'ManagerBehalfActive',false);
-          console.log(response);
+
           vm.fetchMIRSData();
           vm.$loading.close();
         });
@@ -372,7 +369,7 @@ Vue.use(Toast);
         var vm=this;
         axios.put(`/signature-replacer-accepted/`+this.mirsno.MIRSNo).then(function(response)
         {
-          console.log(response);
+
           vm.fetchMIRSData();
           vm.$loading.close();
         });
@@ -384,7 +381,7 @@ Vue.use(Toast);
         var vm=this;
         axios.put(`/cancel-request-approval/`+this.mirsno.MIRSNo).then(function(response)
         {
-          console.log(response);
+
           vm.fetchMIRSData();
           vm.$loading.close();
         })
@@ -396,7 +393,7 @@ Vue.use(Toast);
         var vm=this;
         axios.put(`/confirm-manager-toreplace-gm-signature/`+this.mirsno.MIRSNo).then(function(response)
         {
-          console.log(response);
+
           vm.fetchMIRSData();
           vm.$loading.close();
         });

@@ -11883,6 +11883,7 @@ only screen and (max-width: 1050px),
 .monthsearch-history
 {
   display: flex;
+	height: 34px;
 }
 .monthsearch-history input
 {

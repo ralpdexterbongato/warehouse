@@ -72,7 +72,6 @@ import axios from 'axios';
         var vm=this;
         axios.get(`/po-index-fetch-and-search?PONo=`+this.ponumsearch+`&page=`+page).then(function(response)
         {
-          console.log(response);
           Vue.set(vm.$data,'POindexData',response.data.data);
           Vue.set(vm.$data,'pagination',response.data);
         });

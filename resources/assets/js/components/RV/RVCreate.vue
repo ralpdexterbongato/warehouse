@@ -156,7 +156,7 @@ Vue.use(Toast);
          var vm=this;
          axios.get(`/search-rv-forstock?Search=`+this.findDescription+`&page=`+page).then(function(response)
          {
-            console.log(response);
+
             vm.QuantityForWHouse=[];
             vm.RemarksForWHouse=[];
             Vue.set(vm.$data,'findResults',response.data.MasterResults.data);
@@ -187,7 +187,7 @@ Vue.use(Toast);
           Remarks:this.Remarks
         }).then(function(response)
         {
-          console.log(response);
+
           if (response.data.error==null)
           {
             vm.FetchSessionStored();
@@ -213,7 +213,6 @@ Vue.use(Toast);
           {
             vm.$toast.top(error.response.data.Quantity[0]);
           }
-          console.log(error);
           vm.$loading.close();
         });
       },
@@ -230,7 +229,7 @@ Vue.use(Toast);
           Remarks:this.RemarksForWHouse[count],
         }).then(function(response)
         {
-          console.log(response);
+
           vm.FetchSessionStored();
           if (response.data.error!=null)
           {
@@ -252,7 +251,7 @@ Vue.use(Toast);
         var vm=this;
         axios.get(`/fetch-rv-session`).then(function(response)
         {
-          console.log(response);
+
           Vue.set(vm.$data,'SessionStored',response.data);
         });
       },
@@ -262,7 +261,7 @@ Vue.use(Toast);
         var vm=this;
         axios.get(`/get-low-qty-items?page=`+page).then(function(response)
         {
-          console.log(response);
+
           Vue.set(vm.$data,'findResults',response.data.data)
           Vue.set(vm.$data,'pagination',response.data)
           vm.$loading.close();
@@ -274,7 +273,7 @@ Vue.use(Toast);
         var vm=this;
         axios.delete(`DeleteSession/`+key).then(function(response)
         {
-          console.log(response);
+
           vm.FetchSessionStored();
           vm.$toast.top('Removed successfully');
           vm.$loading.close();
@@ -285,7 +284,6 @@ Vue.use(Toast);
         var vm=this;
         axios.get(`/get-all-units`).then(function(response)
         {
-          console.log(response);
           Vue.set(vm.$data,'UnitsFromDB',response.data);
         })
       },
@@ -298,7 +296,6 @@ Vue.use(Toast);
           Purpose:this.purpose
         }).then(function(response)
         {
-          console.log(response);
           if (response.data.error!=null) {
             vm.$toast.top(response.data.error);
             Vue.set(vm.$data,'HideBtn',false);

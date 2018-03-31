@@ -11125,7 +11125,7 @@ Vue.use(__WEBPACK_IMPORTED_MODULE_3_vue2_toast___default.a);
     FetchTheValidator: function FetchTheValidator(page) {
       var vm = this;
       __WEBPACK_IMPORTED_MODULE_0_axios___default.a.get('/fetch-mct-validator/' + this.mirsno.MIRSNo + '?page=' + page).then(function (response) {
-        console.log(response);
+
         Vue.set(vm.$data, 'FromMIRSDetail', response.data.FromMIRSDetail.data);
         Vue.set(vm.$data, 'pagination', response.data.FromMIRSDetail);
       });
@@ -11145,7 +11145,7 @@ Vue.use(__WEBPACK_IMPORTED_MODULE_3_vue2_toast___default.a);
         Unit: validator.Unit,
         Remarks: validator.Remarks
       }).then(function (response) {
-        console.log(response);
+
         if (response.data.error == null) {
           vm.fetchSessionData();
           vm.$toast.top('Item added successfully');
@@ -11159,7 +11159,7 @@ Vue.use(__WEBPACK_IMPORTED_MODULE_3_vue2_toast___default.a);
     fetchSessionData: function fetchSessionData() {
       var vm = this;
       __WEBPACK_IMPORTED_MODULE_0_axios___default.a.get('/mct-create-fetch-session-data').then(function (response) {
-        console.log(response);
+
         Vue.set(vm.$data, 'SessionList', response.data.SessionData);
       });
     },
@@ -11167,7 +11167,7 @@ Vue.use(__WEBPACK_IMPORTED_MODULE_3_vue2_toast___default.a);
       this.$loading('removing');
       var vm = this;
       __WEBPACK_IMPORTED_MODULE_0_axios___default.a.delete('/delete-session-mct/' + ItemCode).then(function (response) {
-        console.log(response);
+
         vm.fetchSessionData();
         vm.$toast.top('1 item is removed.');
         vm.$loading.close();
@@ -11182,7 +11182,7 @@ Vue.use(__WEBPACK_IMPORTED_MODULE_3_vue2_toast___default.a);
         Particulars: this.purpose.Purpose,
         AddressTo: this.AddressTo
       }).then(function (response) {
-        console.log(response);
+
         if (response.data.error != null) {
           vm.$toast.top(response.data.error);
           Vue.set(vm.$data, 'HideBtn', false);
@@ -11412,7 +11412,7 @@ Vue.use(__WEBPACK_IMPORTED_MODULE_3_vue2_toast___default.a);
     fetchData: function fetchData() {
       var vm = this;
       __WEBPACK_IMPORTED_MODULE_0_axios___default.a.get('/MCTpreview/' + this.mctno.MCTNo).then(function (response) {
-        console.log(response);
+
         Vue.set(vm.$data, 'MRTCheck', response.data.MRTcheck);
         Vue.set(vm.$data, 'MCTMaster', response.data.MCTMaster[0]);
         Vue.set(vm.$data, 'MCTConfirmDetails', response.data.MCTConfirmDetails);
@@ -11425,7 +11425,7 @@ Vue.use(__WEBPACK_IMPORTED_MODULE_3_vue2_toast___default.a);
       this.SignatureMCTBtnHide = true;
       var vm = this;
       __WEBPACK_IMPORTED_MODULE_0_axios___default.a.put('/Signature-for-mct/' + this.mctno.MCTNo).then(function (response) {
-        console.log(response);
+
         vm.fetchData();
         vm.SignatureMCTBtnHide = false;
         vm.$loading.close();
@@ -11436,7 +11436,7 @@ Vue.use(__WEBPACK_IMPORTED_MODULE_3_vue2_toast___default.a);
       this.SignatureMCTBtnHide = true;
       var vm = this;
       __WEBPACK_IMPORTED_MODULE_0_axios___default.a.put('/decline-mct/' + this.mctno.MCTNo).then(function (response) {
-        console.log(response);
+
         vm.fetchData();
         vm.$loading.close();
       });
@@ -11453,7 +11453,7 @@ Vue.use(__WEBPACK_IMPORTED_MODULE_3_vue2_toast___default.a);
           NewQuantity: this.QuantityArray,
           NewAddressTo: this.AddressToEdit
         }).then(function (response) {
-          console.log(response);
+
           if (response.data.error != null) {
             vm.$toast.top(response.data.error);
             vm.fetchData();
@@ -11464,7 +11464,7 @@ Vue.use(__WEBPACK_IMPORTED_MODULE_3_vue2_toast___default.a);
             vm.$loading.close();
           }
         }).catch(function (error) {
-          console.log(error);
+
           vm.fetchData();
           vm.$toast.top('Invalid input');
           vm.$loading.close();
@@ -11476,12 +11476,12 @@ Vue.use(__WEBPACK_IMPORTED_MODULE_3_vue2_toast___default.a);
       if (confirm('Are you sure to rollback this MCT?')) {
         vm.$loading('Rolling back data');
         __WEBPACK_IMPORTED_MODULE_0_axios___default.a.put('/rollback-mct-history/' + this.mctno.MCTNo + '/' + this.MCTMaster.MIRSNo).then(function (response) {
-          console.log(response);
+
           vm.fetchData();
           vm.$loading.close();
           vm.$toast.top('Reversed successfully');
         }).catch(function (error) {
-          console.log(error);
+
           vm.$loading.close();
         });
       }
@@ -11491,12 +11491,12 @@ Vue.use(__WEBPACK_IMPORTED_MODULE_3_vue2_toast___default.a);
       if (confirm('Are you sure to undo the rollback of this MCT?')) {
         vm.$loading('Undoing rollbacked data');
         __WEBPACK_IMPORTED_MODULE_0_axios___default.a.put('/undo-rollback-mct-history/' + this.mctno.MCTNo + '/' + this.MCTMaster.MIRSNo).then(function (response) {
-          console.log(response);
+
           vm.fetchData();
           vm.$loading.close();
           vm.$toast.top('undo rollback successful');
         }).catch(function (error) {
-          console.log(error);
+
           vm.$loading.close();
         });
       }
@@ -11606,7 +11606,6 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
     fetchdatatable: function fetchdatatable(page) {
       var vm = this;
       __WEBPACK_IMPORTED_MODULE_0_axios___default.a.get('/mct-index-fetchdata?MCTNo=' + this.searchMCTNo + '&page=' + page).then(function (response) {
-        console.log(response);
         Vue.set(vm.$data, 'indexData', response.data.data);
         Vue.set(vm.$data, 'pagination', response.data);
       });

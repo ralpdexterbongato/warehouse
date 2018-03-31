@@ -123,7 +123,7 @@ export default {
        Remarks:this.Remarks[datas.ItemCode],
        RRNo:this.rritems[0].RRNo,
      }).then(function(response){
-       console.log(response);
+
        if (response.data.error) {
          vm.$toast.top(response.data.error);
        }else
@@ -175,7 +175,6 @@ export default {
       RRNo:this.rritems[0].RRNo,
     }).then(function(response)
     {
-      console.log(response);
       if (response.data.error!=null){
         vm.$toast.top(response.data.error);
         Vue.set(vm.$data,'HideSubmitBtn',false);

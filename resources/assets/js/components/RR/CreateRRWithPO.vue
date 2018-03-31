@@ -139,7 +139,6 @@ Vue.use(Toast);
             }
           },function(error)
           {
-            console.log(error)
             {
               if (error.response.data.QuantityDelivered!=null)
               {
@@ -157,7 +156,6 @@ Vue.use(Toast);
           var vm=this;
           axios.get(`/show-rr-session-data`).then(function(response)
           {
-            console.log(response);
             Vue.set(vm.$data,'SessionItems',response.data);
           });
         },
@@ -171,7 +169,6 @@ Vue.use(Toast);
           var vm=this;
           axios.delete(`/delete-session-with-po/`+count).then(function(response)
           {
-            console.log(response);
             vm.showaddedSession();
             vm.$toast.top('Successfully removed');
             vm.$loading.close();
@@ -194,10 +191,8 @@ Vue.use(Toast);
             PONo:this.rrvalidatorwpo[0].PONo,
           }).then(function(response)
           {
-            console.log(response);
             if (response.data.error!=null)
             {
-
               vm.$toast.top(response.data.error);
               Vue.set(vm.$data,'HideSubmitBtn',false);
             }else
@@ -207,7 +202,6 @@ Vue.use(Toast);
             vm.$loading.close();
           },function(error)
           {
-            console.log(error);
             Vue.set(vm.$data,'HideSubmitBtn',false);
 
             if (error.response.data.InvoiceNo!=null)

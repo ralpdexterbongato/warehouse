@@ -138,7 +138,6 @@ Vue.use(VueNumeric);
            var vm=this;
            axios.get(`/canvass-suppliers/`+this.rvno.RVNo).then(function(response)
            {
-             console.log(response)
              Vue.set(vm.$data,'Suppliers',response.data.supplierdata);
              Vue.set(vm.$data,'RVdata',response.data.rvdata);
             for (var i = 0; i < vm.RVdata.length; i++)
@@ -147,7 +146,6 @@ Vue.use(VueNumeric);
             }
            },function(error)
            {
-            console.log(error);
            });
           },
           formatPrice(value) {
@@ -173,7 +171,7 @@ Vue.use(VueNumeric);
                Unit:this.Unit
              }).then(function(response)
              {
-              console.log(response);
+
               Vue.set(vm.$data,'formSupplier','');
               Vue.set(vm.$data,'formAddress','');
               Vue.set(vm.$data,'formTelephone','');
@@ -186,7 +184,6 @@ Vue.use(VueNumeric);
               vm.$loading.close();
             },function(error)
             {
-              console.log(error);
               if (error.response.data.Supplier!=null)
               {
                 vm.$toast.top(error.response.data.Supplier[0]);
@@ -212,7 +209,7 @@ Vue.use(VueNumeric);
             SupplierChoice:this.SupplierChoice,
           }).then(function(response)
           {
-            console.log(response);
+
              if (response.data.error==null)
              {
                window.location=response.data.redirect;
@@ -239,7 +236,7 @@ Vue.use(VueNumeric);
             }
           }).then(function(response)
           {
-            console.log(response);
+
             Vue.set(vm.$data,'fetchUpdatedata',response.data[0]);
             Vue.set(vm.$data,'UpdateformSupplier',response.data[0].Supplier);
             Vue.set(vm.$data,'UpdateformAddress',response.data[0].Address);
@@ -265,12 +262,11 @@ Vue.use(VueNumeric);
                 Telephone:this.UpdateformTelephone,
             }).then(function(response)
             {
-              console.log(response);
+
               vm.getSuppliers();
               vm.$toast.top('Successfully updated');
               vm.$loading.close();
             },function(error){
-              console.log(error);
               if (error.response.data.Supplier!=null)
               {
                 vm.$toast.top(error.response.data.Supplier[0]);
@@ -293,7 +289,7 @@ Vue.use(VueNumeric);
           {
             this.$loading('Deleting');
             axios.delete(`/deleteCanvassRecord/`+id,{}).then(function(response){
-              console.log(response);
+
               vm.getSuppliers()
               vm.$loading.close();
               vm.$toast.top('Deleted successfully');

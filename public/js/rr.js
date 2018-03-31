@@ -11320,7 +11320,7 @@ Vue.use(__WEBPACK_IMPORTED_MODULE_3_vue2_toast___default.a);
         QuantityAccepted: this.QuantityAccepted[count],
         RVNo: this.fromrvdetail[0].RVNo
       }).then(function (response) {
-        console.log(response);
+
         if (response.data.error != null) {
           vm.$toast.top(response.data.error);
           vm.$loading.close();
@@ -11330,7 +11330,6 @@ Vue.use(__WEBPACK_IMPORTED_MODULE_3_vue2_toast___default.a);
           vm.$loading.close();
         }
       }, function (error) {
-        console.log(error.response.data);
         if (error.response.data.UnitCost != null) {
           vm.$toast.top(error.response.data.UnitCost[0]);
         } else if (error.response.data.QuantityDelivered != null) {
@@ -11344,7 +11343,6 @@ Vue.use(__WEBPACK_IMPORTED_MODULE_3_vue2_toast___default.a);
     fetchDataofSession: function fetchDataofSession() {
       var vm = this;
       __WEBPACK_IMPORTED_MODULE_0_axios___default.a.get('/show-rr-session-data-no-po').then(function (response) {
-        console.log(response);
         vm.ItemsInSession = response.data;
       });
     },
@@ -11352,7 +11350,6 @@ Vue.use(__WEBPACK_IMPORTED_MODULE_3_vue2_toast___default.a);
       this.$loading('Removing');
       var vm = this;
       __WEBPACK_IMPORTED_MODULE_0_axios___default.a.delete('/delete-session-no-po/' + count).then(function (response) {
-        console.log(response);
         vm.fetchDataofSession();
         vm.$toast.top('Removed');
         vm.$loading.close();
@@ -11379,7 +11376,6 @@ Vue.use(__WEBPACK_IMPORTED_MODULE_3_vue2_toast___default.a);
         DeliveryReceiptNo: this.DeliveryReceiptNo,
         Note: this.Note
       }).then(function (response) {
-        console.log(response);
         if (response.data.error == null) {
           window.location = response.data.redirect;
         } else {
@@ -11574,7 +11570,6 @@ Vue.use(__WEBPACK_IMPORTED_MODULE_3_vue2_toast___default.a);
           vm.$loading.close();
         }
       }, function (error) {
-        console.log(error);
         {
           if (error.response.data.QuantityDelivered != null) {
             vm.$toast.top(error.response.data.QuantityDelivered[0]);
@@ -11588,7 +11583,6 @@ Vue.use(__WEBPACK_IMPORTED_MODULE_3_vue2_toast___default.a);
     showaddedSession: function showaddedSession() {
       var vm = this;
       __WEBPACK_IMPORTED_MODULE_0_axios___default.a.get('/show-rr-session-data').then(function (response) {
-        console.log(response);
         Vue.set(vm.$data, 'SessionItems', response.data);
       });
     },
@@ -11600,7 +11594,6 @@ Vue.use(__WEBPACK_IMPORTED_MODULE_3_vue2_toast___default.a);
       this.$loading('Removing');
       var vm = this;
       __WEBPACK_IMPORTED_MODULE_0_axios___default.a.delete('/delete-session-with-po/' + count).then(function (response) {
-        console.log(response);
         vm.showaddedSession();
         vm.$toast.top('Successfully removed');
         vm.$loading.close();
@@ -11621,9 +11614,7 @@ Vue.use(__WEBPACK_IMPORTED_MODULE_3_vue2_toast___default.a);
         Note: this.Note,
         PONo: this.rrvalidatorwpo[0].PONo
       }).then(function (response) {
-        console.log(response);
         if (response.data.error != null) {
-
           vm.$toast.top(response.data.error);
           Vue.set(vm.$data, 'HideSubmitBtn', false);
         } else {
@@ -11631,7 +11622,6 @@ Vue.use(__WEBPACK_IMPORTED_MODULE_3_vue2_toast___default.a);
         }
         vm.$loading.close();
       }, function (error) {
-        console.log(error);
         Vue.set(vm.$data, 'HideSubmitBtn', false);
 
         if (error.response.data.InvoiceNo != null) {
@@ -11933,7 +11923,6 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
           newDeliveryReceipt: this.updateDeliveryReceipt,
           newNote: this.updateNote
         }).then(function (response) {
-          console.log(response);
           if (response.data.error != null) {
             vm.$toast.top(response.data.error);
           } else {
@@ -11942,7 +11931,6 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
           vm.FetchData();
           vm.$loading.close();
         }).catch(function (error) {
-          console.log(error);
           vm.$loading.close();
         });
       }
@@ -11950,7 +11938,7 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
     FetchData: function FetchData() {
       var vm = this;
       __WEBPACK_IMPORTED_MODULE_0_axios___default.a.get('/RR-fullpreview-fetch-data/' + this.rrno.RRNo).then(function (response) {
-        console.log(response);
+
         Vue.set(vm.$data, 'RRMaster', response.data.RRMaster[0]);
         Vue.set(vm.$data, 'RRconfirmationDetails', response.data.RRconfirmationDetails);
         Vue.set(vm.$data, 'checkMR', response.data.checkMR);
@@ -11963,7 +11951,7 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
       this.SignatureBtnHide = true;
       var vm = this;
       __WEBPACK_IMPORTED_MODULE_0_axios___default.a.put('/RR-signature/' + this.rrno.RRNo).then(function (response) {
-        console.log(response);
+
         vm.FetchData();
       });
     },
@@ -11971,7 +11959,7 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
       this.SignatureBtnHide = true;
       var vm = this;
       __WEBPACK_IMPORTED_MODULE_0_axios___default.a.put('/decline-this-RR/' + this.rrno.RRNo).then(function (response) {
-        console.log(response);
+
         vm.FetchData();
       });
     },
@@ -11980,12 +11968,12 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
         this.$loading('Rolling back...');
         var vm = this;
         __WEBPACK_IMPORTED_MODULE_0_axios___default.a.put('/rollback-this-rr/' + this.rrno.RRNo).then(function (response) {
-          console.log(response);
+
           vm.FetchData();
           vm.$toast.top('rolled back sucessfully');
           vm.$loading.close();
         }).catch(function (error) {
-          console.log(error);
+
           vm.$loading.close();
         });
       }
@@ -11995,12 +11983,12 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
         this.$loading('undoing rollback...');
         var vm = this;
         __WEBPACK_IMPORTED_MODULE_0_axios___default.a.put('/undo-rollback-this-rr/' + this.rrno.RRNo).then(function (response) {
-          console.log(response);
+
           vm.FetchData();
           vm.$toast.top('rollback undid sucessfully');
           vm.$loading.close();
         }).catch(function (error) {
-          console.log(error);
+
           vm.$loading.close();
         });
       }
@@ -12126,7 +12114,6 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
     SearchAndFetch: function SearchAndFetch(page) {
       var vm = this;
       __WEBPACK_IMPORTED_MODULE_0_axios___default.a.get('/RR-index-fetch-and-search?RRNo=' + this.SearchRRNo + '&page=' + page).then(function (response) {
-        console.log(response);
         Vue.set(vm.$data, 'RRDataResults', response.data.data);
         Vue.set(vm.$data, 'pagination', response.data);
       });

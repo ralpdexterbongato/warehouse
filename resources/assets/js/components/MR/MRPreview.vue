@@ -179,7 +179,7 @@ import Toast from 'vue2-toast'
              NewNote:this.updateNote
            }).then(function(response)
           {
-            console.log(response);
+
             if (response.data.error!=null)
             {
               vm.$toast.top(response.data.error);
@@ -191,7 +191,6 @@ import Toast from 'vue2-toast'
             vm.$loading.close();
           }).catch(function(error)
           {
-            console.log(error);
             vm.fetchData();
             vm.$loading.close();
           });
@@ -202,7 +201,7 @@ import Toast from 'vue2-toast'
          var vm=this;
          axios.get(`/full-preview-MR-Fetch/`+this.mrno.MRNo).then(function(response)
         {
-          console.log(response);
+
           Vue.set(vm.$data,'MRMaster',response.data.MRMaster[0]);
           Vue.set(vm.$data,'MRDetail',response.data.MRDetail);
           vm.updateNote = response.data.MRMaster[0].Note;
@@ -218,7 +217,7 @@ import Toast from 'vue2-toast'
         var vm=this;
         axios.put(`/signature-MR/`+this.mrno.MRNo).then(function(response)
       {
-        console.log(response);
+
         vm.fetchData();
         vm.SignatureBtnHide=false;
       });
@@ -229,7 +228,6 @@ import Toast from 'vue2-toast'
         var vm=this;
         axios.put(`/Decline-MR/`+this.mrno.MRNo).then(function(response)
         {
-          console.log(response);
           vm.fetchData();
         })
       },
@@ -238,7 +236,6 @@ import Toast from 'vue2-toast'
         var vm=this;
         axios.put(`/mr-approve-inbehalf-refused/`+this.mrno.MRNo).then(function(response)
         {
-          console.log(response);
           vm.fetchData();
         });
       },
@@ -248,7 +245,6 @@ import Toast from 'vue2-toast'
         var vm=this;
         axios.put(`/confirmApproveinBehalf/`+this.mrno.MRNo).then(function(response)
         {
-          console.log(response);
           vm.fetchData();
         });
       }

@@ -133,7 +133,7 @@ Vue.use(Toast);
        {
          var vm=this;
          axios.get(`/mrt-viewer/`+this.mrtno.MRTNo).then(function(response){
-          console.log(response);
+
           Vue.set(vm.$data,'MRTMaster',response.data.MRTMaster[0]);
           Vue.set(vm.$data,'MRTbyAcntCode',response.data.MRTbyAcntCode);
           Vue.set(vm.$data,'totalsum',response.data.totalsum);
@@ -147,7 +147,7 @@ Vue.use(Toast);
         var vm=this;
         axios.put(`/signatureMRT/`+this.mrtno.MRTNo).then(function(response)
         {
-          console.log(response);
+
           vm.fetchdata();
           vm.SignatureBtnHide=false;
           vm.$loading.close();
@@ -160,7 +160,7 @@ Vue.use(Toast);
         var vm=this;
         axios.put(`/declineMRT/`+this.mrtno.MRTNo).then(function(response)
         {
-          console.log(response);
+
           vm.fetchdata();
           vm.$loading.close();
         });
@@ -171,7 +171,7 @@ Vue.use(Toast);
         var vm=this;
         axios.put(`/updateMRTQty/`+this.mrtno.MRTNo,{UpdatedQty:this.EditedQty}).then(function(response)
         {
-          console.log(response);
+
           vm.fetchdata();
           if (response.data.error!=null)
           {
@@ -191,13 +191,12 @@ Vue.use(Toast);
           var vm=this;
           axios.put(`/rollback-mrt-history/`+this.mrtno.MRTNo).then(function(response)
           {
-            console.log(response);
+
             vm.fetchdata();
             vm.$toast.top('Rolled back successfully');
             vm.$loading.close();
           }).catch(function(error)
           {
-            console.log(error);
             vm.$loading.close();
           })
         }
@@ -210,13 +209,11 @@ Vue.use(Toast);
           var vm=this;
           axios.put(`/undo-rollback-mrt-history/`+this.mrtno.MRTNo).then(function(response)
           {
-            console.log(response);
             vm.fetchdata();
             vm.$toast.top('rollback undid successfully');
             vm.$loading.close();
           }).catch(function(error)
           {
-            console.log(error);
             vm.$loading.close();
           })
         }

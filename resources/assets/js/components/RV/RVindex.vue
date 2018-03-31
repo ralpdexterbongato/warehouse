@@ -112,7 +112,6 @@ export default {
       var vm= this
       axios.get(`${this.url}?search=${this.search}&page=`+page)
       .then(function (response){
-        console.log(response);
         Vue.set(vm.$data,'RVs',response.data.data);
         Vue.set(vm.$data,'pagination',response.data);
       })

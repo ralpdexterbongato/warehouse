@@ -110,7 +110,7 @@ Vue.use(Toast);
         var vm=this;
         axios.get(`/fetch-mct-validator/`+this.mirsno.MIRSNo+`?page=`+page).then(function(response)
         {
-          console.log(response);
+          
           Vue.set(vm.$data,'FromMIRSDetail',response.data.FromMIRSDetail.data);
           Vue.set(vm.$data,'pagination',response.data.FromMIRSDetail);
         });
@@ -132,7 +132,7 @@ Vue.use(Toast);
           Remarks:validator.Remarks,
         }).then(function(response)
         {
-          console.log(response);
+          
           if (response.data.error==null)
           {
             vm.fetchSessionData();
@@ -150,7 +150,7 @@ Vue.use(Toast);
         var vm=this;
         axios.get(`/mct-create-fetch-session-data`).then(function(response)
         {
-          console.log(response);
+          
           Vue.set(vm.$data,'SessionList',response.data.SessionData)
         })
       },
@@ -160,7 +160,7 @@ Vue.use(Toast);
         var vm=this;
         axios.delete(`/delete-session-mct/`+ItemCode).then(function(response)
         {
-          console.log(response);
+          
           vm.fetchSessionData();
           vm.$toast.top('1 item is removed.');
           vm.$loading.close();
@@ -177,7 +177,7 @@ Vue.use(Toast);
           AddressTo:this.AddressTo,
         }).then(function(response)
         {
-          console.log(response);
+          
           if (response.data.error!=null)
           {
             vm.$toast.top(response.data.error);

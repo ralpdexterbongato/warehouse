@@ -48,11 +48,9 @@
         var vm=this;
         axios.get(`/all-users-status?search=`+this.NameSearch).then(function(response)
         {
-          console.log(response);
           vm.Employees = response.data.data;
         }).catch(function(error)
         {
-          console.log(error);
         });
       }
     },

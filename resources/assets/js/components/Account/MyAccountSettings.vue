@@ -99,7 +99,6 @@ Vue.use(Toast);
         var vm=this;
         axios.get(`/my-own-account-fetch-data`).then(function(response)
         {
-          console.log(response.data);
           vm.MyData=response.data;
         });
       },
@@ -121,7 +120,7 @@ Vue.use(Toast);
             NewMobile:this.NewContact
           }).then(function(response)
           {
-            console.log(response);
+            
             vm.$toast.top('Contact updated');
           });
         }
@@ -144,7 +143,7 @@ Vue.use(Toast);
             NewUserName:this.NewUsername
           }).then(function(response)
           {
-            console.log(response);
+            
             if (response.data.error==null)
             {
               vm.$toast.top('Username updated');
@@ -167,7 +166,7 @@ Vue.use(Toast);
           Password_confirmation:this.newPassConfirm
         }).then(function(response)
         {
-          console.log(response);
+          
           if (response.data.error!=null)
           {
             vm.$toast.top(response.data.error);

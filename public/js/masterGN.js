@@ -41729,7 +41729,6 @@ Vue.use(__WEBPACK_IMPORTED_MODULE_1_vue2_toast___default.a);
 
     this.countNotif();
     Echo.private('GlobalNotif.' + this.user.id).listen('GlobalNotifEvent', function (e) {
-      console.log(e);
       _this.countNotif();
       if (_this.dropIsActive == true) {
         _this.fetchData(1);
@@ -41742,7 +41741,7 @@ Vue.use(__WEBPACK_IMPORTED_MODULE_1_vue2_toast___default.a);
       this.Loaded = true;
       var vm = this;
       __WEBPACK_IMPORTED_MODULE_2_axios___default.a.get('/fetch-global-notifications?page=' + page).then(function (response) {
-        console.log(response);
+
         if (response.data.current_page == 1) {
           vm.NotifList = response.data.data;
         } else {
@@ -41757,7 +41756,7 @@ Vue.use(__WEBPACK_IMPORTED_MODULE_1_vue2_toast___default.a);
     fetchRV: function fetchRV(page) {
       var vm = this;
       __WEBPACK_IMPORTED_MODULE_2_axios___default.a.get('/fetch-rv-global-notifications?page=' + page).then(function (response) {
-        console.log(response);
+
         vm.RVCurrentPage = response.data.current_page;
         vm.RVLastPage = response.data.last_page;
         if (response.data.current_page == 1) {
@@ -41767,14 +41766,12 @@ Vue.use(__WEBPACK_IMPORTED_MODULE_1_vue2_toast___default.a);
             vm.RVNotifs.push(response.data.data[i]);
           }
         }
-      }).then(function (error) {
-        console.log(error);
-      });
+      }).then(function (error) {});
     },
     fetchPO: function fetchPO(page) {
       var vm = this;
       __WEBPACK_IMPORTED_MODULE_2_axios___default.a.get('/fetch-po-global-notifications?page=' + page).then(function (response) {
-        console.log(response);
+
         if (response.data.current_page == 1) {
           vm.PONotifs = response.data.data;
         } else {
@@ -41784,14 +41781,11 @@ Vue.use(__WEBPACK_IMPORTED_MODULE_1_vue2_toast___default.a);
         }
         vm.POCurrentPage = response.data.current_page;
         vm.POLastPage = response.data.last_page;
-      }).then(function (error) {
-        console.log(error);
-      });
+      }).then(function (error) {});
     },
     fetchRR: function fetchRR(page) {
       var vm = this;
       __WEBPACK_IMPORTED_MODULE_2_axios___default.a.get('/fetch-rr-global-notifications?page=' + page).then(function (response) {
-        console.log(response);
         if (response.data.current_page == 1) {
           vm.RRNotifs = response.data.data;
         } else {
@@ -41801,14 +41795,11 @@ Vue.use(__WEBPACK_IMPORTED_MODULE_1_vue2_toast___default.a);
         }
         vm.RRCurrentPage = response.data.current_page;
         vm.RRLastPage = response.data.last_page;
-      }).then(function (error) {
-        console.log(error);
-      });
+      }).then(function (error) {});
     },
     fetchMR: function fetchMR(page) {
       var vm = this;
       __WEBPACK_IMPORTED_MODULE_2_axios___default.a.get('/fetch-mr-global-notifications?page=' + page).then(function (response) {
-        console.log(response);
         if (response.data.current_page == 1) {
           vm.MRNotifs = response.data.data;
         } else {
@@ -41818,14 +41809,11 @@ Vue.use(__WEBPACK_IMPORTED_MODULE_1_vue2_toast___default.a);
         }
         vm.MRCurrentPage = response.data.current_page;
         vm.MRLastPage = response.data.last_page;
-      }).then(function (error) {
-        console.log(error);
-      });
+      }).then(function (error) {});
     },
     fetchMCT: function fetchMCT(page) {
       var vm = this;
       __WEBPACK_IMPORTED_MODULE_2_axios___default.a.get('/fetch-mct-global-notifications?page=' + page).then(function (response) {
-        console.log(response);
         if (response.data.current_page == 1) {
           vm.MCTNotifs = response.data.data;
         } else {
@@ -41835,14 +41823,11 @@ Vue.use(__WEBPACK_IMPORTED_MODULE_1_vue2_toast___default.a);
         }
         vm.MCTCurrentPage = response.data.current_page;
         vm.MCTLastPage = response.data.last_page;
-      }).then(function (error) {
-        console.log(error);
-      });
+      }).then(function (error) {});
     },
     fetchMRT: function fetchMRT(page) {
       var vm = this;
       __WEBPACK_IMPORTED_MODULE_2_axios___default.a.get('/fetch-mrt-global-notifications?page=' + page).then(function (response) {
-        console.log(response);
         if (response.data.current_page == 1) {
           vm.MRTNotifs = response.data.data;
         } else {
@@ -41852,35 +41837,25 @@ Vue.use(__WEBPACK_IMPORTED_MODULE_1_vue2_toast___default.a);
         }
         vm.MRTCurrentPage = response.data.current_page;
         vm.MRTLastPage = response.data.last_page;
-      }).then(function (error) {
-        console.log(error);
-      });
+      }).then(function (error) {});
     },
     countNotif: function countNotif() {
       var vm = this;
       __WEBPACK_IMPORTED_MODULE_2_axios___default.a.get('/notif-global-count').then(function (response) {
         vm.NotificationCounts = response.data;
-      }).then(function (error) {
-        console.log(error);
-      });
+      }).then(function (error) {});
     },
     markSeen: function markSeen(id) {
       var vm = this;
-      __WEBPACK_IMPORTED_MODULE_2_axios___default.a.get('/mark-seen/' + id).then(function (response) {
-        console.log(response);
-      }).catch(function (error) {
-        console.log(error);
-      });
+      __WEBPACK_IMPORTED_MODULE_2_axios___default.a.get('/mark-seen/' + id).then(function (response) {}).catch(function (error) {});
     },
     markAllSeen: function markAllSeen() {
       var vm = this;
       __WEBPACK_IMPORTED_MODULE_2_axios___default.a.get('/mark-all-seen').then(function (response) {
-        console.log(response);
+
         vm.fetchData(1);
         vm.$toast.top(response.data.success);
-      }).catch(function (error) {
-        console.log(error);
-      });
+      }).catch(function (error) {});
     }
   }
 });

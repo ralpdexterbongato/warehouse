@@ -168,7 +168,7 @@ export default {
          var vm=this;
          axios.get(`/MCTpreview/`+this.mctno.MCTNo).then(function(response)
         {
-          console.log(response);
+
           Vue.set(vm.$data,'MRTCheck',response.data.MRTcheck);
           Vue.set(vm.$data,'MCTMaster',response.data.MCTMaster[0]);
           Vue.set(vm.$data,'MCTConfirmDetails',response.data.MCTConfirmDetails);
@@ -183,7 +183,7 @@ export default {
         var vm=this;
         axios.put(`/Signature-for-mct/`+this.mctno.MCTNo).then(function(response)
         {
-          console.log(response);
+
           vm.fetchData();
           vm.SignatureMCTBtnHide=false;
           vm.$loading.close();
@@ -196,7 +196,7 @@ export default {
         var vm=this;
         axios.put(`/decline-mct/`+this.mctno.MCTNo).then(function(response)
         {
-          console.log(response);
+
           vm.fetchData();
           vm.$loading.close();
         });
@@ -216,7 +216,7 @@ export default {
             NewAddressTo:this.AddressToEdit,
           }).then(function(response)
           {
-            console.log(response);
+
             if (response.data.error!=null)
             {
               vm.$toast.top(response.data.error);
@@ -230,7 +230,7 @@ export default {
             }
           }).catch(function(error)
           {
-            console.log(error);
+            
             vm.fetchData();
             vm.$toast.top('Invalid input');
             vm.$loading.close();
@@ -245,13 +245,13 @@ export default {
           vm.$loading('Rolling back data');
           axios.put(`/rollback-mct-history/`+this.mctno.MCTNo+`/`+this.MCTMaster.MIRSNo).then(function(response)
           {
-            console.log(response);
+
             vm.fetchData();
             vm.$loading.close();
             vm.$toast.top('Reversed successfully');
           }).catch(function(error)
           {
-            console.log(error);
+            
             vm.$loading.close();
           });
         }
@@ -264,13 +264,13 @@ export default {
           vm.$loading('Undoing rollbacked data');
           axios.put(`/undo-rollback-mct-history/`+this.mctno.MCTNo+`/`+this.MCTMaster.MIRSNo).then(function(response)
           {
-            console.log(response);
+
             vm.fetchData();
             vm.$loading.close();
             vm.$toast.top('undo rollback successful');
           }).catch(function(error)
           {
-            console.log(error);
+            
             vm.$loading.close();
           });
         }

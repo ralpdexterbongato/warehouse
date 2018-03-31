@@ -145,7 +145,7 @@
          var vm=this;
          axios.get(`/po-full-preview-fetch/`+this.pono.PONo).then(function(response)
          {
-           console.log(response);
+
            Vue.set(vm.$data,'OrderMaster',response.data.OrderMaster[0])
            Vue.set(vm.$data,'totalAmt',response.data.totalAmt)
            Vue.set(vm.$data,'remaining',response.data.remainingUnreceived)
@@ -157,7 +157,6 @@
          var vm=this;
          axios.put(`/gm-signature-po/`+this.pono.PONo).then(function(response)
         {
-          console.log(response);
           vm.fetchPOPreview();
         });
       },
@@ -167,7 +166,6 @@
         var vm=this;
         axios.put(`/gm-decline-po/`+this.pono.PONo).then(function(response)
         {
-          console.log(response);
           vm.fetchPOPreview();
         });
       },
@@ -181,7 +179,6 @@
         var vm=this;
         axios.put(`/declined-Authorize-inbehalf/`+this.pono.PONo).then(function(response)
         {
-          console.log(response);
           vm.fetchPOPreview();
         });
       },
@@ -191,7 +188,6 @@
         var vm=this;
         axios.put(`/authorize-in-behalf-confirmed/`+this.pono.PONo).then(function(response)
         {
-          console.log(response);
           vm.fetchPOPreview();
         });
       }

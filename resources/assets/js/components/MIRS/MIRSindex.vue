@@ -78,7 +78,6 @@ import axios from 'axios';
         var vm=this;
         axios.get(`/findmirs-and-fetch?MIRSNo=`+this.SearchInput+`&page=`+page).then(function(response)
         {
-          console.log(response);
           Vue.set(vm.$data,'SearchResult',response.data.data);
           Vue.set(vm.$data,'pagination',response.data);
         });

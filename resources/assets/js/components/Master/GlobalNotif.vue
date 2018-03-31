@@ -104,7 +104,6 @@
       this.countNotif();
       Echo.private('GlobalNotif.'+this.user.id)
       .listen('GlobalNotifEvent', (e) => {
-          console.log(e);
           this.countNotif();
           if (this.dropIsActive==true)
           {
@@ -120,7 +119,7 @@
         var vm=this;
         axios.get(`/fetch-global-notifications?page=`+page).then(function(response)
         {
-          console.log(response);
+
           if (response.data.current_page==1)
           {
             vm.NotifList = response.data.data;
@@ -140,7 +139,7 @@
         var vm=this;
         axios.get(`/fetch-rv-global-notifications?page=`+page).then(function(response)
         {
-          console.log(response);
+
           vm.RVCurrentPage=response.data.current_page;
           vm.RVLastPage=response.data.last_page;
           if (response.data.current_page==1)
@@ -155,7 +154,7 @@
           }
         }).then(function(error)
         {
-          console.log(error);
+
         });
       },
       fetchPO(page)
@@ -163,7 +162,7 @@
         var vm=this;
         axios.get(`/fetch-po-global-notifications?page=`+page).then(function(response)
         {
-          console.log(response);
+
           if (response.data.current_page==1)
           {
             vm.PONotifs=response.data.data;
@@ -178,7 +177,7 @@
           vm.POLastPage=response.data.last_page;
         }).then(function(error)
         {
-          console.log(error);
+
         })
       },
       fetchRR(page)
@@ -186,7 +185,6 @@
         var vm=this;
         axios.get(`/fetch-rr-global-notifications?page=`+page).then(function(response)
         {
-          console.log(response);
           if (response.data.current_page==1)
           {
             vm.RRNotifs=response.data.data;
@@ -201,7 +199,6 @@
           vm.RRLastPage=response.data.last_page;
         }).then(function(error)
         {
-          console.log(error);
         })
       },
       fetchMR(page)
@@ -209,7 +206,6 @@
         var vm=this;
         axios.get(`/fetch-mr-global-notifications?page=`+page).then(function(response)
         {
-          console.log(response);
           if (response.data.current_page==1)
           {
             vm.MRNotifs=response.data.data;
@@ -224,7 +220,6 @@
           vm.MRLastPage=response.data.last_page;
         }).then(function(error)
         {
-          console.log(error);
         })
       },
       fetchMCT(page)
@@ -232,7 +227,6 @@
         var vm=this;
         axios.get(`/fetch-mct-global-notifications?page=`+page).then(function(response)
         {
-          console.log(response);
           if (response.data.current_page==1)
           {
             vm.MCTNotifs=response.data.data;
@@ -247,7 +241,6 @@
           vm.MCTLastPage=response.data.last_page;
         }).then(function(error)
         {
-          console.log(error);
         })
       },
       fetchMRT(page)
@@ -255,7 +248,6 @@
         var vm=this;
         axios.get(`/fetch-mrt-global-notifications?page=`+page).then(function(response)
         {
-          console.log(response);
           if (response.data.current_page==1)
           {
             vm.MRTNotifs=response.data.data;
@@ -270,7 +262,6 @@
           vm.MRTLastPage=response.data.last_page;
         }).then(function(error)
         {
-          console.log(error);
         })
       },
       countNotif()
@@ -281,7 +272,7 @@
           vm.NotificationCounts = response.data;
         }).then(function(error)
         {
-          console.log(error);
+
         })
       },
       markSeen(id)
@@ -289,10 +280,10 @@
         var vm=this;
         axios.get(`/mark-seen/`+id).then(function(response)
         {
-          console.log(response);
+
         }).catch(function(error)
         {
-          console.log(error);
+
         });
       },
       markAllSeen()
@@ -300,12 +291,12 @@
         var vm=this;
         axios.get(`/mark-all-seen`).then(function(response)
         {
-          console.log(response);
+
           vm.fetchData(1);
           vm.$toast.top(response.data.success);
         }).catch(function(error)
         {
-          console.log(error);
+
         })
       }
     },

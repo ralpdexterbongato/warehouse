@@ -157,7 +157,6 @@ Vue.use(VueNumeric)
            AlertIfBelow:this.AlertBelow,
          }).then(function(response)
          {
-            console.log(response);
             if (response.data.error==null)
             {
               vm.RecentAddedAndSearch();
@@ -207,7 +206,7 @@ Vue.use(VueNumeric)
          var vm=this;
          axios.get(`/search-by-description-and-recently-inits?Search=`+this.ItemCodeSearch+`&page=`+page).then(function(response)
          {
-           console.log(response);
+
            Vue.set(vm.$data,'RecentDataResults',response.data.pagination.data);
             Vue.set(vm.$data,'pagination',response.data.pagination);
          });
@@ -217,7 +216,7 @@ Vue.use(VueNumeric)
          var vm=this;
          axios.get(`/fetchData-of-item-to-be-edited/`+id).then(function(response)
          {
-           console.log(response);
+
            Vue.set(vm.$data,'AccountCode',response.data.response[0].AccountCode)
            Vue.set(vm.$data,'ItemCode',response.data.response[0].ItemCode)
            Vue.set(vm.$data,'CurrentQuantity',response.data.response[0].CurrentQuantity)
@@ -261,7 +260,7 @@ Vue.use(VueNumeric)
          {
            if (response.data.error==null)
            {
-             console.log(response);
+
              vm.RecentAddedAndSearch(vm.pagination.current_page);
              Vue.set(vm.$data,'AccountCode','');
              Vue.set(vm.$data,'ItemCode','');
@@ -309,14 +308,12 @@ Vue.use(VueNumeric)
            NewUnit:this.UnitNew,
          }).then(function(response)
         {
-          console.log(response);
           vm.getUnitlist();
           Vue.set(vm.$data,'UnitIsActive',false);
           vm.$toast.top('Successfully added');
           vm.$loading.close();
         },function(error)
         {
-          console.log(error);
           vm.$toast.top(error.response.data.NewUnit[0]);
           vm.$loading.close();
         });
@@ -326,7 +323,6 @@ Vue.use(VueNumeric)
         var vm=this;
         axios.get(`/get-all-units`).then(function(response)
         {
-          console.log(response);
           Vue.set(vm.$data,'UnitList',response.data);
         })
       },
