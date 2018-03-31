@@ -18,6 +18,10 @@ use App\Jobs\GlobalNotifJob;
 use App\Notification;
 class POController extends Controller
 {
+    public function __construct()
+    {
+        $this->middleware('auth');
+    }
     public function GeneratePOfromCanvass(Request $request)
     {
     $date=Carbon::now();

@@ -22,6 +22,10 @@ use App\MCTConfirmationDetail;
 use App\MRTConfirmationDetail;
 class PDFController extends Controller
 {
+  public function __construct()
+  {
+      $this->middleware('auth');
+  }
   public function mirspdf($id)
   {
     $master=MIRSMaster::with('users')->where('MIRSNo', $id)->get();

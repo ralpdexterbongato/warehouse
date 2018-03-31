@@ -6,6 +6,10 @@ use Illuminate\Http\Request;
 use App\Unit;
 class UnitController extends Controller
 {
+  public function __construct()
+  {
+      $this->middleware('auth');
+  }
   public function SaveUnit(Request $request)
   {
    $this->validate($request,[

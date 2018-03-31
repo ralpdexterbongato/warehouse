@@ -14,6 +14,10 @@ use App\MRTMaster;
 use App\Notification;
 class globalNotificationController extends Controller
 {
+  public function __construct()
+  {
+   $this->middleware('auth');
+  }
   public function fetchNotifications()
   {
     return Notification::orderBy('TimeNotified','DESC')->where('user_id', Auth::user()->id)->select('TimeNotified as time_notified','id','user_id','NotificationType','FileType','FileNo','Seen')->paginate(10);

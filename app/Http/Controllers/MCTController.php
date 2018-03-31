@@ -21,6 +21,10 @@ use App\Signatureable;
 use App\Notification;
 class MCTController extends Controller
 {
+  public function __construct()
+  {
+      $this->middleware('auth');
+  }
   public function StoreMCT(Request $request)
   {
     if ($request->AddressTo==null)

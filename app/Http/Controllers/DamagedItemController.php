@@ -8,9 +8,12 @@ use App\MasterItem;
 use Carbon\Carbon;
 class DamagedItemController extends Controller
 {
+    public function __construct()
+    {
+     $this->middleware('auth');
+    }
     public function store(Request $request, $itemcode)
     {
-
       //quantity param
       $latest=MaterialsTicketDetail::orderBy('id','DESC')->where('ItemCode', $itemcode)->take(1)->get();
 
