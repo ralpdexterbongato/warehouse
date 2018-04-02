@@ -10,7 +10,7 @@ class CreateMasteritemsTable extends Migration
      * Schema table name to migrate
      * @var string
      */
-    public $set_schema_table = 'masteritems';
+    public $set_schema_table = 'MasterItems';
 
     /**
      * Run the migrations.

@@ -10,7 +10,7 @@ class CreateCanvassmastersTable extends Migration
      * Schema table name to migrate
      * @var string
      */
-    public $set_schema_table = 'canvassmasters';
+    public $set_schema_table = 'CanvassMasters';
 
     /**
      * Run the migrations.

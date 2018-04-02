@@ -10,7 +10,7 @@ class CreatePomastersTable extends Migration
      * Schema table name to migrate
      * @var string
      */
-    public $set_schema_table = 'pomasters';
+    public $set_schema_table = 'POMasters';
 
     /**
      * Run the migrations.

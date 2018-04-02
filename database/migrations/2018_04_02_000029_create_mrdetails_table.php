@@ -10,7 +10,7 @@ class CreateMrdetailsTable extends Migration
      * Schema table name to migrate
      * @var string
      */
-    public $set_schema_table = 'mrdetails';
+    public $set_schema_table = 'MRDetails';
 
     /**
      * Run the migrations.

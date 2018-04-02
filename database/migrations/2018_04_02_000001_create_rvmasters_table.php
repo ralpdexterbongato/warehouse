@@ -10,7 +10,7 @@ class CreateRvmastersTable extends Migration
      * Schema table name to migrate
      * @var string
      */
-    public $set_schema_table = 'rvmasters';
+    public $set_schema_table = 'RVMasters';
 
     /**
      * Run the migrations.

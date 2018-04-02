@@ -10,7 +10,7 @@ class CreateUnitsTable extends Migration
      * Schema table name to migrate
      * @var string
      */
-    public $set_schema_table = 'units';
+    public $set_schema_table = 'Units';
 
     /**
      * Run the migrations.

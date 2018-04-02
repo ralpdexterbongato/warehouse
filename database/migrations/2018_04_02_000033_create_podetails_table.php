@@ -10,7 +10,7 @@ class CreatePodetailsTable extends Migration
      * Schema table name to migrate
      * @var string
      */
-    public $set_schema_table = 'podetails';
+    public $set_schema_table = 'PODetails';
 
     /**
      * Run the migrations.

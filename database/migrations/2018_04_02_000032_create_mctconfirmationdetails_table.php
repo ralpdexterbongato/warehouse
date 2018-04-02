@@ -10,7 +10,7 @@ class CreateMctconfirmationdetailsTable extends Migration
      * Schema table name to migrate
      * @var string
      */
-    public $set_schema_table = 'mctconfirmationdetails';
+    public $set_schema_table = 'MCTConfirmationdetails';
 
     /**
      * Run the migrations.

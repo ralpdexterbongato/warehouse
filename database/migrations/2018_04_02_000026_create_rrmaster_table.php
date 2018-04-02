@@ -10,7 +10,7 @@ class CreateRrmasterTable extends Migration
      * Schema table name to migrate
      * @var string
      */
-    public $set_schema_table = 'rrmaster';
+    public $set_schema_table = 'RRMaster';
 
     /**
      * Run the migrations.

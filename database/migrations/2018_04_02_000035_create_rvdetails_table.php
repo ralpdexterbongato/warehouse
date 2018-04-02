@@ -10,7 +10,7 @@ class CreateRvdetailsTable extends Migration
      * Schema table name to migrate
      * @var string
      */
-    public $set_schema_table = 'rvdetails';
+    public $set_schema_table = 'RVDetails';
 
     /**
      * Run the migrations.

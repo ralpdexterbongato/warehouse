@@ -10,7 +10,7 @@ class CreateMaterialsticketdetailsTable extends Migration
      * Schema table name to migrate
      * @var string
      */
-    public $set_schema_table = 'materialsticketdetails';
+    public $set_schema_table = 'MaterialsTicketDetails';
 
     /**
      * Run the migrations.

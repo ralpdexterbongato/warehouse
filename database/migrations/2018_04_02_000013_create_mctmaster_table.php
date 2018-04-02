@@ -10,7 +10,7 @@ class CreateMctmasterTable extends Migration
      * Schema table name to migrate
      * @var string
      */
-    public $set_schema_table = 'mctmaster';
+    public $set_schema_table = 'MCTMaster';
 
     /**
      * Run the migrations.
