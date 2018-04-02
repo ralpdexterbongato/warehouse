@@ -20,17 +20,15 @@ class CreateNotificationsTable extends Migration
      */
     public function up()
     {
-        if (Schema::hasTable($this->set_schema_table)) return;
-        Schema::create($this->set_schema_table, function (Blueprint $table) {
-            $table->engine = 'InnoDB';
-            $table->increments('id');
-            $table->integer('user_id');
-            $table->string('NotificationType', 191);
-            $table->string('FileType', 191);
-            $table->string('FileNo', 191);
-            $table->integer('Seen')->nullable()->default(null);
-            $table->dateTime('TimeNotified');
-        });
+      Schema::create('notifications', function (Blueprint $table) {
+        $table->increments('id');
+        $table->integer('user_id');
+        $table->string('NotificationType', 191);
+        $table->string('FileType', 191);
+        $table->string('FileNo', 191);
+        $table->integer('Seen')->nullable()->default(null);
+        $table->dateTime('TimeNotified');
+      });
     }
 
     /**

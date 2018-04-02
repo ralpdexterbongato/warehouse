@@ -9,7 +9,6 @@ class MRTMaster extends Model
     protected $table="MRTMaster";
     public $dates=['ReturnDate'];
     public $timestamps =false;
-    protected $dateFormat = 'M d, Y';
     protected $primaryKey='MRTNo';
     public $incrementing = false;
 

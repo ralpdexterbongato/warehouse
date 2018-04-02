@@ -20,19 +20,17 @@ class CreateMrdetailsTable extends Migration
      */
     public function up()
     {
-        if (Schema::hasTable($this->set_schema_table)) return;
-        Schema::create($this->set_schema_table, function (Blueprint $table) {
-            $table->engine = 'InnoDB';
-            $table->increments('id');
-            $table->char('MRNo', 7);
-            $table->bigInteger('Quantity')->nullable()->default(null);
-            $table->string('Unit', 50)->nullable()->default(null);
-            $table->string('NameDescription', 100)->nullable()->default(null);
-            $table->string('PropertyNo', 20)->nullable()->default(null);
-            $table->decimal('UnitValue', 18, 2)->nullable()->default(null);
-            $table->decimal('TotalValue', 18, 2)->nullable()->default(null);
-            $table->string('Remarks', 50)->nullable()->default(null);
-        });
+      Schema::create('MRDetails', function (Blueprint $table) {
+        $table->increments('id');
+        $table->char('MRNo', 7);
+        $table->bigInteger('Quantity')->nullable()->default(null);
+        $table->string('Unit', 50)->nullable()->default(null);
+        $table->string('NameDescription', 100)->nullable()->default(null);
+        $table->string('PropertyNo', 20)->nullable()->default(null);
+        $table->decimal('UnitValue', 18, 2)->nullable()->default(null);
+        $table->decimal('TotalValue', 18, 2)->nullable()->default(null);
+        $table->string('Remarks', 50)->nullable()->default(null);
+      });
     }
 
     /**

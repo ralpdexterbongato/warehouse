@@ -10,7 +10,6 @@ class CreatePomastersTable extends Migration
      * Schema table name to migrate
      * @var string
      */
-    public $set_schema_table = 'POMasters';
 
     /**
      * Run the migrations.
@@ -20,20 +19,19 @@ class CreatePomastersTable extends Migration
      */
     public function up()
     {
-        if (Schema::hasTable($this->set_schema_table)) return;
-        Schema::create($this->set_schema_table, function (Blueprint $table) {
-            $table->engine = 'InnoDB';
-            $table->char('PONo',7);
-            $table->char('RVNo', 7);
-            $table->string('Supplier', 50);
-            $table->string('Address', 150)->nullable()->default(null);
-            $table->char('Telephone', 15)->nullable()->default(null);
-            $table->string('Purpose', 100)->nullable()->default(null);
-            $table->date('RVDate')->nullable()->default(null);
-            $table->date('PODate')->nullable()->default(null);
-            $table->char('Status', 1)->nullable()->default(null);
-            $table->integer('CreatorID')->nullable()->default(null);
-        });
+      Schema::create('POMasters', function (Blueprint $table) {
+        $table->char('PONo',7);
+        $table->char('RVNo', 7);
+        $table->string('Supplier', 50);
+        $table->string('Address', 150)->nullable()->default(null);
+        $table->char('Telephone', 15)->nullable()->default(null);
+        $table->string('Purpose', 100)->nullable()->default(null);
+        $table->datetime('RVDate')->nullable()->default(null);
+        $table->datetime('PODate')->nullable()->default(null);
+        $table->char('Status', 1)->nullable()->default(null);
+        $table->integer('CreatorID')->nullable()->default(null);
+      });
+
     }
 
     /**
@@ -43,6 +41,6 @@ class CreatePomastersTable extends Migration
      */
      public function down()
      {
-       Schema::dropIfExists($this->set_schema_table);
+       Schema::dropIfExists('POMasters');
      }
 }

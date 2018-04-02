@@ -10,7 +10,6 @@ class CreateRvmastersTable extends Migration
      * Schema table name to migrate
      * @var string
      */
-    public $set_schema_table = 'RVMasters';
 
     /**
      * Run the migrations.
@@ -20,18 +19,16 @@ class CreateRvmastersTable extends Migration
      */
     public function up()
     {
-        if (Schema::hasTable($this->set_schema_table)) return;
-        Schema::create($this->set_schema_table, function (Blueprint $table) {
-            $table->engine = 'InnoDB';
-            $table->char('RVNo',7);
-            $table->date('RVDate')->nullable()->default(null);
-            $table->string('Purpose', 100)->nullable()->default(null);
-            $table->string('BudgetAvailable', 50)->nullable()->default(null);
-            $table->char('IfPurchased', 4)->nullable()->default(null);
-            $table->string('PendingRemarks', 100)->nullable()->default(null);
-            $table->char('Status', 1)->nullable()->default(null);
-            $table->char('SignatureTurn', 1)->nullable()->default('0');
-        });
+      Schema::create('RVMasters', function (Blueprint $table) {
+        $table->char('RVNo',7);
+        $table->datetime('RVDate')->nullable()->default(null);
+        $table->string('Purpose', 100)->nullable()->default(null);
+        $table->string('BudgetAvailable', 50)->nullable()->default(null);
+        $table->char('IfPurchased', 4)->nullable()->default(null);
+        $table->string('PendingRemarks', 100)->nullable()->default(null);
+        $table->char('Status', 1)->nullable()->default(null);
+        $table->char('SignatureTurn', 1)->nullable()->default('0');
+      });
     }
 
     /**
@@ -41,6 +38,6 @@ class CreateRvmastersTable extends Migration
      */
      public function down()
      {
-       Schema::dropIfExists($this->set_schema_table);
+       Schema::dropIfExists('RVMasters');
      }
 }

@@ -10,7 +10,6 @@ class CreateMirsmasterTable extends Migration
      * Schema table name to migrate
      * @var string
      */
-    public $set_schema_table = 'MIRSMaster';
 
     /**
      * Run the migrations.
@@ -20,15 +19,13 @@ class CreateMirsmasterTable extends Migration
      */
     public function up()
     {
-        if (Schema::hasTable($this->set_schema_table)) return;
-        Schema::create($this->set_schema_table, function (Blueprint $table) {
-            $table->engine = 'InnoDB';
-            $table->char('MIRSNo',7);
-            $table->string('Purpose', 100)->nullable()->default(null);
-            $table->date('MIRSDate')->nullable()->default(null);
-            $table->char('WithMCT', 1)->nullable()->default(null);
-            $table->char('Status', 1)->nullable()->default(null);
-            $table->char('SignatureTurn', 1)->nullable()->default('0');
+        Schema::create('MIRSMaster', function (Blueprint $table) {
+          $table->char('MIRSNo',7);
+          $table->string('Purpose', 100)->nullable()->default(null);
+          $table->datetime('MIRSDate')->nullable()->default(null);
+          $table->char('WithMCT', 1)->nullable()->default(null);
+          $table->char('Status', 1)->nullable()->default(null);
+          $table->char('SignatureTurn', 1)->nullable()->default('0');
         });
     }
 
@@ -39,6 +36,6 @@ class CreateMirsmasterTable extends Migration
      */
      public function down()
      {
-       Schema::dropIfExists($this->set_schema_table);
+       Schema::dropIfExists('MIRSMaster');
      }
 }

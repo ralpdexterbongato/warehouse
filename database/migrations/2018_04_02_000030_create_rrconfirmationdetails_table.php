@@ -20,21 +20,19 @@ class CreateRrconfirmationdetailsTable extends Migration
      */
     public function up()
     {
-        if (Schema::hasTable($this->set_schema_table)) return;
-        Schema::create($this->set_schema_table, function (Blueprint $table) {
-            $table->engine = 'InnoDB';
-            $table->increments('id');
-            $table->string('AccountCode', 20)->nullable()->default(null);
-            $table->decimal('Amount', 18, 2)->nullable()->default(null);
-            $table->string('Description', 100)->nullable()->default(null);
-            $table->string('ItemCode', 20)->nullable()->default(null);
-            $table->bigInteger('QuantityAccepted')->nullable()->default(null);
-            $table->bigInteger('RRQuantityDelivered')->nullable()->default(null);
-            $table->string('Unit', 20)->nullable()->default(null);
-            $table->decimal('UnitCost', 18, 2)->nullable()->default(null);
-            $table->char('RRNo', 7);
-            $table->bigInteger('QuantityValidator')->nullable()->default(null);
-        });
+      Schema::create('RRConfirmationDetails', function (Blueprint $table) {
+        $table->increments('id');
+        $table->string('AccountCode', 20)->nullable()->default(null);
+        $table->decimal('Amount', 18, 2)->nullable()->default(null);
+        $table->string('Description', 100)->nullable()->default(null);
+        $table->string('ItemCode', 20)->nullable()->default(null);
+        $table->bigInteger('QuantityAccepted')->nullable()->default(null);
+        $table->bigInteger('RRQuantityDelivered')->nullable()->default(null);
+        $table->string('Unit', 20)->nullable()->default(null);
+        $table->decimal('UnitCost', 18, 2)->nullable()->default(null);
+        $table->char('RRNo', 7);
+        $table->bigInteger('QuantityValidator')->nullable()->default(null);
+      });
     }
 
     /**

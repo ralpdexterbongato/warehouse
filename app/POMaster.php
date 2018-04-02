@@ -10,7 +10,6 @@ class POMaster extends Model
   public $timestamps=false;
   public $incrementing=false;
   public $dates=['PODate','RVDate'];
-  protected $dateFormat = 'M d, Y';
   public $primaryKey='PONo';
 
   public function PODetails()

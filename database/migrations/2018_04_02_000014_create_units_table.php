@@ -10,7 +10,6 @@ class CreateUnitsTable extends Migration
      * Schema table name to migrate
      * @var string
      */
-    public $set_schema_table = 'Units';
 
     /**
      * Run the migrations.
@@ -20,12 +19,10 @@ class CreateUnitsTable extends Migration
      */
     public function up()
     {
-        if (Schema::hasTable($this->set_schema_table)) return;
-        Schema::create($this->set_schema_table, function (Blueprint $table) {
-            $table->engine = 'InnoDB';
-            $table->increments('id');
-            $table->char('UnitName', 20);
-        });
+      Schema::create('Units', function (Blueprint $table) {
+        $table->increments('id');
+        $table->char('UnitName', 20);
+      });
     }
 
     /**
@@ -35,6 +32,6 @@ class CreateUnitsTable extends Migration
      */
      public function down()
      {
-       Schema::dropIfExists($this->set_schema_table);
+       Schema::dropIfExists('Units');
      }
 }

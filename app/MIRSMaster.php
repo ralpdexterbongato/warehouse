@@ -11,7 +11,6 @@ class MIRSMaster extends Model
   public $incrementing = false;
   public $timestamps=false;
   protected $table='MIRSMaster';
-  protected $dateFormat = 'M d, Y';
 
   public function users()
   {

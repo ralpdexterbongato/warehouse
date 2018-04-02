@@ -20,18 +20,16 @@ class CreateMirsdetailsTable extends Migration
      */
     public function up()
     {
-        if (Schema::hasTable($this->set_schema_table)) return;
-        Schema::create($this->set_schema_table, function (Blueprint $table) {
-            $table->engine = 'InnoDB';
-            $table->increments('id');
-            $table->char('MIRSNo', 7);
-            $table->string('ItemCode', 20);
-            $table->string('Particulars', 150)->nullable()->default(null);
-            $table->string('Unit', 50)->nullable()->default(null);
-            $table->bigInteger('Quantity');
-            $table->string('Remarks', 100)->nullable()->default(null);
-            $table->bigInteger('QuantityValidator')->nullable()->default(null);
-        });
+      Schema::create('MIRSDetails', function (Blueprint $table) {
+        $table->increments('id');
+        $table->char('MIRSNo', 7);
+        $table->string('ItemCode', 20);
+        $table->string('Particulars', 150)->nullable()->default(null);
+        $table->string('Unit', 50)->nullable()->default(null);
+        $table->bigInteger('Quantity');
+        $table->string('Remarks', 100)->nullable()->default(null);
+        $table->bigInteger('QuantityValidator')->nullable()->default(null);
+      });
     }
 
     /**
