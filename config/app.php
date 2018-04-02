@@ -166,7 +166,7 @@ return [
         Intervention\Image\ImageServiceProvider::class,
         Nexmo\Laravel\NexmoServiceProvider::class,
         RenatoMarinho\LaravelPageSpeed\ServiceProvider::class,
-        Collective\Remote\RemoteServiceProvider::class,
+        // Collective\Remote\RemoteServiceProvider::class,
         Maatwebsite\Excel\ExcelServiceProvider::class,
 
         /*
