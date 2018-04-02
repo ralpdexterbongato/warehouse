@@ -23,7 +23,7 @@ class CreateRrmasterTable extends Migration
         if (Schema::hasTable($this->set_schema_table)) return;
         Schema::create($this->set_schema_table, function (Blueprint $table) {
             $table->engine = 'InnoDB';
-            $table->increments('RRNo');
+            $table->char('RRNo',7);
             $table->date('RRDate');
             $table->string('Supplier', 50)->nullable()->default(null);
             $table->string('Address', 100)->nullable()->default(null);

@@ -23,7 +23,7 @@ class CreatePomastersTable extends Migration
         if (Schema::hasTable($this->set_schema_table)) return;
         Schema::create($this->set_schema_table, function (Blueprint $table) {
             $table->engine = 'InnoDB';
-            $table->increments('PONo');
+            $table->char('PONo',7);
             $table->char('RVNo', 7);
             $table->string('Supplier', 50);
             $table->string('Address', 150)->nullable()->default(null);

@@ -23,10 +23,10 @@ class CreateMasteritemsTable extends Migration
         if (Schema::hasTable($this->set_schema_table)) return;
         Schema::create($this->set_schema_table, function (Blueprint $table) {
             $table->engine = 'InnoDB';
+            $table->string('ItemCode',20);
             $table->string('AccountCode', 20);
             $table->string('Description', 100)->nullable()->default(null);
             $table->string('Unit', 20)->nullable()->default(null);
-            $table->increments('ItemCode');
             $table->bigInteger('CurrentQuantity');
             $table->bigInteger('AlertIfBelow')->nullable()->default(null);
         });

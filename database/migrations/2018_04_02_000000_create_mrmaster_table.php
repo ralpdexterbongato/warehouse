@@ -23,7 +23,7 @@ class CreateMrmasterTable extends Migration
         if (Schema::hasTable($this->set_schema_table)) return;
         Schema::create($this->set_schema_table, function (Blueprint $table) {
             $table->engine = 'InnoDB';
-            $table->increments('MRNo');
+            $table->char('MRNo',7);
             $table->date('MRDate');
             $table->char('RVNo', 7);
             $table->date('RVDate');

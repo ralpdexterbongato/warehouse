@@ -23,7 +23,7 @@ class CreateRvmastersTable extends Migration
         if (Schema::hasTable($this->set_schema_table)) return;
         Schema::create($this->set_schema_table, function (Blueprint $table) {
             $table->engine = 'InnoDB';
-            $table->increments('RVNo');
+            $table->char('RVNo',7);
             $table->date('RVDate')->nullable()->default(null);
             $table->string('Purpose', 100)->nullable()->default(null);
             $table->string('BudgetAvailable', 50)->nullable()->default(null);
