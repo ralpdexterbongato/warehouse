@@ -106,7 +106,7 @@ class User extends Authenticatable
       $minAgo = Carbon::now()->subSeconds(300);
       if ($minAgo > $time)
       {
-        $lastonline = Carbon::createFromFormat('Y-m-d H:i:s.u', $time)->diffForHumans();
+        $lastonline = Carbon::createFromFormat('Y-m-d H:i:s', $time)->diffForHumans();
         $lastonline = str_replace([' seconds', ' second'], ' sec', $lastonline);
         $lastonline = str_replace([' minutes', ' minute'], ' min', $lastonline);
         $lastonline = str_replace([' hours', ' hour'], ' h', $lastonline);
