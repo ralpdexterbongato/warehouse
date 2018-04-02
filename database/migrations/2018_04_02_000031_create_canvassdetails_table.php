@@ -31,14 +31,6 @@ class CreateCanvassdetailsTable extends Migration
             $table->string('Article', 100);
             $table->bigInteger('Qty');
             $table->integer('CanvassMasters_id');
-
-            $table->index(["CanvassMasters_id"], 'FK_CanvassDetails_CanvassMasters');
-
-
-            $table->foreign('CanvassMasters_id', 'FK_CanvassDetails_CanvassMasters')
-                ->references('id')->on('canvassmasters')
-                ->onDelete('cascade')
-                ->onUpdate('cascade');
         });
     }
 

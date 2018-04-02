@@ -31,14 +31,6 @@ class CreateMirsdetailsTable extends Migration
             $table->bigInteger('Quantity');
             $table->string('Remarks', 100)->nullable()->default(null);
             $table->bigInteger('QuantityValidator')->nullable()->default(null);
-
-            $table->index(["MIRSNo"], 'FK_MIRSDetails_MIRSMaster');
-
-
-            $table->foreign('MIRSNo', 'FK_MIRSDetails_MIRSMaster')
-                ->references('MIRSNo')->on('mirsmaster')
-                ->onDelete('no action')
-                ->onUpdate('no action');
         });
     }
 

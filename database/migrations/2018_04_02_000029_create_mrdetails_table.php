@@ -32,14 +32,6 @@ class CreateMrdetailsTable extends Migration
             $table->decimal('UnitValue', 18, 2)->nullable()->default(null);
             $table->decimal('TotalValue', 18, 2)->nullable()->default(null);
             $table->string('Remarks', 50)->nullable()->default(null);
-
-            $table->index(["MRNo"], 'FK_MRDetails_MRMaster');
-
-
-            $table->foreign('MRNo', 'FK_MRDetails_MRMaster')
-                ->references('MRNo')->on('mrmaster')
-                ->onDelete('no action')
-                ->onUpdate('no action');
         });
     }
 

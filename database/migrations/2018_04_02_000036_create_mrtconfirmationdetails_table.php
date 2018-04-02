@@ -33,13 +33,6 @@ class CreateMrtconfirmationdetailsTable extends Migration
             $table->string('Unit', 191)->nullable()->default(null);
             $table->decimal('Amount', 18, 2)->nullable()->default(null);
 
-            $table->index(["MRTNo"], 'FK_MRTConfirmationDetails_MRTMaster');
-
-
-            $table->foreign('MRTNo', 'FK_MRTConfirmationDetails_MRTMaster')
-                ->references('MRTNo')->on('mrtmaster')
-                ->onDelete('no action')
-                ->onUpdate('no action');
         });
     }
 

@@ -34,13 +34,6 @@ class CreatePodetailsTable extends Migration
             $table->char('PONo', 7);
             $table->bigInteger('QtyValidator')->nullable()->default(null);
 
-            $table->index(["PONo"], 'FK_PODetails_POMasters');
-
-
-            $table->foreign('PONo', 'FK_PODetails_POMasters')
-                ->references('PONo')->on('pomasters')
-                ->onDelete('cascade')
-                ->onUpdate('cascade');
         });
     }
 

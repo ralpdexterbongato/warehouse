@@ -32,14 +32,6 @@ class CreateMctconfirmationdetailsTable extends Migration
             $table->bigInteger('Quantity')->nullable()->default(null);
             $table->string('Unit', 191)->nullable()->default(null);
             $table->decimal('Amount', 18, 2)->nullable()->default(null);
-
-            $table->index(["MCTNo"], 'FK_MCTConfirmationDetails_MCTMaster');
-
-
-            $table->foreign('MCTNo', 'FK_MCTConfirmationDetails_MCTMaster')
-                ->references('MCTNo')->on('mctmaster')
-                ->onDelete('cascade')
-                ->onUpdate('cascade');
         });
     }
 

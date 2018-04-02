@@ -37,13 +37,6 @@ class CreateMaterialsticketdetailsTable extends Migration
             $table->date('MTDate');
             $table->smallInteger('IsRollBack')->nullable()->default(null);
 
-            $table->index(["ItemCode"], 'materialsticketdetails_itemcode_index');
-
-
-            $table->foreign('ItemCode', 'materialsticketdetails_itemcode_index')
-                ->references('ItemCode')->on('masteritems')
-                ->onDelete('cascade')
-                ->onUpdate('cascade');
         });
     }
 

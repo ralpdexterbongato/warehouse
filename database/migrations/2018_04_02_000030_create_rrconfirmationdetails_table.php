@@ -34,14 +34,6 @@ class CreateRrconfirmationdetailsTable extends Migration
             $table->decimal('UnitCost', 18, 2)->nullable()->default(null);
             $table->char('RRNo', 7);
             $table->bigInteger('QuantityValidator')->nullable()->default(null);
-
-            $table->index(["RRNo"], 'FK_RRConfirmationDetails_RRMaster');
-
-
-            $table->foreign('RRNo', 'FK_RRConfirmationDetails_RRMaster')
-                ->references('RRNo')->on('rrmaster')
-                ->onDelete('no action')
-                ->onUpdate('no action');
         });
     }
 

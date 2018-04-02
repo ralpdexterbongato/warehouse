@@ -33,13 +33,6 @@ class CreateRvdetailsTable extends Migration
             $table->string('AccountCode', 20)->nullable()->default(null);
             $table->bigInteger('QuantityValidator')->nullable()->default(null);
 
-            $table->index(["RVNo"], 'FK_RVDetails_RVMasters');
-
-
-            $table->foreign('RVNo', 'FK_RVDetails_RVMasters')
-                ->references('RVNo')->on('rvmasters')
-                ->onDelete('no action')
-                ->onUpdate('no action');
         });
     }
 
