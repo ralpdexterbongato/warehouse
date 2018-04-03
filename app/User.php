@@ -26,11 +26,11 @@ class User extends Authenticatable
     public function MIRSSignatureTurn()
     {
         return $this->morphedByMany('App\MIRSMaster', 'Signatureable')->orderBy('MIRSNo','DESC')->withPivot(['SignatureType','Signature'])
-        ->wherePivot('Signature',null)->where('SignatureTurn','1')->wherePivot('SignatureType','RecommendedBy')->wherePivot('user_id', Auth::user()->id)->where('signatureable_type', 'App\MIRSMaster')
-        ->orWhere('Signature',null)->where('SignatureTurn','1')->wherePivot('SignatureType','ManagerReplacer')->where('user_id', Auth::user()->id)->where('signatureable_type', 'App\MIRSMaster')
-        ->orWhere('Signature',null)->where('SignatureTurn','2')->wherePivot('SignatureType','ApprovalReplacer')->where('user_id', Auth::user()->id)->where('signatureable_type', 'App\MIRSMaster')
-        ->orWhere('Signature',null)->where('SignatureTurn','2')->wherePivot('SignatureType','ApprovedBy')->where('user_id', Auth::user()->id)->where('signatureable_type', 'App\MIRSMaster')
-        ->orWhere('Signature',null)->where('SignatureTurn','0')->wherePivot('SignatureType','PreparedBy')->where('user_id', Auth::user()->id)->where('signatureable_type', 'App\MIRSMaster');
+        ->wherePivot('Signature',null)->where('SignatureTurn','1')->wherePivot('SignatureType','RecommendedBy')->wherePivot('user_id', Auth::user()->id)->where('Signatureable_type', 'App\MIRSMaster')
+        ->orWhere('Signature',null)->where('SignatureTurn','1')->wherePivot('SignatureType','ManagerReplacer')->where('user_id', Auth::user()->id)->where('Signatureable_type', 'App\MIRSMaster')
+        ->orWhere('Signature',null)->where('SignatureTurn','2')->wherePivot('SignatureType','ApprovalReplacer')->where('user_id', Auth::user()->id)->where('Signatureable_type', 'App\MIRSMaster')
+        ->orWhere('Signature',null)->where('SignatureTurn','2')->wherePivot('SignatureType','ApprovedBy')->where('user_id', Auth::user()->id)->where('Signatureable_type', 'App\MIRSMaster')
+        ->orWhere('Signature',null)->where('SignatureTurn','0')->wherePivot('SignatureType','PreparedBy')->where('user_id', Auth::user()->id)->where('Signatureable_type', 'App\MIRSMaster');
     }
     public function MCTSignatureTurn()
     {
@@ -74,18 +74,18 @@ class User extends Authenticatable
     public function RVSignatureTurn()
     {
         return $this->morphedByMany('App\RVMaster','Signatureable')->orderBy('RVNo','DESC')->withPivot(['SignatureType','Signature'])
-        ->wherePivot('Signature',null)->where('SignatureTurn','0')->wherePivot('SignatureType','Requisitioner')->wherePivot('user_id', Auth::user()->id)->where('signatureable_type', 'App\RVMaster')
-        ->orWhere('Signature',null)->where('SignatureTurn','1')->where('SignatureType','RecommendedBy')->wherePivot('user_id', Auth::user()->id)->where('signatureable_type', 'App\RVMaster')
-        ->orWhere('Signature',null)->where('SignatureTurn','1')->wherePivot('SignatureType','ManagerReplacer')->wherePivot('user_id', Auth::user()->id)->where('signatureable_type', 'App\RVMaster')
-        ->orWhere('Signature',null)->where('SignatureTurn','2')->wherePivot('SignatureType','BudgetOfficer')->wherePivot('user_id', Auth::user()->id)->where('signatureable_type', 'App\RVMaster')
-        ->orWhere('Signature',null)->where('SignatureTurn','3')->wherePivot('SignatureType','ApprovedBy')->wherePivot('user_id', Auth::user()->id)->where('signatureable_type', 'App\RVMaster')
-        ->orWhere('Signature',null)->where('SignatureTurn','3')->wherePivot('SignatureType','ApprovalReplacer')->wherePivot('user_id', Auth::user()->id)->where('signatureable_type', 'App\RVMaster');
+        ->wherePivot('Signature',null)->where('SignatureTurn','0')->wherePivot('SignatureType','Requisitioner')->wherePivot('user_id', Auth::user()->id)->where('Signatureable_type', 'App\RVMaster')
+        ->orWhere('Signature',null)->where('SignatureTurn','1')->where('SignatureType','RecommendedBy')->wherePivot('user_id', Auth::user()->id)->where('Signatureable_type', 'App\RVMaster')
+        ->orWhere('Signature',null)->where('SignatureTurn','1')->wherePivot('SignatureType','ManagerReplacer')->wherePivot('user_id', Auth::user()->id)->where('Signatureable_type', 'App\RVMaster')
+        ->orWhere('Signature',null)->where('SignatureTurn','2')->wherePivot('SignatureType','BudgetOfficer')->wherePivot('user_id', Auth::user()->id)->where('Signatureable_type', 'App\RVMaster')
+        ->orWhere('Signature',null)->where('SignatureTurn','3')->wherePivot('SignatureType','ApprovedBy')->wherePivot('user_id', Auth::user()->id)->where('Signatureable_type', 'App\RVMaster')
+        ->orWhere('Signature',null)->where('SignatureTurn','3')->wherePivot('SignatureType','ApprovalReplacer')->wherePivot('user_id', Auth::user()->id)->where('Signatureable_type', 'App\RVMaster');
     }
     public function POSignatureTurn()
     {
       return $this->morphedByMany('App\POMaster','Signatureable')->orderBy('PONo','DESC')->withPivot(['SignatureType','Signature'])
-      ->whereNull('Status')->wherePivot('Signature',null)->wherePivot('SignatureType', 'ApprovedBy')->wherePivot('user_id', Auth::user()->id)->where('signatureable_type', 'App\POMaster')
-      ->orWhere('Status',null)->wherePivot('Signature',null)->where('SignatureType', 'ApprovalReplacer')->wherePivot('user_id', Auth::user()->id)->where('signatureable_type', 'App\POMaster');
+      ->whereNull('Status')->wherePivot('Signature',null)->wherePivot('SignatureType', 'ApprovedBy')->wherePivot('user_id', Auth::user()->id)->where('Signatureable_type', 'App\POMaster')
+      ->orWhere('Status',null)->wherePivot('Signature',null)->where('SignatureType', 'ApprovalReplacer')->wherePivot('user_id', Auth::user()->id)->where('Signatureable_type', 'App\POMaster');
     }
     public function RRSignatureTurn()
     {
@@ -95,12 +95,12 @@ class User extends Authenticatable
     public function MRSignatureTurn()
     {
       return $this->morphedByMany('App\MRMaster', 'Signatureable')->orderBy('MRNo','DESC')->withPivot(['SignatureType','Signature'])
-      ->where('Signature',null)->where('SignatureTurn','1')->wherePivot('SignatureType','ApprovedBy')->where('user_id', Auth::user()->id)->where('signatureable_type', 'App\MRMaster')
-      ->orWhere('Signature',null)->where('SignatureTurn','1')->wherePivot('SignatureType','ApprovalReplacer')->where('user_id', Auth::user()->id)->where('signatureable_type', 'App\MRMaster')
-      ->orWhere('Signature',null)->where('SignatureTurn','0')->wherePivot('SignatureType','RecommendedBy')->wherePivot('user_id', Auth::user()->id)->where('signatureable_type', 'App\MRMaster')
-      ->orWhere('Signature',null)->where('SignatureTurn','2')->wherePivot('SignatureType','ReceivedBy')->where('user_id', Auth::user()->id)->where('signatureable_type', 'App\MRMaster');
+      ->where('Signature',null)->where('SignatureTurn','1')->wherePivot('SignatureType','ApprovedBy')->where('user_id', Auth::user()->id)->where('Signatureable_type', 'App\MRMaster')
+      ->orWhere('Signature',null)->where('SignatureTurn','1')->wherePivot('SignatureType','ApprovalReplacer')->where('user_id', Auth::user()->id)->where('Signatureable_type', 'App\MRMaster')
+      ->orWhere('Signature',null)->where('SignatureTurn','0')->wherePivot('SignatureType','RecommendedBy')->wherePivot('user_id', Auth::user()->id)->where('Signatureable_type', 'App\MRMaster')
+      ->orWhere('Signature',null)->where('SignatureTurn','2')->wherePivot('SignatureType','ReceivedBy')->where('user_id', Auth::user()->id)->where('Signatureable_type', 'App\MRMaster');
     }
-  
+
     public function getLastActivityAttribute($time)
     {
       $minAgo = Carbon::now()->subSeconds(300);
@@ -159,11 +159,11 @@ class User extends Authenticatable
     }
     public function mctvalid()
     {
-        return $this->morphedByMany('App\MCTMaster', 'Signatureable')->orderBy('MCTNo','DESC')->withPivot(['SignatureType'])->where('Status','0')->whereNull('IsRollBack')->orWhere('IsRollBack','1')->where('Status','0')->wherePivot('user_id',Auth::user()->id)->wherePivot('signatureable_type','App\MCTMaster');
+        return $this->morphedByMany('App\MCTMaster', 'Signatureable')->orderBy('MCTNo','DESC')->withPivot(['SignatureType'])->where('Status','0')->whereNull('IsRollBack')->orWhere('IsRollBack','1')->where('Status','0')->wherePivot('user_id',Auth::user()->id)->wherePivot('Signatureable_type','App\MCTMaster');
     }
     public function mrtvalid()
     {
-        return $this->morphedByMany('App\MRTMaster', 'Signatureable')->orderBy('MRTNo','DESC')->withPivot(['SignatureType'])->where('Status','0')->whereNull('IsRollBack')->orWhere('IsRollBack','1')->where('Status','0')->wherePivot('user_id',Auth::user()->id)->wherePivot('signatureable_type','App\MRTMaster');
+        return $this->morphedByMany('App\MRTMaster', 'Signatureable')->orderBy('MRTNo','DESC')->withPivot(['SignatureType'])->where('Status','0')->whereNull('IsRollBack')->orWhere('IsRollBack','1')->where('Status','0')->wherePivot('user_id',Auth::user()->id)->wherePivot('Signatureable_type','App\MRTMaster');
     }
     public function rvvalid()
     {
@@ -171,7 +171,7 @@ class User extends Authenticatable
     }
     public function rrvalid()
     {
-      return $this->morphedByMany('App\RRMaster', 'Signatureable')->orderBy('RRNo','DESC')->withPivot(['SignatureType'])->where('Status','0')->whereNull('IsRollBack')->orWhere('IsRollBack','1')->where('Status','0')->wherePivot('user_id',Auth::user()->id)->wherePivot('signatureable_type','App\RRMaster');
+      return $this->morphedByMany('App\RRMaster', 'Signatureable')->orderBy('RRNo','DESC')->withPivot(['SignatureType'])->where('Status','0')->whereNull('IsRollBack')->orWhere('IsRollBack','1')->where('Status','0')->wherePivot('user_id',Auth::user()->id)->wherePivot('Signatureable_type','App\RRMaster');
     }
     public function mrvalid()
     {
@@ -189,11 +189,11 @@ class User extends Authenticatable
     }
     public function mctinvalid()
     {
-        return $this->morphedByMany('App\MCTMaster', 'Signatureable')->orderBy('MCTNo','DESC')->withPivot(['SignatureType'])->where('Status','1')->orWhere('IsRollBack','0')->wherePivot('user_id',Auth::user()->id)->wherePivot('signatureable_type','App\MCTMaster');
+        return $this->morphedByMany('App\MCTMaster', 'Signatureable')->orderBy('MCTNo','DESC')->withPivot(['SignatureType'])->where('Status','1')->orWhere('IsRollBack','0')->wherePivot('user_id',Auth::user()->id)->wherePivot('Signatureable_type','App\MCTMaster');
     }
     public function mrtinvalid()
     {
-        return $this->morphedByMany('App\MRTMaster', 'Signatureable')->orderBy('MRTNo','DESC')->withPivot(['SignatureType'])->where('Status','1')->orWhere('IsRollBack','0')->wherePivot('user_id',Auth::user()->id)->wherePivot('signatureable_type','App\MRTMaster');
+        return $this->morphedByMany('App\MRTMaster', 'Signatureable')->orderBy('MRTNo','DESC')->withPivot(['SignatureType'])->where('Status','1')->orWhere('IsRollBack','0')->wherePivot('user_id',Auth::user()->id)->wherePivot('Signatureable_type','App\MRTMaster');
     }
     public function rvinvalid()
     {
@@ -201,7 +201,7 @@ class User extends Authenticatable
     }
     public function rrinvalid()
     {
-      return $this->morphedByMany('App\RRMaster', 'Signatureable')->orderBy('RRNo','DESC')->withPivot(['SignatureType'])->where('Status','1')->orWhere('IsRollBack','0')->wherePivot('user_id',Auth::user()->id)->wherePivot('signatureable_type','App\RRMaster');
+      return $this->morphedByMany('App\RRMaster', 'Signatureable')->orderBy('RRNo','DESC')->withPivot(['SignatureType'])->where('Status','1')->orWhere('IsRollBack','0')->wherePivot('user_id',Auth::user()->id)->wherePivot('Signatureable_type','App\RRMaster');
     }
     public function mrinvalid()
     {
