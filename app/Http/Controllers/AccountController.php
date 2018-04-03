@@ -212,7 +212,7 @@ class AccountController extends Controller
       if ($request->Signature!=null)
       {
         $imageData = $request->get('Signature');
-        $fileName = Carbon::now()->timestamp . '_' . uniqid() . '.' . explode('/', explode(':', substr($imageData, 0, strpos($imageData, ';')))[1])[1];
+        $fileName = Carbon::now()->format('Y-M-D') . '_' . uniqid() . '.' . explode('/', explode(':', substr($imageData, 0, strpos($imageData, ';')))[1])[1];
         Image::make($request->get('Signature'))->save(public_path('/storage/signatures/').$fileName);
       }
       $userDB=new User;

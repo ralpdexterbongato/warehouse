@@ -47,7 +47,7 @@ class ItemsController extends Controller
     }
     public function autocompleteSearch(Request $request)
     {
-      return MasterItem::where('Description','LIKE','%'.$request->typed.'%')->take(10)->get();
+      return MasterItem::where('Description','LIKE','%'.$request->typed.'%')->take(10)->get(['Description']);
     }
     public function searchItemMaster(Request $request)
     {
