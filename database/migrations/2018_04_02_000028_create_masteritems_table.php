@@ -21,6 +21,7 @@ class CreateMasteritemsTable extends Migration
     public function up()
     {
       Schema::create('MasterItems', function (Blueprint $table) {
+        $table->increments('id');
         $table->string('ItemCode',20);
         $table->string('AccountCode', 20);
         $table->string('Description', 100)->nullable()->default(null);
