@@ -22,8 +22,8 @@ class CreateSignatureablesTable extends Migration
       Schema::create('Signatureables', function (Blueprint $table) {
         $table->increments('id');
         $table->integer('user_id');
-        $table->char('signatureable_id', 7);
-        $table->string('signatureable_type', 50);
+        $table->char('Signatureable_id', 7);
+        $table->string('Signatureable_type', 50);
         $table->string('Signature', 140)->nullable()->default(null);
         $table->string('SignatureType', 50)->nullable()->default(null);
       });
