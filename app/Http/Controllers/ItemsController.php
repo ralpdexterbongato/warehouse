@@ -126,12 +126,11 @@ class ItemsController extends Controller
     {
       if ($request->Search==null)
       {
-        $MasterItem=MaterialsTicketDetail::where('MTNo', 'Init')->orderBy('id','DESC')->paginate(10,['AccountCode','ItemCode','CurrentCost','CurrentQuantity','id']);
+        $MasterItem=MaterialsTicketDetail::where('MTNo', 'Init')->with('MasterItems')->orderBy('id','DESC')->paginate(10,['AccountCode','ItemCode','CurrentCost','CurrentQuantity','id']);
       }else
       {
-        $MasterItem=MaterialsTicketDetail::where('ItemCode',$request->Search)->where('MTNo', 'Init')->orderBy('id','DESC')->paginate(10,['AccountCode','ItemCode','CurrentCost','CurrentQuantity','id']);
+        $MasterItem=MaterialsTicketDetail::where('ItemCode',$request->Search)->with('MasterItems')->where('MTNo', 'Init')->orderBy('id','DESC')->paginate(10,['AccountCode','ItemCode','CurrentCost','CurrentQuantity','id']);
       }
-      $MasterItem->load('MasterItems');
       $response = array('pagination'=>$MasterItem);
        return response()->json($response);
     }
