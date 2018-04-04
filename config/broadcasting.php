@@ -32,9 +32,9 @@ return [
 
         'pusher' => [
             'driver' => 'pusher',
-            'key' =>5ec78ba2b76c77be9566,
-            'secret' =>70b744b72505bb7d3c50,
-            'app_id' =>386844,
+            'key' =>'5ec78ba2b76c77be9566',
+            'secret' =>'70b744b72505bb7d3c50',
+            'app_id' =>'386844',
             'options' => [
               'cluster' => 'ap1',
               'encrypted' =>false
