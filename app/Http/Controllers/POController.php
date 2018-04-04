@@ -65,15 +65,15 @@ class POController extends Controller
         'Supplier' =>$CanvasMaster[0]->Supplier ,'Address'=>$CanvasMaster[0]->Address,
         'Telephone'=>$CanvasMaster[0]->Telephone,'Purpose'=>$RVMasterDB[0]->Purpose,
         'RVDate'=>$RVMasterDB[0]->RVDate,'PODate'=>$date,'CreatorID'=>Auth::user()->id);
-        $toDBSignatures[] = array('user_id' =>$GM[0]->id,'signatureable_id'=>$incremented,'signatureable_type' =>'App\POMaster','SignatureType'=>'ApprovedBy');
-        $toDBSignatures[] = array('user_id' =>$ApprovalReplacer[0]->id,'signatureable_id'=>$incremented,'signatureable_type' =>'App\POMaster','SignatureType'=>'ApprovalReplacer');
+        $toDBSignatures[] = array('user_id' =>$GM[0]->id,'Signatureable_id'=>$incremented,'signatureable_type' =>'App\POMaster','SignatureType'=>'ApprovedBy');
+        $toDBSignatures[] = array('user_id' =>$ApprovalReplacer[0]->id,'Signatureable_id'=>$incremented,'signatureable_type' =>'App\POMaster','SignatureType'=>'ApprovalReplacer');
       }else
       {
         $toDBMaster[]=array('PONo'=>$incremented,'RVNo' => $CanvasMaster[0]->RVNo,
         'Supplier' =>$CanvasMaster[0]->Supplier ,'Address'=>$CanvasMaster[0]->Address,
         'Telephone'=>$CanvasMaster[0]->Telephone,'Purpose'=>$RVMasterDB[0]->Purpose,
         'RVDate'=>$RVMasterDB[0]->RVDate,'PODate'=>$date,'CreatorID'=>Auth::user()->id);
-        $toDBSignatures[] = array('user_id' =>$GM[0]->id,'signatureable_id'=>$incremented,'signatureable_type' =>'App\POMaster','SignatureType'=>'ApprovedBy');
+        $toDBSignatures[] = array('user_id' =>$GM[0]->id,'Signatureable_id'=>$incremented,'signatureable_type' =>'App\POMaster','SignatureType'=>'ApprovedBy');
       }
 
       $FromRVDetail=RVDetail::where('RVNo',$request->RVNo)->get(['Particulars','QuantityValidator']);//use to minus qty for every po generation,so we can validate po items cant be overOrder.
@@ -182,8 +182,8 @@ class POController extends Controller
   public function GMSignaturePO($id)
   {
     POMaster::where('PONo',$id)->update(['Status'=>'0']);
-    Signatureable::where('user_id', Auth::user()->id)->where('signatureable_id', $id)->where('signatureable_type','App\POMaster')->where('SignatureType','ApprovedBy')->update(['Signature'=>'0']);
-    Signatureable::where('signatureable_id', $id)->where('signatureable_type','App\POMaster')->where('SignatureType','ApprovalReplacer')->delete();
+    Signatureable::where('user_id', Auth::user()->id)->where('Signatureable_id', $id)->where('signatureable_type','App\POMaster')->where('SignatureType','ApprovedBy')->update(['Signature'=>'0']);
+    Signatureable::where('Signatureable_id', $id)->where('signatureable_type','App\POMaster')->where('SignatureType','ApprovalReplacer')->delete();
     //notify creator
     $POMaster=POMaster::where('PONo',$id)->get(['CreatorID']);
     $NotificationTbl = new Notification;
@@ -205,8 +205,8 @@ class POController extends Controller
   public function GMDeclined($id)
   {
     POMaster::where('PONo',$id)->update(['Status'=>'1']);
-    Signatureable::where('user_id', Auth::user()->id)->where('signatureable_id', $id)->where('signatureable_type','App\POMaster')->where('SignatureType','ApprovedBy')->update(['Signature'=>'1']);
-    Signatureable::where('signatureable_id', $id)->where('signatureable_type','App\POMaster')->where('SignatureType','ApprovalReplacer')->delete();
+    Signatureable::where('user_id', Auth::user()->id)->where('Signatureable_id', $id)->where('signatureable_type','App\POMaster')->where('SignatureType','ApprovedBy')->update(['Signature'=>'1']);
+    Signatureable::where('Signatureable_id', $id)->where('signatureable_type','App\POMaster')->where('SignatureType','ApprovalReplacer')->delete();
     $PODetails=PODetail::where('PONo',$id)->get(['Qty','Description']);
     $RVNo=POMaster::where('PONo',$id)->value('RVNo');
     $FROMRVdetail=RVDetail::where('RVNo',$RVNo)->get(['Particulars']);
@@ -244,7 +244,7 @@ class POController extends Controller
   }
   public function RefuseAuthorizeInBehalf($id)
   {
-    Signatureable::where('user_id', Auth::user()->id)->where('signatureable_id', $id)->where('signatureable_type', 'App\POMaster')->where('SignatureType', 'ApprovalReplacer')->delete();
+    Signatureable::where('user_id', Auth::user()->id)->where('Signatureable_id', $id)->where('signatureable_type', 'App\POMaster')->where('SignatureType', 'ApprovalReplacer')->delete();
     $POMaster=POMaster::where('PONo',$id)->get(['CreatorID']);
     $NotificationTbl = new Notification;
     $NotificationTbl->user_id = $POMaster[0]->CreatorID;
@@ -264,10 +264,10 @@ class POController extends Controller
   public function AuthorizeInBehalfconfirmed($id)
   {
     POMaster::where('PONo',$id)->update(['Status'=>'0']);
-    Signatureable::where('user_id', Auth::user()->id)->where('signatureable_id', $id)->where('signatureable_type', 'App\POMaster')->where('SignatureType', 'ApprovalReplacer')->update(['Signature'=>'0']);
+    Signatureable::where('user_id', Auth::user()->id)->where('Signatureable_id', $id)->where('signatureable_type', 'App\POMaster')->where('SignatureType', 'ApprovalReplacer')->update(['Signature'=>'0']);
 
     //smsAlert
-    $GMId=Signatureable::where('signatureable_id', $id)->where('signatureable_type', 'App\POMaster')->where('SignatureType', 'ApprovedBy')->value('user_id');
+    $GMId=Signatureable::where('Signatureable_id', $id)->where('signatureable_type', 'App\POMaster')->where('SignatureType', 'ApprovedBy')->value('user_id');
     $GMMobile=User::where('id', $GMId)->value('Mobile');
     $data = array('Mobile' =>$GMMobile, 'PONo'=>$id,'Replacer'=>Auth::user()->FullName);
     $data=(object)$data;

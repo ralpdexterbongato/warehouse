@@ -180,8 +180,8 @@ class RRController extends Controller
       RRMaster::where('RRNo', $RRno)->update(['InvoiceNo'=>$request->newInvoice,'Carrier'=>$request->newCarrier,'DeliveryReceiptNo'=>$request->newDeliveryReceipt,'Note'=>$request->newNote]);
     }
 
-    Signatureable::where('signatureable_type','App\RRMaster')->where('signatureable_id',$RRno)->update(['Signature'=>NULL]);
-    $peopleToSign=Signatureable::where('signatureable_type','App\RRMaster')->where('signatureable_id',$RRno)->get(['user_id']);
+    Signatureable::where('signatureable_type','App\RRMaster')->where('Signatureable_id',$RRno)->update(['Signature'=>NULL]);
+    $peopleToSign=Signatureable::where('signatureable_type','App\RRMaster')->where('Signatureable_id',$RRno)->get(['user_id']);
     foreach ($peopleToSign as $key => $person)
     {
       // notify all for the update
@@ -365,10 +365,10 @@ class RRController extends Controller
     $RRMasterDB->CreatorID = Auth::user()->id;
     $RRMasterDB->save();
     $forSignatures = array(
-      array('user_id' =>$request->Receivedby,'signatureable_id'=>$incremented,'signatureable_type'=>'App\RRMaster','SignatureType'=>'ReceivedBy'),
-      array('user_id' =>$request->Verifiedby,'signatureable_id'=>$incremented,'signatureable_type'=>'App\RRMaster','SignatureType'=>'VerifiedBy'),
-      array('user_id' =>$request->ReceivedOriginalby,'signatureable_id'=>$incremented,'signatureable_type'=>'App\RRMaster','SignatureType'=>'ReceivedOriginalBy'),
-      array('user_id' =>$request->PostedtoBINby,'signatureable_id'=>$incremented,'signatureable_type'=>'App\RRMaster','SignatureType'=>'PostedToBINBy'),
+      array('user_id' =>$request->Receivedby,'Signatureable_id'=>$incremented,'signatureable_type'=>'App\RRMaster','SignatureType'=>'ReceivedBy'),
+      array('user_id' =>$request->Verifiedby,'Signatureable_id'=>$incremented,'signatureable_type'=>'App\RRMaster','SignatureType'=>'VerifiedBy'),
+      array('user_id' =>$request->ReceivedOriginalby,'Signatureable_id'=>$incremented,'signatureable_type'=>'App\RRMaster','SignatureType'=>'ReceivedOriginalBy'),
+      array('user_id' =>$request->PostedtoBINby,'Signatureable_id'=>$incremented,'signatureable_type'=>'App\RRMaster','SignatureType'=>'PostedToBINBy'),
     );
     $ForRRconfirmItemsDB = array();
     $RVDetail=RVDetail::where('RVNo',$request->RVNo)->get(['Particulars','QuantityValidator']);
@@ -499,10 +499,10 @@ class RRController extends Controller
     $RRMasterDB->CreatorID = Auth::user()->id;
     $RRMasterDB->save();
     $forSignatures = array(
-      array('user_id' =>$request->Receivedby,'signatureable_id'=>$incremented,'signatureable_type'=>'App\RRMaster','SignatureType'=>'ReceivedBy'),
-      array('user_id' =>$request->Verifiedby,'signatureable_id'=>$incremented,'signatureable_type'=>'App\RRMaster','SignatureType'=>'VerifiedBy'),
-      array('user_id' =>$request->ReceivedOriginalby,'signatureable_id'=>$incremented,'signatureable_type'=>'App\RRMaster','SignatureType'=>'ReceivedOriginalBy'),
-      array('user_id' =>$request->PostedtoBINby,'signatureable_id'=>$incremented,'signatureable_type'=>'App\RRMaster','SignatureType'=>'PostedToBINBy'),
+      array('user_id' =>$request->Receivedby,'Signatureable_id'=>$incremented,'signatureable_type'=>'App\RRMaster','SignatureType'=>'ReceivedBy'),
+      array('user_id' =>$request->Verifiedby,'Signatureable_id'=>$incremented,'signatureable_type'=>'App\RRMaster','SignatureType'=>'VerifiedBy'),
+      array('user_id' =>$request->ReceivedOriginalby,'Signatureable_id'=>$incremented,'signatureable_type'=>'App\RRMaster','SignatureType'=>'ReceivedOriginalBy'),
+      array('user_id' =>$request->PostedtoBINby,'Signatureable_id'=>$incremented,'signatureable_type'=>'App\RRMaster','SignatureType'=>'PostedToBINBy'),
     );
     $ForRRconfirmItemsDB = array();
     $FromPODetail=PODetail::where('PONo',$request->PONo)->get(['QtyValidator','Description']);
@@ -652,7 +652,7 @@ class RRController extends Controller
   }
   public function signatureRR($id)
   {
-    Signatureable::where('signatureable_id',$id)->where('signatureable_type','App\RRMaster')->where('user_id', Auth::user()->id)->update(['Signature'=>'0']);
+    Signatureable::where('Signatureable_id',$id)->where('signatureable_type','App\RRMaster')->where('user_id', Auth::user()->id)->update(['Signature'=>'0']);
     $RRMaster=RRMaster::with('users')->where('RRNo',$id)->get();
     if(($RRMaster[0]->users[0]->pivot->Signature =='0')&&($RRMaster[0]->users[1]->pivot->Signature =='0')&&($RRMaster[0]->users[2]->pivot->Signature =='0')&&($RRMaster[0]->users[3]->pivot->Signature =='0'))
     {
@@ -724,7 +724,7 @@ class RRController extends Controller
   }
   public function declineRR($id)
   {
-    Signatureable::where('signatureable_id',$id)->where('signatureable_type','App\RRMaster')->where('user_id', Auth::user()->id)->update(['Signature'=>'1']);
+    Signatureable::where('Signatureable_id',$id)->where('signatureable_type','App\RRMaster')->where('user_id', Auth::user()->id)->update(['Signature'=>'1']);
     RRMaster::where('RRNo', $id)->update(['Status'=>'1']);
     $RRMaster=RRMaster::where('RRNo',$id)->get(['PONo','RVNo','CreatorID']);
     if ($RRMaster[0]->PONo!=null)

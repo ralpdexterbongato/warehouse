@@ -217,49 +217,49 @@ class dashBoardController extends Controller
       $RecentMIRS = [];
       if (isset($recent) && isset($recent[0]->mirsrecent[0]))
       {
-        $RecentMIRS=Signatureable::where('signatureable_type', 'App\MIRSMaster')->where('SignatureType', 'PreparedBy')->where('signatureable_id', $recent[0]->mirsrecent[0]->MIRSNo)->with(array('user'=>function($query){
+        $RecentMIRS=Signatureable::where('signatureable_type', 'App\MIRSMaster')->where('SignatureType', 'PreparedBy')->where('Signatureable_id', $recent[0]->mirsrecent[0]->MIRSNo)->with(array('user'=>function($query){
         $query->select('id','FullName');
                 }))->get(['user_id']);
       }
       $RecentMCT = [];
       if (isset($recent) && isset($recent[0]->mctrecent[0]))
       {
-        $RecentMCT=Signatureable::where('signatureable_type', 'App\MCTMaster')->where('SignatureType', 'ReceivedBy')->where('signatureable_id', $recent[0]->mctrecent[0]->MCTNo)->with(array('user'=>function($query){
+        $RecentMCT=Signatureable::where('signatureable_type', 'App\MCTMaster')->where('SignatureType', 'ReceivedBy')->where('Signatureable_id', $recent[0]->mctrecent[0]->MCTNo)->with(array('user'=>function($query){
         $query->select('id','FullName');
                 }))->get(['user_id']);
       }
       $RecentMRT = [];
       if (isset($recent) && isset($recent[0]->mrtrecent[0]))
       {
-        $RecentMRT=Signatureable::where('signatureable_type', 'App\MRTMaster')->where('SignatureType', 'ReturnedBy')->where('signatureable_id', $recent[0]->mrtrecent[0]->MRTNo)->with(array('user'=>function($query){
+        $RecentMRT=Signatureable::where('signatureable_type', 'App\MRTMaster')->where('SignatureType', 'ReturnedBy')->where('Signatureable_id', $recent[0]->mrtrecent[0]->MRTNo)->with(array('user'=>function($query){
         $query->select('id','FullName');
                 }))->get(['user_id']);
       }
       $RecentRV = [];
       if (isset($recent) && isset($recent[0]->rvrecent[0]))
       {
-        $RecentRV=Signatureable::where('signatureable_type', 'App\RVMaster')->where('SignatureType', 'Requisitioner')->where('signatureable_id', $recent[0]->rvrecent[0]->RVNo)->with(array('user'=>function($query){
+        $RecentRV=Signatureable::where('signatureable_type', 'App\RVMaster')->where('SignatureType', 'Requisitioner')->where('Signatureable_id', $recent[0]->rvrecent[0]->RVNo)->with(array('user'=>function($query){
         $query->select('id','FullName');
                 }))->get(['user_id','id']);
       }
       $RecentMR = [];
       if (isset($recent) && isset($recent[0]->mrrecent[0]))
       {
-        $RecentMR=Signatureable::where('signatureable_type', 'App\MRMaster')->where('SignatureType', 'ReceivedBy')->where('signatureable_id', $recent[0]->mrrecent[0]->MRNo)->with(array('user'=>function($query){
+        $RecentMR=Signatureable::where('signatureable_type', 'App\MRMaster')->where('SignatureType', 'ReceivedBy')->where('Signatureable_id', $recent[0]->mrrecent[0]->MRNo)->with(array('user'=>function($query){
         $query->select('id','FullName');
                 }))->get(['user_id','id']);
       }
       $RecentRR = [];
       if (isset($recent) && isset($recent[0]->rrrecent[0]))
       {
-        $RecentRR=Signatureable::where('signatureable_type', 'App\RRMaster')->where('SignatureType', 'ReceivedBy')->where('signatureable_id', $recent[0]->rrrecent[0]->RRNo)->with(array('user'=>function($query){
+        $RecentRR=Signatureable::where('signatureable_type', 'App\RRMaster')->where('SignatureType', 'ReceivedBy')->where('Signatureable_id', $recent[0]->rrrecent[0]->RRNo)->with(array('user'=>function($query){
         $query->select('id','FullName');
                 }))->get(['user_id','id']);
       }
       $RecentPO = [];
       if (isset($recent) && isset($recent[0]->porecent[0]))
       {
-        $RecentPO=Signatureable::where('signatureable_type', 'App\POMaster')->where('signatureable_id', $recent[0]->porecent[0]->PONo)->with(array('user'=>function($query){
+        $RecentPO=Signatureable::where('signatureable_type', 'App\POMaster')->where('Signatureable_id', $recent[0]->porecent[0]->PONo)->with(array('user'=>function($query){
         $query->select('id','FullName');
                 }))->get(['user_id','id']);
       }
