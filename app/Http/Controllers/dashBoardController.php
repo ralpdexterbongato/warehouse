@@ -47,14 +47,14 @@ class dashBoardController extends Controller
       $yearNow=Carbon::now()->format('Y');
       $MonthNow=Carbon::now()->format('m');
 
-       $MCT = MCTMaster::select(DB::raw('month(MCTDate) as month'), DB::raw('count(*) as total'))
+       $MCT = MCTMaster::select(DB::raw('month("MCTDate") as month'), DB::raw('count(*) as total'))
       ->whereYear('MCTDate', $yearNow)->whereMonth('MCTDate','<=',$MonthNow)
       ->where('Status','0')
       ->whereNull('IsRollBack')
       ->orWhere('IsRollBack','1')
       ->whereYear('MCTDate', $yearNow)->whereMonth('MCTDate','<=',$MonthNow)
       ->where('Status','0')
-      ->groupBy(DB::raw('month(MCTDate)'))
+      ->groupBy(DB::raw('month("MCTDate")'))
       ->orderBy('month', 'asc')
       ->get();
 
@@ -202,7 +202,7 @@ class dashBoardController extends Controller
       $recent = User::where('id', Auth::user()->id)->with(array('mirsrecent'=>function($query){
       $query->select('MIRSNo','Status');
               }))->with(array('mctrecent'=>function($query){
-      $query->select('MCTNo','Status','IsRollback');
+      $query->select('MCTNo','Status','IsRollBack');
               }))->with(array('mrtrecent'=>function($query){
               $query->select('MRTNo','Status','IsRollBack');
                       }))->with(array('rvrecent'=>function($query){
