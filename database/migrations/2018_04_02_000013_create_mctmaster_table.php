@@ -22,7 +22,7 @@ class CreateMctmasterTable extends Migration
       Schema::create('MCTMaster', function (Blueprint $table) {
         $table->char('MCTNo',7);
         $table->char('MIRSNo', 7);
-        $table->datetime('MCTDate')->nullable()->default(null);
+        $table->datetime('mctdate')->nullable()->default(null);
         $table->string('Particulars', 150)->nullable()->default(null);
         $table->string('AddressTo', 100)->nullable()->default(null);
         $table->char('Status', 1)->nullable()->default(null);
