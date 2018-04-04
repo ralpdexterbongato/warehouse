@@ -71,7 +71,7 @@ class MRTController extends Controller
         {
          $MRTincremented=  $year . '-' . sprintf("%04d",'1');
         }
-        $ReturnerID=Signatureable::where('Signatureable_id',$id)->where('signatureable_type', 'App\MCTMaster')->where('SignatureType', 'ReceivedBy')->get(['user_id']);
+        $ReturnerID=Signatureable::where('Signatureable_id',$id)->where('Signatureable_type', 'App\MCTMaster')->where('SignatureType', 'ReceivedBy')->get(['user_id']);
         $mrtDB=new MRTMaster;
         $mrtDB->MRTNo=$MRTincremented;
         $mrtDB->MCTNo =$id;
@@ -83,8 +83,8 @@ class MRTController extends Controller
         $mrtDB->save();
 
         $forMRTSignatureTbl = array(
-           array('user_id' =>Auth::user()->id, 'Signatureable_id'=>$MRTincremented, 'signatureable_type'=>'App\MRTMaster', 'SignatureType'=>'ReceivedBy'),
-           array('user_id' =>$ReturnerID[0]->user_id, 'Signatureable_id'=>$MRTincremented, 'signatureable_type'=>'App\MRTMaster', 'SignatureType'=>'ReturnedBy')
+           array('user_id' =>Auth::user()->id, 'Signatureable_id'=>$MRTincremented, 'Signatureable_type'=>'App\MRTMaster', 'SignatureType'=>'ReceivedBy'),
+           array('user_id' =>$ReturnerID[0]->user_id, 'Signatureable_id'=>$MRTincremented, 'Signatureable_type'=>'App\MRTMaster', 'SignatureType'=>'ReturnedBy')
         );
         $forMRTConfirmation = array();
         foreach (Session::get('MCTSelected') as $MRTitem)
@@ -178,12 +178,12 @@ class MRTController extends Controller
     {
       $SignatureTurn=MRTMaster::where('MRTNo', $id)->value('SignatureTurn');
       //receiver \/
-      $ReceiverID=Signatureable::where('Signatureable_id',$id)->where('signatureable_type', 'App\MRTMaster')->where('SignatureType', 'ReceivedBy')->get(['user_id']);
+      $ReceiverID=Signatureable::where('Signatureable_id',$id)->where('Signatureable_type', 'App\MRTMaster')->where('SignatureType', 'ReceivedBy')->get(['user_id']);
       //returner \/
-      $ReturnerID=Signatureable::where('Signatureable_id',$id)->where('signatureable_type', 'App\MRTMaster')->where('SignatureType', 'ReturnedBy')->get(['user_id']);
+      $ReturnerID=Signatureable::where('Signatureable_id',$id)->where('Signatureable_type', 'App\MRTMaster')->where('SignatureType', 'ReturnedBy')->get(['user_id']);
       if ((Auth::user()->id==$ReceiverID[0]->user_id)&&($SignatureTurn=='0'))
       {
-        Signatureable::where('Signatureable_id',$id)->where('signatureable_type', 'App\MRTMaster')->where('SignatureType', 'ReceivedBy')->where('user_id', Auth::user()->id)->update(['Signature'=>'0']);
+        Signatureable::where('Signatureable_id',$id)->where('Signatureable_type', 'App\MRTMaster')->where('SignatureType', 'ReceivedBy')->where('user_id', Auth::user()->id)->update(['Signature'=>'0']);
         MRTMaster::where('MRTNo', $id)->update(['SignatureTurn'=>'1']);
         if (Auth::user()->id!=$ReturnerID[0]->user_id)
         {
@@ -226,7 +226,7 @@ class MRTController extends Controller
           ,'Amount' =>$MRTammount ,'CurrentCost' =>$newcurrentcost ,'CurrentQuantity' =>$currentQty ,'CurrentAmount' =>$currentAmnt ,'MTDate' =>$MRTMaster[0]->ReturnDate );
         }
         MaterialsTicketDetail::insert($forMRTtbl);
-        Signatureable::where('Signatureable_id',$id)->where('signatureable_type', 'App\MRTMaster')->where('SignatureType', 'ReturnedBy')->where('user_id', Auth::user()->id)->update(['Signature'=>'0']);
+        Signatureable::where('Signatureable_id',$id)->where('Signatureable_type', 'App\MRTMaster')->where('SignatureType', 'ReturnedBy')->where('user_id', Auth::user()->id)->update(['Signature'=>'0']);
         MRTMaster::where('MRTNo', $id)->update(['Status'=>'0']);
 
         $NotificationTbl = new Notification;
@@ -247,7 +247,7 @@ class MRTController extends Controller
     }
     public function DeclineMRT($id)
     {
-      Signatureable::where('Signatureable_id',$id)->where('signatureable_type','App\MRTMaster')->where('user_id', Auth::user()->id)->update(['Signature'=>'1']);
+      Signatureable::where('Signatureable_id',$id)->where('Signatureable_type','App\MRTMaster')->where('user_id', Auth::user()->id)->update(['Signature'=>'1']);
       MRTMaster::where('MRTNo', $id)->update(['Status'=>'1']);
 
       $MRTMaster=MRTMaster::where('MRTNo',$id)->get(['CreatorID']);
@@ -292,7 +292,7 @@ class MRTController extends Controller
         MRTConfirmationDetail::where('MRTNo',$id)->where('ItemCode',$mrtconfirm->ItemCode)->update(['Quantity'=>$request->UpdatedQty[$key],'Amount'=>$newAMT]);
       }
 
-      $returnerID=Signatureable::where('Signatureable_id',$id)->where('signatureable_type', 'App\MRTMaster')->where('SignatureType','ReturnedBy')->value('user_id');
+      $returnerID=Signatureable::where('Signatureable_id',$id)->where('Signatureable_type', 'App\MRTMaster')->where('SignatureType','ReturnedBy')->value('user_id');
       $NotificationTbl = new Notification;
       $NotificationTbl->user_id = $returnerID;
       $NotificationTbl->NotificationType = 'Updated';

@@ -78,8 +78,8 @@ class MRController extends Controller
           MRDetail::where('id',$tobe->id)->update(['Quantity'=>$request->NewQty[$key],'TotalValue'=>$newTotal]);
       }
       MRMaster::where('MRNo',$MRNo)->update(['Note'=>$request->NewNote,'SignatureTurn'=>'0']);
-      Signatureable::where('signatureable_type', 'App\MRMaster')->where('Signatureable_id',$MRNo)->update(['Signature'=>NULL]);
-      $peopleToSign=Signatureable::where('signatureable_type', 'App\MRMaster')->where('Signatureable_id',$MRNo)->get(['user_id']);
+      Signatureable::where('Signatureable_type', 'App\MRMaster')->where('Signatureable_id',$MRNo)->update(['Signature'=>NULL]);
+      $peopleToSign=Signatureable::where('Signatureable_type', 'App\MRMaster')->where('Signatureable_id',$MRNo)->get(['user_id']);
       foreach ($peopleToSign as $key => $person)
       {
         $NotificationTbl = new Notification;
@@ -159,17 +159,17 @@ class MRController extends Controller
      if (isset($ApprovalReplacer[0]))
      {
        $forSignatures = array(
-        array('user_id' =>$Recommended[0]->id,'Signatureable_id'=>$incremented,'signatureable_type'=>'App\MRMaster','SignatureType'=>'RecommendedBy'),
-        array('user_id' =>$GM[0]->id,'Signatureable_id'=>$incremented,'signatureable_type'=>'App\MRMaster','SignatureType'=>'ApprovedBy'),
-        array('user_id' =>$Receiver[0]->id,'Signatureable_id'=>$incremented,'signatureable_type'=>'App\MRMaster','SignatureType'=>'ReceivedBy'),
-        array('user_id' =>$ApprovalReplacer[0]->id,'Signatureable_id'=>$incremented,'signatureable_type'=>'App\MRMaster','SignatureType'=>'ApprovalReplacer')
+        array('user_id' =>$Recommended[0]->id,'Signatureable_id'=>$incremented,'Signatureable_type'=>'App\MRMaster','SignatureType'=>'RecommendedBy'),
+        array('user_id' =>$GM[0]->id,'Signatureable_id'=>$incremented,'Signatureable_type'=>'App\MRMaster','SignatureType'=>'ApprovedBy'),
+        array('user_id' =>$Receiver[0]->id,'Signatureable_id'=>$incremented,'Signatureable_type'=>'App\MRMaster','SignatureType'=>'ReceivedBy'),
+        array('user_id' =>$ApprovalReplacer[0]->id,'Signatureable_id'=>$incremented,'Signatureable_type'=>'App\MRMaster','SignatureType'=>'ApprovalReplacer')
        );
      }else
      {
        $forSignatures = array(
-        array('user_id' =>$Recommended[0]->id,'Signatureable_id'=>$incremented,'signatureable_type'=>'App\MRMaster','SignatureType'=>'RecommendedBy'),
-        array('user_id' =>$GM[0]->id,'Signatureable_id'=>$incremented,'signatureable_type'=>'App\MRMaster','SignatureType'=>'ApprovedBy'),
-        array('user_id' =>$Receiver[0]->id,'Signatureable_id'=>$incremented,'signatureable_type'=>'App\MRMaster','SignatureType'=>'ReceivedBy')
+        array('user_id' =>$Recommended[0]->id,'Signatureable_id'=>$incremented,'Signatureable_type'=>'App\MRMaster','SignatureType'=>'RecommendedBy'),
+        array('user_id' =>$GM[0]->id,'Signatureable_id'=>$incremented,'Signatureable_type'=>'App\MRMaster','SignatureType'=>'ApprovedBy'),
+        array('user_id' =>$Receiver[0]->id,'Signatureable_id'=>$incremented,'Signatureable_type'=>'App\MRMaster','SignatureType'=>'ReceivedBy')
        );
      }
      $ForMRDetailDB = array();
@@ -279,7 +279,7 @@ class MRController extends Controller
       if ((Auth::user()->id==$MRMaster[0]->users[0]->id) && ($MRMaster[0]->users[0]->pivot->Signature==null))
       {
         MRMaster::where('MRNo',$id)->update(['SignatureTurn'=>'1']);
-        Signatureable::where('user_id', Auth::user()->id)->where('Signatureable_id',$id)->where('signatureable_type', 'App\MRMaster')->where('SignatureType', 'RecommendedBy')->update(['Signature'=>'0']);
+        Signatureable::where('user_id', Auth::user()->id)->where('Signatureable_id',$id)->where('Signatureable_type', 'App\MRMaster')->where('SignatureType', 'RecommendedBy')->update(['Signature'=>'0']);
         $job=(new NewMRCreatedJob($MRMaster[0]->users[1]->id))->delay(Carbon::now()->addSeconds(5));
         dispatch($job);
 
@@ -324,8 +324,8 @@ class MRController extends Controller
       }elseif ((Auth::user()->id==$MRMaster[0]->users[1]->id)&&($MRMaster[0]->users[1]->pivot->Signature==null))
       {
         MRMaster::where('MRNo',$id)->update(['SignatureTurn'=>'2']);
-        Signatureable::where('user_id', Auth::user()->id)->where('Signatureable_id',$id)->where('signatureable_type', 'App\MRMaster')->where('SignatureType', 'ApprovedBy')->update(['Signature'=>'0']);
-        Signatureable::where('Signatureable_id',$id)->where('signatureable_type', 'App\MRMaster')->where('SignatureType', 'ApprovalReplacer')->delete();
+        Signatureable::where('user_id', Auth::user()->id)->where('Signatureable_id',$id)->where('Signatureable_type', 'App\MRMaster')->where('SignatureType', 'ApprovedBy')->update(['Signature'=>'0']);
+        Signatureable::where('Signatureable_id',$id)->where('Signatureable_type', 'App\MRMaster')->where('SignatureType', 'ApprovalReplacer')->delete();
         $job=(new NewMRCreatedJob($MRMaster[0]->users[2]->id))->delay(Carbon::now()->addSeconds(5));
         dispatch($job);
 
@@ -354,7 +354,7 @@ class MRController extends Controller
       }elseif((Auth::user()->id==$MRMaster[0]->users[2]->id)&&($MRMaster[0]->users[2]->pivot->Signature==null))
       {
         MRMaster::where('MRNo',$id)->update(['SignatureTurn'=>'3','Status'=>'0']);
-        Signatureable::where('user_id', Auth::user()->id)->where('Signatureable_id',$id)->where('signatureable_type', 'App\MRMaster')->where('SignatureType', 'ReceivedBy')->update(['Signature'=>'0']);
+        Signatureable::where('user_id', Auth::user()->id)->where('Signatureable_id',$id)->where('Signatureable_type', 'App\MRMaster')->where('SignatureType', 'ReceivedBy')->update(['Signature'=>'0']);
 
         // notification for creator
         $NotificationTbl = new Notification;
@@ -377,8 +377,8 @@ class MRController extends Controller
     public function DeclineMR($id)
     {
       MRMaster::where('MRNo',$id)->update(['Status'=>'1']);
-      Signatureable::where('Signatureable_id',$id)->where('signatureable_type', 'App\MRMaster')->where('SignatureType', 'ApprovalReplacer')->delete();
-      Signatureable::where('user_id', Auth::user()->id)->where('Signatureable_id',$id)->where('signatureable_type', 'App\MRMaster')->update(['Signature'=>'1']);
+      Signatureable::where('Signatureable_id',$id)->where('Signatureable_type', 'App\MRMaster')->where('SignatureType', 'ApprovalReplacer')->delete();
+      Signatureable::where('user_id', Auth::user()->id)->where('Signatureable_id',$id)->where('Signatureable_type', 'App\MRMaster')->update(['Signature'=>'1']);
       $RRNumber=MRMaster::where('MRNo',$id)->get(['RRNo']);
       $MRitemsDeclined=MRDetail::where('MRNo',$id)->get(['Quantity','NameDescription']);
       $RRDetailItems=RRconfirmationDetails::where('RRNo', $RRNumber[0]->RRNo)->get(['QuantityValidator','Description','id']);
@@ -417,7 +417,7 @@ class MRController extends Controller
     }
     public function refuseMRApproveInBehalf($id)
     {
-      Signatureable::where('user_id', Auth::user()->id)->where('Signatureable_id',$id)->where('signatureable_type', 'App\MRMaster')->where('SignatureType', 'ApprovalReplacer')->delete();
+      Signatureable::where('user_id', Auth::user()->id)->where('Signatureable_id',$id)->where('Signatureable_type', 'App\MRMaster')->where('SignatureType', 'ApprovalReplacer')->delete();
       $creatorID=MRMaster::where('MRNo',$id)->value('CreatorID');
       $NotificationTbl = new Notification;
       $NotificationTbl->user_id = $creatorID;
@@ -476,7 +476,7 @@ class MRController extends Controller
         dispatch($job);
 
         MRMaster::where('MRNo',$id)->update(['SignatureTurn'=>'2']);
-        Signatureable::where('user_id', Auth::user()->id)->where('Signatureable_id',$id)->where('signatureable_type', 'App\MRMaster')->where('SignatureType', 'ApprovalReplacer')->update(['Signature'=>'0']);
+        Signatureable::where('user_id', Auth::user()->id)->where('Signatureable_id',$id)->where('Signatureable_type', 'App\MRMaster')->where('SignatureType', 'ApprovalReplacer')->update(['Signature'=>'0']);
         $job=(new NewMRCreatedJob($MRMaster[0]->users[2]->id))->delay(Carbon::now()->addSeconds(5));
         dispatch($job);
       }

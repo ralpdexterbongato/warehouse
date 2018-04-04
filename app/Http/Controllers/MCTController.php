@@ -39,7 +39,7 @@ class MCTController extends Controller
     $year=Carbon::today()->format('y');
     $latest=MCTMaster::orderBy('MCTNo','DESC')->take(1)->value('MCTNo');
     $explodedMCTNo = explode('-',$latest);
-    $Receivedby=Signatureable::where('Signatureable_id',$request->MIRSNo)->where('signatureable_type', 'App\MIRSMaster')->where('SignatureType', 'PreparedBy')->get(['user_id']);
+    $Receivedby=Signatureable::where('Signatureable_id',$request->MIRSNo)->where('Signatureable_type', 'App\MIRSMaster')->where('SignatureType', 'PreparedBy')->get(['user_id']);
     if (count($latest)>0 && $explodedMCTNo[0] == $year)
     {
       $numOnly=substr($latest,'3');
@@ -62,8 +62,8 @@ class MCTController extends Controller
     $MCTMasterDB->save();
 
     $forSignatureTbl = array(
-       array('user_id' =>Auth::user()->id ,'Signatureable_id'=>$MCTIncremented,'signatureable_type'=>'App\MCTMaster','SignatureType'=>'IssuedBy'),
-       array('user_id' =>$Receivedby[0]->user_id ,'Signatureable_id'=>$MCTIncremented,'signatureable_type'=>'App\MCTMaster','SignatureType'=>'ReceivedBy')
+       array('user_id' =>Auth::user()->id ,'Signatureable_id'=>$MCTIncremented,'Signatureable_type'=>'App\MCTMaster','SignatureType'=>'IssuedBy'),
+       array('user_id' =>$Receivedby[0]->user_id ,'Signatureable_id'=>$MCTIncremented,'Signatureable_type'=>'App\MCTMaster','SignatureType'=>'ReceivedBy')
     );
     Signatureable::insert($forSignatureTbl);
     MIRSMaster::where('MIRSNo',$request->MIRSNo)->update(['WithMCT'=>'0']);
@@ -125,11 +125,11 @@ class MCTController extends Controller
   }
   public function SignatureMCT($id)
   {
-    $IssuerID=Signatureable::where('Signatureable_id',$id)->where('signatureable_type', 'App\MCTMaster')->where('SignatureType', 'IssuedBy')->get(['user_id','Signature']);
-    $ReceiversId=Signatureable::where('Signatureable_id',$id)->where('signatureable_type', 'App\MCTMaster')->where('SignatureType', 'ReceivedBy')->get(['user_id']);
+    $IssuerID=Signatureable::where('Signatureable_id',$id)->where('Signatureable_type', 'App\MCTMaster')->where('SignatureType', 'IssuedBy')->get(['user_id','Signature']);
+    $ReceiversId=Signatureable::where('Signatureable_id',$id)->where('Signatureable_type', 'App\MCTMaster')->where('SignatureType', 'ReceivedBy')->get(['user_id']);
     if (($IssuerID[0]->user_id==Auth::user()->id)&&($IssuerID[0]->Signature==null))
     {
-      Signatureable::where('Signatureable_id',$id)->where('signatureable_type', 'App\MCTMaster')->where('SignatureType', 'IssuedBy')->update(['Signature'=>'0']);
+      Signatureable::where('Signatureable_id',$id)->where('Signatureable_type', 'App\MCTMaster')->where('SignatureType', 'IssuedBy')->update(['Signature'=>'0']);
       MCTMaster::where('MCTNo',$id)->update(['SignatureTurn'=>1]);
       $ReceiverID = array('Receiver' =>$ReceiversId[0]->user_id);
       $ReceiverID=(object)$ReceiverID;
@@ -175,7 +175,7 @@ class MCTController extends Controller
          ,'CurrentCost' =>$newcurrentcost,'CurrentQuantity' =>$newQTY ,'CurrentAmount' =>$newAmount ,'MTDate' =>$MCTMaster[0]->MCTDate);
       }
       MaterialsTicketDetail::insert($forMTDetailstable);
-      Signatureable::where('Signatureable_id',$id)->where('signatureable_type', 'App\MCTMaster')->where('SignatureType', 'ReceivedBy')->update(['Signature'=>'0']);
+      Signatureable::where('Signatureable_id',$id)->where('Signatureable_type', 'App\MCTMaster')->where('SignatureType', 'ReceivedBy')->update(['Signature'=>'0']);
       MCTMaster::where('MCTNo',$id)->update(['Status'=>0]);
 
       $NotificationTbl = new Notification;
@@ -331,7 +331,7 @@ class MCTController extends Controller
       $newAMT=$confirmationMCT->UnitCost*$request->NewQuantity[$key];
       MCTConfirmationDetail::where('MCTNo',$id)->where('ItemCode',$confirmationMCT->ItemCode)->update(['Quantity'=>$request->NewQuantity[$key],'Amount'=>$newAMT]);
     }
-    $receiverId=Signatureable::where('Signatureable_id', $id)->where('signatureable_type', 'App\MCTMaster')->where('SignatureType','ReceivedBy')->value('user_id');
+    $receiverId=Signatureable::where('Signatureable_id', $id)->where('Signatureable_type', 'App\MCTMaster')->where('SignatureType','ReceivedBy')->value('user_id');
     $NotificationTbl = new Notification;
     $NotificationTbl->user_id = $receiverId;
     $NotificationTbl->NotificationType = 'Updated';
@@ -357,7 +357,7 @@ class MCTController extends Controller
       $newMCTValidatorQty=$currentMCTValidatorQty[0]->QuantityValidator+$confirmation->Quantity;
       MIRSDetail::where('MIRSNo',$MCTMaster[0]->MIRSNo)->where('ItemCode', $confirmation->ItemCode)->update(['QuantityValidator'=>$newMCTValidatorQty]);
     }
-    Signatureable::where('Signatureable_id',$id)->where('signatureable_type', 'App\MCTMaster')->where('user_id', Auth::user()->id)->update(['Signature'=>'1']);
+    Signatureable::where('Signatureable_id',$id)->where('Signatureable_type', 'App\MCTMaster')->where('user_id', Auth::user()->id)->update(['Signature'=>'1']);
     MCTMaster::where('MCTNo',$id)->update(['Status'=>1]);
 
     $ReceiverID = array('id' =>$MCTMaster[0]->CreatorID);
