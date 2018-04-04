@@ -118,7 +118,7 @@
         <h4>P.O. Number: {{MRMaster.PONo}}</h4>
         <div class="signature-mr-box">
           <label>RECOMMENDING APPROVAL:</label>
-            <h5 v-if="MRMaster.users[0].pivot.Signature=='0'"><img :src="'/storage/signatures/'+MRMaster.users[0].Signature" alt="signature"></h5>
+            <h5 v-if="MRMaster.users[0].pivot.Signature=='0'"><img :src="'/ForHerokuOnly/'+MRMaster.users[0].Signature" alt="signature"></h5>
           <h3>
             {{MRMaster.users[0].FullName}}
               <i v-if="(MRMaster.users[0].pivot.Signature=='1')" class="material-icons decliner">close</i>
@@ -127,8 +127,8 @@
         </div>
         <div class="signature-mr-box">
           <label>APPROVED:</label>
-          <h5 v-if="MRMaster.users[1].pivot.Signature=='0'"><img :src="'/storage/signatures/'+MRMaster.users[1].Signature" alt="signature"></h5>
-          <h5 v-else-if="((MRMaster.users[3]!=null)&&(MRMaster.users[3].pivot.Signature=='0'))"><p>For :</p><img :src="'/storage/signatures/'+MRMaster.users[3].Signature" alt="signature"></h5>
+          <h5 v-if="MRMaster.users[1].pivot.Signature=='0'"><img :src="'/ForHerokuOnly/'+MRMaster.users[1].Signature" alt="signature"></h5>
+          <h5 v-else-if="((MRMaster.users[3]!=null)&&(MRMaster.users[3].pivot.Signature=='0'))"><p>For :</p><img :src="'/ForHerokuOnly/'+MRMaster.users[3].Signature" alt="signature"></h5>
           <h3>
             {{MRMaster.users[1].FullName}}
               <i v-if="MRMaster.users[1].pivot.Signature=='1'" class="material-icons decliner">close</i>
@@ -137,7 +137,7 @@
         </div>
         <div class="signature-mr-box">
           <label>RECEIVED:</label>
-            <h5 v-if="MRMaster.users[2].pivot.Signature=='0'"><img :src="'/storage/signatures/'+MRMaster.users[2].Signature" alt="signature"></h5>
+            <h5 v-if="MRMaster.users[2].pivot.Signature=='0'"><img :src="'/ForHerokuOnly/'+MRMaster.users[2].Signature" alt="signature"></h5>
           <h3>{{MRMaster.users[2].FullName}}<i class="material-icons decliner" v-if="MRMaster.users[2].pivot.Signature=='1'">close</i></h3>
           <p>{{MRMaster.users[2].Position}}</p>
         </div>

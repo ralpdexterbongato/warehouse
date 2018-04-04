@@ -304,7 +304,7 @@
             <div class="issued-name">
               <div class="signature-issued">
                 @if ($MCTMast[0]->users[0]->pivot->Signature=='0')
-                  <img src="c:/xampp/htdocs/warehouse/public/storage/signatures/{{$MCTMast[0]->users[0]->Signature}}" alt="signature">
+                  <img src="c:/xampp/htdocs/warehouse/public/ForHerokuOnly/{{$MCTMast[0]->users[0]->Signature}}" alt="signature">
                 @endif
               </div>
               {{$MCTMast[0]->users[0]->FullName}}
@@ -322,7 +322,7 @@
             <div class="recieve-name">
               <div class="signature-reciever">
                 @if ($MCTMast[0]->users[1]->pivot->Signature=='0')
-                  <img src="c:/xampp/htdocs/warehouse/public/storage/signatures/{{$MCTMast[0]->users[1]->Signature}}" alt="signature">
+                  <img src="c:/xampp/htdocs/warehouse/public/ForHerokuOnly/{{$MCTMast[0]->users[1]->Signature}}" alt="signature">
                 @endif
               </div>
                 {{$MCTMast[0]->users[1]->FullName}}

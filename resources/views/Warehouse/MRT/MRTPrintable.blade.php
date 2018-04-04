@@ -301,7 +301,7 @@
         <div class="signaturer-name">
           <div class="signature-image">
             @if ($mrtMaster[0]->users[1]->pivot->Signature=='0')
-              <img src="c:/xampp/htdocs/warehouse/public/storage/signatures/{{$mrtMaster[0]->users[1]->Signature}}" alt="signature">
+              <img src="c:/xampp/htdocs/warehouse/public/ForHerokuOnly/{{$mrtMaster[0]->users[1]->Signature}}" alt="signature">
             @endif
           </div>
           {{$mrtMaster[0]->users[1]->FullName}}
@@ -315,7 +315,7 @@
         <div class="signaturer-name">
           <div class="signature-image">
             @if ($mrtMaster[0]->users[0]->pivot->Signature=='0')
-              <img src="c:/xampp/htdocs/warehouse/public/storage/signatures/{{$mrtMaster[0]->users[0]->Signature}}" alt="signature">
+              <img src="c:/xampp/htdocs/warehouse/public/ForHerokuOnly/{{$mrtMaster[0]->users[0]->Signature}}" alt="signature">
             @endif
           </div>
           {{$mrtMaster[0]->users[0]->FullName}}

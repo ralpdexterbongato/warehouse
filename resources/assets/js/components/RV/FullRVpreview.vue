@@ -179,7 +179,7 @@
             <div class="RV-top-leftSignature">
               <h5>Requested by:</h5>
                 <div class="requestRV-content">
-                  <h6 v-if="RVMaster.users[0].pivot.Signature=='0'"><img :src="'/storage/signatures/'+RVMaster.users[0].Signature" alt="signature"></h6>
+                  <h6 v-if="RVMaster.users[0].pivot.Signature=='0'"><img :src="'/ForHerokuOnly/'+RVMaster.users[0].Signature" alt="signature"></h6>
                   <p>
                     {{RVMaster.users[0].FullName}}
                     <i v-if="RVMaster.users[0].pivot.Signature=='1'" class="material-icons decliner">close</i>
@@ -190,8 +190,8 @@
             <div class="RV-top-RightSignature">
               <h5>Recommended by:</h5>
               <div class="requestRV-content">
-                <h6 v-if="RVMaster.users[1].pivot.Signature=='0'"><img :src="'/storage/signatures/'+RVMaster.users[1].Signature" alt="signature"></h6>
-                <h6 v-else-if="ManagerReplacerData!=null && ManagerReplacerData.pivot.Signature=='0'"><h1>For :</h1><img :src="'/storage/signatures/'+ManagerReplacerData.Signature" alt="signature"></h6>
+                <h6 v-if="RVMaster.users[1].pivot.Signature=='0'"><img :src="'/ForHerokuOnly/'+RVMaster.users[1].Signature" alt="signature"></h6>
+                <h6 v-else-if="ManagerReplacerData!=null && ManagerReplacerData.pivot.Signature=='0'"><h1>For :</h1><img :src="'/ForHerokuOnly/'+ManagerReplacerData.Signature" alt="signature"></h6>
                 <p>
                   {{RVMaster.users[1].FullName}}
                 <span class="opener-manager-replace opener-icon">
@@ -224,7 +224,7 @@
           </div>
           <div class="bottom-RV-signatures">
             <div class="RVbottom-left-signature">
-              <h6 v-if="RVMaster.users[2].pivot.Signature=='0'"><img :src="'/storage/signatures/'+RVMaster.users[2].Signature" alt="signature"></h6>
+              <h6 v-if="RVMaster.users[2].pivot.Signature=='0'"><img :src="'/ForHerokuOnly/'+RVMaster.users[2].Signature" alt="signature"></h6>
               <h3>BUDGET AVAILABLE ON THIS REQUEST</h3>
               <h4>
                 <span class="rv-signature-form">
@@ -251,8 +251,8 @@
             <div class="RVbottom-right-signature">
               <h3>Approved:</h3>
               <div class="requestRV-content">
-                <h6 v-if="RVMaster.users[3].pivot.Signature=='0'"><img :src="'/storage/signatures/'+RVMaster.users[3].Signature" alt="signature"></h6>
-                <h6 v-else-if="((ApprovalReplacerData!=null) && (ApprovalReplacerData.pivot.Signature=='0'))"><h2>For :</h2><img :src="'/storage/signatures/'+ApprovalReplacerData.Signature" alt="signature"></h6>
+                <h6 v-if="RVMaster.users[3].pivot.Signature=='0'"><img :src="'/ForHerokuOnly/'+RVMaster.users[3].Signature" alt="signature"></h6>
+                <h6 v-else-if="((ApprovalReplacerData!=null) && (ApprovalReplacerData.pivot.Signature=='0'))"><h2>For :</h2><img :src="'/ForHerokuOnly/'+ApprovalReplacerData.Signature" alt="signature"></h6>
                 <p>
                   {{RVMaster.users[3].FullName}}
                   <i v-if="RVMaster.users[3].pivot.Signature=='1'" class="material-icons decliner">close</i>

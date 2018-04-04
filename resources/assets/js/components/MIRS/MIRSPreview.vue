@@ -131,7 +131,7 @@
             <div class="request-sig">
               <h4>Prepared by:</h4>
                 <h3>
-                  <img v-if="(MIRSMaster.users[0].pivot.Signature=='0')" :src="'/storage/signatures/'+MIRSMaster.users[0].Signature">
+                  <img v-if="(MIRSMaster.users[0].pivot.Signature=='0')" :src="'/ForHerokuOnly/'+MIRSMaster.users[0].Signature">
                 </h3>
               <h2>
                 {{MIRSMaster.users[0].FullName}}
@@ -143,15 +143,15 @@
             <div class="recommend-sig">
             <h4>Recommended by:</h4>
             <h3 v-if="MIRSMaster.users[1].pivot.Signature=='0'">
-              <img :src="'/storage/signatures/'+MIRSMaster.users[1].Signature">
+              <img :src="'/ForHerokuOnly/'+MIRSMaster.users[1].Signature">
             </h3>
             <h3 v-else-if="((MIRSMaster.users[3]!=null)&&(MIRSMaster.users[3].pivot.Signature=='0')&&(MIRSMaster.users[3].pivot.SignatureType=='ManagerReplacer'))">
               <h2>For :</h2>
-              <img :src="'/storage/signatures/'+MIRSMaster.users[3].Signature">
+              <img :src="'/ForHerokuOnly/'+MIRSMaster.users[3].Signature">
             </h3>
             <h3 v-else-if="((MIRSMaster.users[4]!=null)&&(MIRSMaster.users[4].pivot.Signature=='0')&&(MIRSMaster.users[4].pivot.SignatureType='ManagerReplacer'))">
               <h2>For :</h2>
-              <img :src="'/storage/signatures/'+MIRSMaster.users[4].Signature">
+              <img :src="'/ForHerokuOnly/'+MIRSMaster.users[4].Signature">
             </h3>
             <h2>
              <span class="bold">{{MIRSMaster.users[1].FullName}}
@@ -189,10 +189,10 @@
           <div class="gm-sig">
             <h4>APPROVED:</h4>
             <h3 v-if="(MIRSMaster.users[2].pivot.Signature=='0')">
-              <img :src="'/storage/signatures/'+MIRSMaster.users[2].Signature">
+              <img :src="'/ForHerokuOnly/'+MIRSMaster.users[2].Signature">
             </h3>
             <h3 v-else-if="((MIRSMaster.users[3]!=null)&&(MIRSMaster.users[3].pivot.Signature=='0')&&(MIRSMaster.users[3].pivot.SignatureType=='ApprovalReplacer'))">
-              <p>For :</p><img :src="'/storage/signatures/'+MIRSMaster.users[3].Signature">
+              <p>For :</p><img :src="'/ForHerokuOnly/'+MIRSMaster.users[3].Signature">
             </h3>
             <h2>
             <span class="gm-info-box bold">

@@ -85,7 +85,7 @@
         <div class="mrt-returnby-container">
             <p>Returned by:</p>
             <div class="mrt-bottom-data">
-              <h3 v-if="MRTMaster.users[1].pivot.Signature=='0'"><img :src="'/storage/signatures/'+MRTMaster.users[1].Signature" alt="signature"></h3>
+              <h3 v-if="MRTMaster.users[1].pivot.Signature=='0'"><img :src="'/ForHerokuOnly/'+MRTMaster.users[1].Signature" alt="signature"></h3>
               <p>{{MRTMaster.users[1].FullName}} <i class="material-icons decliner" v-if="MRTMaster.users[1].pivot.Signature=='1'">close</i></p>
               <p>{{MRTMaster.users[1].Position}}</p>
             </div>
@@ -93,7 +93,7 @@
         <div class="mrt-received-container">
           <p>Recieved by:</p>
           <div class="mrt-bottom-data">
-            <h3 v-if="MRTMaster.users[0].pivot.Signature=='0'"><img :src="'/storage/signatures/'+MRTMaster.users[0].Signature" alt="signature"></h3>
+            <h3 v-if="MRTMaster.users[0].pivot.Signature=='0'"><img :src="'/ForHerokuOnly/'+MRTMaster.users[0].Signature" alt="signature"></h3>
             <p>{{MRTMaster.users[0].FullName}}<i class="material-icons decliner" v-if="MRTMaster.users[0].pivot.Signature=='1'">close</i></p>
             <p>{{MRTMaster.users[0].Position}}</p>
           </div>

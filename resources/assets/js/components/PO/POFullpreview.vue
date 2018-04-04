@@ -107,8 +107,8 @@
       <div class="label-signatures-po">
         <h4>ORDER ISSUED AND AUTHORIZED<br> BY:</h4>
         <li>
-          <h6 v-if="OrderMaster.users[0].pivot.Signature=='0'"><img :src="'/storage/signatures/'+OrderMaster.users[0].Signature" alt="signature"></h6>
-          <h6 v-else-if="((OrderMaster.users[1]!=null)&&(OrderMaster.users[1].pivot.Signature=='0'))"><p>For :</p><img :src="'/storage/signatures/'+OrderMaster.users[1].Signature" alt="signature"></h6>
+          <h6 v-if="OrderMaster.users[0].pivot.Signature=='0'"><img :src="'/ForHerokuOnly/'+OrderMaster.users[0].Signature" alt="signature"></h6>
+          <h6 v-else-if="((OrderMaster.users[1]!=null)&&(OrderMaster.users[1].pivot.Signature=='0'))"><p>For :</p><img :src="'/ForHerokuOnly/'+OrderMaster.users[1].Signature" alt="signature"></h6>
           <h3>
             {{OrderMaster.users[0].FullName}}
             <i class="material-icons decliner" v-if="OrderMaster.users[0].pivot.Signature=='1'">close</i>

@@ -114,7 +114,7 @@
         </div>
         <div class="issuedby-data">
           <div class="signature-issuedmct">
-              <img :src="'/storage/signatures/'+MCTMaster.users[0].Signature" v-if="MCTMaster.users[0].pivot.Signature=='0'" alt="signature">
+              <img :src="'/ForHerokuOnly/'+MCTMaster.users[0].Signature" v-if="MCTMaster.users[0].pivot.Signature=='0'" alt="signature">
           </div>
           <h1>{{MCTMaster.users[0].FullName}}<i v-if="MCTMaster.users[0].pivot.Signature=='1'" class="material-icons decliner">close</i></h1>
           <h5>{{MCTMaster.users[0].Position}}</h5>
@@ -126,7 +126,7 @@
         </div>
         <div class="receivedby-data">
           <div class="signature-recievedmct">
-            <img :src="'/storage/signatures/'+MCTMaster.users[1].Signature" v-if="MCTMaster.users[1].pivot.Signature=='0'" alt="signature">
+            <img :src="'/ForHerokuOnly/'+MCTMaster.users[1].Signature" v-if="MCTMaster.users[1].pivot.Signature=='0'" alt="signature">
           </div>
           <h1>{{MCTMaster.users[1].FullName}} <i v-if="MCTMaster.users[1].pivot.Signature=='1'" class="material-icons decliner">close</i></h1>
           <h5>{{MCTMaster.users[1].Position}}</h5>
@@ -230,7 +230,7 @@ export default {
             }
           }).catch(function(error)
           {
-            
+
             vm.fetchData();
             vm.$toast.top('Invalid input');
             vm.$loading.close();
@@ -251,7 +251,7 @@ export default {
             vm.$toast.top('Reversed successfully');
           }).catch(function(error)
           {
-            
+
             vm.$loading.close();
           });
         }
@@ -270,7 +270,7 @@ export default {
             vm.$toast.top('undo rollback successful');
           }).catch(function(error)
           {
-            
+
             vm.$loading.close();
           });
         }

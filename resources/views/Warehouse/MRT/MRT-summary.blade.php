@@ -59,7 +59,7 @@
           <h3>Received By:</h3>
           @if (!empty($WarehouseMan[0]))
             <div class="recievers-name">
-              <h5><img src="/storage/Signatures/{{$WarehouseMan[0]->Signature}}" alt="signature"></h5>
+              <h5><img src="/ForHerokuOnly/{{$WarehouseMan[0]->Signature}}" alt="signature"></h5>
               <h4>{{$WarehouseMan[0]->FullName}}</h4>
               <p>{{$WarehouseMan[0]->Position}}</p>
             </div>

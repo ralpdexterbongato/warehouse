@@ -135,7 +135,7 @@
             <label>RECEIVED BY:</label>
             <div class="signatureRR-content">
               <h2 v-if="RRMaster.users[0].pivot.Signature=='0'">
-                <img :src="'/storage/signatures/'+RRMaster.users[0].Signature" alt="signature">
+                <img :src="'/ForHerokuOnly/'+RRMaster.users[0].Signature" alt="signature">
               </h2>
               <h4>{{RRMaster.users[0].FullName}}
                 <i class="material-icons" v-if="RRMaster.users[0].pivot.Signature=='1'">close</i>
@@ -144,7 +144,7 @@
             </div>
           </div>
           <div class="signature-rr-right">
-            <h2 v-if="RRMaster.users[2].pivot.Signature=='0'"><img :src="'/storage/signatures/'+RRMaster.users[2].Signature" alt="signature"></h2>
+            <h2 v-if="RRMaster.users[2].pivot.Signature=='0'"><img :src="'/ForHerokuOnly/'+RRMaster.users[2].Signature" alt="signature"></h2>
             <label>RECEIVED ORIGINAL BY:</label>
             <div class="signatureRR-content">
               <h4>{{RRMaster.users[2].FullName}}
@@ -158,7 +158,7 @@
           <div class="signature-rr-left">
             <label>VERIFIED BY:</label>
             <div class="signatureRR-content">
-              <h2 v-if="RRMaster.users[1].pivot.Signature=='0'"><img :src="'/storage/signatures/'+RRMaster.users[1].Signature" alt="signature"></h2>
+              <h2 v-if="RRMaster.users[1].pivot.Signature=='0'"><img :src="'/ForHerokuOnly/'+RRMaster.users[1].Signature" alt="signature"></h2>
               <h4>
                 {{RRMaster.users[1].FullName}}
                 <i class="material-icons" v-if="RRMaster.users[1].pivot.Signature=='1'">close</i>
@@ -167,7 +167,7 @@
             </div>
           </div>
           <div class="signature-rr-right">
-            <h2 v-if="RRMaster.users[3].pivot.Signature=='0'"><img :src="'/storage/signatures/'+RRMaster.users[3].Signature" alt="signature"></h2>
+            <h2 v-if="RRMaster.users[3].pivot.Signature=='0'"><img :src="'/ForHerokuOnly/'+RRMaster.users[3].Signature" alt="signature"></h2>
             <label>POSTED TO BIN CARD BY:</label>
             <div class="signatureRR-content">
               <h4>

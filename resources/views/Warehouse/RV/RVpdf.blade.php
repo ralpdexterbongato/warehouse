@@ -279,7 +279,7 @@
             <h5>Requested by</h5>
             <li>
               @if ($RVMaster[0]->users[0]->pivot->Signature=='0')
-              <h1><img src="c:/xampp/htdocs/Warehouse/public/storage/signatures/{{$RVMaster[0]->users[0]->Signature}}" alt="signature"></h1>
+              <h1><img src="c:/xampp/htdocs/Warehouse/public/ForHerokuOnly/{{$RVMaster[0]->users[0]->Signature}}" alt="signature"></h1>
               @endif
               <p>{{$RVMaster[0]->users[0]->FullName}}</p>
               <p>{{$RVMaster[0]->users[0]->Position}}</p>
@@ -289,11 +289,11 @@
             <h5>Recommended by</h5>
             <li>
               @if ($RVMaster[0]->users[1]->pivot->Signature == '0')
-                <h1><img src="c:/xampp/htdocs/Warehouse/public/storage/signatures/{{$RVMaster[0]->users[1]->Signature}}" alt="signature"></h1>
+                <h1><img src="c:/xampp/htdocs/Warehouse/public/ForHerokuOnly/{{$RVMaster[0]->users[1]->Signature}}" alt="signature"></h1>
               @elseif(isset($RVMaster[0]->users[4])&&($RVMaster[0]->users[4]->pivot->Signature=='0')&&($RVMaster[0]->users[4]->pivot->SignatureType=='ManagerReplacer'))
-                <medium class="for">For :</medium><h1><img src="c:/xampp/htdocs/Warehouse/public/storage/signatures/{{$RVMaster[0]->users[4]->Signature}}" alt="signature"></h1>
+                <medium class="for">For :</medium><h1><img src="c:/xampp/htdocs/Warehouse/public/ForHerokuOnly/{{$RVMaster[0]->users[4]->Signature}}" alt="signature"></h1>
               @elseif(isset($RVMaster[0]->users[5])&&($RVMaster[0]->users[5]->pivot->Signature=='0')&&($RVMaster[0]->users[5]->pivot->SignatureType=='ManagerReplacer'))
-                <medium class="for">For :</medium><h1><img src="c:/xampp/htdocs/Warehouse/public/storage/signatures/{{$RVMaster[0]->users[5]->Signature}}" alt="signature"></h1>
+                <medium class="for">For :</medium><h1><img src="c:/xampp/htdocs/Warehouse/public/ForHerokuOnly/{{$RVMaster[0]->users[5]->Signature}}" alt="signature"></h1>
               @endif
               <p>{{$RVMaster[0]->users[1]->FullName}}</p>
               <p>{{$RVMaster[0]->users[1]->Position}}</p>
@@ -312,7 +312,7 @@
             </p>
             <li>
               @if ($RVMaster[0]->users[2]->pivot->Signature=='0')
-                <h1><img src="c:/xampp/htdocs/Warehouse/public/storage/signatures/{{$RVMaster[0]->users[2]->Signature}}" alt="signature"></h1>
+                <h1><img src="c:/xampp/htdocs/Warehouse/public/ForHerokuOnly/{{$RVMaster[0]->users[2]->Signature}}" alt="signature"></h1>
               @endif
               <p>{{$RVMaster[0]->users[2]->FullName}}</p>
               <p>{{$RVMaster[0]->users[2]->Position}}</p>
@@ -322,11 +322,11 @@
             <h5>Approved:</h5>
             <li>
               @if ($RVMaster[0]->users[3]->pivot->Signature=='0')
-                <h1><img src="c:/xampp/htdocs/Warehouse/public/storage/signatures/{{$RVMaster[0]->users[3]->Signature}}" alt="signature"></h1>
+                <h1><img src="c:/xampp/htdocs/Warehouse/public/ForHerokuOnly/{{$RVMaster[0]->users[3]->Signature}}" alt="signature"></h1>
               @elseif(isset($RVMaster[0]->users[4])&&($RVMaster[0]->users[4]->pivot->Signature=='0')&&($RVMaster[0]->users[4]->pivot->SignatureType=='ApprovalReplacer'))
-                <medium class="for">For :</medium><h1><img src="c:/xampp/htdocs/Warehouse/public/storage/signatures/{{$RVMaster[0]->users[4]->Signature}}" alt="signature"></h1>
+                <medium class="for">For :</medium><h1><img src="c:/xampp/htdocs/Warehouse/public/ForHerokuOnly/{{$RVMaster[0]->users[4]->Signature}}" alt="signature"></h1>
               @elseif(isset($RVMaster[0]->users[5])&&($RVMaster[0]->users[5]->pivot->Signature=='0')&&($RVMaster[0]->users[5]->pivot->SignatureType=='ApprovalReplacer'))
-                <medium class="for">For :</medium><h1><img src="c:/xampp/htdocs/Warehouse/public/storage/signatures/{{$RVMaster[0]->users[5]->Signature}}" alt="signature"></h1>
+                <medium class="for">For :</medium><h1><img src="c:/xampp/htdocs/Warehouse/public/ForHerokuOnly/{{$RVMaster[0]->users[5]->Signature}}" alt="signature"></h1>
               @endif
               <p>{{$RVMaster[0]->users[3]->FullName}}</p>
               <p>{{$RVMaster[0]->users[3]->Position}}</p>

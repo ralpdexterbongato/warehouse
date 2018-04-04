@@ -53,7 +53,7 @@
         <td>{{account.Username}}</td>
         <td v-if="account.Mobile!=null">{{account.Mobile}}</td>
         <td v-else>N/A</td>
-        <td><h1><img :src="'/storage/signatures/'+account.Signature" alt="signature"></h1></td>
+        <td><h1><img :src="'/ForHerokuOnly/'+account.Signature" alt="signature"></h1></td>
         <td class="userstatus">
           <i v-if="account.IsActive!=null" class="material-icons active">person</i>
           <i v-else class="material-icons">person</i>
@@ -138,7 +138,7 @@
           </div>
           <input type="file"  name="Signature" @change="onFileChange" autocomplete="off" id="inputSignature" accept="image/PNG">
           <div class="image-signature-wrap">
-            <img id="signatureUpdate" v-if="image==''&&userFetched!=''" :src="'/storage/signatures/'+userFetched.Signature" alt="your signature" />
+            <img id="signatureUpdate" v-if="image==''&&userFetched!=''" :src="'/ForHerokuOnly/'+userFetched.Signature" alt="your signature" />
             <img id="signatureUpdate" v-else :src="image" alt="your signature" />
           </div>
           <button type="button" v-on:click="submitUpdate(userFetched.id),modalUpdate=!modalUpdate">Update</button>
@@ -261,7 +261,7 @@ import axios from 'axios';
             vm.$loading.close();
           },function(error)
           {
-            
+
           });
         },
         changepage(next)
