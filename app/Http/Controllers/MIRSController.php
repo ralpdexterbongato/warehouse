@@ -97,7 +97,7 @@ class MIRSController extends Controller
         $year=Carbon::now()->format('y');
         $lastinserted=MIRSMaster::orderBy('MIRSNo','DESC')->take(1)->value('MIRSNo');
         $explodedMIRSNo = explode('-',$lastinserted);
-        if (count($lastinserted)>0 && $explodedMIRSNo[0]==$year)
+        if ($lastinserted>0 && $explodedMIRSNo[0]==$year)
         {
           $numOnly=substr($lastinserted,'3');
           $numOnly = (int)$numOnly;
