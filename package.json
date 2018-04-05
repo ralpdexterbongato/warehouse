@@ -22,7 +22,7 @@
   "dependencies": {
     "cleanup-dependencies": "0.0.6",
     "laravel-echo": "^1.3.2",
-    "moment": "^2.18.1",
+    "moment": "^2.19.3",
     "momentjs": "^2.0.0",
     "pusher-js": "^4.1.0",
     "vee-validate": "^2.0.0-rc.9",
