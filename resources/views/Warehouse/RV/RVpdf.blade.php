@@ -322,7 +322,7 @@
             <h5>Approved:</h5>
             <li>
               @if ($RVMaster[0]->users[3]->pivot->Signature=='0')
-                <h1><img src="public/ForHerokuOnly/{{$RVMaster[0]->users[3]->Signature}}" alt="signature"></h1>
+                <h1><img src="http://warehouseinventorycontrol.herokuapp.com/ForHerokuOnly/{{$RVMaster[0]->users[3]->Signature}}" alt="signature"></h1>
               @elseif(isset($RVMaster[0]->users[4])&&($RVMaster[0]->users[4]->pivot->Signature=='0')&&($RVMaster[0]->users[4]->pivot->SignatureType=='ApprovalReplacer'))
                 <medium class="for">For :</medium><h1><img src="http://warehouseinventorycontrol.herokuapp.com/ForHerokuOnly/{{$RVMaster[0]->users[4]->Signature}}" alt="signature"></h1>
               @elseif(isset($RVMaster[0]->users[5])&&($RVMaster[0]->users[5]->pivot->Signature=='0')&&($RVMaster[0]->users[5]->pivot->SignatureType=='ApprovalReplacer'))
