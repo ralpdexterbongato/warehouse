@@ -312,7 +312,7 @@
             </p>
             <li>
               @if ($RVMaster[0]->users[2]->pivot->Signature=='0')
-                <h1><img src="http://warehouseinventorycontrol.herokuapp.com/public/ForHerokuOnly/{{$RVMaster[0]->users[2]->Signature}}" alt="signature"></h1>
+                <h1><img src="/ForHerokuOnly/{{$RVMaster[0]->users[2]->Signature}}" alt="signature"></h1>
               @endif
               <p>{{$RVMaster[0]->users[2]->FullName}}</p>
               <p>{{$RVMaster[0]->users[2]->Position}}</p>
@@ -322,11 +322,11 @@
             <h5>Approved:</h5>
             <li>
               @if ($RVMaster[0]->users[3]->pivot->Signature=='0')
-                <h1><img src="http://warehouseinventorycontrol.herokuapp.com/public/ForHerokuOnly/{{$RVMaster[0]->users[3]->Signature}}" alt="signature"></h1>
+                <h1><img src="public/ForHerokuOnly/{{$RVMaster[0]->users[3]->Signature}}" alt="signature"></h1>
               @elseif(isset($RVMaster[0]->users[4])&&($RVMaster[0]->users[4]->pivot->Signature=='0')&&($RVMaster[0]->users[4]->pivot->SignatureType=='ApprovalReplacer'))
-                <medium class="for">For :</medium><h1><img src="http://warehouseinventorycontrol.herokuapp.com/public/ForHerokuOnly/{{$RVMaster[0]->users[4]->Signature}}" alt="signature"></h1>
+                <medium class="for">For :</medium><h1><img src="/ForHerokuOnly/{{$RVMaster[0]->users[4]->Signature}}" alt="signature"></h1>
               @elseif(isset($RVMaster[0]->users[5])&&($RVMaster[0]->users[5]->pivot->Signature=='0')&&($RVMaster[0]->users[5]->pivot->SignatureType=='ApprovalReplacer'))
-                <medium class="for">For :</medium><h1><img src="http://warehouseinventorycontrol.herokuapp.com/public/ForHerokuOnly/{{$RVMaster[0]->users[5]->Signature}}" alt="signature"></h1>
+                <medium class="for">For :</medium><h1><img src="/ForHerokuOnly/{{$RVMaster[0]->users[5]->Signature}}" alt="signature"></h1>
               @endif
               <p>{{$RVMaster[0]->users[3]->FullName}}</p>
               <p>{{$RVMaster[0]->users[3]->Position}}</p>
