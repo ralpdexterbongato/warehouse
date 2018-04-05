@@ -14,7 +14,7 @@ class RVMaster extends Model
 
   public function users()
   {
-    return $this->morphToMany('App\User','Signatureable')->withPivot('Signature','SignatureType','id')->orderBy('id');
+    return $this->morphToMany('App\User','Signatureable')->withPivot('Signature','SignatureType','id')->orderBy('pivot_id');
   }
   public function getMonthAttribute($monthNumber)
   {
