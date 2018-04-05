@@ -279,7 +279,7 @@
             <h5>Requested by</h5>
             <li>
               @if ($RVMaster[0]->users[0]->pivot->Signature=='0')
-              <h1><img src="http://warehouseinventorycontrol.herokuapp.com/public/ForHerokuOnly/{{$RVMaster[0]->users[0]->Signature}}" alt="signature"></h1>
+              <h1><img src="http://warehouseinventorycontrol.herokuapp.com/ForHerokuOnly/{{$RVMaster[0]->users[0]->Signature}}" alt="signature"></h1>
               @endif
               <p>{{$RVMaster[0]->users[0]->FullName}}</p>
               <p>{{$RVMaster[0]->users[0]->Position}}</p>

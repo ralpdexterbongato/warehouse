@@ -99,7 +99,7 @@
   </style>
   <body>
     <div class="bondpaper-container">
-      <h1><img src="c:/xampp/htdocs/warehouse/public/DesignIMG/logo.png" alt="logo"></h1>
+      <h1><img src="c:/xampp/htdocs/warehouse/DesignIMG/logo.png" alt="logo"></h1>
       <div class="head-data">
         <p>BOHOL 1 ELECTRIC COOPERATIVE, INC.</p>
         <p>Cabulijan, Tubigon, Bohol</p>
