@@ -14,7 +14,7 @@ class MRTMaster extends Model
 
     public function users()
     {
-      return $this->morphToMany('App\User', 'signatureable')->withPivot('Signature','SignatureType');
+      return $this->morphToMany('App\User', 'Signatureable')->withPivot('Signature','SignatureType');
     }
     public function getNotificationDateTimeAttribute($date)
     {

@@ -14,11 +14,11 @@ class MCTMaster extends Model
   public $incrementing = false;
   public function users()
   {
-    return $this->morphToMany('App\User', 'signatureable')->withPivot('Signature','SignatureType');
+    return $this->morphToMany('App\User', 'Signatureable')->withPivot('Signature','SignatureType');
   }
   public function ReceiverMCT()
   {
-    return $this->morphToMany('App\User', 'signatureable')->withPivot('Signature','SignatureType')->wherePivot('SignatureType', 'ReceivedBy');
+    return $this->morphToMany('App\User', 'Signatureable')->withPivot('Signature','SignatureType')->wherePivot('SignatureType', 'ReceivedBy');
   }
   public function getNotificationDateTimeAttribute($date)
   {
