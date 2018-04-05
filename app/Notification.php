@@ -10,6 +10,6 @@ class Notification extends Model
 
     public function getTimeNotifiedAttribute($dateandtime)
     {
-      return Carbon::createFromFormat('Y-m-d H:i:s.u', $dateandtime)->diffForHumans();
+      return Carbon::createFromFormat('Y-m-d H:i:s', $dateandtime)->diffForHumans();
     }
 }

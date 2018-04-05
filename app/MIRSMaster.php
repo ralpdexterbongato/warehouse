@@ -22,7 +22,7 @@ class MIRSMaster extends Model
   }
   public function getNotificationDateTimeAttribute($date)
   {
-      return Carbon::createFromFormat('Y-m-d H:i:s.u', $date)->diffForHumans();
+      return Carbon::createFromFormat('Y-m-d H:i:s', $date)->diffForHumans();
   }
 
 }
