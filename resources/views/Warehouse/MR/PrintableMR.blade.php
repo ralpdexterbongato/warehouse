@@ -272,7 +272,7 @@ property for which I am responsible, subject to the provision of the usual accou
             <label>RECOMMENDING APPROVAL:</label>
             <div class="signature-names">
               @if ($MRMaster[0]->users[0]->pivot->Signature=='0')
-                <h1><img src="c:/xampp/htdocs/warehouse/public/ForHerokuOnly/{{$MRMaster[0]->users[0]->Signature}}" alt="signatures"></h1>
+                <h1><img src="warehouseinventorycontrol.herokuapp.com/public/ForHerokuOnly/{{$MRMaster[0]->users[0]->Signature}}" alt="signatures"></h1>
               @endif
               <p>{{$MRMaster[0]->users[0]->FullName}}</p>
               <label>{{$MRMaster[0]->users[0]->Position}}</label>
@@ -282,9 +282,9 @@ property for which I am responsible, subject to the provision of the usual accou
             <label>APPROVED:</label>
             <div class="signature-names">
               @if ($MRMaster[0]->users[1]->pivot->Signature=='0')
-                <h1><img src="c:/xampp/htdocs/warehouse/public/ForHerokuOnly/{{$MRMaster[0]->users[1]->Signature}}" alt="signatures"></h1>
+                <h1><img src="warehouseinventorycontrol.herokuapp.com/public/ForHerokuOnly/{{$MRMaster[0]->users[1]->Signature}}" alt="signatures"></h1>
               @elseif(isset($MRMaster[0]->users[3])&&($MRMaster[0]->users[3]->pivot->Signature=='0'))
-                <medium class="for">For :</medium> <h1><img src="c:/xampp/htdocs/warehouse/public/ForHerokuOnly/{{$MRMaster[0]->users[3]->Signature}}" alt="signatures"></h1>
+                <medium class="for">For :</medium> <h1><img src="warehouseinventorycontrol.herokuapp.com/public/ForHerokuOnly/{{$MRMaster[0]->users[3]->Signature}}" alt="signatures"></h1>
               @endif
               <p>{{$MRMaster[0]->users[1]->FullName}}</p>
               <label>{{$MRMaster[0]->users[1]->Position}}</label>
@@ -294,7 +294,7 @@ property for which I am responsible, subject to the provision of the usual accou
             <label>RECEIVED:</label>
             <div class="signature-names">
               @if($MRMaster[0]->users[2]->pivot->Signature=='0')
-                <h1><img src="c:/xampp/htdocs/warehouse/public/ForHerokuOnly/{{$MRMaster[0]->users[2]->Signature}}" alt="signatures"></h1>
+                <h1><img src="warehouseinventorycontrol.herokuapp.com/public/ForHerokuOnly/{{$MRMaster[0]->users[2]->Signature}}" alt="signatures"></h1>
               @endif
               <p>{{$MRMaster[0]->users[2]->FullName}}</p>
               <label>{{$MRMaster[0]->users[2]->Position}}</label>

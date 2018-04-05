@@ -156,7 +156,7 @@
     <div class="bondpaper-container">
       <div class="header-mrt-pdf">
         <div class="header-mrt-content">
-          <h4 class="boheco-big-title"><img src="c:/xampp/htdocs/warehouse/public/DesignIMG/logo.png" alt="logo"> BOHOL I ELECTRIC COOPERATIVE, INC.</h4>
+          <h4 class="boheco-big-title"><img src="warehouseinventorycontrol.herokuapp.com/public/DesignIMG/logo.png" alt="logo"> BOHOL I ELECTRIC COOPERATIVE, INC.</h4>
           <h4 class="address-mrt">Cabulijan, Tubigon, Bohol</h4>
           <h4 class="boheco-big-title">SUMMARY OF MATERIAL RETURN TICKET</h4>
           <h4>(MONTH OF {{$MaterialDate->format('M, Y')}})</h4>
@@ -185,7 +185,7 @@
       <div class="receiver-container">
         <label>Received By:</label>
         <div class="recieverName">
-          <h1><img src="c:/xampp/htdocs/warehouse/public/ForHerokuOnly/{{$WarehouseMan[0]->Signature}}" alt="signature"></h1>
+          <h1><img src="warehouseinventorycontrol.herokuapp.com/public/ForHerokuOnly/{{$WarehouseMan[0]->Signature}}" alt="signature"></h1>
           @if (isset($WarehouseMan[0]))
           <p class="name">
               {{$WarehouseMan[0]->FullName}}

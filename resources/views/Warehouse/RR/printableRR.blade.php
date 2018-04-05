@@ -377,7 +377,7 @@
               <h5>Received by</h5>
               <li>
                 @if ($RRconfirmMasterResult[0]->users[0]->pivot->Signature=='0')
-                    <h2><img src="storage/signatures/{{$RRconfirmMasterResult[0]->users[0]->Signature}}" alt="signature"></h2>
+                    <h2><img src="warehouseinventorycontrol.herokuapp.com/public/ForHerokuOnly/{{$RRconfirmMasterResult[0]->users[0]->Signature}}" alt="signature"></h2>
                 @endif
                 <p>{{$RRconfirmMasterResult[0]->users[0]->FullName}}</p>
                 <label>{{$RRconfirmMasterResult[0]->users[0]->Position}}</label>
@@ -387,7 +387,7 @@
               <h5>Received Original by</h5>
               <li>
                 @if ($RRconfirmMasterResult[0]->users[2]->pivot->Signature=='0')
-                  <h2><img src="storage/signatures/{{$RRconfirmMasterResult[0]->users[2]->Signature}}" alt="signature"></h2>
+                  <h2><img src="warehouseinventorycontrol.herokuapp.com/public/ForHerokuOnly/{{$RRconfirmMasterResult[0]->users[2]->Signature}}" alt="signature"></h2>
                 @endif
                 <p>{{$RRconfirmMasterResult[0]->users[2]->FullName}}</p>
                 <label>{{$RRconfirmMasterResult[0]->users[2]->Position}}</label>
@@ -400,7 +400,7 @@
             <h5>Verified by</h5>
             <li>
               @if ($RRconfirmMasterResult[0]->users[1]->pivot->Signature=='0')
-                <h2><img src="storage/signatures/{{$RRconfirmMasterResult[0]->users[1]->Signature}}" alt="signature"></h2>
+                <h2><img src="warehouseinventorycontrol.herokuapp.com/public/ForHerokuOnly/{{$RRconfirmMasterResult[0]->users[1]->Signature}}" alt="signature"></h2>
               @endif
               <p>{{$RRconfirmMasterResult[0]->users[1]->FullName}}</p>
               <label>{{$RRconfirmMasterResult[0]->users[1]->Position}}</label>
@@ -410,7 +410,7 @@
             <h5>Posted to BIN card by</h5>
             <li>
               @if ($RRconfirmMasterResult[0]->users[3]->pivot->Signature=='0')
-                <h2><img src="storage/signatures/{{$RRconfirmMasterResult[0]->users[3]->Signature}}" alt="signature"></h2>
+                <h2><img src="warehouseinventorycontrol.herokuapp.com/public/ForHerokuOnly/{{$RRconfirmMasterResult[0]->users[3]->Signature}}" alt="signature"></h2>
               @endif
               <p>{{$RRconfirmMasterResult[0]->users[3]->FullName}}</p>
               <label>{{$RRconfirmMasterResult[0]->users[3]->Position}}</label>

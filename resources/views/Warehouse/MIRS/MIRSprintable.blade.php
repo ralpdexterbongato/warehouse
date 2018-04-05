@@ -410,7 +410,7 @@
                 <h3>Prepared by:</h3>
                 <h2 class="signature">
                   @if ($master[0]->users[0]->pivot->Signature=='0')
-                    <img src="c:/xampp/htdocs/Warehouse/public/ForHerokuOnly/{{$master[0]->users[0]->Signature}}">
+                    <img src="warehouseinventorycontrol.herokuapp.com/public/ForHerokuOnly/{{$master[0]->users[0]->Signature}}">
                   @endif
                 </h2>
                 <h4>{{$master[0]->users[0]->FullName}}</h4>
@@ -420,19 +420,19 @@
                 <h3>Recommended by:</h3>
                   @if ($master[0]->users[1]->pivot->Signature=='0')
                   <h2>
-                    <img src="c:/xampp/htdocs/Warehouse/public/ForHerokuOnly/{{$master[0]->users[1]->Signature}}">
+                    <img src="warehouseinventorycontrol.herokuapp.com/public/ForHerokuOnly/{{$master[0]->users[1]->Signature}}">
                   </h2>
                   @endif
                   @if (isset($master[0]->users[3])&&($master[0]->users[3]->pivot->SignatureType=='ManagerReplacer')&&($master[0]->users[3]->pivot->Signature=='0'))
                   <p>For :</p>
                   <h2>
-                    <img src="c:/xampp/htdocs/Warehouse/public/ForHerokuOnly/{{$master[0]->users[3]->Signature}}">
+                    <img src="warehouseinventorycontrol.herokuapp.com/public/ForHerokuOnly/{{$master[0]->users[3]->Signature}}">
                   </h2>
                   @endif
                   @if (isset($master[0]->users[4])&&($master[0]->users[4]->pivot->SignatureType=='ManagerReplacer')&&($master[0]->users[4]->pivot->Signature=='0'))
                   <p>For :</p>
                   <h2>
-                    <img src="c:/xampp/htdocs/Warehouse/public/ForHerokuOnly/{{$master[0]->users[4]->Signature}}">
+                    <img src="warehouseinventorycontrol.herokuapp.com/public/ForHerokuOnly/{{$master[0]->users[4]->Signature}}">
                   </h2>
                   @endif
 
@@ -444,17 +444,17 @@
                 <h3>APPROVED:</h3>
                 @if ($master[0]->users[2]->pivot->Signature=='0')
                 <h2 class="signature">
-                  <img src="c:/xampp/htdocs/Warehouse/public/ForHerokuOnly/{{$master[0]->users[2]->Signature}}">
+                  <img src="warehouseinventorycontrol.herokuapp.com/public/ForHerokuOnly/{{$master[0]->users[2]->Signature}}">
                 </h2>
               @elseif (isset($master[0]->users[3])&&($master[0]->users[3]->pivot->SignatureType=='ApprovalReplacer')&&($master[0]->users[3]->pivot->Signature=='0'))
                 <p>For :</p>
                 <h2 class="signature">
-                  <img src="c:/xampp/htdocs/Warehouse/public/ForHerokuOnly/{{$master[0]->users[3]->Signature}}">
+                  <img src="warehouseinventorycontrol.herokuapp.com/public/ForHerokuOnly/{{$master[0]->users[3]->Signature}}">
                 </h2>
               @elseif (isset($master[0]->users[4])&&($master[0]->users[4]->pivot->SignatureType=='ApprovalReplacer')&&($master[0]->users[4]->pivot->Signature=='0'))
                 <p>For :</p>
                 <h2 class="signature">
-                  <img src="c:/xampp/htdocs/Warehouse/public/ForHerokuOnly/{{$master[0]->users[4]->Signature}}">
+                  <img src="warehouseinventorycontrol.herokuapp.com/public/ForHerokuOnly/{{$master[0]->users[4]->Signature}}">
                 </h2>
                 @endif
                 <h4>{{$master[0]->users[2]->FullName}}</h4>

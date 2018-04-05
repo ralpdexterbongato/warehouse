@@ -237,7 +237,7 @@
     <div class="mct-print-container">
       <div class="title-container">
         <div class="mct-titles">
-          <img src="c:/xampp/htdocs/warehouse/public/DesignIMG/logo.png" alt="logo">
+          <img src="warehouseinventorycontrol.herokuapp.com/public/DesignIMG/logo.png" alt="logo">
           <h2>BOHOL I ELECTRIC COOPERATIVE, INC.</h2>
           <h5>Cabulijan, Tubigon, Bohol</h5>
           <h1>MATERIALS CHARGE TICKET</h1>
@@ -304,7 +304,7 @@
             <div class="issued-name">
               <div class="signature-issued">
                 @if ($MCTMast[0]->users[0]->pivot->Signature=='0')
-                  <img src="c:/xampp/htdocs/warehouse/public/ForHerokuOnly/{{$MCTMast[0]->users[0]->Signature}}" alt="signature">
+                  <img src="warehouseinventorycontrol.herokuapp.com/public/ForHerokuOnly/{{$MCTMast[0]->users[0]->Signature}}" alt="signature">
                 @endif
               </div>
               {{$MCTMast[0]->users[0]->FullName}}
@@ -322,7 +322,7 @@
             <div class="recieve-name">
               <div class="signature-reciever">
                 @if ($MCTMast[0]->users[1]->pivot->Signature=='0')
-                  <img src="c:/xampp/htdocs/warehouse/public/ForHerokuOnly/{{$MCTMast[0]->users[1]->Signature}}" alt="signature">
+                  <img src="warehouseinventorycontrol.herokuapp.com/public/ForHerokuOnly/{{$MCTMast[0]->users[1]->Signature}}" alt="signature">
                 @endif
               </div>
                 {{$MCTMast[0]->users[1]->FullName}}
