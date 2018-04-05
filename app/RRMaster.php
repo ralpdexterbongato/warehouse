@@ -15,7 +15,7 @@ class RRMaster extends Model
 
   public function users()
   {
-    return $this->morphToMany('App\User', 'Signatureable')->withPivot('Signature','SignatureType')->orderBy('pivot_id');
+    return $this->morphToMany('App\User', 'Signatureable')->withPivot('Signature','SignatureType','id')->orderBy('pivot_id');
   }
   public function getNotificationDateTimeAttribute($date)
   {
