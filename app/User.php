@@ -43,7 +43,8 @@ class User extends Authenticatable
       return $this->morphedByMany('App\MIRSMaster', 'Signatureable')->orderBy('MIRSNo','DESC')
       ->withPivot(['SignatureType','Signature'])
       ->wherePivot('SignatureType', 'PreparedBy')
-      ->where('MIRSDate','LIKE',$date.'%');
+      ->where("date_trunc('month', MIRSDate)", "=", Carbon::now()->month)
+      ->where("date_trunc('year', MIRSDate)", "=", Carbon::now()->year);
     }
     public function MCTHistory($date)
     {
