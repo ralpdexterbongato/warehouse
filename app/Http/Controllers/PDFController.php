@@ -80,6 +80,10 @@ class PDFController extends Controller
   {
     $RVDetails=RVDetail::where('RVNo',$id)->get();
     $RVMaster=RVMaster::with('users')->where('RVNo',$id)->get();
+    $options = new Options();
+    $options->setIsRemoteEnabled(true);
+    $domPdf->setOptions($options);
+    $domPdf->output();
     $pdf=PDF::loadView('Warehouse.RV.RVpdf',compact('RVDetails','RVMaster'));
     return $pdf->stream('RV_No'.$id.'.pdf');
   }
