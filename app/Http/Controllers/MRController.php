@@ -346,10 +346,10 @@ class MRController extends Controller
         dispatch($job);
 
         //alert receiver of the item through sms to login and signature.
-        $data = array('MRNo' =>$id,'ReceiverMobile'=>$MRMaster[0]->users[2]->Mobile);
-        $data=(object)$data;
-        $job=(new MRApprovedAlert($data))->delay(Carbon::now()->addSeconds(5));
-        dispatch($job);
+        // $data = array('MRNo' =>$id,'ReceiverMobile'=>$MRMaster[0]->users[2]->Mobile);
+        // $data=(object)$data;
+        // $job=(new MRApprovedAlert($data))->delay(Carbon::now()->addSeconds(5));
+        // dispatch($job);
 
       }elseif((Auth::user()->id==$MRMaster[0]->users[2]->id)&&($MRMaster[0]->users[2]->pivot->Signature==null))
       {

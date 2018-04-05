@@ -193,15 +193,15 @@ class MIRSController extends Controller
       Signatureable::where('Signatureable_id',$id)->where('Signatureable_type', 'App\MIRSMaster')->where('SignatureType', 'ApprovalReplacer')->delete();
     }
     $requisitioner=Signatureable::where('Signatureable_id', $id)->where('Signatureable_type', 'App\MIRSMaster')->where('SignatureType', 'PreparedBy')->get(['user_id']);
-    if ($requisitioner[0]->user_id != Auth::user()->id)
-    {
-      $requisitionerMobile=User::where('id', $requisitioner[0]->user_id)->value('Mobile');
-      $forSMS = array('Decliner' =>Auth::user()->FullName,'requisitionerMobile'=>$requisitionerMobile,'MIRSNo'=>$id);
-      $forSMS=(object)$forSMS;
-      $job = (new SMSDeclinedMIRS($forSMS))
-      ->delay(Carbon::now()->addSeconds(5));
-      dispatch($job);
-    }
+    // if ($requisitioner[0]->user_id != Auth::user()->id)
+    // {
+    //   $requisitionerMobile=User::where('id', $requisitioner[0]->user_id)->value('Mobile');
+    //   $forSMS = array('Decliner' =>Auth::user()->FullName,'requisitionerMobile'=>$requisitionerMobile,'MIRSNo'=>$id);
+    //   $forSMS=(object)$forSMS;
+    //   $job = (new SMSDeclinedMIRS($forSMS))
+    //   ->delay(Carbon::now()->addSeconds(5));
+    //   dispatch($job);
+    // }
 
     $NotificationTbl = new Notification;
     $NotificationTbl->user_id = $requisitioner[0]->user_id;
@@ -309,11 +309,11 @@ class MIRSController extends Controller
       Signatureable::where('Signatureable_id', $id)->where('Signatureable_type', 'App\MIRSMaster')->where('SignatureType', 'ApprovalReplacer')->delete();
       Signatureable::where('Signatureable_id', $id)->where('Signatureable_type', 'App\MIRSMaster')->where('SignatureType', 'ApprovedBy')->update(['Signature'=>'0']);
       MIRSMaster::where('MIRSNo', $id)->update(['Status'=>'0','SignatureTurn'=>'3']);
-      $RequisitionerMobile=User::where('id',$PreparedId[0]->user_id)->get(['Mobile']);
-      $NotifData = array('RequisitionerMobile' =>$RequisitionerMobile[0]->Mobile ,'MIRSNo'=>$id);
-      $NotifData=(object)$NotifData;
-      $job=(new NewApprovedMIRSJob($NotifData))->delay(Carbon::now()->addSeconds(5));
-      dispatch($job);
+      // $RequisitionerMobile=User::where('id',$PreparedId[0]->user_id)->get(['Mobile']);
+      // $NotifData = array('RequisitionerMobile' =>$RequisitionerMobile[0]->Mobile ,'MIRSNo'=>$id);
+      // $NotifData=(object)$NotifData;
+      // $job=(new NewApprovedMIRSJob($NotifData))->delay(Carbon::now()->addSeconds(5));
+      // dispatch($job);
 
       $NotificationTbl = new Notification;
       $NotificationTbl->user_id = $PreparedId[0]->user_id;
@@ -369,12 +369,12 @@ class MIRSController extends Controller
     $PreparedId=Signatureable::where('Signatureable_id', $id)->where('Signatureable_type', 'App\MIRSMaster')->where('SignatureType', 'PreparedBy')->get(['user_id']);
     $GMId=Signatureable::where('Signatureable_id', $id)->where('Signatureable_type', 'App\MIRSMaster')->where('SignatureType', 'ApprovedBy')->get(['user_id']);
 
-    $RequisitionerMobile=User::where('id',$PreparedId[0]->user_id)->get(['Mobile']);
-    $GMMobile=User::where('id',$GMId[0]->user_id)->get(['Mobile']);
-    $NotifData = array('RequisitionerMobile' =>$RequisitionerMobile[0]->Mobile ,'MIRSNo'=>$id,'GMMobile'=>$GMMobile[0]->Mobile,'ApprovalReplacer'=>Auth::user()->FullName);
-    $NotifData=(object)$NotifData;
-    $job=(new MIRSApprovalReplacer($NotifData))->delay(Carbon::now()->addSeconds(5));
-    dispatch($job);
+    // $RequisitionerMobile=User::where('id',$PreparedId[0]->user_id)->get(['Mobile']);
+    // $GMMobile=User::where('id',$GMId[0]->user_id)->get(['Mobile']);
+    // $NotifData = array('RequisitionerMobile' =>$RequisitionerMobile[0]->Mobile ,'MIRSNo'=>$id,'GMMobile'=>$GMMobile[0]->Mobile,'ApprovalReplacer'=>Auth::user()->FullName);
+    // $NotifData=(object)$NotifData;
+    // $job=(new MIRSApprovalReplacer($NotifData))->delay(Carbon::now()->addSeconds(5));
+    // dispatch($job);
 
     $NotificationTbl = new Notification;
     $NotificationTbl->user_id = $PreparedId[0]->user_id;
@@ -532,12 +532,12 @@ class MIRSController extends Controller
     dispatch($job);
 
     //smsAlert
-    $RealSignaturerId=Signatureable::where('Signatureable_id', $id)->where('Signatureable_type', 'App\MIRSMaster')->where('SignatureType', 'RecommendedBy')->value('user_id');
-    $RealSignaturerMobile=User::where('id', $RealSignaturerId)->value('Mobile');
-    $data = array('Mobile' =>$RealSignaturerMobile, 'MIRSNo'=>$id,'Replacer'=>Auth::user()->FullName);
-    $data=(object)$data;
-    $job = (new MIRSManagerReplacer($data))->delay(Carbon::now()->addSeconds(5));
-    dispatch($job);
+    // $RealSignaturerId=Signatureable::where('Signatureable_id', $id)->where('Signatureable_type', 'App\MIRSMaster')->where('SignatureType', 'RecommendedBy')->value('user_id');
+    // $RealSignaturerMobile=User::where('id', $RealSignaturerId)->value('Mobile');
+    // $data = array('Mobile' =>$RealSignaturerMobile, 'MIRSNo'=>$id,'Replacer'=>Auth::user()->FullName);
+    // $data=(object)$data;
+    // $job = (new MIRSManagerReplacer($data))->delay(Carbon::now()->addSeconds(5));
+    // dispatch($job);
 
     $NotificationTbl = new Notification;
     $NotificationTbl->user_id = $RealSignaturerId;

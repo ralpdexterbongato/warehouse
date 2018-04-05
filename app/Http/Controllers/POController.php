@@ -267,12 +267,12 @@ class POController extends Controller
     Signatureable::where('user_id', Auth::user()->id)->where('Signatureable_id', $id)->where('Signatureable_type', 'App\POMaster')->where('SignatureType', 'ApprovalReplacer')->update(['Signature'=>'0']);
 
     //smsAlert
-    $GMId=Signatureable::where('Signatureable_id', $id)->where('Signatureable_type', 'App\POMaster')->where('SignatureType', 'ApprovedBy')->value('user_id');
-    $GMMobile=User::where('id', $GMId)->value('Mobile');
-    $data = array('Mobile' =>$GMMobile, 'PONo'=>$id,'Replacer'=>Auth::user()->FullName);
-    $data=(object)$data;
-    $job = (new POApprovalReplacer($data))->delay(Carbon::now()->addSeconds(5));
-    dispatch($job);
+    // $GMId=Signatureable::where('Signatureable_id', $id)->where('Signatureable_type', 'App\POMaster')->where('SignatureType', 'ApprovedBy')->value('user_id');
+    // $GMMobile=User::where('id', $GMId)->value('Mobile');
+    // $data = array('Mobile' =>$GMMobile, 'PONo'=>$id,'Replacer'=>Auth::user()->FullName);
+    // $data=(object)$data;
+    // $job = (new POApprovalReplacer($data))->delay(Carbon::now()->addSeconds(5));
+    // dispatch($job);
 
     // for GM alert
     $NotificationTbl = new Notification;

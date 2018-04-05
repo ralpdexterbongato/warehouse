@@ -394,11 +394,11 @@ class RRController extends Controller
     $job = (new NewCreatedRRJob($NotifableName))->delay(Carbon::now()->addSeconds(5));
     dispatch($job);
 
-    $MobileOfReceiver=User::where('id',$request->Receivedby)->value('Mobile');
-    $AlertForReceiver = array('RRNo'=>$incremented,'Mobile'=>$MobileOfReceiver,'RVNo'=>$request->RVNo);
-    $AlertForReceiver=(object)$AlertForReceiver;
-    $job = (new RRNewAlertReceiver($AlertForReceiver))->delay(Carbon::now()->addSeconds(5));
-    dispatch($job);
+    // $MobileOfReceiver=User::where('id',$request->Receivedby)->value('Mobile');
+    // $AlertForReceiver = array('RRNo'=>$incremented,'Mobile'=>$MobileOfReceiver,'RVNo'=>$request->RVNo);
+    // $AlertForReceiver=(object)$AlertForReceiver;
+    // $job = (new RRNewAlertReceiver($AlertForReceiver))->delay(Carbon::now()->addSeconds(5));
+    // dispatch($job);
 
     // global notification for receiver
     $NotificationTbl = new Notification;
@@ -529,11 +529,11 @@ class RRController extends Controller
     $job = (new NewCreatedRRJob($NotifableName))->delay(Carbon::now()->addSeconds(5));
     dispatch($job);
 
-    $MobileOfReceiver=User::where('id',$request->Receivedby)->value('Mobile');
-    $AlertForReceiver = array('RRNo'=>$incremented,'Mobile'=>$MobileOfReceiver,'RVNo'=>$request->RVNo);
-    $AlertForReceiver=(object)$AlertForReceiver;
-    $job = (new RRNewAlertReceiver($AlertForReceiver))->delay(Carbon::now()->addSeconds(5));
-    dispatch($job);
+    // $MobileOfReceiver=User::where('id',$request->Receivedby)->value('Mobile');
+    // $AlertForReceiver = array('RRNo'=>$incremented,'Mobile'=>$MobileOfReceiver,'RVNo'=>$request->RVNo);
+    // $AlertForReceiver=(object)$AlertForReceiver;
+    // $job = (new RRNewAlertReceiver($AlertForReceiver))->delay(Carbon::now()->addSeconds(5));
+    // dispatch($job);
 
     // global notification for receiver
     $NotificationTbl = new Notification;

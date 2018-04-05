@@ -343,11 +343,11 @@ class RVController extends Controller
         RVMaster::where('RVNo',$id)->update(['SignatureTurn'=>'4','Status'=>'0','PendingRemarks'=>NULL]);
         Signatureable::where('Signatureable_id', $id)->where('Signatureable_type', 'App\RVMaster')->where('SignatureType', 'ApprovalReplacer')->delete();
 
-        $requisitionerMobile=User::where('id',$RequisitionerID[0]->user_id)->get(['Mobile']);
-        $notifyData = array('RequisitionerMobile' =>$requisitionerMobile[0]->Mobile,'RVNo'=>$id);
-        $notifyData=(object)$notifyData;
-        $job = (new NewRVApprovedJob($notifyData))->delay(Carbon::now()->addSeconds(5));
-        dispatch($job);
+        // $requisitionerMobile=User::where('id',$RequisitionerID[0]->user_id)->get(['Mobile']);
+        // $notifyData = array('RequisitionerMobile' =>$requisitionerMobile[0]->Mobile,'RVNo'=>$id);
+        // $notifyData=(object)$notifyData;
+        // $job = (new NewRVApprovedJob($notifyData))->delay(Carbon::now()->addSeconds(5));
+        // dispatch($job);
 
         $NotificationTbl = new Notification;
         $NotificationTbl->user_id = $RequisitionerID[0]->user_id;
@@ -380,15 +380,15 @@ class RVController extends Controller
         Signatureable::where('Signatureable_id', $id)->where('Signatureable_type', 'App\RVMaster')->where('SignatureType', 'ApprovalReplacer')->delete();
       }
       $requisitioner=Signatureable::where('Signatureable_id', $id)->where('Signatureable_type', 'App\RVMaster')->where('SignatureType', 'Requisitioner')->get(['user_id']);
-      if ($requisitioner[0]->user_id != Auth::user()->id)
-      {
-        $requisitionerMobile=User::where('id', $requisitioner[0]->user_id)->value('Mobile');
-        $forSMS = array('Decliner' =>Auth::user()->FullName,'requisitionerMobile'=>$requisitionerMobile,'RVNo'=>$id);
-        $forSMS=(object)$forSMS;
-        $job = (new SMSDeclinedRV($forSMS))
-        ->delay(Carbon::now()->addSeconds(5));
-        dispatch($job);
-      }
+      // if ($requisitioner[0]->user_id != Auth::user()->id)
+      // {
+      //   $requisitionerMobile=User::where('id', $requisitioner[0]->user_id)->value('Mobile');
+      //   $forSMS = array('Decliner' =>Auth::user()->FullName,'requisitionerMobile'=>$requisitionerMobile,'RVNo'=>$id);
+      //   $forSMS=(object)$forSMS;
+      //   $job = (new SMSDeclinedRV($forSMS))
+      //   ->delay(Carbon::now()->addSeconds(5));
+      //   dispatch($job);
+      // }
       $NotificationTbl = new Notification;
       $NotificationTbl->user_id = $requisitionerID[0]->user_id;
       $NotificationTbl->NotificationType = 'Declined';
@@ -488,12 +488,12 @@ class RVController extends Controller
       $RequisitionerId=Signatureable::where('Signatureable_id', $id)->where('Signatureable_type', 'App\RVMaster')->where('SignatureType','Requisitioner')->get(['user_id']);
       $GMID=Signatureable::where('Signatureable_id', $id)->where('Signatureable_type', 'App\RVMaster')->where('SignatureType','ApprovedBy')->get(['user_id']);
 
-      $RequisitionerMobile=User::where('id',$RequisitionerId[0]->user_id)->get(['Mobile']);
-      $GMMoble=User::where('id',$GMID[0]->user_id)->get(['Mobile']);
-      $NotifData = array('RequisitionerMobile' =>$RequisitionerMobile[0]->Mobile,'RVNo'=>$id,'ApprovalReplacer'=>Auth::user()->FullName,'GMMobile'=>$GMMoble[0]->Mobile);
-      $NotifData=(object)$NotifData;
-      $job = (new RVApprovalReplacer($NotifData))->delay(Carbon::now()->addSeconds(5));
-      dispatch($job);
+      // $RequisitionerMobile=User::where('id',$RequisitionerId[0]->user_id)->get(['Mobile']);
+      // $GMMoble=User::where('id',$GMID[0]->user_id)->get(['Mobile']);
+      // $NotifData = array('RequisitionerMobile' =>$RequisitionerMobile[0]->Mobile,'RVNo'=>$id,'ApprovalReplacer'=>Auth::user()->FullName,'GMMobile'=>$GMMoble[0]->Mobile);
+      // $NotifData=(object)$NotifData;
+      // $job = (new RVApprovalReplacer($NotifData))->delay(Carbon::now()->addSeconds(5));
+      // dispatch($job);
 
       $NotificationTbl = new Notification;
       $NotificationTbl->user_id = $RequisitionerId[0]->user_id;
@@ -610,12 +610,13 @@ class RVController extends Controller
       $job = (new NewRVCreatedJob($NotifyThisPerson))->delay(Carbon::now()->addSeconds(5));
       dispatch($job);
 
-      $RealSignaturerId=Signatureable::where('Signatureable_id', $id)->where('Signatureable_type', 'App\RVMaster')->where('SignatureType','RecommendedBy')->value('user_id');
-      $RealSignaturerMobile=User::where('id', $RealSignaturerId)->value('Mobile');
-      $data = array('Mobile' =>$RealSignaturerMobile,'RVNo'=>$id,'Replacer'=>Auth::user()->FullName);
-      $data=(object)$data;
-      $job = (new RVManagerReplacer($data))->delay(Carbon::now()->addSeconds(5));
-      dispatch($job);
+      // $RealSignaturerId=Signatureable::where('Signatureable_id', $id)->where('Signatureable_type', 'App\RVMaster')->where('SignatureType','RecommendedBy')->value('user_id');
+      // $RealSignaturerMobile=User::where('id', $RealSignaturerId)->value('Mobile');
+      // $data = array('Mobile' =>$RealSignaturerMobile,'RVNo'=>$id,'Replacer'=>Auth::user()->FullName);
+      // $data=(object)$data;
+      // $job = (new RVManagerReplacer($data))->delay(Carbon::now()->addSeconds(5));
+      // dispatch($job);
+
       //notify the real signaturer
       $NotificationTbl = new Notification;
       $NotificationTbl->user_id = $RealSignaturerId;

@@ -360,12 +360,6 @@ class MCTController extends Controller
     Signatureable::where('Signatureable_id',$id)->where('Signatureable_type', 'App\MCTMaster')->where('user_id', Auth::user()->id)->update(['Signature'=>'1']);
     MCTMaster::where('MCTNo',$id)->update(['Status'=>1]);
 
-    $ReceiverID = array('id' =>$MCTMaster[0]->CreatorID);
-    $ReceiverID = (object)$ReceiverID;
-    $job = (new GlobalNotifJob($ReceiverID))
-    ->delay(Carbon::now()->addSeconds(5));
-    dispatch($job);
-
     $NotificationTbl = new Notification;
     $NotificationTbl->user_id = $MCTMaster[0]->CreatorID;
     $NotificationTbl->NotificationType = 'Declined';
