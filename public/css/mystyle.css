@@ -8004,6 +8004,7 @@ only screen and (max-width: 1050px),
 {
   margin-bottom: 5px;
   word-wrap:none;
+	min-width: 190px;
   flex-wrap:nowrap;
 }
 .bottom-RV-signatures
