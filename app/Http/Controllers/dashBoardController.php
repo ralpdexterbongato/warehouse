@@ -47,14 +47,14 @@ class dashBoardController extends Controller
       $yearNow=Carbon::now()->format('Y');
       $MonthNow=Carbon::now()->format('m');
 
-       $MCT = MCTMaster::select(DB::raw('MCTDate as month'), DB::raw('count(*) as total'))
-      ->whereYear('MCTDate', $yearNow)->whereMonth('MCTDate','<=',$MonthNow)
+       $MCT = MCTMaster::select(DB::raw('mctdate as month'), DB::raw('count(*) as total'))
+      ->whereYear('mctdate', $yearNow)->whereMonth('mctdate','<=',$MonthNow)
       ->where('Status','0')
       ->whereNull('IsRollBack')
       ->orWhere('IsRollBack','1')
-      ->whereYear('MCTDate', $yearNow)->whereMonth('MCTDate','<=',$MonthNow)
+      ->whereYear('mctdate', $yearNow)->whereMonth('mctdate','<=',$MonthNow)
       ->where('Status','0')
-      ->groupBy(DB::raw('MCTDate'))
+      ->groupBy(DB::raw('mctdate'))
       ->orderBy('month', 'asc')
       ->get();
 
