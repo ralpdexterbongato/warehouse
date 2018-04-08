@@ -34,10 +34,10 @@ class dashBoardController extends Controller
       $MonthNow=Carbon::now()->format('m');
       $yearNow=Carbon::now()->format('Y');
 
-      return $MIRS = MIRSMaster::select(DB::raw('month(MIRSDate) as month'), DB::raw('count(*) as total'))
+      return $MIRS = MIRSMaster::select(DB::raw('MIRSDate as month'), DB::raw('count(*) as total'))
       ->whereYear('MIRSDate', '=', $yearNow)->whereMonth('MIRSDate','<=',$MonthNow)
       ->where('Status','0')
-      ->groupBy(DB::raw('month(MIRSDate)'))
+      ->groupBy(DB::raw('MIRSDate'))
       ->orderBy('month', 'asc')
       ->get();
 
@@ -58,25 +58,25 @@ class dashBoardController extends Controller
       ->orderBy('month', 'asc')
       ->get();
 
-      $MRT =MRTMaster::select(DB::raw('month(returndate) as month'), DB::raw('count(*) as total'))
+      $MRT =MRTMaster::select(DB::raw('returndate as month'), DB::raw('count(*) as total'))
      ->whereYear('returndate', $yearNow)->whereMonth('returndate','<=',$MonthNow)
      ->where('Status','0')
      ->whereNull('IsRollBack')
      ->orWhere('IsRollBack','1')
      ->whereYear('returndate', $yearNow)->whereMonth('returndate','<=',$MonthNow)
      ->where('Status','0')
-     ->groupBy(DB::raw('month(returndate)'))
+     ->groupBy(DB::raw('returndate'))
      ->orderBy('month', 'asc')
      ->get();
 
-     $RR =RRMaster::select(DB::raw('month(RRDate) as month'), DB::raw('count(*) as total'))
+     $RR =RRMaster::select(DB::raw('RRDate as month'), DB::raw('count(*) as total'))
      ->whereYear('RRDate', $yearNow)->whereMonth('RRDate','<=',$MonthNow)
      ->where('Status','0')
      ->whereNull('IsRollBack')
      ->orWhere('IsRollBack','1')
      ->whereYear('RRDate', $yearNow)->whereMonth('RRDate','<=',$MonthNow)
      ->where('Status','0')
-     ->groupBy(DB::raw('month(RRDate)'))
+     ->groupBy(DB::raw('RRDate'))
      ->orderBy('month', 'asc')
      ->get();
 
