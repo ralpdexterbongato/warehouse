@@ -22,7 +22,7 @@ class CreateMrtmasterTable extends Migration
       Schema::create('MRTMaster', function (Blueprint $table) {
         $table->char('MRTNo',7);
         $table->char('MCTNo', 7);
-        $table->datetime('ReturnDate')->nullable()->default(null);
+        $table->datetime('returndate')->nullable()->default(null);
         $table->string('Particulars', 100)->nullable()->default(null);
         $table->string('AddressTo', 50)->nullable()->default(null);
         $table->string('Remarks', 50)->nullable()->default(null);

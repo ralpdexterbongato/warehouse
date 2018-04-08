@@ -58,14 +58,14 @@ class dashBoardController extends Controller
       ->orderBy('month', 'asc')
       ->get();
 
-      $MRT =MRTMaster::select(DB::raw('month(ReturnDate) as month'), DB::raw('count(*) as total'))
-     ->whereYear('ReturnDate', $yearNow)->whereMonth('ReturnDate','<=',$MonthNow)
+      $MRT =MRTMaster::select(DB::raw('month(returndate) as month'), DB::raw('count(*) as total'))
+     ->whereYear('returndate', $yearNow)->whereMonth('returndate','<=',$MonthNow)
      ->where('Status','0')
      ->whereNull('IsRollBack')
      ->orWhere('IsRollBack','1')
-     ->whereYear('ReturnDate', $yearNow)->whereMonth('ReturnDate','<=',$MonthNow)
+     ->whereYear('returndate', $yearNow)->whereMonth('returndate','<=',$MonthNow)
      ->where('Status','0')
-     ->groupBy(DB::raw('month(ReturnDate)'))
+     ->groupBy(DB::raw('month(returndate)'))
      ->orderBy('month', 'asc')
      ->get();
 
