@@ -34,10 +34,10 @@ class dashBoardController extends Controller
       $MonthNow=Carbon::now()->format('m');
       $yearNow=Carbon::now()->format('Y');
 
-      return $MIRS = MIRSMaster::select(DB::raw('MIRSDate as month'), DB::raw('count(*) as total'))
-      ->whereYear('MIRSDate', '=', $yearNow)->whereMonth('MIRSDate','<=',$MonthNow)
+      return $MIRS = MIRSMaster::select(DB::raw('mirsdate as month'), DB::raw('count(*) as total'))
+      ->whereYear('mirsdate', '=', $yearNow)->whereMonth('mirsdate','<=',$MonthNow)
       ->where('Status','0')
-      ->groupBy(DB::raw('MIRSDate'))
+      ->groupBy(DB::raw('mirsdate'))
       ->orderBy('month', 'asc')
       ->get();
 
@@ -69,14 +69,14 @@ class dashBoardController extends Controller
      ->orderBy('month', 'asc')
      ->get();
 
-     $RR =RRMaster::select(DB::raw('RRDate as month'), DB::raw('count(*) as total'))
-     ->whereYear('RRDate', $yearNow)->whereMonth('RRDate','<=',$MonthNow)
+     $RR =RRMaster::select(DB::raw('rrdate as month'), DB::raw('count(*) as total'))
+     ->whereYear('rrdate', $yearNow)->whereMonth('rrdate','<=',$MonthNow)
      ->where('Status','0')
      ->whereNull('IsRollBack')
      ->orWhere('IsRollBack','1')
-     ->whereYear('RRDate', $yearNow)->whereMonth('RRDate','<=',$MonthNow)
+     ->whereYear('rrdate', $yearNow)->whereMonth('rrdate','<=',$MonthNow)
      ->where('Status','0')
-     ->groupBy(DB::raw('RRDate'))
+     ->groupBy(DB::raw('rrdate'))
      ->orderBy('month', 'asc')
      ->get();
 

@@ -22,7 +22,7 @@ class CreateMirsmasterTable extends Migration
         Schema::create('MIRSMaster', function (Blueprint $table) {
           $table->char('MIRSNo',7);
           $table->string('Purpose', 100)->nullable()->default(null);
-          $table->datetime('MIRSDate')->nullable()->default(null);
+          $table->datetime('mirsdate')->nullable()->default(null);
           $table->char('WithMCT', 1)->nullable()->default(null);
           $table->char('Status', 1)->nullable()->default(null);
           $table->char('SignatureTurn', 1)->nullable()->default('0');

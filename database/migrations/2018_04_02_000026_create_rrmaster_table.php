@@ -22,7 +22,7 @@ class CreateRrmasterTable extends Migration
     {
       Schema::create('RRMaster', function (Blueprint $table) {
         $table->char('RRNo',7);
-        $table->datetime('RRDate');
+        $table->datetime('rrdate');
         $table->string('Supplier', 50)->nullable()->default(null);
         $table->string('Address', 100)->nullable()->default(null);
         $table->char('InvoiceNo', 12)->nullable()->default(null);
