@@ -55,7 +55,7 @@ class MCTController extends Controller
     $MCTMasterDB=new MCTMaster;
     $MCTMasterDB->MCTNo = $MCTIncremented;
     $MCTMasterDB->MIRSNo = $request->MIRSNo;
-    $MCTMasterDB->MCTDate = $date;
+    $MCTMasterDB->mctdate = $date;
     $MCTMasterDB->Particulars = $request->Particulars;
     $MCTMasterDB->AddressTo = $request->AddressTo;
     $MCTMasterDB->CreatorID = Auth::user()->id;
@@ -152,7 +152,7 @@ class MCTController extends Controller
       dispatch($job);
     }else
     {
-      $MCTMaster=MCTMaster::where('MCTNo',$id)->get(['MCTDate','CreatorID']);
+      $MCTMaster=MCTMaster::where('MCTNo',$id)->get(['mctdate','CreatorID']);
       $ItemsConfirmed= MCTConfirmationDetail::where('MCTNo',$id)->get();
       $forMTDetailstable = array();
       foreach ($ItemsConfirmed as $itemconfirmed)
@@ -172,7 +172,7 @@ class MCTController extends Controller
          $newAmount= $newQTY * $newcurrentcost;
          MasterItem::where('ItemCode',$itemconfirmed->ItemCode)->update(['CurrentQuantity'=>$newQTY]);
          $forMTDetailstable[]=array('ItemCode' =>$itemconfirmed->ItemCode,'MTType'=>'MCT','MTNo' =>$id,'AccountCode' =>$itemconfirmed->AccountCode ,'UnitCost' =>$latestPriceWhenCreated,'Quantity' =>$itemconfirmed->Quantity,'Amount' =>$minusAmount
-         ,'CurrentCost' =>$newcurrentcost,'CurrentQuantity' =>$newQTY ,'CurrentAmount' =>$newAmount ,'MTDate' =>$MCTMaster[0]->MCTDate);
+         ,'CurrentCost' =>$newcurrentcost,'CurrentQuantity' =>$newQTY ,'CurrentAmount' =>$newAmount ,'MTDate' =>$MCTMaster[0]->mctdate);
       }
       MaterialsTicketDetail::insert($forMTDetailstable);
       Signatureable::where('Signatureable_id',$id)->where('Signatureable_type', 'App\MCTMaster')->where('SignatureType', 'ReceivedBy')->update(['Signature'=>'0']);
@@ -202,7 +202,7 @@ class MCTController extends Controller
   }
   public function MCTofMIRS($id)
   {
-    $MCTMaster=MCTMaster::orderBy('MCTNo','DESC')->where('MIRSNo',$id)->paginate(10,['MIRSNo','MCTNo','MCTDate','Particulars','AddressTo','Status','IsRollBack']);
+    $MCTMaster=MCTMaster::orderBy('MCTNo','DESC')->where('MIRSNo',$id)->paginate(10,['MIRSNo','MCTNo','mctdate','Particulars','AddressTo','Status','IsRollBack']);
     return view('Warehouse.MCT.MCTofMIRSlist',compact('MCTMaster'));
   }
   public function CreateMCT($id)
@@ -391,7 +391,7 @@ class MCTController extends Controller
   }
   public function fetchSearchIndexMCTlist(Request $request)
   {
-    return MCTMaster::with('users')->orderBy('MCTNo','DESC')->where('MCTNo','LIKE','%'.$request->MCTNo.'%')->paginate(10,['MCTNo','MCTDate','MIRSNo','AddressTo','Particulars','Status','IsRollBack']);
+    return MCTMaster::with('users')->orderBy('MCTNo','DESC')->where('MCTNo','LIKE','%'.$request->MCTNo.'%')->paginate(10,['MCTNo','mctdate','MIRSNo','AddressTo','Particulars','Status','IsRollBack']);
   }
   public function RollBack($mctNo,$mirsNo)
   {
