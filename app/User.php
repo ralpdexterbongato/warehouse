@@ -6,6 +6,7 @@ use Illuminate\Notifications\Notifiable;
 use Illuminate\Foundation\Auth\User as Authenticatable;
 use Auth;
 use Carbon\Carbon;
+use DB;
 class User extends Authenticatable
 {
     use Notifiable;
