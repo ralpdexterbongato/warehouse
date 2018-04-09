@@ -137,11 +137,13 @@ class MRTController extends Controller
     public function MRTSearchdate(Request $request)
     {
       $this->datesearchValidator($request);
-      $datesearch=$request->monthInput;
-      $itemsummary=MaterialsTicketDetail::orderBy('ItemCode')->where('MTType','MRT')->whereNull('IsRollBack')->whereDate('MTDate','LIKE',date($datesearch).'%')->groupBy('ItemCode')->selectRaw('sum("Quantity") as totalQty, "ItemCode" as ItemCode')->get();
+      $datesearch=explode("-",$request->monthInput);
+      $itemsummary=MaterialsTicketDetail::orderBy('ItemCode')->where('MTType','MRT')->whereNull('IsRollBack')->whereYear("MTDate", $datesearch[0])
+      ->whereMonth("MTDate", $datesearch[1])->groupBy('ItemCode')->selectRaw('sum("Quantity") as totalQty, "ItemCode" as ItemCode')->get();
       if (!empty($itemsummary[0]))
       {
-        $MaterialDate =MaterialsTicketDetail::orderBy('id','DESC')->where('MTType','MRT')->whereNull('IsRollBack')->whereDate('MTDate','LIKE',date($datesearch).'%')->take(1)->value('MTDate');
+        $MaterialDate =MaterialsTicketDetail::orderBy('id','DESC')->where('MTType','MRT')->whereNull('IsRollBack')->whereYear("MTDate", $datesearch[0])
+        ->whereMonth("MTDate", $datesearch[1])->take(1)->value('MTDate');
         $WarehouseMan=User::where('isActive', '0')->where('Role', '4')->orderBy('id','DESC')->take(1)->get(['FullName','Position','Signature']);
         return view('Warehouse.MRT.MRT-summary',compact('itemsummary','MaterialDate','WarehouseMan'));
       }else
