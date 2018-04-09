@@ -61,7 +61,7 @@ class MRTController extends Controller
         $datenow=Carbon::now();
         $MRTNum=MRTMaster::orderBy('MRTNo','DESC')->take(1)->value('MRTNo');
         $explodedMRTNum = explode('-',$MRTNum);
-        if (count($MRTNum)>0 && $explodedMRTNum[0]==$year)
+        if (isset($MRTNum) && $explodedMRTNum[0]==$year)
         {
           $numOnly=substr($MRTNum,'3');
           $numOnly = (int)$numOnly;

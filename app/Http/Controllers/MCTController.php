@@ -40,7 +40,7 @@ class MCTController extends Controller
     $latest=MCTMaster::orderBy('MCTNo','DESC')->take(1)->value('MCTNo');
     $explodedMCTNo = explode('-',$latest);
     $Receivedby=Signatureable::where('Signatureable_id',$request->MIRSNo)->where('Signatureable_type', 'App\MIRSMaster')->where('SignatureType', 'PreparedBy')->get(['user_id']);
-    if (count($latest)>0 && $explodedMCTNo[0] == $year)
+    if (isset($latest) && $explodedMCTNo[0] == $year)
     {
       $numOnly=substr($latest,'3');
       $numOnly = (int)$numOnly;
