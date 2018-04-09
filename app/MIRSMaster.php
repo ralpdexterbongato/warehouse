@@ -16,10 +16,11 @@ class MIRSMaster extends Model
   {
     return $this->morphToMany('App\User', 'Signatureable')->withPivot('Signature','SignatureType','id')->orderBy('pivot_id');
   }
-  // public function getMonthAttribute($monthNumber)
-  // {
-  //   return date("M", mktime(0, 0, 0, $monthNumber, 1));
-  // }
+  public function getMonthAttribute($monthNumber)
+  {
+    $dateObj   = DateTime::createFromFormat('!m', $monthNumber);
+    return $monthName = $dateObj->format('F');
+  }
   public function getNotificationDateTimeAttribute($date)
   {
       return Carbon::createFromFormat('Y-m-d H:i:s', $date)->diffForHumans();
