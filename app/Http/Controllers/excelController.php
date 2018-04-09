@@ -51,7 +51,7 @@ class excelController extends Controller
             $loop=3;
             foreach ($ForDisplay as $key => $summaryRow) {
               $sheet->row($loop, array(
-                  $summaryRow[0]->AccountCode, $summaryRow[0]->ItemCode, $summaryRow[0]->MasterItems->Description,$summaryRow[1]->UnitCost,$summaryRow[0]->MasterItems->Unit,$summaryRow[0]->CurrentQuantity,$summaryRow[1]->totalissued
+                  $summaryRow[0]->accountcode, $summaryRow[0]->ItemCode, $summaryRow[0]->MasterItems->Description,$summaryRow[1]->UnitCost,$summaryRow[0]->MasterItems->Unit,$summaryRow[0]->CurrentQuantity,$summaryRow[1]->totalissued
               ));
               $loop=$loop+1;
             }

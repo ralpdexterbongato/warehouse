@@ -12313,7 +12313,7 @@ module.exports={render:function (){var _vm=this;var _h=_vm.$createElement;var _c
   }, [_c('ul', [_c('li', [_c('label', [_vm._v("MIRS No :")]), _c('h2', [_vm._v(_vm._s(_vm.MCTMaster.MIRSNo))])]), _vm._v(" "), _c('li', [_c('label', [_vm._v("MCT Date : ")]), _c('h2', [_vm._v(_vm._s(_vm.MCTMaster.mctdate))])]), _vm._v(" "), _c('li', [_c('label', [_vm._v("MCT No.:")]), _c('h2', [_vm._v(_vm._s(_vm.MCTMaster.MCTNo))])])])])]), _vm._v(" "), _c('div', {
     staticClass: "MCTpreview"
   }, [_c('table', [_vm._m(2), _vm._v(" "), _vm._l((_vm.MCTConfirmDetails), function(mctconfirm, count) {
-    return _c('tr', [_c('td', [_vm._v(_vm._s(mctconfirm.AccountCode))]), _vm._v(" "), _c('td', [_vm._v(_vm._s(mctconfirm.ItemCode))]), _vm._v(" "), _c('td', {
+    return _c('tr', [_c('td', [_vm._v(_vm._s(mctconfirm.accountcode))]), _vm._v(" "), _c('td', [_vm._v(_vm._s(mctconfirm.ItemCode))]), _vm._v(" "), _c('td', {
       staticClass: "align-left"
     }, [_vm._v(_vm._s(mctconfirm.Description))]), _vm._v(" "), _c('td', [_vm._v(_vm._s(_vm.formatPrice(mctconfirm.UnitCost)))]), _vm._v(" "), _c('td', [_c('span', {
       class: _vm.ShowEdit == true ? 'hide' : 'show'
@@ -12341,7 +12341,7 @@ module.exports={render:function (){var _vm=this;var _h=_vm.$createElement;var _c
   })], 2)]), _vm._v(" "), _c('div', {
     staticClass: "totalcost-mct"
   }, [_c('ul', _vm._l((_vm.AccountCodeGroup), function(accountcode) {
-    return _c('li', [_c('label', [_vm._v(_vm._s(accountcode.AccountCode))]), _c('h1', [_vm._v(_vm._s(_vm.formatPrice(accountcode.totals)))])])
+    return _c('li', [_c('label', [_vm._v(_vm._s(accountcode.accountcode))]), _c('h1', [_vm._v(_vm._s(_vm.formatPrice(accountcode.totals)))])])
   })), _vm._v(" "), _c('div', {
     staticClass: "total-result"
   }, [_c('h1', [_vm._v("TOTAL")]), _c('h2', [_vm._v(_vm._s(_vm.formatPrice(_vm.TotalSum)))])])]), _vm._v(" "), _c('div', {

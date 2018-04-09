@@ -35,7 +35,7 @@ class DamagedItemController extends Controller
       $MTDetailTble = new MaterialsTicketDetail;
       $MTDetailTble->MTType = 'DMG';
       $MTDetailTble->MTNo = 'DMG';
-      $MTDetailTble->AccountCode = $latest[0]->AccountCode;
+      $MTDetailTble->accountcode = $latest[0]->accountcode;
       $MTDetailTble->ItemCode =$latest[0]->ItemCode;
       $MTDetailTble->UnitCost =$latestUnitCost;
       $MTDetailTble->Quantity = $request->quantity;

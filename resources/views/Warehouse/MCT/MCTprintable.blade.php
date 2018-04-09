@@ -274,7 +274,7 @@
              </tr>
              @foreach ($MTDetails as $MTDetail)
              <tr>
-               <td>{{$MTDetail->AccountCode}}</td>
+               <td>{{$MTDetail->accountcode}}</td>
                <td>{{$MTDetail->ItemCode}}</td>
                <td>{{$MTDetail->Description}}</td>
                <td>{{number_format($MTDetail->UnitCost,'2','.',',')}}</td>
@@ -290,7 +290,7 @@
         <div class="account-codes-present">
           <ul>
             @foreach ($AccountCodeGroup as $Account)
-            <li><label>{{$Account->AccountCode}}</label><h5>{{number_format($Account->totals,'2','.',',')}}</h5></li>
+            <li><label>{{$Account->accountcode}}</label><h5>{{number_format($Account->totals,'2','.',',')}}</h5></li>
             @endforeach
           </ul>
         </div>

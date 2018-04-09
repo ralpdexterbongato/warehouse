@@ -89,7 +89,7 @@
           <th>Unit</th>
         </tr>
         <tr v-for="(mctconfirm, count) in MCTConfirmDetails">
-          <td>{{mctconfirm.AccountCode}}</td>
+          <td>{{mctconfirm.accountcode}}</td>
           <td>{{mctconfirm.ItemCode}}</td>
           <td class="align-left">{{mctconfirm.Description}}</td>
           <td>{{formatPrice(mctconfirm.UnitCost)}}</td>
@@ -101,7 +101,7 @@
     </div>
     <div class="totalcost-mct">
       <ul>
-        <li v-for="accountcode in AccountCodeGroup"><label>{{accountcode.AccountCode}}</label><h1>{{formatPrice(accountcode.totals)}}</h1></li>
+        <li v-for="accountcode in AccountCodeGroup"><label>{{accountcode.accountcode}}</label><h1>{{formatPrice(accountcode.totals)}}</h1></li>
       </ul>
       <div class="total-result">
         <h1>TOTAL</h1><h2>{{formatPrice(TotalSum)}}</h2>

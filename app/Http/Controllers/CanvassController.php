@@ -48,7 +48,7 @@ class CanvassController extends Controller
     foreach ($request->Particulars as $key => $item)
     {
       $noCommaPrice=str_replace(',','',$request->Price[$key]);
-      $insertCanvassDetails[]= array('AccountCode'=>$request->AccountCode[$key],'ItemCode'=>$request->ItemCode[$key],'Article' => $item, 'Price'=>$noCommaPrice,'Unit'=>$request->Unit[$key],'Qty'=> $request->Qty[$key],'CanvassMasters_id'=>$CanvassMasterDB->id);
+      $insertCanvassDetails[]= array('accountcode'=>$request->AccountCode[$key],'ItemCode'=>$request->ItemCode[$key],'Article' => $item, 'Price'=>$noCommaPrice,'Unit'=>$request->Unit[$key],'Qty'=> $request->Qty[$key],'CanvassMasters_id'=>$CanvassMasterDB->id);
     }
     CanvassDetail::insert($insertCanvassDetails);
   }
