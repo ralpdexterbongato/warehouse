@@ -66,7 +66,7 @@ class User extends Authenticatable
     }
     public function RVHistory($date)
     {
-      return $this->morphedByMany('App\RVMaster', 'Signatureable')\
+      return $this->morphedByMany('App\RVMaster', 'Signatureable')
       ->orderBy('RVNo','DESC')
       ->withPivot(['SignatureType','Signature'])
       ->wherePivot('SignatureType', 'Requisitioner')
