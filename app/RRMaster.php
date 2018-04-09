@@ -25,4 +25,8 @@ class RRMaster extends Model
   {
     return $this->belongsTo('App\User','CreatorID','id');
   }
+  public function getmonthAttribute($date)
+  {
+      return Carbon::createFromFormat('Y-m-d H:i:s', $date)->format('m');
+  }
 }
