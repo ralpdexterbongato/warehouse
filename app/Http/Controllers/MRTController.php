@@ -138,7 +138,7 @@ class MRTController extends Controller
     {
       $this->datesearchValidator($request);
       $datesearch=$request->monthInput;
-      $itemsummary=MaterialsTicketDetail::orderBy('ItemCode')->where('MTType','MRT')->whereNull('IsRollBack')->whereDate('MTDate','LIKE',date($datesearch).'%')->groupBy('ItemCode')->selectRaw('sum("Quantity") as totalQty, ItemCode as ItemCode')->get();
+      $itemsummary=MaterialsTicketDetail::orderBy('ItemCode')->where('MTType','MRT')->whereNull('IsRollBack')->whereDate('MTDate','LIKE',date($datesearch).'%')->groupBy('ItemCode')->selectRaw('sum("Quantity") as totalQty, "ItemCode" as ItemCode')->get();
       if (!empty($itemsummary[0]))
       {
         $MaterialDate =MaterialsTicketDetail::orderBy('id','DESC')->where('MTType','MRT')->whereNull('IsRollBack')->whereDate('MTDate','LIKE',date($datesearch).'%')->take(1)->value('MTDate');
