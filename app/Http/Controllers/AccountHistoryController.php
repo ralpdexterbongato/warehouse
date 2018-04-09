@@ -19,7 +19,7 @@ class AccountHistoryController extends Controller
   {
     if (empty($request->YearMonth))
     {
-      $date=Cabon::now()->format('Y-m');
+      $date=Carbon::now()->format('Y-m');
     }else
     {
       $date=date('Y-m',strtotime($request->YearMonth));
@@ -32,7 +32,7 @@ class AccountHistoryController extends Controller
   {
     if (empty($request->YearMonth))
     {
-      $date=Cabon::now()->format('Y-m');
+      $date=Carbon::now()->format('Y-m');
     }else
     {
       $date=date('Y-m',strtotime($request->YearMonth));
@@ -44,7 +44,7 @@ class AccountHistoryController extends Controller
   {
     if (empty($request->YearMonth))
     {
-      $date=Cabon::now()->format('Y-m');
+      $date=Carbon::now()->format('Y-m');
     }else
     {
       $date=date('Y-m',strtotime($request->YearMonth));
@@ -56,7 +56,7 @@ class AccountHistoryController extends Controller
   {
     if (empty($request->YearMonth))
     {
-      $date=Cabon::now()->format('Y-m');
+      $date=Carbon::now()->format('Y-m');
     }else
     {
       $date=date('Y-m',strtotime($request->YearMonth));
@@ -68,7 +68,7 @@ class AccountHistoryController extends Controller
   {
     if (empty($request->YearMonth))
     {
-      $date=Cabon::now()->format('Y-m');
+      $date=Carbon::now()->format('Y-m');
     }else
     {
       $date=date('Y-m',strtotime($request->YearMonth));
@@ -80,7 +80,7 @@ class AccountHistoryController extends Controller
   {
     if (empty($request->YearMonth))
     {
-      $date=Cabon::now()->format('Y-m');
+      $date=Carbon::now()->format('Y-m');
     }else
     {
       $date=date('Y-m',strtotime($request->YearMonth));
