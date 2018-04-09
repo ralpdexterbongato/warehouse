@@ -97,7 +97,7 @@ class MCTController extends Controller
     ->orWhere('IsRollBack','1')->where('MCTNo',$id)->whereNull('Status')
     ->orWhere('Status','0')->where('IsRollBack','1')->where('MCTNo',$id)->value('MRTNo');
     $AccountCodeGroup = DB::table("MCTConfirmationDetails")
-	    ->select(DB::raw("SUM('Amount') as totals"),DB::raw("AccountCode as AccountCode"))
+	    ->select(DB::raw('SUM("Amount") as totals'),DB::raw("AccountCode as AccountCode"))
       ->where('MCTNo', $id)
       ->orderBy("AccountCode")
 	    ->groupBy(DB::raw("AccountCode"))
