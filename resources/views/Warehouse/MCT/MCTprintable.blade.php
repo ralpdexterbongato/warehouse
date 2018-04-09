@@ -254,7 +254,7 @@
           <div class="mctmaster-right">
             <ul>
               <li><label>MIRS No.:</label><h3>{{$MCTMast[0]->MIRSNo}}</h3></li>
-              <li><label>Date:</label><h3>{{$MCTMast[0]->MCTDate->format('m/d/Y')}}</h3></li>
+              <li><label>Date:</label><h3>{{$MCTMast[0]->mctdate->format('m/d/Y')}}</h3></li>
               <li><label>MCT No.</label><h3>{{$MCTMast[0]->MCTNo}}</h3></li>
             </ul>
           </div>

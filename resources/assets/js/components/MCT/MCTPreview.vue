@@ -72,7 +72,7 @@
       <div class="MCTmaster-right">
         <ul>
           <li><label>MIRS No :</label><h2>{{MCTMaster.MIRSNo}}</h2></li>
-          <li><label>MCT Date : </label><h2>{{MCTMaster.MCTDate}}</h2></li>
+          <li><label>MCT Date : </label><h2>{{MCTMaster.mctdate}}</h2></li>
           <li><label>MCT No.:</label><h2>{{MCTMaster.MCTNo}}</h2></li>
         </ul>
       </div>

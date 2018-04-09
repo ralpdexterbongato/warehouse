@@ -19,7 +19,7 @@
         @foreach ($myrequestMCT as $myMCT)
           <tr>
             <td>{{$myMCT->MCTNo}}</td>
-            <td>{{$myMCT->MCTDate->format('m/d/Y')}}</td>
+            <td>{{$myMCT->mctdate->format('m/d/Y')}}</td>
             <td>{{$myMCT->MIRSNo}}</td>
             <td>{{$myMCT->Particulars}}</td>
             <td>{{$myMCT->AddressTo}}</td>

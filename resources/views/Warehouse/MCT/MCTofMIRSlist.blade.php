@@ -25,7 +25,7 @@
               <h2></h2>
               @endif
               {{$mctmaster->MCTNo}}</td>
-            <td>{{$mctmaster->MCTDate->format('M d, Y')}}</td>
+            <td>{{$mctmaster->mctdate->format('M d, Y')}}</td>
             <td>{{$mctmaster->Particulars}}</td>
             <td>{{$mctmaster->AddressTo}}</td>
             </td>

@@ -30562,7 +30562,7 @@ var Component = __webpack_require__(3)(
   /* cssModules */
   null
 )
-Component.options.__file = "c:\\xampp\\htdocs\\warehouse\\node_modules\\vue-datepicker\\vue-datepicker.vue"
+Component.options.__file = "C:\\xampp\\htdocs\\warehouse\\node_modules\\vue-datepicker\\vue-datepicker.vue"
 if (Component.esModule && Object.keys(Component.esModule).some(function (key) {return key !== "default" && key !== "__esModule"})) {console.error("named exports are not supported in *.vue files.")}
 if (Component.options.functional) {console.error("[vue-loader] vue-datepicker.vue: functional components are not supported with templates, they should use render functions.")}
 
@@ -30596,7 +30596,7 @@ var Component = __webpack_require__(3)(
   /* cssModules */
   null
 )
-Component.options.__file = "c:\\xampp\\htdocs\\warehouse\\resources\\assets\\js\\components\\Account\\AccountManagement.vue"
+Component.options.__file = "C:\\xampp\\htdocs\\warehouse\\resources\\assets\\js\\components\\Account\\AccountManagement.vue"
 if (Component.esModule && Object.keys(Component.esModule).some(function (key) {return key !== "default" && key !== "__esModule"})) {console.error("named exports are not supported in *.vue files.")}
 if (Component.options.functional) {console.error("[vue-loader] AccountManagement.vue: functional components are not supported with templates, they should use render functions.")}
 
@@ -30630,7 +30630,7 @@ var Component = __webpack_require__(3)(
   /* cssModules */
   null
 )
-Component.options.__file = "c:\\xampp\\htdocs\\warehouse\\resources\\assets\\js\\components\\Account\\ManagerTakePlacer.vue"
+Component.options.__file = "C:\\xampp\\htdocs\\warehouse\\resources\\assets\\js\\components\\Account\\ManagerTakePlacer.vue"
 if (Component.esModule && Object.keys(Component.esModule).some(function (key) {return key !== "default" && key !== "__esModule"})) {console.error("named exports are not supported in *.vue files.")}
 if (Component.options.functional) {console.error("[vue-loader] ManagerTakePlacer.vue: functional components are not supported with templates, they should use render functions.")}
 
@@ -30664,7 +30664,7 @@ var Component = __webpack_require__(3)(
   /* cssModules */
   null
 )
-Component.options.__file = "c:\\xampp\\htdocs\\warehouse\\resources\\assets\\js\\components\\Account\\MyAccountSettings.vue"
+Component.options.__file = "C:\\xampp\\htdocs\\warehouse\\resources\\assets\\js\\components\\Account\\MyAccountSettings.vue"
 if (Component.esModule && Object.keys(Component.esModule).some(function (key) {return key !== "default" && key !== "__esModule"})) {console.error("named exports are not supported in *.vue files.")}
 if (Component.options.functional) {console.error("[vue-loader] MyAccountSettings.vue: functional components are not supported with templates, they should use render functions.")}
 
@@ -30698,7 +30698,7 @@ var Component = __webpack_require__(3)(
   /* cssModules */
   null
 )
-Component.options.__file = "c:\\xampp\\htdocs\\warehouse\\resources\\assets\\js\\components\\Account\\MyHistory.vue"
+Component.options.__file = "C:\\xampp\\htdocs\\warehouse\\resources\\assets\\js\\components\\Account\\MyHistory.vue"
 if (Component.esModule && Object.keys(Component.esModule).some(function (key) {return key !== "default" && key !== "__esModule"})) {console.error("named exports are not supported in *.vue files.")}
 if (Component.options.functional) {console.error("[vue-loader] MyHistory.vue: functional components are not supported with templates, they should use render functions.")}
 
@@ -30732,7 +30732,7 @@ var Component = __webpack_require__(3)(
   /* cssModules */
   null
 )
-Component.options.__file = "c:\\xampp\\htdocs\\warehouse\\resources\\assets\\js\\components\\Account\\UserStatus.vue"
+Component.options.__file = "C:\\xampp\\htdocs\\warehouse\\resources\\assets\\js\\components\\Account\\UserStatus.vue"
 if (Component.esModule && Object.keys(Component.esModule).some(function (key) {return key !== "default" && key !== "__esModule"})) {console.error("named exports are not supported in *.vue files.")}
 if (Component.options.functional) {console.error("[vue-loader] UserStatus.vue: functional components are not supported with templates, they should use render functions.")}
 
@@ -30766,7 +30766,7 @@ var Component = __webpack_require__(3)(
   /* cssModules */
   null
 )
-Component.options.__file = "c:\\xampp\\htdocs\\warehouse\\resources\\assets\\js\\components\\Account\\loginpage.vue"
+Component.options.__file = "C:\\xampp\\htdocs\\warehouse\\resources\\assets\\js\\components\\Account\\loginpage.vue"
 if (Component.esModule && Object.keys(Component.esModule).some(function (key) {return key !== "default" && key !== "__esModule"})) {console.error("named exports are not supported in *.vue files.")}
 if (Component.options.functional) {console.error("[vue-loader] loginpage.vue: functional components are not supported with templates, they should use render functions.")}
 
@@ -31056,7 +31056,7 @@ module.exports={render:function (){var _vm=this;var _h=_vm.$createElement;var _c
     staticClass: "myaccount-settings-table-container"
   }, [_c('table', [_c('tr', [_c('th', [_vm._v("Fullname")]), _c('td', [_vm._v(_vm._s(_vm.MyData.FullName))]), _vm._m(1)]), _vm._v(" "), _c('tr', [_c('th', [_vm._v("Position")]), _c('td', [_vm._v(_vm._s(_vm.MyData.Position))]), _vm._m(2)]), _vm._v(" "), _c('tr', [_c('th', [_vm._v("Signature")]), _c('td', [(_vm.MyData.Signature != null) ? _c('img', {
     attrs: {
-      "src": 'storage/signatures/' + _vm.MyData.Signature
+      "src": 'ForHerokuOnly/' + _vm.MyData.Signature
     }
   }) : _vm._e()]), _vm._m(3)]), _vm._v(" "), _c('tr', [_c('th', [_vm._v("Contact")]), _vm._v(" "), (_vm.contactEdit == false) ? _c('td', [_vm._v(_vm._s(_vm.MyData.Mobile))]) : _c('td', [_c('input', {
     directives: [{
@@ -32718,7 +32718,7 @@ module.exports={render:function (){var _vm=this;var _h=_vm.$createElement;var _c
   })], 2) : _vm._e(), _vm._v(" "), (_vm.mctbtn == true) ? _c('table', [_vm._m(2), _vm._v(" "), _vm._l((_vm.mctResults), function(mct) {
     return (_vm.mctResults != null) ? _c('tr', [_c('td', [(mct.IsRollBack == 0) ? _c('h3', {
       staticClass: "reversed-marking"
-    }) : _vm._e(), _vm._v(_vm._s(mct.MCTNo))]), _vm._v(" "), _c('td', [_vm._v(_vm._s(mct.MCTDate))]), _vm._v(" "), _c('td', [_vm._v(_vm._s(mct.AddressTo))]), _vm._v(" "), _c('td', [_vm._v(_vm._s(mct.Particulars))]), _vm._v(" "), _c('td', [(mct.Status == '0') ? _c('i', {
+    }) : _vm._e(), _vm._v(_vm._s(mct.MCTNo))]), _vm._v(" "), _c('td', [_vm._v(_vm._s(mct.mctdate))]), _vm._v(" "), _c('td', [_vm._v(_vm._s(mct.AddressTo))]), _vm._v(" "), _c('td', [_vm._v(_vm._s(mct.Particulars))]), _vm._v(" "), _c('td', [(mct.Status == '0') ? _c('i', {
       staticClass: "material-icons"
     }, [_vm._v("thumb_up")]) : (mct.Status == '1') ? _c('i', {
       staticClass: "material-icons decliner"
@@ -32849,7 +32849,7 @@ module.exports={render:function (){var _vm=this;var _h=_vm.$createElement;var _c
 },function (){var _vm=this;var _h=_vm.$createElement;var _c=_vm._self._c||_h;
   return _c('tr', [_c('th', {
     staticClass: "left-part"
-  }, [_vm._v("MCT No.")]), _vm._v(" "), _c('th', [_vm._v("MCTDate")]), _vm._v(" "), _c('th', [_vm._v("Addressed to")]), _vm._v(" "), _c('th', [_vm._v("Particular")]), _vm._v(" "), _c('th', [_vm._v("Status")]), _vm._v(" "), _c('th', {
+  }, [_vm._v("MCT No.")]), _vm._v(" "), _c('th', [_vm._v("mctdate")]), _vm._v(" "), _c('th', [_vm._v("Addressed to")]), _vm._v(" "), _c('th', [_vm._v("Particular")]), _vm._v(" "), _c('th', [_vm._v("Status")]), _vm._v(" "), _c('th', {
     staticClass: "right-part"
   }, [_vm._v("Show")])])
 },function (){var _vm=this;var _h=_vm.$createElement;var _c=_vm._self._c||_h;

@@ -61,7 +61,7 @@
     <table v-if="mctbtn==true">
       <tr>
         <th class="left-part">MCT No.</th>
-        <th>MCTDate</th>
+        <th>mctdate</th>
         <th>Addressed to</th>
         <th>Particular</th>
         <th>Status</th>
@@ -69,7 +69,7 @@
       </tr>
       <tr v-if="mctResults!=null" v-for="mct in mctResults">
         <td> <h3 class="reversed-marking" v-if="mct.IsRollBack==0"></h3>{{mct.MCTNo}}</td>
-        <td>{{mct.MCTDate}}</td>
+        <td>{{mct.mctdate}}</td>
         <td>{{mct.AddressTo}}</td>
         <td>{{mct.Particulars}}</td>
         <td>
@@ -275,7 +275,7 @@
          var vm=this;
          axios.get(`/search-my-mirs-history?PreparedById=`+IDofuser+`&YearMonth=`+this.MyMonth.time+`&page=`+page).then(function(response)
          {
-           
+
            Vue.set(vm.$data,'mirsResults',response.data.data);
            Vue.set(vm.$data,'pagination',response.data);
            vm.$loading.close();
@@ -295,7 +295,7 @@
          axios.get(`/search-my-mct-history?ReceivedById=`+receiverId+`&YearMonth=`+this.MyMonth.time+`&page=`+page,{
          }).then(function(response)
          {
-           
+
            Vue.set(vm.$data,'mctResults',response.data.data);
            Vue.set(vm.$data,'pagination',response.data);
            vm.$loading.close();
@@ -314,7 +314,7 @@
          var vm=this;
          axios.get(`/search-my-mrt-history?ReturnedById=`+returnerId+`&YearMonth=`+this.MyMonth.time+`&page=`+page).then(function(response)
          {
-           
+
            Vue.set(vm.$data,'mrtResults',response.data.data);
            Vue.set(vm.$data,'pagination',response.data);
            vm.$loading.close();
@@ -334,7 +334,7 @@
          axios.get(`/search-my-mr-history?ReceivedById=`+UserId+`&YearMonth=`+this.MyMonth.time+`&page=`+page,{
          }).then(function(response)
          {
-           
+
            Vue.set(vm.$data,'mrResults',response.data.data);
            Vue.set(vm.$data,'pagination',response.data);
            vm.$loading.close();
@@ -354,7 +354,7 @@
          axios.get(`/search-my-rv-history?Requisitioner=`+RequisitionerId+`&YearMonth=`+this.MyMonth.time+`&page=`+page,{
          }).then(function(response)
          {
-           
+
            Vue.set(vm.$data,'rvResults',response.data.data);
            Vue.set(vm.$data,'pagination',response.data);
            vm.$loading.close();
@@ -374,7 +374,7 @@
          axios.get(`/search-my-rr-history?ReceivedById=`+ReceiverId+`&YearMonth=`+this.MyMonth.time+`&page=`+page,{
          }).then(function(response)
          {
-           
+
            Vue.set(vm.$data,'rrResults',response.data.data);
            Vue.set(vm.$data,'pagination',response.data);
            vm.$loading.close();
