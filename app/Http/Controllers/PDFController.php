@@ -38,7 +38,7 @@ class PDFController extends Controller
     $MCTMast=MCTMaster::with('users')->where('MCTNo',$request->MCTNo)->get();
     $MTDetails=MCTConfirmationDetail::where('MCTNo',$request->MCTNo)->get();
     $AccountCodeGroup = DB::table("MCTConfirmationDetails")
-    ->select(DB::raw("SUM(Amount) as totals"),DB::raw("AccountCode as AccountCode"))
+    ->select(DB::raw('SUM("Amount") as totals'),DB::raw('"AccountCode" as AccountCode'))
     ->where('MCTNo', $request->MCTNo)
     ->orderBy("AccountCode")
     ->groupBy(DB::raw("AccountCode"))
