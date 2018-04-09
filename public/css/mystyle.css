@@ -4052,6 +4052,7 @@ box-shadow: 0 2px 4px -1px rgba(0,0,0,0.06), 0 4px 5px 0 rgba(0,0,0,0.06), 0 1px
 .recievedby-data h1,.issuedby-data h1
 {
   margin-bottom: 8px;
+	min-width: 190px;
 }
 .signature-issuedmct
 {
