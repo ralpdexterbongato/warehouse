@@ -18,7 +18,7 @@ class MIRSMaster extends Model
   }
   public function getmonthAttribute($monthNumber)
   {
-    return Carbon::createFromFormat('Y-m-d H:i:s', $date)->format('M');
+    return Carbon::createFromFormat('Y-m-d H:i:s', $monthNumber)->format('M');
   }
   public function getNotificationDateTimeAttribute($date)
   {
