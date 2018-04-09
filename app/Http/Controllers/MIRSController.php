@@ -110,7 +110,7 @@ class MIRSController extends Controller
       $master=new MIRSMaster;
       $master->MIRSNo = $incremented;
       $master->Purpose =$request->Purpose;
-      $master->MIRSDate = $date;
+      $master->mirsdate = $date;
       $master->save();
 
       $ApproveReplacer=User::whereNotNull('IfApproveReplacer')->take(1)->get(['id']);
@@ -178,7 +178,7 @@ class MIRSController extends Controller
   }
   public function searchMIRSNoAndFetch(Request $request)
   {
-    return MIRSMaster::with('users')->where('MIRSNo','LIKE','%'.$request->MIRSNo.'%')->orderBy('MIRSNo','DESC')->paginate(10,['MIRSNo','Purpose','MIRSDate']);
+    return MIRSMaster::with('users')->where('MIRSNo','LIKE','%'.$request->MIRSNo.'%')->orderBy('MIRSNo','DESC')->paginate(10,['MIRSNo','Purpose','mirsdate']);
   }
   public function MIRSIndexPage()
   {
