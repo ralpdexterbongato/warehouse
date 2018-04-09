@@ -50,8 +50,8 @@ class dashBoardController extends Controller
        $MCT = MCTMaster::select(DB::raw('mctdate as month'), DB::raw('count(*) as total'))
       ->whereYear('mctdate', $yearNow)->whereMonth('mctdate','<=',$MonthNow)
       ->where('Status','0')
-      ->whereNull('isrollback')
-      ->orWhere('isrollback','1')
+      ->whereNull('IsRollBack')
+      ->orWhere('IsRollBack','1')
       ->whereYear('mctdate', $yearNow)->whereMonth('mctdate','<=',$MonthNow)
       ->where('Status','0')
       ->groupBy(DB::raw('mctdate'))
@@ -61,8 +61,8 @@ class dashBoardController extends Controller
       $MRT =MRTMaster::select(DB::raw('returndate as month'), DB::raw('count(*) as total'))
      ->whereYear('returndate', $yearNow)->whereMonth('returndate','<=',$MonthNow)
      ->where('Status','0')
-     ->whereNull('isrollback')
-     ->orWhere('isrollback','1')
+     ->whereNull('IsRollBack')
+     ->orWhere('IsRollBack','1')
      ->whereYear('returndate', $yearNow)->whereMonth('returndate','<=',$MonthNow)
      ->where('Status','0')
      ->groupBy(DB::raw('returndate'))
@@ -72,8 +72,8 @@ class dashBoardController extends Controller
      $RR =RRMaster::select(DB::raw('rrdate as month'), DB::raw('count(*) as total'))
      ->whereYear('rrdate', $yearNow)->whereMonth('rrdate','<=',$MonthNow)
      ->where('Status','0')
-     ->whereNull('isrollback')
-     ->orWhere('isrollback','1')
+     ->whereNull('IsRollBack')
+     ->orWhere('IsRollBack','1')
      ->whereYear('rrdate', $yearNow)->whereMonth('rrdate','<=',$MonthNow)
      ->where('Status','0')
      ->groupBy(DB::raw('rrdate'))
@@ -202,15 +202,15 @@ class dashBoardController extends Controller
       $recent = User::where('id', Auth::user()->id)->with(array('mirsrecent'=>function($query){
       $query->select('MIRSNo','Status');
               }))->with(array('mctrecent'=>function($query){
-      $query->select('MCTNo','Status','isrollback');
+      $query->select('MCTNo','Status','IsRollBack');
               }))->with(array('mrtrecent'=>function($query){
-              $query->select('MRTNo','Status','isrollback');
+              $query->select('MRTNo','Status','IsRollBack');
                       }))->with(array('rvrecent'=>function($query){
               $query->select('RVNo','Status');
                       }))->with(array('mrrecent'=>function($query){
                       $query->select('MRNo','Status');
                               }))->with(array('rrrecent'=>function($query){
-                              $query->select('RRNo','Status','isrollback');
+                              $query->select('RRNo','Status','IsRollBack');
                                       }))->with(array('porecent'=>function($query){
                                       $query->select('PONo','Status');
                                               }))->get(['id']);
