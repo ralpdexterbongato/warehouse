@@ -92,7 +92,6 @@ class dashBoardController extends Controller
           {
             $matchMCT=true;
             $keymatchMCT=$key;
-            return $key;
           }
         }
         if ($matchMCT==true)

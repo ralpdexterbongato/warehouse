@@ -24,4 +24,8 @@ class MCTMaster extends Model
   {
       return Carbon::createFromFormat('Y-m-d H:i:s', $date)->diffForHumans();
   }
+  public function getmonthAttribute($date)
+  {
+      return Carbon::createFromFormat('Y-m-d H:i:s', $date)->format('m');
+  }
 }
