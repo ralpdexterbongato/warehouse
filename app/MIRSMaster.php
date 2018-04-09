@@ -19,7 +19,7 @@ class MIRSMaster extends Model
   }
   public function getMonthAttribute($monthNumber)
   {
-    $dateObj   = DateTime::createFromFormat('!m', $monthNumber);
+    $dateObj   = DateTime::createFromFormat('m', $monthNumber);
     return $monthName = $dateObj->format('F');
   }
   public function getNotificationDateTimeAttribute($date)
