@@ -17,8 +17,9 @@ class AccountHistoryController extends Controller
   }
   public function MyMIRSHistoryandSearch(Request $request)
   {
+      $date=date('Y-m',strtotime($request->YearMonth));
      $user = User::find($request->PreparedById);
-     return $mirshistory = $user->MIRSHistory($request->YearMonth)->paginate(5);
+     return $mirshistory = $user->MIRSHistory($date)->paginate(5);
 
   }
   public function MyMCTHistoryandSearch(Request $request)
