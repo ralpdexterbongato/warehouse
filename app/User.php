@@ -49,48 +49,53 @@ class User extends Authenticatable
     }
     public function MCTHistory($date)
     {
+        $dateArray = explode('-',$date);
         return $this->morphedByMany('App\MCTMaster', 'Signatureable')
         ->orderBy('MCTNo','DESC')
         ->withPivot(['SignatureType','Signature'])
         ->wherePivot('SignatureType', 'ReceivedBy')
-        ->where('mctdate', '>', $date.'-1 00:00:00')
-        ->where('mctdate', '<', $date.'-31 00:00:00');
+        ->whereYear("mctdate", $dateArray[0])
+        ->whereMonth("mctdate", $dateArray[1]);
     }
     public function MRTHistory($date)
     {
+        $dateArray = explode('-',$date);
         return $this->morphedByMany('App\MRTMaster', 'Signatureable')
         ->orderBy('MRTNo','DESC')
         ->withPivot(['SignatureType','Signature'])
         ->wherePivot('SignatureType', 'ReturnedBy')
-        ->where('returndate', '>', $date.'-1 00:00:00')
-        ->where('returndate', '<', $date.'-31 00:00:00');
+        ->whereYear("returndate", $dateArray[0])
+        ->whereMonth("returndate", $dateArray[1]);
     }
     public function RVHistory($date)
     {
+      $dateArray = explode('-',$date);
       return $this->morphedByMany('App\RVMaster', 'Signatureable')
       ->orderBy('RVNo','DESC')
       ->withPivot(['SignatureType','Signature'])
       ->wherePivot('SignatureType', 'Requisitioner')
-      ->where('rvdate', '>', $date.'-1 00:00:00')
-      ->where('rvdate', '<', $date.'-31 00:00:00');
+      ->whereYear("rvdate", $dateArray[0])
+      ->whereMonth("rvdate", $dateArray[1]);
 
     }
     public function RRHistory($date)
     {
+      $dateArray = explode('-',$date);
       return $this->morphedByMany('App\RRMaster', 'Signatureable')
       ->orderBy('RRNo','DESC')->withPivot(['SignatureType','Signature'])
       ->wherePivot('SignatureType', 'ReceivedBy')
-      ->where('rrdate', '>', $date.'-1 00:00:00')
-      ->where('rrdate', '<', $date.'-31 00:00:00');
+      ->whereYear("rrdate", $dateArray[0])
+      ->whereMonth("rrdate", $dateArray[1]);
     }
     public function MRHistory($date)
     {
+      $dateArray = explode('-',$date);
       return $this->morphedByMany('App\MRMaster', 'Signatureable')
       ->orderBy('MRNo','DESC')
       ->withPivot(['SignatureType','Signature'])
       ->wherePivot('SignatureType', 'ReceivedBy')
-      ->where('mrdate', '>', $date.'-1 00:00:00')
-      ->where('mrdate', '<', $date.'-31 00:00:00');
+      ->whereYear("mrdate", $dateArray[0])
+      ->whereMonth("mrdate", $dateArray[1]);
     }
     public function MRTSignatureTurn()
     {
