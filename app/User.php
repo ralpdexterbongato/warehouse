@@ -74,8 +74,8 @@ class User extends Authenticatable
       ->orderBy('RVNo','DESC')
       ->withPivot(['SignatureType','Signature'])
       ->wherePivot('SignatureType', 'Requisitioner')
-      ->whereYear("rvdate", $dateArray[0])
-      ->whereMonth("rvdate", $dateArray[1]);
+      ->whereYear("RVDate", $dateArray[0])
+      ->whereMonth("RVDate", $dateArray[1]);
 
     }
     public function RRHistory($date)
