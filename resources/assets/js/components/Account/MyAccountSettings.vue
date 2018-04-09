@@ -13,7 +13,7 @@
             <th>Position</th><td>{{MyData.Position}}</td><td class="align-right"><i class="material-icons">security</i></td>
           </tr>
           <tr>
-            <th>Signature</th><td><img v-if="MyData.Signature!=null" :src="'storage/signatures/'+MyData.Signature"></td><td class="align-right"><i class="material-icons">security</i></td>
+            <th>Signature</th><td><img v-if="MyData.Signature!=null" :src="'ForHerokuOnly/'+MyData.Signature"></td><td class="align-right"><i class="material-icons">security</i></td>
           </tr>
           <tr>
             <th>Contact</th>
@@ -120,7 +120,7 @@ Vue.use(Toast);
             NewMobile:this.NewContact
           }).then(function(response)
           {
-            
+
             vm.$toast.top('Contact updated');
           });
         }
@@ -143,7 +143,7 @@ Vue.use(Toast);
             NewUserName:this.NewUsername
           }).then(function(response)
           {
-            
+
             if (response.data.error==null)
             {
               vm.$toast.top('Username updated');
@@ -166,7 +166,7 @@ Vue.use(Toast);
           Password_confirmation:this.newPassConfirm
         }).then(function(response)
         {
-          
+
           if (response.data.error!=null)
           {
             vm.$toast.top(response.data.error);
