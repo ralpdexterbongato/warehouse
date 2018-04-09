@@ -6,7 +6,6 @@ use Illuminate\Notifications\Notifiable;
 use Illuminate\Foundation\Auth\User as Authenticatable;
 use Auth;
 use Carbon\Carbon;
-use DB;
 class User extends Authenticatable
 {
     use Notifiable;
@@ -44,7 +43,7 @@ class User extends Authenticatable
       return $this->morphedByMany('App\MIRSMaster', 'Signatureable')->orderBy('MIRSNo','DESC')
       ->withPivot(['SignatureType','Signature'])
       ->wherePivot('SignatureType', 'PreparedBy')
-      ->where(DB::raw("DATE(mirsdate) = '".$date."'"));
+      ->whereDate('mirsdate', 'LIKE', $date.'%');
     }
     public function MCTHistory($date)
     {
