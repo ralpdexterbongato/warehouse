@@ -274,12 +274,15 @@ class MCTController extends Controller
     $this->validate($request,[
       'monthInput'=> 'required|min:7|max:7',
     ]);
-    $datesearch=$request->monthInput;
-    $MCTsummaryItems=MaterialsTicketDetail::orderBy('ItemCode')->whereNull('IsRollBack')->where('MTType','MCT')->whereDate('MTDate','LIKE',date($datesearch).'%')->groupBy('ItemCode')->selectRaw('sum(Quantity) as totalissued, ItemCode as ItemCode')->get();
+
+    $datesearch=explode('-',$request->monthInput);
+    $MCTsummaryItems=MaterialsTicketDetail::orderBy('ItemCode')->whereNull('IsRollBack')->where('MTType','MCT')->whereYear("MTDate", $datesearch[0])
+    ->whereMonth("MTDate", $datesearch[1])->groupBy('ItemCode')->selectRaw('sum(Quantity) as totalissued, ItemCode as ItemCode')->get();
     $ForDisplay = array();
     foreach ($MCTsummaryItems as $key=> $items)
     {
-    $ForDisplay[$key]=MaterialsTicketDetail::orderBy('id','DESC')->whereNull('IsRollBack')->where('ItemCode',$items->ItemCode)->whereDate('MTDate','LIKE',date($datesearch).'%')->take(1)->get(['AccountCode','ItemCode','CurrentQuantity','MTDate']);
+    $ForDisplay[$key]=MaterialsTicketDetail::orderBy('id','DESC')->whereNull('IsRollBack')->where('ItemCode',$items->ItemCode)->whereYear("MTDate", $datesearch[0])
+    ->whereMonth("MTDate", $datesearch[1])->take(1)->get(['AccountCode','ItemCode','CurrentQuantity','MTDate']);
     $UnitCost=MaterialsTicketDetail::orderBy('id','DESC')->whereNull('IsRollBack')->where('MTType','RR')->where('ItemCode',$items->ItemCode)->take(1)->get(['UnitCost']);
     $issued=(object)['totalissued'=>$items->totalissued,'UnitCost'=>$UnitCost[0]->UnitCost];
     $ForDisplay[$key]->push($issued);
