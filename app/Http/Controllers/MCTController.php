@@ -277,7 +277,7 @@ class MCTController extends Controller
 
     $datesearch=explode('-',$request->monthInput);
     $MCTsummaryItems=MaterialsTicketDetail::orderBy('ItemCode')->whereNull('IsRollBack')->where('MTType','MCT')->whereYear("MTDate", $datesearch[0])
-    ->whereMonth("MTDate", $datesearch[1])->groupBy('ItemCode')->selectRaw('sum(Quantity) as totalissued, ItemCode as ItemCode')->get();
+    ->whereMonth("MTDate", $datesearch[1])->groupBy('ItemCode')->selectRaw('sum("Quantity") as totalissued, "ItemCode" as ItemCode')->get();
     $ForDisplay = array();
     foreach ($MCTsummaryItems as $key=> $items)
     {
