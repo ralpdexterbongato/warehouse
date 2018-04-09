@@ -4,7 +4,6 @@ namespace App;
 
 use Illuminate\Database\Eloquent\Model;
 use Carbon\Carbon;
-use DateTime;
 class MIRSMaster extends Model
 {
   protected $dates = ['MIRSDate'];
@@ -17,10 +16,9 @@ class MIRSMaster extends Model
   {
     return $this->morphToMany('App\User', 'Signatureable')->withPivot('Signature','SignatureType','id')->orderBy('pivot_id');
   }
-  public function getMonthAttribute($monthNumber)
+  public function getmonthAttribute($monthNumber)
   {
-    $dateObj   = DateTime::createFromFormat('m', $monthNumber);
-    return $monthName = $dateObj->format('F');
+    return date("M", mktime(0, 0, 0, $monthNumber, 1));
   }
   public function getNotificationDateTimeAttribute($date)
   {
