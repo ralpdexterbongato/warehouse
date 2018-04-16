@@ -53,7 +53,7 @@ table {
 @import url('https://fonts.googleapis.com/css?family=Roboto|Kaushan+Script|Comfortaa');
 
 /*material icons*/
-/*@font-face {
+@font-face {
    font-family: 'Material Icons';
    font-style: normal;
    font-weight: 400;
@@ -62,8 +62,8 @@ table {
         url(/material-icons/iconfont/MaterialIcons-Regular.woff2) format('woff2'),
         url(/material-icons/iconfont/MaterialIcons-Regular.woff) format('woff'),
         url(/material-icons/iconfont/MaterialIcons-Regular.ttf) format('truetype');
-}*/
-/*.material-icons {
+}
+.material-icons {
   font-family: 'Material Icons';
   font-weight: normal;
   font-style: normal;
@@ -74,19 +74,19 @@ table {
   letter-spacing: normal;
   word-wrap: normal;
   white-space: nowrap;
-  direction: ltr;*/
+  direction: ltr;
 
   /* Support for all WebKit browsers. */
-  /*-webkit-font-smoothing: antialiased;*/
+  -webkit-font-smoothing: antialiased;
   /* Support for Safari and Chrome. */
-  /*text-rendering: optimizeLegibility;*/
+  text-rendering: optimizeLegibility;
 
   /* Support for Firefox. */
-  /*-moz-osx-font-smoothing: grayscale;*/
+  -moz-osx-font-smoothing: grayscale;
 
   /* Support for IE. */
-  /*font-feature-settings: 'liga';*/
-/*}*/
+  font-feature-settings: 'liga';
+}
 /*material shadows*/
 .z-depth-0 {
   -webkit-box-shadow: none !important;
@@ -1799,10 +1799,11 @@ only screen and (max-width: 1050px),
 }
 .form-wrap-mirs ul li input
 {
-border-radius: 3px;
+border-radius: 2px;
  height: 30px;
  margin-bottom: 10px;
- padding-left: 5px;
+ padding: 3px;
+ border-style: none;
  font-size: 15px;
  color: #2A2D37;
 }
@@ -2268,7 +2269,7 @@ input[type=number]::-webkit-inner-spin-button {
 }
 .creator-display i
 {
-	color:#0F1E3F;
+	color:#a6a6a6;
 }
 .creator-display
 {
@@ -2276,7 +2277,11 @@ input[type=number]::-webkit-inner-spin-button {
 	bottom: -30px;
 	left: 0;
 	font-size: 13px!important;
-	color:#0F1E3F;
+	color:#a6a6a6;
+	overflow: hidden;
+	white-space: nowrap;
+	text-overflow: ellipsis;
+	max-width: 250px;
 }
 .bondpaper-size
 {
@@ -2637,7 +2642,7 @@ only screen and (max-width: 1050px),
 .recommend-sig h3
 {
   position: absolute;
-  bottom:60px;
+  bottom:40px;
   width: 150px;
   height: 50px;
   left:3px;
@@ -2842,7 +2847,7 @@ only screen and (max-width: 1050px),
   width: 150px;
   height: 50px;
   position: absolute;
-  bottom: 50px;
+  bottom: 40px;
   left:3px;
 }
 @media (max-width:1050px)
@@ -2888,7 +2893,7 @@ only screen and (max-width: 1050px),
   width: 150px;
   height: 50px;
   position:absolute;
-  bottom: 60px;
+  bottom: 40px;
   left: 290px;
 }
 @media (max-width:1050px)
@@ -2918,14 +2923,15 @@ only screen and (max-width: 1050px),
   display: flex;
   justify-content:space-between;
 }
-@media(max-width:855px)
+@media (max-width:905px)
 {
 	.print-btn-container
 	{
 		width: auto;
-		justify-content: space-between;
-		flex-direction: column;
 	}
+}
+@media(max-width:855px)
+{
 	.download-form
 	{
 		margin-bottom: 10px;
@@ -2933,6 +2939,15 @@ only screen and (max-width: 1050px),
 	.mct-create-mct-list button
 	{
 		margin-left: 0px;
+	}
+}
+@media (max-width:500px)
+{
+	.print-btn-container
+	{
+		width: auto;
+		justify-content: space-between;
+		flex-direction: column;
 	}
 }
 @media(max-width:378px)
@@ -3057,23 +3072,33 @@ only screen and (max-width: 1050px),
 {
   background: #AA0000;
   border-color: #AA0000;
-  border-radius: 3px;
+  border-radius: 2px;
   color: #fff;
   font-family:Roboto, 'Segoe UI', Tahoma, sans-serif;
   margin-left: 10px;
   width: 100px;
   padding:7px 14px;
   text-align: center;
+	font-size: 15px;
 }
 #manager-replacer-accept
 {
   background: #004275;
   border-color: #004275;
-  border-radius: 3px;
+  border-radius: 2px;
   color: #fff;
   font-family:Roboto, 'Segoe UI', Tahoma, sans-serif;
   padding:7px 14px;
   width: 100px;
+	font-size: 15px;
+}
+@media (max-width:500px)
+{
+	#manager-replacer-cant,#manager-replacer-accept
+	{
+		width: 100%;
+		text-align: center;
+	}
 }
 .Request-manager-replace
 {
@@ -3099,10 +3124,6 @@ only screen and (max-width: 1050px),
 }
 @media (max-width:700px)
 {
-	.signature-span
-	{
-		width: 100%;
-	}
 	.middle-status
 	{
 		justify-content: center;
@@ -3126,6 +3147,7 @@ only screen and (max-width: 1050px),
   background-color:#004488;
   color: #fff;
   display: flex;
+	justify-content: center;
   outline: none;
   font-size: 15px;
   border-color:#004488;
@@ -3154,6 +3176,14 @@ only screen and (max-width: 1050px),
   background: #710000;
   transition:background .5s;
   border-style: inset;
+}
+@media (max-width:500px)
+{
+	#not-accepted,#accepted
+	{
+		width: 100%;
+		text-align: center!important;
+	}
 }
 /* MCT CREATE PAGE*/
 .RecordingMCT-Container
@@ -3456,7 +3486,7 @@ only screen and (max-width: 1050px),
 
 .table-mct-itemchoices td i
 {
-  font-size: 23px;
+  font-size: 20px;
 	margin-left: 1px;
 }
 @media
@@ -3683,6 +3713,7 @@ only screen and (max-width: 1050px),
   color: #fff;
   padding: 7px 14px;
   width: 100px;
+	font-size: 15px;
 }
 .signature-mct-btn
 {
@@ -3710,6 +3741,15 @@ only screen and (max-width: 1050px),
   margin-right: 10px;
   padding: 7px 14px;
   width: 100px;
+	font-size: 15px;
+}
+@media (max-width:500px)
+{
+	#signatureMCT,#declineMCT
+	{
+		width: 100%;
+		text-align: center!important;
+	}
 }
 
 .MCT-title
@@ -3731,7 +3771,7 @@ only screen and (max-width: 1050px),
 			padding:10px;
 		}
 }
-@media (max-width:600px)
+@media (max-width:500px)
 {
 		.MCT-title
 		{
@@ -3893,6 +3933,7 @@ only screen and (max-width: 1050px),
 {
   min-height:40px;
 	color: #162E5F;
+	text-align: left;
 }
 .mct-edit-container i:hover
 {
@@ -4020,13 +4061,6 @@ box-shadow: 0 2px 4px -1px rgba(0,0,0,0.06), 0 4px 5px 0 rgba(0,0,0,0.06), 0 1px
   display: flex;
   justify-content:space-between;
 }
-@media (max-width:800px)
-{
-	.signatures-mct-preview
-	{
-		flex-direction: column;
-	}
-}
 .issuedby-data
 {
   margin-top: 30px;
@@ -4035,6 +4069,18 @@ box-shadow: 0 2px 4px -1px rgba(0,0,0,0.06), 0 4px 5px 0 rgba(0,0,0,0.06), 0 1px
   margin-bottom:4px;
   font-size: 14px;
   position: relative;
+}
+@media (max-width:800px)
+{
+	.signatures-mct-preview
+	{
+		flex-direction: column;
+		font-size: 13px;
+	}
+	.issuedby-data
+	{
+		font-size: 13px;
+	}
 }
 .mct-signature-right
 {
@@ -4093,6 +4139,10 @@ box-shadow: 0 2px 4px -1px rgba(0,0,0,0.06), 0 4px 5px 0 rgba(0,0,0,0.06), 0 1px
   height: 50px;
   bottom: 50px;
   right: 16px;
+}
+.receivedby-data h1
+{
+	min-width: 180px;
 }
 .signature-recieved
 {
@@ -4167,18 +4217,20 @@ box-shadow: 0 2px 4px -1px rgba(0,0,0,0.06), 0 4px 5px 0 rgba(0,0,0,0.06), 0 1px
 }
 .mrt-form input
 {
-  padding-left:5px;
-  border-radius: 3px;
+  padding:3px;
+  border-radius: 2px;
   height: 25px;
   margin-bottom: 10px;
   font-size: 15px;
   margin-top: 30px;
+	text-align: center;
+	border-style: none;
 }
 .mrt-gobtn
 {
   border-style: none;
   background: #004275;
-  border-radius: 3px;
+  border-radius: 2px;
   text-align: center;
   padding:8px;
   font-family:Roboto, 'Segoe UI', Tahoma, sans-serif;
@@ -4314,6 +4366,10 @@ only screen and (max-width: 1050px),
 	border-style: none;
 	border-radius: 3px;
 }
+.pick-from-items button i
+{
+	font-size: 20px;
+}
 @media (max-width:400px)
 {
 	.pick-from-items
@@ -4399,10 +4455,25 @@ only screen and (max-width: 1050px),
 .mrt-items td button
 {
   border-radius:50%;
-  height: 33px;
-  width: 33px;
+  height: 35px;
+  width: 35px;
   border-style: none;
   background: transparent;
+	background: #fff;
+	border-style: none;
+	-webkit-box-shadow: 0 2px 4px -1px rgba(0,0,0,0.06), 0 4px 5px 0 rgba(0,0,0,0.06), 0 1px 10px 0 rgba(0,0,0,0.08);
+    box-sh
+}
+.mrt-items td button:hover
+{
+	-webkit-box-shadow: 0 2px 4px -1px rgba(0,0,0,0.06), 0 4px 5px 0 rgba(0,0,0,0.06), 0 1px 10px 0 rgba(0,0,0,0.08);
+    box-shadow: 0 2px 4px -1px rgba(0,0,0,0.06), 0 4px 5px 0 rgba(0,0,0,0.06), 0 1px 10px 0 rgba(0,0,0,0.08);
+}
+.mrt-items td button:focus
+{
+	box-shadow: none;
+	-webkit-box-shadow:none;
+	border:1px solid #ccc;
 }
 @media
 only screen and (max-width: 1050px),
@@ -4727,6 +4798,7 @@ only screen and (max-width: 1050px),
 .searchbox-summary-mrt input
 {
   border-top-left-radius: 3px;
+	padding: 4px 8px;
   border-bottom-left-radius: 3px;
 }
 @media (max-width:450px)
@@ -4973,8 +5045,6 @@ only screen and (max-width: 1050px),
 .top-MRT-buttons > .edit-mrt-container
 {
   display: flex;
-  flex-direction: column;
-  justify-content: flex-end;
   height: 35px;
 }
 .top-MRT-buttons
@@ -5031,6 +5101,14 @@ only screen and (max-width: 1050px),
   width: 100px;
   padding:6px 12px;
   text-align: center;
+}
+@media (max-width:500px)
+{
+	#decline-mrt,#signature-mrt
+	{
+		width: 100%;
+		text-align: center;
+	}
 }
 .signature-decline-mrt
 {
@@ -5463,6 +5541,7 @@ only screen and (max-width: 1050px),
   border: 1px solid #3367D6;
   border-bottom-left-radius:3px;
   border-top-left-radius:3px;
+	padding:4px 8px;
 }
 @media (max-width:540px)
 {
@@ -6431,7 +6510,7 @@ only screen and (max-width: 1050px),
 		width: auto;
 	}
 }
-@media (max-width:670px)
+@media (max-width:500px)
 {
 	.signature-btn
 	{
@@ -6442,6 +6521,7 @@ only screen and (max-width: 1050px),
 		margin:0 auto;
 		display: flex;
 		justify-content: center;
+		width: 100%;
 	}
 }
 #RRsignature:hover
@@ -6474,6 +6554,14 @@ only screen and (max-width: 1050px),
 #RRdecline:hover
 {
   background: #710000;
+}
+@media (max-width:500px)
+{
+	#RRsignature,#RRdecline
+	{
+		width: 100%;
+		text-align: center;
+	}
 }
 .make-mr i
 {
@@ -7539,6 +7627,14 @@ text-align: center;
   font-size: 15px;
   padding:7px 14px;
 }
+@media (max-width:500px)
+{
+	.rvapprovebtn,.RVdeclineBtn
+	{
+		width: 100%;
+		text-align: center;
+	}
+}
 .declineOrSignatureBtn
 {
   display: flex;
@@ -7701,15 +7797,14 @@ text-align: center;
 }
 @media (max-width:845px)
 {
+	.RV-signature-print-container
+	{
+		width:auto;
+	}
 	.bondpaper-RV
 	{
 		width:auto;
 		margin:10px;
-	}
-	.RV-signature-print-container
-	{
-		width:auto;
-		flex-direction:column;
 	}
 }
 @media (max-width:768px)
@@ -7721,6 +7816,13 @@ text-align: center;
 	.pending-remarks
 	{
 		left: 0px;
+	}
+}
+@media (max-width:500px)
+{
+	.RV-signature-print-container
+	{
+		flex-direction:column;
 	}
 }
 .no-rv-request
@@ -8040,7 +8142,7 @@ only screen and (max-width: 1050px),
 .RVbottom-left-signature h6
 {
   position: absolute;
-  top: 55px;
+  top: 60px;
   left: 135px;
   width: 150px;
   height: 50px;
@@ -9139,13 +9241,7 @@ only screen and (max-width: 1050px),
   display: flex;
   justify-content: space-between;
 }
-@media (max-width:700px)
-{
-	.print-po-btn
-	{
-		justify-content: center;
-	}
-}
+
 .rr-with-po-btn
 {
 	margin-left: 15px;
@@ -9385,13 +9481,14 @@ only screen and (max-width: 1050px),
 	}
 	.signatures-po
 	{
-		font-size: 15px;
+		font-size: 13px;
+	}
+	.label-signatures-po h4
+	{
+	  font-size: 13px;
 	}
 }
-.label-signatures-po h4
-{
-  font-size: 14px;
-}
+
 .label-signatures-po p
 {
   text-align: center;
@@ -9516,14 +9613,14 @@ only screen and (max-width: 1050px),
 {
  background: #004488;
  cursor: pointer;
- border-radius: 3px;
+ border-radius: 2px;
  text-align: center;
  margin-right: 5px;
  border-style: none;
  color: #fff;
  font-size: 15px;
- padding:7px 14px;
- width: 95px;
+ padding:7px 12px;
+ width: 100px;
  font-family:Roboto, 'Segoe UI', Tahoma, sans-serif;
 }
 .signaturePObtn:hover
@@ -9533,20 +9630,33 @@ only screen and (max-width: 1050px),
 .declinePObtn
 {
   cursor: pointer;
-  border-radius: 3px;
+  border-radius: 2px;
   text-align: center;
   background: #AA0000;
   border-style: none;
   color: #fff;
   font-size: 15px;
-  padding:7px 14px;
-  width: 95px;
+  padding:7px 12px;
+  width: 100px;
   font-family:Roboto, 'Segoe UI', Tahoma, sans-serif;
 }
 .signature-btns-wrap-po
 {
   display: flex;
 }
+@media (max-width:500px)
+{
+	.declinePObtn,.signaturePObtn
+	{
+		flex:1;
+		text-align: center;
+	}
+	.signature-btns-wrap-po
+	{
+	  flex:1;
+	}
+}
+
 .signature-btns-wrap-po button
 {
   padding:5px 10px;
@@ -9813,14 +9923,17 @@ only screen and (max-width: 1050px),
 }
 @media (max-width:600px)
 {
+	.signature-MR-btns > span
+	{
+		justify-content: center;
+	}
+}
+@media (max-width:500px)
+{
 	.btns-mr-full
 	{
 		justify-content: center;
 		flex-direction: column;
-	}
-	.signature-MR-btns > span
-	{
-		justify-content: center;
 	}
 }
 @media (max-width:928px)
@@ -9858,6 +9971,13 @@ only screen and (max-width: 1050px),
 #declineMRbtn:hover
 {
  background: #590000;
+}
+@media (max-width:500px)
+{
+	#declineMRbtn,#signatureMRbtn
+	{
+		width: 100%!important;
+	}
 }
 .Approve-MR-inBehalf-btn button
 {
@@ -10023,6 +10143,13 @@ only screen and (max-width: 1050px),
   font-size: 14px;
   text-align: center;
 }
+@media (max-width:500px)
+{
+	.table-mr-list-container
+	{
+		font-size: 13px;
+	}
+}
 @media
 only screen and (max-width: 1050px),
 (min-device-width: 768px) and (max-device-width: 1050px)  {
@@ -10163,6 +10290,13 @@ only screen and (max-width: 1050px),
 .signature-mr-box label
 {
   margin-right: 50px;
+}
+@media (max-width:500px)
+{
+	.signature-mr-box,.signature-mr-box label
+	{
+		font-size: 13px;
+	}
 }
 .signature-mr-box h3
 {
@@ -13934,6 +14068,13 @@ background: #FDD835;
 {
 	color: #fff;
 	text-align: right;
+}
+@media (max-width:860px)
+{
+	.right-dash h2 img
+	{
+		width: 40px;
+	}
 }
 .right-dash h2 i
 {
