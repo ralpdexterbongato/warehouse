@@ -1,5 +1,5 @@
 {
-	"authHost": "127.0.0.1:8000",
+	"authHost": "<iphere>:<porthere>",
 	"authEndpoint": "/broadcasting/auth",
 	"clients": [],
 	"database": "redis",
@@ -13,7 +13,7 @@
 		}
 	},
 	"devMode": false,
-	"host": "127.0.0.1",
+	"host": "<iphere>",
 	"port": "6001",
 	"protocol": "http",
 	"socketio": {},

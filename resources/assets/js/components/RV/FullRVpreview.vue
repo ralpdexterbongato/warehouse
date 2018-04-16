@@ -45,16 +45,12 @@
     </div>
     <div class="declineOrSignatureBtn">
           <span class="RVsignatureBtns" :class="{'hide':SignatureRVBtnHide}" v-if="((RequisitionerCanSignature)||(RecommendedByCanSignature)||(BudgetOfficerCanSignature)||(GMCanSignature))">
-            <div class="RVapprove">
               <longpress class="rvapprovebtn waves-effect waves-light" duration="3" :on-confirm="Signature" pressing-text="confirm in {$rcounter}" action-text="Loading . . .">
               <i class="material-icons">edit</i> Signature
               </longpress>
-            </div>
-            <div class="RVdecline">
               <longpress class="RVdeclineBtn waves-effect waves-light" duration="3" :on-confirm="declineRV" pressing-text="confirm in {$rcounter}" action-text="Loading . . .">
               <i class="material-icons">close</i> Decline
               </longpress>
-            </div>
           </span>
       <span v-if="checkPO!=null">
         <div class="viewPObtn">
@@ -195,7 +191,7 @@
                 <p>
                   {{RVMaster.users[1].FullName}}
                 <span class="opener-manager-replace opener-icon">
-                  <div class="mini-menu-managers" v-if="(user.id)==(RVMaster.users[0].id)&&(this.ManagerBehalfActive==true)&&((ManagerReplacerData==null)||(ManagerReplacerData.pivot.Signature==null))&&(RVMaster.users[1].pivot.Signature==null)">
+                  <div class="mini-menu-managers" v-if="(RVMaster.SignatureTurn==1)&&(user.id)==(RVMaster.users[0].id)&&(this.ManagerBehalfActive==true)&&((ManagerReplacerData==null)||(RVMaster.SignatureTurn==1)&&(ManagerReplacerData.pivot.Signature==null))&&(RVMaster.users[1].pivot.Signature==null)">
                     <h1 v-if="ManagerReplacerData==null">Request signature to</h1>
                     <h1 v-else>Request pending <i class="material-icons color-white">access_time</i></h1>
                     <div class="manager-list-menu"v-if="ManagerReplacerData==null">
@@ -203,7 +199,6 @@
                         <option :value="null">Choose a manager</option>
                         <option v-for="manager in activemanager"  v-if="manager.id!=RVMaster.users[1].id" :value="manager.id">{{manager.FullName}}</option>
                       </select>
-                      <p v-if="error!=null" class="color-red">*{{error}}</p>
                       <span class="send-cancel-btns">
                         <button type="button" v-on:click="ManagerBehalfActive=false">Cancel</button>
                         <button type="button" v-on:click="sendRequestManagerReplacer()">Send</button>
@@ -290,7 +285,6 @@ Vue.use(VueNumeric);
           ManagerBehalfActive:false,
           activemanager:[],
           ManagerID:null,
-          error:null,
           RemarksIsActive:false,
           pendingremarks:'',
           pendingRemarksShow:'',
@@ -310,27 +304,29 @@ Vue.use(VueNumeric);
      methods: {
        updateRV()
        {
-         var vm=this;
-         axios.put(`/rv-update/`+vm.rvno.RVNo,{
-           purpose: this.updatePurpose,
-           Qty:this.updateQty,
-           remarks:this.updateRemarks
-         }).then(function(response)
-        {
-
-          if (response.data.error!=null)
+         if(confirm("Signatures will restart, continue?"))
+         {
+           var vm=this;
+           axios.put(`/rv-update/`+vm.rvno.RVNo,{
+             purpose: this.updatePurpose,
+             Qty:this.updateQty,
+             remarks:this.updateRemarks
+           }).then(function(response)
           {
-            vm.$toast.top(response.data.error);
-          }else
+            if (response.data.error!=null)
+            {
+              vm.$toast.top(response.data.error);
+            }else
+            {
+              vm.$toast.top('Successfully updated');
+              vm.SignatureRVBtnHide=false;
+            }
+            vm.fetchData();
+          }).catch(function(error)
           {
-            vm.$toast.top('Successfully updated');
-            vm.SignatureRVBtnHide=false;
-          }
-          vm.fetchData();
-        }).catch(function(error)
-        {
-          vm.fetchData();
-        })
+            vm.fetchData();
+          })
+         }
        },
        fetchData()
        {
@@ -354,9 +350,12 @@ Vue.use(VueNumeric);
           BudgetAvailable:this.BudgetAvail,
         }).then(function(response)
         {
-
           vm.fetchData();
           vm.$loading.close();
+          if(response.data.error!=null)
+          {
+            vm.$toast.top(response.data.error);
+          }
         });
       },
       declineRV()
@@ -366,9 +365,12 @@ Vue.use(VueNumeric);
         var vm=this;
         axios.put(`/declineRV/`+this.rvno.RVNo).then(function(response)
         {
-
           vm.fetchData();
           vm.$loading.close();
+          if(response.data.error!=null)
+          {
+            vm.$toast.top(response.data.error);
+          }
         });
       },
       formatPrice(value) {
@@ -383,7 +385,6 @@ Vue.use(VueNumeric);
           BudgetUpdate:this.BudgetUpdate,
         }).then(function(response)
         {
-
           vm.fetchData();
           vm.$loading.close();
           vm.$toast.top('Budget updated');
@@ -410,7 +411,7 @@ Vue.use(VueNumeric);
 
           if (response.data.error!=null)
           {
-            Vue.set(vm.$data,'error',response.data.error);
+            vm.$toast.top(response.data.error);
             vm.$loading.close();
           }else
           {
@@ -429,6 +430,10 @@ Vue.use(VueNumeric);
         {
           vm.fetchAllManager();
           vm.$loading.close();
+          if(response.data.error!=null)
+          {
+            vm.$toast.top(response.data.error);
+          }
         })
       },
       signatureRequestManagerReplacer()
@@ -440,6 +445,10 @@ Vue.use(VueNumeric);
         {
           vm.fetchData();
           vm.$loading.close();
+          if(response.data.error!=null)
+          {
+            vm.$toast.top(response.data.error);
+          }
         });
       },
       PendingRemarksSubmit()
@@ -480,6 +489,10 @@ Vue.use(VueNumeric);
         {
           vm.fetchData();
           vm.$loading.close();
+          if(response.data.error!=null)
+          {
+            vm.$toast.top(response.data.error);
+          }
         })
       },
       acceptApproveRequest()
@@ -491,6 +504,10 @@ Vue.use(VueNumeric);
         {
           vm.fetchData();
           vm.$loading.close();
+          if(response.data.error!=null)
+          {
+            vm.$toast.top(response.data.error);
+          }
         });
       }
      },

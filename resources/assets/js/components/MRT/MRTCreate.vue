@@ -55,7 +55,7 @@
           <td>{{mtdata.Description}}</td>
           <td>{{mtdata.Unit}}</td>
           <td><input type="number" v-model="Summary[count]" autocomplete="off" min="1"></td>
-          <td><button type="submit" v-on:click="AddItemToSession(mtdata,count)" class="bttn-unite bttn-xs bttn-primary"><i class="material-icons">add</i></button></td>
+          <td><button type="submit" v-on:click="AddItemToSession(mtdata,count)"><i class="material-icons">add</i></button></td>
         </tr>
       </table>
       <div class="paginate-container">
@@ -119,11 +119,11 @@ Vue.use(Toast);
           Limit:data.Quantity,
         }).then(function(response)
         {
-
           if (response.data.error==null)
           {
             vm.fetchSelectedSession();
             vm.$toast.top('Added successfully');
+            vm.Summary[count] = '';
             vm.$loading.close();
           }else
           {

@@ -214,7 +214,7 @@ import Toast from 'vue2-toast'
     updateData()
     {
       this.SignatureBtnHide=false;
-      if (confirm('Warning! - Signatures will be restarted, continue?'))
+      if (confirm('Signatures will restart, continue?'))
       {
         this.$loading('Please wait');
         for (var i = 0; i < this.RRconfirmationDetails.length; i++)
@@ -280,13 +280,12 @@ import Toast from 'vue2-toast'
         var vm=this;
         axios.get(`/RR-fullpreview-fetch-data/`+this.rrno.RRNo).then(function(response)
         {
-
-          Vue.set(vm.$data,'RRMaster',response.data.RRMaster[0]);
-          Vue.set(vm.$data,'RRconfirmationDetails',response.data.RRconfirmationDetails);
-          Vue.set(vm.$data,'checkMR',response.data.checkMR);
-          Vue.set(vm.$data,'Netsales',response.data.Netsales);
-          Vue.set(vm.$data,'VAT',response.data.VAT);
-          Vue.set(vm.$data,'TOTALamt',response.data.TOTALamt);
+          vm.RRMaster = response.data.RRMaster[0];
+          vm.RRconfirmationDetails = response.data.RRconfirmationDetails;
+          vm.checkMR = response.data.checkMR;
+          vm.Netsales = response.data.Netsales;
+          vm.VAT = response.data.VAT;
+          vm.TOTALamt = response.data.TOTALamt;
         });
       },
       signature()
@@ -295,8 +294,11 @@ import Toast from 'vue2-toast'
         var vm=this;
         axios.put(`/RR-signature/`+this.rrno.RRNo).then(function(response)
         {
-
           vm.FetchData();
+          if(response.data.error!=null)
+          {
+            vm.$toast.top(response.data.error);
+          }
         });
       },
       declinesignature()
@@ -305,8 +307,11 @@ import Toast from 'vue2-toast'
         var vm=this;
         axios.put(`/decline-this-RR/`+this.rrno.RRNo).then(function(response)
         {
-
           vm.FetchData();
+          if(response.data.error!=null)
+          {
+            vm.$toast.top(response.data.error);
+          }
         });
       },
       RollbackRR()
@@ -317,10 +322,15 @@ import Toast from 'vue2-toast'
           var vm=this;
           axios.put(`/rollback-this-rr/`+this.rrno.RRNo).then(function(response)
           {
-
             vm.FetchData();
-            vm.$toast.top('rolled back sucessfully');
             vm.$loading.close();
+            if(response.data.error!=null)
+            {
+              vm.$toast.top(response.data.error);
+            }else
+            {
+              vm.$toast.top('rollbacked sucessfully');
+            }
           }).catch(function(error)
           {
 
@@ -336,10 +346,15 @@ import Toast from 'vue2-toast'
           var vm=this;
           axios.put(`/undo-rollback-this-rr/`+this.rrno.RRNo).then(function(response)
           {
-
             vm.FetchData();
-            vm.$toast.top('rollback undid sucessfully');
             vm.$loading.close();
+            if(response.data.error!=null)
+            {
+              vm.$toast.top(response.data.error);
+            }else
+            {
+              vm.$toast.top('rollback undid sucessfully');
+            }
           }).catch(function(error)
           {
 

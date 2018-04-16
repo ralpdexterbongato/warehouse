@@ -77,7 +77,7 @@
         </div>
       </div>
       <div class="notification-footer">
-        <span v-if="NotificationCounts>3" class="bold pointer" v-on:click="markAllSeen()">Mark all as read</span>
+        <span v-if="NotificationCounts>0" class="bold pointer" v-on:click="markAllSeen()">Mark all as read</span>
       </div>
     </div>
   </li>
@@ -291,7 +291,7 @@
         var vm=this;
         axios.get(`/mark-all-seen`).then(function(response)
         {
-
+          vm.NotificationCounts=0;
           vm.fetchData(1);
           vm.$toast.top(response.data.success);
         }).catch(function(error)

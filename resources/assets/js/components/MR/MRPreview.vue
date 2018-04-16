@@ -169,7 +169,7 @@ import Toast from 'vue2-toast'
      methods: {
        updateSave()
        {
-         if (confirm('Signatures will reset , continue?'))
+         if (confirm('Signatures will restart, continue?'))
          {
            this.$loading('Updating');
 
@@ -217,9 +217,12 @@ import Toast from 'vue2-toast'
         var vm=this;
         axios.put(`/signature-MR/`+this.mrno.MRNo).then(function(response)
       {
-
         vm.fetchData();
         vm.SignatureBtnHide=false;
+        if(response.data.error!=null)
+        {
+          vm.$toast.top(response.data.error);
+        }
       });
       },
       declineMR()
@@ -229,6 +232,10 @@ import Toast from 'vue2-toast'
         axios.put(`/Decline-MR/`+this.mrno.MRNo).then(function(response)
         {
           vm.fetchData();
+          if(response.data.error!=null)
+          {
+            vm.$toast.top(response.data.error);
+          }
         })
       },
       refuseApproveInBehalf()
@@ -237,6 +244,10 @@ import Toast from 'vue2-toast'
         axios.put(`/mr-approve-inbehalf-refused/`+this.mrno.MRNo).then(function(response)
         {
           vm.fetchData();
+          if(response.data.error!=null)
+          {
+            vm.$toast.top(response.data.error);
+          }
         });
       },
       SignatureApproveInBehalf()
@@ -246,6 +257,10 @@ import Toast from 'vue2-toast'
         axios.put(`/confirmApproveinBehalf/`+this.mrno.MRNo).then(function(response)
         {
           vm.fetchData();
+          if(response.data.error!=null)
+          {
+            vm.$toast.top(response.data.error);
+          }
         });
       }
      },

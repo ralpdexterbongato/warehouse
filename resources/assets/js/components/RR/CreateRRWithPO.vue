@@ -133,6 +133,8 @@ Vue.use(Toast);
               vm.$loading.close();
             }else
             {
+              vm.QuantityDelivered[count] = '';
+              vm.QuantityAccepted[count] = '';
               vm.showaddedSession();
               vm.$toast.top('Successfully Added');
               vm.$loading.close();

@@ -27,7 +27,6 @@ class MRController extends Controller
     {
       $MRMasterCurrent = MRMaster::where('MRNo', $MRNo)->get(['RRNo','Status']);
       $tobeUpdated=MRDetail::where('MRNo', $MRNo)->get(['id','NameDescription','Quantity','UnitValue']);
-
       // validation
       if ($MRMasterCurrent[0]->Status !=null)
       {
@@ -276,7 +275,7 @@ class MRController extends Controller
     public function SignatureMR($id)
     {
       $MRMaster=MRMaster::with('users')->where('MRNo',$id)->get();
-      if ((Auth::user()->id==$MRMaster[0]->users[0]->id) && ($MRMaster[0]->users[0]->pivot->Signature==null))
+      if (($MRMaster[0]->SignatureTurn == 0)&&(Auth::user()->id==$MRMaster[0]->users[0]->id) && ($MRMaster[0]->users[0]->pivot->Signature==null) && ($MRMaster[0]->Status == null))
       {
         MRMaster::where('MRNo',$id)->update(['SignatureTurn'=>'1']);
         Signatureable::where('user_id', Auth::user()->id)->where('signatureable_id',$id)->where('signatureable_type', 'App\MRMaster')->where('SignatureType', 'RecommendedBy')->update(['Signature'=>'0']);
@@ -321,7 +320,7 @@ class MRController extends Controller
           dispatch($job);
         }
 
-      }elseif ((Auth::user()->id==$MRMaster[0]->users[1]->id)&&($MRMaster[0]->users[1]->pivot->Signature==null))
+      }elseif (($MRMaster[0]->SignatureTurn == 1)&&(Auth::user()->id==$MRMaster[0]->users[1]->id)&&($MRMaster[0]->users[1]->pivot->Signature==null)&& ($MRMaster[0]->Status == null))
       {
         MRMaster::where('MRNo',$id)->update(['SignatureTurn'=>'2']);
         Signatureable::where('user_id', Auth::user()->id)->where('signatureable_id',$id)->where('signatureable_type', 'App\MRMaster')->where('SignatureType', 'ApprovedBy')->update(['Signature'=>'0']);
@@ -351,7 +350,7 @@ class MRController extends Controller
         $job=(new MRApprovedAlert($data))->delay(Carbon::now()->addSeconds(5));
         dispatch($job);
 
-      }elseif((Auth::user()->id==$MRMaster[0]->users[2]->id)&&($MRMaster[0]->users[2]->pivot->Signature==null))
+      }elseif(($MRMaster[0]->SignatureTurn == 2)&&(Auth::user()->id==$MRMaster[0]->users[2]->id)&&($MRMaster[0]->users[2]->pivot->Signature==null)&& ($MRMaster[0]->Status == null))
       {
         MRMaster::where('MRNo',$id)->update(['SignatureTurn'=>'3','Status'=>'0']);
         Signatureable::where('user_id', Auth::user()->id)->where('signatureable_id',$id)->where('signatureable_type', 'App\MRMaster')->where('SignatureType', 'ReceivedBy')->update(['Signature'=>'0']);
@@ -371,11 +370,39 @@ class MRController extends Controller
         $job = (new GlobalNotifJob($ReceiverID))
         ->delay(Carbon::now()->addSeconds(5));
         dispatch($job);
+      }else
+      {
+        return ['error'=>'Refreshed'];
       }
 
     }
     public function DeclineMR($id)
     {
+      $mrMaster = MRMaster::where('MRNo',$id)->with('users')->get(['Status','SignatureTurn','MRNo']);
+      if($mrMaster[0]->Status!=null)
+      {
+        return ['error'=>'Refreshed'];
+      }
+      switch (Auth::user()->id) {
+        case $mrMaster[0]->users[0]->id:
+          if($mrMaster[0]->SignatureTurn != 0)
+          {
+            return ['error'=>'Refreshed'];
+          }
+          break;
+        case $mrMaster[0]->users[1]->id:
+          if($mrMaster[0]->SignatureTurn != 1)
+          {
+            return ['error'=>'Refreshed'];
+          }
+          break;
+        case $mrMaster[0]->users[2]->id:
+          if($mrMaster[0]->SignatureTurn != 2)
+          {
+            return ['error'=>'Refreshed'];
+          }
+          break;
+      }
       MRMaster::where('MRNo',$id)->update(['Status'=>'1']);
       Signatureable::where('signatureable_id',$id)->where('signatureable_type', 'App\MRMaster')->where('SignatureType', 'ApprovalReplacer')->delete();
       Signatureable::where('user_id', Auth::user()->id)->where('signatureable_id',$id)->where('signatureable_type', 'App\MRMaster')->update(['Signature'=>'1']);
@@ -417,6 +444,11 @@ class MRController extends Controller
     }
     public function refuseMRApproveInBehalf($id)
     {
+      $itExist=Signatureable::where('user_id', Auth::user()->id)->where('signatureable_id',$id)->where('signatureable_type', 'App\MRMaster')->where('SignatureType', 'ApprovalReplacer')->value('id');
+      if($itExist==null)
+      {
+        return ['error'=>'Refreshed'];
+      }
       Signatureable::where('user_id', Auth::user()->id)->where('signatureable_id',$id)->where('signatureable_type', 'App\MRMaster')->where('SignatureType', 'ApprovalReplacer')->delete();
       $creatorID=MRMaster::where('MRNo',$id)->value('CreatorID');
       $NotificationTbl = new Notification;
@@ -436,10 +468,11 @@ class MRController extends Controller
     }
     public function confirmApproveinBehalf($id)
     {
+      $itExist=Signatureable::where('user_id', Auth::user()->id)->where('signatureable_id',$id)->where('signatureable_type', 'App\MRMaster')->where('SignatureType', 'ApprovalReplacer')->value('id');
       $MRMaster=MRMaster::with('users')->where('MRNo',$id)->get();
-      if ($MRMaster[0]->users[1]->pivot->Signature!=null)
+      if ($MRMaster[0]->users[1]->pivot->Signature!=null || $MRMaster[0]->SignatureTurn !=1 ||$itExist==null)
       {
-        return ['success'=>'success'];
+        return ['error'=>'Refreshed'];
       }
       if (isset($MRMaster[0]->users[3])&&($MRMaster[0]->users[3]->id==Auth::user()->id))
       {

@@ -183,10 +183,13 @@ export default {
         var vm=this;
         axios.put(`/Signature-for-mct/`+this.mctno.MCTNo).then(function(response)
         {
-
           vm.fetchData();
           vm.SignatureMCTBtnHide=false;
           vm.$loading.close();
+          if(response.data.error!=null)
+          {
+            vm.$toast.top(response.data.error);
+          }
         });
       },
       declineMCT()
@@ -196,9 +199,12 @@ export default {
         var vm=this;
         axios.put(`/decline-mct/`+this.mctno.MCTNo).then(function(response)
         {
-
           vm.fetchData();
           vm.$loading.close();
+          if(response.data.error!=null)
+          {
+            vm.$toast.top(response.data.error);
+          }
         });
       },
       formatPrice(value) {
@@ -207,7 +213,7 @@ export default {
       },
       editMCTSave()
       {
-        if (confirm('Are you sure?'))
+        if (confirm("Signatures will restart, continue?"))
         {
           this.$loading('Updating');
           var vm=this;
@@ -230,7 +236,7 @@ export default {
             }
           }).catch(function(error)
           {
-            
+
             vm.fetchData();
             vm.$toast.top('Invalid input');
             vm.$loading.close();
@@ -245,13 +251,18 @@ export default {
           vm.$loading('Rolling back data');
           axios.put(`/rollback-mct-history/`+this.mctno.MCTNo+`/`+this.MCTMaster.MIRSNo).then(function(response)
           {
-
             vm.fetchData();
             vm.$loading.close();
-            vm.$toast.top('Reversed successfully');
+            if(response.data.error!=null)
+            {
+              vm.$toast.top(response.data.error);
+            }else
+            {
+              vm.$toast.top('Reversed successfully');
+            }
           }).catch(function(error)
           {
-            
+
             vm.$loading.close();
           });
         }
@@ -264,13 +275,18 @@ export default {
           vm.$loading('Undoing rollbacked data');
           axios.put(`/undo-rollback-mct-history/`+this.mctno.MCTNo+`/`+this.MCTMaster.MIRSNo).then(function(response)
           {
-
             vm.fetchData();
             vm.$loading.close();
-            vm.$toast.top('undo rollback successful');
+            if(response.data.error!=null)
+            {
+              vm.$toast.top(response.data.error);
+            }else
+            {
+              vm.$toast.top('undo rollback successful');
+            }
           }).catch(function(error)
           {
-            
+
             vm.$loading.close();
           });
         }

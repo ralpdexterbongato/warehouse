@@ -652,8 +652,35 @@ class RRController extends Controller
   }
   public function signatureRR($id)
   {
-    Signatureable::where('signatureable_id',$id)->where('signatureable_type','App\RRMaster')->where('user_id', Auth::user()->id)->update(['Signature'=>'0']);
     $RRMaster=RRMaster::with('users')->where('RRNo',$id)->get();
+    $Signers = $RRMaster[0]->users;
+    switch (Auth::user()->id) {
+      case $Signers[0]->pivot->user_id:
+        if($Signers[0]->pivot->Signature != null || $RRMaster[0]->Status != null)
+        {
+          return ['error'=>'Refreshed'];
+        }
+        break;
+      case $Signers[1]->pivot->user_id:
+        if($Signers[1]->pivot->Signature != null || $RRMaster[0]->Status != null)
+        {
+          return ['error'=>'Refreshed'];
+        }
+        break;
+      case $Signers[2]->pivot->user_id:
+        if($Signers[2]->pivot->Signature != null || $RRMaster[0]->Status != null)
+        {
+          return ['error'=>'Refreshed'];
+        }
+        break;
+      case $Signers[3]->pivot->user_id:
+        if($Signers[3]->pivot->Signature != null || $RRMaster[0]->Status != null)
+        {
+          return ['error'=>'Refreshed'];
+        }
+        break;
+    }
+    Signatureable::where('signatureable_id',$id)->where('signatureable_type','App\RRMaster')->where('user_id', Auth::user()->id)->update(['Signature'=>'0']);
     if(($RRMaster[0]->users[0]->pivot->Signature =='0')&&($RRMaster[0]->users[1]->pivot->Signature =='0')&&($RRMaster[0]->users[2]->pivot->Signature =='0')&&($RRMaster[0]->users[3]->pivot->Signature =='0'))
     {
       RRMaster::where('RRNo', $id)->update(['Status'=>'0']);
@@ -724,9 +751,36 @@ class RRController extends Controller
   }
   public function declineRR($id)
   {
+    $RRMaster=RRMaster::where('RRNo',$id)->with('users')->get(['PONo','RVNo','RRNo','CreatorID','Status']);
+    $Signers = $RRMaster[0]->users;
+    switch (Auth::user()->id) {
+      case $Signers[0]->pivot->user_id:
+        if($Signers[0]->pivot->Signature != null || $RRMaster[0]->Status !=null)
+        {
+          return ['error'=>'Refreshed'];
+        }
+        break;
+      case $Signers[1]->pivot->user_id:
+        if($Signers[1]->pivot->Signature != null || $RRMaster[0]->Status !=null)
+        {
+          return ['error'=>'Refreshed'];
+        }
+        break;
+      case $Signers[2]->pivot->user_id:
+        if($Signers[2]->pivot->Signature != null || $RRMaster[0]->Status !=null)
+        {
+          return ['error'=>'Refreshed'];
+        }
+        break;
+      case $Signers[3]->pivot->user_id:
+        if($Signers[3]->pivot->Signature != null || $RRMaster[0]->Status !=null)
+        {
+          return ['error'=>'Refreshed'];
+        }
+        break;
+    }
     Signatureable::where('signatureable_id',$id)->where('signatureable_type','App\RRMaster')->where('user_id', Auth::user()->id)->update(['Signature'=>'1']);
     RRMaster::where('RRNo', $id)->update(['Status'=>'1']);
-    $RRMaster=RRMaster::where('RRNo',$id)->get(['PONo','RVNo','CreatorID']);
     if ($RRMaster[0]->PONo!=null)
     {
       $Detailscanceled=RRconfirmationDetails::where('RRNo',$id)->get(['Description','QuantityAccepted']);
@@ -824,8 +878,12 @@ class RRController extends Controller
   }
   public function RollBack($rrNo)
   {
+    $RRMaster=RRMaster::where('RRNo',$rrNo)->get(['PONo','RVNo','CreatorID','Status','IsRollBack']);
+    if($RRMaster[0]->Status == null || $RRMaster[0]->IsRollBack == '0')
+    {
+      return ['error'=>'Refreshed'];
+    }
     $dataToRollBack=MaterialsTicketDetail::where('MTType', 'RR')->where('MTNo', $rrNo)->whereNull('IsRollBack')->get();
-
     RRMaster::where('RRNo',$rrNo)->update(['IsRollBack'=>'0']);
     foreach ($dataToRollBack as $data)
     {
@@ -888,9 +946,7 @@ class RRController extends Controller
        $CurrentQuantityOfItem=MaterialsTicketDetail::orderBy('id','DESC')->whereNull('IsRollBack')->where('ItemCode', $data->ItemCode)->take(1)->value('CurrentQuantity');
        MasterItem::where('ItemCode',$data->ItemCode)->update(['CurrentQuantity' => $CurrentQuantityOfItem]);
     }
-
     // rollback the validator too
-    $RRMaster=RRMaster::where('RRNo',$rrNo)->get(['PONo','RVNo','CreatorID']);
     if ($RRMaster[0]->PONo!=null)
     {
       $Detailscanceled=RRconfirmationDetails::where('RRNo',$rrNo)->get(['Description','QuantityAccepted']);
@@ -939,6 +995,11 @@ class RRController extends Controller
   }
   public function UndoRollBack($rrNo)
   {
+    $RRMaster=RRMaster::where('RRNo',$rrNo)->get(['PONo','RVNo','CreatorID','Status','IsRollBack']);
+    if($RRMaster[0]->Status == null || $RRMaster[0]->IsRollBack != '0')
+    {
+      return ['error'=>'Refreshed'];
+    }
     $dataToRollBack=MaterialsTicketDetail::where('MTType', 'RR')->where('MTNo', $rrNo)->get();
     RRMaster::where('RRNo',$rrNo)->update(['IsRollBack'=>'1']);
     foreach ($dataToRollBack as $data)
@@ -1004,7 +1065,6 @@ class RRController extends Controller
     }
 
     // undo the rollbacked item validator
-    $RRMaster=RRMaster::where('RRNo',$rrNo)->get(['PONo','RVNo','CreatorID']);
     if ($RRMaster[0]->PONo!=null)
     {
       $Detailscanceled=RRconfirmationDetails::where('RRNo',$rrNo)->get(['Description','QuantityAccepted']);

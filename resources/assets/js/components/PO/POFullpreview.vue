@@ -125,6 +125,9 @@
 <script>
   import axios from 'axios';
   import Longpress from 'vue-longpress';
+  import 'vue2-toast/lib/toast.css';
+  import Toast from 'vue2-toast';
+  Vue.use(Toast);
   export default {
      data () {
        return {
@@ -158,6 +161,10 @@
          axios.put(`/gm-signature-po/`+this.pono.PONo).then(function(response)
         {
           vm.fetchPOPreview();
+          if(response.data.error!=null)
+          {
+            vm.$toast.top(response.data.error);
+          }
         });
       },
       GMDeclinedPO()
@@ -167,6 +174,10 @@
         axios.put(`/gm-decline-po/`+this.pono.PONo).then(function(response)
         {
           vm.fetchPOPreview();
+          if(response.data.error!=null)
+          {
+            vm.$toast.top(response.data.error);
+          }
         });
       },
       formatPrice(value) {
@@ -180,6 +191,10 @@
         axios.put(`/declined-Authorize-inbehalf/`+this.pono.PONo).then(function(response)
         {
           vm.fetchPOPreview();
+          if(response.data.error!=null)
+          {
+            vm.$toast.top(response.data.error);
+          }
         });
       },
       ApproveAuthorizeInBehalf()
@@ -189,6 +204,10 @@
         axios.put(`/authorize-in-behalf-confirmed/`+this.pono.PONo).then(function(response)
         {
           vm.fetchPOPreview();
+          if(response.data.error!=null)
+          {
+            vm.$toast.top(response.data.error);
+          }
         });
       }
      },

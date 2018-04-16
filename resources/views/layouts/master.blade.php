@@ -9,8 +9,7 @@
     <link rel="icon" type="image/png" href="/DesignIMG/logo.png">
     <link rel="stylesheet" href="/css/mystyle.min.css">
     <link rel="stylesheet" href="/css/animate.min.css">
-    <link rel="stylesheet" href="/css/bttn.min.css">
-    <link href="https://fonts.googleapis.com/icon?family=Material+Icons|Comfortaa|Kaushan+Script" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/icon?family=Comfortaa|Kaushan+Script" rel="stylesheet">
     <title>@yield('title')</title>
     <script>
       window.Laravel = <?php echo json_encode([
@@ -255,7 +254,7 @@
           });
           $(window).scroll(function() {
             var scrollBottom = $(document).height() - $(window).height() - $(window).scrollTop();
-            if (scrollBottom >= 36)
+            if (scrollBottom >= 100)
             {
               $('.sidebar-online ul').removeClass('active');
               $('.simple-footer').removeClass('fixed');

@@ -176,12 +176,12 @@ class MRTController extends Controller
     }
     public function signatureMRT($id)
     {
-      $SignatureTurn=MRTMaster::where('MRTNo', $id)->value('SignatureTurn');
+      $MRTMaster=MRTMaster::where('MRTNo', $id)->get(['SignatureTurn','MRTNo','Status']);
       //receiver \/
       $ReceiverID=Signatureable::where('signatureable_id',$id)->where('signatureable_type', 'App\MRTMaster')->where('SignatureType', 'ReceivedBy')->get(['user_id']);
       //returner \/
       $ReturnerID=Signatureable::where('signatureable_id',$id)->where('signatureable_type', 'App\MRTMaster')->where('SignatureType', 'ReturnedBy')->get(['user_id']);
-      if ((Auth::user()->id==$ReceiverID[0]->user_id)&&($SignatureTurn=='0'))
+      if ((Auth::user()->id==$ReceiverID[0]->user_id)&&($MRTMaster[0]->SignatureTurn=='0')&&($MRTMaster[0]->Status == null))
       {
         Signatureable::where('signatureable_id',$id)->where('signatureable_type', 'App\MRTMaster')->where('SignatureType', 'ReceivedBy')->where('user_id', Auth::user()->id)->update(['Signature'=>'0']);
         MRTMaster::where('MRTNo', $id)->update(['SignatureTurn'=>'1']);
@@ -207,7 +207,7 @@ class MRTController extends Controller
           ->delay(Carbon::now()->addSeconds(5));
           dispatch($job);
         }
-      }elseif((Auth::user()->id==$ReturnerID[0]->user_id)&&($SignatureTurn=='1'))
+      }elseif((Auth::user()->id==$ReturnerID[0]->user_id)&&($MRTMaster[0]->SignatureTurn=='1')&&($MRTMaster[0]->Status == null))
       {
         $MRTMaster=MRTMaster::where('MRTNo',$id)->get(['ReturnDate','CreatorID']);
         $FromConfirmation=MRTConfirmationDetail::where('MRTNo',$id)->get();
@@ -243,15 +243,20 @@ class MRTController extends Controller
         $job = (new GlobalNotifJob($ReceiverID))
         ->delay(Carbon::now()->addSeconds(5));
         dispatch($job);
+      }else
+      {
+        return ['error'=>'Refreshed'];
       }
     }
     public function DeclineMRT($id)
     {
+      $MRTMaster=MRTMaster::where('MRTNo',$id)->with('users')->get(['CreatorID','SignatureTurn','Status','MRTNo']);
+      if ((($MRTMaster[0]->users[1]->id == Auth::user()->id)&&($MRTMaster[0]->SignatureTurn!=1))||(($MRTMaster[0]->users[0]->id == Auth::user()->id)&&($MRTMaster[0]->SignatureTurn!=0))||($MRTMaster[0]->Status !=null))
+      {
+        return ['error'=>'Refreshed'];
+      }
       Signatureable::where('signatureable_id',$id)->where('signatureable_type','App\MRTMaster')->where('user_id', Auth::user()->id)->update(['Signature'=>'1']);
       MRTMaster::where('MRTNo', $id)->update(['Status'=>'1']);
-
-      $MRTMaster=MRTMaster::where('MRTNo',$id)->get(['CreatorID']);
-
       $NotificationTbl = new Notification;
       $NotificationTbl->user_id = $MRTMaster[0]->CreatorID;
       $NotificationTbl->NotificationType = 'Declined';
@@ -291,7 +296,8 @@ class MRTController extends Controller
         $newAMT=$mrtconfirm->UnitCost*$request->UpdatedQty[$key];
         MRTConfirmationDetail::where('MRTNo',$id)->where('ItemCode',$mrtconfirm->ItemCode)->update(['Quantity'=>$request->UpdatedQty[$key],'Amount'=>$newAMT]);
       }
-
+      MRTMaster::where('MRTNo',$id)->update(['SignatureTurn'=>0]);
+      Signatureable::where('signatureable_id',$id)->where('signatureable_type', 'App\MRTMaster')->update(['Signature'=>null]);
       $returnerID=Signatureable::where('signatureable_id',$id)->where('signatureable_type', 'App\MRTMaster')->where('SignatureType','ReturnedBy')->value('user_id');
       $NotificationTbl = new Notification;
       $NotificationTbl->user_id = $returnerID;
@@ -334,6 +340,11 @@ class MRTController extends Controller
     }
     public function RollBack($mrtNo)
     {
+      $MRTMaster=MRTMaster::where('MRTNo',$mrtNo)->get(['CreatorID','IsRollBack','Status','MRTNo']);
+      if($MRTMaster[0]->Status==null || $MRTMaster[0]->IsRollBack == '0')
+      {
+        return ['error'=>'Refreshed'];
+      }
       $dataToRollBack=MaterialsTicketDetail::where('MTType', 'MRT')->where('MTNo', $mrtNo)->whereNull('IsRollBack')->get();
       MRTMaster::where('MRTNo',$mrtNo)->update(['IsRollBack'=>'0']);
       foreach ($dataToRollBack as $data)
@@ -397,7 +408,6 @@ class MRTController extends Controller
          $CurrentQuantityOfItem=MaterialsTicketDetail::orderBy('id','DESC')->whereNull('IsRollBack')->where('ItemCode', $data->ItemCode)->take(1)->value('CurrentQuantity');
          MasterItem::where('ItemCode',$data->ItemCode)->update(['CurrentQuantity' => $CurrentQuantityOfItem]);
        }
-       $MRTMaster=MRTMaster::where('MRTNo',$mrtNo)->get(['CreatorID']);
        $NotificationTbl = new Notification;
        $NotificationTbl->user_id = $MRTMaster[0]->CreatorID;
        $NotificationTbl->NotificationType = 'Invalid';
@@ -415,6 +425,11 @@ class MRTController extends Controller
     }
     public function UndoRollBack($mrtNo)
     {
+      $MRTMaster=MRTMaster::where('MRTNo',$mrtNo)->get(['CreatorID','IsRollBack','Status','MRTNo']);
+      if($MRTMaster[0]->Status==null || $MRTMaster[0]->IsRollBack != '0')
+      {
+        return ['error'=>'Refreshed'];
+      }
       $dataToUndoRollBack=MaterialsTicketDetail::where('MTType', 'MRT')->where('MTNo', $mrtNo)->get();
       MRTMaster::where('MRTNo',$mrtNo)->update(['IsRollBack'=>'1']);
       foreach ($dataToUndoRollBack as $data)
@@ -478,7 +493,6 @@ class MRTController extends Controller
          $CurrentQuantityOfItem=MaterialsTicketDetail::orderBy('id','DESC')->whereNull('IsRollBack')->where('ItemCode', $data->ItemCode)->take(1)->value('CurrentQuantity');
          MasterItem::where('ItemCode',$data->ItemCode)->update(['CurrentQuantity' => $CurrentQuantityOfItem]);
       }
-      $MRTMaster=MRTMaster::where('MRTNo',$mrtNo)->get(['CreatorID']);
       $NotificationTbl = new Notification;
       $NotificationTbl->user_id = $MRTMaster[0]->CreatorID;
       $NotificationTbl->NotificationType = 'UndoInvalid';

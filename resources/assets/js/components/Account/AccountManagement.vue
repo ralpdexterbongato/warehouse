@@ -60,7 +60,7 @@
         </td>
         <td class="settingActions">
           <i class="material-icons" v-on:click="modalUpdate=!modalUpdate,fetchselecteduser(account.id),fetchManagerChoices()">edit</i>
-          <i class="material-icons" v-on:click="deleteAccount(account.id)">delete_forever</i>
+          <i class="material-icons" v-on:click="deleteAccount(account.id)">delete</i>
         </td>
       </tr>
     </table>
@@ -261,7 +261,7 @@ import axios from 'axios';
             vm.$loading.close();
           },function(error)
           {
-            
+
           });
         },
         changepage(next)

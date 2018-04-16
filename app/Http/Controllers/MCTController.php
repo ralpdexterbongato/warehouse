@@ -127,7 +127,8 @@ class MCTController extends Controller
   {
     $IssuerID=Signatureable::where('signatureable_id',$id)->where('signatureable_type', 'App\MCTMaster')->where('SignatureType', 'IssuedBy')->get(['user_id','Signature']);
     $ReceiversId=Signatureable::where('signatureable_id',$id)->where('signatureable_type', 'App\MCTMaster')->where('SignatureType', 'ReceivedBy')->get(['user_id']);
-    if (($IssuerID[0]->user_id==Auth::user()->id)&&($IssuerID[0]->Signature==null))
+    $MCTMaster=MCTMaster::where('MCTNo',$id)->get(['MCTDate','CreatorID','SignatureTurn','Status']);
+    if (($IssuerID[0]->user_id==Auth::user()->id)&&($IssuerID[0]->Signature==null)&&($MCTMaster[0]->Status == null))
     {
       Signatureable::where('signatureable_id',$id)->where('signatureable_type', 'App\MCTMaster')->where('SignatureType', 'IssuedBy')->update(['Signature'=>'0']);
       MCTMaster::where('MCTNo',$id)->update(['SignatureTurn'=>1]);
@@ -150,9 +151,8 @@ class MCTController extends Controller
       $job = (new GlobalNotifJob($ReceiverID))
       ->delay(Carbon::now()->addSeconds(5));
       dispatch($job);
-    }else
+    }elseif(($ReceiversId[0]->user_id==Auth::user()->id) && ($MCTMaster[0]->SignatureTurn=='1')&&($MCTMaster[0]->Status == null))
     {
-      $MCTMaster=MCTMaster::where('MCTNo',$id)->get(['MCTDate','CreatorID']);
       $ItemsConfirmed= MCTConfirmationDetail::where('MCTNo',$id)->get();
       $forMTDetailstable = array();
       foreach ($ItemsConfirmed as $itemconfirmed)
@@ -192,6 +192,9 @@ class MCTController extends Controller
       $job = (new GlobalNotifJob($ReceiverID))
       ->delay(Carbon::now()->addSeconds(5));
       dispatch($job);
+    }else
+    {
+      return ['error'=>'Refreshed'];
     }
   }
   public function mctRequestcheck()
@@ -297,8 +300,9 @@ class MCTController extends Controller
     {
       return ['error'=>'Refreshed'];
     }
-    MCTMaster::where('MCTNo',$id)->update(['AddressTo'=>$request->NewAddressTo]);
+    MCTMaster::where('MCTNo',$id)->update(['AddressTo'=>$request->NewAddressTo,'SignatureTurn'=>0]);
     $DetailsToBeUpdated=MCTConfirmationDetail::where('MCTNo',$id)->get(['ItemCode','Quantity','UnitCost']);
+
     //each item validaton
     foreach ($DetailsToBeUpdated as $key=> $confirmationMCT)
     {
@@ -331,6 +335,7 @@ class MCTController extends Controller
       $newAMT=$confirmationMCT->UnitCost*$request->NewQuantity[$key];
       MCTConfirmationDetail::where('MCTNo',$id)->where('ItemCode',$confirmationMCT->ItemCode)->update(['Quantity'=>$request->NewQuantity[$key],'Amount'=>$newAMT]);
     }
+    Signatureable::where('signatureable_id', $id)->where('signatureable_type', 'App\MCTMaster')->update(['Signature'=>null]);
     $receiverId=Signatureable::where('signatureable_id', $id)->where('signatureable_type', 'App\MCTMaster')->where('SignatureType','ReceivedBy')->value('user_id');
     $NotificationTbl = new Notification;
     $NotificationTbl->user_id = $receiverId;
@@ -349,8 +354,13 @@ class MCTController extends Controller
   }
   public function declineMCT($id)
   {
-    $MCTMaster=MCTMaster::where('MCTNo',$id)->get(['MIRSNo','CreatorID']);
+    $MCTMaster=MCTMaster::where('MCTNo',$id)->with('users')->get(['MIRSNo','CreatorID','SignatureTurn','Status','MCTNo']);
     $MCTconfirmation=MCTConfirmationDetail::where('MCTNo',$id)->get(['ItemCode','Quantity']);
+
+    if(($MCTMaster[0]->users[1]->id == Auth::user()->id && $MCTMaster[0]->SignatureTurn != 1)||($MCTMaster[0]->Status != null)||($MCTMaster[0]->users[0]->id == Auth::user()->id && $MCTMaster[0]->SignatureTurn != 0))
+    {
+      return ['error'=>'Refreshed'];
+    }
     foreach ($MCTconfirmation as $confirmation)
     {
       $currentMCTValidatorQty=MIRSDetail::where('MIRSNo',$MCTMaster[0]->MIRSNo)->where('ItemCode', $confirmation->ItemCode)->get(['QuantityValidator']);
@@ -398,6 +408,11 @@ class MCTController extends Controller
   }
   public function RollBack($mctNo,$mirsNo)
   {
+    $MCTMaster = MCTMaster::where('MCTNo',$mctNo)->get(['CreatorID','Status','IsRollBack']);
+    if($MCTMaster[0]->IsRollBack == '0' || $MCTMaster[0]->Status == null)
+    {
+      return ['error'=>'Refreshed'];
+    }
     $dataToRollBack=MaterialsTicketDetail::where('MTType', 'MCT')->where('MTNo', $mctNo)->whereNull('IsRollBack')->get();
     MCTMaster::where('MCTNo',$mctNo)->update(['IsRollBack'=>'0']);
     foreach ($dataToRollBack as $data)
@@ -469,9 +484,8 @@ class MCTController extends Controller
       $newMCTValidatorQty=$currentMCTValidatorQty[0]->QuantityValidator+$confirmation->Quantity;
       MIRSDetail::where('MIRSNo',$mirsNo)->where('ItemCode', $confirmation->ItemCode)->update(['QuantityValidator'=>$newMCTValidatorQty]);
     }
-    $creatorID = MCTMaster::where('MCTNo',$mctNo)->value('CreatorID');
     $NotificationTbl = new Notification;
-    $NotificationTbl->user_id = $creatorID;
+    $NotificationTbl->user_id = $MCTMaster[0]->CreatorID;
     $NotificationTbl->NotificationType = 'Invalid';
     $NotificationTbl->FileType = 'MCT';
     $NotificationTbl->FileNo =$mctNo;
@@ -479,7 +493,7 @@ class MCTController extends Controller
     $NotificationTbl->save();
 
     // global notif trigger
-    $ReceiverID = array('id' =>$creatorID);
+    $ReceiverID = array('id' =>$MCTMaster[0]->CreatorID);
     $ReceiverID = (object)$ReceiverID;
     $job = (new GlobalNotifJob($ReceiverID))
     ->delay(Carbon::now()->addSeconds(5));
@@ -487,6 +501,11 @@ class MCTController extends Controller
   }
   public function UndoRollBack($mctNo,$mirsNo)
   {
+    $MCTMaster = MCTMaster::where('MCTNo',$mctNo)->get(['CreatorID','Status','IsRollBack']);
+    if($MCTMaster[0]->IsRollBack != '0' || $MCTMaster[0]->Status == null)
+    {
+      return ['error'=>'Refreshed'];
+    }
     $dataToUndoRollBack=MaterialsTicketDetail::where('MTType', 'MCT')->where('MTNo', $mctNo)->get();
     MCTMaster::where('MCTNo',$mctNo)->update(['IsRollBack'=>'1']);
     foreach ($dataToUndoRollBack as $data)
@@ -558,10 +577,8 @@ class MCTController extends Controller
       $newMCTValidatorQty=$currentMCTValidatorQty[0]->QuantityValidator - $confirmation->Quantity;
       MIRSDetail::where('MIRSNo',$mirsNo)->where('ItemCode', $confirmation->ItemCode)->update(['QuantityValidator'=>$newMCTValidatorQty]);
     }
-
-    $creatorID = MCTMaster::where('MCTNo',$mctNo)->value('CreatorID');
     $NotificationTbl = new Notification;
-    $NotificationTbl->user_id = $creatorID;
+    $NotificationTbl->user_id = $MCTMaster[0]->CreatorID;
     $NotificationTbl->NotificationType = 'UndoInvalid';
     $NotificationTbl->FileType = 'MCT';
     $NotificationTbl->FileNo =$mctNo;
@@ -569,7 +586,7 @@ class MCTController extends Controller
     $NotificationTbl->save();
 
     // global notif trigger
-    $ReceiverID = array('id' =>$creatorID);
+    $ReceiverID = array('id' =>$MCTMaster[0]->CreatorID);
     $ReceiverID = (object)$ReceiverID;
     $job = (new GlobalNotifJob($ReceiverID))
     ->delay(Carbon::now()->addSeconds(5));

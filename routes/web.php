@@ -41,7 +41,7 @@ Route::get('/MIRS.pdf/{id}','PDFController@mirspdf')->name('mirs-download');
 Route::get('/MCTSUMMARY.pdf','PDFController@MCTsummaryprint')->name('mct-summary-print')->middleware('IsWarehouseAndAdmin');
 Route::get('/previewFullMIRS/{id}','MIRSController@fullMIRSview')->name('full-mirs');
 Route::get('/fetchpreview-full-mirs-/{id}','MIRSController@fetchFullMIRSData');
-Route::put('/deniedmirs/{id}','MIRSController@DeniedMIRS')->name('DeniedMIRS');
+Route::put('/deniedmirs/{id}','MIRSController@DeclineMIRS')->name('DeniedMIRS');
 Route::get('/findmirs-and-fetch','MIRSController@searchMIRSNoAndFetch')->name('finding.mirs');
 Route::get('/mirs-index-page','MIRSController@MIRSIndexPage')->name('MIRSgridview');
 Route::put('/mirs-update/{mirsNo}','MIRSController@QuickUpdate');

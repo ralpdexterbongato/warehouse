@@ -181,11 +181,15 @@ class POController extends Controller
   }
   public function GMSignaturePO($id)
   {
+    $POMaster=POMaster::where('PONo',$id)->get(['CreatorID','Status']);
+    if($POMaster[0]->Status!=null)
+    {
+      return ['error'=>'Refreshed'];
+    }
     POMaster::where('PONo',$id)->update(['Status'=>'0']);
     Signatureable::where('user_id', Auth::user()->id)->where('signatureable_id', $id)->where('signatureable_type','App\POMaster')->where('SignatureType','ApprovedBy')->update(['Signature'=>'0']);
     Signatureable::where('signatureable_id', $id)->where('signatureable_type','App\POMaster')->where('SignatureType','ApprovalReplacer')->delete();
     //notify creator
-    $POMaster=POMaster::where('PONo',$id)->get(['CreatorID']);
     $NotificationTbl = new Notification;
     $NotificationTbl->user_id = $POMaster[0]->CreatorID;
     $NotificationTbl->NotificationType = 'Approved';
@@ -204,6 +208,11 @@ class POController extends Controller
   }
   public function GMDeclined($id)
   {
+    $POMaster=POMaster::where('PONo',$id)->get(['CreatorID','Status']);
+    if($POMaster[0]->Status!=null)
+    {
+      return ['error'=>'Refreshed'];
+    }
     POMaster::where('PONo',$id)->update(['Status'=>'1']);
     Signatureable::where('user_id', Auth::user()->id)->where('signatureable_id', $id)->where('signatureable_type','App\POMaster')->where('SignatureType','ApprovedBy')->update(['Signature'=>'1']);
     Signatureable::where('signatureable_id', $id)->where('signatureable_type','App\POMaster')->where('SignatureType','ApprovalReplacer')->delete();
@@ -221,7 +230,6 @@ class POController extends Controller
       }
     }
     // notify the creator
-    $POMaster=POMaster::where('PONo',$id)->get(['CreatorID']);
     $NotificationTbl = new Notification;
     $NotificationTbl->user_id = $POMaster[0]->CreatorID;
     $NotificationTbl->NotificationType = 'Declined';
@@ -244,8 +252,13 @@ class POController extends Controller
   }
   public function RefuseAuthorizeInBehalf($id)
   {
+    $POMaster=POMaster::where('PONo',$id)->get(['CreatorID','Status']);
+    $itExist = Signatureable::where('user_id', Auth::user()->id)->where('signatureable_id', $id)->where('signatureable_type', 'App\POMaster')->where('SignatureType', 'ApprovalReplacer')->value('id');
+    if($POMaster[0]->Status!=null || $itExist==null)
+    {
+      return ['error'=>'Refreshed'];
+    }
     Signatureable::where('user_id', Auth::user()->id)->where('signatureable_id', $id)->where('signatureable_type', 'App\POMaster')->where('SignatureType', 'ApprovalReplacer')->delete();
-    $POMaster=POMaster::where('PONo',$id)->get(['CreatorID']);
     $NotificationTbl = new Notification;
     $NotificationTbl->user_id = $POMaster[0]->CreatorID;
     $NotificationTbl->NotificationType = 'Refused';
@@ -263,6 +276,12 @@ class POController extends Controller
   }
   public function AuthorizeInBehalfconfirmed($id)
   {
+    $POMaster=POMaster::where('PONo',$id)->get(['CreatorID','Status']);
+    $itExist=Signatureable::where('user_id', Auth::user()->id)->where('signatureable_id', $id)->where('signatureable_type', 'App\POMaster')->where('SignatureType', 'ApprovalReplacer')->value('id');
+    if($POMaster[0]->Status!=null||$itExist == null)
+    {
+      return ['error'=>'Refreshed'];
+    }
     POMaster::where('PONo',$id)->update(['Status'=>'0']);
     Signatureable::where('user_id', Auth::user()->id)->where('signatureable_id', $id)->where('signatureable_type', 'App\POMaster')->where('SignatureType', 'ApprovalReplacer')->update(['Signature'=>'0']);
 
@@ -290,7 +309,6 @@ class POController extends Controller
     ->delay(Carbon::now()->addSeconds(5));
     dispatch($job);
 
-    $POMaster=POMaster::where('PONo',$id)->get(['CreatorID']);
     $NotificationTbl = new Notification;
     $NotificationTbl->user_id = $POMaster[0]->CreatorID;
     $NotificationTbl->NotificationType = 'Approved';

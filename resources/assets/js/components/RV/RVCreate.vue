@@ -187,7 +187,6 @@ Vue.use(Toast);
           Remarks:this.Remarks
         }).then(function(response)
         {
-
           if (response.data.error==null)
           {
             vm.FetchSessionStored();
@@ -229,7 +228,6 @@ Vue.use(Toast);
           Remarks:this.RemarksForWHouse[count],
         }).then(function(response)
         {
-
           vm.FetchSessionStored();
           if (response.data.error!=null)
           {
@@ -238,6 +236,7 @@ Vue.use(Toast);
           }else
           {
             vm.$toast.top('Added successfully');
+            vm.QuantityForWHouse[count] = '';
             vm.$loading.close();
           }
         },function(error)

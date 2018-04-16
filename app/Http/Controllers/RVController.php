@@ -229,24 +229,23 @@ class RVController extends Controller
     }
     public function Signature($id,Request $request)
     {
-      $RequisitionerID=Signatureable::where('signatureable_id', $id)->where('signatureable_type', 'App\RVMaster')->where('SignatureType', 'Requisitioner')->get(['user_id']);
-      $RecommendedByID=Signatureable::where('signatureable_id', $id)->where('signatureable_type', 'App\RVMaster')->where('SignatureType', 'RecommendedBy')->get(['user_id']);
-      $BudgetOfficerID=Signatureable::where('signatureable_id', $id)->where('signatureable_type', 'App\RVMaster')->where('SignatureType', 'BudgetOfficer')->get(['user_id']);
+      $RVMaster=RVMaster::where('RVNo', $id)->with('users')->get(['SignatureTurn','RVNo','Status']);
+      $RequisitionerID=$RVMaster[0]->users[0]->id;
+      $RecommendedByID=$RVMaster[0]->users[1]->id;
+      $BudgetOfficerID=$RVMaster[0]->users[2]->id;
       $ApprovalReplacerID=Signatureable::where('signatureable_id', $id)->where('signatureable_type', 'App\RVMaster')->where('SignatureType', 'ApprovalReplacer')->get(['user_id']);
-      $GMID=Signatureable::where('signatureable_id', $id)->where('signatureable_type', 'App\RVMaster')->where('SignatureType', 'ApprovedBy')->get(['user_id']);
-      $RVMasterTurn=RVMaster::where('RVNo', $id)->value('SignatureTurn');
-
-      if (Auth::user()->id==$RequisitionerID[0]->user_id && $RVMasterTurn==0)
+      $GMID=$RVMaster[0]->users[3]->id;
+      if (Auth::user()->id==$RequisitionerID && $RVMaster[0]->SignatureTurn==0 && $RVMaster[0]->Status==null)
       {
         Signatureable::where('signatureable_id', $id)->where('signatureable_type', 'App\RVMaster')->where('SignatureType', 'Requisitioner')->where('user_id', Auth::user()->id)->update(['Signature'=>'0']);
         RVMaster::where('RVNo', $id)->update(['SignatureTurn'=>'1']);
-        $NotifyThisPerson = array('NotificReceiver'=>$RecommendedByID[0]->user_id);
+        $NotifyThisPerson = array('NotificReceiver'=>$RecommendedByID);
         $NotifyThisPerson=(object)$NotifyThisPerson;
         $job = (new NewRVCreatedJob($NotifyThisPerson))->delay(Carbon::now()->addSeconds(5));
         dispatch($job);
 
         $NotificationTbl = new Notification;
-        $NotificationTbl->user_id = $RecommendedByID[0]->user_id;
+        $NotificationTbl->user_id = $RecommendedByID;
         $NotificationTbl->NotificationType = 'Request';
         $NotificationTbl->FileType = 'RV';
         $NotificationTbl->FileNo = $id;
@@ -254,27 +253,25 @@ class RVController extends Controller
         $NotificationTbl->save();
 
         // global notif trigger
-        $ReceiverID = array('id' =>$RecommendedByID[0]->user_id);
+        $ReceiverID = array('id' =>$RecommendedByID);
         $ReceiverID = (object)$ReceiverID;
         $job = (new GlobalNotifJob($ReceiverID))
         ->delay(Carbon::now()->addSeconds(5));
         dispatch($job);
-      }
-
-      if ($BudgetOfficerID[0]->user_id == Auth::user()->id && $RVMasterTurn==2)
+      }elseif ($BudgetOfficerID == Auth::user()->id && $RVMaster[0]->SignatureTurn==2 && $RVMaster[0]->Status==null)
       {
         $this->validate($request,[
             'BudgetAvailable'=>'max:50',
         ]);
         Signatureable::where('signatureable_id', $id)->where('signatureable_type', 'App\RVMaster')->where('SignatureType', 'BudgetOfficer')->where('user_id', Auth::user()->id)->update(['Signature'=>'0']);
         RVMaster::where('RVNo',$id)->update(['BudgetAvailable'=>$request->BudgetAvailable,'SignatureTurn'=>'3']);
-        $NotifyThisPerson = array('NotificReceiver' =>$GMID[0]->user_id);
+        $NotifyThisPerson = array('NotificReceiver' =>$GMID);
         $NotifyThisPerson=(object)$NotifyThisPerson;
         $job = (new NewRVCreatedJob($NotifyThisPerson))->delay(Carbon::now()->addSeconds(5));
         dispatch($job);
 
         $NotificationTbl = new Notification;
-        $NotificationTbl->user_id = $GMID[0]->user_id;
+        $NotificationTbl->user_id = $GMID;
         $NotificationTbl->NotificationType = 'Request';
         $NotificationTbl->FileType = 'RV';
         $NotificationTbl->FileNo = $id;
@@ -282,7 +279,7 @@ class RVController extends Controller
         $NotificationTbl->save();
 
         // global notif trigger
-        $ReceiverID = array('id' =>$GMID[0]->user_id);
+        $ReceiverID = array('id' =>$GMID);
         $ReceiverID = (object)$ReceiverID;
         $job = (new GlobalNotifJob($ReceiverID))
         ->delay(Carbon::now()->addSeconds(5));
@@ -310,19 +307,18 @@ class RVController extends Controller
           ->delay(Carbon::now()->addSeconds(5));
           dispatch($job);
         }
-      }
-      if ($RecommendedByID[0]->user_id == Auth::user()->id)
+      }elseif ($RecommendedByID == Auth::user()->id && $RVMaster[0]->SignatureTurn==1 && $RVMaster[0]->Status==null)
       {
         Signatureable::where('signatureable_id', $id)->where('signatureable_type', 'App\RVMaster')->where('SignatureType', 'RecommendedBy')->where('user_id', Auth::user()->id)->update(['Signature'=>'0']);
         Signatureable::where('signatureable_id', $id)->where('signatureable_type', 'App\RVMaster')->where('SignatureType', 'ManagerReplacer')->delete();
         RVMaster::where('RVNo',$id)->update(['SignatureTurn'=>'2']);
-        $NotifyThisPerson = array('NotificReceiver' => $BudgetOfficerID[0]->user_id);
+        $NotifyThisPerson = array('NotificReceiver' => $BudgetOfficerID);
         $NotifyThisPerson=(object)$NotifyThisPerson;
         $job = (new NewRVCreatedJob($NotifyThisPerson))->delay(Carbon::now()->addSeconds(5));
         dispatch($job);
 
         $NotificationTbl = new Notification;
-        $NotificationTbl->user_id = $BudgetOfficerID[0]->user_id;
+        $NotificationTbl->user_id = $BudgetOfficerID;
         $NotificationTbl->NotificationType = 'Request';
         $NotificationTbl->FileType = 'RV';
         $NotificationTbl->FileNo = $id;
@@ -330,27 +326,26 @@ class RVController extends Controller
         $NotificationTbl->save();
 
         // global notif trigger
-        $ReceiverID = array('id' =>$BudgetOfficerID[0]->user_id);
+        $ReceiverID = array('id' =>$BudgetOfficerID);
         $ReceiverID = (object)$ReceiverID;
         $job = (new GlobalNotifJob($ReceiverID))
         ->delay(Carbon::now()->addSeconds(5));
         dispatch($job);
 
-      }
-      if ($GMID[0]->user_id == Auth::user()->id)
+      }elseif ($GMID == Auth::user()->id && $RVMaster[0]->SignatureTurn==3 && $RVMaster[0]->Status==null)
       {
         Signatureable::where('signatureable_id', $id)->where('signatureable_type', 'App\RVMaster')->where('SignatureType', 'ApprovedBy')->where('user_id', Auth::user()->id)->update(['Signature'=>'0']);
         RVMaster::where('RVNo',$id)->update(['SignatureTurn'=>'4','Status'=>'0','PendingRemarks'=>NULL]);
         Signatureable::where('signatureable_id', $id)->where('signatureable_type', 'App\RVMaster')->where('SignatureType', 'ApprovalReplacer')->delete();
 
-        $requisitionerMobile=User::where('id',$RequisitionerID[0]->user_id)->get(['Mobile']);
+        $requisitionerMobile=User::where('id',$RequisitionerID)->get(['Mobile']);
         $notifyData = array('RequisitionerMobile' =>$requisitionerMobile[0]->Mobile,'RVNo'=>$id);
         $notifyData=(object)$notifyData;
         $job = (new NewRVApprovedJob($notifyData))->delay(Carbon::now()->addSeconds(5));
         dispatch($job);
 
         $NotificationTbl = new Notification;
-        $NotificationTbl->user_id = $RequisitionerID[0]->user_id;
+        $NotificationTbl->user_id = $RequisitionerID;
         $NotificationTbl->NotificationType = 'Approved';
         $NotificationTbl->FileType = 'RV';
         $NotificationTbl->FileNo = $id;
@@ -358,11 +353,14 @@ class RVController extends Controller
         $NotificationTbl->save();
 
         // global notif trigger
-        $ReceiverID = array('id' =>$RequisitionerID[0]->user_id);
+        $ReceiverID = array('id' =>$RequisitionerID);
         $ReceiverID = (object)$ReceiverID;
         $job = (new GlobalNotifJob($ReceiverID))
         ->delay(Carbon::now()->addSeconds(5));
         dispatch($job);
+      }else
+      {
+        return ['error'=>'Refreshed'];
       }
 
     }
@@ -373,6 +371,12 @@ class RVController extends Controller
     }
     public function declineRV($id)
     {
+      $rvMaster = RVMaster::where('RVNo', $id)->with('users')->get(['Status','SignatureTurn','RVNo']);
+      $Signers=$rvMaster[0]->users;
+      if(($Signers[0]->id == Auth::user()->id && $rvMaster[0]->SignatureTurn != 0)||($Signers[1]->id == Auth::user()->id && $rvMaster[0]->SignatureTurn != 1)||($Signers[2]->id == Auth::user()->id && $rvMaster[0]->SignatureTurn != 2)||$Signers[3]->id == Auth::user()->id && $rvMaster[0]->SignatureTurn != 3 || $rvMaster[0]->Status!=null)
+      {
+        return ['error'=>'Refreshed'];
+      }
       Signatureable::where('signatureable_id', $id)->where('signatureable_type', 'App\RVMaster')->where('user_id', Auth::user()->id)->update(['Signature'=>'1']);
       RVMaster::where('RVNo', $id)->update(['Status'=>'1']);
       if (Auth::user()->Role==2)
@@ -390,7 +394,7 @@ class RVController extends Controller
         dispatch($job);
       }
       $NotificationTbl = new Notification;
-      $NotificationTbl->user_id = $requisitionerID[0]->user_id;
+      $NotificationTbl->user_id = $requisitioner[0]->user_id;
       $NotificationTbl->NotificationType = 'Declined';
       $NotificationTbl->FileType = 'RV';
       $NotificationTbl->FileNo = $id;
@@ -458,9 +462,13 @@ class RVController extends Controller
     }
     public function cancelSignatureApproveInBehalf($id)
     {
+      $rvMaster=RVMaster::where('RVNo', $id)->get(['Status','SignatureTurn']);
+      if ($rvMaster[0]->Status!=null || $rvMaster[0]->SignatureTurn!=3)
+      {
+        return ['error'=>'Refreshed'];
+      }
       Signatureable::where('signatureable_id', $id)->where('signatureable_type', 'App\RVMaster')->where('SignatureType','ApprovalReplacer')->where('user_id', Auth::user()->id)->delete();
       $requisitionerID=Signatureable::where('signatureable_id', $id)->where('signatureable_type', 'App\RVMaster')->where('SignatureType','Requisitioner')->value('user_id');
-
       $NotificationTbl = new Notification;
       $NotificationTbl->user_id = $requisitionerID;
       $NotificationTbl->NotificationType = 'Refused';
@@ -478,10 +486,10 @@ class RVController extends Controller
     }
     public function AcceptSignatureBehalf($id)
     {
-      $RVStatus=RVMaster::where('RVNo', $id)->get(['Status']);
-      if ($RVStatus[0]->Status!=null)
+      $rvMaster=RVMaster::where('RVNo', $id)->get(['Status','SignatureTurn']);
+      if ($rvMaster[0]->Status!=null || $rvMaster[0]->SignatureTurn!=3)
       {
-        return ['success'=>'success'];
+        return ['error'=>'Refreshed'];
       }
       RVMaster::where('RVNo', $id)->update(['SignatureTurn'=>'4','Status'=>'0','PendingRemarks'=>NULL]);
       Signatureable::where('signatureable_id', $id)->where('signatureable_type', 'App\RVMaster')->where('SignatureType','ApprovalReplacer')->where('user_id', Auth::user()->id)->update(['Signature'=>'0']);
@@ -525,9 +533,19 @@ class RVController extends Controller
     }
     public function sendRequestManagerReplacer($id,Request $request)
     {
-      if ($request->ManagerID==null)
+      $itExist = Signatureable::where('signatureable_id',$id)->where('signatureable_type','App\RVMaster')->where('SignatureType', 'ManagerReplacer')->value('id');
+      $RVMaster = RVMaster::where('RVNo',$id)->get(['SignatureTurn','Status']);
+      if($RVMaster[0]->SignatureTurn != 1|| $RVMaster[0]->Status != null)
       {
-        return ['error'=>'required'];
+        return ['error'=> 'Refreshed'];
+      }
+      if($request->ManagerID==null)
+      {
+        return ['error'=>'Please pick a replacer'];
+      }
+      if($itExist != null)
+      {
+        return ['error'=>'You can only send one req. at a time'];
       }
       $signatureTbl=new Signatureable;
       $signatureTbl->user_id=$request->ManagerID;
@@ -558,6 +576,12 @@ class RVController extends Controller
     }
     public function cancelrequestsentReplacer($id)
     {
+      $rvMaster = RVMaster::where('RVNo', $id)->get(['SignatureTurn','Status']);
+      $itExist = Signatureable::where('signatureable_id',$id)->where('signatureable_type','App\RVMaster')->where('SignatureType', 'ManagerReplacer')->value('id');
+      if($rvMaster[0]->SignatureTurn != 1 || $itExist == null || $rvMaster[0]->Status != null)
+      {
+        return ['error'=>'Refreshed'];
+      }
       RVMaster::where('RVNo', $id)->update(['SignatureTurn'=>'1']);
       $replacerId=Signatureable::where('signatureable_id', $id)->where('signatureable_type', 'App\RVMaster')->where('SignatureType','ManagerReplacer')->value('user_id');
       $requisitionerId=Signatureable::where('signatureable_id', $id)->where('signatureable_type', 'App\RVMaster')->where('SignatureType','Requisitioner')->value('user_id');
@@ -602,6 +626,12 @@ class RVController extends Controller
     }
     public function AcceptManagerReplacer($id)
     {
+      $rvMaster=RVMaster::where('RVNo', $id)->get(['SignatureTurn','Status']);
+      $doExist=Signatureable::where('signatureable_id', $id)->where('signatureable_type', 'App\RVMaster')->where('SignatureType','ManagerReplacer')->where('user_id', Auth::user()->id)->get(['id']);
+      if($rvMaster[0]->SignatureTurn != 1 || empty($doExist[0]) || $rvMaster[0]->Status != null)
+      {
+        return ['error'=>'Refreshed'];
+      }
       RVMaster::where('RVNo', $id)->update(['SignatureTurn'=>'2']);
       Signatureable::where('signatureable_id', $id)->where('signatureable_type', 'App\RVMaster')->where('SignatureType','ManagerReplacer')->where('user_id', Auth::user()->id)->update(['Signature'=>'0']);
       $BudgetOfficerID=Signatureable::where('signatureable_id', $id)->where('signatureable_type', 'App\RVMaster')->where('SignatureType','BudgetOfficer')->get(['user_id']);

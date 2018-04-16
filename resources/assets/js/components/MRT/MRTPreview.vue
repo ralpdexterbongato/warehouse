@@ -4,7 +4,7 @@
       <p v-if="MRTMaster.IsRollBack==0"><i class="material-icons">warning</i>Invalid transaction</p>
     </div>
     <div class="top-MRT-buttons">
-      <div class="mrt-print" v-if="MRTMaster.Status==0 && MRTMaster.CreatorID==user.id">
+      <div class="mrt-print" v-if="MRTMaster.Status==0 && MRTMaster.CreatorID==user.id && MRTMaster.IsRollBack!=0">
         <a :href="'/print-mrt.pdf/'+MRTMaster.MRTNo">
           <button type="button" name="button">PDF</button>
         </a>
@@ -147,10 +147,13 @@ Vue.use(Toast);
         var vm=this;
         axios.put(`/signatureMRT/`+this.mrtno.MRTNo).then(function(response)
         {
-
           vm.fetchdata();
           vm.SignatureBtnHide=false;
           vm.$loading.close();
+          if(response.data.error!=null)
+          {
+            vm.$toast.top(response.data.error);
+          }
         });
       },
       declineMRT()
@@ -160,28 +163,34 @@ Vue.use(Toast);
         var vm=this;
         axios.put(`/declineMRT/`+this.mrtno.MRTNo).then(function(response)
         {
-
           vm.fetchdata();
           vm.$loading.close();
+          if(response.data.error!=null)
+          {
+            vm.$toast.top(response.data.error);
+          }
         });
       },
       updateQty()
       {
-        this.$loading('Updating');
-        var vm=this;
-        axios.put(`/updateMRTQty/`+this.mrtno.MRTNo,{UpdatedQty:this.EditedQty}).then(function(response)
+        if(confirm("Signatures will restart, continue?"))
         {
+          this.$loading('Updating');
+          var vm=this;
+          axios.put(`/updateMRTQty/`+this.mrtno.MRTNo,{UpdatedQty:this.EditedQty}).then(function(response)
+          {
 
-          vm.fetchdata();
-          if (response.data.error!=null)
-          {
-            vm.$toast.top(response.data.error);
-          }else
-          {
-            vm.$toast.top('Updated');
-          }
-          vm.$loading.close();
-        });
+            vm.fetchdata();
+            if (response.data.error!=null)
+            {
+              vm.$toast.top(response.data.error);
+            }else
+            {
+              vm.$toast.top('Updated');
+            }
+            vm.$loading.close();
+          });
+        }
       },
       RollbackMRT()
       {
@@ -191,10 +200,15 @@ Vue.use(Toast);
           var vm=this;
           axios.put(`/rollback-mrt-history/`+this.mrtno.MRTNo).then(function(response)
           {
-
             vm.fetchdata();
-            vm.$toast.top('Rolled back successfully');
             vm.$loading.close();
+            if(response.data.error!=null)
+            {
+              vm.$toast.top(response.data.error);
+            }else
+            {
+              vm.$toast.top('Rolled back successfully');
+            }
           }).catch(function(error)
           {
             vm.$loading.close();
@@ -210,8 +224,14 @@ Vue.use(Toast);
           axios.put(`/undo-rollback-mrt-history/`+this.mrtno.MRTNo).then(function(response)
           {
             vm.fetchdata();
-            vm.$toast.top('rollback undid successfully');
             vm.$loading.close();
+            if(response.data.error!=null)
+            {
+              vm.$toast.top(response.data.error);
+            }else
+            {
+              vm.$toast.top('rollback undid successfully');
+            }
           }).catch(function(error)
           {
             vm.$loading.close();

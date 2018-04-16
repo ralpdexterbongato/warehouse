@@ -184,8 +184,14 @@ class MIRSController extends Controller
   {
     return view('Warehouse.MIRS.MIRS-index');
   }
-  public function DeniedMIRS($id)
+  public function DeclineMIRS($id)
   {
+    $mirsMaster = MIRSMaster::where('MIRSNo', $id)->get(['SignatureTurn','Status']);
+    $Signers = Signatureable::where('signatureable_id', $id)->where('signatureable_type', 'App\MIRSMaster')->get(['user_id']);
+    if(($Signers[0]->user_id==Auth::user()->id && $mirsMaster[0]->SignatureTurn!=0)||($Signers[1]->user_id==Auth::user()->id && $mirsMaster[0]->SignatureTurn!=1)||($Signers[2]->user_id==Auth::user()->id && $mirsMaster[0]->SignatureTurn!=2)||$mirsMaster[0]->Status!=null)
+    {
+      return ['error'=>'Refreshed'];
+    }
     Signatureable::where('signatureable_id', $id)->where('signatureable_type', 'App\MIRSMaster')->where('user_id', Auth::user()->id)->update(['Signature'=>'1']);
     MIRSMaster::where('MIRSNo', $id)->update(['Status'=>'1']);
     if (Auth::user()->Role==2)
@@ -221,12 +227,12 @@ class MIRSController extends Controller
   }
   public function MIRSSignature($id)
   {
-    $PreparedId=Signatureable::where('signatureable_id', $id)->where('signatureable_type', 'App\MIRSMaster')->where('SignatureType', 'PreparedBy')->get(['user_id']);
-    $RecommendId=Signatureable::where('signatureable_id', $id)->where('signatureable_type', 'App\MIRSMaster')->where('SignatureType', 'RecommendedBy')->get(['user_id']);
-    $GMId=Signatureable::where('signatureable_id', $id)->where('signatureable_type', 'App\MIRSMaster')->where('SignatureType', 'ApprovedBy')->get(['user_id']);
     $ApprovalReplacerId=Signatureable::where('signatureable_id', $id)->where('signatureable_type', 'App\MIRSMaster')->where('SignatureType', 'ApprovalReplacer')->get(['user_id']);
-
-    if ($PreparedId[0]->user_id==Auth::user()->id)
+    $mirsMaster=MIRSMaster::where('MIRSNo', $id)->with('users')->get(['SignatureTurn','MIRSNo','Status']);
+    $PreparedId = $mirsMaster[0]->users[0]->id;
+    $RecommendId = $mirsMaster[0]->users[1]->id;
+    $GMId = $mirsMaster[0]->users[2]->id;
+    if ($PreparedId==Auth::user()->id && $mirsMaster[0]->SignatureTurn==0 && $mirsMaster[0]->Status==null)
     {
       Signatureable::where('signatureable_id', $id)->where('signatureable_type', 'App\MIRSMaster')->where('SignatureType', 'PreparedBy')->update(['Signature'=>'0']);
       MIRSMaster::where('MIRSNo', $id)->update(['SignatureTurn'=>'1']);
@@ -251,16 +257,14 @@ class MIRSController extends Controller
       $job = (new SendMIRSNotification($newmirs))
                   ->delay(Carbon::now()->addSeconds(5));
       dispatch($job);
-    }
-
-    if ($RecommendId[0]->user_id==Auth::user()->id)
+    }else if ($RecommendId==Auth::user()->id && $mirsMaster[0]->SignatureTurn==1 && $mirsMaster[0]->Status==null)
     {
       Signatureable::where('signatureable_id', $id)->where('signatureable_type', 'App\MIRSMaster')->where('SignatureType', 'ManagerReplacer')->delete();
       Signatureable::where('signatureable_id', $id)->where('signatureable_type', 'App\MIRSMaster')->where('SignatureType', 'RecommendedBy')->update(['Signature'=>'0']);
       MIRSMaster::where('MIRSNo', $id)->update(['SignatureTurn'=>'2']);
 
       $NotificationTbl = new Notification;
-      $NotificationTbl->user_id = $GMId[0]->user_id;
+      $NotificationTbl->user_id = $GMId;
       $NotificationTbl->NotificationType = 'Request';
       $NotificationTbl->FileType = 'MIRS';
       $NotificationTbl->FileNo = $id;
@@ -268,13 +272,13 @@ class MIRSController extends Controller
       $NotificationTbl->save();
 
       // global notif trigger
-      $ReceiverID = array('id' =>$GMId[0]->user_id);
+      $ReceiverID = array('id' =>$GMId);
       $ReceiverID = (object)$ReceiverID;
       $job = (new GlobalNotifJob($ReceiverID))
       ->delay(Carbon::now()->addSeconds(5));
       dispatch($job);
 
-      $tobeNotifycontainer  = array('tobeNotify' =>$GMId[0]->user_id);
+      $tobeNotifycontainer  = array('tobeNotify' =>$GMId);
       $tobeNotifycontainer=(object)$tobeNotifycontainer;
       $job = (new SendMIRSNotification($tobeNotifycontainer))
                   ->delay(Carbon::now()->addSeconds(5));
@@ -301,33 +305,34 @@ class MIRSController extends Controller
         $job = (new SendMIRSNotification($tobeNotifycontainer))
                     ->delay(Carbon::now()->addSeconds(5));
         dispatch($job);
-
       }
-    }
-    if ($GMId[0]->user_id==Auth::user()->id)
+    }else if ($GMId==Auth::user()->id && $mirsMaster[0]->SignatureTurn==2 && $mirsMaster[0]->Status==null)
     {
       Signatureable::where('signatureable_id', $id)->where('signatureable_type', 'App\MIRSMaster')->where('SignatureType', 'ApprovalReplacer')->delete();
       Signatureable::where('signatureable_id', $id)->where('signatureable_type', 'App\MIRSMaster')->where('SignatureType', 'ApprovedBy')->update(['Signature'=>'0']);
       MIRSMaster::where('MIRSNo', $id)->update(['Status'=>'0','SignatureTurn'=>'3']);
-      $RequisitionerMobile=User::where('id',$PreparedId[0]->user_id)->get(['Mobile']);
+      $RequisitionerMobile=User::where('id',$PreparedId)->get(['Mobile']);
       $NotifData = array('RequisitionerMobile' =>$RequisitionerMobile[0]->Mobile ,'MIRSNo'=>$id);
       $NotifData=(object)$NotifData;
       $job=(new NewApprovedMIRSJob($NotifData))->delay(Carbon::now()->addSeconds(5));
       dispatch($job);
 
       $NotificationTbl = new Notification;
-      $NotificationTbl->user_id = $PreparedId[0]->user_id;
+      $NotificationTbl->user_id = $PreparedId;
       $NotificationTbl->NotificationType = 'Approved';
       $NotificationTbl->FileType = 'MIRS';
       $NotificationTbl->FileNo = $id;
       $NotificationTbl->TimeNotified = Carbon::now();
       $NotificationTbl->save();
       // global notif trigger
-      $ReceiverID = array('id' =>$PreparedId[0]->user_id);
+      $ReceiverID = array('id' =>$PreparedId);
       $ReceiverID = (object)$ReceiverID;
       $job = (new GlobalNotifJob($ReceiverID))
       ->delay(Carbon::now()->addSeconds(5));
       dispatch($job);
+    }else
+    {
+      return ['error'=>'Refreshed'];
     }
   }
   public function mirsRequestcheck()
@@ -338,6 +343,12 @@ class MIRSController extends Controller
   }
   public function CancelApproveMIRSinBehalf($id)
   {
+    $mirsMaster = MIRSMaster::where('MIRSNo', $id)->get(['Status','SignatureTurn']);
+    $itExist=Signatureable::where('signatureable_id',$id)->where('signatureable_type', 'App\MIRSMaster')->where('SignatureType', 'ApprovalReplacer')->value('id');
+    if($itExist == null||$mirsMaster[0]->Status!=null || $mirsMaster[0]->SignatureTurn!=2)
+    {
+      return ['error'=>'Refreshed'];
+    }
     Signatureable::where('signatureable_id',$id)->where('signatureable_type', 'App\MIRSMaster')->where('SignatureType', 'ApprovalReplacer')->delete();
     $preparedby=Signatureable::where('signatureable_id',$id)->where('signatureable_type', 'App\MIRSMaster')->where('SignatureType', 'PreparedBy')->value('user_id');
 
@@ -359,10 +370,11 @@ class MIRSController extends Controller
   }
   public function AcceptApprovalRequest($id)
   {
-    $MIRSStatus=MIRSMaster::where('MIRSNo', $id)->get(['Status']);
-    if ($MIRSStatus[0]->Status!=null)
+    $itExist=Signatureable::where('signatureable_id',$id)->where('signatureable_type', 'App\MIRSMaster')->where('SignatureType', 'ApprovalReplacer')->value('id');
+    $mirsMaster=MIRSMaster::where('MIRSNo', $id)->get(['Status','SignatureTurn']);
+    if ($mirsMaster[0]->Status!=null || $mirsMaster[0]->SignatureTurn != 2 || $itExist==null)
     {
-      return ['success'=>'success'];
+      return ['error'=>'refreshed'];
     }
     Signatureable::where('signatureable_id',$id)->where('signatureable_type', 'App\MIRSMaster')->where('SignatureType', 'ApprovalReplacer')->update(['Signature'=>'0']);
     MIRSMaster::where('MIRSNo', $id)->update(['Status'=>'0','SignatureTurn'=>'3']);
@@ -413,9 +425,19 @@ class MIRSController extends Controller
   }
   public function SendRequestManagerReplacer($id,Request $request)
   {
+    $mirsMaster = MIRSMaster::where('MIRSNo', $id)->get(['SignatureTurn','Status']);
+    $itExist=Signatureable::where('signatureable_id', $id)->where('signatureable_type', 'App\MIRSMaster')->where('SignatureType', 'ManagerReplacer')->value('id');
+    if($mirsMaster[0]->SignatureTurn != 1 || $mirsMaster[0]->Status!=null)
+    {
+      return ['error'=>'Refreshed'];
+    }
+    if($itExist != null)
+    {
+      return ['error'=>'You can only send one req. at a time'];
+    }
     if (empty($request->ManagerReplacerID))
     {
-      return ['error'=>'Required'];
+      return ['error'=>'Please pick a replacer'];
     }
     $signatureDB=new Signatureable;
     $signatureDB->user_id = $request->ManagerReplacerID;
@@ -445,8 +467,13 @@ class MIRSController extends Controller
   }
   public function CancelRequestManagerReplacer($id)
   {
-    MIRSMaster::where('MIRSNo',$id)->update(['SignatureTurn'=>'1']);
+    $mirsMaster = MIRSMaster::where('MIRSNo',$id)->get(['SignatureTurn','Status']);
     $replacer=Signatureable::where('signatureable_id', $id)->where('signatureable_type', 'App\MIRSMaster')->where('SignatureType', 'ManagerReplacer')->value('user_id');
+    if($mirsMaster[0]->SignatureTurn != 1 || $replacer == null || $mirsMaster[0]->Status !=null)
+    {
+      return ['error'=>'Refreshed'];
+    }
+    MIRSMaster::where('MIRSNo',$id)->update(['SignatureTurn'=>'1']);
     Signatureable::where('signatureable_id', $id)->where('signatureable_type', 'App\MIRSMaster')->where('SignatureType', 'ManagerReplacer')->delete();
     $preparedby=Signatureable::where('signatureable_id', $id)->where('signatureable_type', 'App\MIRSMaster')->where('SignatureType', 'PreparedBy')->value('user_id');
     if ($preparedby != Auth::user()->id)
@@ -485,6 +512,12 @@ class MIRSController extends Controller
   }
   public function SignatureManagerReplacer($id)
   {
+    $mirsMaster = MIRSMaster::where('MIRSNo', $id)->get(['SignatureTurn','Status']);
+    $Exist=Signatureable::where('signatureable_id', $id)->where('signatureable_type', 'App\MIRSMaster')->where('SignatureType', 'ManagerReplacer')->get(['id']);
+    if($mirsMaster[0]->SignatureTurn != 1 || empty($Exist[0]) ||$mirsMaster[0]->Status!=null)
+    {
+      return ['error'=>'Refreshed'];
+    }
     Signatureable::where('signatureable_id', $id)->where('signatureable_type', 'App\MIRSMaster')->where('SignatureType', 'ManagerReplacer')->update(['Signature'=>'0']);
     MIRSMaster::where('MIRSNo', $id)->update(['SignatureTurn'=>'2']);
     $GMId=Signatureable::where('signatureable_id', $id)->where('signatureable_type', 'App\MIRSMaster')->where('SignatureType', 'ApprovedBy')->get(['user_id']);

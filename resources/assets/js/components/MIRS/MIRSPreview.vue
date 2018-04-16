@@ -156,7 +156,7 @@
             <h2>
              <span class="bold">{{MIRSMaster.users[1].FullName}}
              <span class="opener-manager-replace">
-               <div class="mini-menu-managers" v-if="user.id==MIRSMaster.users[0].id && this.ManagerBehalfActive==true">
+               <div class="mini-menu-managers" v-if="MIRSMaster.SignatureTurn == 1 && user.id==MIRSMaster.users[0].id && this.ManagerBehalfActive==true">
                  <h1 v-if="ManagerReplacerData==null">Request signature to</h1>
                  <h1 v-else>Request pending <i class="material-icons color-white">access_time</i></h1>
                  <div class="manager-list-menu"v-if="ManagerReplacerData==null">
@@ -164,7 +164,6 @@
                      <option :value="null">Choose a manager</option>
                      <option v-for="manager in allManager" :value="manager.id" v-if="manager.id!=MIRSMaster.users[1].id">{{manager.FullName}}</option>
                    </select>
-                   <p v-if="error!=null" class="color-red">*{{error}}</p>
                    <span class="send-cancel-btns">
                      <button type="button" v-on:click="ManagerBehalfActive=false">Cancel</button>
                      <button type="button" v-on:click="sendrequestReplacer()">Send</button>
@@ -227,7 +226,6 @@ Vue.use(Toast);
           ManagerBehalfActive:false,
           allManager:[],
           ManagerReplacerID:null,
-          error:null,
           ApproveReplacerName:'',
           SignatureBtnHide:false,
           SignatureApproveBtnHide:false,
@@ -286,9 +284,12 @@ Vue.use(Toast);
          var vm=this;
          axios.put(`/MIRS-Signature/`+this.mirsno.MIRSNo).then(function(response)
         {
-
           vm.fetchMIRSData();
           vm.$loading.close();
+          if(response.data.error!=null)
+          {
+            vm.$toast.top(response.data.error);
+          }
         });
       },
       DeclineMIRS()
@@ -298,9 +299,12 @@ Vue.use(Toast);
         var vm=this;
         axios.put(`/deniedmirs/`+this.mirsno.MIRSNo).then(function(response)
         {
-
           vm.fetchMIRSData();
           vm.$loading.close();
+          if(response.data.error!=null)
+          {
+            vm.$toast.top(response.data.error);
+          }
         })
       },
       ApproveinBehalf()
@@ -308,8 +312,11 @@ Vue.use(Toast);
         var vm=this;
         axios.put(`/mirs-signature-if-gm-isabsent/`+this.mirsno.MIRSNo).then(function(response)
         {
-
           vm.fetchMIRSData();
+          if(response.data.error!=null)
+          {
+            vm.$toast.top(response.data.error);
+          }
         });
       },
       CancelApproveinBehalf()
@@ -317,8 +324,11 @@ Vue.use(Toast);
         var vm=this;
         axios.put(`/cancel-request-toadmin/`+this.mirsno.MIRSNo).then(function(response)
         {
-
           vm.fetchMIRSData();
+          if(response.data.error!=null)
+          {
+            vm.$toast.top(response.data.error);
+          }
         });
       },
       fetchAllManager()
@@ -326,7 +336,6 @@ Vue.use(Toast);
         var vm=this;
         axios.get(`/fetch-all-managers`).then(function(response)
         {
-
           Vue.set(vm.$data,'allManager',response.data);
         })
       },
@@ -340,8 +349,8 @@ Vue.use(Toast);
         {
           if (response.data.error!=null)
           {
-            Vue.set(vm.$data,'error',response.data.error);
-            vm.this.$loading.close();
+            vm.$toast.top(response.data.error);
+            vm.$loading.close();
           }else
           {
             vm.fetchMIRSData();
@@ -357,9 +366,12 @@ Vue.use(Toast);
         axios.delete(`/cancel-request-manager-replacer/` + this.mirsno.MIRSNo).then(function(response)
         {
           Vue.set(vm.$data,'ManagerBehalfActive',false);
-
           vm.fetchMIRSData();
           vm.$loading.close();
+          if(response.data.error!=null)
+          {
+            vm.$toast.top(response.data.error);
+          }
         });
       },
       AcceptrequestReplacer()
@@ -369,9 +381,12 @@ Vue.use(Toast);
         var vm=this;
         axios.put(`/signature-replacer-accepted/`+this.mirsno.MIRSNo).then(function(response)
         {
-
           vm.fetchMIRSData();
           vm.$loading.close();
+          if(response.data.error!=null)
+          {
+            vm.$toast.top(response.data.error);
+          }
         });
       },
       cancelRequestApprovalReplacer()
@@ -381,9 +396,12 @@ Vue.use(Toast);
         var vm=this;
         axios.put(`/cancel-request-approval/`+this.mirsno.MIRSNo).then(function(response)
         {
-
           vm.fetchMIRSData();
           vm.$loading.close();
+          if(response.data.error!=null)
+          {
+            vm.$toast.top(response.data.error);
+          }
         })
       },
       AcceptApprovalReplacerequest()
@@ -393,9 +411,12 @@ Vue.use(Toast);
         var vm=this;
         axios.put(`/confirm-manager-toreplace-gm-signature/`+this.mirsno.MIRSNo).then(function(response)
         {
-
           vm.fetchMIRSData();
           vm.$loading.close();
+          if(response.data.error!=null)
+          {
+            vm.$toast.top(response.data.error);
+          }
         });
       }
      },
