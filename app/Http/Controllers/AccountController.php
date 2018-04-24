@@ -26,10 +26,7 @@ class AccountController extends Controller
     }
     public function loginSubmit(Request $request)
     {
-      if ($request->Username==null || $request->Password==null)
-      {
-        return ['message'=>'fields are required'];
-      }
+      $this->handleLoginValidation($request);
       $credentials = array('Username' =>$request->Username,'password'=>$request->Password );
       if (Auth::attempt($credentials)) {
         if (Auth::user()->IsActive==null)
@@ -41,6 +38,13 @@ class AccountController extends Controller
       }else
       {
         return ['message'=>'Incorrect username/password.'];
+      }
+    }
+    public function handleLoginValidation($request)
+    {
+      if ($request->Username==null || $request->Password==null)
+      {
+        return ['message'=>'fields are required'];
       }
     }
     public function logoutAccount()
@@ -73,6 +77,89 @@ class AccountController extends Controller
     }
     public function updateUser(Request $request,$id)
     {
+      $this->handleUpdateUserValidation($request,$id);
+      $fileName = $this->saveSignatureImage($request);
+      $rightPosition=$this->determinePosition($request);
+
+      $userDB= User::find($id);
+      $userDB->FullName=$request->FullName;
+      $userDB->Role=$request->Role;
+      $userDB->Position = $rightPosition;
+      $userDB->Mobile=$request->Mobile;
+      if (($request->Role!=0) && ($request->Role!=2))
+      {
+        $userDB->Manager=$request->Manager;
+      }else
+      {
+        $userDB->Manager=null;
+      }
+
+      $userDB->Username=$request->Username;
+      if ($request->Password!=null)
+      {
+        $userDB->Password=bcrypt($request->Password);
+      }
+      if ($fileName)
+      {
+        $userDB->Signature=$fileName;
+      }
+
+      if ($request->IsActive==null)
+      {
+        $userDB->IsActive=null;
+      }elseif($request->IsActive!=null)
+      {
+        $userDB->IsActive='0';
+      }
+
+      $userDB->save();
+    }
+    public function determinePosition($request)
+    {
+      if (($request->Position!=null)&&($request->Role==0))
+      {
+        return $request->Position;
+      }elseif($request->Role==0)
+      {
+        return 'Manager';
+      }elseif($request->Role==1)
+      {
+        return 'Admin';
+      }elseif($request->Role==2)
+      {
+        return 'General Manager';
+      }elseif($request->Role==3)
+      {
+        return 'Warehouse Assistant';
+      }elseif($request->Role==4)
+      {
+        return 'Warehouse-Head';
+      }elseif($request->Role==5)
+      {
+        return 'Senior Auditor';
+      }elseif($request->Role==6)
+      {
+        return 'Stock clerk';
+      }elseif($request->Role==7)
+      {
+        return 'Budget Officer';
+      }elseif($request->Role==8)
+      {
+        return 'Requisitioner';
+      }
+    }
+    public function saveSignatureImage($request)
+    {
+      $imageData = $request->get('Signature');
+      if($request->Signature)
+      {
+        $fileName = Carbon::now()->timestamp . '_' . uniqid() . '.' . explode('/', explode(':', substr($imageData, 0, strpos($imageData, ';')))[1])[1];
+        Image::make($request->get('Signature'))->save(public_path('/storage/signatures/').$fileName);
+        return $fileName;
+      }
+    }
+    public function handleUpdateUserValidation($request,$id)
+    {
       if ($request->Role=='0'||$request->Role=='2')
       {
         $this->validate($request,[
@@ -82,6 +169,7 @@ class AccountController extends Controller
           'Mobile'=>'max:11',
           'Password'=>'confirmed',
           'IsActive'=>'max:1',
+          'Signature'=>'required'
         ]);
       }else
       {
@@ -92,14 +180,8 @@ class AccountController extends Controller
           'Mobile'=>'max:11',
           'Password'=>'confirmed',
           'Manager'=>'required',
-          'IsActive'=>'max:1',
+          'IsActive'=>'max:1'
         ]);
-      }
-      if ($request->Signature!=null)
-      {
-        $imageData = $request->get('Signature');
-        $fileName = Carbon::now()->timestamp . '_' . uniqid() . '.' . explode('/', explode(':', substr($imageData, 0, strpos($imageData, ';')))[1])[1];
-        Image::make($request->get('Signature'))->save(public_path('/storage/signatures/').$fileName);
       }
       $validateUniqueName=User::where('FullName',$request->FullName)->where('id','!=',$id)->get(['id']);
       if (!empty($validateUniqueName[0]))
@@ -111,66 +193,6 @@ class AccountController extends Controller
         {
           return response()->json(['error'=>'Username has already been taken']);
         }
-        $userDB= User::find($id);
-        $userDB->FullName=$request->FullName;
-        $userDB->Role=$request->Role;
-        if (($request->Role!=0) && ($request->Role!=2))
-        {
-          $userDB->Manager=$request->Manager;
-        }else
-        {
-          $userDB->Manager=null;
-        }
-        $userDB->Mobile=$request->Mobile;
-        if (($request->Position!=null)&&($request->Role==0))
-        {
-          $userDB->Position=$request->Position;
-        }elseif($request->Role==0)
-        {
-          $userDB->Position='Manager';
-        }elseif($request->Role==1)
-        {
-          $userDB->Position='Admin';
-        }elseif($request->Role==2)
-        {
-          $userDB->Position='General Manager';
-        }elseif($request->Role==3)
-        {
-          $userDB->Position='Warehouse Assistant';
-        }elseif($request->Role==4)
-        {
-          $userDB->Position='Warehouse-Head';
-        }elseif($request->Role==5)
-        {
-          $userDB->Position='Senior Auditor';
-        }elseif($request->Role==6)
-        {
-          $userDB->Position='Stock clerk';
-        }elseif($request->Role==7)
-        {
-          $userDB->Position='Budget Officer';
-        }elseif($request->Role==8)
-        {
-          $userDB->Position='Requisitioner';
-        }
-
-        $userDB->Username=$request->Username;
-        if ($request->Password!=null)
-        {
-          $userDB->Password=bcrypt($request->Password);
-        }
-        if ($request->Signature!=null)
-        {
-          $userDB->Signature=$fileName;
-        }
-        if ($request->IsActive==null)
-        {
-          $userDB->IsActive=null;
-        }elseif($request->IsActive!=null)
-        {
-          $userDB->IsActive='0';
-        }
-        $userDB->save();
     }
     public function deleteAccount($id)
     {
@@ -196,25 +218,11 @@ class AccountController extends Controller
     {
       return User::whereNotNull('IfApproveReplacer')->take(1)->get(['FullName']);
     }
-
-
-    // Create Manager Account
+      // Create Manager Account
     public function SaveManagerAcc(Request $request)
     {
-      $this->validate($request,[
-        'FullName'=>'required|max:25',
-        'Username'=>'required',
-        'Mobile'=>'max:11',
-        'Position'=>'required|max:50',
-        'Password'=>'required|confirmed',
-        'Signature'=>'required',
-      ]);
-      if ($request->Signature!=null)
-      {
-        $imageData = $request->get('Signature');
-        $fileName = Carbon::now()->timestamp . '_' . uniqid() . '.' . explode('/', explode(':', substr($imageData, 0, strpos($imageData, ';')))[1])[1];
-        Image::make($request->get('Signature'))->save(public_path('/storage/signatures/').$fileName);
-      }
+      $this->handleSaveManagerValidation($request);
+      $fileName = $this->uploadSignatureImage($request);
       $userDB=new User;
       $userDB->FullName=$request->FullName;
       $userDB->Username=$request->Username;
@@ -226,7 +234,74 @@ class AccountController extends Controller
       $userDB->LastOnline=Carbon::now();
       $userDB->save();
     }
+    public function uploadSignatureImage($request)
+    {
+      $imageData = $request->get('Signature');
+      $fileName = Carbon::now()->timestamp . '_' . uniqid() . '.' . explode('/', explode(':', substr($imageData, 0, strpos($imageData, ';')))[1])[1];
+      Image::make($request->get('Signature'))->save(public_path('/storage/signatures/').$fileName);
+      return $fileName;
+    }
+    public function handleSaveManagerValidation($request)
+    {
+      $this->validate($request,[
+        'FullName'=>'required|max:25',
+        'Username'=>'required',
+        'Mobile'=>'max:11',
+        'Position'=>'required|max:50',
+        'Password'=>'required|confirmed',
+        'Signature'=>'required',
+      ]);
+    }
     public function SaveNewUser(Request $request)
+    {
+      $this->handleValidationNewUser($request);
+      $fileName = $this->saveSignatureImage($request);
+      $rightPosition = $this->handleNewUserPositionDetermine($request);
+      
+      $userDB=new User;
+      $userDB->FullName=$request->FullName;
+      $userDB->Username=$request->Username;
+      $userDB->Mobile=$request->Mobile;
+      $userDB->Role=$request->Role;
+      $userDB->LastOnline=Carbon::now();
+      $userDB->Position = 'position';
+      if ($request->Role!=2)
+      {
+        $userDB->Manager=$request->Manager;
+      }
+      $userDB->Password=bcrypt($request->Password);
+      $userDB->Signature=$fileName;
+      $userDB->save();
+    }
+    public function handleNewUserPositionDetermine($request)
+    {
+      if($request->Role==1)
+      {
+        return 'Admin';
+      }elseif($request->Role==2)
+      {
+        return 'General Manager';
+      }elseif($request->Role==3)
+      {
+        return 'Warehouse Assistant';
+      }elseif($request->Role==4)
+      {
+        return 'Warehouse-Head';
+      }elseif($request->Role==5)
+      {
+        return 'Senior Auditor';
+      }elseif($request->Role==6)
+      {
+        return 'Stock clerk';
+      }elseif($request->Role==7)
+      {
+        return 'Budget Officer';
+      }elseif($request->Role==8)
+      {
+        return 'Requisitioner';
+      }
+    }
+    public function handleValidationNewUser($request)
     {
       if ($request->Role!=2)
       {
@@ -254,49 +329,5 @@ class AccountController extends Controller
       {
         return ['error'=>'The manager is required'];
       }
-      if ($request->Signature!=null)
-      {
-        $imageData = $request->get('Signature');
-        $fileName = Carbon::now()->timestamp . '_' . uniqid() . '.' . explode('/', explode(':', substr($imageData, 0, strpos($imageData, ';')))[1])[1];
-        Image::make($request->get('Signature'))->save(public_path('/storage/signatures/').$fileName);
-      }
-      $userDB=new User;
-      $userDB->FullName=$request->FullName;
-      $userDB->Username=$request->Username;
-      $userDB->Mobile=$request->Mobile;
-      $userDB->Role=$request->Role;
-      $userDB->LastOnline=Carbon::now();
-      if($request->Role==1)
-      {
-        $userDB->Position='Admin';
-      }elseif($request->Role==2)
-      {
-        $userDB->Position='General Manager';
-      }elseif($request->Role==3)
-      {
-        $userDB->Position='Warehouse Assistant';
-      }elseif($request->Role==4)
-      {
-        $userDB->Position='Warehouse-Head';
-      }elseif($request->Role==5)
-      {
-        $userDB->Position='Senior Auditor';
-      }elseif($request->Role==6)
-      {
-        $userDB->Position='Stock clerk';
-      }elseif($request->Role==7)
-      {
-        $userDB->Position='Budget Officer';
-      }elseif($request->Role==8)
-      {
-        $userDB->Position='Requisitioner';
-      }
-      if ($request->Role!=2)
-      {
-        $userDB->Manager=$request->Manager;
-      }
-      $userDB->Password=bcrypt($request->Password);
-      $userDB->Signature=$fileName;
-      $userDB->save();
     }
 }

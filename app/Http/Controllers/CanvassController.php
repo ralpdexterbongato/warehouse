@@ -28,31 +28,39 @@ class CanvassController extends Controller
 
   public function saveCanvass(Request $request)
   {
-     $this->validate($request,[
-       'RVNo'=>'required',
-       'Supplier'=>'required',
-       'Address'=>'required',
-       'Telephone'=>'required|max:11',
-       'Particulars.*'=>'required',
-       'Price.*'=>'required',
-       'Qty.*'=>'required|max:18',
-       'Unit.*'=>'required|max:20',
-     ]);
+    $this->handleCanvassValidation($request);
     $CanvassMasterDB = new CanvassMaster;
     $CanvassMasterDB->RVNo = $request->RVNo;
     $CanvassMasterDB->Supplier = $request->Supplier;
     $CanvassMasterDB->Address = $request->Address;
     $CanvassMasterDB->Telephone = $request->Telephone;
     $CanvassMasterDB->save();
+
     $insertCanvassDetails = array();
+    $this->handleCanvassDetailInsert($request,$CanvassMasterDB->id);
+  }
+  public function handleCanvassDetailInsert($request,$masterID)
+  {
     foreach ($request->Particulars as $key => $item)
     {
       $noCommaPrice=str_replace(',','',$request->Price[$key]);
-      $insertCanvassDetails[]= array('AccountCode'=>$request->AccountCode[$key],'ItemCode'=>$request->ItemCode[$key],'Article' => $item, 'Price'=>$noCommaPrice,'Unit'=>$request->Unit[$key],'Qty'=> $request->Qty[$key],'CanvassMasters_id'=>$CanvassMasterDB->id);
+      $insertCanvassDetails[]= array('AccountCode'=>$request->AccountCode[$key],'ItemCode'=>$request->ItemCode[$key],'Article' => $item, 'Price'=>$noCommaPrice,'Unit'=>$request->Unit[$key],'Qty'=> $request->Qty[$key],'CanvassMasters_id'=>$masterID);
     }
     CanvassDetail::insert($insertCanvassDetails);
   }
-
+  public function handleCanvassValidation($request)
+  {
+    $this->validate($request,[
+      'RVNo'=>'required',
+      'Supplier'=>'required',
+      'Address'=>'required',
+      'Telephone'=>'required|max:11',
+      'Particulars.*'=>'required',
+      'Price.*'=>'required',
+      'Qty.*'=>'required|max:18',
+      'Unit.*'=>'required|max:20',
+    ]);
+  }
 
   public function getSupplierRecords($id)
   {
@@ -72,12 +80,7 @@ class CanvassController extends Controller
   }
   public function canvassUpdate(Request $request,$id)
   {
-    $this->validate($request,[
-      'Supplier'=>'required|max:50',
-      'Address'=>'required',
-      'Telephone'=>'required|max:11',
-      'Prices.*'=>'required',
-    ]);
+    $this->handleCanvassUpdateValidation($request);
     $canvassMasterDB=CanvassMaster::find($id);
     $canvassMasterDB->Supplier=$request->Supplier;
     $canvassMasterDB->Address=$request->Address;
@@ -91,6 +94,15 @@ class CanvassController extends Controller
       $item->Price=number_format($noComma,2);
       $item->save();
     }
+  }
+  public function handleCanvassUpdateValidation($request)
+  {
+    $this->validate($request,[
+      'Supplier'=>'required|max:50',
+      'Address'=>'required',
+      'Telephone'=>'required|max:11',
+      'Prices.*'=>'required',
+    ]);
   }
   public function deleteCanvassRecord($id)
   {

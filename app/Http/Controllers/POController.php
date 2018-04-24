@@ -24,138 +24,146 @@ class POController extends Controller
     }
     public function GeneratePOfromCanvass(Request $request)
     {
-    $date=Carbon::now();
-    $year=Carbon::now()->format('y');
-    $GM=User::orderBy('id','DESC')->whereNotNull('IsActive')->where('Role','2')->take(1)->get(['id']);
-    $RVMasterDB=RVMaster::where('RVNo',$request->RVNo)->get(['RVDate','Purpose']);
-    $collected=collect($request->SupplierChoice);
-    $SupplierGrouped=$collected->unique();
-    $POid=POMaster::orderBy('PONo','DESC')->take(1)->value('PONo');
-    $incremented='';
-    $ApprovalReplacer=User::whereNotNull('IfApproveReplacer')->get(['id']);
-    $toDBMaster = array();
-    $toDBSignatures = array();
-    $toDBDetails = array();
-    $explodedPOid = explode('-',$POid);
-    foreach ($SupplierGrouped as $key => $SupplierG)
-    {
-    if ($SupplierG!=null)
-    {
-      if (($POid!=null)&&($incremented==null)&&($explodedPOid[0] == $year))
-      {
-        $numonly=substr($POid,'3');
-        $numonlyint=(int)$numonly;
-        $newID=$numonlyint + 1;
-        $incremented=$year .'-'. sprintf("%04d",$newID);
-      }elseif($incremented!=null)
-      {
-        $numonly=substr($incremented,'3');
-        $numonlyint=(int)$numonly;
-        $newID=$numonlyint + 1;
-        $incremented=$year .'-'. sprintf("%04d",$newID);
-      }
-      else
-      {
-        $incremented= $year.'-'. sprintf("%04d",'1');
-      }
-      $CanvasMaster=CanvassMaster::where('RVNo',$request->RVNo)->where('Supplier', $SupplierG)->get();
-      if (!empty($ApprovalReplacer[0]))
-      {
-        $toDBMaster[]=array('PONo'=>$incremented,'RVNo' => $CanvasMaster[0]->RVNo,
-        'Supplier' =>$CanvasMaster[0]->Supplier ,'Address'=>$CanvasMaster[0]->Address,
-        'Telephone'=>$CanvasMaster[0]->Telephone,'Purpose'=>$RVMasterDB[0]->Purpose,
-        'RVDate'=>$RVMasterDB[0]->RVDate,'PODate'=>$date,'CreatorID'=>Auth::user()->id);
-        $toDBSignatures[] = array('user_id' =>$GM[0]->id,'signatureable_id'=>$incremented,'signatureable_type' =>'App\POMaster','SignatureType'=>'ApprovedBy');
-        $toDBSignatures[] = array('user_id' =>$ApprovalReplacer[0]->id,'signatureable_id'=>$incremented,'signatureable_type' =>'App\POMaster','SignatureType'=>'ApprovalReplacer');
-      }else
-      {
-        $toDBMaster[]=array('PONo'=>$incremented,'RVNo' => $CanvasMaster[0]->RVNo,
-        'Supplier' =>$CanvasMaster[0]->Supplier ,'Address'=>$CanvasMaster[0]->Address,
-        'Telephone'=>$CanvasMaster[0]->Telephone,'Purpose'=>$RVMasterDB[0]->Purpose,
-        'RVDate'=>$RVMasterDB[0]->RVDate,'PODate'=>$date,'CreatorID'=>Auth::user()->id);
-        $toDBSignatures[] = array('user_id' =>$GM[0]->id,'signatureable_id'=>$incremented,'signatureable_type' =>'App\POMaster','SignatureType'=>'ApprovedBy');
-      }
+      $date=Carbon::now();
+      $year=Carbon::now()->format('y');
+      $GM=User::orderBy('id','DESC')->whereNotNull('IsActive')->where('Role','2')->take(1)->get(['id']);
+      $RVMasterDB=RVMaster::where('RVNo',$request->RVNo)->get(['RVDate','Purpose']);
+      $collected=collect($request->SupplierChoice);
+      $SupplierGrouped=$collected->unique();
+      $POid=POMaster::orderBy('PONo','DESC')->take(1)->value('PONo');
+      $incremented='';
+      $ApprovalReplacer=User::whereNotNull('IfApproveReplacer')->get(['id']);
+      $toDBMaster = array();
+      $toDBSignatures = array();
+      $toDBDetails = array();
+      $explodedPOid = explode('-',$POid);
 
-      $FromRVDetail=RVDetail::where('RVNo',$request->RVNo)->get(['Particulars','QuantityValidator']);//use to minus qty for every po generation,so we can validate po items cant be overOrder.
-      foreach ($request->SupplierChoice as $key => $supplierpick)
+      foreach ($SupplierGrouped as $key => $SupplierG)
       {
-        if (($SupplierG==$supplierpick)&&($supplierpick!=null))
+      if ($SupplierG!=null)
+      {
+        if (($POid!=null)&&($incremented==null)&&($explodedPOid[0] == $year))
         {
-          $price=$CanvasMaster[0]->CanvassDetail[$key]->Price;
-          $quantity=$CanvasMaster[0]->CanvassDetail[$key]->Qty;
-          $Amt=$price*$quantity;
-          $toDBDetails[] = array('AccountCode'=>$CanvasMaster[0]->CanvassDetail[$key]->AccountCode,'ItemCode'=>$CanvasMaster[0]->CanvassDetail[$key]->ItemCode,'Price' =>$price ,'Unit'=>$CanvasMaster[0]->CanvassDetail[$key]->Unit,'Description'=>$CanvasMaster[0]->CanvassDetail[$key]->Article
-          ,'Qty'=>$quantity,'QtyValidator'=>$quantity,'Amount'=>$Amt,'PONo'=>$incremented);
-           foreach ($FromRVDetail as $overorderpreventor)
-           {
-             if (($overorderpreventor->Particulars==$CanvasMaster[0]->CanvassDetail[$key]->Article))
+          $numonly=substr($POid,'3');
+          $numonlyint=(int)$numonly;
+          $newID=$numonlyint + 1;
+          $incremented=$year .'-'. sprintf("%04d",$newID);
+        }elseif($incremented!=null)
+        {
+          $numonly=substr($incremented,'3');
+          $numonlyint=(int)$numonly;
+          $newID=$numonlyint + 1;
+          $incremented=$year .'-'. sprintf("%04d",$newID);
+        }
+        else
+        {
+          $incremented= $year.'-'. sprintf("%04d",'1');
+        }
+        $CanvasMaster=CanvassMaster::where('RVNo',$request->RVNo)->where('Supplier', $SupplierG)->get();
+        if (!empty($ApprovalReplacer[0]))
+        {
+          $toDBMaster[]=array('PONo'=>$incremented,'RVNo' => $CanvasMaster[0]->RVNo,
+          'Supplier' =>$CanvasMaster[0]->Supplier ,'Address'=>$CanvasMaster[0]->Address,
+          'Telephone'=>$CanvasMaster[0]->Telephone,'Purpose'=>$RVMasterDB[0]->Purpose,
+          'RVDate'=>$RVMasterDB[0]->RVDate,'PODate'=>$date,'CreatorID'=>Auth::user()->id);
+          $toDBSignatures[] = array('user_id' =>$GM[0]->id,'signatureable_id'=>$incremented,'signatureable_type' =>'App\POMaster','SignatureType'=>'ApprovedBy');
+          $toDBSignatures[] = array('user_id' =>$ApprovalReplacer[0]->id,'signatureable_id'=>$incremented,'signatureable_type' =>'App\POMaster','SignatureType'=>'ApprovalReplacer');
+        }else
+        {
+          $toDBMaster[]=array('PONo'=>$incremented,'RVNo' => $CanvasMaster[0]->RVNo,
+          'Supplier' =>$CanvasMaster[0]->Supplier ,'Address'=>$CanvasMaster[0]->Address,
+          'Telephone'=>$CanvasMaster[0]->Telephone,'Purpose'=>$RVMasterDB[0]->Purpose,
+          'RVDate'=>$RVMasterDB[0]->RVDate,'PODate'=>$date,'CreatorID'=>Auth::user()->id);
+          $toDBSignatures[] = array('user_id' =>$GM[0]->id,'signatureable_id'=>$incremented,'signatureable_type' =>'App\POMaster','SignatureType'=>'ApprovedBy');
+        }
+
+        $FromRVDetail=RVDetail::where('RVNo',$request->RVNo)->get(['Particulars','QuantityValidator']);//use to minus qty for every po generation,so we can validate po items cant be overOrder.
+        foreach ($request->SupplierChoice as $key => $supplierpick)
+        {
+          if (($SupplierG==$supplierpick)&&($supplierpick!=null))
+          {
+            $price=$CanvasMaster[0]->CanvassDetail[$key]->Price;
+            $quantity=$CanvasMaster[0]->CanvassDetail[$key]->Qty;
+            $Amt=$price*$quantity;
+            $toDBDetails[] = array('AccountCode'=>$CanvasMaster[0]->CanvassDetail[$key]->AccountCode,'ItemCode'=>$CanvasMaster[0]->CanvassDetail[$key]->ItemCode,'Price' =>$price ,'Unit'=>$CanvasMaster[0]->CanvassDetail[$key]->Unit,'Description'=>$CanvasMaster[0]->CanvassDetail[$key]->Article
+            ,'Qty'=>$quantity,'QtyValidator'=>$quantity,'Amount'=>$Amt,'PONo'=>$incremented);
+             foreach ($FromRVDetail as $overorderpreventor)
              {
-               if ($overorderpreventor->QuantityValidator==0)
+               if (($overorderpreventor->Particulars==$CanvasMaster[0]->CanvassDetail[$key]->Article))
                {
-                 return response()->json(['error'=>$overorderpreventor->Particulars.' already have purchase order.']);
+                 if ($overorderpreventor->QuantityValidator==0)
+                 {
+                   return response()->json(['error'=>$overorderpreventor->Particulars.' already have purchase order.']);
+                 }
+                 RVDetail::where('RVNo',$request->RVNo)->where('Particulars', $overorderpreventor->Particulars)->update(['QuantityValidator'=>0]);
                }
-               RVDetail::where('RVNo',$request->RVNo)->where('Particulars', $overorderpreventor->Particulars)->update(['QuantityValidator'=>0]);
-             }
-           }
+              }
+          }
         }
       }
-
-    }
-  }
-  if (!empty($toDBMaster[0]))
-  {
-    POMaster::insert($toDBMaster);
-    Signatureable::insert($toDBSignatures);
-    PODetail::insert($toDBDetails);
-    $NotifyId = array('NotifyId' =>$GM[0]->id);
-    $NotifyId=(object)$NotifyId;
-    $job=(new NewCreatedPOJob($NotifyId))->delay(Carbon::now()->addSeconds(5));
-    dispatch($job);
-    if (!empty($ApprovalReplacer[0]))
+      }
+    if (!empty($toDBMaster[0]))
     {
-      $NotifyId = array('NotifyId' =>$ApprovalReplacer[0]->id);
+      POMaster::insert($toDBMaster);
+      Signatureable::insert($toDBSignatures);
+      PODetail::insert($toDBDetails);
+      $NotifyId = array('NotifyId' =>$GM[0]->id);
       $NotifyId=(object)$NotifyId;
       $job=(new NewCreatedPOJob($NotifyId))->delay(Carbon::now()->addSeconds(5));
       dispatch($job);
+      if (!empty($ApprovalReplacer[0]))
+      {
+        $NotifyId = array('NotifyId' =>$ApprovalReplacer[0]->id);
+        $NotifyId=(object)$NotifyId;
+        $job=(new NewCreatedPOJob($NotifyId))->delay(Carbon::now()->addSeconds(5));
+        dispatch($job);
+        foreach ($toDBMaster as $key => $PORow)
+        {
+          $PORow = (object)$PORow;
+          // global notification for GM replacer
+          $NotificationTbl = new Notification;
+          $NotificationTbl->user_id = $ApprovalReplacer[0]->id;
+          $NotificationTbl->NotificationType = 'Request';
+          $NotificationTbl->FileType = 'PO';
+          $NotificationTbl->FileNo =$PORow->PONo;
+          $NotificationTbl->TimeNotified = Carbon::now();
+          $NotificationTbl->save();
+          // global notif trigger
+          $ReceiverID = array('id' =>$GM[0]->id);
+          $ReceiverID = (object)$ReceiverID;
+          $job = (new GlobalNotifJob($ReceiverID))
+          ->delay(Carbon::now()->addSeconds(5));
+          dispatch($job);
+        }
+      }
       foreach ($toDBMaster as $key => $PORow)
       {
         $PORow = (object)$PORow;
-        // global notification for GM replacer
-        $NotificationTbl = new Notification;
-        $NotificationTbl->user_id = $ApprovalReplacer[0]->id;
-        $NotificationTbl->NotificationType = 'Request';
-        $NotificationTbl->FileType = 'PO';
-        $NotificationTbl->FileNo =$PORow->PONo;
-        $NotificationTbl->TimeNotified = Carbon::now();
-        $NotificationTbl->save();
-        // global notif trigger
-        $ReceiverID = array('id' =>$GM[0]->id);
-        $ReceiverID = (object)$ReceiverID;
-        $job = (new GlobalNotifJob($ReceiverID))
-        ->delay(Carbon::now()->addSeconds(5));
-        dispatch($job);
+        $this->handleGMNotification($PORow,$GM);
       }
     }
-    foreach ($toDBMaster as $key => $PORow)
-    {
-      $PORow = (object)$PORow;
-      // global notification for GM
-      $NotificationTbl = new Notification;
-      $NotificationTbl->user_id = $GM[0]->id;
-      $NotificationTbl->NotificationType = 'Request';
-      $NotificationTbl->FileType = 'PO';
-      $NotificationTbl->FileNo =$PORow->PONo;
-      $NotificationTbl->TimeNotified = Carbon::now();
-      $NotificationTbl->save();
-      // global notif trigger
-      $ReceiverID = array('id' =>$GM[0]->id);
-      $ReceiverID = (object)$ReceiverID;
-      $job = (new GlobalNotifJob($ReceiverID))
-      ->delay(Carbon::now()->addSeconds(5));
-      dispatch($job);
-    }
-  }
     return ['redirect'=>route('POListView',[$request->RVNo])];
+  }
+  public function handleGMNotification($PORow,$GM)
+  {
+    // global notification for GM
+    $NotificationTbl = new Notification;
+    $NotificationTbl->user_id = $GM[0]->id;
+    $NotificationTbl->NotificationType = 'Request';
+    $NotificationTbl->FileType = 'PO';
+    $NotificationTbl->FileNo =$PORow->PONo;
+    $NotificationTbl->TimeNotified = Carbon::now();
+    $NotificationTbl->save();
+    $this->handleTriggerGlobalNotification($GM);
+  }
+  public function handleTriggerGlobalNotification($receiver)
+  {
+    // global notif trigger
+    $ReceiverID = array('id' =>$receiver[0]->id);
+    $ReceiverID = (object)$ReceiverID;
+    $job = (new GlobalNotifJob($ReceiverID))
+    ->delay(Carbon::now()->addSeconds(5));
+    dispatch($job);
   }
 
   public function POListView($id)
