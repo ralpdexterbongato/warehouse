@@ -324,6 +324,7 @@ Vue.use(VueNumeric);
             vm.fetchData();
           }).catch(function(error)
           {
+            vm.$toast.top(error.response.data.purpose[0]);
             vm.fetchData();
           })
          }

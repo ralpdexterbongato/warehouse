@@ -9,7 +9,7 @@
     <link rel="icon" type="image/png" href="/DesignIMG/logo.png">
     <link rel="stylesheet" href="/css/mystyle.css">
     <link rel="stylesheet" href="/css/animate.min.css">
-    <link href="https://fonts.googleapis.com/icon?family=Comfortaa|Kaushan+Script" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/icon?family=Comfortaa|Kaushan+Script|Material+Icons" rel="stylesheet">
     <title>@yield('title')</title>
     <script>
       window.Laravel = <?php echo json_encode([

@@ -138,8 +138,8 @@
           </div>
           <input type="file"  name="Signature" @change="onFileChange" autocomplete="off" id="inputSignature" accept="image/PNG">
           <div class="image-signature-wrap">
-            <img id="signatureUpdate" v-if="image==''&&userFetched!=''" :src="'/storage/signatures/'+userFetched.Signature" alt="your signature" />
-            <img id="signatureUpdate" v-else :src="image" alt="your signature" />
+            <img id="signatureUpdate" v-if="image==''&&userFetched!=''" :src="'/storage/signatures/'+userFetched.Signature" alt="" />
+            <img id="signatureUpdate" v-else :src="image" alt="" />
           </div>
           <button type="button" v-on:click="submitUpdate(userFetched.id),modalUpdate=!modalUpdate">Update</button>
         </div>
@@ -162,7 +162,7 @@
           </div>
           <input type="text" v-model="ManagerRegisterMobile" placeholder="Mobile #" autocomplete="off">
           <input type="file" @change="onFileChange2" accept="image/PNG">
-          <h3 class="signature-preview"><img :src="image2" alt="your signature"></h3>
+          <h3 class="signature-preview"><img :src="image2" ></h3>
           <button type="button" class="save-btn-manager" v-on:click="saveManagerAccount()"><i class="material-icons">person_add</i> Save Account</button>
         </div>
       </div>
@@ -194,7 +194,7 @@
             <option :value="manager.id" v-for="manager in ManagerChoices">{{manager.FullName}}</option>
           </select>
           <input type="file" @change="onFileChange3" accept="image/PNG">
-          <h3 class="signature-preview"><img :src="image3" alt="your signature"></h3>
+          <h3 class="signature-preview"><img :src="image3"></h3>
           <button type="button" class="save-btn-user" v-on:click="SubmitNewUser()"> <i class="material-icons">person</i> Save account</button>
         </div>
       </div>

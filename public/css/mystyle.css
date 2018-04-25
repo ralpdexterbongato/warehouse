@@ -53,7 +53,7 @@ table {
 @import url('https://fonts.googleapis.com/css?family=Roboto|Kaushan+Script|Comfortaa');
 
 /*material icons*/
-@font-face {
+/*@font-face {
    font-family: 'Material Icons';
    font-style: normal;
    font-weight: 400;
@@ -62,37 +62,48 @@ table {
         url(/material-icons/iconfont/MaterialIcons-Regular.woff2) format('woff2'),
         url(/material-icons/iconfont/MaterialIcons-Regular.woff) format('woff'),
         url(/material-icons/iconfont/MaterialIcons-Regular.ttf) format('truetype');
-}
-.material-icons {
+}*/
+/*.material-icons {
   font-family: 'Material Icons';
   font-weight: normal;
   font-style: normal;
   font-size: 24px;  /* Preferred icon size */
-  display: inline-block;
+  /*display: inline-block;
   line-height: 1;
   text-transform: none;
   letter-spacing: normal;
   word-wrap: normal;
   white-space: nowrap;
-  direction: ltr;
+  direction: ltr;*/
 
   /* Support for all WebKit browsers. */
-  -webkit-font-smoothing: antialiased;
+  /*-webkit-font-smoothing: antialiased;*/
   /* Support for Safari and Chrome. */
-  text-rendering: optimizeLegibility;
+  /*text-rendering: optimizeLegibility;*/
 
   /* Support for Firefox. */
-  -moz-osx-font-smoothing: grayscale;
+  /*-moz-osx-font-smoothing: grayscale;*/
 
   /* Support for IE. */
-  font-feature-settings: 'liga';
-}
+  /*font-feature-settings: 'liga';*/
+/*}*/
 /*material shadows*/
 .z-depth-0 {
   -webkit-box-shadow: none !important;
           box-shadow: none !important;
 }
 
+textarea,select,input
+{
+	box-shadow: inset 1px 2px 3px rgba(0,0,0,0.075)!important;
+	border: 1px solid rgba(0, 0, 0, 0.2)!important;
+	border-radius: 2px!important;
+}
+input[type="file"]
+{
+	box-shadow: none!important;
+	border: none!important;
+}
 .z-depth-1, nav, .card-panel, .card, .toast, .btn, .btn-large, .btn-floating, .dropdown-content, .collapsible, .side-nav {
   -webkit-box-shadow: 0 2px 2px 0 rgba(0, 0, 0, 0.14), 0 1px 5px 0 rgba(0, 0, 0, 0.12), 0 3px 1px -2px rgba(0, 0, 0, 0.2);
           box-shadow: 0 2px 2px 0 rgba(0, 0, 0, 0.14), 0 1px 5px 0 rgba(0, 0, 0, 0.12), 0 3px 1px -2px rgba(0, 0, 0, 0.2);
@@ -833,13 +844,15 @@ input[type='radio']:after {
 .search-box input
 {
   height:26px;
+	border-top-right-radius: 0px!important;
+	border-bottom-right-radius: 0px!important;
   border-top-left-radius: 3px;
   border-bottom-left-radius: 3px;
   letter-spacing: 1px;
   text-align:left;
 	padding:1px 7px;
   font-size: 14px;
-	border-style: none;
+	border-style: none!important;
   font-family:Roboto, 'Segoe UI', Tahoma, sans-serif;
 	box-shadow:inset 2px 3px 4px rgba(0, 0, 0, 0.075);
 }
@@ -2163,7 +2176,6 @@ only screen and (max-width: 1050px),
 	width: 100%;
 	border-style: none;
 	background: transparent;
-	border-bottom:1px solid #ccc;
 	font-size: 15px;
 	padding:5px 10px;
 }
@@ -2191,10 +2203,6 @@ only screen and (max-width: 1050px),
 	.modal-search-results tr:first-child
 	{
 		display: none;
-	}
-	.modal-search-results tr
-	{
-		border: 1px solid #ccc;
 	}
 	.modal-search-results td {
 		/* Behave  like a "row" */
@@ -3979,7 +3987,7 @@ box-shadow: 0 2px 4px -1px rgba(0,0,0,0.06), 0 4px 5px 0 rgba(0,0,0,0.06), 0 1px
 }
 .update-remarks-input
 {
-	width: 100%;
+	width: 95%;
 	border-style: none;
 	text-align: center;
 	border-bottom: 1px solid #000;
@@ -5705,7 +5713,7 @@ only screen and (max-width: 1050px),
 }
 .login-placeholder-container input.active
 {
-	border-bottom:2px solid #6c89c7;
+	border-bottom:2px solid #6c89c7!important;
 	margin-bottom: 50px;
 }
 .login-placeholder-container input
@@ -5713,8 +5721,8 @@ only screen and (max-width: 1050px),
 	color:rgba(0, 0, 0, 0.7);
 	font-size: 15px;
 	background: transparent;
-	border-style:  none;
-	border-bottom:1px solid #ccc;
+	border-style:  none!important;
+	border-bottom:1px solid #ccc!important;
 	margin-bottom: 51px;
 	margin-left: 10px;
 	margin-right: 26px;
@@ -5722,6 +5730,8 @@ only screen and (max-width: 1050px),
 	padding-bottom: 11px;
 	font-family: 'Comfortaa',sans-serif;
 	overflow: hidden;
+	box-shadow: none!important;
+	border-radius: 0px!important;
 }
 
 .login-placeholder-container
@@ -7229,6 +7239,10 @@ only screen and (max-width: 1050px),
 {
   display: flex;
   flex-direction: column;
+}
+.RV-form input
+{
+	box-shadow: inset 1px 2px 3px rgba(0, 0, 0, 0.2);
 }
 .RV-form input,.RV-form select
 {
@@ -12142,6 +12156,7 @@ only screen and (max-width: 1050px),
 	background:#fff;
   border-style: none;
 	display: inline-block;
+	height: 31px;
 	line-height:0px!important;
 	font-size: 15px!important;
 	box-shadow: rgba(0, 0, 0, 0.2) 0px 1px 3px 0px;
@@ -13948,6 +13963,7 @@ only screen and (max-width: 1050px),
 	font-size: 12px;
 	color: #484643;
 	font-weight: 600;
+	padding:4px 8px;
 }
 .myaccount-settings-table-container td.active
 {
@@ -14558,8 +14574,9 @@ background: #FDD835;
 }
 .search-user-container input
 {
-	border-style: none;
+	border-style: none!important;
 	padding:7px 10px;
+	box-shadow:none!important;
 	width:149px;
 	background: transparent;
 	color: #5C6165;

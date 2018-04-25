@@ -9,7 +9,7 @@
           <h5 :class="{'active':usernameForm}">Username</h5>
           <div class="icon-and-input">
             <i class="material-icons" :class="{'active':usernameForm}">person</i>
-            <input type="text" autofocus :class="{'active':usernameForm}"v-on:keyup.enter="submitCredentials()" v-model="Username" @focus="usernameForm=true" @blur="[Username!=''?usernameForm=true:usernameForm=false]">
+            <input type="text" :class="{'active':usernameForm}"v-on:keyup.enter="submitCredentials()" v-model="Username" @focus="usernameForm=true" @blur="[Username!=''?usernameForm=true:usernameForm=false]">
           </div>
         </div>
         <div class="login-placeholder-container">

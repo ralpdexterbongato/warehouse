@@ -29,6 +29,57 @@ class RVController extends Controller
     }
     public function updateRV(Request $request,$RVNo)
     {
+      $this->handleUpdateValidation($request);
+      $this->handleItemValidation($request);
+      $rvDetails = RVDetail::where('RVNo', $RVNo)->get(['id','ItemCode','Quantity','Remarks']);
+      $CurrentMasterData=RVMaster::where('RVNo', $RVNo)->get(['Status']);
+      if ($CurrentMasterData[0]->Status!=null)
+      {
+        return ['error'=>'Refreshed'];
+      }
+
+      RVMaster::where('RVNo', $RVNo)->update(['SignatureTurn'=>0,'Purpose'=>$request->purpose]);
+      Signatureable::where('signatureable_type', 'App\RVMaster')->where('signatureable_id',$RVNo)->update(['Signature'=>NULL]);
+      Signatureable::where('signatureable_type', 'App\RVMaster')->where('signatureable_id',$RVNo)->where('SignatureType', 'ManagerReplacer')->delete();
+      foreach ($rvDetails as $key => $detail)
+      {
+        RVDetail::where('id', $detail->id)->update(['Quantity'=>$request->Qty[$key],'Remarks'=>$request->remarks[$key]]);
+      }
+      $peopleToSignature=Signatureable::where('signatureable_type', 'App\RVMaster')->where('signatureable_id',$RVNo)->get(['user_id']);
+
+      foreach ($peopleToSignature as $key => $person)
+      {
+        if ($person->user_id!=Auth::user()->id)
+        {
+          $this->handleSendNotification($person,$RVNo);
+        }
+      }
+    }
+    public function handleSendNotification($person,$RVNo)
+    {
+      $NotificationTbl = new Notification;
+      $NotificationTbl->user_id = $person->user_id;
+      $NotificationTbl->NotificationType = 'Updated';
+      $NotificationTbl->FileType = 'RV';
+      $NotificationTbl->FileNo = $RVNo;
+      $NotificationTbl->TimeNotified = Carbon::now();
+      $NotificationTbl->save();
+
+      // global notif trigger
+      $ReceiverID = array('id' =>$person->user_id);
+      $ReceiverID = (object)$ReceiverID;
+      $job = (new GlobalNotifJob($ReceiverID))
+      ->delay(Carbon::now()->addSeconds(5));
+      dispatch($job);
+    }
+    public function handleUpdateValidation($request)
+    {
+      $this->validate($request,[
+        'purpose'=>'required'
+      ]);
+    }
+    public function handleItemValidation($request)
+    {
       foreach ($request->Qty as $key => $qty)
       {
         $INumber = 0;
@@ -45,58 +96,6 @@ class RVController extends Controller
           return ['error' => 'Qty must be atleast 1'];
         }
       }
-      $CurrentMasterData=RVMaster::where('RVNo', $RVNo)->get(['Purpose','Status']);
-      if ($CurrentMasterData[0]->Status!=null)
-      {
-        return ['error'=>'Refreshed'];
-      }
-      $rvDetails = RVDetail::where('RVNo', $RVNo)->get(['id','ItemCode','Quantity','Remarks']);
-      $hasChanges = false;
-      foreach ($rvDetails as $key => $rvdetail)
-      {
-        if ($rvdetail->Quantity != $request->Qty[$key] || $rvdetail->Remarks != $request->remarks[$key] )
-        {
-          $hasChanges = true;
-        }
-      }
-      if ($CurrentMasterData[0]->Purpose!=$request->purpose)
-      {
-        $hasChanges = true;
-      }
-      if ($hasChanges == false)
-      {
-        return ['error'=>'No changes found'];
-      }
-      RVMaster::where('RVNo', $RVNo)->update(['SignatureTurn'=>0,'Purpose'=>$request->purpose]);
-      Signatureable::where('signatureable_type', 'App\RVMaster')->where('signatureable_id',$RVNo)->update(['Signature'=>NULL]);
-      Signatureable::where('signatureable_type', 'App\RVMaster')->where('signatureable_id',$RVNo)->where('SignatureType', 'ManagerReplacer')->delete();
-      foreach ($rvDetails as $key => $detail)
-      {
-        RVDetail::where('id', $detail->id)->update(['Quantity'=>$request->Qty[$key],'Remarks'=>$request->remarks[$key]]);
-      }
-      $peopleToSignature=Signatureable::where('signatureable_type', 'App\RVMaster')->where('signatureable_id',$RVNo)->get(['user_id']);
-
-      foreach ($peopleToSignature as $key => $person)
-      {
-        if ($person->user_id!=Auth::user()->id)
-        {
-          $NotificationTbl = new Notification;
-          $NotificationTbl->user_id = $person->user_id;
-          $NotificationTbl->NotificationType = 'Updated';
-          $NotificationTbl->FileType = 'RV';
-          $NotificationTbl->FileNo = $RVNo;
-          $NotificationTbl->TimeNotified = Carbon::now();
-          $NotificationTbl->save();
-
-          // global notif trigger
-          $ReceiverID = array('id' =>$person->user_id);
-          $ReceiverID = (object)$ReceiverID;
-          $job = (new GlobalNotifJob($ReceiverID))
-          ->delay(Carbon::now()->addSeconds(5));
-          dispatch($job);
-        }
-      }
-
     }
     public function RVcreate()
     {
