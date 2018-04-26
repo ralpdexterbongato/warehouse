@@ -53,40 +53,41 @@ table {
 @import url('https://fonts.googleapis.com/css?family=Roboto|Kaushan+Script|Comfortaa');
 
 /*material icons*/
-/*@font-face {
+@font-face {
    font-family: 'Material Icons';
    font-style: normal;
    font-weight: 400;
    src: local('Material Icons'),
         local('MaterialIcons-Regular'),
-        url(/material-icons/iconfont/MaterialIcons-Regular.woff2) format('woff2'),
-        url(/material-icons/iconfont/MaterialIcons-Regular.woff) format('woff'),
-        url(/material-icons/iconfont/MaterialIcons-Regular.ttf) format('truetype');
-}*/
-/*.material-icons {
+        url(/icons/MaterialIcons-Regular.woff2) format('woff2'),
+        url(/icons/MaterialIcons-Regular.woff) format('woff'),
+        url(/icons/MaterialIcons-Regular.ttf) format('truetype');
+}
+.material-icons {
   font-family: 'Material Icons';
   font-weight: normal;
   font-style: normal;
-  font-size: 24px;  /* Preferred icon size */
-  /*display: inline-block;
+  font-size: 24px;
+  display: inline-block;
   line-height: 1;
   text-transform: none;
   letter-spacing: normal;
   word-wrap: normal;
   white-space: nowrap;
-  direction: ltr;*/
+  direction: ltr;
 
   /* Support for all WebKit browsers. */
-  /*-webkit-font-smoothing: antialiased;*/
+  -webkit-font-smoothing: antialiased;
   /* Support for Safari and Chrome. */
-  /*text-rendering: optimizeLegibility;*/
+  text-rendering: optimizeLegibility;
 
   /* Support for Firefox. */
-  /*-moz-osx-font-smoothing: grayscale;*/
+  -moz-osx-font-smoothing: grayscale;
 
   /* Support for IE. */
-  /*font-feature-settings: 'liga';*/
-/*}*/
+  font-feature-settings: 'liga';
+}
+
 /*material shadows*/
 .z-depth-0 {
   -webkit-box-shadow: none !important;
@@ -1194,7 +1195,7 @@ input[type='radio']:after {
 {
 	text-align:center;
 }
-.background-pic
+.big-user-container
 {
 	margin: 0 auto;
 	display: flex;
@@ -1204,7 +1205,7 @@ input[type='radio']:after {
 	flex-direction: row;
 	justify-content: space-between;
 }
-.background-pic img
+.big-user-container img
 {
 	width: 100%;
 	margin:auto;
@@ -1212,7 +1213,7 @@ input[type='radio']:after {
 }
 @media (max-width:700px)
 {
-	.background-pic
+	.big-user-container
 	{
 		flex-direction:column-reverse!important;
 		width: 100%;
@@ -1354,7 +1355,7 @@ input[type='radio']:after {
 		}
 		.search-box button
 		{
-			height:33px;
+			height:31px;
 		}
 		.search-box button i
 		{
