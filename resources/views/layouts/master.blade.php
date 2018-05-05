@@ -7,7 +7,7 @@
     <meta name="csrf-token" content="{{ csrf_token() }}">
     <meta name="theme-color" content="#3367D6" />
     <link rel="icon" type="image/png" href="/DesignIMG/logo.png">
-    <link rel="stylesheet" href="/css/mystyle.css">
+    <link rel="stylesheet" href="/css/mystyle.min.css">
     <link rel="stylesheet" href="/css/animate.min.css">
     <link href="https://fonts.googleapis.com/icon?family=Comfortaa|Kaushan+Script" rel="stylesheet">
     <title>@yield('title')</title>
@@ -266,7 +266,7 @@
 
           $(window).scroll(function() {
             var spacetop =$(window).scrollTop();
-            if (spacetop >= 500)
+            if (spacetop >= 400)
             {
               $('.side-user-stats').addClass('active');
               $('.big-user-center-wrap').addClass('active');

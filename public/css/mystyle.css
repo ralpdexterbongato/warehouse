@@ -1382,6 +1382,8 @@ input[type='radio']:after {
 	border-style: none;
 	color: #f44336;
 	background: #fff;
+  border:1px solid rgba(0,0,0,0.1);
+  border-radius: 2px;
 	top:0;
 	right: -20px;
 }
@@ -1460,15 +1462,16 @@ input[type='radio']:after {
 }
 .damage-item-modal-form input:focus,.damage-item-modal-form input.active
 {
-	border-bottom: 2px solid #4285F4;
+	border-bottom: 2px solid #4285F4!important;
 }
 .damage-item-modal-form input
 {
-	padding: 0px 0px 5px 0px;
-	color: rgba(0, 0, 0, 0.9);
-	border-style: none;
-	width: auto;
-	border-bottom: 1px solid #e0e0e0;
+  box-shadow: none!important;
+	padding: 0px 0px 5px 0px!important;
+	color: rgba(0, 0, 0, 0.9)!important;
+	border-style: none!important;
+	width: auto!important;
+	border-bottom: 1px solid #e0e0e0!important;
 	font: 400 16px Roboto,RobotoDraft,Helvetica,Arial,sans-serif;
 }
 .input-container-material
@@ -1492,7 +1495,7 @@ input[type='radio']:after {
 	top: 0px;
 	left: 10px;
 	color: #b1b1b1;
-	transition:all .4s;
+	transition:all .3s;
 }
 .damage-item-modal-form h1
 {
@@ -14879,7 +14882,7 @@ background: #FDD835;
 }
 .notification-drop-line.active
 {
-	background: #f4f4f4;
+	background: #f6f7f9;
 }
 .notification-drop-line
 {
