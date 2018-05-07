@@ -30,7 +30,26 @@ class RVController extends Controller
     public function updateRV(Request $request,$RVNo)
     {
       $this->handleUpdateValidation($request);
-      $this->handleItemValidation($request);
+      foreach ($request->Qty as $key => $qty)
+      {
+
+        $INumber = 0;
+        $INumber = $key+1;
+
+        if (is_int($qty) == false)
+        {
+          return ['error' => 'Item number '.$INumber.' Qty must be a number/integer'];
+        } 
+
+        $qty =$qty + 0;
+        if ($qty=='')
+        {
+          return ['error'=>'Item number '.$INumber.' Qty cannot be empty'];
+        }elseif ($qty < 1)
+        {
+          return ['error' => 'Qty must be atleast 1'];
+        }
+      }
       $rvDetails = RVDetail::where('RVNo', $RVNo)->get(['id','ItemCode','Quantity','Remarks']);
       $CurrentMasterData=RVMaster::where('RVNo', $RVNo)->get(['Status']);
       if ($CurrentMasterData[0]->Status!=null)
@@ -77,25 +96,6 @@ class RVController extends Controller
       $this->validate($request,[
         'purpose'=>'required'
       ]);
-    }
-    public function handleItemValidation($request)
-    {
-      foreach ($request->Qty as $key => $qty)
-      {
-        $INumber = 0;
-        $INumber = $key+1;
-        $qty =$qty + 0;
-        if ($qty=='')
-        {
-          return ['error'=>'Item number '.$INumber.' Qty cannot be empty'];
-        }elseif (is_int($qty) == false)
-        {
-          return ['error' => 'Item number '.$INumber.' Qty must be a number/integer'];
-        }elseif ($qty < 1)
-        {
-          return ['error' => 'Qty must be atleast 1'];
-        }
-      }
     }
     public function RVcreate()
     {

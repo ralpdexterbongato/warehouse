@@ -26,7 +26,10 @@ class AccountController extends Controller
     }
     public function loginSubmit(Request $request)
     {
-      $this->handleLoginValidation($request);
+      if ($request->Username==null || $request->Password==null)
+      {
+        return ['message'=>'fields are required'];
+      }
       $credentials = array('Username' =>$request->Username,'password'=>$request->Password );
       if (Auth::attempt($credentials)) {
         if (Auth::user()->IsActive==null)
@@ -40,13 +43,7 @@ class AccountController extends Controller
         return ['message'=>'Incorrect username/password.'];
       }
     }
-    public function handleLoginValidation($request)
-    {
-      if ($request->Username==null || $request->Password==null)
-      {
-        return ['message'=>'fields are required'];
-      }
-    }
+
     public function logoutAccount()
     {
       Auth::logout();
@@ -78,6 +75,16 @@ class AccountController extends Controller
     public function updateUser(Request $request,$id)
     {
       $this->handleUpdateUserValidation($request,$id);
+      $validateUniqueName=User::where('FullName',$request->FullName)->where('id','!=',$id)->get(['id']);
+      if (!empty($validateUniqueName[0]))
+      {
+        return response()->json(['error'=>$request->FullName.' has already been taken']);
+      }
+      $validateUniqueUN=User::where('Username', $request->Username)->where('id','!=',$id)->get(['id']);
+      if (!empty($validateUniqueUN[0]))
+      {
+        return response()->json(['error'=>'Username has already been taken']);
+      }
       $fileName = $this->saveSignatureImage($request);
       $rightPosition=$this->determinePosition($request);
 
@@ -169,7 +176,6 @@ class AccountController extends Controller
           'Mobile'=>'max:11',
           'Password'=>'confirmed',
           'IsActive'=>'max:1',
-          'Signature'=>'required'
         ]);
       }else
       {
@@ -183,16 +189,6 @@ class AccountController extends Controller
           'IsActive'=>'max:1'
         ]);
       }
-      $validateUniqueName=User::where('FullName',$request->FullName)->where('id','!=',$id)->get(['id']);
-      if (!empty($validateUniqueName[0]))
-      {
-        return response()->json(['error'=>$request->FullName.' has already been taken']);
-      }
-      $validateUniqueUN=User::where('Username', $request->Username)->where('id','!=',$id)->get(['id']);
-        if (!empty($validateUN[0]))
-        {
-          return response()->json(['error'=>'Username has already been taken']);
-        }
     }
     public function deleteAccount($id)
     {
@@ -245,7 +241,7 @@ class AccountController extends Controller
     {
       $this->validate($request,[
         'FullName'=>'required|max:25',
-        'Username'=>'required',
+        'Username'=>'required|unique:users',
         'Mobile'=>'max:11',
         'Position'=>'required|max:50',
         'Password'=>'required|confirmed',
@@ -306,8 +302,8 @@ class AccountController extends Controller
       if ($request->Role!=2)
       {
         $this->validate($request,[
-          'FullName'=>'required|max:25',
-          'Username'=>'required',
+          'FullName'=>'required|max:25|unique:users',
+          'Username'=>'required|unique:users',
           'Mobile'=>'max:11',
           'Role'=>'required',
           'Manager'=>'required',
@@ -317,17 +313,13 @@ class AccountController extends Controller
       }else
       {
         $this->validate($request,[
-          'FullName'=>'required|max:25',
+          'FullName'=>'required|max:25|unique:users',
           'Username'=>'required',
           'Mobile'=>'max:11',
           'Role'=>'required',
           'Password'=>'required|confirmed',
           'Signature'=>'required'
         ]);
-      }
-      if (($request->Manager==null)&&($request->Role!=2))
-      {
-        return ['error'=>'The manager is required'];
       }
     }
 }
